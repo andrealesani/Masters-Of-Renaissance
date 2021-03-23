@@ -1,6 +1,6 @@
 package model.card.leadercard;
 
-import model.Resource;
+import model.resource.Resource;
 
 import java.util.HashMap;
 import java.util.Map;

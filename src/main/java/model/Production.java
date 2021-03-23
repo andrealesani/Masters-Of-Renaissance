@@ -1,5 +1,7 @@
 package model;
 
+import model.resource.Resource;
+
 import java.util.HashMap;
 import java.util.Map;
 

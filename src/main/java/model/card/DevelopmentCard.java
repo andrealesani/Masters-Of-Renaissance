@@ -1,7 +1,7 @@
 package model.card;
 
 import model.Production;
-import model.Resource;
+import model.resource.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
