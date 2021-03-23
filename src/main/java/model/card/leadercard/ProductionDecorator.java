@@ -11,6 +11,10 @@ public class ProductionDecorator extends LeaderCardDecorator {
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
     private Map<DevelopmentCard, Integer> requiredLevels = new HashMap<>();
 
+    public ProductionDecorator(LeaderCard leaderCard) {
+        super(leaderCard);
+    }
+
     private void addProduction(){
         //TODO
     }

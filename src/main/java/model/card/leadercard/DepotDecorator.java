@@ -10,6 +10,10 @@ public class DepotDecorator extends LeaderCardDecorator {
     private Map<Resource, Integer> numResource = new HashMap<>();
     private Map<Resource, Integer> requiredResources = new HashMap<>();
 
+    public DepotDecorator(LeaderCard leaderCard) {
+        super(leaderCard);
+    }
+
     private void activateSpecialDepot(){
         //TODO
     }

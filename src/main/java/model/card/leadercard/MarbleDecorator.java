@@ -10,8 +10,13 @@ public class MarbleDecorator extends LeaderCardDecorator {
     private Resource resource;
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
 
+    public MarbleDecorator(LeaderCard leaderCard) {
+        super(leaderCard);
+    }
+
     private void activateMarbleEffect(){
         //TODO
+        System.out.println("Skusi sto postando cringe");
     }
 
     @Override

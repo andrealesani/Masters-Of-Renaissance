@@ -10,6 +10,10 @@ public class DiscountDecorator extends LeaderCardDecorator {
     private Map<Resource, Integer> discount = new HashMap<>();
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
 
+    public DiscountDecorator(LeaderCard leaderCard) {
+        super(leaderCard);
+    }
+
     private void applyDiscount(){
         //TODO
     }
