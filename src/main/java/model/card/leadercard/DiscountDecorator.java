@@ -16,6 +16,7 @@ public class DiscountDecorator extends LeaderCardDecorator {
 
     private void applyDiscount(){
         //TODO
+        System.out.println("I am Discount LeaderCard");
     }
 
     @Override
