@@ -16,6 +16,7 @@ public class DepotDecorator extends LeaderCardDecorator {
 
     private void activateSpecialDepot(){
         //TODO
+        System.out.println("I am Depot LeaderCard");
     }
 
     @Override

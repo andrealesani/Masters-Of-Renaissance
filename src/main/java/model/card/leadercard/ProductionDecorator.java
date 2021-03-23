@@ -17,6 +17,7 @@ public class ProductionDecorator extends LeaderCardDecorator {
 
     private void addProduction(){
         //TODO
+        System.out.println("I am Production LeaderCard");
     }
 
     @Override

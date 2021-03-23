@@ -16,7 +16,7 @@ public class MarbleDecorator extends LeaderCardDecorator {
 
     private void activateMarbleEffect(){
         //TODO
-        System.out.println("Skusi sto postando cringe");
+        System.out.println("I am Marble LeaderCard");
     }
 
     @Override
