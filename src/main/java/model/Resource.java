@@ -1,5 +1,5 @@
 package model;
 
-public class Resource {
+public abstract class Resource {
     //TODO
 }
