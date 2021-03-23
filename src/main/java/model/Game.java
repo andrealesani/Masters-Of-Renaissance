@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Model.Game master class

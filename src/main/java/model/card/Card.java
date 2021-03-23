@@ -1,4 +1,4 @@
-package Model;
+package model.card;
 
 public abstract class Card {
     private int victoryPoints;

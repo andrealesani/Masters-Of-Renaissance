@@ -1,6 +1,6 @@
-package Model;
+package model.card.leadercard;
 
-public class DepotDecorator extends LeaderCardDecorator{
+public class DepotDecorator extends LeaderCardDecorator {
     private int[] maxResource;
     private int[] numResource;
     private int[] requiredResources;

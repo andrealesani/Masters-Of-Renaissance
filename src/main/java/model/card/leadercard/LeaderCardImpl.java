@@ -1,6 +1,6 @@
-package Model;
+package model.card.leadercard;
 
-public class LeaderCardImpl implements LeaderCard{
+public class LeaderCardImpl implements LeaderCard {
 
 
     @Override
