@@ -11,4 +11,12 @@ public class DevelopmentCard extends Card {
     private int color; /* change color to enum? */
     private Map<Resource, Integer> cost = new HashMap<>();
     private Production production;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getColor() {
+        return color;
+    }
 }

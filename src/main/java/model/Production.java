@@ -5,10 +5,17 @@ import model.resource.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is a container that holds information about a single production a player decides to activate during
+ * his turn. It has an input, an output and a boolean flag that is set to 'true' when the Production gets selected by
+ * the ProductionHandler
+ */
+/* NOTE: in order to fully respect the meaning of this class, we could make input and output final attributes
+* and only set them once in the constructor */
 public class Production {
     private Map<Resource, Integer> input = new HashMap<>();
     private Map<Resource, Integer> output = new HashMap<>();
-    private boolean wasChosen;
+    private boolean selectedByHandler;
 
     public Map<Resource, Integer> getInput() {
         return input;
@@ -26,11 +33,11 @@ public class Production {
         this.output = output;
     }
 
-    public boolean isWasChosen() {
-        return wasChosen;
-    }
+    public boolean isSelectedByHandler() { return this.selectedByHandler; }
 
-    public void setWasChosen(boolean wasChosen) {
-        this.wasChosen = wasChosen;
+    public void select() { this.selectedByHandler = true; }
+
+    public void unselect() {
+        this.selectedByHandler = false;
     }
 }
