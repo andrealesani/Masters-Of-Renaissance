@@ -26,4 +26,10 @@ public class DiscountDecorator extends LeaderCardDecorator {
     public void doAction(){ /* this method should either be boolean or throw an exception */
         applyDiscount();
     }
+
+    @Override
+    public boolean areRequirementsMet(){
+        //TODO
+        return false;
+    }
 }

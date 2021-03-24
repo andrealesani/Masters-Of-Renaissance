@@ -26,4 +26,10 @@ public class DepotDecorator extends LeaderCardDecorator {
     public void doAction(){ /* this method should either be boolean or throw an exception */
         activateSpecialDepot();
     }
+
+    @Override
+    public boolean areRequirementsMet(){
+        //TODO
+        return false;
+    }
 }

@@ -27,4 +27,10 @@ public class ProductionDecorator extends LeaderCardDecorator {
     public void doAction(){
         addProduction();
     }
+
+    @Override
+    public boolean areRequirementsMet(){
+        //TODO
+        return false;
+    }
 }

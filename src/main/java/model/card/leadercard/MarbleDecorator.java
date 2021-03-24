@@ -26,4 +26,10 @@ public class MarbleDecorator extends LeaderCardDecorator {
     public void doAction(){
         activateMarbleEffect();
     }
+
+    @Override
+    public boolean areRequirementsMet(){
+        //TODO
+        return false;
+    }
 }
