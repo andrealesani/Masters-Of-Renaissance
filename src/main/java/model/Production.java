@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is a container that holds information about a single production a player decides to activate during
+ * This class represents a container that holds information about one single production that a player decides to activate during
  * his turn. It has an input, an output and a boolean flag that is set to 'true' when the Production gets selected by
  * the ProductionHandler
  */
-/* NOTE: in order to fully respect the meaning of this class, we could make input and output final attributes
+/* NOTE: in order to fully respect the purpose of this class, we could make input and output final attributes
 * and only set them once in the constructor */
 public class Production {
     private Map<Resource, Integer> input = new HashMap<>();

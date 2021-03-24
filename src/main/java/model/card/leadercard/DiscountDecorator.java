@@ -6,6 +6,9 @@ import model.resource.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Decorator that adds the Discount power to a generic LeaderCard
+ */
 public class DiscountDecorator extends LeaderCardDecorator {
     private Map<Resource, Integer> discount = new HashMap<>();
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();

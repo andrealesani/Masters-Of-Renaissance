@@ -5,6 +5,9 @@ import model.resource.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Decorator that adds the Depot power to a generic LeaderCard
+ */
 public class DepotDecorator extends LeaderCardDecorator {
     private Map<Resource, Integer> maxResource = new HashMap<>();
     private Map<Resource, Integer> numResource = new HashMap<>();

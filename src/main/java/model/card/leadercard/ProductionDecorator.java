@@ -6,6 +6,9 @@ import model.Production;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Decorator that adds the Production power to a generic LeaderCard.
+ */
 public class ProductionDecorator extends LeaderCardDecorator {
     private Production production;
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
