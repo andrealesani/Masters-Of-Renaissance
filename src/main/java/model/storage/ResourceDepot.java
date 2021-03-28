@@ -15,7 +15,7 @@ public interface ResourceDepot {
     boolean canHold (Resource resource, int quantity);
 
     /**
-     * Returns whether or not the depot is blocking a certain resource, meaning that no other depot of the non-leader type can contain it
+     * Returns whether or not the depot is blocking a certain resource, meaning that no other depot of the basic type can contain it
      * @param resource - the resource that might be blocked
      * @return true if the given resource is blocked by this depot
      */
