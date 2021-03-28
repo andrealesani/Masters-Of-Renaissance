@@ -7,4 +7,8 @@ public abstract class Card {
     public int getVictoryPoints() {
         return victoryPoints;
     }
+
+    public boolean isActive() { return isActive; }
+
+    public void activate(){ isActive = true; }
 }
