@@ -15,6 +15,7 @@ public abstract class ResourceStash {
 
     /**
      * Adds the given resource to storageContent
+     * @param resource - the resource to be added
      */
     public abstract void addResource (Resource resource);
 
