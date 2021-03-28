@@ -3,6 +3,7 @@ package model.storage;
 import model.resource.Resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,14 @@ public abstract class ResourceStash {
      * @return The amount of the given resource contained in storageContent
      */
     int getNumOfResource (Resource resource) {
+        //TODO
+    }
+
+    /**
+     * Returns the resources whose store quantity is greater than zero
+     * @return A List of the stored resources
+     */
+    List<Resource> getStoredResources () {
         //TODO
     }
 }
