@@ -15,18 +15,15 @@ public abstract class ResourceStash {
 
     /**
      * Adds the given resource to storageContent
-     * @param resource - the resource to be added
      */
-    void addResource (Resource resource) {
-        //TODO
-    }
+    public abstract void addResource (Resource resource);
 
     /**
      * Remove a certain amount of the given resource from storageContent
      * @param resource - the resource to be decreased in quantity
      * @param quantity - the quantity of resource to remove from the amount stored
      */
-    void removeResource (Resource resource, int quantity) {
+    public void removeResource (Resource resource, int quantity) {
         //TODO
     }
 
@@ -35,15 +32,17 @@ public abstract class ResourceStash {
      * @param resource - the resource the amount of which is asked
      * @return The amount of the given resource contained in storageContent
      */
-    int getNumOfResource (Resource resource) {
+    public int getNumOfResource (Resource resource) {
         //TODO
+        return 0;
     }
 
     /**
      * Returns the resources whose store quantity is greater than zero
      * @return A List of the stored resources
      */
-    List<Resource> getStoredResources () {
+    public List<Resource> getStoredResources () {
         //TODO
+        return null;
     }
 }
