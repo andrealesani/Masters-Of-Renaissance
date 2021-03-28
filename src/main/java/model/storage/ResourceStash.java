@@ -11,6 +11,9 @@ import java.util.Map;
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
 public abstract class ResourceStash {
+    /**
+     * The data structure used to map each stored resource with the amount stored
+     */
     private Map<Resource, Integer> storageContent = new HashMap<>();
 
     /**
