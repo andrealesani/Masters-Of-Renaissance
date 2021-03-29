@@ -12,20 +12,21 @@ import java.util.Map;
  */
 public abstract class ResourceStash {
     /**
-     * The data structure used to map each stored resource with the amount stored
+     * Data structure used to map each stored resource with the amount stored
      */
     private Map<Resource, Integer> storageContent = new HashMap<>();
 
     /**
      * Adds the given resource to storageContent
      * @param resource - the resource to be added
+     * @param quantity - the amount of resource to add to the amount stored
      */
-    public abstract void addResource (Resource resource);
+    public abstract void addResource (Resource resource, int quantity);
 
     /**
      * Remove a certain amount of the given resource from storageContent
      * @param resource - the resource to be decreased in quantity
-     * @param quantity - the quantity of resource to remove from the amount stored
+     * @param quantity - the amount of resource to remove from the amount stored
      */
     public void removeResource (Resource resource, int quantity) {
         //TODO

@@ -10,8 +10,9 @@ public class LeaderDepot {
     /**
      * Adds the given resource to storageContent
      * @param resource - the resource to be added
+     * @param quantity - the amount of resource to add to the amount stored
      */
-    public void addResource (Resource resource){
+    public void addResource (Resource resource, int quantity){
         //TODO
     }
     /**
