@@ -14,7 +14,7 @@ public abstract class ResourceStash {
     /**
      * Data structure used to map each stored resource with the amount stored
      */
-    private Map<Resource, Integer> storageContent = new HashMap<>();
+    private final Map<Resource, Integer> storageContent = new HashMap<>();
 
     /**
      * Adds the given resource to storageContent
