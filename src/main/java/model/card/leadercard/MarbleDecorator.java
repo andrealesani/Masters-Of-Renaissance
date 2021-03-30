@@ -19,8 +19,8 @@ public class MarbleDecorator extends LeaderCardDecorator {
     }
 
     private void activateMarbleEffect(PlayerBoard playerBoard){
-        //TODO
-        System.out.println("I am Marble LeaderCard");
+        //TO TEST
+        playerBoard.addMarbleConversion(resource);
     }
 
     @Override
