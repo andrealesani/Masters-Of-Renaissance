@@ -22,9 +22,7 @@ public class DepotDecorator extends LeaderCardDecorator {
     }
 
     private void activateSpecialDepot(PlayerBoard playerBoard){
-        //TODO
-        System.out.println("I am Depot LeaderCard");
-
+        //TO TEST
         playerBoard.getWarehouse().addNewDepot(depot);
     }
 

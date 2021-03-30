@@ -20,8 +20,8 @@ public class ProductionDecorator extends LeaderCardDecorator {
     }
 
     private void addProduction(PlayerBoard playerBoard){
-        //TODO
-        System.out.println("I am Production LeaderCard");
+        //TO TEST
+        playerBoard.addProduction(production);
     }
 
     @Override
@@ -31,7 +31,6 @@ public class ProductionDecorator extends LeaderCardDecorator {
 
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard){
-        //TODO
         return false;
     }
 }

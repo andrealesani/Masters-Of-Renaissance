@@ -1,17 +1,20 @@
 package model.card.leadercard;
 
 import model.PlayerBoard;
+import model.ResourceType;
 import model.card.DevelopmentCard;
 import model.resource.Resource;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Decorator that adds the Discount power to a generic LeaderCard
  */
 public class DiscountDecorator extends LeaderCardDecorator {
-    private Map<Resource, Integer> discount = new HashMap<>();
+    private Resource resource;
+    private int discount;
     private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
 
     public DiscountDecorator(LeaderCard leaderCard) {
@@ -19,8 +22,8 @@ public class DiscountDecorator extends LeaderCardDecorator {
     }
 
     private void applyDiscount(PlayerBoard playerBoard){
-        //TODO
-        System.out.println("I am Discount LeaderCard");
+        //TO TEST
+        playerBoard.addDiscount(resource, discount);
     }
 
     @Override
