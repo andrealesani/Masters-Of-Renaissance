@@ -9,6 +9,5 @@ class ProductionDecoratorTest {
     @Test
     void doAction() {
         LeaderCard leaderCard1 = new ProductionDecorator(new LeaderCardImpl());
-
     }
 }
