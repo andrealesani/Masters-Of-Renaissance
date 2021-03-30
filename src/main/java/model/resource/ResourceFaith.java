@@ -4,12 +4,7 @@ import model.PlayerBoard;
 
 public class ResourceFaith extends Resource {
     @Override
-    public void pickedFromMarket(PlayerBoard playerBoard) {
-        //TODO
-    }
-
-    @Override
-    public void usedInProduction(PlayerBoard playerBoard) {
+    public void AddResourceFromMarket(PlayerBoard playerBoard) {
         //TODO
     }
 
