@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a generic container for resources as part of a player board.
+ * This class represents a generic container for infinite amounts of resources as part of a player board, with no specific rules for insertion or removal.
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
-public abstract class ResourceStash {
+public class ResourceStash {
     /**
      * Data structure used to map each stored resource with the amount stored
      */
@@ -24,7 +24,13 @@ public abstract class ResourceStash {
      * @param resource - the resource to be added
      * @param quantity - the amount of resource to add to the amount stored
      */
-    public abstract void addResource (Resource resource, int quantity);
+    public void addResource (Resource resource, int quantity){
+        if (!storageContent.containsKey(resource)) {
+            storageContent.put(resource, quantity);
+        } else {
+            storageContent.put(resource, storageContent.get(resource) + quantity);
+        }
+    }
 
     /**
      Remove a certain amount of the given resource from storageContent
@@ -34,7 +40,7 @@ public abstract class ResourceStash {
      * @throws NotEnoughResourceException - if the given resource is present in storageContent in fewer quantity than the amount to be deleted
      */
     public void removeResource (Resource resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
-        if (storageContent.containsKey(resource) == false) {
+        if (!storageContent.containsKey(resource)) {
             throw new ResourceNotPresentException();
         }
         int newQuantity = storageContent.get(resource) - quantity;
@@ -54,7 +60,7 @@ public abstract class ResourceStash {
      * @throws ResourceNotPresentException - if the given resource is not present in storageContent
      */
     public int getNumOfResource (Resource resource) throws ResourceNotPresentException {
-        if (storageContent.containsKey(resource) == false) {
+        if (!storageContent.containsKey(resource)) {
             throw new ResourceNotPresentException();
         }
         return storageContent.get(resource);
@@ -65,8 +71,6 @@ public abstract class ResourceStash {
      * @return A List of the stored resources
      */
     public List<Resource> getStoredResources () {
-        List<Resource> resources = new ArrayList<>();
-        resources.addAll(storageContent.keySet());
-        return resources;
+        return new ArrayList<>(storageContent.keySet());
     }
 }
