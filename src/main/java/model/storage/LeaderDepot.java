@@ -6,7 +6,7 @@ import model.resource.Resource;
  * This class represents a depot of the kind obtained after activating certain leader cards, providing the player with additional warehouse space.
  * This kind of depot can usually contain only two pieces of a single type of resource, and is not counted when determining resource blocking for basic depots.
  */
-public class LeaderDepot {
+public class LeaderDepot extends ResourceStash implements ResourceDepot {
     /**
      * Adds the given resource to storageContent
      * @param resource - the resource to be added
