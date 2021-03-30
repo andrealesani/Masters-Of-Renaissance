@@ -3,7 +3,7 @@ package model;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
-import model.storage.UnlimitedStorage;
+import model.storage.ResourceStash;
 import model.storage.Warehouse;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class PlayerBoard {
     private int faith;
     private List<PopeTileState> popeFavorTiles = new ArrayList<>();
     private Warehouse warehouse = new Warehouse();
-    private UnlimitedStorage strongbox = new UnlimitedStorage();
-    private UnlimitedStorage waitingRoom = new UnlimitedStorage();
+    private ResourceStash strongbox = new ResourceStash();
+    private ResourceStash waitingRoom = new ResourceStash();
     private List<Resource> marbleConversions = new ArrayList<>();
     private Map<Resource, Integer> discounts = new HashMap<>();
     private List<List<DevelopmentCard>> cardSlots = new ArrayList<List<DevelopmentCard>>();
