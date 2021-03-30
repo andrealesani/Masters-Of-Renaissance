@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents one single physical game playerboard. It holds all the information about a player's status
+ * This class represents one single physical game player board. It holds all the information about a player's status
  * during the game.
  */
 public class PlayerBoard {
@@ -25,7 +25,7 @@ public class PlayerBoard {
     private UnlimitedStorage waitingRoom = new UnlimitedStorage();
     private List<Resource> marbleConversions = new ArrayList<>();
     private Map<Resource, Integer> discounts = new HashMap<>();
-    private List<List<DevelopmentCard>> cardSlots; //da istanziare
+    private List<List<DevelopmentCard>> cardSlots = new ArrayList<List<DevelopmentCard>>();
     private List<LeaderCard> leaderCards = new ArrayList<>();
     private ProductionHandler productionHandler = new ProductionHandler();
 
@@ -49,36 +49,40 @@ public class PlayerBoard {
         //TODO
     }
 
-    public void addDevelopmentCard(int quantity, Resource resource) {
+    public void addDevelopmentCard(int slot, Resource resource) {
         //TODO
     }
 
-    public void addResourceToStrongbox(Resource resource) {
-        //TODO
+    public void addResourceToStrongbox(Resource resource, int quantity) {
+        strongbox.addResource(resource, quantity);
     }
 
     public void addLeaderCard(LeaderCard leaderCard) {
-        //TODO
+        leaderCards.add(leaderCard);
     }
 
-    public void playLeaderCard(int quantity) {
-        //TODO
+    public void playLeaderCard(int i) {
+        if(leaderCards.get(i).areRequirementsMet(this)){
+            leaderCards.get(i).doAction(this);
+        } /* else {
+        throw RequirementsNotMetException */
     }
 
     public void addMarbleConversion(Resource resource) {
-        //TODO
+        marbleConversions.add(resource);
     }
 
     public void addProduction(Production production) {
-        //TODO
+        productionHandler.addProduction(production);
     }
 
-    public void addDiscont(Resource resource, int discount) {
-        //TODO
+    public void addDiscount(Resource resource, int discount) {
+        discounts.put(resource, discount);
     }
 
-    public void discardLeaderCard(int quantity) { // l'int sta per una quantità?
-        //TODO
+    public void discardLeaderCard(int i) {
+        leaderCards.remove(i);
+        faithIncrease();
     }
 
     public void faithIncrease() {
