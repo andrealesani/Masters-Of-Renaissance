@@ -11,6 +11,8 @@ import java.util.Map;
 /**
  * Decorator that adds the Depot power to a generic LeaderCard
  */
+
+//Nel costruttore bisogna specificare le requiredResources
 public class DepotDecorator extends LeaderCardDecorator {
     private Map<Resource, Integer> requiredResources = new HashMap<>();
     private ResourceDepot depot = new LeaderDepot();
