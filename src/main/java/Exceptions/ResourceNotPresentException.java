@@ -1,7 +1,7 @@
 package Exceptions;
 
 /**
- * This Exception is thrown when an operation is attempted on a resource which is not available to the method that throws it.
+ * This Exception is thrown when an operation is attempted on a resource which is not present in the object that throws the exception.
  */
 public class ResourceNotPresentException extends Exception {
     /**
