@@ -9,7 +9,5 @@ class DepotDecoratorTest {
     @Test
     void doAction() {
         LeaderCard leaderCard1 = new DepotDecorator(new LeaderCardImpl());
-
-        leaderCard1.doAction();
     }
 }

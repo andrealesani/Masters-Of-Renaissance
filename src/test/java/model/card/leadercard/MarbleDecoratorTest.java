@@ -10,6 +10,5 @@ class MarbleDecoratorTest {
     void doAction() {
         LeaderCard leaderCard1 = new MarbleDecorator(new LeaderCardImpl());
 
-        leaderCard1.doAction();
     }
 }

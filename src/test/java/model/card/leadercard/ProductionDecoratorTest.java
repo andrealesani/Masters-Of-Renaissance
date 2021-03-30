@@ -10,6 +10,5 @@ class ProductionDecoratorTest {
     void doAction() {
         LeaderCard leaderCard1 = new ProductionDecorator(new LeaderCardImpl());
 
-        leaderCard1.doAction();
     }
 }

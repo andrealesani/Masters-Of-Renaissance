@@ -10,6 +10,5 @@ class DiscountDecoratorTest {
     void doAction() {
         LeaderCard leaderCard1 = new DiscountDecorator(new LeaderCardImpl());
 
-        leaderCard1.doAction();
     }
 }
