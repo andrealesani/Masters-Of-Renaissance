@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import model.PlayerBoard;
 import model.card.DevelopmentCard;
 import model.Production;
 
@@ -18,18 +19,18 @@ public class ProductionDecorator extends LeaderCardDecorator {
         super(leaderCard);
     }
 
-    private void addProduction(){
+    private void addProduction(PlayerBoard playerBoard){
         //TODO
         System.out.println("I am Production LeaderCard");
     }
 
     @Override
-    public void doAction(){
-        addProduction();
+    public void doAction(PlayerBoard playerBoard){
+        addProduction(playerBoard);
     }
 
     @Override
-    public boolean areRequirementsMet(){
+    public boolean areRequirementsMet(PlayerBoard playerBoard){
         //TODO
         return false;
     }

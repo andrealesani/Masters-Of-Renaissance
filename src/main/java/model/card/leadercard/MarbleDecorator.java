@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import model.PlayerBoard;
 import model.card.DevelopmentCard;
 import model.resource.Resource;
 
@@ -17,18 +18,18 @@ public class MarbleDecorator extends LeaderCardDecorator {
         super(leaderCard);
     }
 
-    private void activateMarbleEffect(){
+    private void activateMarbleEffect(PlayerBoard playerBoard){
         //TODO
         System.out.println("I am Marble LeaderCard");
     }
 
     @Override
-    public void doAction(){
-        activateMarbleEffect();
+    public void doAction(PlayerBoard playerBoard){
+        activateMarbleEffect(playerBoard);
     }
 
     @Override
-    public boolean areRequirementsMet(){
+    public boolean areRequirementsMet(PlayerBoard playerBoard){
         //TODO
         return false;
     }

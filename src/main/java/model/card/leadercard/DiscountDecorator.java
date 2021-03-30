@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import model.PlayerBoard;
 import model.card.DevelopmentCard;
 import model.resource.Resource;
 
@@ -17,18 +18,18 @@ public class DiscountDecorator extends LeaderCardDecorator {
         super(leaderCard);
     }
 
-    private void applyDiscount(){
+    private void applyDiscount(PlayerBoard playerBoard){
         //TODO
         System.out.println("I am Discount LeaderCard");
     }
 
     @Override
-    public void doAction(){ /* this method should either be boolean or throw an exception */
-        applyDiscount();
+    public void doAction(PlayerBoard playerBoard){ /* this method should either be boolean or throw an exception */
+        applyDiscount(playerBoard);
     }
 
     @Override
-    public boolean areRequirementsMet(){
+    public boolean areRequirementsMet(PlayerBoard playerBoard){
         //TODO
         return false;
     }
