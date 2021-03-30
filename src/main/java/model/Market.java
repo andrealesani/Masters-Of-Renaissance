@@ -11,7 +11,7 @@ public class Market {
     }
 
 
-    public void shiftResources (MarketScope marketScope,int numScope){
+    private void shiftResources (MarketScope marketScope,int numScope){
         //TODO
     }
 
