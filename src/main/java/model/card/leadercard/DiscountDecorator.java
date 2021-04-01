@@ -2,13 +2,7 @@ package model.card.leadercard;
 
 import model.CardColor;
 import model.PlayerBoard;
-import model.ResourceType;
-import model.card.DevelopmentCard;
 import model.resource.Resource;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Decorator that adds the Discount power to a generic LeaderCard
