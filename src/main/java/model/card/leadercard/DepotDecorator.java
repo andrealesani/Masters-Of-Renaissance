@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import model.PlayerBoard;
+import model.ResourceType;
 import model.resource.Resource;
 import model.storage.LeaderDepot;
 import model.storage.ResourceDepot;
@@ -14,11 +15,14 @@ import java.util.Map;
 
 //Nel costruttore bisogna specificare le requiredResources
 public class DepotDecorator extends LeaderCardDecorator {
-    private Map<Resource, Integer> requiredResources = new HashMap<>();
-    private ResourceDepot depot = new LeaderDepot();
+    private final ResourceType resourceType;
+    private final int resourceQuantity;
+    private final ResourceDepot depot = new LeaderDepot();
 
-    public DepotDecorator(LeaderCard leaderCard) {
+    public DepotDecorator(LeaderCard leaderCard, ResourceType resourceType, int resourceQuantity) {
         super(leaderCard);
+        this.resourceType = resourceType;
+        this.resourceQuantity = resourceQuantity;
     }
 
     private void activateSpecialDepot(PlayerBoard playerBoard){
