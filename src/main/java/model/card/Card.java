@@ -2,7 +2,7 @@ package model.card;
 
 public abstract class Card {
     private int victoryPoints;
-    private boolean isActive;
+    private boolean isActive = false;
 
     public int getVictoryPoints() {
         return victoryPoints;
