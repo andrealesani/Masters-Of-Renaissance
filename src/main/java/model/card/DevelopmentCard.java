@@ -1,5 +1,6 @@
 package model.card;
 
+import model.CardColor;
 import model.PlayerBoard;
 import model.Production;
 import model.resource.Resource;
@@ -11,11 +12,11 @@ import java.util.Map;
  * and only set them once in the constructor */
 public class DevelopmentCard extends Card {
     private final int level;
-    private final int color; /* change color to enum? */
+    private final CardColor color; /* change color to enum? */
     private final Map<Resource, Integer> cost = new HashMap<>();
     private final Production production;
 
-    public DevelopmentCard(int level, int color, Production production) {
+    public DevelopmentCard(int level, CardColor color, Production production) {
         this.level = level;
         this.color = color;
         this.production = production;
@@ -23,7 +24,7 @@ public class DevelopmentCard extends Card {
 
     public int getLevel() { return level; }
 
-    public int getColor() { return color; }
+    public CardColor getColor() { return color; }
 
     public Production getProduction(){ return production; }
 
