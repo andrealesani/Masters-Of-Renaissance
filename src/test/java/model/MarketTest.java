@@ -35,7 +35,7 @@ class MarketTest {
                 || (market.getMarble(0,2) instanceof ResourceWhite)
         ) ;
 
-        assertTrue((market.getMarble(1,3) instanceof ResourceCoin)
+        assertTrue((market.getMarble(0,3) instanceof ResourceCoin)
                 || (market.getMarble(0,3) instanceof ResourceFaith)
                 || (market.getMarble(0,3) instanceof ResourceServant)
                 || (market.getMarble(0,3) instanceof ResourceShield)
@@ -110,10 +110,34 @@ class MarketTest {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
 
+                if ((market.getMarble(i,j) instanceof ResourceCoin) && (countRS < 2))
+                    countRS++;
+
+                else if ((market.getMarble(i,j) instanceof ResourceFaith) && (countRF < 1))
+                    countRF++;
+
+                else if ((market.getMarble(i,j) instanceof ResourceServant) && (countRSe < 2))
+                    countRSe++;
+
+                else if ((market.getMarble(i,j) instanceof ResourceShield) && (countRSh < 2))
+                    countRSh++;
+
+                else if ((market.getMarble(i,j) instanceof ResourceStone) && (countRSt < 2))
+                    countRSt++;
+
+                else if ((market.getMarble(i,j) instanceof ResourceWhite) && (countRW < 4))
+                    countRW++;
+
             }
         }
 
-        //assertEquals(, 2);
+        assertEquals(countRS, 2);
+        assertEquals(countRF, 1);
+        assertEquals(countRSe, 2);
+        assertEquals(countRSh, 2);
+        assertEquals(countRSt, 2);
+        assertEquals(countRW, 4);
+
     }
 
 }
