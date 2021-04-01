@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.RequirementsNotMetException;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
@@ -41,7 +42,7 @@ public class PlayerBoard {
         //TODO
     }
 
-    public void sendResourceToDepot(int quantity, Resource resource) {
+    public void sendResourceToDepot(int depot, Resource resource) {
         //TODO
     }
 
@@ -49,8 +50,8 @@ public class PlayerBoard {
         //TODO
     }
 
-    public void addDevelopmentCard(int slot, Resource resource) {
-        //TODO
+    public void addDevelopmentCard(int slot, DevelopmentCard developmentCard) {
+        cardSlots.get(slot).add(developmentCard);
     }
 
     public void addResourceToStrongbox(Resource resource, int quantity) {
@@ -61,11 +62,10 @@ public class PlayerBoard {
         leaderCards.add(leaderCard);
     }
 
-    public void playLeaderCard(int i) {
+    public void playLeaderCard(int i) throws RequirementsNotMetException{
         if (leaderCards.get(i).areRequirementsMet(this)) {
             leaderCards.get(i).doAction(this);
-        } /* else {
-        throw RequirementsNotMetException */
+        } else throw new RequirementsNotMetException();
     }
 
     public void addMarbleConversion(Resource resource) {
