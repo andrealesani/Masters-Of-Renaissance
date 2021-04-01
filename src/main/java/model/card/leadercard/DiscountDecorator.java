@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import model.CardColor;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.card.DevelopmentCard;
@@ -15,7 +16,8 @@ import java.util.Map;
 public class DiscountDecorator extends LeaderCardDecorator {
     private Resource resource;
     private int discount;
-    private Map<DevelopmentCard, Integer> requiredCards = new HashMap<>();
+    private CardColor requiredColor;
+    private int requiredQuantity;
 
     public DiscountDecorator(LeaderCard leaderCard) {
         super(leaderCard);
@@ -33,7 +35,9 @@ public class DiscountDecorator extends LeaderCardDecorator {
 
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard){
-        //TODO
+        //TO TEST
+        if(playerBoard.getNumOfCards(requiredColor) >= requiredQuantity)
+            return true;
         return false;
     }
 }
