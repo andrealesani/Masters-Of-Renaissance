@@ -62,7 +62,7 @@ public class PlayerBoard {
     }
 
     public void playLeaderCard(int i) {
-        if(leaderCards.get(i).areRequirementsMet(this)){
+        if (leaderCards.get(i).areRequirementsMet(this)) {
             leaderCards.get(i).doAction(this);
         } /* else {
         throw RequirementsNotMetException */
@@ -98,9 +98,26 @@ public class PlayerBoard {
         return 0;
     }
 
-    public int getNumOfCards(CardColor cardColor, int quantity) {
-        //TODO
-        return 0;
+    //TO TEST
+    public int getNumOfCards(CardColor cardColor, int level) {
+        int num = 0;
+        for (List<DevelopmentCard> deck: cardSlots) {
+            for (DevelopmentCard developmentCard: deck) {
+                if(developmentCard.getColor() == cardColor && developmentCard.getLevel() == level){
+                    num++;
+                }
+            }
+        }
+        return num;
+    }
+
+    /* atm this method is super dumb but robust. It depends on the method above */
+    public int getNumOfCards(CardColor cardcolor) {
+        int num = 0;
+        for (int i = 1; i <= 3; i++) { /* number of card levels in temporarily hard coded */
+            num = num + getNumOfCards(cardcolor, i);
+        }
+        return num;
     }
 
     public int leftInWaitingRoom() {
