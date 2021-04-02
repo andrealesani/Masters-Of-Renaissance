@@ -5,30 +5,62 @@ import model.PlayerBoard;
 import model.Production;
 import model.resource.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/* NOTE: in order to fully respect the purpose of this class, we could make all attributes final
- * and only set them once in the constructor */
+/**
+ * This class represents the development cards in the physical game. All its attributes are set once in the constructor
+ * and all its methods are getters except for the addTo() method
+ */
 public class DevelopmentCard extends Card {
     private final int level;
-    private final CardColor color; /* change color to enum? */
-    private final Map<Resource, Integer> cost = new HashMap<>();
+    private final CardColor color;
+    private final List<Resource> cost;
     private final Production production;
 
-    public DevelopmentCard(int level, CardColor color, Production production) {
+    public DevelopmentCard(int level, CardColor color, List<Resource> cost, Production production) {
         this.level = level;
         this.color = color;
+        this.cost = cost;
         this.production = production;
     }
 
+    /**
+     * Getter
+     *
+     * @return - returns card level
+     */
     public int getLevel() { return level; }
 
+    /**
+     * Getter
+     *
+     * @return - returns card color
+     */
     public CardColor getColor() { return color; }
 
+    /**
+     * Getter
+     *
+     * @return - returns card cost
+     */
+    public List<Resource> getCost() { return cost; }
+
+    /**
+     * Getter
+     *
+     * @return - returns the Production that this card enables for the player
+     */
     public Production getProduction(){ return production; }
 
-    public void addTo(int quantity, PlayerBoard playerBoard){
+    /**
+     *
+     * @param playerBoard - specifies to which PlayerBoard the card has to be added
+     * @param productionSlot - specifies in which slot the card has to be added
+     */
+    public void addTo(PlayerBoard playerBoard, int productionSlot){
         //TODO
     }
 }

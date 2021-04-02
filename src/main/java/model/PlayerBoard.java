@@ -138,7 +138,7 @@ public class PlayerBoard {
      * @param resource - specifies the Resource type to count
      * @return - returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
      */
-    public int getNumOfResource(Resource resource) {
+    public int getNumOfResource(ResourceType resource) {
         //TODO
         return 0;
     }

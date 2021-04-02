@@ -2,7 +2,9 @@ package model;
 
 import model.resource.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,29 +12,34 @@ import java.util.Map;
  * his turn. It has an input, an output and a boolean flag that is set to 'true' when the Production gets selected by
  * the ProductionHandler
  */
-/* NOTE: in order to fully respect the purpose of this class, we could make input and output final attributes
-* and only set them once in the constructor */
 public class Production {
-    private Map<Resource, Integer> input = new HashMap<>();
-    private Map<Resource, Integer> output = new HashMap<>();
+    private final List<Resource> input;
+    private final List<Resource> output;
     private boolean selectedByHandler;
 
-    public Production(Map<Resource, Integer> input, Map<Resource, Integer> output){
+    public Production(List<Resource> input, List<Resource> output) {
         this.input = input;
         this.output = output;
+        selectedByHandler = false;
     }
 
-    public Map<Resource, Integer> getInput() { return input; }
+    public List<Resource> getInput() {
+        return input;
+    }
 
-    public void setInput(Map<Resource, Integer> input) { this.input = input; }
+    public List<Resource> getOutput() {
+        return output;
+    }
 
-    public Map<Resource, Integer> getOutput() { return output; }
+    public boolean isSelectedByHandler() {
+        return this.selectedByHandler;
+    }
 
-    public void setOutput(Map<Resource, Integer> output) { this.output = output; }
+    public void select() {
+        this.selectedByHandler = true;
+    }
 
-    public boolean isSelectedByHandler() { return this.selectedByHandler; }
-
-    public void select() { this.selectedByHandler = true; }
-
-    public void unselect() { this.selectedByHandler = false; }
+    public void unselect() {
+        this.selectedByHandler = false;
+    }
 }
