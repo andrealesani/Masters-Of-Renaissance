@@ -17,6 +17,7 @@ public class ProductionDecorator extends LeaderCardDecorator {
 
     public ProductionDecorator(LeaderCard leaderCard) {
         super(leaderCard);
+
     }
 
     private void addProduction(PlayerBoard playerBoard){

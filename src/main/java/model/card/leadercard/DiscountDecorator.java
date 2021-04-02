@@ -10,15 +10,16 @@ import model.resource.Resource;
 public class DiscountDecorator extends LeaderCardDecorator {
     private Resource resource;
     private int discount;
-    private CardColor requiredColor;
-    private int requiredQuantity;
+    private final CardColor requiredColor;
+    private final int requiredQuantity;
 
-    public DiscountDecorator(LeaderCard leaderCard) {
+    public DiscountDecorator(LeaderCard leaderCard, CardColor requiredColor, int requiredQuantity) {
         super(leaderCard);
+        this.requiredColor = requiredColor;
+        this. requiredQuantity = requiredQuantity;
     }
 
     private void applyDiscount(PlayerBoard playerBoard){
-        //TO TEST
         playerBoard.addDiscount(resource, discount);
     }
 

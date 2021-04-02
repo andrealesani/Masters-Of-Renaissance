@@ -163,13 +163,13 @@ public class PlayerBoard {
 
     /**
      * atm this method is super dumb but robust. It depends on the method above
-     * @param cardcolor - specifies the CardColor of the cards to count
+     * @param cardColor - specifies the CardColor of the cards to count
      * @return returns the total number of DevelopmentCards owned by the player that fulfill the color requirement
      */
-    public int getNumOfCards(CardColor cardcolor) {
+    public int getNumOfCards(CardColor cardColor) {
         int num = 0;
         for (int i = 1; i <= 3; i++) { /* number of card levels in temporarily hard coded */
-            num = num + getNumOfCards(cardcolor, i);
+            num = num + getNumOfCards(cardColor, i);
         }
         return num;
     }
