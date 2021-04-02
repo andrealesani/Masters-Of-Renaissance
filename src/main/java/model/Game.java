@@ -10,12 +10,20 @@ import java.util.List;
  * Model.Game master class
  */
 public class Game {
-    private Market market;
-    private CardTable cardTable;
-    private List<LeaderCard> leaderCards = new ArrayList<>();
-    private List<PlayerBoard> playersTurnOrder = new ArrayList<>();
+    private final Market market;
+    private final CardTable cardTable;
+    private final List<LeaderCard> leaderCards;
+    private final List<PlayerBoard> playersTurnOrder;
     private PlayerBoard currentPlayer;
-    private Lorenzo lorenzo;
+    private final Lorenzo lorenzo;
+
+    public Game() {
+        market = new Market();
+        cardTable = new CardTable();
+        leaderCards = new ArrayList<>();
+        playersTurnOrder = new ArrayList<>();
+        lorenzo = new Lorenzo();
+    }
 
     /**
      * This method creates the instances of all the LeaderCards before the game starts
