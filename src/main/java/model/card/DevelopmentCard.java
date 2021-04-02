@@ -56,6 +56,7 @@ public class DevelopmentCard extends Card {
     public Production getProduction(){ return production; }
 
     /**
+     * Adds the DevelopmentCard to the specified PlayerBoard in the specified slot
      *
      * @param playerBoard - specifies to which PlayerBoard the card has to be added
      * @param productionSlot - specifies in which slot the card has to be added
