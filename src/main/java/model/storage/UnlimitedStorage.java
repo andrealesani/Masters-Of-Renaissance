@@ -3,7 +3,6 @@ package model.storage;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ResourceNotPresentException;
 import model.ResourceType;
-import model.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +67,6 @@ public class UnlimitedStorage implements ResourceStash{
      * @return a List of the stored resources
      */
     public List<ResourceType> getStoredResources () {
-        return new ArrayList<ResourceType>(storageContent.keySet());
+        return new ArrayList<>(storageContent.keySet());
     }
 }
