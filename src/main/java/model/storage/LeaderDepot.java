@@ -40,11 +40,15 @@ public class LeaderDepot implements ResourceDepot {
      * @param resource - the resource to be added
      * @param quantity - the amount of resource to add to the amount stored
      */
-    public void addResource (ResourceType resource, int quantity) throws WrongMethodTypeException {
+    public void addResource (ResourceType resource, int quantity) throws WrongMethodTypeException, NotEnoughResourceException {
         if (resource!=acceptedResource) {
             throw new WrongMethodTypeException();
         }
-        
+        int newQuantity = quantity + amount;
+        if (newQuantity>size) {
+            throw new NotEnoughResourceException();
+        }
+        quantity = newQuantity;
     }
 
     /**
