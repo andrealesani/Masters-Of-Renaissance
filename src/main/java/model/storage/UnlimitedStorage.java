@@ -68,6 +68,6 @@ public class UnlimitedStorage implements ResourceStash{
      * @return a List of the stored resources
      */
     public List<ResourceType> getStoredResources () {
-        return new ArrayList<>(storageContent.keySet());
+        return new ArrayList<ResourceType>(storageContent.keySet());
     }
 }
