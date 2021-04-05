@@ -3,6 +3,7 @@ package model.card.leadercard;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.resource.Resource;
+import model.resource.ResourceShield;
 import model.storage.LeaderDepot;
 import model.storage.ResourceDepot;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class DepotDecorator extends LeaderCardDecorator {
     private final ResourceType requiredResource;
     private final int requiredQuantity;
-    private final ResourceDepot depot = new LeaderDepot();
+    private final ResourceDepot depot;
 
     /**
      * Constructor
@@ -28,6 +29,7 @@ public class DepotDecorator extends LeaderCardDecorator {
         super(leaderCard);
         this.requiredResource = requiredResource;
         this.requiredQuantity = requiredQuantity;
+        this.depot = new LeaderDepot (2, ResourceType.SHIELD);
     }
 
     /**

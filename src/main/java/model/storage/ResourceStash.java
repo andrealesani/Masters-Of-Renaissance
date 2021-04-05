@@ -2,75 +2,36 @@ package model.storage;
 
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ResourceNotPresentException;
-import model.resource.Resource;
+import model.ResourceType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 /**
- * This class represents a generic container for infinite amounts of resources as part of a player board, with no specific rules for insertion or removal.
+ * This interface represents a generic container for resources as part of a player board.
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
-public class ResourceStash {
+public interface ResourceStash {
     /**
-     * Data structure used to map each stored resource with the amount stored
-     */
-    private final Map<Resource, Integer> storageContent = new HashMap<>();
-
-    /**
-     * Adds the given resource to storageContent
-     * @param resource - the resource to be added
-     * @param quantity - the amount of resource to add to the amount stored
-     */
-    public void addResource (Resource resource, int quantity){
-        if (!storageContent.containsKey(resource)) {
-            storageContent.put(resource, quantity);
-        } else {
-            storageContent.put(resource, storageContent.get(resource) + quantity);
-        }
-    }
-
-    /**
-     Remove a certain amount of the given resource from storageContent
+     Remove a certain amount of the given resource from storage
      * @param resource - the resource to be decreased in quantity
      * @param quantity - the amount of resource to remove from the amount stored
-     * @throws ResourceNotPresentException - if the given resource is not present in storageContent
-     * @throws NotEnoughResourceException - if the given resource is present in storageContent in fewer quantity than the amount to be deleted
+     * @throws ResourceNotPresentException - if the given resource is not present in storage
+     * @throws NotEnoughResourceException - if the given resource is present in storage in fewer quantity than the amount to be deleted
      */
-    public void removeResource (Resource resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
-        if (!storageContent.containsKey(resource)) {
-            throw new ResourceNotPresentException();
-        }
-        int newQuantity = storageContent.get(resource) - quantity;
+    public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException;
 
-        if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
-        } else if (newQuantity == 0) {
-            storageContent.remove(resource);
-        } else {
-            storageContent.put(resource, newQuantity);
-        }
-    }
     /**
      * Returns the stored amount of the given resource
      * @param resource - the resource the amount of which is asked
-     * @return The amount of the given resource contained in storageContent
-     * @throws ResourceNotPresentException - if the given resource is not present in storageContent
+     * @return the amount of the given resource contained in storage
      */
-    public int getNumOfResource (Resource resource) throws ResourceNotPresentException {
-        if (!storageContent.containsKey(resource)) {
-            throw new ResourceNotPresentException();
-        }
-        return storageContent.get(resource);
-    }
+    public int getNumOfResource (ResourceType resource);
 
     /**
-     * Returns the resources stored in storageContent
-     * @return A List of the stored resources
+     * Returns the resources stored in storage
+     * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
-    public List<Resource> getStoredResources () {
-        return new ArrayList<>(storageContent.keySet());
-    }
+    public List<ResourceType> getStoredResources ();
 }
