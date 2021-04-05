@@ -5,6 +5,7 @@ import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
 import model.storage.ResourceStash;
+import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class PlayerBoard {
     private int faith;
     private final List<PopeTileState> popeFavorTiles = new ArrayList<>();
     private final Warehouse warehouse = new Warehouse();
-    private final ResourceStash strongbox = new ResourceStash();
-    private final ResourceStash waitingRoom = new ResourceStash();
+    private final UnlimitedStorage strongbox = new UnlimitedStorage();
+    private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
     private final List<Resource> marbleConversions = new ArrayList<>();
     private final Map<Resource, Integer> discounts = new HashMap<>();
     private final List<List<DevelopmentCard>> cardSlots = new ArrayList<List<DevelopmentCard>>();
@@ -65,7 +66,7 @@ public class PlayerBoard {
         cardSlots.get(slot).add(developmentCard);
     }
 
-    public void addResourceToStrongbox(Resource resource, int quantity) {
+    public void addResourceToStrongbox(ResourceType resource, int quantity) {
         strongbox.addResource(resource, quantity);
     }
 
