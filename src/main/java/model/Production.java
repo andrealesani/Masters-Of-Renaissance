@@ -20,8 +20,8 @@ public class Production {
     /**
      * Constructor
      *
-     * @param input - specifies the Resources used to produce the output
-     * @param output - specifies the Resources obtained by executing this Production
+     * @param input  specifies the Resources used to produce the output
+     * @param output specifies the Resources obtained by executing this Production
      */
     public Production(List<Resource> input, List<Resource> output) {
         this.input = input;
@@ -32,7 +32,7 @@ public class Production {
     /**
      * Getter
      *
-     * @return - returns the Production input list
+     * @return returns the Production input list
      */
     public List<Resource> getInput() {
         return input;
@@ -41,7 +41,7 @@ public class Production {
     /**
      * Getter
      *
-     * @return - returns the Production output list
+     * @return returns the Production output list
      */
     public List<Resource> getOutput() {
         return output;
@@ -50,7 +50,7 @@ public class Production {
     /**
      * Getter
      *
-     * @return - returns true if the Production has been selected by the ProductionHandler to be executed at the end of the turn
+     * @return returns true if the Production has been selected by the ProductionHandler to be executed at the end of the turn
      */
     public boolean isSelectedByHandler() {
         return this.selectedByHandler;

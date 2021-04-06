@@ -11,7 +11,7 @@ public class SingleFaithShuffleToken implements ActionToken {
     /**
      * Constructor
      *
-     * @param lorenzo - reference to Lorenzo instance
+     * @param lorenzo reference to Lorenzo instance
      */
     public SingleFaithShuffleToken(Lorenzo lorenzo) {
         this.lorenzo = lorenzo;

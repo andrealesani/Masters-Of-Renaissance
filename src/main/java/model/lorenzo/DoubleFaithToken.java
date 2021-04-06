@@ -11,7 +11,7 @@ public class DoubleFaithToken implements ActionToken {
     /**
      * Constructor
      *
-     * @param lorenzo - reference to Lorenzo instance
+     * @param lorenzo reference to Lorenzo instance
      */
     public DoubleFaithToken(Lorenzo lorenzo) {
         this.lorenzo = lorenzo;

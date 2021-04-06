@@ -16,11 +16,11 @@ public class DiscountDecorator extends LeaderCardDecorator {
     /**
      * Constructor
      *
-     * @param leaderCard - needed to implement the decorator Design Pattern
-     * @param resource - Resource that gets discounted by this card
-     * @param discount - number of Resources that get discounted to the player
-     * @param requiredColor - CardColor of the DevelopmentCards required to activate this card
-     * @param requiredQuantity - number of DevelopmentCards of the specified CardColor required to activate this card
+     * @param leaderCard       needed to implement the decorator Design Pattern
+     * @param resource         Resource that gets discounted by this card
+     * @param discount         number of Resources that get discounted to the player
+     * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
+     * @param requiredQuantity number of DevelopmentCards of the specified CardColor required to activate this card
      */
     public DiscountDecorator(LeaderCard leaderCard, Resource resource, int discount, CardColor requiredColor, int requiredQuantity) {
         super(leaderCard);
@@ -33,7 +33,7 @@ public class DiscountDecorator extends LeaderCardDecorator {
     /**
      * Adds the specified discount to the specified PlayerBoard
      *
-     * @param playerBoard - specifies which player has activated the discount
+     * @param playerBoard specifies which player has activated the discount
      */
     private void applyDiscount(PlayerBoard playerBoard) {
         playerBoard.addDiscount(resource, discount);
@@ -42,7 +42,7 @@ public class DiscountDecorator extends LeaderCardDecorator {
     /**
      * Calls the specific method for this LeaderCard, applyDiscount()
      *
-     * @param playerBoard - specifies to which PlayerBoard the discount has to be added
+     * @param playerBoard specifies to which PlayerBoard the discount has to be added
      */
     @Override
     public void doAction(PlayerBoard playerBoard) { /* this method should either be boolean or throw an exception */
@@ -52,8 +52,8 @@ public class DiscountDecorator extends LeaderCardDecorator {
     /**
      * Checks if the player has enough DevelopmentCards of the required ColorType
      *
-     * @param playerBoard - specifies which PlayerBoard to check
-     * @return - returns true if the requirements are met, false otherwise
+     * @param playerBoard specifies which PlayerBoard to check
+     * @return returns true if the requirements are met, false otherwise
      */
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard) {

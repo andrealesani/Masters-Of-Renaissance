@@ -25,7 +25,7 @@ public class Lorenzo {
     /**
      * Getter
      *
-     * @return - returns Lorenzo's current faith
+     * @return Lorenzo's current faith
      */
     public int getFaith() {
         return faith;
@@ -34,7 +34,7 @@ public class Lorenzo {
     /**
      * Getter
      *
-     * @return - returns the deck containing all the drawable cards
+     * @return the deck containing all the drawable cards
      */
     public List<ActionToken> getActiveDeck() {
         return activeDeck;

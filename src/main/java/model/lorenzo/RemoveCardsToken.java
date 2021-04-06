@@ -13,9 +13,10 @@ public class RemoveCardsToken implements ActionToken {
 
     /**
      * Constructor
-     * @param lorenzo - reference to Lorenzo instance
-     * @param color - specifies the color of the cards that this token remove
-     * @param cardTable - reference to CardTable instance
+     *
+     * @param lorenzo   reference to Lorenzo instance
+     * @param color     specifies the color of the cards that this token remove
+     * @param cardTable reference to CardTable instance
      */
     public RemoveCardsToken(Lorenzo lorenzo, CardColor color, CardTable cardTable) {
         this.lorenzo = lorenzo;

@@ -23,10 +23,10 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor
      *
-     * @param level - specifies the level of the card
-     * @param color - specifies the color of the card
-     * @param cost - specifies how many  Resources the player has to spend in order to buy the card
-     * @param production - specifies the Production that gets enabled when the player buys this card
+     * @param level      specifies the level of the card
+     * @param color      specifies the color of the card
+     * @param cost       specifies how many  Resources the player has to spend in order to buy the card
+     * @param production specifies the Production that gets enabled when the player buys this card
      */
     public DevelopmentCard(int level, CardColor color, List<Resource> cost, Production production) {
         this.level = level;
@@ -38,38 +38,46 @@ public class DevelopmentCard extends Card {
     /**
      * Getter
      *
-     * @return - returns card level
+     * @return returns card level
      */
-    public int getLevel() { return level; }
+    public int getLevel() {
+        return level;
+    }
 
     /**
      * Getter
      *
-     * @return - returns card color
+     * @return returns card color
      */
-    public CardColor getColor() { return color; }
+    public CardColor getColor() {
+        return color;
+    }
 
     /**
      * Getter
      *
-     * @return - returns card cost
+     * @return returns card cost
      */
-    public List<Resource> getCost() { return cost; }
+    public List<Resource> getCost() {
+        return cost;
+    }
 
     /**
      * Getter
      *
-     * @return - returns the Production that this card enables for the player
+     * @return returns the Production that this card enables for the player
      */
-    public Production getProduction(){ return production; }
+    public Production getProduction() {
+        return production;
+    }
 
     /**
      * Adds the DevelopmentCard to the specified PlayerBoard in the specified slot
      *
-     * @param playerBoard - specifies to which PlayerBoard the card has to be added
+     * @param playerBoard    - specifies to which PlayerBoard the card has to be added
      * @param productionSlot - specifies in which slot the card has to be added
      */
-    public void addTo(PlayerBoard playerBoard, int productionSlot){
+    public void addTo(PlayerBoard playerBoard, int productionSlot) {
         //TODO
     }
 }
