@@ -5,7 +5,7 @@ package Exceptions;
  */
 public class ResourceNotPresentException extends Exception {
     /**
-     * Returns the message describing the type of error that occured
+     * Returns the message describing the type of error that occurred
      * @return - the message (String) of this exception
      */
     @Override
