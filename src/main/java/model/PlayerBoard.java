@@ -22,7 +22,7 @@ public class PlayerBoard {
     private String username;
     private int faith;
     private final List<PopeTileState> popeFavorTiles = new ArrayList<>();
-    private final Warehouse warehouse = new Warehouse(3);
+    private final Warehouse warehouse = new Warehouse();
     private final UnlimitedStorage strongbox = new UnlimitedStorage();
     private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
     private final List<Resource> marbleConversions = new ArrayList<>();
