@@ -20,6 +20,14 @@ public class DevelopmentCard extends Card {
     private final List<Resource> cost;
     private final Production production;
 
+    /**
+     * Constructor
+     *
+     * @param level - specifies the level of the card
+     * @param color - specifies the color of the card
+     * @param cost - specifies how many  Resources the player has to spend in order to buy the card
+     * @param production - specifies the Production that gets enabled when the player buys this card
+     */
     public DevelopmentCard(int level, CardColor color, List<Resource> cost, Production production) {
         this.level = level;
         this.color = color;

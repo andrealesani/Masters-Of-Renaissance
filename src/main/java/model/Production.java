@@ -17,28 +17,55 @@ public class Production {
     private final List<Resource> output;
     private boolean selectedByHandler;
 
+    /**
+     * Constructor
+     *
+     * @param input - specifies the Resources used to produce the output
+     * @param output - specifies the Resources obtained by executing this Production
+     */
     public Production(List<Resource> input, List<Resource> output) {
         this.input = input;
         this.output = output;
         selectedByHandler = false;
     }
 
+    /**
+     * Getter
+     *
+     * @return - returns the Production input list
+     */
     public List<Resource> getInput() {
         return input;
     }
 
+    /**
+     * Getter
+     *
+     * @return - returns the Production output list
+     */
     public List<Resource> getOutput() {
         return output;
     }
 
+    /**
+     * Getter
+     *
+     * @return - returns true if the Production has been selected by the ProductionHandler to be executed at the end of the turn
+     */
     public boolean isSelectedByHandler() {
         return this.selectedByHandler;
     }
 
+    /**
+     * Setter for selectedByHandler
+     */
     public void select() {
         this.selectedByHandler = true;
     }
 
+    /**
+     * Setter for selectedByHandler
+     */
     public void unselect() {
         this.selectedByHandler = false;
     }
