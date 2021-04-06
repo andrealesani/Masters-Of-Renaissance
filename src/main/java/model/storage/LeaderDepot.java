@@ -1,9 +1,6 @@
 package model.storage;
 
-import Exceptions.NotEnoughResourceException;
-import Exceptions.NotEnoughSpaceException;
-import Exceptions.ResourceNotPresentException;
-import Exceptions.WrongResourceTypeException;
+import Exceptions.*;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -35,13 +32,16 @@ public class LeaderDepot implements ResourceDepot {
         this.size = size;
         this.acceptedResource = resource;
     }
-    
+
     /**
      * Adds the given resource to storageContent
      * @param resource - the resource to be added
      * @param quantity - the amount of resource to add to the amount stored
+     * @throws WrongResourceTypeException - if the resource is not the kind accepted by this depot
+     * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException - under no circumstance, because this type of depot is not affected by resource blocking
      */
-    public void addResource (ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException {
+    public void addResource (ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
         if (resource!=acceptedResource) {
             throw new WrongResourceTypeException();
         }
