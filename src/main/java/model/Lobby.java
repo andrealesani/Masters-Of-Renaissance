@@ -12,7 +12,7 @@ public class Lobby {
     }
 
     public void addPlayer(String nickname){
-        //TODO
+        playerLobby.add(nickname);
     }
 
     public void numberOfPlayers(int num){
