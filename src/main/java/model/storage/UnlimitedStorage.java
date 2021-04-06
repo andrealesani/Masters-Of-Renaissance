@@ -56,10 +56,10 @@ public class UnlimitedStorage implements ResourceStash{
      * @return the amount of the given resource contained in storage
      */
     public int getNumOfResource (ResourceType resource) {
-        if (!storageContent.containsKey(resource)) {
-            return 0;
+        if (storageContent.containsKey(resource)) {
+            return storageContent.get(resource);
         }
-        return storageContent.get(resource);
+        return 0;
     }
 
     /**
