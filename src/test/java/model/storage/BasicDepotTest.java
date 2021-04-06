@@ -16,7 +16,7 @@ class BasicDepotTest {
      */
     @Test
     void addResource() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -31,7 +31,7 @@ class BasicDepotTest {
      */
     @Test
     void canHold() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -46,7 +46,7 @@ class BasicDepotTest {
      */
     @Test
     void isBlockingTrue() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -61,7 +61,7 @@ class BasicDepotTest {
      */
     @Test
     void isBlockingFalse() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -76,7 +76,7 @@ class BasicDepotTest {
      */
     @Test
     void getSize() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         assertEquals(3, stash.getSize());
     }
 
@@ -85,7 +85,7 @@ class BasicDepotTest {
      */
     @Test
     void empty() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -101,7 +101,7 @@ class BasicDepotTest {
      */
     @Test
     void removeResource() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
         } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
@@ -122,7 +122,7 @@ class BasicDepotTest {
      */
     @Test
     void getNumOfResourceEmpty() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
@@ -131,7 +131,7 @@ class BasicDepotTest {
      */
     @Test
     void getStoredResourcesEmpty() {
-        ResourceDepot stash = new BasicDepot(3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         assertTrue(stash.getStoredResources().isEmpty());
     }
 }
