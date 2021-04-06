@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class BasicDepot implements ResourceDepot {
     /**
+     * Attribute used to memorize the warehouse that contains this depot, in order to make checks on other depots
+     */
+    private final Warehouse warehouse;
+    /**
      * Attribute used to memorize the maximum amount of resource that can be stored
      */
     private final int size;
@@ -31,7 +35,8 @@ public class BasicDepot implements ResourceDepot {
      * The class constructor
      * @param size - the maximum number of resources the depot can contain
      */
-    public BasicDepot(int size) {
+    public BasicDepot(Warehouse warehouse, int size) {
+        this.warehouse = warehouse;
         this.size = size;
     }
 
