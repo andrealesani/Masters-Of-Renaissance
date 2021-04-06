@@ -1,6 +1,7 @@
 package model;
 
 import model.card.leadercard.LeaderCard;
+import model.lorenzo.Lorenzo;
 
 import java.util.ArrayList;
 import java.util.Collections;
