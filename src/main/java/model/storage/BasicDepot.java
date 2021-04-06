@@ -1,9 +1,6 @@
 package model.storage;
 
-import Exceptions.NotEnoughResourceException;
-import Exceptions.NotEnoughSpaceException;
-import Exceptions.ResourceNotPresentException;
-import Exceptions.WrongResourceTypeException;
+import Exceptions.*;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -46,9 +43,10 @@ public class BasicDepot implements ResourceDepot {
      * @param quantity - the amount of resource to add to the amount stored
      * @throws WrongResourceTypeException - if the type of the resource to be added cannot (currently) be added to the storage
      * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException - if the resource is being blocked by a different depot
      */
     @Override
-    public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException {
+    public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
         if (amount==0) {
             amount = quantity;
             storedResource = resource;
