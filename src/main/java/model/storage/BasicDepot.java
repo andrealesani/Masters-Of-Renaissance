@@ -1,7 +1,9 @@
 package model.storage;
 
 import Exceptions.NotEnoughResourceException;
+import Exceptions.NotEnoughSpaceException;
 import Exceptions.ResourceNotPresentException;
+import Exceptions.WrongResourceTypeException;
 import model.ResourceType;
 import model.resource.Resource;
 
@@ -36,11 +38,14 @@ public class BasicDepot implements ResourceDepot {
     }
 
     /**
-     * Adds the given resource to storageContent
+     * Adds the given resource to the storage
      * @param resource - the resource to be added
      * @param quantity - the amount of resource to add to the amount stored
+     * @throws WrongResourceTypeException - if the type of the resource to be added cannot (currently) be added to the storage
+     * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
      */
-    public void addResource (Resource resource, int quantity){
+    @Override
+    public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException {
         //TODO
     }
 
