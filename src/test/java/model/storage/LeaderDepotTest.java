@@ -5,7 +5,6 @@ import Exceptions.NotEnoughSpaceException;
 import Exceptions.ResourceNotPresentException;
 import Exceptions.WrongResourceTypeException;
 import model.ResourceType;
-import model.resource.ResourceShield;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
