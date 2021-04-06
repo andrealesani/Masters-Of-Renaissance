@@ -1,5 +1,6 @@
 package model.lorenzo;
 
+import Exceptions.EmptyDeckException;
 import model.CardColor;
 import model.CardTable;
 
@@ -25,8 +26,16 @@ public class RemoveCardsToken implements ActionToken {
      * Removes 2 DevelopmentCards of the specified color from the grid
      */
     private void removeCardsFromCardTable() {
-        cardTable.discardTop(color);
-        cardTable.discardTop(color);
+        try {
+            cardTable.discardTop(color);
+        } catch (EmptyDeckException e) {
+            //TODO What should it do?
+        }
+        try {
+            cardTable.discardTop(color);
+        } catch (EmptyDeckException e) {
+            //TODO What should it do?
+        }
     }
 
     /**

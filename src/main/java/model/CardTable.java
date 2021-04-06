@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.EmptyDeckException;
 import model.card.DevelopmentCard;
 
 import java.util.List;
@@ -50,15 +51,16 @@ public class CardTable {
      *
      * @param cardColor specifies the color of the card that has to be removed
      */
-    public void discardTop(CardColor cardColor) {
+    public void discardTop(CardColor cardColor) throws EmptyDeckException {
         List<List<DevelopmentCard>> deckColumn = colorToColumn(cardColor);
 
-        if (deckColumn.get(2).size() < 1)
+        if (deckColumn.get(2).size() > 0)
             deckColumn.get(0).remove(0);
-        else if (deckColumn.get(1).size() < 1)
+        else if (deckColumn.get(1).size() > 0)
             deckColumn.get(1).remove(0);
-        else if (deckColumn.get(0).size() < 1)
+        else if (deckColumn.get(0).size() > 0)
             deckColumn.get(0).remove(0);
+        else throw new EmptyDeckException();
     }
 
     /**
@@ -66,7 +68,7 @@ public class CardTable {
      *
      * @return true if there's at least one card of each color still available
      */
-    public boolean checkAllColorAvailable() {
+    public boolean checkAllColorsAvailable() {
         for (List<DevelopmentCard> deck : greenCards) {
             if (deck.size() < 1)
                 return false;
