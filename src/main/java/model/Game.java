@@ -21,12 +21,16 @@ public class Game {
     /**
      * Constructor
      */
-    public Game() {
+    public Game(List<String> nicknames) {
         market = new Market();
         cardTable = new CardTable();
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = new Lorenzo();
+
+        for (String nickname: nicknames) {
+            playersTurnOrder.add(new PlayerBoard(this, nickname));
+        }
     }
 
     /**
