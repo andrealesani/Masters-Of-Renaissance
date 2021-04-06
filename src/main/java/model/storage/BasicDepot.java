@@ -54,6 +54,11 @@ public class BasicDepot implements ResourceDepot {
             if (resource!=storedResource) {
                 throw new WrongResourceTypeException();
             }
+            List<ResourceDepot> exclusion = new ArrayList<>();
+            exclusion.add(this);
+            if (warehouse.isResourceBlocked(resource, exclusion)) {
+                throw new BlockedResourceException();
+            }
             int newQuantity = amount + quantity;
             if (newQuantity>size) {
                 throw new NotEnoughSpaceException();
