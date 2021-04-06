@@ -5,12 +5,9 @@ import Exceptions.NotEnoughSpaceException;
 import Exceptions.ResourceNotPresentException;
 import Exceptions.WrongResourceTypeException;
 import model.ResourceType;
-import model.resource.Resource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents a depot of the basic kind, which are present in the warehouse at the start of the game.
