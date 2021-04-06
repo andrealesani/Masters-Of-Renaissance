@@ -19,10 +19,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
-        } catch (WrongResourceTypeException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        } catch (NotEnoughSpaceException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -37,10 +34,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
-        } catch (WrongResourceTypeException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        } catch (NotEnoughSpaceException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -73,10 +67,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
-        } catch (WrongResourceTypeException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        } catch (NotEnoughSpaceException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -92,19 +83,13 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
-        } catch (WrongResourceTypeException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        } catch (NotEnoughSpaceException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
         try {
             stash.removeResource(ResourceType.SHIELD, 1);
-        } catch (ResourceNotPresentException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        } catch (NotEnoughResourceException ex) {
+        } catch (NotEnoughResourceException | ResourceNotPresentException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
