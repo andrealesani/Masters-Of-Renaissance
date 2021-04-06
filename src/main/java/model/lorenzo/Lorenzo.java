@@ -57,5 +57,6 @@ public class Lorenzo {
     public void shuffleDeck() {
         activeDeck.addAll(usedDeck);
         Collections.shuffle(activeDeck);
+        usedDeck.clear();
     }
 }
