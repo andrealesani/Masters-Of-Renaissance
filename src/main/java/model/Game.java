@@ -31,6 +31,8 @@ public class Game {
         for (String nickname: nicknames) {
             playersTurnOrder.add(new PlayerBoard(this, nickname));
         }
+        assignInkwell();
+        currentPlayer = playersTurnOrder.get(0);
     }
 
     /**
