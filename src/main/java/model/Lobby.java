@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Lobby {
@@ -8,7 +9,11 @@ public class Lobby {
     private List<Game> activeGames;
 
     private void createNewGame(){
-        //TODO
+        List<String> playersEnteringGame = new ArrayList<>();
+        for(int i=0; i<nextGamePlayers; i++){
+            playersEnteringGame.add(playerLobby.get(i));
+        }
+        activeGames.add(new Game(playersEnteringGame));
     }
 
     public void addPlayer(String nickname){
