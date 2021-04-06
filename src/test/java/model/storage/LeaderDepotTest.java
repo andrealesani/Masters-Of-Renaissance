@@ -1,9 +1,6 @@
 package model.storage;
 
-import Exceptions.NotEnoughResourceException;
-import Exceptions.NotEnoughSpaceException;
-import Exceptions.ResourceNotPresentException;
-import Exceptions.WrongResourceTypeException;
+import Exceptions.*;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +16,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -34,7 +31,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -67,7 +64,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
@@ -83,7 +80,7 @@ class LeaderDepotTest {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
         try {
             stash.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException ex) {
+        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
