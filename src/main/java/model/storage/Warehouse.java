@@ -96,15 +96,9 @@ public class Warehouse {
         int amount1 = depot1.getNumOfResource(resource1);
         int amount2 = depot2.getNumOfResource(resource2);
 
-        for (int i=0; i<depots.size(); i++) {
-            if (i!=depotNumber1-1 && i!=depotNumber2-1) {
-                ResourceDepot depot = depots.get(i);
-                if (depot.isBlocking(resource1) || depot.isBlocking(resource2)) {
-
-                }
-            }
-        }
+        
     }
+
 
     /**
      * Returns whether or not the given resource is blocked by one of the depots in the warehouse, excluding those provided in the exclusions list
