@@ -7,6 +7,7 @@ import Exceptions.WrongResourceTypeException;
 import model.ResourceType;
 import model.resource.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,20 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException {
-        //TODO
+        if (amount==0) {
+            amount = quantity;
+            storedResource = resource;
+        } else {
+            if (resource!=storedResource) {
+                throw new WrongResourceTypeException();
+            }
+            int newQuantity = amount + quantity;
+            if (newQuantity>size) {
+                throw new NotEnoughSpaceException();
+            }
+            amount=newQuantity;
+        }
+
     }
 
     /**
@@ -57,8 +71,7 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public boolean canHold (ResourceType resource, int quantity){
-        //TODO
-        return false;
+        return quantity<=size;
     }
 
     /**
@@ -68,8 +81,10 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public boolean isBlocking (ResourceType resource){
-        //TODO
-        return false;
+        if (amount==0) {
+            return false;
+        }
+        return resource==storedResource;
     }
 
     /**
@@ -78,8 +93,7 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public int getSize () {
-        //TODO
-        return 0;
+        return size;
     }
 
     /**
@@ -87,7 +101,8 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void empty(){
-        //TODO
+        amount=0;
+        storedResource=null;
     }
 
     /**
@@ -99,7 +114,18 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
-        //TODO
+        if (amount==0 || resource!=storedResource) {
+            throw new ResourceNotPresentException();
+        }
+        int newQuantity = amount - quantity;
+        if (newQuantity<0) {
+            throw new NotEnoughResourceException();
+        } else {
+            if (newQuantity==0) {
+                storedResource = null;
+            }
+            amount = newQuantity;
+        }
     }
 
     /**
@@ -109,7 +135,9 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public int getNumOfResource (ResourceType resource) {
-        //TODO
+        if (amount!=0 && resource==storedResource) {
+            return amount;
+        }
         return 0;
     }
 
@@ -119,7 +147,8 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public List<ResourceType> getStoredResources () {
-        //TODO
-        return null;
+        List<ResourceType> resourceList = new ArrayList<>();
+        if (amount>0) resourceList.add(storedResource);
+        return resourceList;
     }
 }
