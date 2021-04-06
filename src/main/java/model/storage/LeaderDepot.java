@@ -117,10 +117,10 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public int getNumOfResource (ResourceType resource) {
-        if (resource!=acceptedResource) {
-            return 0;
+        if (resource==acceptedResource) {
+            return amount;
         }
-        return amount;
+        return 0;
     }
 
     /**
