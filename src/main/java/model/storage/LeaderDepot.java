@@ -1,11 +1,13 @@
 package model.storage;
 
 import Exceptions.NotEnoughResourceException;
+import Exceptions.NotEnoughSpaceException;
 import Exceptions.ResourceNotPresentException;
+import Exceptions.WrongResourceTypeException;
 import model.ResourceType;
-import model.resource.Resource;
 
 import java.lang.invoke.WrongMethodTypeException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,15 +42,15 @@ public class LeaderDepot implements ResourceDepot {
      * @param resource - the resource to be added
      * @param quantity - the amount of resource to add to the amount stored
      */
-    public void addResource (ResourceType resource, int quantity) throws WrongMethodTypeException, NotEnoughResourceException {
+    public void addResource (ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException {
         if (resource!=acceptedResource) {
-            throw new WrongMethodTypeException();
+            throw new WrongResourceTypeException();
         }
         int newQuantity = quantity + amount;
         if (newQuantity>size) {
-            throw new NotEnoughResourceException();
+            throw new NotEnoughSpaceException();
         }
-        quantity = newQuantity;
+        amount = newQuantity;
     }
 
     /**
@@ -59,8 +61,7 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public boolean canHold (ResourceType resource, int quantity){
-        //TODO
-        return false;
+        return resource == acceptedResource && quantity <= size;
     }
 
     /**
@@ -70,7 +71,6 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public boolean isBlocking (ResourceType resource){
-        //TODO
         return false;
     }
 
@@ -80,8 +80,7 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public int getSize () {
-        //TODO
-        return 0;
+        return size;
     }
 
     /**
@@ -89,7 +88,7 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public void empty(){
-        //TODO
+        amount = 0;
     }
 
     /**
@@ -101,7 +100,14 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
-        //TODO
+        if (resource!=acceptedResource) {
+            throw new ResourceNotPresentException();
+        }
+        int newQuantity = amount - quantity;
+        if (newQuantity<0) {
+            throw new NotEnoughResourceException();
+        }
+        amount=newQuantity;
     }
 
     /**
@@ -111,8 +117,10 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public int getNumOfResource (ResourceType resource) {
-        //TODO
-        return 0;
+        if (resource!=acceptedResource) {
+            return 0;
+        }
+        return amount;
     }
 
     /**
@@ -121,7 +129,8 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public List<ResourceType> getStoredResources () {
-        //TODO
-        return null;
+        List<ResourceType> resourceList = new ArrayList<>();
+        if (amount>0) resourceList.add(acceptedResource);
+        return resourceList;
     }
 }
