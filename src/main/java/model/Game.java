@@ -83,6 +83,8 @@ public class Game {
         return currentPlayer;
     }
 
+    //shufflare le leadercards
+    //dividere il mazzo delle leader cards in 4 mazzetti (da dichiarare negli attributi e aggiungere nell'UML)
     public void chooseLeaderCard(int i) {
         //TODO
     }
@@ -91,6 +93,9 @@ public class Game {
         //TODO
     }
 
+    //se solo mode attivare Lorenzo
+    //controllare se il gioco è finito (sia solo mode sia multiplayer)
+    //se il gioco non è finito e partita è multiplayer cambiare currentPlayer
     public void endCurrentTurn() {
         //TODO
     }
