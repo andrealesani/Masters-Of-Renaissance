@@ -18,6 +18,9 @@ public class Game {
     private PlayerBoard currentPlayer;
     private final Lorenzo lorenzo;
 
+    /**
+     * Constructor
+     */
     public Game() {
         market = new Market();
         cardTable = new CardTable();
@@ -34,12 +37,12 @@ public class Game {
     }
 
     /**
-     * This method assumes that playersTurnOrder list has been filled already. It randomly choose the first player
+     * This method assumes that playersTurnOrder list has been filled already. It randomly chooses the first player
      * by putting it first in playersTurnOrder list
      */
     private void assignInkwell() {
         int num = (int) (Math.random() * playersTurnOrder.size());
-        for(int i=0; i<num; i++){
+        for (int i = 0; i < num; i++) {
             playersTurnOrder.add(0, playersTurnOrder.get(playersTurnOrder.size() - 1));
         }
     }
@@ -54,12 +57,13 @@ public class Game {
     /**
      * This method is called when a player's move makes all other players increase their faith
      * (for example when discarding resources)
-     * @param i - number of faith points to add
+     *
+     * @param i number of faith points to add
      */
     private void faithIncreaseAll(int i) {
-        for (PlayerBoard playerBoard: playersTurnOrder) {
-            if(!playerBoard.equals(getCurrentPlayer())){
-                for(int j = 0; j < i; j++){
+        for (PlayerBoard playerBoard : playersTurnOrder) {
+            if (!playerBoard.equals(getCurrentPlayer())) {
+                for (int j = 0; j < i; j++) {
                     playerBoard.faithIncrease();
                 }
             }
@@ -67,7 +71,7 @@ public class Game {
     }
 
     /**
-     * @return - returns the current active player
+     * @return current active player
      */
     public PlayerBoard getCurrentPlayer() {
         return currentPlayer;

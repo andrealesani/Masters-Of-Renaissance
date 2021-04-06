@@ -29,12 +29,12 @@ public class RemoveCardsToken implements ActionToken {
         try {
             cardTable.discardTop(color);
         } catch (EmptyDeckException e) {
-            //TODO What should it do?
+            //TODO Game ends and player loses
         }
         try {
             cardTable.discardTop(color);
         } catch (EmptyDeckException e) {
-            //TODO What should it do?
+            //TODO Game ends and player loses
         }
     }
 
