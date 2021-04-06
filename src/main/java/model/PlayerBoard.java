@@ -18,18 +18,37 @@ import java.util.Map;
  * during the game.
  */
 public class PlayerBoard {
-    private Game game;
-    private String username;
+    private final Game game;
+    private final String username;
     private int faith;
-    private final List<PopeTileState> popeFavorTiles = new ArrayList<>();
-    private final Warehouse warehouse = new Warehouse(3);
-    private final UnlimitedStorage strongbox = new UnlimitedStorage();
+    private final List<PopeTileState> popeFavorTiles;
+    private final Warehouse warehouse;
+    private final UnlimitedStorage strongbox;
     private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
-    private final List<Resource> marbleConversions = new ArrayList<>();
-    private final Map<Resource, Integer> discounts = new HashMap<>();
-    private final List<List<DevelopmentCard>> cardSlots = new ArrayList<List<DevelopmentCard>>();
-    private final List<LeaderCard> leaderCards = new ArrayList<>();
-    private final ProductionHandler productionHandler = new ProductionHandler();
+    private final List<Resource> marbleConversions;
+    private final Map<Resource, Integer> discounts;
+    private final List<List<DevelopmentCard>> cardSlots;
+    private final List<LeaderCard> leaderCards;
+    private final ProductionHandler productionHandler;
+
+    /**
+     * Constructor
+     * @param game reference to the game the player is playing
+     * @param username nickname that the player chose in the lobby
+     */
+    public PlayerBoard(Game game, String username) {
+        this.game = game;
+        this.username = username;
+        faith = 0;
+        popeFavorTiles = new ArrayList<>();
+        warehouse = new Warehouse(3);
+        strongbox = new UnlimitedStorage();
+        marbleConversions = new ArrayList<>();
+        discounts = new HashMap<>();
+        cardSlots = new ArrayList<List<DevelopmentCard>>();
+        leaderCards = new ArrayList<>();
+        productionHandler = new ProductionHandler();
+    }
 
     /**
      * Getter
