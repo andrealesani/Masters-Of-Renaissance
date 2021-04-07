@@ -150,6 +150,15 @@ class MarketTest {
         assertTrue(countRSt <= 2);
         assertTrue(countRW <= 4);
 
+
+        assertTrue((market.getSlideOrb() instanceof ResourceCoin)
+                || (market.getSlideOrb() instanceof ResourceFaith)
+                || (market.getSlideOrb() instanceof ResourceServant)
+                || (market.getSlideOrb() instanceof ResourceShield)
+                || (market.getSlideOrb() instanceof ResourceStone)
+                || (market.getSlideOrb() instanceof ResourceWhite)
+        ) ;
+
     }
 
 }
