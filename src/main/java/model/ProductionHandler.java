@@ -160,8 +160,8 @@ public class ProductionHandler {
     }
 
     /**
-     * Activates the selected Productions. In order to do this, the method removes all the input Resources and adds all
-     * the output Resources specified in the selected Productions to the specified PlayerBoard
+     * Controlla che non ci siano jolly in ingresso e che si abbiano abbastanza risorse IN GENERALE (getnumofresource)
+     * Se una delle condizioni non è soddisfatta c'è un flag da qualche parte che dice che non si può procedere alla transazione
      *
      * @param playerBoard indicates which player is activating the Productions
      */
@@ -170,22 +170,24 @@ public class ProductionHandler {
     }
 
     /**
-     * Removes the specified Resource from the currentInput list without actually removing it from the Warehouse.
-     * In this way, if the player realizes that he doesn't have enough Resources to activate all the Productions he
-     * selected during his turn, he can reset his choices and make them again
+     * Notifies currentInput that the Resource has been taken from the player's stashes (the method is called from the PlayerBoard)
+     * Controlla che il currentInput non sia vuoto (se il debito è stato pagato chiama releaseOutput() che dà effettivamente le risorse al giocatore)
      *
      * @param resource specifies the Resource to be removed from the inputList
      * @param quantity specifies the quantity of the Resource to be removed
      * @throws ResourceNotPresentException is thrown when the player tries to remove a Resource that is not present in the inputList
      */
-    public void takeResourceFromWarehouse(Resource resource, int quantity) throws ResourceNotPresentException {
+    public void takeResource(Resource resource, int quantity) throws ResourceNotPresentException {
         for (int i = 0; i < quantity; i++) {
             if (!currentInput.remove(resource))
                 throw new ResourceNotPresentException();
         }
     }
 
-    public void takeResourceFromStrongbox(Resource resource, int quantity) {
-        //TODO
+    /**
+     *
+     */
+    private void releaseOutput(){
+
     }
 }

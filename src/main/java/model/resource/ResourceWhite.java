@@ -4,12 +4,12 @@ import model.PlayerBoard;
 
 public class ResourceWhite extends Resource {
     @Override
-    public void AddResourceFromMarket(PlayerBoard playerBoard) {
+    public void addResourceFromMarket(PlayerBoard playerBoard) {
         //TODO
     }
 
     @Override
-    public void gainedInProduction(PlayerBoard playerBoard) {
+    public void addResourceFromProduction(PlayerBoard playerBoard) {
         //TODO
     }
 }
