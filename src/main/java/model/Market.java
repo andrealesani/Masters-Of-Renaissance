@@ -2,8 +2,6 @@ package model;
 
 import model.resource.*;
 
-import java.util.Random;
-
 public class Market {
     private Resource board[][] = new Resource[3][4];
     private Resource slideOrb;
