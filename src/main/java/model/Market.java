@@ -42,9 +42,25 @@ public class Market {
                     j--;
                 }
 
+            totalOrbs--;
 
+            if(totalOrbs == 1) {
+                if(countRS < 2)
+                    slideOrb = new ResourceCoin();
+                else if(countRF < 1)
+                    slideOrb = new ResourceFaith();
+                else if(countRSe < 2)
+                    slideOrb = new ResourceServant();
+                else if(countRSh < 2)
+                    slideOrb = new ResourceShield();
+                else if(countRSt < 2)
+                    slideOrb = new ResourceStone();
+                else if(countRW < 4)
+                    slideOrb = new ResourceWhite();
+                }
             }
         }
+
     }
 
     public Resource[][] getBoard() {
@@ -53,6 +69,10 @@ public class Market {
 
     public Resource getMarble(int row, int column) {
         return board[row][column];
+    }
+
+    public Resource getSlideOrb() {
+        return slideOrb;
     }
 
     public void selectedResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
