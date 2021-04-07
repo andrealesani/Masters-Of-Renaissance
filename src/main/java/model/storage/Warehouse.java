@@ -79,8 +79,11 @@ public class Warehouse {
 
     /**
      * Swaps the contents of two warehouse depots
-     * @param depotNumber1 - the number of the first depot
-     * @param depotNumber2 - the number of the second depot
+     * @param depotNumber1 the number of the first depot
+     * @param depotNumber2 the number of the second depot
+     * @throws DepotNotPresentException if one of the depot numbers given does not correspond with any depot
+     * @throws SameDepotException if the two inputs are the same number
+     * @throws SwapNotValidException if the content of one or both of the depots cannot be transferred to the other
      */
     public void swapDepotContent (int depotNumber1, int depotNumber2) throws DepotNotPresentException, SameDepotException, SwapNotValidException {
         if (depotNumber1==depotNumber2) {
@@ -118,7 +121,6 @@ public class Warehouse {
             System.out.println(ex.getMessage());
         }
     }
-
 
     /**
      * Returns whether or not the given resource is blocked by one of the depots in the warehouse, excluding those provided in the exclusions list
