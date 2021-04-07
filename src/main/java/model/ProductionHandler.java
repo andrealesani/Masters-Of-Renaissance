@@ -105,19 +105,7 @@ public class ProductionHandler {
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
      */
     public void chooseJollyInput(Resource resource) {
-        if (currentInput.remove(game.getResourceUnknown()))
-            currentInput.add(resource);
-        // else throw exception "no UnknownResource present in currentInput"
-    }
-
-    /**
-     * TESTING ONLY (same method as above)
-     *
-     * @param resource specifies the Resource that is going to replace the ResourceUnknown
-     * @param resourceUnknown is needed only for testing. It specifies the resourceUnknown object
-     */
-    public void chooseJollyInput(Resource resource, ResourceUnknown resourceUnknown) {
-        if (currentInput.remove(resourceUnknown))
+        if (currentInput.remove(new ResourceUnknown()))
             currentInput.add(resource);
         // else throw exception "no UnknownResource present in currentInput"
     }
@@ -128,8 +116,8 @@ public class ProductionHandler {
      *
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
      */
-    public void chooseJollyOutput(Resource resource, ResourceUnknown resourceUnknown) {
-        if (currentOutput.remove(resourceUnknown))
+    public void chooseJollyOutput(Resource resource) {
+        if (currentOutput.remove(new ResourceUnknown()))
             currentOutput.add(resource);
         // else throw exception "no UnknownResource present in currentOutput"
     }
