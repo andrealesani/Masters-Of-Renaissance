@@ -79,7 +79,7 @@ public class Market {
         //TODO
     }
 
-    
+
     private void shiftResources(MarketScope marketScope, int numScope) {
         //TODO
     }
