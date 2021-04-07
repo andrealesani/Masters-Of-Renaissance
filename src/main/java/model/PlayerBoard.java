@@ -47,7 +47,7 @@ public class PlayerBoard {
         discounts = new HashMap<>();
         cardSlots = new ArrayList<List<DevelopmentCard>>();
         leaderCards = new ArrayList<>();
-        productionHandler = new ProductionHandler();
+        productionHandler = new ProductionHandler(game);
     }
 
     /**
