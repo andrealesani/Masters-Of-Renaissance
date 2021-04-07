@@ -2,6 +2,7 @@ package model;
 
 import model.card.leadercard.LeaderCard;
 import model.lorenzo.Lorenzo;
+import model.resource.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,13 @@ public class Game {
     private final List<PlayerBoard> playersTurnOrder;
     private PlayerBoard currentPlayer;
     private final Lorenzo lorenzo;
+    private final ResourceShield resourceShield;
+    private final ResourceFaith resourceFaith;
+    private final ResourceStone resourceStone;
+    private final ResourceServant resourceServant;
+    private final ResourceCoin resourceCoin;
+    private final ResourceWhite resourceWhite;
+    private final ResourceUnknown resourceUnknown;
 
     /**
      * Constructor
@@ -27,6 +35,13 @@ public class Game {
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = new Lorenzo();
+        resourceCoin = new ResourceCoin();
+        resourceFaith = new ResourceFaith();
+        resourceServant = new ResourceServant();
+        resourceShield = new ResourceShield();
+        resourceStone = new ResourceStone();
+        resourceUnknown = new ResourceUnknown();
+        resourceWhite = new ResourceWhite();
 
         for (String nickname: nicknames) {
             playersTurnOrder.add(new PlayerBoard(this, nickname));
@@ -74,6 +89,34 @@ public class Game {
                 }
             }
         }
+    }
+
+    public ResourceShield getResourceShield() {
+        return resourceShield;
+    }
+
+    public ResourceFaith getResourceFaith() {
+        return resourceFaith;
+    }
+
+    public ResourceStone getResourceStone() {
+        return resourceStone;
+    }
+
+    public ResourceServant getResourceServant() {
+        return resourceServant;
+    }
+
+    public ResourceCoin getResourceCoin() {
+        return resourceCoin;
+    }
+
+    public ResourceWhite getResourceWhite() {
+        return resourceWhite;
+    }
+
+    public ResourceUnknown getResourceUnknown() {
+        return resourceUnknown;
     }
 
     /**
