@@ -20,7 +20,6 @@ import java.util.Map;
 public class PlayerBoard {
     private final Game game;
     private final String username;
-    private int faith;
     private final List<PopeTileState> popeFavorTiles;
     private final Warehouse warehouse;
     private final UnlimitedStorage strongbox;
@@ -30,10 +29,13 @@ public class PlayerBoard {
     private final List<List<DevelopmentCard>> cardSlots;
     private final List<LeaderCard> leaderCards;
     private final ProductionHandler productionHandler;
+    private int faith;
+    private boolean productionsAreConfirmed;
 
     /**
      * Constructor
-     * @param game reference to the game the player is playing
+     *
+     * @param game     reference to the game the player is playing
      * @param username nickname that the player chose in the lobby
      */
     public PlayerBoard(Game game, String username) {
@@ -47,7 +49,7 @@ public class PlayerBoard {
         discounts = new HashMap<>();
         cardSlots = new ArrayList<List<DevelopmentCard>>();
         leaderCards = new ArrayList<>();
-        productionHandler = new ProductionHandler(game);
+        productionHandler = new ProductionHandler();
     }
 
     /**
@@ -78,8 +80,8 @@ public class PlayerBoard {
     /**
      * Adds the specified DevelopmentCard to the specified slot in the player's PlayerBoard
      *
-     * @param slot            - specifies to which of the 3 production slots the Card must be added
-     * @param developmentCard - card that must be added
+     * @param slot            specifies to which of the 3 production slots the Card must be added
+     * @param developmentCard card that must be added
      */
     public void addDevelopmentCard(int slot, DevelopmentCard developmentCard) {
         cardSlots.get(slot).add(developmentCard);
@@ -92,7 +94,7 @@ public class PlayerBoard {
     /**
      * Adds the specified LeaderCard to the player's leaderCards list
      *
-     * @param leaderCard - specifies the LeaderCard to add
+     * @param leaderCard specifies the LeaderCard to add
      */
     public void addLeaderCard(LeaderCard leaderCard) {
         leaderCards.add(leaderCard);
@@ -101,8 +103,8 @@ public class PlayerBoard {
     /**
      * Checks if the player can activate a certain LeaderCard and activates it
      *
-     * @param i - specifies the position of the LeaderCard in the leaderCards list
-     * @throws RequirementsNotMetException - thrown if the player does not fulfill the requirements to activate the specified LeaderCard
+     * @param i specifies the position of the LeaderCard in the leaderCards list
+     * @throws RequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
      */
     public void playLeaderCard(int i) throws RequirementsNotMetException {
         if (leaderCards.get(i).areRequirementsMet(this)) {
@@ -114,7 +116,7 @@ public class PlayerBoard {
      * Adds the specified Resource to the marbleConversion list so that the player can convert a WhiteOrb
      * into the Resource whenever he picks it from the Market
      *
-     * @param resource - Resource (specified in the LeaderCard) that the WhiteOrb can be transformed into from now on
+     * @param resource Resource (specified in the LeaderCard) that the WhiteOrb can be transformed into from now on
      */
     public void addMarbleConversion(Resource resource) {
         marbleConversions.add(resource);
@@ -124,7 +126,7 @@ public class PlayerBoard {
      * Adds the specified Production to the ProductionHandler so that the player can activate it just like
      * any other Production he already owns
      *
-     * @param production - Production (specified in the LeaderCard) that can be activated from now on
+     * @param production Production (specified in the LeaderCard) that can be activated from now on
      */
     public void addProduction(Production production) {
         productionHandler.addProduction(production);
@@ -134,8 +136,8 @@ public class PlayerBoard {
      * Adds the specified discount to the discounts list so that the player can pay less
      * Resources when buying DevelopmentCards
      *
-     * @param resource - specifies the Resource affected by the discount
-     * @param discount - specifies the amount of Resources discounted
+     * @param resource specifies the Resource affected by the discount
+     * @param discount specifies the amount of Resources discounted
      */
     public void addDiscount(Resource resource, int discount) {
         discounts.put(resource, discount);
@@ -144,7 +146,7 @@ public class PlayerBoard {
     /**
      * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
      *
-     * @param i - specifies the position of the LeaderCard in the leaderCards list
+     * @param i specifies the position of the LeaderCard in the leaderCards list
      */
     public void discardLeaderCard(int i) {
         leaderCards.remove(i);
@@ -163,8 +165,8 @@ public class PlayerBoard {
     }
 
     /**
-     * @param resource - specifies the Resource type to count
-     * @return - returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
+     * @param resource specifies the Resource type to count
+     * @return returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
      */
     public int getNumOfResource(ResourceType resource) {
         //TODO
@@ -172,9 +174,9 @@ public class PlayerBoard {
     }
 
     /**
-     * @param cardColor - specifies the CardColor of the cards to count
-     * @param level     - specifies the level of the card to count
-     * @return - returns the total number of DevelopmentCards owned by the player that fulfill both the color and the level requirements
+     * @param cardColor specifies the CardColor of the cards to count
+     * @param level     specifies the level of the card to count
+     * @return the total number of DevelopmentCards owned by the player that fulfill both the color and the level requirements
      */
     public int getNumOfCards(CardColor cardColor, int level) {
         int num = 0;
@@ -191,7 +193,7 @@ public class PlayerBoard {
     /**
      * atm this method is super dumb but robust. It depends on the method above
      *
-     * @param cardColor - specifies the CardColor of the cards to count
+     * @param cardColor specifies the CardColor of the cards to count
      * @return returns the total number of DevelopmentCards owned by the player that fulfill the color requirement
      */
     public int getNumOfCards(CardColor cardColor) {
