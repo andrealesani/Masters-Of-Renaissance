@@ -12,6 +12,10 @@ public abstract class Resource {
         this.type = null;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Resource){
