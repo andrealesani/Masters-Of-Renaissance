@@ -23,9 +23,7 @@ class BasicDepotTest {
         assertEquals(1, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
-    /**
-     * This method tests the holding capacity of the storage
-     */
+    /*
     @Test
     void canHold() {
         ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
@@ -37,6 +35,8 @@ class BasicDepotTest {
         }
         assertTrue(stash.canHold(ResourceType.COIN, 2));
     }
+    */
+
 
     /**
      * This method test the storage's blocking mechanic for resources in the affirmative case

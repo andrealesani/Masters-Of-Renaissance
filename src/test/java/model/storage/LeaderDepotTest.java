@@ -23,9 +23,7 @@ class LeaderDepotTest {
         assertEquals(1, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
-    /**
-     * This method tests the holding capacity of the storage
-     */
+    /*
     @Test
     void canHold() {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
@@ -37,6 +35,7 @@ class LeaderDepotTest {
         }
         assertTrue(stash.canHold(ResourceType.SHIELD, 2));
     }
+    */
 
     /**
      * This method test the storage's blocking mechanic for resources

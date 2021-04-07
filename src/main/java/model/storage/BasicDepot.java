@@ -48,14 +48,16 @@ public class BasicDepot implements ResourceDepot {
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
         if (amount==0) {
+            List<ResourceDepot> exclusions = new ArrayList<>();
+            exclusions.add(this);
+            if (warehouse.isResourceBlocked(resource, exclusions)) {
+                throw new BlockedResourceException();
+            }
             amount = quantity;
             storedResource = resource;
         } else {
             if (resource!=storedResource) {
                 throw new WrongResourceTypeException();
-            }
-            if (warehouse.isResourceBlocked(resource) {
-                throw new BlockedResourceException();
             }
             int newQuantity = amount + quantity;
             if (newQuantity>size) {
@@ -67,14 +69,21 @@ public class BasicDepot implements ResourceDepot {
     }
 
     /**
-     * Returns whether or not the depot, if it were empty, could contain the given amount of the given resource
-     * @param resource - the resource to be stored
-     * @param quantity - the amount to be stored of the given resource
+     * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
+     * @param depot the depot the contents of which need to be stored
      * @return true if the given resource and amount could be contained in the depot
      */
     @Override
-    public boolean canHold (ResourceType resource, int quantity){
-        return quantity<=size;
+    public boolean canHoldContentOf (ResourceDepot depot){
+        ResourceType depotResource = depot.getStoredResources().get(0);
+        List<ResourceDepot> exclusions = new ArrayList<>();
+        exclusions.add(this);
+        exclusions.add(depot);
+        if (warehouse.isResourceBlocked(depotResource, exclusions)) {
+            return false;
+        }
+        int depotQuantity = depot.getNumOfResource(depotResource);
+        return depotQuantity<=size;
     }
 
     /**

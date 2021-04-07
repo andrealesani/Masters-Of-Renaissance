@@ -82,21 +82,41 @@ public class Warehouse {
      * @param depotNumber1 - the number of the first depot
      * @param depotNumber2 - the number of the second depot
      */
-    public void swapDepotContent (int depotNumber1, int depotNumber2) throws DepotNotPresentException, SameDepotException {
+    public void swapDepotContent (int depotNumber1, int depotNumber2) throws DepotNotPresentException, SameDepotException, SwapNotValidException {
         if (depotNumber1==depotNumber2) {
             throw new SameDepotException();
         }
+
         if (depotNumber1<1 || depotNumber1>depots.size() || depotNumber2<1 || depotNumber2>depots.size()) {
             throw new DepotNotPresentException();
         }
+
         ResourceDepot depot1 = depots.get(depotNumber1);
         ResourceDepot depot2 = depots.get(depotNumber2);
+
+        if (!depot1.canHoldContentOf(depot2) || !depot2.canHoldContentOf(depot1)) {
+            throw new SwapNotValidException();
+        }
+
         ResourceType resource1 = depot1.getStoredResources().get(0);
-        ResourceType resource2 = depot2.getStoredResources().get(0);
         int amount1 = depot1.getNumOfResource(resource1);
+        ResourceType resource2 = depot2.getStoredResources().get(0);
         int amount2 = depot2.getNumOfResource(resource2);
 
-        
+        depot1.empty();
+        try {
+            depot1.addResource(resource2, amount2);
+        } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
+            //This should never happen
+            System.out.println(ex.getMessage());
+        }
+        depot2.empty();
+        try {
+            depot2.addResource(resource1, amount1);
+        } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
+            //This should never happen
+            System.out.println(ex.getMessage());
+        }
     }
 
 
