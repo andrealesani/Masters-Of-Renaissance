@@ -3,8 +3,6 @@ package model.storage;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ResourceNotPresentException;
 import model.ResourceType;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,18 +18,18 @@ public interface ResourceStash {
      * @throws ResourceNotPresentException - if the given resource is not present in storage
      * @throws NotEnoughResourceException - if the given resource is present in storage in fewer quantity than the amount to be deleted
      */
-    public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException;
+    void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException;
 
     /**
      * Returns the stored amount of the given resource
      * @param resource - the resource the amount of which is asked
      * @return the amount of the given resource contained in storage
      */
-    public int getNumOfResource (ResourceType resource);
+    int getNumOfResource (ResourceType resource);
 
     /**
      * Returns the resources stored in storage
      * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
-    public List<ResourceType> getStoredResources ();
+    List<ResourceType> getStoredResources ();
 }

@@ -2,8 +2,6 @@ package model.storage;
 
 import Exceptions.*;
 import model.ResourceType;
-import model.card.leadercard.DepotDecorator;
-import model.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
