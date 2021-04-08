@@ -104,14 +104,14 @@ public class Warehouse {
         ResourceType resource2 = depot2.getStoredResources().get(0);
         int amount2 = depot2.getNumOfResource(resource2);
 
-        depot1.empty();
+        depot1.clear();
         try {
             depot1.addResource(resource2, amount2);
         } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
             //This should never happen
             System.out.println(ex.getMessage());
         }
-        depot2.empty();
+        depot2.clear();
         try {
             depot2.addResource(resource1, amount1);
         } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {

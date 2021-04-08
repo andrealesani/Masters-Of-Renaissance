@@ -1,7 +1,7 @@
 package Exceptions;
 
 /**
- * This Exception is thrown when a resource is tried to be inserted in a storage that can't accept it because a different one is blocking it.
+ * This Exception is thrown when it is tried to add a resource to a depot that can't accept it because a different depot is blocking it.
  */
 public class BlockedResourceException extends Exception{
     /**

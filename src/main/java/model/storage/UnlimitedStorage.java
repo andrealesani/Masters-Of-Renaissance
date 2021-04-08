@@ -13,7 +13,7 @@ public class UnlimitedStorage implements ResourceStash{
     /**
      * Data structure used to map each stored resource with the amount stored
      */
-    private final Map<ResourceType, Integer> storageContent = new HashMap<>();
+    private Map<ResourceType, Integer> storageContent = new HashMap<>();
 
     /**
      * Adds the given resource to the storage
@@ -35,6 +35,7 @@ public class UnlimitedStorage implements ResourceStash{
      * @throws ResourceNotPresentException - if the given resource is not present in storage
      * @throws NotEnoughResourceException - if the given resource is present in storage in fewer quantity than the amount to be deleted
      */
+    @Override
     public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
         if (!storageContent.containsKey(resource)) {
             throw new ResourceNotPresentException();
@@ -55,6 +56,7 @@ public class UnlimitedStorage implements ResourceStash{
      * @param resource - the resource the amount of which is asked
      * @return the amount of the given resource contained in storage
      */
+    @Override
     public int getNumOfResource (ResourceType resource) {
         if (storageContent.containsKey(resource)) {
             return storageContent.get(resource);
@@ -66,7 +68,16 @@ public class UnlimitedStorage implements ResourceStash{
      * Returns the resources stored in storage
      * @return a List of the stored resources
      */
+    @Override
     public List<ResourceType> getStoredResources () {
         return new ArrayList<>(storageContent.keySet());
+    }
+
+    /**
+     * Empties the storage of its entire content
+     */
+    @Override
+    public void clear() {
+        storageContent = new HashMap<>();
     }
 }

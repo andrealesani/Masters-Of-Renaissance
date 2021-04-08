@@ -87,7 +87,7 @@ public class LeaderDepot implements ResourceDepot {
      * Empties the depot of its entire content
      */
     @Override
-    public void empty(){
+    public void clear(){
         amount = 0;
     }
 

@@ -32,4 +32,9 @@ public interface ResourceStash {
      * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
     List<ResourceType> getStoredResources ();
+
+    /**
+     * Empties the storage of its entire content
+     */
+    void clear();
 }

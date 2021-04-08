@@ -89,7 +89,7 @@ class BasicDepotTest {
             System.out.println(ex.getMessage());
             fail();
         }
-        stash.empty();
+        stash.clear();
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
     }
 

@@ -39,9 +39,4 @@ public interface ResourceDepot extends ResourceStash {
      * @return the size of the depot
      */
     int getSize ();
-
-    /**
-     * Empties the depot of its entire content
-     */
-    void empty();
 }

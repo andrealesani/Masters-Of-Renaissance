@@ -2,6 +2,7 @@ package model.card.leadercard;
 
 import model.CardColor;
 import model.PlayerBoard;
+import model.ResourceType;
 import model.card.DevelopmentCard;
 import model.resource.Resource;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * This LeaderCard lets the user convert a WhiteOrb to a specified Resource when he picks it from the Market
  */
 public class MarbleDecorator extends LeaderCardDecorator {
-    private final Resource resource;
+    private final ResourceType resource;
     private final CardColor requiredColor;
     private final int requiredQuantity;
 
@@ -24,7 +25,7 @@ public class MarbleDecorator extends LeaderCardDecorator {
      * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public MarbleDecorator(LeaderCard leaderCard, Resource resource, CardColor requiredColor, int requiredQuantity) {
+    public MarbleDecorator(LeaderCard leaderCard, ResourceType resource, CardColor requiredColor, int requiredQuantity) {
         super(leaderCard);
         this.resource = resource;
         this.requiredColor = requiredColor;

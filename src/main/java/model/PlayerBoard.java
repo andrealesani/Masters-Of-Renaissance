@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.RequirementsNotMetException;
+import Exceptions.*;
 import com.google.gson.Gson;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
@@ -25,7 +25,7 @@ public class PlayerBoard {
     private final Warehouse warehouse;
     private final UnlimitedStorage strongbox;
     private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
-    private final List<Resource> marbleConversions;
+    private final List<ResourceType> marbleConversions;
     private final Map<Resource, Integer> discounts;
     private final List<List<DevelopmentCard>> cardSlots;
     private final List<LeaderCard> leaderCards;
@@ -62,20 +62,54 @@ public class PlayerBoard {
         return warehouse;
     }
 
-    public void addResourceToWarehouse(Resource resource) {
-        //TODO
+    /**
+     * Temporarily stores the given amount of the given resource in the waiting room
+     * @param resource the resource to be added
+     * @param quantity the amount of resource to add
+     */
+    public void addResourceToWarehouse(ResourceType resource, int quantity) {
+        waitingRoom.addResource(resource, quantity);
     }
 
+    /**
+     * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
+     */
     public void addWhiteMarble() {
-        //TODO
+        if (marbleConversions.size()==1) {
+            waitingRoom.addResource(marbleConversions.get(0), 1);
+        } else if (marbleConversions.size()>1) {
+            waitingRoom.addResource(ResourceType.WHITEORB, 1);
+        }
     }
 
-    public void sendResourceToDepot(int depot, Resource resource) {
-        //TODO
+    /**
+     * Moves the given amount of the given resource from the waiting room to the selected depot
+     * @param depot the number of the depot to which to add the resource
+     * @param resource the resource to be moved
+     * @param quantity the amount of the resource to be moved
+     * @throws DepotNotPresentException if the number of the target depot does not correspond to any depot in the warehouse
+     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the target depot
+     * @throws NotEnoughSpaceException if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
+     * @throws BlockedResourceException if the depot is affected by resource blocking and the resource is being blocked by a different depot
+     */
+    public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException {
+        warehouse.addToDepot(depot, resource, quantity);
     }
 
-    public void chooseMarbleConversion(Resource resource) {
-        //TODO
+    /**
+     * Converts the given amount of white orbs in waiting room into the given resource from the available marble conversions
+     * @param resource the resource into which to convert the white orb
+     * @param quantity the amount of white orbs to convert
+     * @throws ResourceNotPresentException if there are no white orbs in the waiting room
+     * @throws NotEnoughResourceException if there are less white orbs in the waiting room than the amount to be converted
+     * @throws ConversionNotAvailableException if the conversion to the given resource is not available
+     */
+    public void chooseMarbleConversion(ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException, ConversionNotAvailableException {
+        if (!marbleConversions.contains(resource)) {
+            throw new ConversionNotAvailableException();
+        }
+        waitingRoom.removeResource(ResourceType.WHITEORB, quantity);
+        waitingRoom.addResource(resource, quantity);
     }
 
     /**
@@ -88,6 +122,11 @@ public class PlayerBoard {
         cardSlots.get(slot).add(developmentCard);
     }
 
+    /**
+     * Adds the given amount of the given resource to the strongbox
+     * @param resource the resource to be added
+     * @param quantity the amount of the resource to add
+     */
     public void addResourceToStrongbox(ResourceType resource, int quantity) {
         strongbox.addResource(resource, quantity);
     }
@@ -119,7 +158,7 @@ public class PlayerBoard {
      *
      * @param resource Resource (specified in the LeaderCard) that the WhiteOrb can be transformed into from now on
      */
-    public void addMarbleConversion(Resource resource) {
+    public void addMarbleConversion(ResourceType resource) {
         marbleConversions.add(resource);
     }
 
@@ -192,7 +231,7 @@ public class PlayerBoard {
     }
 
     /**
-     * atm this method is super dumb but robust. It depends on the method above
+     * atm this method is super dumb but robust. It depends on the method above (cringe)
      *
      * @param cardColor specifies the CardColor of the cards to count
      * @return returns the total number of DevelopmentCards owned by the player that fulfill the color requirement
@@ -205,9 +244,21 @@ public class PlayerBoard {
         return num;
     }
 
+    /**
+     * Returns the number of resources still present in waiting room
+     * @return the number of resources left
+     */
     public int leftInWaitingRoom() {
-        //TODO
-        return 0;
+        List<ResourceType> leftovers = waitingRoom.getStoredResources();
+        int sum = 0;
+        for (ResourceType resource : leftovers) {
+            sum += waitingRoom.getNumOfResource(resource);
+        }
+        return sum;
+    }
+    
+    public void clearWaitingRoom() {
+        waitingRoom.clear();
     }
 
     public boolean isGameEnding() {
