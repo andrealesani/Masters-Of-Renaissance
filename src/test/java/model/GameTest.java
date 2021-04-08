@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void endTurn() {
-        assertEquals (2, 1+1);
+    void initializeLeaders(){
+        Game game = new Game();
     }
 }

@@ -66,28 +66,10 @@ class ProductionHandlerTest {
         productionHandler.selectProduction(0);
 
         // TEST
-        productionHandler.chooseJollyInput(coin, unknown);
+        productionHandler.chooseJollyInput(coin);
 
         assertTrue(productionHandler.getCurrentInput().size() == 1, "wrong size");
         assertTrue(productionHandler.getCurrentInput().get(0) instanceof ResourceCoin, "wrong ResourceType");
     }
 
-    @Test
-    void listRemove(){
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.remove(new Integer(1));
-
-        assertTrue(list.get(0) == 2);
-
-        ResourceUnknown unk = new ResourceUnknown();
-        ResourceCoin coi = new ResourceCoin();
-        ArrayList<Resource> list1 = new ArrayList<>();
-        list1.add(unk);
-        list1.add(coi);
-        list1.remove(unk);
-
-        assertTrue(list1.get(0) instanceof ResourceCoin);
-    }
 }

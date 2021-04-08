@@ -30,6 +30,19 @@ public class Production {
     }
 
     /**
+     * Equals
+     * @param obj object to compare
+     * @return true only if the 2 Productions input and output lists are equal
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Production)
+            if(input.equals(((Production) obj).getInput()) && output.equals(((Production) obj).getInput()))
+                return true;
+        return false;
+    }
+
+    /**
      * Getter
      *
      * @return returns the Production input list

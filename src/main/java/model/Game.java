@@ -1,9 +1,15 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import model.card.Card;
 import model.card.leadercard.LeaderCard;
 import model.lorenzo.Lorenzo;
 import model.resource.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +35,7 @@ public class Game {
         playersTurnOrder = new ArrayList<>();
         lorenzo = new Lorenzo();
 
-        for (String nickname: nicknames) {
+        for (String nickname : nicknames) {
             playersTurnOrder.add(new PlayerBoard(this, nickname));
         }
         assignInkwell();
@@ -37,10 +43,32 @@ public class Game {
     }
 
     /**
+     * Testing Constructor
+     */
+    public Game() {
+        market = new Market();
+        cardTable = new CardTable();
+        leaderCards = new ArrayList<>();
+        playersTurnOrder = new ArrayList<>();
+        lorenzo = new Lorenzo();
+        initializeLeaders();
+    }
+
+    /**
      * This method creates the instances of all the LeaderCards before the game starts
      */
     private void initializeLeaders() {
-        //TODO
+
+        //TODO WORK IN PROGRESS
+        
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/model/test.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        leaderCards.add(gson.fromJson(reader, Card.class));
     }
 
     /**
