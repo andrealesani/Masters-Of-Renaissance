@@ -10,6 +10,6 @@ class MarbleDecoratorTest {
 
     @Test
     void doAction() {
-        LeaderCard leaderCard1 = new MarbleDecorator(new LeaderCardImpl(), new ResourceStone(), CardColor.YELLOW, 1);
+        //LeaderCard leaderCard1 = new MarbleDecorator(new LeaderCardImpl(), new ResourceStone(), CardColor.YELLOW, 1);
     }
 }
