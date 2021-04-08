@@ -10,6 +10,6 @@ class DiscountDecoratorTest {
 
     @Test
     void doAction() {
-        LeaderCard leaderCard1 = new DiscountDecorator(new LeaderCardImpl(), new ResourceStone(), 3, CardColor.BLUE, 2);
+        //LeaderCard leaderCard1 = new DiscountDecorator(new LeaderCardImpl(), new ResourceStone(), 3, CardColor.BLUE, 2);
     }
 }
