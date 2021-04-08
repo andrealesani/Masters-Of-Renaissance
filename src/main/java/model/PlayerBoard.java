@@ -1,6 +1,7 @@
 package model;
 
 import Exceptions.RequirementsNotMetException;
+import com.google.gson.Gson;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
