@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void initializeLeaders(){
+    void initializeLeaders() {
         Game game = new Game();
     }
 }

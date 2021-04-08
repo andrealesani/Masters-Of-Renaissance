@@ -3,6 +3,7 @@ package model;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import model.card.Card;
+import model.card.leadercard.DepotDecorator;
 import model.card.leadercard.LeaderCard;
 import model.lorenzo.Lorenzo;
 import model.resource.*;
@@ -60,7 +61,7 @@ public class Game {
     private void initializeLeaders() {
 
         //TODO WORK IN PROGRESS
-        
+
         Gson gson = new Gson();
         JsonReader reader = null;
         try {
@@ -68,7 +69,7 @@ public class Game {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        leaderCards.add(gson.fromJson(reader, Card.class));
+        leaderCards.add(gson.fromJson(reader, DepotDecorator.class));
     }
 
     /**
@@ -106,6 +107,17 @@ public class Game {
     }
 
     /**
+     * Getter
+     *
+     * @return leaderCards list
+     */
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    /**
+     * Getter
+     *
      * @return current active player
      */
     public PlayerBoard getCurrentPlayer() {
