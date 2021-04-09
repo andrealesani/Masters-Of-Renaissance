@@ -1,0 +1,9 @@
+[
+  {
+    "victoryPoints": 10,
+    "resourceType": "STONE",
+    "discount": 1,
+    "requiredColor": "BLUE",
+    "requiredQuantity": "1"
+  }
+]

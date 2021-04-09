@@ -1,0 +1,9 @@
+[
+  {
+    "victoryPoints": 10,
+    "requiredResource": "STONE",
+    "requiredQuantity": 1,
+    "storableResource": "COIN",
+    "storableQuantity": 2
+  }
+]

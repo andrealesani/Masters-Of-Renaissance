@@ -1,0 +1,19 @@
+[
+  {
+    "victoryPoints": 10,
+    "requiredColor": "BLUE",
+    "requiredLevel": 2,
+    "requiredQuantity": 3,
+    "inputCoin": 1,
+    "inputServant": 1,
+    "inputShield": 1,
+    "inputStone": 1,
+    "inputUnknown": 1,
+    "outputCoin": 1,
+    "outputServant": 1,
+    "outputShield": 1,
+    "outputStone": 1,
+    "outputUnknown": 1,
+    "outputFaith": 1
+  }
+]
