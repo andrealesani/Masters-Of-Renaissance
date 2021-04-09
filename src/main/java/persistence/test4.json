@@ -1,0 +1,23 @@
+[
+  {
+    "victoryPoints" : 10,
+    "resourceType" : "STONE",
+    "discount" : 1,
+    "requiredColor": "BLUE",
+    "requiredQuantity": "1"
+  },
+  {
+    "victoryPoints" : 20,
+    "resourceType" : "COIN",
+    "discount" : 2,
+    "requiredColor": "GREEN",
+    "requiredQuantity": "2"
+  },
+  {
+    "victoryPoints" : 30,
+    "resourceType" : "SHIELD",
+    "discount" : 3,
+    "requiredColor": "PURPLE",
+    "requiredQuantity": "3"
+  }
+]
