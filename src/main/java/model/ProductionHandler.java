@@ -186,8 +186,8 @@ public class ProductionHandler {
      * In this case, the method will call releaseOutput() and give all output Resources to the player
      *
      * @param playerBoard specifies the PlayerBoard that has spent the resources so that the ProductionHandler can give it the output Resources if the input debt is extinguished
-     * @param resource specifies the Resource to be removed from currentInput
-     * @param quantity specifies the quantity of the Resource to be removed
+     * @param resource    specifies the Resource to be removed from currentInput
+     * @param quantity    specifies the quantity of the Resource to be removed
      * @throws ResourceNotPresentException is thrown when the player tries to remove a Resource that is not present in the inputList
      */
     public void takeResource(PlayerBoard playerBoard, Resource resource, int quantity) throws ResourceNotPresentException {
@@ -195,7 +195,7 @@ public class ProductionHandler {
             if (!currentInput.remove(resource))
                 throw new ResourceNotPresentException();
         }
-        if(currentInput.isEmpty())
+        if (currentInput.isEmpty())
             releaseOutput(playerBoard);
     }
 
