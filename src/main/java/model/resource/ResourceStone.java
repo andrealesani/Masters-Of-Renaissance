@@ -12,7 +12,7 @@ public class ResourceStone extends Resource {
 
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        //TODO
+        playerBoard.addResourceToWarehouse(type, 1);
     }
 
     @Override

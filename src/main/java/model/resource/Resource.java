@@ -5,7 +5,9 @@ import model.ResourceType;
 
 public abstract class Resource {
     private final ResourceType type;
+
     public void addResourceFromMarket(PlayerBoard playerBoard) {}
+
     public void addResourceFromProduction(PlayerBoard playerBoard) {}
 
     public Resource() {
