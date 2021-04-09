@@ -1,9 +1,30 @@
 [
   {
-    "victoryPoints": 10,
+    "victoryPoints": 2,
+    "resourceType": "COIN",
+    "discount": 1,
+    "requiredColor": ["YELLOW", "PURPLE"],
+    "requiredQuantity": [1, 1]
+  },
+  {
+    "victoryPoints": 2,
+    "resourceType": "SHIELD",
+    "discount": 1,
+    "requiredColor": ["BLUE", "PURPLE"],
+    "requiredQuantity": [1, 1]
+  },
+  {
+    "victoryPoints": 2,
     "resourceType": "STONE",
     "discount": 1,
-    "requiredColor": "BLUE",
-    "requiredQuantity": "1"
+    "requiredColor": ["GREEN", "BLUE"],
+    "requiredQuantity": [1, 1]
+  },
+  {
+    "victoryPoints": 2,
+    "resourceType": "SERVANT",
+    "discount": 1,
+    "requiredColor": ["YELLOW", "GREEN"],
+    "requiredQuantity": [1, 1]
   }
 ]
