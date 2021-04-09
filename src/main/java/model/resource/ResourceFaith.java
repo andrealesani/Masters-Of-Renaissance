@@ -17,6 +17,6 @@ public class ResourceFaith extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        //TODO
+        playerBoard.faithIncrease();
     }
 }

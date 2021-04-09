@@ -12,11 +12,11 @@ public class ResourceUnknown extends Resource {
 
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        //TODO
+        //does nothing
     }
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        //TODO
+        //does nothing
     }
 }

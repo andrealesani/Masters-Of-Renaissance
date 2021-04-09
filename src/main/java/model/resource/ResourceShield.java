@@ -17,6 +17,6 @@ public class ResourceShield extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        //TODO
+        playerBoard.addResourceToWarehouse(type, 1);
     }
 }
