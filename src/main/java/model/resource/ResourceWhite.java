@@ -17,6 +17,6 @@ public class ResourceWhite extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addWhiteMarble();
+        //does nothing
     }
 }
