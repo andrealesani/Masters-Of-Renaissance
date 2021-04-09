@@ -13,7 +13,7 @@ import java.util.Map;
  * This LeaderCard lets the user convert a WhiteOrb to a specified Resource when he picks it from the Market
  */
 public class MarbleDecorator extends LeaderCardDecorator {
-    private final ResourceType resource;
+    private final ResourceType resourceType;
     private final CardColor requiredColor;
     private final int requiredQuantity;
 
@@ -21,13 +21,13 @@ public class MarbleDecorator extends LeaderCardDecorator {
      * Constructor
      *
      * @param leaderCard       needed to implement the decorator Design Pattern
-     * @param resource         Resource that the WhiteOrb can be transformed into by this card
+     * @param resourceType     Resource that the WhiteOrb can be transformed into by this card
      * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public MarbleDecorator(LeaderCard leaderCard, ResourceType resource, CardColor requiredColor, int requiredQuantity) {
+    public MarbleDecorator(LeaderCard leaderCard, ResourceType resourceType, CardColor requiredColor, int requiredQuantity) {
         super(leaderCard);
-        this.resource = resource;
+        this.resourceType = resourceType;
         this.requiredColor = requiredColor;
         this.requiredQuantity = requiredQuantity;
     }
@@ -38,7 +38,7 @@ public class MarbleDecorator extends LeaderCardDecorator {
      * @param playerBoard specifies to which PlayerBoard the marble conversion has to be added
      */
     private void activateMarbleEffect(PlayerBoard playerBoard) {
-        playerBoard.addMarbleConversion(resource);
+        playerBoard.addMarbleConversion(resourceType);
     }
 
     /**

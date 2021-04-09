@@ -16,7 +16,8 @@ import java.util.Map;
 public class DepotDecorator extends LeaderCardDecorator {
     private final ResourceType requiredResource;
     private final int requiredQuantity;
-    private final ResourceDepot depot;
+    private final ResourceType storableResource;
+    private final int storableQuantity;
 
     /**
      * Constructor
@@ -25,20 +26,21 @@ public class DepotDecorator extends LeaderCardDecorator {
      * @param requiredResource ResourceType of the Resources required to activate this card
      * @param requiredQuantity number of Resources of the specified ResourceType required to activate this card
      */
-    public DepotDecorator(LeaderCard leaderCard, ResourceType requiredResource, int requiredQuantity) {
+    public DepotDecorator(LeaderCard leaderCard, ResourceType requiredResource, int requiredQuantity, ResourceType storableResource, int storableQuantity) {
         super(leaderCard);
         this.requiredResource = requiredResource;
         this.requiredQuantity = requiredQuantity;
-        this.depot = new LeaderDepot(2, ResourceType.SHIELD);
+        this.storableResource = storableResource;
+        this.storableQuantity = storableQuantity;
     }
 
     /**
-     * Adds the a SpecialDepot to the specified PlayerBoard
+     * Adds a SpecialDepot with the parameters specified by the card to the specified PlayerBoard
      *
      * @param playerBoard specifies to which PlayerBoard the SpecialDepot has to be added
      */
     private void activateSpecialDepot(PlayerBoard playerBoard) {
-        playerBoard.getWarehouse().addNewDepot(depot);
+        playerBoard.getWarehouse().addNewDepot(new LeaderDepot(storableQuantity, storableResource));
     }
 
     /**
@@ -62,5 +64,41 @@ public class DepotDecorator extends LeaderCardDecorator {
         if (playerBoard.getNumOfResource(requiredResource) >= requiredQuantity)
             return true;
         return false;
+    }
+
+    /**
+     * Getter TESTING ONLY
+     *
+     * @return the Resource required to activate the card
+     */
+    public ResourceType getRequiredResource() {
+        return requiredResource;
+    }
+
+    /**
+     * Getter TESTING ONLY
+     *
+     * @return the quantity of the specified Resource required to activate the card
+     */
+    public int getRequiredQuantity() {
+        return requiredQuantity;
+    }
+
+    /**
+     * Getter TESTING ONLY
+     *
+     * @return the Resource of the depot
+     */
+    public ResourceType getStorableResource() {
+        return storableResource;
+    }
+
+    /**
+     * Getter TESTING ONLY
+     *
+     * @return the quantity of the specified Resource of the depot
+     */
+    public int getStorableQuantity() {
+        return storableQuantity;
     }
 }
