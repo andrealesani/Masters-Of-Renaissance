@@ -1,16 +1,17 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.card.Card;
-import model.card.leadercard.DepotDecorator;
-import model.card.leadercard.LeaderCard;
+import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;
 import model.resource.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,24 +53,61 @@ public class Game {
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = new Lorenzo();
-        initializeLeaders();
+        initializeLeaderCards();
     }
 
     /**
+     * !! ATM The method does NOT control the validity of the values read from the JSON files, like quantities <0 or typos in enums !!
      * This method creates the instances of all the LeaderCards before the game starts
      */
-    private void initializeLeaders() {
-
-        //TODO WORK IN PROGRESS
+    private void initializeLeaderCards() {
 
         Gson gson = new Gson();
         JsonReader reader = null;
+
+        // DEPOT LEADER CARDS
         try {
-            reader = new JsonReader(new FileReader("./src/main/java/model/test.json"));
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DepotLeaderCards.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        leaderCards.add(gson.fromJson(reader, DepotDecorator.class));
+        Type DepotDecArray = new TypeToken<ArrayList<DepotDecorator>>() {
+        }.getType();
+        ArrayList<DepotDecorator> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
+        leaderCards.addAll(depotLeaderCards);
+
+        // DISCOUNT LEADER CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DiscountLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type DiscountDecArray = new TypeToken<ArrayList<DiscountDecorator>>() {
+        }.getType();
+        ArrayList<DiscountDecorator> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
+        leaderCards.addAll(discountLeaderCards);
+
+        // MARBLE LEADER CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/MarbleLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type MarbleDecArray = new TypeToken<ArrayList<MarbleDecorator>>() {
+        }.getType();
+        ArrayList<MarbleDecorator> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
+        leaderCards.addAll(marbleLeaderCards);
+
+        // PRODUCTION LEADER CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/ProductionLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type ProductionDecArray = new TypeToken<ArrayList<ProductionDecorator>>() {
+        }.getType();
+        ArrayList<ProductionDecorator> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
+        leaderCards.addAll(productionLeaderCards);
     }
 
     /**
