@@ -2,6 +2,7 @@ package model.card.leadercard;
 
 import model.CardColor;
 import model.PlayerBoard;
+import model.ResourceType;
 import model.card.DevelopmentCard;
 import model.Production;
 import model.resource.*;
@@ -17,18 +18,10 @@ public class ProductionDecorator extends LeaderCardDecorator {
     private final CardColor requiredColor;
     private final int requiredLevel;
     private final int requiredQuantity;
-
-    private final int inputCoin;
-    private final int inputServant;
-    private final int inputShield;
-    private final int inputStone;
-    private final int inputUnknown;
-    private final int outputCoin;
-    private final int outputServant;
-    private final int outputShield;
-    private final int outputStone;
-    private final int outputUnknown;
-    private final int outputFaith;
+    private final ArrayList<ResourceType> inputType;
+    private final int[] inputQuantities;
+    private final ArrayList<ResourceType> outputType;
+    private final int[] outputQuantities;
 
     /**
      * Constructor
@@ -39,57 +32,57 @@ public class ProductionDecorator extends LeaderCardDecorator {
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor and level required to activate this card
      */
     public ProductionDecorator(LeaderCard leaderCard, CardColor requiredColor, int requiredLevel, int requiredQuantity,
-                               int inputCoin, int inputServant, int inputShield, int inputStone, int inputUnknown,
-                               int outputCoin, int outputServant, int outputStone, int outputShield, int outputUnknown, int outputFaith) {
+                               ArrayList<ResourceType> inputType, int[] inputQuantities,
+                               ArrayList<ResourceType> outputType, int[] outputQuantities) {
         super(leaderCard);
         this.requiredColor = requiredColor;
         this.requiredLevel = requiredLevel;
         this.requiredQuantity = requiredQuantity;
-        this.inputCoin = inputCoin;
-        this.inputServant = inputServant;
-        this.inputShield = inputShield;
-        this.inputStone = inputStone;
-        this.inputUnknown = inputUnknown;
-        this.outputCoin = outputCoin;
-        this.outputServant = outputServant;
-        this.outputStone = outputStone;
-        this.outputShield = outputShield;
-        this.outputUnknown = outputUnknown;
-        this.outputFaith = outputFaith;
+        this.inputType = inputType;
+        this.inputQuantities = inputQuantities;
+        this.outputType = outputType;
+        this.outputQuantities = outputQuantities;
     }
 
     /**
      * Creates a Production from the parameters specified by the LeaderCard and then adds it to the specified PlayerBoard
-     * NOTE: ATM it creates a new Resource for every cycle. We could declare the Resources at the beginning and always use them to save up some memory
      *
      * @param playerBoard specifies to which PlayerBoard the Production has to be added
      */
     private void addProduction(PlayerBoard playerBoard) {
+        ResourceCoin coin = new ResourceCoin();
+        ResourceServant servant = new ResourceServant();
+        ResourceShield shield = new ResourceShield();
+        ResourceStone stone = new ResourceStone();
+        ResourceUnknown unknown = new ResourceUnknown();
+        ResourceFaith faith = new ResourceFaith();
+
         ArrayList<Resource> input = new ArrayList<>();
         ArrayList<Resource> output = new ArrayList<>();
 
-        for (int i = 0; i < inputCoin; i++)
-            input.add(new ResourceCoin());
-        for (int i = 0; i < inputServant; i++)
-            input.add(new ResourceServant());
-        for (int i = 0; i < inputShield; i++)
-            input.add(new ResourceShield());
-        for (int i = 0; i < inputStone; i++)
-            input.add(new ResourceStone());
-        for (int i = 0; i < inputUnknown; i++)
-            input.add(new ResourceUnknown());
-        for (int i = 0; i < outputCoin; i++)
-            output.add(new ResourceCoin());
-        for (int i = 0; i < outputServant; i++)
-            output.add(new ResourceServant());
-        for (int i = 0; i < outputShield; i++)
-            output.add(new ResourceShield());
-        for (int i = 0; i < outputStone; i++)
-            output.add(new ResourceStone());
-        for (int i = 0; i < outputUnknown; i++)
-            output.add(new ResourceUnknown());
-        for (int i = 0; i < outputFaith; i++)
-            output.add(new ResourceFaith());
+        for (int i = 0; i < inputQuantities[0]; i++)
+            input.add(coin);
+        for (int i = 0; i < inputQuantities[1]; i++)
+            input.add(servant);
+        for (int i = 0; i < inputQuantities[2]; i++)
+            input.add(shield);
+        for (int i = 0; i < inputQuantities[3]; i++)
+            input.add(stone);
+        for (int i = 0; i < inputQuantities[4]; i++)
+            input.add(unknown);
+
+        for (int i = 0; i < outputQuantities[0]; i++)
+            output.add(coin);
+        for (int i = 0; i < outputQuantities[1]; i++)
+            output.add(servant);
+        for (int i = 0; i < outputQuantities[2]; i++)
+            output.add(shield);
+        for (int i = 0; i < outputQuantities[3]; i++)
+            output.add(stone);
+        for (int i = 0; i < outputQuantities[4]; i++)
+            output.add(unknown);
+        for (int i = 0; i < outputQuantities[5]; i++)
+            output.add(faith);
 
         playerBoard.addProduction(new Production(input, output));
     }

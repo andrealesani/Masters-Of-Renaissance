@@ -3,33 +3,30 @@ package model.card.leadercard;
 import model.CardColor;
 import model.PlayerBoard;
 import model.ResourceType;
-import model.card.DevelopmentCard;
-import model.resource.Resource;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * This LeaderCard lets the user convert a WhiteOrb to a specified Resource when he picks it from the Market
  */
 public class MarbleDecorator extends LeaderCardDecorator {
     private final ResourceType resourceType;
-    private final CardColor requiredColor;
-    private final int requiredQuantity;
+    private final ArrayList<CardColor> requiredColors;
+    private final int[] requiredQuantities;
 
     /**
      * Constructor
      *
      * @param leaderCard       needed to implement the decorator Design Pattern
      * @param resourceType     Resource that the WhiteOrb can be transformed into by this card
-     * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
-     * @param requiredQuantity number of DevelopmentCards of the specified CardColor required to activate this card
+     * @param requiredColors    CardColor of the DevelopmentCards required to activate this card
+     * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public MarbleDecorator(LeaderCard leaderCard, ResourceType resourceType, CardColor requiredColor, int requiredQuantity) {
+    public MarbleDecorator(LeaderCard leaderCard, ResourceType resourceType, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
         super(leaderCard);
         this.resourceType = resourceType;
-        this.requiredColor = requiredColor;
-        this.requiredQuantity = requiredQuantity;
+        this.requiredColors = requiredColors;
+        this.requiredQuantities = requiredQuantities;
     }
 
     /**
@@ -59,8 +56,10 @@ public class MarbleDecorator extends LeaderCardDecorator {
      */
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard) {
-        if (playerBoard.getNumOfCards(requiredColor) >= requiredQuantity)
-            return true;
-        return false;
+        for (int i = 0; i < requiredColors.size(); i++) {
+            if (playerBoard.getNumOfCards(requiredColors.get(i)) < requiredQuantities[i])
+                return false;
+        }
+        return true;
     }
 }
