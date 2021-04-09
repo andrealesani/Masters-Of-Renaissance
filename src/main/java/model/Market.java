@@ -76,7 +76,20 @@ public class Market {
     }
 
     public void selectedResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
-        //TODO
+        int riga, col;
+
+        if(marketScope == MarketScope.ROW) {
+            riga = numScope;
+            for (int j = 0; j < 4; j++)
+                board[riga][j].addResourceFromMarket(playerBoard);
+        }
+
+        else if(marketScope == MarketScope.COLUMN) {
+            col = numScope;
+            for (int i = 0; i < 3; i++)
+                board[i][col].addResourceFromMarket(playerBoard);
+        }
+
     }
 
 
