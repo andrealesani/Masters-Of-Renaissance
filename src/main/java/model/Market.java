@@ -92,7 +92,35 @@ public class Market {
 
 
     private void shiftResources(MarketScope marketScope, int numScope) {
-        //TODO
-    }
+        int riga, col;
+        Resource temp, next;
 
+        if(marketScope == MarketScope.ROW) {
+            riga = numScope;
+            int j = 0;
+            temp = board[riga][j];
+            next = board[riga][j+1];
+            for(j = 1; j < 4; j++) {
+                board[riga][j-1] = next;
+                next = board[riga][j+1];
+            }
+            board[riga][j] = slideOrb;
+            slideOrb = temp;
+        }
+
+
+        else if(marketScope == MarketScope.COLUMN) {
+            col = numScope;
+            int i = 0;
+            temp = board[i][col];
+            next = board[i+1][col];
+            for(i = 1; i < 3; i++) {
+                board[i-1][col] = next;
+                next = board[i+1][col];
+            }
+            board[i][col] = slideOrb;
+            slideOrb = temp;
+        }
+
+    }
 }
