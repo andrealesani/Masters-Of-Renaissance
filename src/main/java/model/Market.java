@@ -66,11 +66,9 @@ public class Market {
     public Resource[][] getBoard() {
         return board;
     }
-
     public Resource getMarble(int row, int column) {
         return board[row][column];
     }
-
     public Resource getSlideOrb() {
         return slideOrb;
     }
