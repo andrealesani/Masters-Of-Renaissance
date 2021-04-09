@@ -1,18 +1,65 @@
 package model;
 
 import Exceptions.EmptyDeckException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import model.card.DevelopmentCard;
+import model.card.leadercard.DepotDecorator;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents what in the physical game is the grid that holds all the development cards still available for players to buy
  */
 public class CardTable {
-    private List<List<DevelopmentCard>> greenCards;
-    private List<List<DevelopmentCard>> blueCards;
+    private final List<List<DevelopmentCard>> greenCards;
+    private final List<List<DevelopmentCard>> blueCards;
     private List<List<DevelopmentCard>> yellowCards;
     private List<List<DevelopmentCard>> purpleCards;
+
+    public CardTable() {
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
+        }.getType();
+
+        // GREEN CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/GreenCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        greenCards = gson.fromJson(reader, DevCardArray);
+
+        // BLUE CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/BlueCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        blueCards = gson.fromJson(reader, DevCardArray);
+
+        // YELLOW CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/YellowCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        yellowCards = gson.fromJson(reader, DevCardArray);
+
+        // PURPLE CARDS
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/PurpleCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        purpleCards = gson.fromJson(reader, DevCardArray);
+    }
 
     /**
      * Transforms the input CardColor into the corresponding column of the CardTable
