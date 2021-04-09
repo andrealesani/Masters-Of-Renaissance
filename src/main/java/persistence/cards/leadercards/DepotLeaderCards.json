@@ -1,9 +1,30 @@
 [
   {
-    "victoryPoints": 10,
-    "requiredResource": "STONE",
-    "requiredQuantity": 1,
+    "victoryPoints": 3,
+    "requiredResource": "SHIELD",
+    "requiredQuantity": 5,
     "storableResource": "COIN",
+    "storableQuantity": 2
+  },
+  {
+    "victoryPoints": 3,
+    "requiredResource": "COIN",
+    "requiredQuantity": 5,
+    "storableResource": "STONE",
+    "storableQuantity": 2
+  },
+  {
+    "victoryPoints": 3,
+    "requiredResource": "SERVANT",
+    "requiredQuantity": 5,
+    "storableResource": "SHIELD",
+    "storableQuantity": 2
+  },
+  {
+    "victoryPoints": 3,
+    "requiredResource": "STONE",
+    "requiredQuantity": 5,
+    "storableResource": "SERVANT",
     "storableQuantity": 2
   }
 ]
