@@ -26,7 +26,7 @@ public class PlayerBoard {
     private final UnlimitedStorage strongbox;
     private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
     private final List<ResourceType> marbleConversions;
-    private final Map<Resource, Integer> discounts;
+    private final Map<ResourceType, Integer> discounts;
     private final List<List<DevelopmentCard>> cardSlots;
     private final List<LeaderCard> leaderCards;
     private final ProductionHandler productionHandler;
@@ -176,11 +176,11 @@ public class PlayerBoard {
      * Adds the specified discount to the discounts list so that the player can pay less
      * Resources when buying DevelopmentCards
      *
-     * @param resource specifies the Resource affected by the discount
+     * @param resourceType specifies the Resource affected by the discount
      * @param discount specifies the amount of Resources discounted
      */
-    public void addDiscount(Resource resource, int discount) {
-        discounts.put(resource, discount);
+    public void addDiscount(ResourceType resourceType, int discount) {
+        discounts.put(resourceType, discount);
     }
 
     /**
