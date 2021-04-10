@@ -3,14 +3,11 @@ package model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import model.card.Card;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;
-import model.resource.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +23,7 @@ public class Game {
     private final List<PlayerBoard> playersTurnOrder;
     private PlayerBoard currentPlayer;
     private final Lorenzo lorenzo;
+    private int lastTriggeredTile;
 
     /**
      * Constructor
@@ -36,9 +34,15 @@ public class Game {
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = new Lorenzo();
+        lastTriggeredTile = 0;
+
 
         for (String nickname : nicknames) {
-            playersTurnOrder.add(new PlayerBoard(this, nickname));
+            List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
+            popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
+            popeFavorTiles.add(new PopeFavorTile(3, 16, 5));
+            popeFavorTiles.add(new PopeFavorTile(4, 24, 6));
+            playersTurnOrder.add(new PlayerBoard(this, nickname, 3, popeFavorTiles));
         }
         assignInkwell();
         currentPlayer = playersTurnOrder.get(0);
@@ -132,17 +136,17 @@ public class Game {
      * This method is called when a player's move makes all other players increase their faith
      * (for example when discarding resources)
      *
-     * @param i number of faith points to add
+     * @param quantity number of faith points to add
      */
-    private void faithIncreaseAll(int i) {
+    private void faithIncreaseAll(int quantity) {
         for (PlayerBoard playerBoard : playersTurnOrder) {
             if (!playerBoard.equals(getCurrentPlayer())) {
-                for (int j = 0; j < i; j++) {
-                    playerBoard.faithIncrease();
-                }
+                playerBoard.increaseFaith(quantity);
             }
         }
     }
+
+
 
     /**
      * Getter
@@ -168,14 +172,33 @@ public class Game {
         //TODO
     }
 
-    public void checkPopeFavor() {
-        //TODO
-    }
-
     //se solo mode attivare Lorenzo
     //controllare se il gioco è finito (sia solo mode sia multiplayer)
     //se il gioco non è finito e partita è multiplayer cambiare currentPlayer
     public void endCurrentTurn() {
-        //TODO
+        //if SOLO MODE
+        //...
+        //else if MULTIPLAYER
+        int leftoverResources = currentPlayer.leftInWaitingRoom();
+        int newTriggeredTile = 0;
+
+        if (leftoverResources != 0) {
+            faithIncreaseAll(leftoverResources);
+            currentPlayer.clearWaitingRoom();
+            for (PlayerBoard player : playersTurnOrder) {
+                if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
+                    newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
+                }
+            }
+        } else {
+            newTriggeredTile = currentPlayer.getNewTriggeredTile(lastTriggeredTile);
+        }
+
+        if (newTriggeredTile > lastTriggeredTile) {
+            for (PlayerBoard player : playersTurnOrder) {
+                player.theVaticanReport(newTriggeredTile, lastTriggeredTile);
+            }
+            lastTriggeredTile = newTriggeredTile;
+        }
     }
 }

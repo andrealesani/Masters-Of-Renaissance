@@ -1,14 +1,12 @@
 package model;
 
 import Exceptions.*;
-import com.google.gson.Gson;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
-import model.storage.ResourceStash;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
-
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +19,11 @@ import java.util.Map;
 public class PlayerBoard {
     private final Game game;
     private final String username;
-    private final List<PopeTileState> popeFavorTiles;
+    private final List<PopeFavorTile> popeFavorTiles;
     private final Warehouse warehouse;
     private final UnlimitedStorage strongbox;
-    private final UnlimitedStorage waitingRoom = new UnlimitedStorage();
+    private final UnlimitedStorage waitingRoom;
+    private int whiteMarbleNum = 0;
     private final List<ResourceType> marbleConversions;
     private final Map<ResourceType, Integer> discounts;
     private final List<List<DevelopmentCard>> cardSlots;
@@ -39,12 +38,13 @@ public class PlayerBoard {
      * @param game     reference to the game the player is playing
      * @param username nickname that the player chose in the lobby
      */
-    public PlayerBoard(Game game, String username) {
+    public PlayerBoard(Game game, String username, int numOfDepots, List<PopeFavorTile> popeFavorTiles) {
         this.game = game;
         this.username = username;
         faith = 0;
-        popeFavorTiles = new ArrayList<>();
-        warehouse = new Warehouse(3);
+        this.popeFavorTiles = popeFavorTiles;
+        warehouse = new Warehouse(numOfDepots);
+        waitingRoom = new UnlimitedStorage();
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
@@ -54,7 +54,7 @@ public class PlayerBoard {
     }
 
     /**
-     * Getter
+     * Getter for the player's warehouse
      *
      * @return - returns the player's warehouse
      */
@@ -72,14 +72,53 @@ public class PlayerBoard {
         waitingRoom.addResource(resource, quantity);
     }
 
+    public void swapDepotContent (int depotNumber1, int depotNumber2) throws ParametersNotValidException, SwapNotValidException, DepotNotPresentException {
+        warehouse.swapDepotContent(depotNumber1, depotNumber2);
+    }
+
+    /**
+     * Adds the given amount of the given resource to the strongbox
+     * @param resource the resource to be added
+     * @param quantity the amount of the resource to add
+     */
+    public void addResourceToStrongbox(ResourceType resource, int quantity) {
+        strongbox.addResource(resource, quantity);
+    }
+
+    public void takeResourceFromWarehouse (int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
+        int debt = productionHandler.getDebt(resource);
+        if (quantity>debt) {
+            quantity=debt;
+        }
+        warehouse.removeFromDepot(depotNumber, resource.getType(), quantity);
+        try {
+            productionHandler.takeResource(this, resource, quantity);
+        } catch (ResourceNotPresentException ex) {
+
+        }
+    }
+
+    public void takeResourceFromStrongbox (Resource resource, int quantity) throws NotEnoughResourceException {
+        int debt = productionHandler.getDebt(resource);
+        if (quantity>debt) {
+            quantity=debt;
+        }
+        strongbox.removeResource(resource.getType(), quantity);
+        try {
+            productionHandler.takeResource(this, resource, quantity);
+        } catch (ResourceNotPresentException ex) {
+            //This should never happen
+        }
+    }
+
     /**
      * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
      */
     public void addWhiteMarble() {
         if (marbleConversions.size() == 1) {
             waitingRoom.addResource(marbleConversions.get(0), 1);
-        } else if (marbleConversions.size() > 1) {
-            waitingRoom.addResource(ResourceType.WHITEORB, 1);
+        } else if (marbleConversions.size()>1) {
+            whiteMarbleNum++;
         }
     }
 
@@ -103,16 +142,68 @@ public class PlayerBoard {
      *
      * @param resource the resource into which to convert the white orb
      * @param quantity the amount of white orbs to convert
+<<<<<<< Updated upstream
      * @throws ResourceNotPresentException     if there are no white orbs in the waiting room
      * @throws NotEnoughResourceException      if there are less white orbs in the waiting room than the amount to be converted
+=======
+<<<<<<< HEAD
+     * @throws NotEnoughResourceException if there are less white orbs in the waiting room than the amount to be converted
+=======
+     * @throws ResourceNotPresentException     if there are no white orbs in the waiting room
+     * @throws NotEnoughResourceException      if there are less white orbs in the waiting room than the amount to be converted
+>>>>>>> 9f4f30bb7bf7e044c5e2434687eb738d222118d2
+>>>>>>> Stashed changes
      * @throws ConversionNotAvailableException if the conversion to the given resource is not available
      */
-    public void chooseMarbleConversion(ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException, ConversionNotAvailableException {
+    public void chooseMarbleConversion(ResourceType resource, int quantity) throws NotEnoughResourceException, ConversionNotAvailableException {
         if (!marbleConversions.contains(resource)) {
             throw new ConversionNotAvailableException();
         }
-        waitingRoom.removeResource(ResourceType.WHITEORB, quantity);
+        int newQuantity = whiteMarbleNum - quantity;
+        if (newQuantity < 0) {
+            throw new NotEnoughResourceException();
+        }
         waitingRoom.addResource(resource, quantity);
+        whiteMarbleNum = newQuantity;
+    }
+
+    /**
+     * @param resource specifies the Resource type to count
+     * @return returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
+     */
+    public int getNumOfResource(ResourceType resource) {
+        int sum = 0;
+        sum += warehouse.getNumOfResource(resource);
+        sum += strongbox.getNumOfResource(resource);
+        return sum;
+    }
+
+
+    /**
+     * Increases the player's faith by the given amount
+     */
+
+    public void increaseFaith(int quantity) {
+        faith += quantity;
+    }
+
+    public int getNewTriggeredTile(int lastTriggeredTile) {
+        int newTriggeredTile = 0;
+        for (int tileNumber = lastTriggeredTile; tileNumber<=popeFavorTiles.size(); tileNumber++) {
+            if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
+                newTriggeredTile = tileNumber;
+            }
+        }
+        return newTriggeredTile;
+    }
+
+    /**
+     * The vatican will never be the same again
+     */
+    public void theVaticanReport(int newTriggeredTile, int lastTriggeredTile) {
+        for (int tileNumber = lastTriggeredTile; tileNumber<=newTriggeredTile; tileNumber++) {
+                popeFavorTiles.get(tileNumber).checkActivation(faith);
+        }
     }
 
     /**
@@ -123,16 +214,6 @@ public class PlayerBoard {
      */
     public void addDevelopmentCard(int slot, DevelopmentCard developmentCard) {
         cardSlots.get(slot).add(developmentCard);
-    }
-
-    /**
-     * Adds the given amount of the given resource to the strongbox
-     *
-     * @param resource the resource to be added
-     * @param quantity the amount of the resource to add
-     */
-    public void addResourceToStrongbox(ResourceType resource, int quantity) {
-        strongbox.addResource(resource, quantity);
     }
 
     /**
@@ -194,27 +275,7 @@ public class PlayerBoard {
      */
     public void discardLeaderCard(int i) {
         leaderCards.remove(i);
-        faithIncrease();
-    }
-
-    /**
-     * Increases the player's faith by one point
-     */
-    public void faithIncrease() {
-        faith++;
-    }
-
-    public void theVaticanReport() {
-        //TODO
-    }
-
-    /**
-     * @param resource specifies the Resource type to count
-     * @return returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
-     */
-    public int getNumOfResource(ResourceType resource) {
-        //TODO
-        return 0;
+        increaseFaith(1);
     }
 
     /**
@@ -259,6 +320,7 @@ public class PlayerBoard {
         for (ResourceType resource : leftovers) {
             sum += waitingRoom.getNumOfResource(resource);
         }
+        sum += whiteMarbleNum;
         return sum;
     }
 

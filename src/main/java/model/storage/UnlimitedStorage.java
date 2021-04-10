@@ -32,13 +32,12 @@ public class UnlimitedStorage implements ResourceStash{
      Remove a certain amount of the given resource from storage
      * @param resource - the resource to be decreased in quantity
      * @param quantity - the amount of resource to remove from the amount stored
-     * @throws ResourceNotPresentException - if the given resource is not present in storage
-     * @throws NotEnoughResourceException - if the given resource is present in storage in fewer quantity than the amount to be deleted
+     * @throws NotEnoughResourceException - if the given resource is not present in the storage in the amount to be deleted
      */
     @Override
-    public void removeResource (ResourceType resource, int quantity) throws ResourceNotPresentException, NotEnoughResourceException {
+    public void removeResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
         if (!storageContent.containsKey(resource)) {
-            throw new ResourceNotPresentException();
+            throw new NotEnoughResourceException();
         }
         int newQuantity = storageContent.get(resource) - quantity;
 

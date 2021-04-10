@@ -180,6 +180,16 @@ public class ProductionHandler {
         return true;
     }
 
+    public int getDebt(Resource resource) {
+        int sum = 0;
+        for (Resource debt : currentInput) {
+            if (debt.equals(resource)) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
     /**
      * Removes a Resource from currentInput list when that Resource has been taken from the player's stashes (the method is called from the PlayerBoard).
      * If currentInput is empty this means that all input Resources have been paid.

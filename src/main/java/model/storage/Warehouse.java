@@ -65,10 +65,9 @@ public class Warehouse {
      * @param resource - the resource to be removed
      * @param quantity - the quantity of the resource to remove
      * @throws DepotNotPresentException - if the number of the target depot does not correspond to any depot in the warehouse
-     * @throws ResourceNotPresentException - if the given resource is not present in the target depot
-     * @throws NotEnoughResourceException - if the given resource is present in the target depot in fewer quantity than the amount to be deleted
+     * @throws NotEnoughResourceException - if the given resource is not present in the target depot in the amount to be deleted
      */
-    public void removeFromDepot (int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, ResourceNotPresentException, NotEnoughResourceException {
+    public void removeFromDepot (int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException {
         if (depotNumber<1 || depotNumber>depots.size()) {
             throw new DepotNotPresentException();
         }
@@ -80,15 +79,15 @@ public class Warehouse {
      * @param depotNumber1 the number of the first depot
      * @param depotNumber2 the number of the second depot
      * @throws DepotNotPresentException if one of the depot numbers given does not correspond with any depot
-     * @throws SameDepotException if the two inputs are the same number
+     * @throws ParametersNotValidException if the two inputs are the same number or below 1
      * @throws SwapNotValidException if the content of one or both of the depots cannot be transferred to the other
      */
-    public void swapDepotContent (int depotNumber1, int depotNumber2) throws DepotNotPresentException, SameDepotException, SwapNotValidException {
-        if (depotNumber1==depotNumber2) {
-            throw new SameDepotException();
+    public void swapDepotContent (int depotNumber1, int depotNumber2) throws DepotNotPresentException, ParametersNotValidException, SwapNotValidException {
+        if (depotNumber1<1 || depotNumber2<1 || depotNumber1==depotNumber2) {
+            throw new ParametersNotValidException();
         }
 
-        if (depotNumber1<1 || depotNumber1>depots.size() || depotNumber2<1 || depotNumber2>depots.size()) {
+        if (depotNumber1>depots.size() || depotNumber2>depots.size()) {
             throw new DepotNotPresentException();
         }
 

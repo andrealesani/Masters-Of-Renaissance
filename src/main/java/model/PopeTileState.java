@@ -1,5 +1,5 @@
 package model;
 
 public enum PopeTileState {
-    DORMANT, ACTIVATED, DISCARDED;
+    INACTIVE, ACTIVE, DISCARDED;
 }

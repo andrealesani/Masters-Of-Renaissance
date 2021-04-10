@@ -30,7 +30,7 @@ class UnlimitedStorageTest {
         stash.addResource(ResourceType.SHIELD, 3);
         try {
             stash.removeResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughResourceException | ResourceNotPresentException ex) {
+        } catch (NotEnoughResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }

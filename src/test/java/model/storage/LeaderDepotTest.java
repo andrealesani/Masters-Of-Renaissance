@@ -85,7 +85,7 @@ class LeaderDepotTest {
         }
         try {
             stash.removeResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughResourceException | ResourceNotPresentException ex) {
+        } catch (NotEnoughResourceException ex) {
             System.out.println(ex.getMessage());
             fail();
         }
