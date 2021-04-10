@@ -1,7 +1,6 @@
 package model.storage;
 
 import Exceptions.NotEnoughResourceException;
-import Exceptions.ResourceNotPresentException;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UnlimitedStorage implements ResourceStash{
+public class UnlimitedStorage implements ResourceStash {
     /**
      * Data structure used to map each stored resource with the amount stored
      */
@@ -17,10 +16,11 @@ public class UnlimitedStorage implements ResourceStash{
 
     /**
      * Adds the given resource to the storage
-     * @param resource - the resource to be added
-     * @param quantity - the amount of resource to add to the amount stored
+     *
+     * @param resource the resource to be added
+     * @param quantity the amount of resource to add to the amount stored
      */
-    public void addResource (ResourceType resource, int quantity){
+    public void addResource(ResourceType resource, int quantity) {
         if (!storageContent.containsKey(resource)) {
             storageContent.put(resource, quantity);
         } else {
@@ -29,13 +29,14 @@ public class UnlimitedStorage implements ResourceStash{
     }
 
     /**
-     Remove a certain amount of the given resource from storage
-     * @param resource - the resource to be decreased in quantity
-     * @param quantity - the amount of resource to remove from the amount stored
+     * Remove a certain amount of the given resource from storage
+     *
+     * @param resource the resource to be decreased in quantity
+     * @param quantity the amount of resource to remove from the amount stored
      * @throws NotEnoughResourceException - if the given resource is not present in the storage in the amount to be deleted
      */
     @Override
-    public void removeResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
+    public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
         if (!storageContent.containsKey(resource)) {
             throw new NotEnoughResourceException();
         }
@@ -52,11 +53,12 @@ public class UnlimitedStorage implements ResourceStash{
 
     /**
      * Returns the stored amount of the given resource
-     * @param resource - the resource the amount of which is asked
+     *
+     * @param resource the resource the amount of which is asked
      * @return the amount of the given resource contained in storage
      */
     @Override
-    public int getNumOfResource (ResourceType resource) {
+    public int getNumOfResource(ResourceType resource) {
         if (storageContent.containsKey(resource)) {
             return storageContent.get(resource);
         }
@@ -65,10 +67,11 @@ public class UnlimitedStorage implements ResourceStash{
 
     /**
      * Returns the resources stored in storage
+     *
      * @return a List of the stored resources
      */
     @Override
-    public List<ResourceType> getStoredResources () {
+    public List<ResourceType> getStoredResources() {
         return new ArrayList<>(storageContent.keySet());
     }
 

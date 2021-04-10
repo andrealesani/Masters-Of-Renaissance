@@ -30,7 +30,9 @@ public class BasicDepot implements ResourceDepot {
 
     /**
      * The class constructor
-     * @param size - the maximum number of resources the depot can contain
+     *
+     * @param warehouse the warehouse that holds the depot
+     * @param size      the maximum number of resources the depot can contain
      */
     public BasicDepot(Warehouse warehouse, int size) {
         this.warehouse = warehouse;
@@ -39,15 +41,16 @@ public class BasicDepot implements ResourceDepot {
 
     /**
      * Adds the given resource to the storage
-     * @param resource - the resource to be added
-     * @param quantity - the amount of resource to add to the amount stored
-     * @throws WrongResourceTypeException - if the type of the resource to be added cannot (currently) be added to the storage
-     * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
-     * @throws BlockedResourceException - if the resource is being blocked by a different depot
+     *
+     * @param resource the resource to be added
+     * @param quantity the amount of resource to add to the amount stored
+     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the storage
+     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException   if the resource is being blocked by a different depot
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
-        if (amount==0) {
+        if (amount == 0) {
             List<ResourceDepot> exclusions = new ArrayList<>();
             exclusions.add(this);
             if (warehouse.isResourceBlocked(resource, exclusions)) {
@@ -56,25 +59,26 @@ public class BasicDepot implements ResourceDepot {
             amount = quantity;
             storedResource = resource;
         } else {
-            if (resource!=storedResource) {
+            if (resource != storedResource) {
                 throw new WrongResourceTypeException();
             }
             int newQuantity = amount + quantity;
-            if (newQuantity>size) {
+            if (newQuantity > size) {
                 throw new NotEnoughSpaceException();
             }
-            amount=newQuantity;
+            amount = newQuantity;
         }
 
     }
 
     /**
      * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
+     *
      * @param depot the depot the contents of which need to be stored
      * @return true if the given resource and amount could be contained in the depot
      */
     @Override
-    public boolean canHoldContentOf (ResourceDepot depot){
+    public boolean canHoldContentOf(ResourceDepot depot) {
         ResourceType depotResource = depot.getStoredResources().get(0);
         List<ResourceDepot> exclusions = new ArrayList<>();
         exclusions.add(this);
@@ -83,28 +87,30 @@ public class BasicDepot implements ResourceDepot {
             return false;
         }
         int depotQuantity = depot.getNumOfResource(depotResource);
-        return depotQuantity<=size;
+        return depotQuantity <= size;
     }
 
     /**
      * Returns whether or not the depot is blocking a certain resource, meaning that no other depot of the basic type can contain it
-     * @param resource - the resource that might be blocked
+     *
+     * @param resource the resource that might be blocked
      * @return true if the given resource is blocked by this depot
      */
     @Override
-    public boolean isBlocking (ResourceType resource){
-        if (amount==0) {
+    public boolean isBlocking(ResourceType resource) {
+        if (amount == 0) {
             return false;
         }
-        return resource==storedResource;
+        return resource == storedResource;
     }
 
     /**
      * Returns the maximum number of resources that can be stored in the depot
+     *
      * @return the size of the depot
      */
     @Override
-    public int getSize () {
+    public int getSize() {
         return size;
     }
 
@@ -112,27 +118,28 @@ public class BasicDepot implements ResourceDepot {
      * Empties the depot of its entire content
      */
     @Override
-    public void clear(){
-        amount=0;
-        storedResource=null;
+    public void clear() {
+        amount = 0;
+        storedResource = null;
     }
 
     /**
-     Remove a certain amount of the given resource from storage
-     * @param resource - the resource to be decreased in quantity
-     * @param quantity - the amount of resource to remove from the amount stored
-     * @throws NotEnoughResourceException - if the given resource is present in storage in fewer quantity than the amount to be deleted
+     * Remove a certain amount of the given resource from storage
+     *
+     * @param resource the resource to be decreased in quantity
+     * @param quantity the amount of resource to remove from the amount stored
+     * @throws NotEnoughResourceException if the given resource is present in storage in fewer quantity than the amount to be deleted
      */
     @Override
-    public void removeResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (amount==0 || resource!=storedResource) {
+    public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
+        if (amount == 0 || resource != storedResource) {
             throw new NotEnoughResourceException();
         }
         int newQuantity = amount - quantity;
-        if (newQuantity<0) {
+        if (newQuantity < 0) {
             throw new NotEnoughResourceException();
         } else {
-            if (newQuantity==0) {
+            if (newQuantity == 0) {
                 storedResource = null;
             }
             amount = newQuantity;
@@ -141,12 +148,13 @@ public class BasicDepot implements ResourceDepot {
 
     /**
      * Returns the stored amount of the given resource
-     * @param resource - the resource the amount of which is asked
-     * @return The amount of the given resource contained in storage
+     *
+     * @param resource the resource the amount of which is asked
+     * @return the amount of the given resource contained in storage
      */
     @Override
-    public int getNumOfResource (ResourceType resource) {
-        if (amount!=0 && resource==storedResource) {
+    public int getNumOfResource(ResourceType resource) {
+        if (amount != 0 && resource == storedResource) {
             return amount;
         }
         return 0;
@@ -154,12 +162,13 @@ public class BasicDepot implements ResourceDepot {
 
     /**
      * Returns the resources stored in storage
-     * @return A List of the stored resource types (if there are no resources in storage, the list is empty)
+     *
+     * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
     @Override
-    public List<ResourceType> getStoredResources () {
+    public List<ResourceType> getStoredResources() {
         List<ResourceType> resourceList = new ArrayList<>();
-        if (amount>0) resourceList.add(storedResource);
+        if (amount > 0) resourceList.add(storedResource);
         return resourceList;
     }
 }

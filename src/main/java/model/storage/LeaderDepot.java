@@ -26,7 +26,9 @@ public class LeaderDepot implements ResourceDepot {
 
     /**
      * The class constructor
-     * @param size - the maximum number of resources the depot can contain
+     *
+     * @param size     the maximum number of resources the depot can contain
+     * @param resource the only type of resource the depot can contain
      */
     public LeaderDepot(int size, ResourceType resource) {
         this.size = size;
@@ -35,18 +37,19 @@ public class LeaderDepot implements ResourceDepot {
 
     /**
      * Adds the given resource to storageContent
-     * @param resource - the resource to be added
-     * @param quantity - the amount of resource to add to the amount stored
-     * @throws WrongResourceTypeException - if the resource is not the kind accepted by this depot
-     * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
-     * @throws BlockedResourceException - under no circumstance, because this type of depot is not affected by resource blocking
+     *
+     * @param resource the resource to be added
+     * @param quantity the amount of resource to add to the amount stored
+     * @throws WrongResourceTypeException if the resource is not the kind accepted by this depot
+     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException   under no circumstance, because this type of depot is not affected by resource blocking
      */
-    public void addResource (ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
-        if (resource!=acceptedResource) {
+    public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
+        if (resource != acceptedResource) {
             throw new WrongResourceTypeException();
         }
         int newQuantity = quantity + amount;
-        if (newQuantity>size) {
+        if (newQuantity > size) {
             throw new NotEnoughSpaceException();
         }
         amount = newQuantity;
@@ -54,11 +57,12 @@ public class LeaderDepot implements ResourceDepot {
 
     /**
      * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
+     *
      * @param depot the depot the contents of which need to be stored
      * @return true if the given resource and amount could be contained in the depot
      */
     @Override
-    public boolean canHoldContentOf (ResourceDepot depot){
+    public boolean canHoldContentOf(ResourceDepot depot) {
         ResourceType depotResource = depot.getStoredResources().get(0);
         int depotQuantity = depot.getNumOfResource(depotResource);
         return depotResource == acceptedResource && depotQuantity <= size;
@@ -66,20 +70,22 @@ public class LeaderDepot implements ResourceDepot {
 
     /**
      * Returns false at all times, as this type of depot can never block a resource
-     * @param resource - the resource that might be blocked
+     *
+     * @param resource the resource that might be blocked
      * @return false
      */
     @Override
-    public boolean isBlocking (ResourceType resource){
+    public boolean isBlocking(ResourceType resource) {
         return false;
     }
 
     /**
      * Returns the maximum number of resources that can be stored in the depot
+     *
      * @return the size of the depot
      */
     @Override
-    public int getSize () {
+    public int getSize() {
         return size;
     }
 
@@ -87,36 +93,37 @@ public class LeaderDepot implements ResourceDepot {
      * Empties the depot of its entire content
      */
     @Override
-    public void clear(){
+    public void clear() {
         amount = 0;
     }
 
     /**
-     Remove a certain amount of the given resource from storage
-     * @param resource - the resource to be decreased in quantity
-     * @param quantity - the amount of resource to remove from the amount stored
-     * @throws NotEnoughResourceException - if the given resource is not present in the storage in the amount to be deleted
+     * Remove a certain amount of the given resource from storage
+     *
+     * @param resource the resource to be decreased in quantity
+     * @param quantity the amount of resource to remove from the amount stored
      */
     @Override
-    public void removeResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (resource!=acceptedResource) {
+    public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
+        if (resource != acceptedResource) {
             throw new NotEnoughResourceException();
         }
         int newQuantity = amount - quantity;
-        if (newQuantity<0) {
+        if (newQuantity < 0) {
             throw new NotEnoughResourceException();
         }
-        amount=newQuantity;
+        amount = newQuantity;
     }
 
     /**
      * Returns the stored amount of the given resource
-     * @param resource - the resource the amount of which is asked
-     * @return The amount of the given resource contained in storage
+     *
+     * @param resource the resource the amount of which is asked
+     * @return the amount of the given resource contained in storage
      */
     @Override
-    public int getNumOfResource (ResourceType resource) {
-        if (resource==acceptedResource) {
+    public int getNumOfResource(ResourceType resource) {
+        if (resource == acceptedResource) {
             return amount;
         }
         return 0;
@@ -124,12 +131,13 @@ public class LeaderDepot implements ResourceDepot {
 
     /**
      * Returns the resources stored in storage
-     * @return A List of the stored resource types (if there are no resources in storage, the list is empty)
+     *
+     * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
     @Override
-    public List<ResourceType> getStoredResources () {
+    public List<ResourceType> getStoredResources() {
         List<ResourceType> resourceList = new ArrayList<>();
-        if (amount>0) resourceList.add(acceptedResource);
+        if (amount > 0) resourceList.add(acceptedResource);
         return resourceList;
     }
 }

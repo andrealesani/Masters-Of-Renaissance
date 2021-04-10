@@ -12,31 +12,35 @@ import model.ResourceType;
 public interface ResourceDepot extends ResourceStash {
     /**
      * Adds the given resource to the storage
-     * @param resource - the resource to be added
-     * @param quantity - the amount of resource to add to the amount stored
-     * @throws WrongResourceTypeException - if the type of the resource to be added cannot (currently) be added to the storage
-     * @throws NotEnoughSpaceException - if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
-     * @throws BlockedResourceException - if the depot is affected by resource blocking and the resource is being blocked by a different depot
+     *
+     * @param resource the resource to be added
+     * @param quantity the amount of resource to add to the amount stored
+     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the storage
+     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
      */
-    void addResource (ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException;
+    void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException;
 
     /**
      * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
+     *
      * @param depot the depot the contents of which need to be stored
      * @return true if the given resource and amount could be contained in the depot
      */
-    boolean canHoldContentOf (ResourceDepot depot);
+    boolean canHoldContentOf(ResourceDepot depot);
 
     /**
      * Returns whether or not the depot is blocking a certain resource, meaning that no other depot of the basic type can contain it
-     * @param resource - the resource that might be blocked
+     *
+     * @param resource the resource that might be blocked
      * @return true if the given resource is blocked by this depot
      */
-    boolean isBlocking (ResourceType resource);
+    boolean isBlocking(ResourceType resource);
 
     /**
      * Returns the maximum number of resources that can be stored in the depot
+     *
      * @return the size of the depot
      */
-    int getSize ();
+    int getSize();
 }
