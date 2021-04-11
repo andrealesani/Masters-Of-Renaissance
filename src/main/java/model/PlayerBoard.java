@@ -6,7 +6,7 @@ import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
-import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,29 +14,70 @@ import java.util.Map;
 
 /**
  * This class represents one single physical game player board. It holds all the information about a player's status
- * during the game.
+ * during the game, and has methods for executing many of the users actions.
  */
 public class PlayerBoard {
+    /**
+     * Attribute used to store the game to which the player belongs
+     */
     private final Game game;
+    /**
+     * Attribute used to store the player's username
+     */
     private final String username;
+    /**
+     * List used to store the player's pope's favor tiles
+     */
     private final List<PopeFavorTile> popeFavorTiles;
+    /**
+     * Attribute used to store the player's warehouse, with all of its accessible depots
+     */
     private final Warehouse warehouse;
-    private final UnlimitedStorage strongbox;
-    private final UnlimitedStorage waitingRoom;
-    private int whiteMarbleNum = 0;
-    private final List<ResourceType> marbleConversions;
-    private final Map<ResourceType, Integer> discounts;
-    private final List<List<DevelopmentCard>> cardSlots;
-    private final List<LeaderCard> leaderCards;
+    /**
+     * Attribute used to store the player's production handler, an object use to store and activate available productions
+     */
     private final ProductionHandler productionHandler;
+    /**
+     * Attribute used to store the player's strongbox
+     */
+    private final UnlimitedStorage strongbox;
+    /**
+     * Attribute used to store the player's resource waiting room, a temporary storage for resources obtained from the market for which they haven't yet chosen a final storage location
+     */
+    private final UnlimitedStorage waitingRoom;
+    /**
+     * Attribute used to store the number of white marbles obtained from the market for which the player still has to choose a conversion
+     */
+
+    private int whiteMarbleNum = 0;
+    /**
+     * Attribute used to store the player's faith score
+     */
     private int faith;
-    private boolean productionsAreConfirmed;
+    /**
+     * List used to store all of the conversions for white marbles available to the player
+     */
+    private final List<ResourceType> marbleConversions;
+    /**
+     * Data structure used to map each resource for which the player has access to a discount, to the value of the corresponding discount
+     */
+    private final Map<ResourceType, Integer> discounts;
+    /**
+     * List used to store the player's slots for development cards, represented each as a list of development cards
+     */
+    private final List<List<DevelopmentCard>> cardSlots;
+    /**
+     * List used to store the player's available leader cards
+     */
+    private final List<LeaderCard> leaderCards;
 
     /**
-     * Constructor
+     * The class constructor
      *
-     * @param game     reference to the game the player is playing
-     * @param username nickname that the player chose in the lobby
+     * @param game           reference to the game the player is playing
+     * @param username       nickname that the player chose in the lobby
+     * @param numOfDepots    the number of basic depots to be instantiated in the warehouse
+     * @param popeFavorTiles a List of the player's pope's favor tiles
      */
     public PlayerBoard(Game game, String username, int numOfDepots, List<PopeFavorTile> popeFavorTiles) {
         this.game = game;
@@ -56,14 +97,14 @@ public class PlayerBoard {
     /**
      * Getter for the player's warehouse
      *
-     * @return - returns the player's warehouse
+     * @return returns the player's warehouse
      */
     public Warehouse getWarehouse() {
         return warehouse;
     }
 
     /**
-     * Temporarily stores the given amount of the given resource in the waiting room
+     * Temporarily stores the given amount of the given resource in the waiting room, so that the player may decide in which depot to place it
      *
      * @param resource the resource to be added
      * @param quantity the amount of resource to add
@@ -72,12 +113,22 @@ public class PlayerBoard {
         waitingRoom.addResource(resource, quantity);
     }
 
-    public void swapDepotContent (int depotNumber1, int depotNumber2) throws ParametersNotValidException, SwapNotValidException, DepotNotPresentException {
+    /**
+     * Swaps the contents of two warehouse depots
+     *
+     * @param depotNumber1 the number of the first depot
+     * @param depotNumber2 the number of the second depot
+     * @throws DepotNotPresentException    if one of the depot numbers given does not correspond with any depot
+     * @throws ParametersNotValidException if the two inputs are the same number or below 1
+     * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
+     */
+    public void swapDepotContent(int depotNumber1, int depotNumber2) throws ParametersNotValidException, SwapNotValidException, DepotNotPresentException {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
     }
 
     /**
      * Adds the given amount of the given resource to the strongbox
+     *
      * @param resource the resource to be added
      * @param quantity the amount of the resource to add
      */
@@ -85,10 +136,20 @@ public class PlayerBoard {
         strongbox.addResource(resource, quantity);
     }
 
-    public void takeResourceFromWarehouse (int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
+    /**
+     * Removes the given amount of the given resource from the given depot, as part of the player's choice of where to take resources to pay for the cost of their productions.
+     * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
+     *
+     * @param depotNumber the number of the depot from which to remove the resource
+     * @param resource    the resource to remove
+     * @param quantity    the amount of resource to remove
+     * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
+     * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
+     */
+    public void takeResourceFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
         int debt = productionHandler.getDebt(resource);
-        if (quantity>debt) {
-            quantity=debt;
+        if (quantity > debt) {
+            quantity = debt;
         }
         warehouse.removeFromDepot(depotNumber, resource.getType(), quantity);
         try {
@@ -98,16 +159,25 @@ public class PlayerBoard {
         }
     }
 
-    public void takeResourceFromStrongbox (Resource resource, int quantity) throws NotEnoughResourceException {
+    /**
+     * Removes the given amount of the given resource from the player's strongbox, as part of the player's choice of where to take resources to pay for the cost of their productions.
+     * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
+     *
+     * @param resource the resource to remove
+     * @param quantity the amount of resource to remove
+     * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
+     */
+    public void takeResourceFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException {
         int debt = productionHandler.getDebt(resource);
-        if (quantity>debt) {
-            quantity=debt;
+        if (quantity > debt) {
+            quantity = debt;
         }
         strongbox.removeResource(resource.getType(), quantity);
         try {
             productionHandler.takeResource(this, resource, quantity);
         } catch (ResourceNotPresentException ex) {
             //This should never happen
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -117,7 +187,7 @@ public class PlayerBoard {
     public void addWhiteMarble() {
         if (marbleConversions.size() == 1) {
             waitingRoom.addResource(marbleConversions.get(0), 1);
-        } else if (marbleConversions.size()>1) {
+        } else if (marbleConversions.size() > 1) {
             whiteMarbleNum++;
         }
     }
@@ -138,21 +208,11 @@ public class PlayerBoard {
     }
 
     /**
-     * Converts the given amount of white orbs in waiting room into the given resource from the available marble conversions
+     * Converts the given amount of white orbs, from the amount waiting to be converted, into the given resource from the available marble conversions
      *
      * @param resource the resource into which to convert the white orb
      * @param quantity the amount of white orbs to convert
-<<<<<<< Updated upstream
-     * @throws ResourceNotPresentException     if there are no white orbs in the waiting room
      * @throws NotEnoughResourceException      if there are less white orbs in the waiting room than the amount to be converted
-=======
-<<<<<<< HEAD
-     * @throws NotEnoughResourceException if there are less white orbs in the waiting room than the amount to be converted
-=======
-     * @throws ResourceNotPresentException     if there are no white orbs in the waiting room
-     * @throws NotEnoughResourceException      if there are less white orbs in the waiting room than the amount to be converted
->>>>>>> 9f4f30bb7bf7e044c5e2434687eb738d222118d2
->>>>>>> Stashed changes
      * @throws ConversionNotAvailableException if the conversion to the given resource is not available
      */
     public void chooseMarbleConversion(ResourceType resource, int quantity) throws NotEnoughResourceException, ConversionNotAvailableException {
@@ -168,8 +228,10 @@ public class PlayerBoard {
     }
 
     /**
+     * Returns the amount of the given resource present in total in the player's storage
+     *
      * @param resource specifies the Resource type to count
-     * @return returns the total amount of the player's Resources distributed both in his strongbox and his warehouse
+     * @return returns the total amount of the player's resource available both in his strongbox and his warehouse
      */
     public int getNumOfResource(ResourceType resource) {
         int sum = 0;
@@ -178,31 +240,45 @@ public class PlayerBoard {
         return sum;
     }
 
-
     /**
-     * Increases the player's faith by the given amount
+     * Increases the player's faith score by the given amount
+     *
+     * @param quantity the amount by which to increase the player's faith
      */
-
     public void increaseFaith(int quantity) {
         faith += quantity;
     }
 
+    /**
+     * Checks the player's pope's favor tiles, starting from the one with the highest index to not have yet been triggered up until last turn.
+     * A tile is considered 'triggered' once a player's faith score has reached or surpassed the tile's faith score.
+     * Returns the tile with the highest index to have been triggered by the player during this turn (might be the same as the last)
+     *
+     * @param lastTriggeredTile the index of the tile the with the highest index that has been triggered (before this turn)
+     * @return the index of the tile the with the highest index that has been triggered (during this turn)
+     */
     public int getNewTriggeredTile(int lastTriggeredTile) {
         int newTriggeredTile = 0;
-        for (int tileNumber = lastTriggeredTile; tileNumber<=popeFavorTiles.size(); tileNumber++) {
+        for (int tileNumber = lastTriggeredTile; tileNumber <= popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
-                newTriggeredTile = tileNumber;
+                newTriggeredTile = tileNumber + 1;
             }
         }
         return newTriggeredTile;
     }
 
     /**
-     * The vatican will never be the same again
+     * The vatican will never be the same again.
+     * <p>
+     * Checks if the player is in the activation area for any of the tiles starting from the first to have not yet been flipped before this turn, up to the last one flipped during this turn.
+     * During the check, each affected tile is either activated or discarded
+     *
+     * @param newTriggeredTile  the index of the tile the with the highest index that has been triggered (during this turn)
+     * @param lastTriggeredTile the index of the tile the with the highest index that has been triggered (before this turn)
      */
     public void theVaticanReport(int newTriggeredTile, int lastTriggeredTile) {
-        for (int tileNumber = lastTriggeredTile; tileNumber<=newTriggeredTile; tileNumber++) {
-                popeFavorTiles.get(tileNumber).checkActivation(faith);
+        for (int tileNumber = lastTriggeredTile; tileNumber <= newTriggeredTile; tileNumber++) {
+            popeFavorTiles.get(tileNumber).checkActivation(faith);
         }
     }
 
@@ -326,6 +402,7 @@ public class PlayerBoard {
 
     public void clearWaitingRoom() {
         waitingRoom.clear();
+        whiteMarbleNum = 0;
     }
 
     public boolean isGameEnding() {

@@ -50,25 +50,25 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
+        int newQuantity = amount + quantity;
+        if (newQuantity > size) {
+            throw new NotEnoughSpaceException();
+        }
+
         if (amount == 0) {
             List<ResourceDepot> exclusions = new ArrayList<>();
             exclusions.add(this);
             if (warehouse.isResourceBlocked(resource, exclusions)) {
                 throw new BlockedResourceException();
             }
-            amount = quantity;
             storedResource = resource;
         } else {
             if (resource != storedResource) {
                 throw new WrongResourceTypeException();
             }
-            int newQuantity = amount + quantity;
-            if (newQuantity > size) {
-                throw new NotEnoughSpaceException();
-            }
-            amount = newQuantity;
         }
 
+        amount = newQuantity;
     }
 
     /**

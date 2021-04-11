@@ -200,5 +200,7 @@ public class Game {
             }
             lastTriggeredTile = newTriggeredTile;
         }
+        //end if
+        //controllare se la partita è terminata
     }
 }
