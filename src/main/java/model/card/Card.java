@@ -11,4 +11,12 @@ public abstract class Card {
     public boolean isActive() { return isActive; }
 
     public void activate(){ isActive = true; }
+
+    public Card(){
+        this.victoryPoints = 0;
+    }
+
+    public Card(int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
 }

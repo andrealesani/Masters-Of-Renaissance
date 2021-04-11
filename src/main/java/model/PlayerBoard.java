@@ -48,7 +48,6 @@ public class PlayerBoard {
     /**
      * Attribute used to store the number of white marbles obtained from the market for which the player still has to choose a conversion
      */
-
     private int whiteMarbleNum = 0;
     /**
      * Attribute used to store the player's faith score
@@ -90,17 +89,53 @@ public class PlayerBoard {
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<List<DevelopmentCard>>();
+        leaderCards = new ArrayList<LeaderCard>();
+        productionHandler = new ProductionHandler();
+    }
+
+    /**
+     * Constructor FOR TESTING
+     */
+    public PlayerBoard() {
+        game = null;
+        username = null;
+        faith = 0;
+        popeFavorTiles = null;
+        warehouse = new Warehouse(1);
+        waitingRoom = null;
+        strongbox = new UnlimitedStorage();
+        marbleConversions = new ArrayList<>();
+        discounts = new HashMap<>();
+        cardSlots = new ArrayList<>();
         leaderCards = new ArrayList<>();
         productionHandler = new ProductionHandler();
     }
 
     /**
+     * Getter for player's strongbox
+     *
+     * @return the player's strongbox
+     */
+    public UnlimitedStorage getStrongbox() {
+        return strongbox;
+    }
+
+    /**
      * Getter for the player's warehouse
      *
-     * @return returns the player's warehouse
+     * @return the player's warehouse
      */
     public Warehouse getWarehouse() {
         return warehouse;
+    }
+
+    /**
+     * Getter for the player's faith
+     *
+     * @return the player's faith
+     */
+    public int getFaith() {
+        return faith;
     }
 
     /**
@@ -406,15 +441,39 @@ public class PlayerBoard {
     }
 
     public boolean isGameEnding() {
-        //TODO 24 fede, 7 developmentcards
+        //24 faith, 7 DevelopmentCards
+        if(getFaith() >= 24)
+            return true;
+
+        int devCardsNum = 0;
+        for (List<DevelopmentCard> slot: cardSlots) {
+            devCardsNum += slot.size();
+        }
+        if(devCardsNum >= 7)
+            return true;
+
         return false;
     }
 
     private int calculateVictoryPoints(){
-        //TODO
-        //Leadercards
-        //Developmentcards
-        //ogni 5 risorse con getNumOfResource()
-        return 0;
+        int vp = 0;
+        //LeaderCards
+        for (LeaderCard leaderCard: leaderCards) {
+            vp += leaderCard.getVictoryPoints();
+        }
+        //DevelopmentCards
+        for (List<DevelopmentCard> slot: cardSlots) {
+            for (DevelopmentCard developmentCard: slot){
+                vp += developmentCard.getVictoryPoints();
+            }
+        }
+        //Check every 5 Resources
+        int resourceNum = 0;
+        for (ResourceType resourceType: ResourceType.values()) {
+            resourceNum += getNumOfResource(resourceType);
+        }
+        vp += resourceNum / 5;
+
+        return vp;
     }
 }

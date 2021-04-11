@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductionDecoratorTest {
+class ProductionLeaderCardTest {
 
     @Test
     void doAction() {
-        //LeaderCard leaderCard1 = new ProductionDecorator(new LeaderCardImpl(), new Production(new ArrayList<Resource>(), new ArrayList<Resource>()), CardColor.BLUE, 2, 3);
+        //LeaderCard leaderCard1 = new ProductionLeaderCard(new LeaderCardImpl(), new Production(new ArrayList<Resource>(), new ArrayList<Resource>()), CardColor.BLUE, 2, 3);
     }
 }

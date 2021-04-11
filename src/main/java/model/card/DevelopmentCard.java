@@ -28,7 +28,8 @@ public class DevelopmentCard extends Card {
      * @param cost       specifies how many  Resources the player has to spend in order to buy the card
      * @param production specifies the Production that gets enabled when the player buys this card
      */
-    public DevelopmentCard(int level, CardColor color, List<Resource> cost, Production production) {
+    public DevelopmentCard(int victoryPoints, int level, CardColor color, List<Resource> cost, Production production) {
+        super(victoryPoints);
         this.level = level;
         this.color = color;
         this.cost = cost;

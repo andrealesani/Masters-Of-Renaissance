@@ -75,9 +75,9 @@ public class Game {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type DepotDecArray = new TypeToken<ArrayList<DepotDecorator>>() {
+        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
         }.getType();
-        ArrayList<DepotDecorator> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
+        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
         leaderCards.addAll(depotLeaderCards);
 
         // DISCOUNT LEADER CARDS
@@ -86,9 +86,9 @@ public class Game {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountDecorator>>() {
+        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
         }.getType();
-        ArrayList<DiscountDecorator> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
+        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         leaderCards.addAll(discountLeaderCards);
 
         // MARBLE LEADER CARDS
@@ -97,9 +97,9 @@ public class Game {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type MarbleDecArray = new TypeToken<ArrayList<MarbleDecorator>>() {
+        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
         }.getType();
-        ArrayList<MarbleDecorator> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
+        ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
         leaderCards.addAll(marbleLeaderCards);
 
         // PRODUCTION LEADER CARDS
@@ -108,9 +108,9 @@ public class Game {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type ProductionDecArray = new TypeToken<ArrayList<ProductionDecorator>>() {
+        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
         }.getType();
-        ArrayList<ProductionDecorator> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
+        ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
         leaderCards.addAll(productionLeaderCards);
     }
 

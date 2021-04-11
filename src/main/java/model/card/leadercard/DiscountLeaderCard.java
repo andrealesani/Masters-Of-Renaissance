@@ -9,8 +9,8 @@ import java.util.ArrayList;
 /**
  * This LeaderCard grants to the user a discount when buying DevelopmentCards
  */
-public class DiscountDecorator extends LeaderCardDecorator {
-    private final ResourceType resourceType;
+public class DiscountLeaderCard extends LeaderCard {
+    private final ResourceType discountType;
     private final int discount;
     private final ArrayList<CardColor> requiredColors;
     private final int[] requiredQuantities;
@@ -18,15 +18,14 @@ public class DiscountDecorator extends LeaderCardDecorator {
     /**
      * Constructor
      *
-     * @param leaderCard         needed to implement the decorator Design Pattern
-     * @param resourceType       Resource that gets discounted by this card
+     * @param discountType       Resource that gets discounted by this card
      * @param discount           number of Resources that get discounted to the player
      * @param requiredColors     CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public DiscountDecorator(LeaderCard leaderCard, ResourceType resourceType, int discount, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
-        super(leaderCard);
-        this.resourceType = resourceType;
+    public DiscountLeaderCard(int victoryPoints, ResourceType discountType, int discount, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
+        super(victoryPoints);
+        this.discountType = discountType;
         this.discount = discount;
         this.requiredColors = requiredColors;
         this.requiredQuantities = requiredQuantities;
@@ -38,7 +37,7 @@ public class DiscountDecorator extends LeaderCardDecorator {
      * @param playerBoard specifies which player has activated the discount
      */
     private void applyDiscount(PlayerBoard playerBoard) {
-        playerBoard.addDiscount(resourceType, discount);
+        playerBoard.addDiscount(discountType, discount);
     }
 
     /**
@@ -72,7 +71,7 @@ public class DiscountDecorator extends LeaderCardDecorator {
      * @return the type of the resource that gets discounted by activating this leader card
      */
     public ResourceType getResourceType() {
-        return resourceType;
+        return discountType;
     }
 
     /**

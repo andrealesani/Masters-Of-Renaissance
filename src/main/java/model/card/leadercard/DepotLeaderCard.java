@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * This LeaderCard lets the user have a new Special Depot in his warehouse
  */
-public class DepotDecorator extends LeaderCardDecorator {
+public class DepotLeaderCard extends LeaderCard {
     private final ResourceType requiredResource;
     private final int requiredQuantity;
     private final ResourceType storableResource;
@@ -22,12 +22,11 @@ public class DepotDecorator extends LeaderCardDecorator {
     /**
      * Constructor
      *
-     * @param leaderCard       needed to implement the decorator Design Pattern
      * @param requiredResource ResourceType of the Resources required to activate this card
      * @param requiredQuantity number of Resources of the specified ResourceType required to activate this card
      */
-    public DepotDecorator(LeaderCard leaderCard, ResourceType requiredResource, int requiredQuantity, ResourceType storableResource, int storableQuantity) {
-        super(leaderCard);
+    public DepotLeaderCard(int victoryPoints, ResourceType requiredResource, int requiredQuantity, ResourceType storableResource, int storableQuantity) {
+        super(victoryPoints);
         this.requiredResource = requiredResource;
         this.requiredQuantity = requiredQuantity;
         this.storableResource = storableResource;

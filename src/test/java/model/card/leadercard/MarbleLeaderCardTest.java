@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiscountDecoratorTest {
+class MarbleLeaderCardTest {
 
     @Test
     void doAction() {
-        //LeaderCard leaderCard1 = new DiscountDecorator(new LeaderCardImpl(), new ResourceStone(), 3, CardColor.BLUE, 2);
+        //LeaderCard leaderCard1 = new MarbleLeaderCard(new LeaderCardImpl(), new ResourceStone(), CardColor.YELLOW, 1);
     }
 }

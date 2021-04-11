@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * This LeaderCard lets the user add the specified Production in his PlayerBoard
  */
-public class ProductionDecorator extends LeaderCardDecorator {
+public class ProductionLeaderCard extends LeaderCard {
     private final CardColor requiredColor;
     private final int requiredLevel;
     private final int requiredQuantity;
@@ -26,15 +26,14 @@ public class ProductionDecorator extends LeaderCardDecorator {
     /**
      * Constructor
      *
-     * @param leaderCard       needed to implement the decorator Design Pattern
      * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
      * @param requiredLevel    minimum card level accepted by the requirements
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor and level required to activate this card
      */
-    public ProductionDecorator(LeaderCard leaderCard, CardColor requiredColor, int requiredLevel, int requiredQuantity,
-                               ArrayList<ResourceType> inputType, int[] inputQuantities,
-                               ArrayList<ResourceType> outputType, int[] outputQuantities) {
-        super(leaderCard);
+    public ProductionLeaderCard(int victoryPoints, CardColor requiredColor, int requiredLevel, int requiredQuantity,
+                                ArrayList<ResourceType> inputType, int[] inputQuantities,
+                                ArrayList<ResourceType> outputType, int[] outputQuantities) {
+        super(victoryPoints);
         this.requiredColor = requiredColor;
         this.requiredLevel = requiredLevel;
         this.requiredQuantity = requiredQuantity;

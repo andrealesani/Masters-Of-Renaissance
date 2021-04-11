@@ -46,8 +46,8 @@ class GameTest {
             e.printStackTrace();
         }
 
-        LeaderCardImpl leaderCard;
-        leaderCard = gson.fromJson(reader, LeaderCardImpl.class);
+        LeaderCard leaderCard;
+        leaderCard = gson.fromJson(reader, LeaderCard.class);
 
         assertTrue(leaderCard.getVictoryPoints() == 10);
     }
@@ -62,8 +62,8 @@ class GameTest {
             e.printStackTrace();
         }
 
-        DepotDecorator depotLeaderCard;
-        depotLeaderCard = gson.fromJson(reader, DepotDecorator.class);
+        DepotLeaderCard depotLeaderCard;
+        depotLeaderCard = gson.fromJson(reader, DepotLeaderCard.class);
 
         assertTrue(depotLeaderCard.getVictoryPoints() == 10);
     }
@@ -78,9 +78,9 @@ class GameTest {
             e.printStackTrace();
         }
 
-        Type DepotDecArray = new TypeToken<ArrayList<DepotDecorator>>() {
+        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
         }.getType();
-        ArrayList<DepotDecorator> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
+        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
 
         assertTrue(depotLeaderCards.get(0).getVictoryPoints() == 10
                 && depotLeaderCards.get(0).getRequiredResource() == ResourceType.STONE
@@ -112,9 +112,9 @@ class GameTest {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountDecorator>>() {
+        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
         }.getType();
-        ArrayList<DiscountDecorator> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
+        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         assertTrue(discountLeaderCards.get(0).getVictoryPoints() == 10
                 && discountLeaderCards.get(0).getResourceType() == ResourceType.STONE
                 && discountLeaderCards.get(0).getDiscount() == 1

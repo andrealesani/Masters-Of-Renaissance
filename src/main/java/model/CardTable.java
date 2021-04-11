@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.card.DevelopmentCard;
-import model.card.leadercard.DepotDecorator;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -62,7 +61,7 @@ public class CardTable {
     }
 
     /**
-     * Transforms the input CardColor into the corresponding column of the CardTable
+     * Transforms the CardColor in input into the corresponding column of the CardTable
      *
      * @param cardColor color received in input
      * @return the column in the grid that contains the cards of the specified color
@@ -91,6 +90,7 @@ public class CardTable {
      */
     public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) {
         playerBoard.addDevelopmentCard(cardSlot, colorToColumn(cardColor).get(row).get(0));
+        colorToColumn(cardColor).get(row).remove(0);
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * This LeaderCard lets the user convert a WhiteOrb to a specified Resource when he picks it from the Market
  */
-public class MarbleDecorator extends LeaderCardDecorator {
+public class MarbleLeaderCard extends LeaderCard {
     private final ResourceType resourceType;
     private final ArrayList<CardColor> requiredColors;
     private final int[] requiredQuantities;
@@ -17,13 +17,12 @@ public class MarbleDecorator extends LeaderCardDecorator {
     /**
      * Constructor
      *
-     * @param leaderCard       needed to implement the decorator Design Pattern
      * @param resourceType     Resource that the WhiteOrb can be transformed into by this card
      * @param requiredColors    CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public MarbleDecorator(LeaderCard leaderCard, ResourceType resourceType, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
-        super(leaderCard);
+    public MarbleLeaderCard(int victoryPoints, ResourceType resourceType, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
+        super(victoryPoints);
         this.resourceType = resourceType;
         this.requiredColors = requiredColors;
         this.requiredQuantities = requiredQuantities;
