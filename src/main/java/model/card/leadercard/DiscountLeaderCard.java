@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DiscountLeaderCard extends LeaderCard {
     private final ResourceType discountType;
     private final int discount;
-    private final ArrayList<CardColor> requiredColors;
+    private final CardColor[] requiredColors;
     private final int[] requiredQuantities;
 
     /**
@@ -23,7 +23,7 @@ public class DiscountLeaderCard extends LeaderCard {
      * @param requiredColors     CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public DiscountLeaderCard(int victoryPoints, ResourceType discountType, int discount, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
+    public DiscountLeaderCard(int victoryPoints, ResourceType discountType, int discount, CardColor[] requiredColors, int[] requiredQuantities) {
         super(victoryPoints);
         this.discountType = discountType;
         this.discount = discount;
@@ -58,8 +58,8 @@ public class DiscountLeaderCard extends LeaderCard {
      */
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard) {
-        for (int i = 0; i < requiredColors.size(); i++) {
-            if (playerBoard.getNumOfCards(requiredColors.get(i)) < requiredQuantities[i])
+        for (int i = 0; i < requiredColors.length; i++) {
+            if (playerBoard.getNumOfCards(requiredColors[i]) < requiredQuantities[i])
                 return false;
         }
         return true;
@@ -70,7 +70,7 @@ public class DiscountLeaderCard extends LeaderCard {
      *
      * @return the type of the resource that gets discounted by activating this leader card
      */
-    public ResourceType getResourceType() {
+    public ResourceType getDiscountType() {
         return discountType;
     }
 
@@ -88,7 +88,7 @@ public class DiscountLeaderCard extends LeaderCard {
      *
      * @return the color of the development cards required to activate this leader card
      */
-    public ArrayList<CardColor> getRequiredColors() {
+    public CardColor[] getRequiredColors() {
         return requiredColors;
     }
 

@@ -26,7 +26,7 @@ class PlayerBoardTest {
     @Test
     void addDevelopmentCard() {
         PlayerBoard playerBoard = new PlayerBoard();
-        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 1, CardColor.GREEN, null, null));
+        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 1, CardColor.GREEN, null, null, null, null, null, null));
     }
 
     @Test

@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
 
@@ -116,8 +117,8 @@ class GameTest {
         }.getType();
         ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         assertTrue(discountLeaderCards.get(0).getVictoryPoints() == 10
-                && discountLeaderCards.get(0).getResourceType() == ResourceType.STONE
-                && discountLeaderCards.get(0).getDiscount() == 1
+                        && discountLeaderCards.get(0).getDiscountType() == ResourceType.STONE
+                        && discountLeaderCards.get(0).getDiscount() == 1
                 //&& discountLeaderCards.get(0).getRequiredColor() == CardColor.BLUE
                 //&& discountLeaderCards.get(0).getRequiredQuantities() == 1
         );

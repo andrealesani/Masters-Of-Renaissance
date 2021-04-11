@@ -1,30 +1,30 @@
 [
   {
     "victoryPoints": 2,
-    "resourceType": "COIN",
+    "discountType": "COIN",
     "discount": 1,
-    "requiredColor": ["YELLOW", "PURPLE"],
-    "requiredQuantity": [1, 1]
+    "requiredColors": ["YELLOW", "PURPLE"],
+    "requiredQuantities": [1, 1]
   },
   {
     "victoryPoints": 2,
-    "resourceType": "SHIELD",
+    "discountType": "SHIELD",
     "discount": 1,
-    "requiredColor": ["BLUE", "PURPLE"],
-    "requiredQuantity": [1, 1]
+    "requiredColors": ["BLUE", "PURPLE"],
+    "requiredQuantities": [1, 1]
   },
   {
     "victoryPoints": 2,
-    "resourceType": "STONE",
+    "discountType": "STONE",
     "discount": 1,
-    "requiredColor": ["GREEN", "BLUE"],
-    "requiredQuantity": [1, 1]
+    "requiredColors": ["GREEN", "BLUE"],
+    "requiredQuantities": [1, 1]
   },
   {
     "victoryPoints": 2,
-    "resourceType": "SERVANT",
+    "discountType": "SERVANT",
     "discount": 1,
-    "requiredColor": ["YELLOW", "GREEN"],
-    "requiredQuantity": [1, 1]
+    "requiredColors": ["YELLOW", "GREEN"],
+    "requiredQuantities": [1, 1]
   }
 ]

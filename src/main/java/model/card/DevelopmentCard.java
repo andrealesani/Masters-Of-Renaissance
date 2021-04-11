@@ -3,6 +3,7 @@ package model.card;
 import model.CardColor;
 import model.PlayerBoard;
 import model.Production;
+import model.ResourceType;
 import model.resource.Resource;
 
 import java.util.ArrayList;
@@ -15,25 +16,34 @@ import java.util.Map;
  * and all its methods are getters except for the addTo() method
  */
 public class DevelopmentCard extends Card {
-    private final int level;
     private final CardColor color;
-    private final List<Resource> cost;
-    private final Production production;
+    private final int level;
+    private final ResourceType[] costType;
+    private final int[] costQuantity;
+    private final ResourceType[] inputType;
+    private final int[] inputQuantity;
+    private final ResourceType[] outputType;
+    private final int[] outputQuantities;
 
     /**
      * Constructor
      *
      * @param level      specifies the level of the card
      * @param color      specifies the color of the card
-     * @param cost       specifies how many  Resources the player has to spend in order to buy the card
-     * @param production specifies the Production that gets enabled when the player buys this card
      */
-    public DevelopmentCard(int victoryPoints, int level, CardColor color, List<Resource> cost, Production production) {
+    public DevelopmentCard(int victoryPoints, int level, CardColor color,
+                           ResourceType[] costType, int[] costQuantity,
+                           ResourceType[] inputType, int[] inputQuantity,
+                           ResourceType[] outputType, int[] outputQuantities) {
         super(victoryPoints);
         this.level = level;
         this.color = color;
-        this.cost = cost;
-        this.production = production;
+        this.costType = costType;
+        this.costQuantity = costQuantity;
+        this.inputType = inputType;
+        this.inputQuantity = inputQuantity;
+        this.outputType = outputType;
+        this.outputQuantities = outputQuantities;
     }
 
     /**
@@ -60,6 +70,10 @@ public class DevelopmentCard extends Card {
      * @return returns card cost
      */
     public List<Resource> getCost() {
+        List<Resource> cost = new ArrayList<>();
+
+        //TODO
+
         return cost;
     }
 
@@ -69,7 +83,12 @@ public class DevelopmentCard extends Card {
      * @return returns the Production that this card enables for the player
      */
     public Production getProduction() {
-        return production;
+        List<Resource> input = new ArrayList<>();
+        List<Resource> output = new ArrayList<>();
+
+        //TODO
+
+        return new Production(input, output);
     }
 
     /**

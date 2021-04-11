@@ -61,6 +61,15 @@ public class CardTable {
     }
 
     /**
+     * Getter
+     *
+     * @return the column with only yellow cards decks
+     */
+    public List<List<DevelopmentCard>> getYellowCards() {
+        return yellowCards;
+    }
+
+    /**
      * Transforms the CardColor in input into the corresponding column of the CardTable
      *
      * @param cardColor color received in input
