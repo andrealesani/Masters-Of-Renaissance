@@ -26,4 +26,11 @@ public interface ArtificialIntelligence {
      * @return the index of the tile the with the highest index that has been triggered (during this turn)
      */
     public int getNewTriggeredTile(int lastTriggeredTile);
+
+    /**
+     * Getter for the A.I's faith score
+     *
+     * @return A.I's current faith
+     */
+    public int getFaith();
 }

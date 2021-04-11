@@ -83,7 +83,7 @@ public class Lorenzo implements ArtificialIntelligence {
      */
     public int getNewTriggeredTile(int lastTriggeredTile) {
         int newTriggeredTile = lastTriggeredTile;
-        for (int tileNumber = lastTriggeredTile; tileNumber <= popeFavorTiles.size(); tileNumber++) {
+        for (int tileNumber = lastTriggeredTile; tileNumber < popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
                 newTriggeredTile = tileNumber + 1;
             }
