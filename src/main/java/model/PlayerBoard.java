@@ -406,7 +406,15 @@ public class PlayerBoard {
     }
 
     public boolean isGameEnding() {
-        //TODO
+        //TODO 24 fede, 7 developmentcards
         return false;
+    }
+
+    private int calculateVictoryPoints(){
+        //TODO
+        //Leadercards
+        //Developmentcards
+        //ogni 5 risorse con getNumOfResource()
+        return 0;
     }
 }
