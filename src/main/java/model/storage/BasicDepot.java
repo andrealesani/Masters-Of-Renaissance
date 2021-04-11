@@ -50,25 +50,27 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
-        int newQuantity = amount + quantity;
-        if (newQuantity > size) {
-            throw new NotEnoughSpaceException();
-        }
-
-        if (amount == 0) {
-            List<ResourceDepot> exclusions = new ArrayList<>();
-            exclusions.add(this);
-            if (warehouse.isResourceBlocked(resource, exclusions)) {
-                throw new BlockedResourceException();
+        if (resource!=null && quantity>0) {
+            int newQuantity = amount + quantity;
+            if (newQuantity > size) {
+                throw new NotEnoughSpaceException();
             }
-            storedResource = resource;
-        } else {
-            if (resource != storedResource) {
-                throw new WrongResourceTypeException();
-            }
-        }
 
-        amount = newQuantity;
+            if (amount == 0) {
+                List<ResourceDepot> exclusions = new ArrayList<>();
+                exclusions.add(this);
+                if (warehouse.isResourceBlocked(resource, exclusions)) {
+                    throw new BlockedResourceException();
+                }
+                storedResource = resource;
+            } else {
+                if (resource != storedResource) {
+                    throw new WrongResourceTypeException();
+                }
+            }
+
+            amount = newQuantity;
+        }
     }
 
     /**
@@ -79,13 +81,21 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public boolean canHoldContentOf(ResourceDepot depot) {
-        ResourceType depotResource = depot.getStoredResources().get(0);
+        if(depot==null) {
+            return false;
+        }
+        List<ResourceType> depotResourcesList = depot.getStoredResources();
+        if (depotResourcesList.isEmpty())
+            return true;
+
+        ResourceType depotResource = depotResourcesList.get(0);
         List<ResourceDepot> exclusions = new ArrayList<>();
         exclusions.add(this);
         exclusions.add(depot);
         if (warehouse.isResourceBlocked(depotResource, exclusions)) {
             return false;
         }
+
         int depotQuantity = depot.getNumOfResource(depotResource);
         return depotQuantity <= size;
     }
@@ -132,17 +142,19 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (amount == 0 || resource != storedResource) {
-            throw new NotEnoughResourceException();
-        }
-        int newQuantity = amount - quantity;
-        if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
-        } else {
-            if (newQuantity == 0) {
-                storedResource = null;
+        if (resource!=null && quantity>0) {
+            if (amount == 0 || resource != storedResource) {
+                throw new NotEnoughResourceException();
             }
-            amount = newQuantity;
+            int newQuantity = amount - quantity;
+            if (newQuantity < 0) {
+                throw new NotEnoughResourceException();
+            } else {
+                if (newQuantity == 0) {
+                    storedResource = null;
+                }
+                amount = newQuantity;
+            }
         }
     }
 

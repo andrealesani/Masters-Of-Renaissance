@@ -33,15 +33,11 @@ class UnlimitedStorageTest {
      * This method tests the removal of resources from the storage
      */
     @Test
-    void removeResource() {
+    void removeResource() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
         stash.addResource(ResourceType.SHIELD, 3);
-        try {
-            stash.removeResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+
+        stash.removeResource(ResourceType.SHIELD, 2);
 
         assertEquals(1, stash.getNumOfResource(ResourceType.SHIELD));
     }
@@ -86,15 +82,16 @@ class UnlimitedStorageTest {
      * This method tests the reaction of the getNumOfResource method to several operations being made on the fetched resource
      */
     @Test
-    void getNumOfResource() {
+    void getNumOfResource() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
+
+        assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(0, stash.getNumOfResource(ResourceType.COIN));
+
         stash.addResource(ResourceType.SHIELD, 17);
-        try {
-            stash.removeResource(ResourceType.SHIELD, 16);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+
+        stash.removeResource(ResourceType.SHIELD, 16);
+
         stash.addResource(ResourceType.SHIELD, 22);
 
         assertEquals(23, stash.getNumOfResource(ResourceType.SHIELD));
@@ -104,25 +101,13 @@ class UnlimitedStorageTest {
      * This method tests the reaction of the getNumOfResource method to a previously present resource being deleted from the stash
      */
     @Test
-    void getNumOfResourceRemoved() {
+    void getNumOfResourceRemoved() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
+
         stash.addResource(ResourceType.SHIELD, 17);
-        try {
-            stash.removeResource(ResourceType.SHIELD, 17);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
 
-        assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
-    }
+        stash.removeResource(ResourceType.SHIELD, 17);
 
-    /**
-     * This method tests the reaction of the getNumOfResource method to an empty storage
-     */
-    @Test
-    void getNumOfResourceEmpty() {
-        UnlimitedStorage stash = new UnlimitedStorage();
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
@@ -130,33 +115,24 @@ class UnlimitedStorageTest {
      * This method test the reaction of the getStoredResources method to resources being added and removed from stash
      */
     @Test
-    void getStoredResources() {
+    void getStoredResources() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
+
+        assertTrue(stash.getStoredResources().isEmpty());
+
         stash.addResource(ResourceType.SHIELD, 4);
         stash.addResource(ResourceType.COIN, 8);
         stash.addResource(ResourceType.SERVANT, 15);
         stash.addResource(ResourceType.SHIELD, 42);
-        try {
-            stash.removeResource(ResourceType.COIN, 8);
-            stash.removeResource(ResourceType.SERVANT, 12);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+
+        stash.removeResource(ResourceType.COIN, 8);
+        stash.removeResource(ResourceType.SERVANT, 12);
+
         List<ResourceType> output = stash.getStoredResources();
 
         assertTrue(output.contains(ResourceType.SHIELD));
         assertFalse(output.contains(ResourceType.COIN));
         assertTrue(output.contains(ResourceType.SERVANT));
         assertFalse(output.contains(ResourceType.STONE));
-    }
-
-    /**
-     * This method tests the reaction of the getStoredResources method to an empty storage
-     */
-    @Test
-    void getStoredResourcesEmpty() {
-        UnlimitedStorage stash = new UnlimitedStorage();
-        assertTrue(stash.getStoredResources().isEmpty());
     }
 }

@@ -21,10 +21,12 @@ public class UnlimitedStorage implements ResourceStash {
      * @param quantity the amount of resource to add to the amount stored
      */
     public void addResource(ResourceType resource, int quantity) {
-        if (!storageContent.containsKey(resource)) {
-            storageContent.put(resource, quantity);
-        } else {
-            storageContent.put(resource, storageContent.get(resource) + quantity);
+        if (resource!=null && quantity>0) {
+            if (!storageContent.containsKey(resource)) {
+                storageContent.put(resource, quantity);
+            } else {
+                storageContent.put(resource, storageContent.get(resource) + quantity);
+            }
         }
     }
 
@@ -37,17 +39,20 @@ public class UnlimitedStorage implements ResourceStash {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (!storageContent.containsKey(resource)) {
-            throw new NotEnoughResourceException();
-        }
-        int newQuantity = storageContent.get(resource) - quantity;
+        if (resource!=null && quantity>0) {
+            if (!storageContent.containsKey(resource)) {
+                throw new NotEnoughResourceException();
+            }
 
-        if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
-        } else if (newQuantity == 0) {
-            storageContent.remove(resource);
-        } else {
-            storageContent.put(resource, newQuantity);
+            int newQuantity = storageContent.get(resource) - quantity;
+
+            if (newQuantity < 0) {
+                throw new NotEnoughResourceException();
+            } else if (newQuantity == 0) {
+                storageContent.remove(resource);
+            } else {
+                storageContent.put(resource, newQuantity);
+            }
         }
     }
 

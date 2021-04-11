@@ -14,7 +14,7 @@ class BasicDepotTest {
      * This method tests the addition of resources to the depot (up to the maximum amount)
      */
     @Test
-    void addResource() {
+    void addResource() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash = new BasicDepot(warehouse, 4);
         ResourceDepot stashBlock = new BasicDepot(warehouse, 4);
@@ -23,36 +23,14 @@ class BasicDepotTest {
         warehouse.addNewDepot(stashBlock);
         warehouse.addNewDepot(stashLeader);
 
-        try {
-            stashBlock.addResource(ResourceType.COIN, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-
-        try {
-            stashLeader.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-
-        try {
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stashBlock.addResource(ResourceType.COIN, 1);
+        stashLeader.addResource(ResourceType.SHIELD, 1);
+        stash.addResource(ResourceType.SHIELD, 1);
 
         assertEquals(1, stash.getNumOfResource(ResourceType.SHIELD));
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 2);
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.SHIELD, 2);
+        stash.addResource(ResourceType.SHIELD, 1);
 
         assertEquals(4, stash.getNumOfResource(ResourceType.SHIELD));
     }
@@ -62,7 +40,7 @@ class BasicDepotTest {
      */
     @Test
     void addResourceNotEnoughSpaceNewResource() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),4);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 4);
 
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
             stash.addResource(ResourceType.SHIELD, 5);
@@ -78,15 +56,12 @@ class BasicDepotTest {
      * This method tests the addition of a resource already present in the depot, for a total amount greater than the size of the depot
      */
     @Test
-    void addResourceNotEnoughSpaceOldResource() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),4);
+    void addResourceNotEnoughSpaceOldResource() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 4);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+
+        stash.addResource(ResourceType.SHIELD, 1);
+
 
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
             stash.addResource(ResourceType.SHIELD, 5);
@@ -102,15 +77,10 @@ class BasicDepotTest {
      * This method tests the addition of a resource to a depot already storing one of different type of resource
      */
     @Test
-    void addResourceWrongResourceType() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),4);
+    void addResourceWrongResourceType() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 4);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.SHIELD, 1);
 
         Exception ex = assertThrows(WrongResourceTypeException.class, () -> {
             stash.addResource(ResourceType.COIN, 1);
@@ -126,19 +96,14 @@ class BasicDepotTest {
      * This method tests the addition of a resource to an empty basic depot, when a different basic depot is already storing that same type of resource
      */
     @Test
-    void addResourceBlockedResourceType() {
+    void addResourceBlockedResourceType() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 1);
         ResourceDepot stash2 = new BasicDepot(warehouse, 2);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
 
-        try {
-            stash1.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash1.addResource(ResourceType.SHIELD, 1);
 
         Exception ex = assertThrows(BlockedResourceException.class, () -> {
             stash2.addResource(ResourceType.SHIELD, 2);
@@ -154,58 +119,74 @@ class BasicDepotTest {
      * This method tests the canHoldContentOf method in the affirmative case
      */
     @Test
-    void canHoldContentOfTrue () {
+    void canHoldContentOfTrue() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new BasicDepot(warehouse, 3);
+        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
+        warehouse.addNewDepot(stashLeader);
 
-        try {
-            stash2.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash2.addResource(ResourceType.SHIELD, 2);
+        stashLeader.addResource(ResourceType.COIN, 2);
+        stash1.addResource(ResourceType.COIN, 3);
 
-        assertTrue (stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stashLeader));
+    }
 
-        try {
-            stash1.addResource(ResourceType.COIN, 3);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+    /**
+     * This method tests the canHoldContentOf method in the affirmative case when one or both depots are empty
+     */
+    @Test
+    void canHoldContentOfTrueEmpty() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        Warehouse warehouse = new Warehouse(0);
+        ResourceDepot stash1 = new BasicDepot(warehouse, 3);
+        ResourceDepot stash2 = new BasicDepot(warehouse, 3);
+        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN);
+        warehouse.addNewDepot(stash1);
+        warehouse.addNewDepot(stash2);
+        warehouse.addNewDepot(stashLeader);
 
-        assertTrue (stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stashLeader));
+
+        stash1.addResource(ResourceType.COIN, 3);
+
+        assertTrue(stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stashLeader));
+
+        stash1.clear();
+
+        stash2.addResource(ResourceType.SHIELD, 2);
+        stashLeader.addResource(ResourceType.COIN, 2);
+
+        assertTrue(stash1.canHoldContentOf(stash2));
+        assertTrue(stash1.canHoldContentOf(stashLeader));
     }
 
     /**
      * This method tests the canHoldContentOf method in the negative case for size constraints
      */
     @Test
-    void canHoldContentOfFalseSize () {
+    void canHoldContentOfFalseSize() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 1);
         ResourceDepot stash2 = new BasicDepot(warehouse, 2);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
 
-        try {
-            stash2.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash2.addResource(ResourceType.SHIELD, 2);
 
-        assertFalse (stash1.canHoldContentOf(stash2));
+        assertFalse(stash1.canHoldContentOf(stash2));
     }
 
     /**
      * This method tests the canHoldContentOf method in the negative case for blocking constraints
      */
     @Test
-    void canHoldContentOfFalseBlocking () {
+    void canHoldContentOfFalseBlocking() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new LeaderDepot(3, ResourceType.SHIELD);
@@ -214,35 +195,21 @@ class BasicDepotTest {
         warehouse.addNewDepot(stash2);
         warehouse.addNewDepot(stash3);
 
-        try {
-            stash3.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash3.addResource(ResourceType.SHIELD, 2);
+        stash2.addResource(ResourceType.SHIELD, 2);
 
-        try {
-            stash2.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-
-        assertFalse (stash1.canHoldContentOf(stash2));
+        assertFalse(stash1.canHoldContentOf(stash2));
     }
 
     /**
      * This method test the storage's blocking mechanic for resources in the affirmative case
      */
     @Test
-    void isBlockingTrue() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
-        try {
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+    void isBlockingTrue() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
+
+        stash.addResource(ResourceType.SHIELD, 1);
+
         assertTrue(stash.isBlocking(ResourceType.SHIELD));
     }
 
@@ -250,14 +217,11 @@ class BasicDepotTest {
      * This method test the storage's blocking mechanic for resources in the negative case
      */
     @Test
-    void isBlockingFalse() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
-        try {
-            stash.addResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+    void isBlockingFalse() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
+
+        stash.addResource(ResourceType.SHIELD, 1);
+
         assertFalse(stash.isBlocking(ResourceType.COIN));
     }
 
@@ -266,7 +230,7 @@ class BasicDepotTest {
      */
     @Test
     void getSize() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
         assertEquals(3, stash.getSize());
     }
 
@@ -274,14 +238,11 @@ class BasicDepotTest {
      * This method tests the emptying of the storage's contents
      */
     @Test
-    void empty() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
-        try {
-            stash.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+    void empty() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
+
+        stash.addResource(ResourceType.SHIELD, 2);
+
         stash.clear();
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
     }
@@ -290,20 +251,12 @@ class BasicDepotTest {
      * This method tests the removal of resources from the storage
      */
     @Test
-    void removeResource() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
-        try {
-            stash.addResource(ResourceType.SHIELD, 2);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-        try {
-            stash.removeResource(ResourceType.SHIELD, 1);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+    void removeResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
+
+        stash.addResource(ResourceType.SHIELD, 2);
+        stash.removeResource(ResourceType.SHIELD, 1);
+
         assertEquals(1, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
@@ -311,15 +264,27 @@ class BasicDepotTest {
      * This method tests the removal of an amount of resource greater than that present in stash
      */
     @Test
-    void removeResourceNotEnough() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
+    void removeResourceNotEnough() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 3);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.SHIELD, 3);
+
+        Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
+            stash.removeResource(ResourceType.SHIELD, 4);
+        });
+
+        String expectedMessage = "Error: Resource is not present in sufficient quantity.";
+        String actualMessage = ex.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    /**
+     * This method tests the removal of a resource from an empty depot
+     */
+    @Test
+    void removeResourceEmptyDepot() {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
 
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
@@ -335,15 +300,10 @@ class BasicDepotTest {
      * This method tests the removal of a resource that is not present in the stash
      */
     @Test
-    void removeResourceNotInStash() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
+    void removeResourceNotInStash() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 3);
 
-        try {
-            stash.addResource(ResourceType.COIN, 3);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.COIN, 3);
 
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
@@ -359,29 +319,15 @@ class BasicDepotTest {
      * This method tests the reaction of the getNumOfResource method to several operations being made on the fetched resource
      */
     @Test
-    void getNumOfResource() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),25);
+    void getNumOfResource() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 25);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 17);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(0, stash.getNumOfResource(ResourceType.COIN));
 
-        try {
-            stash.removeResource(ResourceType.SHIELD, 16);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-
-        try {
-            stash.addResource(ResourceType.SHIELD, 22);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.SHIELD, 17);
+        stash.removeResource(ResourceType.SHIELD, 16);
+        stash.addResource(ResourceType.SHIELD, 22);
 
         assertEquals(23, stash.getNumOfResource(ResourceType.SHIELD));
     }
@@ -390,32 +336,12 @@ class BasicDepotTest {
      * This method tests the reaction of the getNumOfResource method to a previously present resource being deleted from the stash
      */
     @Test
-    void getNumOfResourceRemoved() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),25);
+    void getNumOfResourceRemoved() throws NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 25);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 17);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.addResource(ResourceType.SHIELD, 17);
+        stash.removeResource(ResourceType.SHIELD, 17);
 
-        try {
-            stash.removeResource(ResourceType.SHIELD, 17);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
-
-        assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
-    }
-
-    /**
-     * This method tests the reaction of the getNumOfResource method to an empty storage and the correct working of the constructor
-     */
-    @Test
-    void getNumOfResourceEmpty() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
@@ -423,37 +349,20 @@ class BasicDepotTest {
      * This method test the reaction of the getStoredResources method to resources being added and removed from stash
      */
     @Test
-    void getStoredResources() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),5);
+    void getStoredResources() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException {
+        ResourceDepot stash = new BasicDepot(new Warehouse(0), 5);
 
-        try {
-            stash.addResource(ResourceType.SHIELD, 4);
-        } catch (NotEnoughSpaceException | WrongResourceTypeException | BlockedResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        assertTrue(stash.getStoredResources().isEmpty());
+
+        stash.addResource(ResourceType.SHIELD, 4);
 
         List<ResourceType> output = stash.getStoredResources();
         assertTrue(output.contains(ResourceType.SHIELD));
         assertFalse(output.contains(ResourceType.COIN));
 
-        try {
-            stash.removeResource(ResourceType.SHIELD, 4);
-        } catch (NotEnoughResourceException ex) {
-            System.out.println(ex.getMessage());
-            fail();
-        }
+        stash.removeResource(ResourceType.SHIELD, 4);
 
         output = stash.getStoredResources();
         assertFalse(output.contains(ResourceType.SHIELD));
-    }
-
-    /**
-     * This method tests the reaction of the getStoredResources method to an empty storage and the correct working of the constructor
-     */
-    @Test
-    void getStoredResourcesEmpty() {
-        ResourceDepot stash = new BasicDepot(new Warehouse(0),3);
-        assertTrue(stash.getStoredResources().isEmpty());
     }
 }

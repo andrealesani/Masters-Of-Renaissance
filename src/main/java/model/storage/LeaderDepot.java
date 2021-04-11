@@ -45,14 +45,16 @@ public class LeaderDepot implements ResourceDepot {
      * @throws BlockedResourceException   under no circumstance, because this type of depot is not affected by resource blocking
      */
     public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
-        if (resource != acceptedResource) {
-            throw new WrongResourceTypeException();
+        if (resource!=null && quantity>0) {
+            if (resource != acceptedResource) {
+                throw new WrongResourceTypeException();
+            }
+            int newQuantity = quantity + amount;
+            if (newQuantity > size) {
+                throw new NotEnoughSpaceException();
+            }
+            amount = newQuantity;
         }
-        int newQuantity = quantity + amount;
-        if (newQuantity > size) {
-            throw new NotEnoughSpaceException();
-        }
-        amount = newQuantity;
     }
 
     /**
@@ -63,7 +65,14 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public boolean canHoldContentOf(ResourceDepot depot) {
-        ResourceType depotResource = depot.getStoredResources().get(0);
+        if (depot==null) {
+            return false;
+        }
+        List<ResourceType> depotResourcesList = depot.getStoredResources();
+        if (depotResourcesList.isEmpty())
+            return true;
+
+        ResourceType depotResource = depotResourcesList.get(0);
         int depotQuantity = depot.getNumOfResource(depotResource);
         return depotResource == acceptedResource && depotQuantity <= size;
     }
@@ -105,14 +114,16 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (resource != acceptedResource) {
-            throw new NotEnoughResourceException();
+        if (resource!=null && quantity>0) {
+            if (resource != acceptedResource) {
+                throw new NotEnoughResourceException();
+            }
+            int newQuantity = amount - quantity;
+            if (newQuantity < 0) {
+                throw new NotEnoughResourceException();
+            }
+            amount = newQuantity;
         }
-        int newQuantity = amount - quantity;
-        if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
-        }
-        amount = newQuantity;
     }
 
     /**

@@ -99,35 +99,47 @@ public class Warehouse {
      * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws DepotNotPresentException, ParametersNotValidException, SwapNotValidException {
-        if (depotNumber1 < 1 || depotNumber2 < 1 || depotNumber1 == depotNumber2) {
+        if (depotNumber1 == depotNumber2) {
             throw new ParametersNotValidException();
         }
 
-        if (depotNumber1 > depots.size() || depotNumber2 > depots.size()) {
+        if (depotNumber1 < 1 || depotNumber2 < 1 || depotNumber1 > depots.size() || depotNumber2 > depots.size()) {
             throw new DepotNotPresentException();
         }
 
-        ResourceDepot depot1 = depots.get(depotNumber1);
-        ResourceDepot depot2 = depots.get(depotNumber2);
+        ResourceDepot depot1 = depots.get(depotNumber1-1);
+        ResourceDepot depot2 = depots.get(depotNumber2-1);
 
         if (!depot1.canHoldContentOf(depot2) || !depot2.canHoldContentOf(depot1)) {
             throw new SwapNotValidException();
         }
 
-        ResourceType resource1 = depot1.getStoredResources().get(0);
-        int amount1 = depot1.getNumOfResource(resource1);
-        ResourceType resource2 = depot2.getStoredResources().get(0);
-        int amount2 = depot2.getNumOfResource(resource2);
+        List<ResourceType> resourceList1 = depot1.getStoredResources();
+        ResourceType resource1;
+        int amount1;
+        if (resourceList1.isEmpty()) {
+            resource1 = null;
+            amount1 = 0;
+        } else {
+            resource1 = resourceList1.get(0);
+            amount1 = depot1.getNumOfResource(resource1);
+            depot1.clear();
+        }
 
-        depot1.clear();
+        List<ResourceType> resourceList2 = depot2.getStoredResources();
+        ResourceType resource2;
+        int amount2;
+        if (resourceList2.isEmpty()) {
+            resource2 = null;
+            amount2 = 0;
+        } else {
+            resource2 = resourceList2.get(0);
+            amount2 = depot2.getNumOfResource(resource2);
+            depot2.clear();
+        }
+
         try {
             depot1.addResource(resource2, amount2);
-        } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
-            //This should never happen
-            System.out.println(ex.getMessage());
-        }
-        depot2.clear();
-        try {
             depot2.addResource(resource1, amount1);
         } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
             //This should never happen
@@ -143,6 +155,9 @@ public class Warehouse {
      * @return true if one of the depots is blocking the resource
      */
     public boolean isResourceBlocked(ResourceType resource, List<ResourceDepot> exclusions) {
+        if (exclusions==null) {
+            exclusions=new ArrayList<>();
+        }
         for (ResourceDepot depot : depots) {
             if (!exclusions.contains(depot) && depot.isBlocking(resource)) {
                 return true;

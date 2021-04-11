@@ -147,7 +147,6 @@ public class Game {
     }
 
 
-
     /**
      * Getter
      *
@@ -167,7 +166,8 @@ public class Game {
     }
 
     //shufflare le leadercards
-    //dividere il mazzo delle leader cards in 4 mazzetti (da dichiarare negli attributi e aggiungere nell'UML)
+    //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
+    //Per ogni playerboard in currentplayers chiami addleadercards per e gli dai in ingresso il proprio mazzetto (lista)
     public void chooseLeaderCard(int i) {
         //TODO
     }
