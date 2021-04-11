@@ -1,5 +1,6 @@
 package model;
 
+import model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +25,8 @@ class PlayerBoardTest {
 
     @Test
     void addDevelopmentCard() {
+        PlayerBoard playerBoard = new PlayerBoard();
+        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 1, CardColor.GREEN, null, null));
     }
 
     @Test

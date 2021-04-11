@@ -89,6 +89,8 @@ public class PlayerBoard {
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<List<DevelopmentCard>>();
+        for (int i = 0; i < 3; i++)
+            cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
     }
@@ -107,6 +109,8 @@ public class PlayerBoard {
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<>();
+        for (int i = 0; i < 3; i++)
+            cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
         productionHandler = new ProductionHandler();
     }
@@ -329,11 +333,11 @@ public class PlayerBoard {
     /**
      * Adds the specified DevelopmentCard to the specified slot in the player's PlayerBoard
      *
-     * @param slot            specifies to which of the 3 production slots the Card must be added
+     * @param slot            specifies to which production slot the Card must be added
      * @param developmentCard card that must be added
      */
     public void addDevelopmentCard(int slot, DevelopmentCard developmentCard) {
-        cardSlots.get(slot).add(developmentCard);
+        cardSlots.get(slot - 1).add(developmentCard);
     }
 
     /**
@@ -451,34 +455,34 @@ public class PlayerBoard {
 
     public boolean isGameEnding() {
         //24 faith, 7 DevelopmentCards
-        if(getFaith() >= 24)
+        if (getFaith() >= 24)
             return true;
 
         int devCardsNum = 0;
-        for (List<DevelopmentCard> slot: cardSlots) {
+        for (List<DevelopmentCard> slot : cardSlots) {
             devCardsNum += slot.size();
         }
-        if(devCardsNum >= 7)
+        if (devCardsNum >= 7)
             return true;
 
         return false;
     }
 
-    private int calculateVictoryPoints(){
+    private int calculateVictoryPoints() {
         int vp = 0;
         //LeaderCards
-        for (LeaderCard leaderCard: leaderCards) {
+        for (LeaderCard leaderCard : leaderCards) {
             vp += leaderCard.getVictoryPoints();
         }
         //DevelopmentCards
-        for (List<DevelopmentCard> slot: cardSlots) {
-            for (DevelopmentCard developmentCard: slot){
+        for (List<DevelopmentCard> slot : cardSlots) {
+            for (DevelopmentCard developmentCard : slot) {
                 vp += developmentCard.getVictoryPoints();
             }
         }
         //Check every 5 Resources
         int resourceNum = 0;
-        for (ResourceType resourceType: ResourceType.values()) {
+        for (ResourceType resourceType : ResourceType.values()) {
             resourceNum += getNumOfResource(resourceType);
         }
         vp += resourceNum / 5;
