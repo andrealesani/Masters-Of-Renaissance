@@ -307,7 +307,6 @@ public class PlayerBoard {
      * @return the index of the tile the with the highest index that has been triggered (during this turn)
      */
     public int getNewTriggeredTile(int lastTriggeredTile) {
-        int newTriggeredTile = 0;
         int newTriggeredTile = lastTriggeredTile;
         for (int tileNumber = lastTriggeredTile; tileNumber <= popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
