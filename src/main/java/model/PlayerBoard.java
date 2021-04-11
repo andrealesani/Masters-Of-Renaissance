@@ -112,6 +112,15 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter for player's discounts
+     *
+     * @return the player's discount map
+     */
+    public Map<ResourceType, Integer> getDiscounts() {
+        return discounts;
+    }
+
+    /**
      * Getter for player's strongbox
      *
      * @return the player's strongbox
