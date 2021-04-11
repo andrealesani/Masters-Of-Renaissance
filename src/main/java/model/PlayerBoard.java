@@ -299,6 +299,7 @@ public class PlayerBoard {
 
     /**
      * Checks the player's pope's favor tiles, starting from the one with the highest index to not have yet been triggered up until last turn.
+     * Checks the necessity for a vatican report by checking the player's pope's favor tiles, starting from the one with the highest index to not have yet been triggered up until last turn.
      * A tile is considered 'triggered' once a player's faith score has reached or surpassed the tile's faith score.
      * Returns the tile with the highest index to have been triggered by the player during this turn (might be the same as the last)
      *
@@ -307,6 +308,7 @@ public class PlayerBoard {
      */
     public int getNewTriggeredTile(int lastTriggeredTile) {
         int newTriggeredTile = 0;
+        int newTriggeredTile = lastTriggeredTile;
         for (int tileNumber = lastTriggeredTile; tileNumber <= popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
                 newTriggeredTile = tileNumber + 1;

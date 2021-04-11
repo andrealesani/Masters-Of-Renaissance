@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.card.leadercard.*;
+import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 
 import java.io.FileNotFoundException;
@@ -22,7 +23,7 @@ public class Game {
     private final List<LeaderCard> leaderCards;
     private final List<PlayerBoard> playersTurnOrder;
     private PlayerBoard currentPlayer;
-    private final Lorenzo lorenzo;
+    private ArtificialIntelligence lorenzo;
     private int lastTriggeredTile;
 
     /**
@@ -33,7 +34,7 @@ public class Game {
         cardTable = new CardTable();
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
-        lorenzo = new Lorenzo();
+        lorenzo = null;
         lastTriggeredTile = 0;
 
 
@@ -42,8 +43,14 @@ public class Game {
             popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
             popeFavorTiles.add(new PopeFavorTile(3, 16, 5));
             popeFavorTiles.add(new PopeFavorTile(4, 24, 6));
+
+            if (nicknames.size() == 1) {
+                lorenzo = new Lorenzo(cardTable, popeFavorTiles);
+            }
+
             playersTurnOrder.add(new PlayerBoard(this, nickname, 3, popeFavorTiles));
         }
+
         assignInkwell();
         currentPlayer = playersTurnOrder.get(0);
     }
@@ -56,8 +63,9 @@ public class Game {
         cardTable = new CardTable();
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
-        lorenzo = new Lorenzo();
+        lorenzo = null;
         initializeLeaderCards();
+        lastTriggeredTile = 0;
     }
 
     /**
@@ -138,7 +146,7 @@ public class Game {
      *
      * @param quantity number of faith points to add
      */
-    private void faithIncreaseAll(int quantity) {
+    private void increaseFaithAll(int quantity) {
         for (PlayerBoard playerBoard : playersTurnOrder) {
             if (!playerBoard.equals(getCurrentPlayer())) {
                 playerBoard.increaseFaith(quantity);
@@ -172,26 +180,31 @@ public class Game {
         //TODO
     }
 
-    //se solo mode attivare Lorenzo
     //controllare se il gioco è finito (sia solo mode sia multiplayer)
     //se il gioco non è finito e partita è multiplayer cambiare currentPlayer
     public void endCurrentTurn() {
-        //if SOLO MODE
-        //...
-        //else if MULTIPLAYER
-        int leftoverResources = currentPlayer.leftInWaitingRoom();
+        int numDiscardedResources = currentPlayer.leftInWaitingRoom();
+
+        if (numDiscardedResources > 0) {
+            if (lorenzo!=null) {
+                lorenzo.increaseFaith(numDiscardedResources);
+            } else {
+                increaseFaithAll(numDiscardedResources);
+            }
+            currentPlayer.clearWaitingRoom();
+        }
+
         int newTriggeredTile = 0;
 
-        if (leftoverResources != 0) {
-            faithIncreaseAll(leftoverResources);
-            currentPlayer.clearWaitingRoom();
-            for (PlayerBoard player : playersTurnOrder) {
-                if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
-                    newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
-                }
+        if (lorenzo!=null) {
+            lorenzo.takeTurn();
+            newTriggeredTile = lorenzo.getNewTriggeredTile(lastTriggeredTile);
+        }
+
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
+                newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
             }
-        } else {
-            newTriggeredTile = currentPlayer.getNewTriggeredTile(lastTriggeredTile);
         }
 
         if (newTriggeredTile > lastTriggeredTile) {
@@ -200,7 +213,6 @@ public class Game {
             }
             lastTriggeredTile = newTriggeredTile;
         }
-        //end if
-        //controllare se la partita è terminata
+
     }
 }

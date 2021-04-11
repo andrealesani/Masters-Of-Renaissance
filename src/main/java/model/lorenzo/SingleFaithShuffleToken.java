@@ -1,7 +1,5 @@
 package model.lorenzo;
 
-import model.CardTable;
-
 /**
  * Represents the token that increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
  */
@@ -21,7 +19,7 @@ public class SingleFaithShuffleToken implements ActionToken {
      * Increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
      */
     private void singleIncreaseShuffle() {
-        lorenzo.faithIncrease();
+        lorenzo.increaseFaith(1);
         lorenzo.shuffleDeck();
     }
 

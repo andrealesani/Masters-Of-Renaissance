@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * This interface represents a generic container for resources as part of a player board.
+ * This interface indicates that the implementing class can act as a generic container for resources as part of a player board.
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
 public interface ResourceStash {
