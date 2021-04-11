@@ -18,8 +18,8 @@ import java.util.List;
 public class CardTable {
     private final List<List<DevelopmentCard>> greenCards;
     private final List<List<DevelopmentCard>> blueCards;
-    private List<List<DevelopmentCard>> yellowCards;
-    private List<List<DevelopmentCard>> purpleCards;
+    private final List<List<DevelopmentCard>> yellowCards;
+    private final List<List<DevelopmentCard>> purpleCards;
 
     public CardTable() {
         Gson gson = new Gson();
