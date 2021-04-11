@@ -75,4 +75,13 @@ public class PopeFavorTile {
         }
         return 0;
     }
+
+    /**
+     * Returns the current state of the tile
+     *
+     * @return the state of the tile
+     */
+    public PopeTileState getState() {
+        return state;
+    }
 }
