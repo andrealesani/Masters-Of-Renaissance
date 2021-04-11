@@ -1,7 +1,5 @@
 package model.lorenzo;
 
-import model.CardTable;
-
 /**
  * Represents the token that increases Lorenzo's faith by 2 points
  */
@@ -21,8 +19,7 @@ public class DoubleFaithToken implements ActionToken {
      * Increases Lorenzo's faith by 2 points
      */
     private void doubleIncrease() {
-        lorenzo.faithIncrease();
-        lorenzo.faithIncrease();
+        lorenzo.increaseFaith(2);
     }
 
     /**

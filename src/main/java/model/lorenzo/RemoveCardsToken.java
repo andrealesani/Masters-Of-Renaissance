@@ -28,13 +28,9 @@ public class RemoveCardsToken implements ActionToken {
     private void removeCardsFromCardTable() {
         try {
             cardTable.discardTop(color);
-        } catch (EmptyDeckException e) {
-            //TODO Game ends and player loses
-        }
-        try {
             cardTable.discardTop(color);
-        } catch (EmptyDeckException e) {
-            //TODO Game ends and player loses
+        } catch (EmptyDeckException ex) {
+            //Does nothing
         }
     }
 
