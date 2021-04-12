@@ -169,6 +169,15 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter
+     *
+     * @return marbleConversions list
+     */
+    public List<ResourceType> getMarbleConversions() {
+        return marbleConversions;
+    }
+
+    /**
      * Temporarily stores the given amount of the given resource in the waiting room, so that the player may decide in which depot to place it
      *
      * @param resource the resource to be added

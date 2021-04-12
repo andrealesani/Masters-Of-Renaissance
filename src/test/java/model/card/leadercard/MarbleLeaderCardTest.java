@@ -18,7 +18,7 @@ class MarbleLeaderCardTest {
         MarbleLeaderCard marbleLeaderCard = new MarbleLeaderCard(5, ResourceType.COIN, requiredColors, requiredQuantities);
         PlayerBoard playerBoard = new PlayerBoard();
 
-        assertTrue(playerBoard.getDiscounts().isEmpty());
+        assertTrue(playerBoard.getMarbleConversions().isEmpty());
         marbleLeaderCard.doAction(playerBoard);
         assertFalse(playerBoard.getDiscounts().isEmpty());
         assertEquals(2, playerBoard.getDiscounts().get(ResourceType.COIN));
