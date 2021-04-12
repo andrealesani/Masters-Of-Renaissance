@@ -51,7 +51,7 @@ public class Lorenzo implements ArtificialIntelligence {
      * @return the deck containing all the drawable cards
      */
     public List<ActionToken> getActiveDeck() {
-        return activeDeck;
+        return new ArrayList<>(activeDeck);
     }
 
     /**
