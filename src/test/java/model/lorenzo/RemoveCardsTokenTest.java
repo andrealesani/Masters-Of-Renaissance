@@ -1,5 +1,6 @@
 package model.lorenzo;
 
+import Exceptions.EmptyDeckException;
 import model.CardColor;
 import model.CardTable;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,29 @@ class RemoveCardsTokenTest {
      * This method tests the token's action
      */
     @Test
-    void doAction() {
+    void doAction() throws EmptyDeckException {
+        CardTable cardTable = new CardTable();
+        ActionToken token = new RemoveCardsToken(CardColor.YELLOW, cardTable);
 
+        int levelOneNumber = cardTable.getYellowCards().get(2).size();
+        int levelTwoNumber = cardTable.getYellowCards().get(1).size();
+        int levelThreeNumber = cardTable.getYellowCards().get(0).size();
+
+        token.doAction();
+
+        assertEquals(levelOneNumber-2, cardTable.getYellowCards().get(2).size());
+
+        token.doAction();
+        token.doAction();
+
+        assertEquals(levelOneNumber-4, cardTable.getYellowCards().get(2).size());
+        assertEquals(levelTwoNumber-2, cardTable.getYellowCards().get(1).size());
+
+        cardTable.discardTop(CardColor.YELLOW);
+
+        token.doAction();
+
+        assertEquals(levelTwoNumber-4, cardTable.getYellowCards().get(1).size());
+        assertEquals(levelTwoNumber-1, cardTable.getYellowCards().get(0).size());
     }
 }

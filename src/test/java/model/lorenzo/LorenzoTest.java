@@ -1,5 +1,6 @@
 package model.lorenzo;
 
+import model.CardTable;
 import model.PopeFavorTile;
 import model.PopeTileState;
 import org.junit.jupiter.api.Test;
@@ -11,15 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoTest {
     /**
-     * This method tests the retrieval of Lorenzo's active deck
+     * This method tests lorenzo's turn
      */
     @Test
-    void getActiveDeck() {
-
-    }
-
-    @Test
     void takeTurn() {
+        Lorenzo lorenzo = new Lorenzo(new CardTable(), null);
+
+        assertEquals(6, lorenzo.getActiveDeck().size());
+
+        lorenzo.takeTurn();
+
+        assertEquals(5, lorenzo.getActiveDeck().size());
     }
 
     /**
@@ -35,6 +38,9 @@ class LorenzoTest {
         assertEquals(26, lorenzo.getFaith());
     }
 
+    /**
+     * This method tests lorenzo's ability to detect the necessity for a new vatican report based on his faith score
+     */
     @Test
     void getNewTriggeredTile() {
         List<PopeFavorTile> tileList = new ArrayList<>();
@@ -53,7 +59,40 @@ class LorenzoTest {
         assertEquals(1, lorenzo.getNewTriggeredTile(0));
     }
 
+    /**
+     * This method tests the restoration and shuffling of the active deck
+     */
     @Test
     void shuffleDeck() {
+        Lorenzo lorenzo = new Lorenzo(new CardTable(), null);
+        int numOfTokens = lorenzo.getActiveDeck().size();
+        List<ActionToken> firstList = lorenzo.getActiveDeck();
+
+        lorenzo.takeTurn();
+        lorenzo.takeTurn();
+        lorenzo.takeTurn();
+
+        lorenzo.shuffleDeck();
+
+        assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
+
+        List<ActionToken> secondList = lorenzo.getActiveDeck();
+
+        lorenzo.takeTurn();
+        lorenzo.takeTurn();
+
+        lorenzo.shuffleDeck();
+
+        assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
+
+        boolean same = true;
+        for (int i=0; i<firstList.size(); i++) {
+            if (firstList.get(i)!=secondList.get(i)) {
+                same = false;
+            }
+        }
+        if (same) {
+            fail();
+        }
     }
 }

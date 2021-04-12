@@ -112,7 +112,7 @@
   {
     "victoryPoints": 5,
     "color": "YELLOW",
-    "level": 3,
+    "level": 2,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
     "costQuantity": [0, 0, 0, 4, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
