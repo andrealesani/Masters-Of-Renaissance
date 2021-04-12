@@ -116,6 +116,7 @@ public class DevelopmentCard extends Card {
         List<ResourceType> cost = new ArrayList<>();
 
         //TODO
+        // RICORDA: NON RESTITUIRE DIRETTAMENTE LA LISTA COST, FANNE UNA COPIA
 
         return cost;
     }
