@@ -117,6 +117,13 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter for the player's username
+     *
+     * @return the player's username
+     */
+    public String getUsername () {return username;}
+
+    /**
      * Getter for player's discounts
      *
      * @return the player's discount map

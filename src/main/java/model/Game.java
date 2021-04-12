@@ -182,24 +182,42 @@ public class Game {
 
     // HIC SUNT AZIONES DE GIOCATORIBUS
 
+
     public void buyDevelopmentCard(CardColor color, int level, int slot) {
         cardTable.buyTopCard(color, level, currentPlayer, slot);
     }
 
-    //controllare se il gioco è finito (sia solo mode sia multiplayer)
-    //se il gioco non è finito e partita è multiplayer cambiare currentPlayer
     public void endCurrentTurn() {
+        checkDiscarded();
+
+        checkVaticanReport();
+
+        if (checkGameEnding()) {
+            //TODO
+        } else {
+            switchPlayer();
+        }
+    }
+
+    private void checkDiscarded () {
         int numDiscardedResources = currentPlayer.leftInWaitingRoom();
 
         if (numDiscardedResources > 0) {
             if (lorenzo!=null) {
                 lorenzo.increaseFaith(numDiscardedResources);
             } else {
-                increaseFaithAll(numDiscardedResources);
+                String currentPlayerName = currentPlayer.getUsername();
+                for (PlayerBoard playerBoard : playersTurnOrder) {
+                    if (!playerBoard.getUsername().equals(currentPlayerName)) {
+                        playerBoard.increaseFaith(numDiscardedResources);
+                    }
+                }
             }
             currentPlayer.clearWaitingRoom();
         }
+    }
 
+    private void checkVaticanReport () {
         int newTriggeredTile = 0;
 
         if (lorenzo!=null) {
@@ -219,6 +237,14 @@ public class Game {
             }
             lastTriggeredTile = newTriggeredTile;
         }
+    }
 
+    private boolean checkGameEnding () {
+        //TODO
+        return false;
+    }
+
+    private void switchPlayer() {
+        //TODO
     }
 }
