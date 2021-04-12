@@ -80,13 +80,16 @@ public class Market {
             riga = numScope;
             for (int j = 0; j < 4; j++)
                 board[riga][j].addResourceFromMarket(playerBoard);
+            shiftResources(MarketScope.ROW, riga);
         }
 
         else if(marketScope == MarketScope.COLUMN) {
             col = numScope;
             for (int i = 0; i < 3; i++)
                 board[i][col].addResourceFromMarket(playerBoard);
+            shiftResources(MarketScope.COLUMN, col);
         }
+
 
     }
 
