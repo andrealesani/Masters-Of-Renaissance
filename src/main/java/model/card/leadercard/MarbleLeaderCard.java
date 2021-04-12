@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class MarbleLeaderCard extends LeaderCard {
     private final ResourceType resourceType;
-    private final ArrayList<CardColor> requiredColors;
+    private final CardColor[] requiredColors;
     private final int[] requiredQuantities;
 
     /**
@@ -21,7 +21,7 @@ public class MarbleLeaderCard extends LeaderCard {
      * @param requiredColors    CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
-    public MarbleLeaderCard(int victoryPoints, ResourceType resourceType, ArrayList<CardColor> requiredColors, int[] requiredQuantities) {
+    public MarbleLeaderCard(int victoryPoints, ResourceType resourceType, CardColor[] requiredColors, int[] requiredQuantities) {
         super(victoryPoints);
         this.resourceType = resourceType;
         this.requiredColors = requiredColors;
@@ -55,8 +55,8 @@ public class MarbleLeaderCard extends LeaderCard {
      */
     @Override
     public boolean areRequirementsMet(PlayerBoard playerBoard) {
-        for (int i = 0; i < requiredColors.size(); i++) {
-            if (playerBoard.getNumOfCards(requiredColors.get(i)) < requiredQuantities[i])
+        for (int i = 0; i < requiredColors.length; i++) {
+            if (playerBoard.getNumOfCards(requiredColors[i]) < requiredQuantities[i])
                 return false;
         }
         return true;
