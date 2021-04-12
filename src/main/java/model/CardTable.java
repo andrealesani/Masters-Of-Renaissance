@@ -1,6 +1,8 @@
 package model;
 
 import Exceptions.EmptyDeckException;
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -114,8 +116,8 @@ public class CardTable {
      * @param playerBoard specifies which player is buying the card
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
-    public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) {
-        playerBoard.addDevelopmentCard(cardSlot, colorToColumn(cardColor).get(row).get(0));
+    public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
+        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row).get(0), cardSlot);
         colorToColumn(cardColor).get(row).remove(0);
     }
 

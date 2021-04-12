@@ -1,5 +1,7 @@
 package model;
 
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -180,10 +182,10 @@ public class Game {
         //TODO
     }
 
-    // HIC SUNT AZIONES DE GIOCATORIBUS
+    // HIC SUNT ACTIONEM GIOCATORIBUS
 
 
-    public void buyDevelopmentCard(CardColor color, int level, int slot) {
+    public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
         cardTable.buyTopCard(color, level, currentPlayer, slot);
     }
 
