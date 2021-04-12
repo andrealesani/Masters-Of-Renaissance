@@ -160,6 +160,15 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter
+     *
+     * @return cardSlots
+     */
+    public List<List<DevelopmentCard>> getCardSlots() {
+        return cardSlots;
+    }
+
+    /**
      * Temporarily stores the given amount of the given resource in the waiting room, so that the player may decide in which depot to place it
      *
      * @param resource the resource to be added
