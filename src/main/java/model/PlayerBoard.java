@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This class represents one single physical game player board. It holds all the information about a player's status
@@ -185,6 +186,98 @@ public class PlayerBoard {
     }
 
     /**
+     * Checks if the player has the requisites for buying the selected development card.
+     * If so, it adds the card to the player's requested slot and adds its production to the production handler.
+     * The cost of the card is memorized in the waiting room, so that the player may choose where to take the resources from
+     *
+     * @param card the card to be bought by the player
+     * @param slot the slot in which to put the card
+     * @throws SlotNotValidException      if the selected slot cannot hold the selected card
+     * @throws NotEnoughResourceException if the player does not have the resources necessary for buying the card
+     */
+    public void buyDevelopmentCard(DevelopmentCard card, int slot) throws SlotNotValidException, NotEnoughResourceException {
+        List<DevelopmentCard> requestedSlot = cardSlots.get(slot - 1);
+        int cardLevel = card.getLevel();
+
+        if (cardLevel == 1) {
+            if (!requestedSlot.isEmpty()) {
+                throw new SlotNotValidException();
+            }
+        } else if (cardLevel > 1) {
+            if (requestedSlot.get(requestedSlot.size() - 1).getLevel() != card.getLevel() - 1) {
+                throw new SlotNotValidException();
+            }
+        }
+
+        List<ResourceType> cost = card.getCost();
+        Map<ResourceType, Long> resourceQuantities =
+                cost.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        List<ResourceType> resourcesInCost =
+                cost.stream().distinct().collect(Collectors.toList());
+
+        for (ResourceType resource : resourcesInCost) {
+            int quantity = Math.toIntExact(resourceQuantities.get(resource));
+            if (resourceQuantities.get(resource) < getNumOfResource(resource)) {
+                waitingRoom.clear();
+                throw new NotEnoughResourceException();
+            }
+            waitingRoom.addResource(resource, quantity);
+        }
+
+        if (cardLevel > 1) {
+            productionHandler.removeProduction(requestedSlot.get(requestedSlot.size() - 1).getProduction());
+        }
+        productionHandler.addProduction(card.getProduction());
+        requestedSlot.add(card);
+    }
+
+    /**
+     * Removes the given amount of the given resource from the given depot, as part of the player's choice of where to take resources to pay for the cost of a development card.
+     * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
+     *
+     * @param depotNumber the number of the depot from which to remove the resource
+     * @param resource    the resource to remove
+     * @param quantity    the amount of resource to remove
+     * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
+     * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
+     */
+    public void takeResourceFromWarehouseCard(int depotNumber, ResourceType resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
+        int debt = waitingRoom.getNumOfResource(resource);
+        if (quantity > debt) {
+            quantity = debt;
+        }
+        warehouse.removeFromDepot(depotNumber, resource, quantity);
+        try {
+            waitingRoom.removeResource(resource, quantity);
+        } catch (NotEnoughResourceException ex) {
+            //This should never happen
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
+     * Removes the given amount of the given resource from the player's strongbox, as part of the player's choice of where to take resources to pay for the cost a development card.
+     * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
+     *
+     * @param resource the resource to remove
+     * @param quantity the amount of resource to remove
+     * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
+     */
+    public void takeResourceFromStrongboxCard(ResourceType resource, int quantity) throws NotEnoughResourceException {
+        int debt = waitingRoom.getNumOfResource(resource);
+        if (quantity > debt) {
+            quantity = debt;
+        }
+        strongbox.removeResource(resource, quantity);
+        try {
+            waitingRoom.removeResource(resource, quantity);
+        } catch (NotEnoughResourceException ex) {
+            //This should never happen
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
      * Removes the given amount of the given resource from the given depot, as part of the player's choice of where to take resources to pay for the cost of their productions.
      * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
      *
@@ -194,7 +287,7 @@ public class PlayerBoard {
      * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
      * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
      */
-    public void takeResourceFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
+    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
         int debt = productionHandler.getDebt(resource);
         if (quantity > debt) {
             quantity = debt;
@@ -203,7 +296,8 @@ public class PlayerBoard {
         try {
             productionHandler.takeResource(this, resource, quantity);
         } catch (ResourceNotPresentException ex) {
-
+            //This should never happen
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -215,7 +309,7 @@ public class PlayerBoard {
      * @param quantity the amount of resource to remove
      * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
      */
-    public void takeResourceFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException {
+    public void takeResourceFromStrongboxProduction(Resource resource, int quantity) throws NotEnoughResourceException {
         int debt = productionHandler.getDebt(resource);
         if (quantity > debt) {
             quantity = debt;

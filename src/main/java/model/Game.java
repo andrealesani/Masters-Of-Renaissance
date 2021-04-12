@@ -176,8 +176,14 @@ public class Game {
     //shufflare le leadercards
     //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
     //Per ogni playerboard in currentplayers chiami addleadercards per e gli dai in ingresso il proprio mazzetto (lista)
-    public void chooseLeaderCard(int i) {
+    public void distributeLeaderCards(int i) {
         //TODO
+    }
+
+    // HIC SUNT AZIONES DE GIOCATORIBUS
+
+    public void buyDevelopmentCard(CardColor color, int level, int slot) {
+        cardTable.buyTopCard(color, level, currentPlayer, slot);
     }
 
     //controllare se il gioco è finito (sia solo mode sia multiplayer)
