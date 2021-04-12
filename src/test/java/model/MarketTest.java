@@ -193,5 +193,23 @@ class MarketTest {
         assertEquals(countFaith, playerBoard.getFaith());
     }
 
+    @Test
+    public void shiftResources(){
+        Market market = new Market();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+
+        Resource[][] board = market.getBoard();
+        Resource oldSlideOrb = market.getSlideOrb();
+        market.selectResources(MarketScope.ROW, 0, playerBoard);
+        Resource[][] shifted = market.getBoard();
+        Resource newSlideOrb = market.getSlideOrb();
+
+        assertEquals(oldSlideOrb, shifted[0][3]);
+        assertEquals(board[0][3], shifted[0][2]);
+        assertEquals(board[0][2], shifted[0][1]);
+        assertEquals(board[0][1], shifted[0][0]);
+        assertEquals(board[0][0], newSlideOrb);
+
+    }
 
 }
