@@ -73,7 +73,7 @@ public class Market {
         return slideOrb;
     }
 
-    public void selectedResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
+    public void selectResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
         int riga, col;
 
         if(marketScope == MarketScope.ROW) {
