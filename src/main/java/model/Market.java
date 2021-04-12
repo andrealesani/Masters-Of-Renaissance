@@ -102,11 +102,9 @@ public class Market {
             riga = numScope;
             int j = 0;
             temp = board[riga][j];
-            next = board[riga][j+1];
-            for(j = 1; j < 4; j++) {
-                board[riga][j-1] = next;
-                next = board[riga][j+1];
-            }
+            for(j = 0; j < 3; j++)
+                board[riga][j] = board[riga][j+1];
+
             board[riga][j] = slideOrb;
             slideOrb = temp;
         }
@@ -116,11 +114,9 @@ public class Market {
             col = numScope;
             int i = 0;
             temp = board[i][col];
-            next = board[i+1][col];
-            for(i = 1; i < 3; i++) {
-                board[i-1][col] = next;
-                next = board[i+1][col];
-            }
+            for(i = 0; i < 3; i++)
+                board[i][col] = board[i+1][col];
+
             board[i][col] = slideOrb;
             slideOrb = temp;
         }
