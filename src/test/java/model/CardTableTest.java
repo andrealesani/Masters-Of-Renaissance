@@ -70,6 +70,20 @@ class CardTableTest {
             assertTrue(developmentCard.getColor() == CardColor.PURPLE);
         }
 
+        // Checks that all decks have 4 cards each
+        assertEquals(4, cardTable.getGreenCards().get(0).size());
+        assertEquals(4, cardTable.getGreenCards().get(1).size());
+        assertEquals(4, cardTable.getGreenCards().get(2).size());
+        assertEquals(4, cardTable.getBlueCards().get(0).size());
+        assertEquals(4, cardTable.getBlueCards().get(1).size());
+        assertEquals(4, cardTable.getBlueCards().get(2).size());
+        assertEquals(4, cardTable.getYellowCards().get(0).size());
+        assertEquals(4, cardTable.getYellowCards().get(1).size());
+        assertEquals(4, cardTable.getYellowCards().get(2).size());
+        assertEquals(4, cardTable.getPurpleCards().get(0).size());
+        assertEquals(4, cardTable.getPurpleCards().get(1).size());
+        assertEquals(4, cardTable.getPurpleCards().get(2).size());
+
         cardTable.getGreenCards().get(0).get(0).getProduction();
     }
 
