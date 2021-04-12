@@ -7,9 +7,7 @@ import model.ResourceType;
 import model.resource.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents the development cards in the physical game. All its attributes are set once in the constructor
@@ -35,11 +33,11 @@ public class DevelopmentCard extends Card {
         this.level = level;
         this.color = color;
 
-        cost = InitializeCost(costType, costQuantity);
-        production = InitializeProduction(inputType, inputQuantity, outputType, outputQuantity);
+        cost = initializeCost(costType, costQuantity);
+        production = initializeProduction(inputType, inputQuantity, outputType, outputQuantity);
     }
 
-    private List<ResourceType> InitializeCost (ResourceType[] costType, int[] costQuantity) {
+    private List<ResourceType> initializeCost(ResourceType[] costType, int[] costQuantity) {
         List<ResourceType> costList = new ArrayList<>();
         for (int i=0; i<costType.length; i++) {
             while (costQuantity[i]>0) {
@@ -49,7 +47,7 @@ public class DevelopmentCard extends Card {
         return costList;
     }
 
-    private Production InitializeProduction (ResourceType[] inputType, int[] inputQuantity,ResourceType[] outputType, int[] outputQuantity){
+    private Production initializeProduction(ResourceType[] inputType, int[] inputQuantity, ResourceType[] outputType, int[] outputQuantity){
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();
 
@@ -57,17 +55,21 @@ public class DevelopmentCard extends Card {
         Resource coin = new ResourceCoin();
         Resource shield = new ResourceShield();
         Resource servant = new ResourceServant();
+        Resource unknown = new ResourceUnknown();
+        Resource faith = new ResourceFaith();
 
         for (int i=0; i<inputType.length; i++) {
             while (inputQuantity[i]>0) {
-                if (inputType[i]==ResourceType.SHIELD) {
+                if (inputType[i] == ResourceType.SHIELD) {
                     input.add(shield);
-                } else if (inputType[i]==ResourceType.COIN) {
+                } else if (inputType[i] == ResourceType.COIN) {
                     input.add(coin);
-                } else if (inputType[i]==ResourceType.STONE) {
+                } else if (inputType[i] == ResourceType.STONE) {
                     input.add(stone);
-                }else if (inputType[i]==ResourceType.SERVANT) {
+                } else if (inputType[i] == ResourceType.SERVANT) {
                     input.add(servant);
+                } else if (inputType[i] == ResourceType.UNKNOWN) {
+                    input.add(unknown);
                 }
             }
         }
@@ -82,6 +84,10 @@ public class DevelopmentCard extends Card {
                     output.add(stone);
                 }else if (outputType[i]==ResourceType.SERVANT) {
                     output.add(servant);
+                } else if (inputType[i]==ResourceType.UNKNOWN) {
+                    input.add(unknown);
+                } else if (inputType[i]==ResourceType.FAITH) {
+                    input.add(faith);
                 }
             }
         }
@@ -113,12 +119,10 @@ public class DevelopmentCard extends Card {
      * @return returns card cost
      */
     public List<ResourceType> getCost() {
-        List<ResourceType> cost = new ArrayList<>();
+        List<ResourceType> costCpy = new ArrayList<>();
+        costCpy.addAll(cost);
 
-        //TODO
-        // RICORDA: NON RESTITUIRE DIRETTAMENTE LA LISTA COST, FANNE UNA COPIA
-
-        return cost;
+        return costCpy;
     }
 
     /**
@@ -127,12 +131,7 @@ public class DevelopmentCard extends Card {
      * @return returns the Production that this card enables for the player
      */
     public Production getProduction() {
-        List<Resource> input = new ArrayList<>();
-        List<Resource> output = new ArrayList<>();
-
-        //TODO
-
-        return new Production(input, output);
+        return production;
     }
 
     /**
