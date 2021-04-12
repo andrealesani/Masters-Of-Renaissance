@@ -70,6 +70,18 @@ public class PlayerBoard {
      * List used to store the player's available leader cards
      */
     private final List<LeaderCard> leaderCards;
+    /**
+     * Array used to store the faith values of the victory points faith tiles
+     */
+    private final int[] vpFaithTiles;
+    /**
+     * Array used to store the victory points awarded by the victory points faith tile of corresponding position
+     */
+    private final int[] vpFaithValues;
+    /**
+     * Attribute used to store the last faith value of the faith track
+     */
+    private final int finalFaith;
 
     /**
      * The class constructor
@@ -79,7 +91,7 @@ public class PlayerBoard {
      * @param numOfDepots    the number of basic depots to be instantiated in the warehouse
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
-    public PlayerBoard(Game game, String username, int numOfDepots, List<PopeFavorTile> popeFavorTiles) {
+    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles) {
         this.game = game;
         this.username = username;
         faith = 0;
@@ -89,8 +101,11 @@ public class PlayerBoard {
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
+        this.finalFaith = finalFaith;
+        this.vpFaithTiles = vpFaithTiles;
+        this.vpFaithValues = vpFaithValues;
         cardSlots = new ArrayList<List<DevelopmentCard>>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < numOfDepots; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
@@ -110,6 +125,9 @@ public class PlayerBoard {
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<>();
+        finalFaith = 0;
+        vpFaithTiles = null;
+        vpFaithValues = null;
         for (int i = 0; i < 3; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
@@ -568,7 +586,7 @@ public class PlayerBoard {
 
     public boolean isGameEnding() {
         //24 faith, 7 DevelopmentCards
-        if (getFaith() >= 24)
+        if (faith >= finalFaith)
             return true;
 
         int devCardsNum = 0;
@@ -592,6 +610,36 @@ public class PlayerBoard {
             for (DevelopmentCard developmentCard : slot) {
                 vp += developmentCard.getVictoryPoints();
             }
+        }
+        //Pope's favor tiles
+        for (PopeFavorTile tile : popeFavorTiles) {
+            vp += tile.getVictoryPoints();
+        }
+        //Faith track
+        //TODO make it not hard coded
+        if (faith>3) {
+
+        }
+        if (faith>6) {
+
+        }
+        if (faith>9){
+
+        }
+        if (faith>12) {
+
+        }
+        if (faith>15) {
+
+        }
+        if (faith>3) {
+
+        }
+        if (faith>3) {
+
+        }
+        if (faith>3) {
+
         }
         //Check every 5 Resources
         int resourceNum = 0;

@@ -27,6 +27,8 @@ public class Game {
     private PlayerBoard currentPlayer;
     private ArtificialIntelligence lorenzo;
     private int lastTriggeredTile;
+    private final int finalFaith;
+    private boolean weReInTheEndGameNow;
 
     /**
      * Constructor
@@ -38,8 +40,13 @@ public class Game {
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         lastTriggeredTile = 0;
+        weReInTheEndGameNow = false;
 
-
+        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots and finalfaith initialized in a JSON
+        finalFaith = 24;
+        int numOfDepots = 3;
+        int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
+        int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
         for (String nickname : nicknames) {
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
             popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
@@ -50,7 +57,7 @@ public class Game {
                 lorenzo = new Lorenzo(cardTable, popeFavorTiles);
             }
 
-            playersTurnOrder.add(new PlayerBoard(this, nickname, 3, popeFavorTiles));
+            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, vpFaithTiles, vpFaithValues, popeFavorTiles));
         }
 
         assignInkwell();
@@ -66,8 +73,10 @@ public class Game {
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
+        finalFaith = 24;
         initializeLeaderCards();
         lastTriggeredTile = 0;
+        weReInTheEndGameNow = false;
     }
 
     /**
@@ -182,40 +191,27 @@ public class Game {
         //TODO
     }
 
-    // HIC SUNT ACTIONEM GIOCATORIBUS
-
-
-    public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
-        cardTable.buyTopCard(color, level, currentPlayer, slot);
-    }
-
-    public void endCurrentTurn() {
-        checkDiscarded();
-
-        checkVaticanReport();
-
-        if (checkGameEnding()) {
-            //TODO
-        } else {
-            switchPlayer();
-        }
-    }
-
     private void checkDiscarded () {
         int numDiscardedResources = currentPlayer.leftInWaitingRoom();
 
         if (numDiscardedResources > 0) {
+
             if (lorenzo!=null) {
+
                 lorenzo.increaseFaith(numDiscardedResources);
+
             } else {
+
                 String currentPlayerName = currentPlayer.getUsername();
                 for (PlayerBoard playerBoard : playersTurnOrder) {
                     if (!playerBoard.getUsername().equals(currentPlayerName)) {
                         playerBoard.increaseFaith(numDiscardedResources);
                     }
                 }
+
             }
             currentPlayer.clearWaitingRoom();
+
         }
     }
 
@@ -241,12 +237,57 @@ public class Game {
         }
     }
 
-    private boolean checkGameEnding () {
-        //TODO
+    private boolean isGameEnding () {
+        if (lorenzo!=null) {
+            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith()>=finalFaith) {
+                return true;
+            }
+        }
+        for (PlayerBoard player : playersTurnOrder) {
+            if(player.isGameEnding()) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     private void switchPlayer() {
-        //TODO
+        if (lorenzo==null) {
+            int currentIndex = playersTurnOrder.indexOf(currentPlayer);
+            if (currentIndex<playersTurnOrder.size()-1) {
+                currentPlayer = playersTurnOrder.get(currentIndex+1);
+            } else {
+                currentPlayer = playersTurnOrder.get(0);
+            }
+        }
+    }
+
+    private void endTheGame() {
+        //TODO actually end the game
+        // call calculate victory points and determine winner
+    }
+
+    // HIC SUNT ACTIONEM GIOCATORIBUS
+
+
+    public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
+        cardTable.buyTopCard(color, level, currentPlayer, slot);
+    }
+
+    public void endCurrentTurn() {
+        checkDiscarded();
+
+        checkVaticanReport();
+
+        switchPlayer();
+
+        if (weReInTheEndGameNow) {
+            if (currentPlayer==playersTurnOrder.get(0)) {
+                endTheGame();
+            }
+        } else if (isGameEnding()) {
+            weReInTheEndGameNow = true;
+        }
     }
 }
