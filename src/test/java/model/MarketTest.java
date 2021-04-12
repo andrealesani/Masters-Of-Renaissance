@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.*;
 import model.resource.*;
 import org.junit.jupiter.api.Test;
 
@@ -160,5 +161,37 @@ class MarketTest {
         ) ;
 
     }
+
+    @Test
+    public void selectResources() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+
+        Market market = new Market();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+        int riga = 0;
+        int countNormal = 0, countFaith = 0;
+
+        for (int j = 0; j < 4; j++) {
+            market.getMarble(riga, j).addResourceFromMarket(playerBoard);
+            if ((market.getMarble(riga, j) instanceof ResourceCoin)){
+                countNormal++;
+            }
+            else if ((market.getMarble(riga, j) instanceof ResourceFaith)){
+                countFaith++;
+            }
+            else if ((market.getMarble(riga, j) instanceof ResourceServant)){
+                countNormal++;
+            }
+            else if ((market.getMarble(riga, j) instanceof ResourceShield)){
+                countNormal++;
+            }
+            else if ((market.getMarble(riga, j) instanceof ResourceStone)){
+                countNormal++;
+            }
+        }
+
+        assertEquals(countNormal, playerBoard.leftInWaitingRoom());
+        assertEquals(countFaith, playerBoard.getFaith());
+    }
+
 
 }
