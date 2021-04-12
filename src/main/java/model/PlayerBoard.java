@@ -360,8 +360,10 @@ public class PlayerBoard {
      * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the target depot
      * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
+     * @throws NotEnoughResourceException if the waiting room contains less than the given amount of the given resource
      */
-    public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException {
+    public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
+        waitingRoom.removeResource(resource, quantity);
         warehouse.addToDepot(depot, resource, quantity);
     }
 

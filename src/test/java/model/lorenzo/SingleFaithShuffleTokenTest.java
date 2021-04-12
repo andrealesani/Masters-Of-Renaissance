@@ -20,13 +20,20 @@ class SingleFaithShuffleTokenTest {
         int tokenTotal = lorenzo.getActiveDeck().size();
         lorenzo.takeTurn();
         lorenzo.takeTurn();
-
-        assertEquals (tokenTotal-2, lorenzo.getActiveDeck().size());
-
         int previousFaith = lorenzo.getFaith();
 
-        assertEquals (tokenTotal-2, lorenzo.getActiveDeck().size());
+        token.doAction();
+
+        assertEquals (tokenTotal, lorenzo.getActiveDeck().size());
         assertEquals (previousFaith+1, lorenzo.getFaith());
 
+        lorenzo.takeTurn();
+        lorenzo.takeTurn();
+        previousFaith = lorenzo.getFaith();
+
+        token.doAction();
+
+        assertEquals (tokenTotal, lorenzo.getActiveDeck().size());
+        assertEquals (previousFaith+1, lorenzo.getFaith());
     }
 }
