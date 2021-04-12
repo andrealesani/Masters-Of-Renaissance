@@ -22,42 +22,22 @@ public class CardTable {
     private final List<List<DevelopmentCard>> purpleCards;
 
     public CardTable() {
-        Gson gson = new Gson();
-        JsonReader reader = null;
-        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
-        }.getType();
+        greenCards = new ArrayList<>();
+        blueCards = new ArrayList<>();
+        yellowCards = new ArrayList<>();
+        purpleCards = new ArrayList<>();
 
         // GREEN CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/GreenCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        greenCards = gson.fromJson(reader, DevCardArray);
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
 
         // BLUE CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/BlueCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        blueCards = gson.fromJson(reader, DevCardArray);
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
 
         // YELLOW CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/YellowCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        yellowCards = gson.fromJson(reader, DevCardArray);
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
 
         // PURPLE CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/developmentcards/PurpleCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        purpleCards = gson.fromJson(reader, DevCardArray);
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
     }
 
     /**
@@ -65,8 +45,45 @@ public class CardTable {
      *
      * @return the column with only yellow cards decks
      */
+    public List<List<DevelopmentCard>> getGreenCards() {
+        return greenCards;
+    }
+
+    public List<List<DevelopmentCard>> getBlueCards() {
+        return blueCards;
+    }
+
     public List<List<DevelopmentCard>> getYellowCards() {
         return yellowCards;
+    }
+
+    public List<List<DevelopmentCard>> getPurpleCards() {
+        return purpleCards;
+    }
+
+    private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
+        }.getType();
+
+        try {
+            reader = new JsonReader(new FileReader(JsonPath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
+        for(int i = 0; i < 3; i++) {
+            colorCards.add(new ArrayList<DevelopmentCard>());
+        }
+        for (DevelopmentCard developmentCard: allColorCards) {
+            if(developmentCard.getLevel() == 1)
+                colorCards.get(2).add(developmentCard);
+            else if(developmentCard.getLevel() == 2)
+                colorCards.get(1).add(developmentCard);
+            else if(developmentCard.getLevel() == 3)
+                colorCards.get(0).add(developmentCard);
+        }
     }
 
     /**
