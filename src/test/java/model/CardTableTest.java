@@ -88,6 +88,21 @@ class CardTableTest {
         PlayerBoard playerBoard = new PlayerBoard();
 
         cardTable.buyTopCard(CardColor.GREEN, 3, playerBoard, 1);
-        
+        assertTrue(playerBoard.getCardSlots().get(0).get(0).getColor() == CardColor.GREEN);
+        assertTrue(playerBoard.getCardSlots().get(0).get(0).getLevel() == 1);
+        System.out.println(playerBoard.getCardSlots().get(0).get(0).getVictoryPoints());
+    }
+
+    @Test
+    void checkAllColorsAvailable() throws EmptyDeckException {
+        CardTable cardTable = new CardTable();
+        assertTrue(cardTable.checkAllColorsAvailable());
+
+        for (int i = 0; i < 11; i++)
+            cardTable.discardTop(CardColor.GREEN);
+        assertTrue(cardTable.checkAllColorsAvailable());
+
+        cardTable.discardTop(CardColor.GREEN);
+        assertFalse(cardTable.checkAllColorsAvailable());
     }
 }

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopmentCardTest {
+
+    /**
+     * Test for JSON instantiation
+     */
     @Test
     void JSONBlueDevelopmentArray() {
         Gson gson = new Gson();
@@ -33,6 +37,9 @@ class DevelopmentCardTest {
         assertTrue(blueDevCards.get(0).getColor() == CardColor.BLUE);
     }
 
+    /**
+     * Test for JSON instantiation
+     */
     @Test
     void JSONYellowDevelopmentArray() {
         Gson gson = new Gson();

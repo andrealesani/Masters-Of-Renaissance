@@ -137,7 +137,7 @@ public class CardTable {
      * Adds the selected card to the specified PlayerBoard in the specified slot
      *
      * @param cardColor   specifies the column of the card in the grid
-     * @param row         specifies the row of the card in the grid
+     * @param row         specifies the row of the card in the grid (STARTS FROM 1)
      * @param playerBoard specifies which player is buying the card
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
@@ -170,19 +170,27 @@ public class CardTable {
      */
     public boolean checkAllColorsAvailable() {
         for (List<DevelopmentCard> deck : greenCards) {
-            if (deck.size() < 1)
+            if (deck.size() >= 1)
+                break;
+            else
                 return false;
         }
         for (List<DevelopmentCard> deck : blueCards) {
-            if (deck.size() < 1)
+            if (deck.size() >= 1)
+                break;
+            else
                 return false;
         }
         for (List<DevelopmentCard> deck : yellowCards) {
-            if (deck.size() < 1)
+            if (deck.size() >= 1)
+                break;
+            else
                 return false;
         }
         for (List<DevelopmentCard> deck : purpleCards) {
-            if (deck.size() < 1)
+            if (deck.size() >= 1)
+                break;
+            else
                 return false;
         }
 
