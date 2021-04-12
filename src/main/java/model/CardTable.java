@@ -45,24 +45,49 @@ public class CardTable {
     /**
      * Getter
      *
-     * @return the column with only yellow cards decks
+     * @return the CardTable column with only green cards decks
      */
     public List<List<DevelopmentCard>> getGreenCards() {
         return greenCards;
     }
 
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only blue cards decks
+     */
     public List<List<DevelopmentCard>> getBlueCards() {
         return blueCards;
     }
 
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only yellow cards decks
+     */
     public List<List<DevelopmentCard>> getYellowCards() {
         return yellowCards;
     }
 
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only purple cards decks
+     */
     public List<List<DevelopmentCard>> getPurpleCards() {
         return purpleCards;
     }
 
+    /**
+     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
+     * then it reads the cards from the file and splits them into decks based on the cards level.
+     * To keep the analogy with the physical game, level 3 cards will be on the upper part of the table (first lists of
+     * every column), level 2 cards will be in the middle (second lists of every column) and level 1 cards will be on
+     * the bottom of the table (third lists of every column)
+     *
+     * @param JsonPath specifies the path where the JSON file is stored
+     * @param colorCards specifies which column of the deck is going to be instantiated
+     */
     private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
         Gson gson = new Gson();
         JsonReader reader = null;
@@ -117,8 +142,8 @@ public class CardTable {
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
     public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
-        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row).get(0), cardSlot);
-        colorToColumn(cardColor).get(row).remove(0);
+        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row-1).get(0), cardSlot);
+        colorToColumn(cardColor).get(row-1).remove(0);
     }
 
     /**
@@ -130,7 +155,7 @@ public class CardTable {
         List<List<DevelopmentCard>> deckColumn = colorToColumn(cardColor);
 
         if (deckColumn.get(2).size() > 0)
-            deckColumn.get(0).remove(0);
+            deckColumn.get(2).remove(0);
         else if (deckColumn.get(1).size() > 0)
             deckColumn.get(1).remove(0);
         else if (deckColumn.get(0).size() > 0)
