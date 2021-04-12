@@ -82,6 +82,10 @@ public class PlayerBoard {
      * Attribute used to store the last faith value of the faith track
      */
     private final int finalFaith;
+    /**
+     * Attribute used to store the number of development cards the player can have before triggering the endgame
+     */
+    private final int devCardMax;
 
     /**
      * The class constructor
@@ -91,7 +95,7 @@ public class PlayerBoard {
      * @param numOfDepots    the number of basic depots to be instantiated in the warehouse
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
-    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles) {
+    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int devCardMax, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles) {
         this.game = game;
         this.username = username;
         faith = 0;
@@ -101,12 +105,13 @@ public class PlayerBoard {
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
-        this.finalFaith = finalFaith;
-        this.vpFaithTiles = vpFaithTiles;
-        this.vpFaithValues = vpFaithValues;
         cardSlots = new ArrayList<List<DevelopmentCard>>();
         for (int i = 0; i < numOfDepots; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
+        this.finalFaith = finalFaith;
+        this.devCardMax = devCardMax;
+        this.vpFaithTiles = vpFaithTiles;
+        this.vpFaithValues = vpFaithValues;
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
     }
@@ -126,6 +131,7 @@ public class PlayerBoard {
         discounts = new HashMap<>();
         cardSlots = new ArrayList<>();
         finalFaith = 0;
+        devCardMax = 0;
         vpFaithTiles = null;
         vpFaithValues = null;
         for (int i = 0; i < 3; i++)
@@ -602,7 +608,7 @@ public class PlayerBoard {
         for (List<DevelopmentCard> slot : cardSlots) {
             devCardsNum += slot.size();
         }
-        if (devCardsNum >= 7)
+        if (devCardsNum >= devCardMax)
             return true;
 
         return false;
@@ -625,30 +631,10 @@ public class PlayerBoard {
             vp += tile.getVictoryPoints();
         }
         //Faith track
-        //TODO make it not hard coded
-        if (faith>3) {
-
-        }
-        if (faith>6) {
-
-        }
-        if (faith>9){
-
-        }
-        if (faith>12) {
-
-        }
-        if (faith>15) {
-
-        }
-        if (faith>3) {
-
-        }
-        if (faith>3) {
-
-        }
-        if (faith>3) {
-
+        for (int i=0; i<vpFaithTiles.length; i++) {
+            if (faith>=vpFaithTiles[i]) {
+                vp += vpFaithValues[i];
+            }
         }
         //Check every 5 Resources
         int resourceNum = 0;

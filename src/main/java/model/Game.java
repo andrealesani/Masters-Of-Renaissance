@@ -41,9 +41,11 @@ public class Game {
         lorenzo = null;
         lastTriggeredTile = 0;
         weReInTheEndGameNow = false;
+        initializeLeaderCards();
 
-        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots and finalfaith initialized in a JSON
+        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
+        int devCardMax = 7;
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
         int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
@@ -57,7 +59,7 @@ public class Game {
                 lorenzo = new Lorenzo(cardTable, popeFavorTiles);
             }
 
-            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, vpFaithTiles, vpFaithValues, popeFavorTiles));
+            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles));
         }
 
         assignInkwell();

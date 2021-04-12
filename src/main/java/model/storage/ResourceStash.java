@@ -11,6 +11,7 @@ import java.util.List;
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
 public interface ResourceStash {
+    //TODO add wrong parameters exceptions
     /**
      * Remove a certain amount of the given resource from storage
      *
