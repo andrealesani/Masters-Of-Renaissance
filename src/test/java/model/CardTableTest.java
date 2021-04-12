@@ -69,6 +69,8 @@ class CardTableTest {
             assertTrue(developmentCard.getLevel() == 1);
             assertTrue(developmentCard.getColor() == CardColor.PURPLE);
         }
+
+        cardTable.getGreenCards().get(0).get(0).getProduction();
     }
 
     @Test
