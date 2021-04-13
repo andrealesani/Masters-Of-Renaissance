@@ -103,12 +103,12 @@ public class PlayerBoard {
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<List<DevelopmentCard>>();
-        for (int i = 0; i < numOfDepots; i++)
-            cardSlots.add(new ArrayList<DevelopmentCard>());
         this.finalFaith = finalFaith;
         this.devCardMax = devCardMax;
         this.vpFaithTiles = vpFaithTiles;
         this.vpFaithValues = vpFaithValues;
+        for (int i = 0; i < 3; i++)
+            cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
     }
@@ -121,14 +121,14 @@ public class PlayerBoard {
         username = null;
         faith = 0;
         popeFavorTiles = null;
-        warehouse = new Warehouse(1);
-        waitingRoom = null;
+        warehouse = new Warehouse(0);
+        waitingRoom = new UnlimitedStorage();
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
         cardSlots = new ArrayList<>();
-        finalFaith = 0;
-        devCardMax = 0;
+        finalFaith = 24;
+        devCardMax = 7;
         vpFaithTiles = null;
         vpFaithValues = null;
         for (int i = 0; i < 3; i++)
