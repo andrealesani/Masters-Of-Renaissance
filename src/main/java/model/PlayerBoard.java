@@ -492,6 +492,7 @@ public class PlayerBoard {
     }
 
     /**
+     *                  SOLO PER TESTING !!!!!!!!!!!!!!!!!!!!!!!!!!!!
      * Adds the specified DevelopmentCard to the specified slot in the player's PlayerBoard
      *
      * @param slot            specifies to which production slot the Card must be added
@@ -630,7 +631,7 @@ public class PlayerBoard {
         return false;
     }
 
-    private int calculateVictoryPoints() {
+    public int calculateVictoryPoints() {
         int vp = 0;
         //LeaderCards
         for (LeaderCard leaderCard : leaderCards) {
