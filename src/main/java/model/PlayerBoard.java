@@ -138,6 +138,15 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter
+     *
+     * @return ProductionHandler
+     */
+    public ProductionHandler getProductionHandler() {
+        return productionHandler;
+    }
+
+    /**
      * Getter for the player's username
      *
      * @return the player's username
