@@ -1,6 +1,5 @@
 package model;
 
-import model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +8,34 @@ class PlayerBoardTest {
 
     @Test
     void addResourceToWarehouse() {
+    }
+
+    @Test
+    void swapDepotContent() {
+    }
+
+    @Test
+    void addResourceToStrongbox() {
+    }
+
+    @Test
+    void buyDevelopmentCard() {
+    }
+
+    @Test
+    void takeResourceFromWarehouseCard() {
+    }
+
+    @Test
+    void takeResourceFromStrongboxCard() {
+    }
+
+    @Test
+    void takeResourceFromWarehouseProduction() {
+    }
+
+    @Test
+    void takeResourceFromStrongboxProduction() {
     }
 
     @Test
@@ -24,11 +51,23 @@ class PlayerBoardTest {
     }
 
     @Test
-    void addDevelopmentCard() {
+    void getNumOfResource() {
     }
 
     @Test
-    void addResourceToStrongbox() {
+    void increaseFaith() {
+    }
+
+    @Test
+    void getNewTriggeredTile() {
+    }
+
+    @Test
+    void theVaticanReport() {
+    }
+
+    @Test
+    void addDevelopmentCard() {
     }
 
     @Test
@@ -37,6 +76,10 @@ class PlayerBoardTest {
 
     @Test
     void playLeaderCard() {
+    }
+
+    @Test
+    void discardLeaderCard() {
     }
 
     @Test
@@ -52,22 +95,6 @@ class PlayerBoardTest {
     }
 
     @Test
-    void discardLeaderCard() {
-    }
-
-    @Test
-    void faithIncrease() {
-    }
-
-    @Test
-    void theVaticanReport() {
-    }
-
-    @Test
-    void getNumOfResource() {
-    }
-
-    @Test
     void getNumOfCards() {
     }
 
@@ -77,6 +104,10 @@ class PlayerBoardTest {
 
     @Test
     void leftInWaitingRoom() {
+    }
+
+    @Test
+    void clearWaitingRoom() {
     }
 
     @Test
