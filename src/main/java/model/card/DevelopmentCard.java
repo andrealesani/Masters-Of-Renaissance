@@ -22,8 +22,8 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor
      *
-     * @param level      specifies the level of the card
-     * @param color      specifies the color of the card
+     * @param level specifies the level of the card
+     * @param color specifies the color of the card
      */
     public DevelopmentCard(int victoryPoints, int level, CardColor color,
                            ResourceType[] costType, int[] costQuantity,
@@ -39,15 +39,15 @@ public class DevelopmentCard extends Card {
 
     private List<ResourceType> initializeCost(ResourceType[] costType, int[] costQuantity) {
         List<ResourceType> costList = new ArrayList<>();
-        for (int i=0; i<costType.length; i++) {
-            while (costQuantity[i]>0) {
+        for (int i = 0; i < costType.length; i++) {
+            for (int j = 0; j < costQuantity[i]; j++) {
                 costList.add(costType[i]);
             }
         }
         return costList;
     }
 
-    private Production initializeProduction(ResourceType[] inputType, int[] inputQuantity, ResourceType[] outputType, int[] outputQuantity){
+    private Production initializeProduction(ResourceType[] inputType, int[] inputQuantity, ResourceType[] outputType, int[] outputQuantity) {
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();
 
@@ -58,8 +58,8 @@ public class DevelopmentCard extends Card {
         Resource unknown = new ResourceUnknown();
         Resource faith = new ResourceFaith();
 
-        for (int i=0; i<inputType.length; i++) {
-            while (inputQuantity[i]>0) {
+        for (int i = 0; i < inputType.length; i++) {
+            for(int j = 0; j < inputQuantity[i]; j++) {
                 if (inputType[i] == ResourceType.SHIELD) {
                     input.add(shield);
                 } else if (inputType[i] == ResourceType.COIN) {
@@ -74,19 +74,19 @@ public class DevelopmentCard extends Card {
             }
         }
 
-        for (int i=0; i<inputType.length; i++) {
-            while (outputQuantity[i]>0) {
-                if (outputType[i]==ResourceType.SHIELD) {
+        for (int i = 0; i < inputType.length; i++) {
+            for(int j = 0; j < outputQuantity[i]; j++) {
+                if (outputType[i] == ResourceType.SHIELD) {
                     output.add(shield);
-                } else if (outputType[i]==ResourceType.COIN) {
+                } else if (outputType[i] == ResourceType.COIN) {
                     output.add(coin);
-                } else if (outputType[i]==ResourceType.STONE) {
+                } else if (outputType[i] == ResourceType.STONE) {
                     output.add(stone);
-                }else if (outputType[i]==ResourceType.SERVANT) {
+                } else if (outputType[i] == ResourceType.SERVANT) {
                     output.add(servant);
-                } else if (inputType[i]==ResourceType.UNKNOWN) {
+                } else if (inputType[i] == ResourceType.UNKNOWN) {
                     input.add(unknown);
-                } else if (inputType[i]==ResourceType.FAITH) {
+                } else if (inputType[i] == ResourceType.FAITH) {
                     input.add(faith);
                 }
             }

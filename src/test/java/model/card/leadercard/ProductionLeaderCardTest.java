@@ -1,7 +1,9 @@
 package model.card.leadercard;
 
 import model.CardColor;
+import model.PlayerBoard;
 import model.Production;
+import model.ResourceType;
 import model.resource.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +15,15 @@ class ProductionLeaderCardTest {
 
     @Test
     void doAction() {
-        //LeaderCard leaderCard1 = new ProductionLeaderCard(new LeaderCardImpl(), new Production(new ArrayList<Resource>(), new ArrayList<Resource>()), CardColor.BLUE, 2, 3);
+
+        ResourceType[] inputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.UNKNOWN};
+        int[] inputQuantities = {0, 2, 0, 0, 0};
+        ResourceType[] outputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.UNKNOWN, ResourceType.FAITH};
+        int[] outputQuantities = {0, 2, 0, 0, 1};
+
+        ProductionLeaderCard productionLeaderCard = new ProductionLeaderCard(5, CardColor.BLUE, 2, 2, inputType, inputQuantities, outputType, outputQuantities);
+        PlayerBoard playerBoard = new PlayerBoard();
+
+        productionLeaderCard.doAction(playerBoard);
     }
 }

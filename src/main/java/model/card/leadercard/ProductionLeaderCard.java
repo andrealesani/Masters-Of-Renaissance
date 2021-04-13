@@ -18,9 +18,9 @@ public class ProductionLeaderCard extends LeaderCard {
     private final CardColor requiredColor;
     private final int requiredLevel;
     private final int requiredQuantity;
-    private final ArrayList<ResourceType> inputType;
+    private final ResourceType[] inputType;
     private final int[] inputQuantities;
-    private final ArrayList<ResourceType> outputType;
+    private final ResourceType[] outputType;
     private final int[] outputQuantities;
 
     /**
@@ -31,8 +31,8 @@ public class ProductionLeaderCard extends LeaderCard {
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor and level required to activate this card
      */
     public ProductionLeaderCard(int victoryPoints, CardColor requiredColor, int requiredLevel, int requiredQuantity,
-                                ArrayList<ResourceType> inputType, int[] inputQuantities,
-                                ArrayList<ResourceType> outputType, int[] outputQuantities) {
+                                ResourceType[] inputType, int[] inputQuantities,
+                                ResourceType[] outputType, int[] outputQuantities) {
         super(victoryPoints);
         this.requiredColor = requiredColor;
         this.requiredLevel = requiredLevel;

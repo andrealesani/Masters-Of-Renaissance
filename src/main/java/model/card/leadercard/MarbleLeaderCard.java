@@ -48,7 +48,7 @@ public class MarbleLeaderCard extends LeaderCard {
     }
 
     /**
-     * Checks if the player has enough DevelopmentCards of the required ColorType
+     * Checks if the player has enough DevelopmentCards of the required ColorTypes
      *
      * @param playerBoard specifies which PlayerBoard to check
      * @return returns true if the requirements are met, false otherwise
