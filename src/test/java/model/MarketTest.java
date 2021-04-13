@@ -166,7 +166,7 @@ class MarketTest {
     public void selectResources() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
         int riga = 0;
         int countNormal = 0, countFaith = 0;
 
@@ -196,7 +196,7 @@ class MarketTest {
     @Test
     public void shiftResources(){
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
 
         Resource[][] board = market.getBoard();
         Resource oldSlideOrb = market.getSlideOrb();

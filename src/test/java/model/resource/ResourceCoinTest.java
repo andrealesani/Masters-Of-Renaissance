@@ -31,7 +31,7 @@ class ResourceCoinTest {
 
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
         ResourceCoin coin = new ResourceCoin();
 
         coin.addResourceFromMarket(playerBoard);

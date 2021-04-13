@@ -31,7 +31,7 @@ class ResourceShieldTest {
 
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
         ResourceShield shield = new ResourceShield();
 
         shield.addResourceFromMarket(playerBoard);
