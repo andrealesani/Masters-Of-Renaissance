@@ -12,6 +12,8 @@ public abstract class Card {
 
     public void activate(){ isActive = true; }
 
+    public void deActivate(){ isActive = false; }
+
     public Card(){
         this.victoryPoints = 0;
     }
