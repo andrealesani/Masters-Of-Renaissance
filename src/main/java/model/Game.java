@@ -197,12 +197,12 @@ public class Game implements UserInterface{
         int i, j;
         int numCards = 0;
 
-        for(PlayerBoard playerBoard : playersTurnOrder){
-            for(i=0; i<=3; i++){
+        for (PlayerBoard playerBoard : playersTurnOrder) {
+            for (i = 0; i <= 3; i++) {
                 playerBoard.addLeaderCard(leaderCards.get(0));
                 leaderCards.remove(0);
             }
-
+        }
     }
 
     private void checkDiscarded() {
