@@ -142,6 +142,7 @@ public class CardTable {
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
     public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
+        //TODO controllare che i deck non siano vuoti
         playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row-1).get(0), cardSlot);
         colorToColumn(cardColor).get(row-1).remove(0);
     }
