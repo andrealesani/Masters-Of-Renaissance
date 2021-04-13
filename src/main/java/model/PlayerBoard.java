@@ -7,10 +7,7 @@ import model.resource.Resource;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -248,6 +245,7 @@ public class PlayerBoard {
         List<DevelopmentCard> requestedSlot = cardSlots.get(slot - 1);
         int cardLevel = card.getLevel();
 
+        //Checks if the selected slot can take a card of the given level
         if (cardLevel == 1) {
             if (!requestedSlot.isEmpty()) {
                 throw new SlotNotValidException();
@@ -258,21 +256,37 @@ public class PlayerBoard {
             }
         }
 
+        //Turns the cost into a map, and makes a set of the different resource types it contains
         List<ResourceType> cost = card.getCost();
         Map<ResourceType, Long> resourceQuantities =
                 cost.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        List<ResourceType> resourcesInCost =
-                cost.stream().distinct().collect(Collectors.toList());
+        Set<ResourceType> resourcesInCost = resourceQuantities.keySet();
 
+        //For every type in cost checks the quantity, applies discounts, then checks if there is enough of that resource type in storage to pay
         for (ResourceType resource : resourcesInCost) {
+
             int quantity = Math.toIntExact(resourceQuantities.get(resource));
+
+            if (discounts.containsKey(resource)) {
+
+                int newQuantity = quantity - discounts.get(resource);
+                if (newQuantity >= 0) {
+                    quantity = newQuantity;
+
+                } else {
+                    quantity = 0;
+                }
+            }
+
             if (resourceQuantities.get(resource) < getNumOfResource(resource)) {
                 waitingRoom.clear();
                 throw new NotEnoughResourceException();
             }
+
             waitingRoom.addResource(resource, quantity);
         }
 
+        //Adds the new production and card, deleting the old production if an old card is covered
         if (cardLevel > 1) {
             productionHandler.removeProduction(requestedSlot.get(requestedSlot.size() - 1).getProduction());
         }
@@ -326,6 +340,7 @@ public class PlayerBoard {
         }
     }
 
+    //TODO maybe unify takeResourceFrom* methods
     /**
      * Removes the given amount of the given resource from the given depot, as part of the player's choice of where to take resources to pay for the cost of their productions.
      * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
@@ -507,6 +522,17 @@ public class PlayerBoard {
         } else throw new RequirementsNotMetException();
     }
 
+
+    /**
+     * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
+     *
+     * @param i specifies the position of the LeaderCard in the leaderCards list
+     */
+    public void discardLeaderCard(int i) {
+        leaderCards.remove(i);
+        increaseFaith(1);
+    }
+
     /**
      * Adds the specified Resource to the marbleConversion list so that the player can convert a WhiteOrb
      * into the Resource whenever he picks it from the Market
@@ -536,16 +562,6 @@ public class PlayerBoard {
      */
     public void addDiscount(ResourceType resourceType, int discount) {
         discounts.put(resourceType, discount);
-    }
-
-    /**
-     * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
-     *
-     * @param i specifies the position of the LeaderCard in the leaderCards list
-     */
-    public void discardLeaderCard(int i) {
-        leaderCards.remove(i);
-        increaseFaith(1);
     }
 
     /**
