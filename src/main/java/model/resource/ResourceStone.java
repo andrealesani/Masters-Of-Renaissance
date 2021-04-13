@@ -10,6 +10,10 @@ public class ResourceStone extends Resource {
         this.type = ResourceType.STONE;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         playerBoard.addResourceToWarehouse(type, 1);

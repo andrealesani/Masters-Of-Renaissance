@@ -7,7 +7,11 @@ public class ResourceUnknown extends Resource {
     private final ResourceType type;
 
     public ResourceUnknown() {
-        this.type = ResourceType.UNKNOWN;
+        type = ResourceType.UNKNOWN;
+    }
+
+    public ResourceType getType(){
+        return type;
     }
 
     @Override

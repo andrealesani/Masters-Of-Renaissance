@@ -7,7 +7,11 @@ public class ResourceCoin extends Resource {
     private final ResourceType type;
 
     public ResourceCoin() {
-        this.type = ResourceType.COIN;
+        type = ResourceType.COIN;
+    }
+
+    public ResourceType getType(){
+        return type;
     }
 
     @Override

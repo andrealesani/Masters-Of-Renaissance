@@ -13,6 +13,7 @@ public abstract class Resource {
     public Resource() {
         this.type = null;
     }
+    public Resource(ResourceType type) { this.type = type;}
 
     public ResourceType getType(){
         return type;
@@ -21,7 +22,7 @@ public abstract class Resource {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Resource){
-            if(((Resource) obj).type == type)
+            if(((Resource) obj).getType() == type)
                 return true;
         }
         return false;

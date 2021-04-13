@@ -10,6 +10,10 @@ public class ResourceShield extends Resource {
         this.type = ResourceType.SHIELD;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         playerBoard.addResourceToWarehouse(type, 1);

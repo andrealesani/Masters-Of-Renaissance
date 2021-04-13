@@ -10,6 +10,10 @@ public class ResourceFaith extends Resource {
         type = ResourceType.FAITH;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         playerBoard.increaseFaith(1);

@@ -98,8 +98,16 @@ class ProductionHandlerTest {
         // TEST
         productionHandler.chooseJollyOutput(coin);
 
-        assertTrue(productionHandler.getCurrentOutput().size() == 1, "wrong size");
+        assertEquals(1, productionHandler.getCurrentOutput().size(), "wrong size");
         assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceCoin, "wrong ResourceType");
+        System.out.println(new ResourceCoin().getType() + " " + new ResourceUnknown().getType());
+        assertFalse(new ResourceCoin().equals(new ResourceUnknown()));
+        assertFalse(productionHandler.getCurrentOutput().contains(new ResourceUnknown()));
+        assertFalse(productionHandler.getCurrentOutput().remove(new ResourceUnknown()));
+
+        Exception ex = assertThrows(RuntimeException.class, () -> {
+            productionHandler.chooseJollyOutput(stone);
+        });
     }
 
     @Test
@@ -121,5 +129,6 @@ class ProductionHandlerTest {
 
         assertEquals(1, productionHandler.getProductions().size());
     }
+
 
 }

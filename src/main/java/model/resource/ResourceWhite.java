@@ -10,6 +10,10 @@ public class ResourceWhite extends Resource {
         this.type = ResourceType.WHITEORB;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         playerBoard.addWhiteMarble();

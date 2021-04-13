@@ -10,6 +10,10 @@ public class ResourceServant extends Resource {
         this.type = ResourceType.SERVANT;
     }
 
+    public ResourceType getType(){
+        return type;
+    }
+
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         playerBoard.addResourceToWarehouse(type, 1);
