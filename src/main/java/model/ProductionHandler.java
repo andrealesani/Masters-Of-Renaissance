@@ -227,7 +227,7 @@ public class ProductionHandler {
      */
     private void releaseOutput(PlayerBoard playerBoard) {
         for (Resource resource : currentOutput) {
-            playerBoard.addResourceToStrongbox(resource.getType(), 1);
+            resource.addResourceFromProduction(playerBoard);
         }
     }
 }
