@@ -190,8 +190,19 @@ public class Game implements UserInterface{
     //shufflare le leadercards (shuffleLeaderCards())
     //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
     //Per ogni playerboard in currentplayers chiami addLeaderCard() per e gli dai in ingresso il proprio mazzetto (lista)
-    public void distributeLeaderCards(int i) {
-        //TODO
+    public void distributeLeaderCards() {
+
+        shuffleLeaderCards();
+
+        int i, j;
+        int numCards = 0;
+
+        for(PlayerBoard playerBoard : playersTurnOrder){
+            for(i=0; i<=3; i++){
+                playerBoard.addLeaderCard(leaderCards.get(0));
+                leaderCards.remove(0);
+            }
+
     }
 
     private void checkDiscarded() {

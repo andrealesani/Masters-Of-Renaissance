@@ -671,4 +671,8 @@ public class PlayerBoard {
 
         return vp;
     }
+
+    public void chooseLeaderCard(int pos){
+
+    }
 }
