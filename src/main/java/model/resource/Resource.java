@@ -10,16 +10,13 @@ public abstract class Resource {
 
     public void addResourceFromProduction(PlayerBoard playerBoard) {}
 
-    public Resource() {
-        this.type = null;
-    }
+    public Resource() { type = null;}
     public Resource(ResourceType type) { this.type = type;}
 
     public ResourceType getType(){
         return type;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if(obj instanceof Resource){
             if(((Resource) obj).getType() == type)
