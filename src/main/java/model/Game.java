@@ -186,9 +186,9 @@ public class Game {
         return currentPlayer;
     }
 
-    //shufflare le leadercards
+    //shufflare le leadercards (shuffleLeaderCards())
     //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
-    //Per ogni playerboard in currentplayers chiami addleadercards per e gli dai in ingresso il proprio mazzetto (lista)
+    //Per ogni playerboard in currentplayers chiami addLeaderCards() per e gli dai in ingresso il proprio mazzetto (lista)
     public void distributeLeaderCards(int i) {
         //TODO
     }
