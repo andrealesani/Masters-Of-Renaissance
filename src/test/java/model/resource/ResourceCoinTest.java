@@ -10,6 +10,16 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceCoinTest {
+    @Test
+    void test () {
+        System.out.println(new ResourceCoin().getType());
+        System.out.println(new ResourceFaith().getType());
+
+        assertFalse (new ResourceCoin().equals(new ResourceFaith()));
+        assertTrue (new ResourceCoin().equals(new ResourceCoin()));
+
+        new ResourceCoin().test();
+    }
 
     @Test
     void equals() {

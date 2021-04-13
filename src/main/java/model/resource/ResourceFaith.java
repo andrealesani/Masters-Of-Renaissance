@@ -4,14 +4,8 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceFaith extends Resource {
-    private final ResourceType type;
-
     public ResourceFaith() {
-        type = ResourceType.FAITH;
-    }
-
-    public ResourceType getType(){
-        return type;
+        super(ResourceType.FAITH);
     }
 
     @Override
