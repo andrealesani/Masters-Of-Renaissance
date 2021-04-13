@@ -11,8 +11,9 @@ import static model.ResourceType.*;
 
 /**
  * This class was made to simplify the interaction between PlayerBoard and Production classes during a single turn.
- * It holds the information about every Production the player decides to activate during his turn so that all the
- * Productions can be activated at the same time at the end of the turn
+ * It holds the information about every Production the player can activate during his turn so that the player can
+ * select all the Productions he wants to activate and then all the selected Productions can be activated at the same
+ * time at the end of the turn
  */
 public class ProductionHandler {
 
