@@ -38,7 +38,7 @@ public class Production {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Production)
-            if (input.equals(((Production) obj).getInput()) && output.equals(((Production) obj).getInput()))
+            if (input.equals(((Production) obj).getInput()) && output.equals(((Production) obj).getOutput()))
                 return true;
         return false;
     }
