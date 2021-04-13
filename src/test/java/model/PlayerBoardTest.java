@@ -2,12 +2,16 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardTest {
 
     @Test
     void addResourceToWarehouse() {
+        new PlayerBoard(null, null, 3, 24, 7, null, null, null);
+        
     }
 
     @Test

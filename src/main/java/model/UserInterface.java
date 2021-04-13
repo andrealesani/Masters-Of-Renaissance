@@ -14,21 +14,21 @@ public interface UserInterface {
      *
      * @param number the number of the leaderCard to choose
      */
-    public void chooseLeaderCard(int number);
+    void chooseLeaderCard(int number);
 
     /**
      * Allows the player to activate the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to activate
      */
-    public void playLeaderCard(int number);
+    void playLeaderCard(int number);
 
     /**
      * Allows the player to discard the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to discard
      */
-    public void discardLeaderCard(int number);
+    void discardLeaderCard(int number);
 
     //Market selection actions
 
@@ -37,7 +37,7 @@ public interface UserInterface {
      * @param marketScope distinguishes between selecting a row or column
      * @param numScope the index of the selected row or column
      */
-    public void selectFromMarket(MarketScope marketScope, int numScope);
+    void selectFromMarket(MarketScope marketScope, int numScope);
 
     /**
      * Allows the player to send a resource obtained from the market to a specific depot
@@ -45,14 +45,14 @@ public interface UserInterface {
      * @param resource the resource to send to the depot
      * @param quantity the amount of resource to send
      */
-    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity);
+    void sendResourceToDepot(int depotNumber, Resource resource, int quantity);
 
     /**
      * Allows the player to choose to convert a white marble resource into one from their conversions list
      * @param resource the resource into which to convert the white marble
      * @param quantity the amount of resource to convert
      */
-    public void chooseMarbleConversion(Resource resource, int quantity);
+    void chooseMarbleConversion(Resource resource, int quantity);
 
     //DevelopmentCard purchasing actions
 
@@ -63,7 +63,7 @@ public interface UserInterface {
      * @param row the card table row from which to buy the card
      * @param slot the car slot in which to put the card
      */
-    public void buyDevelopmentCard(CardColor cardColor, int row, int slot);
+    void buyDevelopmentCard(CardColor cardColor, int row, int slot);
 
     /**
      * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
@@ -71,7 +71,7 @@ public interface UserInterface {
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity);
+    void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity);
 
     /**
      * Allows the player to pay the development card cost by taking resources from the strongbox
@@ -79,7 +79,7 @@ public interface UserInterface {
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    public void takeResourceFromStrongboxCard(Resource resource, int quantity);
+    void takeResourceFromStrongboxCard(Resource resource, int quantity);
 
     //Production selection actions
 
@@ -87,24 +87,29 @@ public interface UserInterface {
      * Allows the player to select a production for activation
      * @param number the number of the production
      */
-    public void selectProduction (int number);
+    void selectProduction (int number);
 
     /**
      * Allows the player to reset the selected productions
      */
-    public void resetProductionChoice ();
+    void resetProductionChoice ();
+
+    /**
+     * Allows the player to confirm the selected production for activation
+     */
+    void confirmProductions ();
 
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's input
      * @param resource the resource into which to turn the jolly
      */
-    public void chooseJollyInput(Resource resource);
+    void chooseJollyInput(Resource resource);
 
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's output
      * @param resource the resource into which to turn the jolly
      */
-    public void chooseJollyOutput(Resource resource);
+    void chooseJollyOutput(Resource resource);
 
     /**
      * Allows the player to pay the production cost by taking resources from the given depot in the warehouse
@@ -112,7 +117,7 @@ public interface UserInterface {
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity);
+    void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity);
 
     /**
      * Allows the player to pay the production cost by taking resources from the strongbox
@@ -120,12 +125,12 @@ public interface UserInterface {
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    public void takeResourceFromStrongboxProduction(Resource resource, int quantity);
+    void takeResourceFromStrongboxProduction(Resource resource, int quantity);
 
     //End turn actions
 
     /**
      * Allows the player to end their current turn
      */
-    public void endTurn();
+    void endTurn();
 }

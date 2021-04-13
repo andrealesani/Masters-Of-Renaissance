@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Model.Game master class
+ * This class models a single game of Masters of the Renaissance
  */
 public class Game {
     private final Market market;
@@ -193,12 +193,12 @@ public class Game {
         //TODO
     }
 
-    private void checkDiscarded () {
+    private void checkDiscarded() {
         int numDiscardedResources = currentPlayer.leftInWaitingRoom();
 
         if (numDiscardedResources > 0) {
 
-            if (lorenzo!=null) {
+            if (lorenzo != null) {
 
                 lorenzo.increaseFaith(numDiscardedResources);
 
@@ -217,10 +217,10 @@ public class Game {
         }
     }
 
-    private void checkVaticanReport () {
+    private void checkVaticanReport() {
         int newTriggeredTile = 0;
 
-        if (lorenzo!=null) {
+        if (lorenzo != null) {
             lorenzo.takeTurn();
             newTriggeredTile = lorenzo.getNewTriggeredTile(lastTriggeredTile);
         }
@@ -239,14 +239,14 @@ public class Game {
         }
     }
 
-    private boolean isGameEnding () {
-        if (lorenzo!=null) {
-            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith()>=finalFaith) {
+    private boolean isGameEnding() {
+        if (lorenzo != null) {
+            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
                 return true;
             }
         }
         for (PlayerBoard player : playersTurnOrder) {
-            if(player.isGameEnding()) {
+            if (player.isGameEnding()) {
                 return true;
             }
         }
@@ -255,23 +255,39 @@ public class Game {
     }
 
     private void switchPlayer() {
-        if (lorenzo==null) {
-            int currentIndex = playersTurnOrder.indexOf(currentPlayer);
-            if (currentIndex<playersTurnOrder.size()-1) {
-                currentPlayer = playersTurnOrder.get(currentIndex+1);
-            } else {
-                currentPlayer = playersTurnOrder.get(0);
-            }
+
+        int currentIndex = playersTurnOrder.indexOf(currentPlayer);
+        if (currentIndex < playersTurnOrder.size() - 1) {
+            currentPlayer = playersTurnOrder.get(currentIndex + 1);
+        } else {
+            currentPlayer = playersTurnOrder.get(0);
         }
+
     }
 
     private void endTheGame() {
-        //TODO actually end the game
-        // call calculate victory points and determine winner
+        if (lorenzo != null) {
+            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
+                System.out.println("FATALITY: Lorenzo wins!");
+            } else {
+                System.out.println("FATALITY: " + currentPlayer.getUsername() + " wins with " + currentPlayer.calculateVictoryPoints() + " victory points!");
+            }
+        } else {
+            //TODO maybe change with stream implementation?
+            int winner = 0;
+            int maxVictoryPoints = 0;
+            for (int i = 0; i<playersTurnOrder.size(); i++) {
+                int playerPoints = playersTurnOrder.get(i).calculateVictoryPoints();
+                if (playerPoints > maxVictoryPoints) {
+                    winner = i;
+                    maxVictoryPoints = playerPoints;
+                }
+            }
+            System.out.println("FATALITY: " + playersTurnOrder.get(winner).getUsername() + " wins with " + playersTurnOrder.get(winner).calculateVictoryPoints() + " victory points!");
+        }
     }
 
     // HIC SUNT ACTIONEM GIOCATORIBUS
-
 
     public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
         cardTable.buyTopCard(color, level, currentPlayer, slot);
@@ -282,10 +298,12 @@ public class Game {
 
         checkVaticanReport();
 
-        switchPlayer();
+        if (lorenzo==null) {
+            switchPlayer();
+        }
 
         if (weReInTheEndGameNow) {
-            if (currentPlayer==playersTurnOrder.get(0)) {
+            if (currentPlayer == playersTurnOrder.get(0)) {
                 endTheGame();
             }
         } else if (isGameEnding()) {
