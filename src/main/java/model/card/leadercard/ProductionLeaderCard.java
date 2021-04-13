@@ -93,6 +93,7 @@ public class ProductionLeaderCard extends LeaderCard {
      */
     @Override
     public void doAction(PlayerBoard playerBoard) {
+        activate();
         addProduction(playerBoard);
     }
 

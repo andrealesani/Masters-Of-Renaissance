@@ -47,6 +47,7 @@ public class DiscountLeaderCard extends LeaderCard {
      */
     @Override
     public void doAction(PlayerBoard playerBoard) { /* this method should either be boolean or throw an exception */
+        activate();
         applyDiscount(playerBoard);
     }
 

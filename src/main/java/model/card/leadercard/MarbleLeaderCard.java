@@ -44,6 +44,7 @@ public class MarbleLeaderCard extends LeaderCard {
      */
     @Override
     public void doAction(PlayerBoard playerBoard) {
+        activate();
         activateMarbleEffect(playerBoard);
     }
 
