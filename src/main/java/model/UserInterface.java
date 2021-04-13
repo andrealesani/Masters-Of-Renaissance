@@ -1,5 +1,7 @@
 package model;
 
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
 import model.resource.Resource;
 
 /**
@@ -63,7 +65,7 @@ public interface UserInterface {
      * @param row the card table row from which to buy the card
      * @param slot the car slot in which to put the card
      */
-    void buyDevelopmentCard(CardColor cardColor, int row, int slot);
+    void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
