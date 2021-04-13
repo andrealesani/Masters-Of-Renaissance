@@ -96,7 +96,7 @@ public class ProductionHandler {
      */
     public void removeProduction(Production production) {
         if(production.isSelectedByHandler())
-            throw new RuntimeException("Can't remove a production when it's selected");
+            throw new RuntimeException("Can't remove a production when it's selected, please use resetProductionChoice() before calling this method");
         productions.remove(production);
     }
 
@@ -218,8 +218,9 @@ public class ProductionHandler {
             if (!currentInput.remove(resource))
                 throw new ResourceNotPresentException();
         }
-        if (currentInput.isEmpty())
+        if (currentInput.isEmpty()) {
             releaseOutput(playerBoard);
+        }
     }
 
     /**
