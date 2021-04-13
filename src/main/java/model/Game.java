@@ -311,6 +311,7 @@ public class Game implements UserInterface {
         if (turnPhase!=TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
+        //TODO leadercard does not exist
         currentPlayer.chooseLeaderCard(number);
     }
 
@@ -357,6 +358,7 @@ public class Game implements UserInterface {
         }
         //TODO marketscope null, numScope invalido, currentPlayer null
         market.selectResources(marketScope, numScope, currentPlayer);
+        currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.MARKETDISTRIBUTION;
     }
 
@@ -407,6 +409,7 @@ public class Game implements UserInterface {
         }
         //TODO cardcolor null, invalid row
         cardTable.buyTopCard(cardColor, row, currentPlayer, slot);
+        currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.CARDPAYMENT;
     }
 
@@ -543,6 +546,7 @@ public class Game implements UserInterface {
         if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
 
             checkDiscarded();
+            currentPlayer.resetProductionChoice();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.CARDPAYMENT) {
@@ -553,16 +557,15 @@ public class Game implements UserInterface {
             currentPlayer.clearWaitingRoom();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
-        } else if (turnPhase == turnPhase.PRODUCTIONPAYMENT) {
+        } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
 
             if (!currentPlayer.isProductionInputEmpty()) {
                 throw new WrongTurnPhaseException();
             }
-            currentPlayer.resetProductionChoice();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.LEADERCHOICE) {
-
+            //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
             if (currentPlayer.getActiveLeaderCards()!=2) {
                 throw new WrongTurnPhaseException();
             }
