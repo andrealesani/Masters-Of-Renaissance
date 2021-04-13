@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static model.ResourceType.STONE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -84,7 +85,7 @@ class GameTest {
         ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
 
         assertTrue(depotLeaderCards.get(0).getVictoryPoints() == 10
-                && depotLeaderCards.get(0).getRequiredResource() == ResourceType.STONE
+                && depotLeaderCards.get(0).getRequiredResource() == STONE
                 && depotLeaderCards.get(0).getRequiredQuantity() == 1
                 && depotLeaderCards.get(0).getStorableResource() == ResourceType.COIN
                 && depotLeaderCards.get(0).getStorableQuantity() == 2
@@ -116,11 +117,8 @@ class GameTest {
         Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
         }.getType();
         ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
-        assertTrue(discountLeaderCards.get(0).getVictoryPoints() == 10
-                        && discountLeaderCards.get(0).getDiscountType() == ResourceType.STONE
-                        && discountLeaderCards.get(0).getDiscount() == 1
-                //&& discountLeaderCards.get(0).getRequiredColor() == CardColor.BLUE
-                //&& discountLeaderCards.get(0).getRequiredQuantities() == 1
-        );
+        assertEquals(10, discountLeaderCards.get(0).getVictoryPoints());
+        assertEquals(ResourceType.STONE, discountLeaderCards.get(0).getDiscountType());
+        assertEquals(1, discountLeaderCards.get(0).getDiscount());
     }
 }

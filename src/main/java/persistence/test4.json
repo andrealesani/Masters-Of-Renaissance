@@ -1,23 +1,23 @@
 [
   {
     "victoryPoints" : 10,
-    "resourceType" : "STONE",
+    "discountType" : "STONE",
     "discount" : 1,
-    "requiredColor": "BLUE",
-    "requiredQuantity": "1"
+    "requiredColors": ["BLUE"],
+    "requiredQuantities": ["1"]
   },
   {
     "victoryPoints" : 20,
-    "resourceType" : "COIN",
+    "discountType" : "COIN",
     "discount" : 2,
-    "requiredColor": "GREEN",
-    "requiredQuantity": "2"
+    "requiredColors": ["GREEN"],
+    "requiredQuantities": ["2"]
   },
   {
     "victoryPoints" : 30,
-    "resourceType" : "SHIELD",
+    "discountType" : "SHIELD",
     "discount" : 3,
-    "requiredColor": "PURPLE",
-    "requiredQuantity": "3"
+    "requiredColors": ["PURPLE"],
+    "requiredQuantities": ["3"]
   }
 ]

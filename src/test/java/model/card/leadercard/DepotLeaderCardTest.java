@@ -14,19 +14,19 @@ class DepotLeaderCardTest {
     @Test
     void doAction() throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
-        PlayerBoard playerBoard = new PlayerBoard();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
 
         leaderCard.doAction(playerBoard);
-        assertEquals(2, playerBoard.getWarehouse().getNumOfDepots());
+        assertEquals(4, playerBoard.getWarehouse().getNumOfDepots());
 
-        playerBoard.getWarehouse().getDepot(2).addResource(ResourceType.COIN, 5);
+        playerBoard.getWarehouse().getDepot(4).addResource(ResourceType.COIN, 2);
 
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
-            playerBoard.getWarehouse().getDepot(2).addResource(ResourceType.COIN, 6);
+            playerBoard.getWarehouse().getDepot(4).addResource(ResourceType.COIN, 6);
         });
 
         Exception ex1 = assertThrows(WrongResourceTypeException.class, () -> {
-            playerBoard.getWarehouse().getDepot(2).addResource(ResourceType.STONE, 3);
+            playerBoard.getWarehouse().getDepot(4).addResource(ResourceType.STONE, 3);
         });
     }
 

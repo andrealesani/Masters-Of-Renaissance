@@ -101,7 +101,7 @@ class CardTableTest {
     @Test
     void buyTopCard() throws SlotNotValidException, NotEnoughResourceException {
         CardTable cardTable = new CardTable();
-        PlayerBoard playerBoard = new PlayerBoard();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
 
         cardTable.buyTopCard(CardColor.GREEN, 3, playerBoard, 1);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getColor() == CardColor.GREEN);
