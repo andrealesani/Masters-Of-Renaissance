@@ -8,7 +8,7 @@ public class Market {
 
     public Market() {
         int totalOrbs = 13;
-        int orb = 0;
+        int orb;
         int countRS = 0, countRF = 0, countRSe = 0, countRSh = 0, countRSt = 0, countRW = 0;
 
         for (int i = 0; i < 3; i++) {
@@ -98,7 +98,7 @@ public class Market {
 
     private void shiftResources(MarketScope marketScope, int numScope) {
         int riga, col;
-        Resource temp, next;
+        Resource temp;
 
         if(marketScope == MarketScope.ROW) {
             riga = numScope;
@@ -111,12 +111,11 @@ public class Market {
             slideOrb = temp;
         }
 
-
         else if(marketScope == MarketScope.COLUMN) {
             col = numScope;
             int i = 0;
             temp = board[i][col];
-            for(i = 0; i < 3; i++)
+            for(i = 0; i < 2; i++)
                 board[i][col] = board[i+1][col];
 
             board[i][col] = slideOrb;

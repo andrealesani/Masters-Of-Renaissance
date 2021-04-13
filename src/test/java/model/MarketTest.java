@@ -113,35 +113,36 @@ class MarketTest {
             for (int j = 0; j < 4; j++) {
 
                 if ((market.getMarble(i, j) instanceof ResourceCoin) && (countRS < 2)) {
-                    System.out.print("Marble type: Coin\n");
+                    System.out.print("Coin ");
                     countRS++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceFaith) && (countRF < 1)) {
-                    System.out.print("Marble type: Faith\n");
+                    System.out.print("Faith ");
                     countRF++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceServant) && (countRSe < 2)) {
-                    System.out.print("Marble type: Servant\n");
+                    System.out.print("Servant ");
                     countRSe++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceShield) && (countRSh < 2)) {
-                    System.out.print("Marble type: Shield\n");
+                    System.out.print("Shield ");
                     countRSh++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceStone) && (countRSt < 2)){
-                    System.out.print("Marble type: Stone\n");
+                    System.out.print("Stone ");
                     countRSt++;
                 }
 
                 else if ((market.getMarble(i,j) instanceof ResourceWhite) && (countRW < 4)) {
-                    System.out.print("Marble type: WhiteMarble\n");
+                    System.out.print("WhiteMarble ");
                     countRW++;
                 }
             }
+            System.out.print("\n");
         }
 
         assertTrue(countRS <= 2);
@@ -160,10 +161,23 @@ class MarketTest {
                 || (market.getSlideOrb() instanceof ResourceWhite)
         ) ;
 
+        if(market.getSlideOrb() instanceof ResourceCoin)
+            System.out.print("SlideOrb: Coin\n");
+        else if(market.getSlideOrb() instanceof ResourceFaith)
+            System.out.print("SlideOrb: Faith\n");
+        else if(market.getSlideOrb() instanceof ResourceServant)
+            System.out.print("SlideOrb: Servant\n");
+        else if(market.getSlideOrb() instanceof ResourceShield)
+            System.out.print("SlideOrb: Shield\n");
+        else if(market.getSlideOrb() instanceof ResourceStone)
+            System.out.print("SlideOrb: Stone\n");
+        else if(market.getSlideOrb() instanceof ResourceWhite)
+            System.out.print("SlideOrb: WhiteMarble\n");
+
     }
 
     @Test
-    public void selectResources() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+    public void selectResourcesRow() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
@@ -194,20 +208,153 @@ class MarketTest {
     }
 
     @Test
-    public void shiftResources(){
+    public void selectResourcesColumn() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+
+        Market market = new Market();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        int col = 0;
+        int countNormal = 0, countFaith = 0;
+
+        for (int i = 0; i < 3; i++) {
+            market.getMarble(i, col).addResourceFromMarket(playerBoard);
+            if ((market.getMarble(i, col) instanceof ResourceCoin)){
+                countNormal++;
+            }
+            else if ((market.getMarble(i, col) instanceof ResourceFaith)){
+                countFaith++;
+            }
+            else if ((market.getMarble(i, col) instanceof ResourceServant)){
+                countNormal++;
+            }
+            else if ((market.getMarble(i, col) instanceof ResourceShield)){
+                countNormal++;
+            }
+            else if ((market.getMarble(i, col) instanceof ResourceStone)){
+                countNormal++;
+            }
+        }
+
+        assertEquals(countNormal, playerBoard.leftInWaitingRoom());
+        assertEquals(countFaith, playerBoard.getFaith());
+    }
+
+    @Test
+    public void shiftResourcesRow(){
         Market market = new Market();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
 
-        Resource[][] board = market.getBoard();
+        Resource[][] actualBoard = market.getBoard();
         Resource oldSlideOrb = market.getSlideOrb();
+
+        Resource [][] board = new Resource[actualBoard.length][];
+        for(int i = 0; i < actualBoard.length; i++)
+            board[i] = actualBoard[i].clone();
+
+        /*
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+
+                if ((market.getMarble(i, j) instanceof ResourceCoin))
+                    System.out.print("Coin ");
+                else if ((market.getMarble(i, j) instanceof ResourceFaith))
+                    System.out.print("Faith ");
+                else if ((market.getMarble(i, j) instanceof ResourceServant))
+                    System.out.print("Servant ");
+                else if ((market.getMarble(i, j) instanceof ResourceShield))
+                    System.out.print("Shield ");
+                else if ((market.getMarble(i, j) instanceof ResourceStone))
+                    System.out.print("Stone ");
+                else if ((market.getMarble(i,j) instanceof ResourceWhite))
+                    System.out.print("WhiteMarble ");
+
+            }
+            System.out.print("\n");
+        }
+
+        if(market.getSlideOrb() instanceof ResourceCoin)
+            System.out.print("SlideOrb: Coin\n");
+        else if(market.getSlideOrb() instanceof ResourceFaith)
+            System.out.print("SlideOrb: Faith\n");
+        else if(market.getSlideOrb() instanceof ResourceServant)
+            System.out.print("SlideOrb: Servant\n");
+        else if(market.getSlideOrb() instanceof ResourceShield)
+            System.out.print("SlideOrb: Shield\n");
+        else if(market.getSlideOrb() instanceof ResourceStone)
+            System.out.print("SlideOrb: Stone\n");
+        else if(market.getSlideOrb() instanceof ResourceWhite)
+            System.out.print("SlideOrb: WhiteMarble\n");
+
+
+         */
+
         market.selectResources(MarketScope.ROW, 0, playerBoard);
+
         Resource[][] shifted = market.getBoard();
         Resource newSlideOrb = market.getSlideOrb();
+
+        /*
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+
+                if ((market.getMarble(i, j) instanceof ResourceCoin))
+                    System.out.print("Coin ");
+                else if ((market.getMarble(i, j) instanceof ResourceFaith))
+                    System.out.print("Faith ");
+                else if ((market.getMarble(i, j) instanceof ResourceServant))
+                    System.out.print("Servant ");
+                else if ((market.getMarble(i, j) instanceof ResourceShield))
+                    System.out.print("Shield ");
+                else if ((market.getMarble(i, j) instanceof ResourceStone))
+                    System.out.print("Stone ");
+                else if ((market.getMarble(i,j) instanceof ResourceWhite))
+                    System.out.print("WhiteMarble ");
+
+            }
+            System.out.print("\n");
+        }
+
+        if(market.getSlideOrb() instanceof ResourceCoin)
+            System.out.print("SlideOrb: Coin\n");
+        else if(market.getSlideOrb() instanceof ResourceFaith)
+            System.out.print("SlideOrb: Faith\n");
+        else if(market.getSlideOrb() instanceof ResourceServant)
+            System.out.print("SlideOrb: Servant\n");
+        else if(market.getSlideOrb() instanceof ResourceShield)
+            System.out.print("SlideOrb: Shield\n");
+        else if(market.getSlideOrb() instanceof ResourceStone)
+            System.out.print("SlideOrb: Stone\n");
+        else if(market.getSlideOrb() instanceof ResourceWhite)
+            System.out.print("SlideOrb: WhiteMarble\n");
+
+         */
 
         assertEquals(oldSlideOrb, shifted[0][3]);
         assertEquals(board[0][3], shifted[0][2]);
         assertEquals(board[0][2], shifted[0][1]);
         assertEquals(board[0][1], shifted[0][0]);
+        assertEquals(board[0][0], newSlideOrb);
+
+    }
+
+    @Test
+    public void shiftResourcesColumn(){
+        Market market = new Market();
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+
+        Resource[][] actualBoard = market.getBoard();
+        Resource oldSlideOrb = market.getSlideOrb();
+
+        Resource [][] board = new Resource[actualBoard.length][];
+        for(int i = 0; i < actualBoard.length; i++)
+            board[i] = actualBoard[i].clone();
+
+        market.selectResources(MarketScope.COLUMN, 0, playerBoard);
+        Resource[][] shifted = market.getBoard();
+        Resource newSlideOrb = market.getSlideOrb();
+
+        assertEquals(oldSlideOrb, shifted[2][0]);
+        assertEquals(board[2][0], shifted[1][0]);
+        assertEquals(board[1][0], shifted[0][0]);
         assertEquals(board[0][0], newSlideOrb);
 
     }
