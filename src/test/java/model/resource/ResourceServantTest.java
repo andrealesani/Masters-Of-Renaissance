@@ -13,10 +13,8 @@ class ResourceServantTest {
 
     @Test
     void equals() {
-        ResourceServant servant = new ResourceServant();
-        ResourceServant servant1 = new ResourceServant();
-
-        assertTrue(servant.equals(servant1));
+        assertTrue(new ResourceServant().equals(new ResourceServant()));
+        assertFalse(new ResourceServant().equals(new ResourceUnknown()));
     }
 
     @Test

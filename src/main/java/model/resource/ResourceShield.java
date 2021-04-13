@@ -4,23 +4,18 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceShield extends Resource {
-    private final ResourceType type;
 
     public ResourceShield() {
-        this.type = ResourceType.SHIELD;
-    }
-
-    public ResourceType getType(){
-        return type;
+        super(ResourceType.SHIELD);
     }
 
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(type, 1);
+        playerBoard.addResourceToWarehouse(ResourceType.SHIELD, 1);
     }
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(type, 1);
+        playerBoard.addResourceToWarehouse(ResourceType.SHIELD, 1);
     }
 }

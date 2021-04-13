@@ -4,14 +4,9 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceWhite extends Resource {
-    private final ResourceType type;
 
     public ResourceWhite() {
-        this.type = ResourceType.WHITEORB;
-    }
-
-    public ResourceType getType(){
-        return type;
+        super(ResourceType.WHITEORB);
     }
 
     @Override

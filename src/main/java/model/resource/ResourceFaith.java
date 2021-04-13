@@ -4,6 +4,7 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceFaith extends Resource {
+
     public ResourceFaith() {
         super(ResourceType.FAITH);
     }

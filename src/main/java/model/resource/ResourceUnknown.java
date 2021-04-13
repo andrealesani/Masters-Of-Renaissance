@@ -4,14 +4,9 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceUnknown extends Resource {
-    private final ResourceType type;
 
     public ResourceUnknown() {
-        type = ResourceType.UNKNOWN;
-    }
-
-    public ResourceType getType(){
-        return type;
+        super(ResourceType.UNKNOWN);
     }
 
     @Override

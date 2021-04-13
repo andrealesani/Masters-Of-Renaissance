@@ -8,6 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceFaithTest {
 
     @Test
+    void equals() {
+        assertTrue(new ResourceFaith().equals(new ResourceFaith()));
+        assertFalse(new ResourceFaith().equals(new ResourceServant()));
+    }
+
+    @Test
     void addResourceFromMarket() {
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
         ResourceFaith faith = new ResourceFaith();

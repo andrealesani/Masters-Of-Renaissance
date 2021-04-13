@@ -4,23 +4,18 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 public class ResourceStone extends Resource {
-    private final ResourceType type;
 
     public ResourceStone() {
-        this.type = ResourceType.STONE;
-    }
-
-    public ResourceType getType(){
-        return type;
+        super(ResourceType.STONE);
     }
 
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(type, 1);
+        playerBoard.addResourceToWarehouse(ResourceType.STONE, 1);
     }
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(type, 1);
+        playerBoard.addResourceToWarehouse(ResourceType.STONE, 1);
     }
 }

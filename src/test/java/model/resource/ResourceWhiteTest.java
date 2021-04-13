@@ -10,6 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceWhiteTest {
 
     @Test
+    void equals() {
+        assertTrue(new ResourceWhite().equals(new ResourceWhite()));
+        assertFalse(new ResourceWhite().equals(new ResourceCoin()));
+    }
+
+    @Test
     void addResourceFromMarketNoConversion() {
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
         ResourceWhite white = new ResourceWhite();
