@@ -565,7 +565,7 @@ public class Game implements UserInterface {
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.LEADERCHOICE) {
-
+            //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
             if (currentPlayer.getActiveLeaderCards()!=2) {
                 throw new WrongTurnPhaseException();
             }
