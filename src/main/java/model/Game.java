@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
+import model.resource.Resource;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * This class models a single game of Masters of the Renaissance
  */
-public class Game {
+public class Game implements UserInterface{
     private final Market market;
     private final CardTable cardTable;
     private final List<LeaderCard> leaderCards;
@@ -289,11 +290,88 @@ public class Game {
 
     // HIC SUNT ACTIONEM GIOCATORIBUS
 
+    @Override
+    public void chooseLeaderCard(int number) {
+        //TODO
+    }
+
+    @Override
+    public void playLeaderCard(int number) {
+
+    }
+
+    @Override
+    public void discardLeaderCard(int number) {
+
+    }
+
+    @Override
+    public void selectFromMarket(MarketScope marketScope, int numScope) {
+
+    }
+
+    @Override
+    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) {
+
+    }
+
+    @Override
+    public void chooseMarbleConversion(Resource resource, int quantity) {
+
+    }
+
+    @Override
     public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
         cardTable.buyTopCard(color, level, currentPlayer, slot);
     }
 
-    public void endCurrentTurn() {
+    @Override
+    public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) {
+
+    }
+
+    @Override
+    public void takeResourceFromStrongboxCard(Resource resource, int quantity) {
+
+    }
+
+    @Override
+    public void selectProduction(int number) {
+
+    }
+
+    @Override
+    public void resetProductionChoice() {
+
+    }
+
+    @Override
+    public void confirmProductions() {
+
+    }
+
+    @Override
+    public void chooseJollyInput(Resource resource) {
+
+    }
+
+    @Override
+    public void chooseJollyOutput(Resource resource) {
+
+    }
+
+    @Override
+    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) {
+
+    }
+
+    @Override
+    public void takeResourceFromStrongboxProduction(Resource resource, int quantity) {
+
+    }
+
+    @Override
+    public void endTurn() {
         checkDiscarded();
 
         checkVaticanReport();
