@@ -644,7 +644,8 @@ public class PlayerBoard {
         int vp = 0;
         //LeaderCards
         for (LeaderCard leaderCard : leaderCards) {
-            vp += leaderCard.getVictoryPoints();
+            if(leaderCard.isActive())
+                vp += leaderCard.getVictoryPoints();
         }
         //DevelopmentCards
         for (List<DevelopmentCard> slot : cardSlots) {
