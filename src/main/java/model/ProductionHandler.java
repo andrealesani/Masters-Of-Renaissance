@@ -56,6 +56,15 @@ public class ProductionHandler {
     /**
      * Getter
      *
+     * @return productions
+     */
+    public List<Production> getProductions() {
+        return productions;
+    }
+
+    /**
+     * Getter
+     *
      * @return currentInput
      */
     public List<Resource> getCurrentInput() {
@@ -86,38 +95,40 @@ public class ProductionHandler {
      * @param production specifies the Production to be removed
      */
     public void removeProduction(Production production) {
+        if(production.isSelectedByHandler())
+            throw new RuntimeException("Can't remove a production when it's selected");
         productions.remove(production);
     }
 
     /**
      * Removes the first ResourceUnknown it finds in currentInput and replaces it with the specified Resource.
-     * Atm if it doesn't find any ResourceUnknown it does nothing.
+     * Throws RuntimeException if it doesn't find any ResourceUnknown.
      *
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
      */
     public void chooseJollyInput(Resource resource) {
         if (currentInput.remove(new ResourceUnknown()))
             currentInput.add(resource);
-        // else throw exception "no UnknownResource present in currentInput"
+        else throw new RuntimeException("no UnknownResource present in currentInput");
     }
 
     /**
      * Removes the first ResourceUnknown it finds in currentOutput and replaces it with the specified Resource.
-     * Atm if it doesn't find any ResourceUnknown it does nothing.
+     * Throws RuntimeException if it doesn't find any ResourceUnknown.
      *
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
      */
     public void chooseJollyOutput(Resource resource) {
         if (currentOutput.remove(new ResourceUnknown()))
             currentOutput.add(resource);
-        // else throw exception "no UnknownResource present in currentOutput"
+        else throw new RuntimeException("no UnknownResource present in currentOutput");
     }
 
     /**
      * Marks the specified Production as selected and updates currentInput and currentOutput lists.
      * At the end of the turn, only selected Productions will be activated
      *
-     * @param i indicates the position of the element in the List
+     * @param i indicates the position of the Production in the List
      */
     public void selectProduction(int i) {
         productions.get(i).select();
