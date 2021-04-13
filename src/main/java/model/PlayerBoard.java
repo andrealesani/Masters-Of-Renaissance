@@ -1,6 +1,7 @@
 package model;
 
 import Exceptions.*;
+import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
@@ -397,6 +398,54 @@ public class PlayerBoard {
     }
 
     /**
+     * Selects the production with the given number as part of those to activate during this turn
+     *
+     * @param number the number of the production
+     */
+    public void selectProduction(int number) {
+        productionHandler.selectProduction(number);
+    }
+
+    /**
+     * Deselects all selected productions
+     */
+    public void resetProductionChoice() {
+        productionHandler.resetProductionChoice();
+    }
+
+    /**
+     * Checks if the player has converted all jollies in selected productions to other resources, and if they have enough resources to pay for productions
+     */
+    public void confirmProductionChoice() throws UnknownResourceException, NotEnoughResourceException {
+        if (!productionHandler.resourcesAreEnough(this)) {
+            throw new NotEnoughResourceException();
+        }
+    }
+
+    /**
+     * Converts a jolly resource in current production input into the given resource
+     *
+     * @param resource the resource into which to turn the jolly
+     */
+    public void chooseJollyInput(Resource resource) {
+        productionHandler.chooseJollyInput (resource);
+    }
+
+    /**
+     * Converts a jolly resource in current production output into the given resource
+     *
+     * @param resource the resource into which to turn the jolly
+     */
+    public void chooseJollyOutput(Resource resource) {
+        productionHandler.chooseJollyOutput (resource);
+    }
+
+    public boolean isProductionInputEmpty() {
+        return productionHandler.getCurrentInput().isEmpty();
+    }
+
+
+    /**
      * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
      */
     public void addWhiteMarble() {
@@ -680,6 +729,25 @@ public class PlayerBoard {
         else if(!leaderCards.get(pos - 1).isActive())
             leaderCards.get(pos-1).activate();
 
+    }
+
+    public int getActiveLeaderCards() {
+        return Math.toIntExact(leaderCards.stream().filter(Card::isActive).count());
+    }
+
+    public void finishLeaderCardSelection() {
+        int size = leaderCards.size();
+        int i = 0;
+        while (i<size) {
+            LeaderCard card = leaderCards.get(i);
+            if (!card.isActive()) {
+                leaderCards.remove(card);
+                size--;
+            } else {
+                card.deActivate();
+                i++;
+            }
+        }
     }
 
 }

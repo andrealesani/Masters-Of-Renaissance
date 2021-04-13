@@ -1,7 +1,6 @@
 package model;
 
-import Exceptions.NotEnoughResourceException;
-import Exceptions.SlotNotValidException;
+import Exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * This class models a single game of Masters of the Renaissance
  */
-public class Game implements UserInterface{
+public class Game implements UserInterface {
     private final Market market;
     private final CardTable cardTable;
     private final List<LeaderCard> leaderCards;
@@ -30,6 +29,7 @@ public class Game implements UserInterface{
     private int lastTriggeredTile;
     private final int finalFaith;
     private boolean weReInTheEndGameNow;
+    private TurnPhase turnPhase;
 
     /**
      * Constructor
@@ -42,6 +42,7 @@ public class Game implements UserInterface{
         lorenzo = null;
         lastTriggeredTile = 0;
         weReInTheEndGameNow = false;
+        turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
 
         //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
@@ -77,6 +78,7 @@ public class Game implements UserInterface{
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         finalFaith = 24;
+        turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
         lastTriggeredTile = 0;
         weReInTheEndGameNow = false;
@@ -211,18 +213,14 @@ public class Game implements UserInterface{
         if (numDiscardedResources > 0) {
 
             if (lorenzo != null) {
-
                 lorenzo.increaseFaith(numDiscardedResources);
-
             } else {
-
                 String currentPlayerName = currentPlayer.getUsername();
                 for (PlayerBoard playerBoard : playersTurnOrder) {
                     if (!playerBoard.getUsername().equals(currentPlayerName)) {
                         playerBoard.increaseFaith(numDiscardedResources);
                     }
                 }
-
             }
             currentPlayer.clearWaitingRoom();
 
@@ -232,17 +230,19 @@ public class Game implements UserInterface{
     private void checkVaticanReport() {
         int newTriggeredTile = 0;
 
+        //If in solo game: check Lorenzo
         if (lorenzo != null) {
-            lorenzo.takeTurn();
             newTriggeredTile = lorenzo.getNewTriggeredTile(lastTriggeredTile);
         }
 
+        //Check all players
         for (PlayerBoard player : playersTurnOrder) {
             if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
                 newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
             }
         }
 
+        //If necessity for vatican report, call it
         if (newTriggeredTile > lastTriggeredTile) {
             for (PlayerBoard player : playersTurnOrder) {
                 player.theVaticanReport(newTriggeredTile, lastTriggeredTile);
@@ -269,11 +269,9 @@ public class Game implements UserInterface{
     private void switchPlayer() {
 
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
-        if (currentIndex < playersTurnOrder.size() - 1) {
-            currentPlayer = playersTurnOrder.get(currentIndex + 1);
-        } else {
-            currentPlayer = playersTurnOrder.get(0);
-        }
+
+        currentPlayer = playersTurnOrder.get((currentIndex+1)%playersTurnOrder.size());
+
 
     }
 
@@ -288,7 +286,7 @@ public class Game implements UserInterface{
             //TODO maybe change with stream implementation?
             int winner = 0;
             int maxVictoryPoints = 0;
-            for (int i = 0; i<playersTurnOrder.size(); i++) {
+            for (int i = 0; i < playersTurnOrder.size(); i++) {
                 int playerPoints = playersTurnOrder.get(i).calculateVictoryPoints();
                 if (playerPoints > maxVictoryPoints) {
                     winner = i;
@@ -301,96 +299,292 @@ public class Game implements UserInterface{
 
     // HIC SUNT ACTIONEM GIOCATORIBUS
 
+    //LeaderCards handling actions
+
+    /**
+     * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
+     *
+     * @param number the number of the leaderCard to choose
+     */
     @Override
-    public void chooseLeaderCard(int number) {
-        //TODO
+    public void chooseLeaderCard(int number) throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
+        currentPlayer.chooseLeaderCard(number);
+    }
+
+    /**
+     * Allows the player to activate the leader card corresponding to the given number
+     *
+     * @param number the number of the leaderCard to activate
+     */
+    @Override
+    public void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException {
+        if (turnPhase==TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO leadercard does not exist
+        currentPlayer.playLeaderCard(number);
+    }
+
+    /**
+     * Allows the player to discard the leader card corresponding to the given number
+     *
+     * @param number the number of the leaderCard to discard
+     */
+    @Override
+    public void discardLeaderCard(int number) throws WrongTurnPhaseException {
+        if (turnPhase==TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO leadercard does not exist
+        currentPlayer.discardLeaderCard(number);
+    }
+
+    //Market selection actions
+
+    /**
+     * Allows the player to select a row or column from the market and take its resources
+     *
+     * @param marketScope distinguishes between selecting a row or column
+     * @param numScope    the index of the selected row or column
+     */
+    @Override
+    public void selectFromMarket(MarketScope marketScope, int numScope) throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO marketscope null, numScope invalido, currentPlayer null
+        market.selectResources(marketScope, numScope, currentPlayer);
+        turnPhase = TurnPhase.MARKETDISTRIBUTION;
+    }
+
+    /**
+     * Allows the player to send a resource obtained from the market to a specific depot
+     *
+     * @param depotNumber the number of the depot to which to send the resource
+     * @param resource    the resource to send to the depot
+     * @param quantity    the amount of resource to send
+     */
+    @Override
+    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceTypeException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.MARKETDISTRIBUTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO negative quantities, null type
+        currentPlayer.sendResourceToDepot(depotNumber, resource.getType(), quantity);
+    }
+
+    /**
+     * Allows the player to choose to convert a white marble resource into one from their conversions list
+     *
+     * @param resource the resource into which to convert the white marble
+     * @param quantity the amount of resource to convert
+     */
+    @Override
+    public void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.MARKETDISTRIBUTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO negative quantities
+        currentPlayer.chooseMarbleConversion(resource.getType(), quantity);
+    }
+
+    //DevelopmentCard purchasing actions
+
+    /**
+     * Allows the player to buy a development card from the cardTable
+     *
+     * @param cardColor the color of the card to buy
+     * @param row       the card table row from which to buy the card
+     * @param slot      the car slot in which to put the card
+     */
+    @Override
+    public void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO cardcolor null, invalid row
+        cardTable.buyTopCard(cardColor, row, currentPlayer, slot);
+        turnPhase = TurnPhase.CARDPAYMENT;
+    }
+
+    /**
+     * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
+     *
+     * @param depotNumber the number of the depot from which to take the resource
+     * @param resource    the resource to take
+     * @param quantity    the amount of resource to take (and of cost to pay)
+     */
+    @Override
+    public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.CARDPAYMENT) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO resource null, negative quantity, no more debt
+        currentPlayer.takeResourceFromWarehouseCard(depotNumber, resource.getType(), quantity);
+    }
+
+    /**
+     * Allows the player to pay the development card cost by taking resources from the strongbox
+     *
+     * @param resource the resource to take
+     * @param quantity the amount of resource to take (and of cost to pay)
+     */
+    @Override
+    public void takeResourceFromStrongboxCard(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.CARDPAYMENT) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO resource null, negative quantity, no more debt
+        currentPlayer.takeResourceFromStrongboxCard(resource.getType(), quantity);
+    }
+
+    //Production selection actions
+
+    /**
+     * Allows the player to select a production for activation
+     *
+     * @param number the number of the production
+     */
+    @Override
+    public void selectProduction(int number) throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO production does not exist
+        currentPlayer.selectProduction(number);
+    }
+
+    /**
+     * Allows the player to reset the selected productions
+     */
+    @Override
+    public void resetProductionChoice() throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        currentPlayer.resetProductionChoice();
+    }
+
+    /**
+     * Allows the player to confirm the selected production for activation
+     */
+    @Override
+    public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        currentPlayer.confirmProductionChoice();
+        turnPhase = TurnPhase.PRODUCTIONPAYMENT;
+    }
+
+    /**
+     * Allows the player to choose into which resource to turn a jolly in the production's input
+     *
+     * @param resource the resource into which to turn the jolly
+     */
+    @Override
+    public void chooseJollyInput(Resource resource) throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
+        currentPlayer.chooseJollyInput(resource);
+    }
+
+    /**
+     * Allows the player to choose into which resource to turn a jolly in the production's output
+     *
+     * @param resource the resource into which to turn the jolly
+     */
+    @Override
+    public void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
+        currentPlayer.chooseJollyOutput (resource);
+    }
+
+    /**
+     * Allows the player to pay the production cost by taking resources from the given depot in the warehouse
+     *
+     * @param depotNumber the number of the depot from which to take the resource
+     * @param resource    the resource to take
+     * @param quantity    the amount of resource to take (and of cost to pay)
+     */
+    @Override
+    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.PRODUCTIONPAYMENT) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO resource null, negative quantity, no more debt
+        currentPlayer.takeResourceFromWarehouseProduction(depotNumber, resource, quantity);
     }
 
     @Override
-    public void playLeaderCard(int number) {
-
+    public void takeResourceFromStrongboxProduction(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase!=TurnPhase.PRODUCTIONPAYMENT) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO resource null, negative quantity, no more debt
+        currentPlayer.takeResourceFromStrongboxCard(resource.getType(), quantity);
     }
 
     @Override
-    public void discardLeaderCard(int number) {
-
-    }
-
-    @Override
-    public void selectFromMarket(MarketScope marketScope, int numScope) {
-
-    }
-
-    @Override
-    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void chooseMarbleConversion(Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void buyDevelopmentCard(CardColor color, int level, int slot) throws SlotNotValidException, NotEnoughResourceException {
-        cardTable.buyTopCard(color, level, currentPlayer, slot);
-    }
-
-    @Override
-    public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void takeResourceFromStrongboxCard(Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void selectProduction(int number) {
-
-    }
-
-    @Override
-    public void resetProductionChoice() {
-
-    }
-
-    @Override
-    public void confirmProductions() {
-
-    }
-
-    @Override
-    public void chooseJollyInput(Resource resource) {
-
-    }
-
-    @Override
-    public void chooseJollyOutput(Resource resource) {
-
-    }
-
-    @Override
-    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void takeResourceFromStrongboxProduction(Resource resource, int quantity) {
-
-    }
-
-    @Override
-    public void endTurn() {
-        checkDiscarded();
-
-        checkVaticanReport();
-
-        if (lorenzo==null) {
-            switchPlayer();
+    public void endTurn() throws WrongTurnPhaseException {
+        if (turnPhase == TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
         }
 
+        //Depending on which action the player took, makes different end-of-turn checks
+        if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
+
+            checkDiscarded();
+            turnPhase = TurnPhase.ACTIONSELECTION;
+
+        } else if (turnPhase == TurnPhase.CARDPAYMENT) {
+
+            if (currentPlayer.leftInWaitingRoom()>0) {
+                throw new WrongTurnPhaseException();
+            }
+            currentPlayer.clearWaitingRoom();
+            turnPhase = TurnPhase.ACTIONSELECTION;
+
+        } else if (turnPhase == turnPhase.PRODUCTIONPAYMENT) {
+
+            if (!currentPlayer.isProductionInputEmpty()) {
+                throw new WrongTurnPhaseException();
+            }
+            currentPlayer.resetProductionChoice();
+            turnPhase = TurnPhase.ACTIONSELECTION;
+
+        } else if (turnPhase == TurnPhase.LEADERCHOICE) {
+
+            if (currentPlayer.getActiveLeaderCards()!=2) {
+                throw new WrongTurnPhaseException();
+            }
+            currentPlayer.finishLeaderCardSelection();
+            if (playersTurnOrder.indexOf(currentPlayer) >= playersTurnOrder.size()-1) {
+                turnPhase = TurnPhase.ACTIONSELECTION;
+            }
+
+        }
+
+        //If in solo mode, Lorenzo takes His action
+        if (lorenzo != null) {
+            lorenzo.takeTurn();
+        }
+
+        //Activates a vatican report if necessary
+        checkVaticanReport();
+
+        //Switches current player to the next one
+        switchPlayer();
+
+        //Checks if the current turn is the last one, or if the final phase of the game has been triggered
         if (weReInTheEndGameNow) {
             if (currentPlayer == playersTurnOrder.get(0)) {
                 endTheGame();

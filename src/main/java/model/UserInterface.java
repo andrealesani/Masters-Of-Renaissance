@@ -1,7 +1,6 @@
 package model;
 
-import Exceptions.NotEnoughResourceException;
-import Exceptions.SlotNotValidException;
+import Exceptions.*;
 import model.resource.Resource;
 
 /**
@@ -16,45 +15,48 @@ public interface UserInterface {
      *
      * @param number the number of the leaderCard to choose
      */
-    void chooseLeaderCard(int number);
+    void chooseLeaderCard(int number) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to activate the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to activate
      */
-    void playLeaderCard(int number);
+    void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException;
 
     /**
      * Allows the player to discard the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to discard
      */
-    void discardLeaderCard(int number);
+    void discardLeaderCard(int number) throws WrongTurnPhaseException;
 
     //Market selection actions
 
     /**
      * Allows the player to select a row or column from the market and take its resources
+     *
      * @param marketScope distinguishes between selecting a row or column
-     * @param numScope the index of the selected row or column
+     * @param numScope    the index of the selected row or column
      */
-    void selectFromMarket(MarketScope marketScope, int numScope);
+    void selectFromMarket(MarketScope marketScope, int numScope) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to send a resource obtained from the market to a specific depot
+     *
      * @param depotNumber the number of the depot to which to send the resource
-     * @param resource the resource to send to the depot
-     * @param quantity the amount of resource to send
+     * @param resource    the resource to send to the depot
+     * @param quantity    the amount of resource to send
      */
-    void sendResourceToDepot(int depotNumber, Resource resource, int quantity);
+    void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceTypeException, WrongTurnPhaseException;
 
     /**
      * Allows the player to choose to convert a white marble resource into one from their conversions list
+     *
      * @param resource the resource into which to convert the white marble
      * @param quantity the amount of resource to convert
      */
-    void chooseMarbleConversion(Resource resource, int quantity);
+    void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException;
 
     //DevelopmentCard purchasing actions
 
@@ -62,77 +64,82 @@ public interface UserInterface {
      * Allows the player to buy a development card from the cardTable
      *
      * @param cardColor the color of the card to buy
-     * @param row the card table row from which to buy the card
-     * @param slot the car slot in which to put the card
+     * @param row       the card table row from which to buy the card
+     * @param slot      the car slot in which to put the card
      */
-    void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException;
+    void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
+     *
      * @param depotNumber the number of the depot from which to take the resource
-     * @param resource the resource to take
-     * @param quantity the amount of resource to take (and of cost to pay)
+     * @param resource    the resource to take
+     * @param quantity    the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity);
+    void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the strongbox
-
+     *
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromStrongboxCard(Resource resource, int quantity);
+    void takeResourceFromStrongboxCard(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
 
     //Production selection actions
 
     /**
      * Allows the player to select a production for activation
+     *
      * @param number the number of the production
      */
-    void selectProduction (int number);
+    void selectProduction(int number) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to reset the selected productions
      */
-    void resetProductionChoice ();
+    void resetProductionChoice() throws WrongTurnPhaseException;
 
     /**
      * Allows the player to confirm the selected production for activation
      */
-    void confirmProductions ();
+    void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException;
 
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's input
+     *
      * @param resource the resource into which to turn the jolly
      */
-    void chooseJollyInput(Resource resource);
+    void chooseJollyInput(Resource resource) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's output
+     *
      * @param resource the resource into which to turn the jolly
      */
-    void chooseJollyOutput(Resource resource);
+    void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the production cost by taking resources from the given depot in the warehouse
+     *
      * @param depotNumber the number of the depot from which to take the resource
-     * @param resource the resource to take
-     * @param quantity the amount of resource to take (and of cost to pay)
+     * @param resource    the resource to take
+     * @param quantity    the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity);
+    void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the production cost by taking resources from the strongbox
-
+     *
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromStrongboxProduction(Resource resource, int quantity);
+    void takeResourceFromStrongboxProduction(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
 
     //End turn actions
 
     /**
      * Allows the player to end their current turn
      */
-    void endTurn();
+    void endTurn() throws WrongTurnPhaseException;
 }
