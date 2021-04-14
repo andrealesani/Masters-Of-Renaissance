@@ -4,6 +4,7 @@ import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
 import model.card.DevelopmentCard;
+import model.card.leadercard.LeaderCard;
 import org.junit.jupiter.api.Test;
 
 import java.beans.Transient;
@@ -16,7 +17,27 @@ class UserInterfaceTest {
 
     // GIGI SECTION
     @Test
-    void chooseLeaderCard() {
+    void chooseLeaderCard() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // During first turn players must choose which LeaderCards to keep
+
+        PlayerBoard currentPlayer = game.getCurrentPlayer();
+        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
+        List<LeaderCard> memoryList = new ArrayList(listaLeaderCards);
+
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(3);
+        game.endTurn();
+
+        assertEquals(2, currentPlayer.getLeaderCards().size());
+        
+        assertEquals(memoryList.get(0), currentPlayer.getLeaderCards().get(0));
+        assertEquals(memoryList.get(2), currentPlayer.getLeaderCards().get(1));
 
     }
 
@@ -26,7 +47,20 @@ class UserInterfaceTest {
     }
 
     @Test
-    void discardLeaderCard() {
+    void discardLeaderCard() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // During first turn players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayers()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
 
     }
 
