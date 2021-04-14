@@ -264,8 +264,6 @@ public class PlayerBoard {
         List<DevelopmentCard> requestedSlot = cardSlots.get(slot - 1);
         int cardLevel = card.getLevel();
 
-        System.out.println(cardLevel);
-
         //Checks if the selected slot can take a card of the given level
         if (cardLevel == 1) {
             if (!requestedSlot.isEmpty()) {

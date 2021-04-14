@@ -85,7 +85,7 @@ public class CardTable {
      * every column), level 2 cards will be in the middle (second lists of every column) and level 1 cards will be on
      * the bottom of the table (third lists of every column)
      *
-     * @param JsonPath specifies the path where the JSON file is stored
+     * @param JsonPath   specifies the path where the JSON file is stored
      * @param colorCards specifies which column of the deck is going to be instantiated
      */
     private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
@@ -100,15 +100,15 @@ public class CardTable {
             e.printStackTrace();
         }
         List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
-        for (DevelopmentCard developmentCard: allColorCards) {
-            if(developmentCard.getLevel() == 1)
+        for (DevelopmentCard developmentCard : allColorCards) {
+            if (developmentCard.getLevel() == 1)
                 colorCards.get(2).add(developmentCard);
-            else if(developmentCard.getLevel() == 2)
+            else if (developmentCard.getLevel() == 2)
                 colorCards.get(1).add(developmentCard);
-            else if(developmentCard.getLevel() == 3)
+            else if (developmentCard.getLevel() == 3)
                 colorCards.get(0).add(developmentCard);
         }
     }
@@ -137,14 +137,22 @@ public class CardTable {
      * Adds the selected card to the specified PlayerBoard in the specified slot
      *
      * @param cardColor   specifies the column of the card in the grid
-     * @param row         specifies the row of the card in the grid (STARTS FROM 1)
+     * @param level       specifies the level of the card to be bought (STARTS FROM 1)
      * @param playerBoard specifies which player is buying the card
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
-    public void buyTopCard(CardColor cardColor, int row, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
+    public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
         //TODO controllare che i deck non siano vuoti
-        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row-1).get(0), cardSlot);
-        colorToColumn(cardColor).get(row-1).remove(0);
+        int row = -1;
+        // Hardcoded connection between the card's level and its row in the CardTable
+        if (level == 1)
+            row = 2;
+        else if (level == 2)
+            row = 1;
+        else if (level == 3)
+            row = 0;
+        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row).get(0), cardSlot);
+        colorToColumn(cardColor).get(row).remove(0);
     }
 
     /**
