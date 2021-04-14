@@ -13,9 +13,9 @@ public interface UserInterface {
     /**
      * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
      *
-     * @param number the number of the leaderCard to choose
+     * @param pos the number of the leaderCard to choose (STARTS FROM 1)
      */
-    void chooseLeaderCard(int number) throws WrongTurnPhaseException;
+    void chooseLeaderCard(int pos) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to activate the leader card corresponding to the given number

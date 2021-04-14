@@ -1,8 +1,14 @@
 package model;
 
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
+import Exceptions.WrongTurnPhaseException;
+import model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 
 import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,8 +68,21 @@ class UserInterfaceTest {
 
     // ANDRE SECTION
     @Test
-    void buyDevelopmentCard() {
+    void buyDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
 
+        // During first turn players must choose which LeaderCards to keep
+        assertTrue(game.getCurrentPlayer().getLeaderCards().size() == 0);
+        game.chooseLeaderCard(1);
+        game.endTurn();
+
+        // TEST
+        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
     }
 
     @Test

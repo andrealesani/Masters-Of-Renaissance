@@ -45,6 +45,7 @@ public class Game implements UserInterface {
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
         distributeLeaderCards();
+        distributeLeaderCards();
 
         //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
@@ -81,6 +82,7 @@ public class Game implements UserInterface {
         finalFaith = 24;
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
+        distributeLeaderCards();
         lastTriggeredTile = 0;
         weReInTheEndGameNow = false;
     }
@@ -305,15 +307,15 @@ public class Game implements UserInterface {
     /**
      * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
      *
-     * @param number the number of the leaderCard to choose
+     * @param pos the number of the leaderCard to choose  (STARTS FROM 1)
      */
     @Override
-    public void chooseLeaderCard(int number) throws WrongTurnPhaseException {
+    public void chooseLeaderCard(int pos) throws WrongTurnPhaseException {
         if (turnPhase!=TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         //TODO leadercard does not exist
-        currentPlayer.chooseLeaderCard(number);
+        currentPlayer.chooseLeaderCard(pos);
     }
 
     /**

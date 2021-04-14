@@ -209,6 +209,15 @@ public class PlayerBoard {
     }
 
     /**
+     * Getter
+     *
+     * @return all 4 player's LeaderCards from which he has to choose 2
+     */
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    /**
      * Temporarily stores the given amount of the given resource in the waiting room, so that the player may decide in which depot to place it
      *
      * @param resource the resource to be added
