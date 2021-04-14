@@ -54,13 +54,23 @@ class UserInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
+
+        PlayerBoard currentPlayer = game.getCurrentPlayer();
+        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
+
         for (PlayerBoard player : game.getPlayers()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
         }
 
+        List<LeaderCard> memoryList = new ArrayList(listaLeaderCards);
+        int preFaith = currentPlayer.getFaith();
+        game.discardLeaderCard(1);
+
+        assertEquals(memoryList.size()-1, currentPlayer.getLeaderCards().size());
+        assertEquals(memoryList.get(0), currentPlayer.getLeaderCards().get(0));
+        assertEquals(preFaith+1, currentPlayer.getFaith());
 
     }
 
