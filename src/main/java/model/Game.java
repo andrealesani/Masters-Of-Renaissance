@@ -44,7 +44,6 @@ public class Game implements UserInterface {
         weReInTheEndGameNow = false;
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
-        distributeLeaderCards();
 
         //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
@@ -52,6 +51,7 @@ public class Game implements UserInterface {
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
         int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
+
         for (String nickname : nicknames) {
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
             popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
@@ -65,6 +65,8 @@ public class Game implements UserInterface {
             playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles));
         }
 
+        //TODO give leadercards to player in constructor
+        distributeLeaderCards();
         assignInkwell();
         currentPlayer = playersTurnOrder.get(0);
     }
@@ -141,14 +143,10 @@ public class Game implements UserInterface {
     }
 
     /**
-     * This method assumes that playersTurnOrder list has been filled already. It randomly chooses the first player
-     * by putting it first in playersTurnOrder list
+     * This method assumes that playersTurnOrder list has been filled already. Shuffles playersTurnOrder, first in list is first player
      */
     private void assignInkwell() {
-        int num = (int) (Math.random() * playersTurnOrder.size());
-        for (int i = 0; i < num; i++) {
-            playersTurnOrder.add(0, playersTurnOrder.get(playersTurnOrder.size() - 1));
-        }
+        Collections.shuffle(playersTurnOrder);
     }
 
     /**
@@ -191,6 +189,10 @@ public class Game implements UserInterface {
         return currentPlayer;
     }
 
+    public List<PlayerBoard> getPlayers () {
+        return playersTurnOrder;
+    }
+
     //shufflare le leadercards (shuffleLeaderCards())
     //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
     //Per ogni playerboard in currentplayers chiami addLeaderCard() per e gli dai in ingresso il proprio mazzetto (lista)
@@ -198,13 +200,12 @@ public class Game implements UserInterface {
 
         shuffleLeaderCards();
 
-        int i, j;
-        int numCards = 0;
+        int j =0;
 
         for (PlayerBoard playerBoard : playersTurnOrder) {
-            for (i = 0; i <= 3; i++) {
-                playerBoard.addLeaderCard(leaderCards.get(0));
-                leaderCards.remove(0);
+            for (int i=0; i <= 3; i++) {
+                playerBoard.addLeaderCard(leaderCards.get(j));
+                j++;
             }
         }
     }

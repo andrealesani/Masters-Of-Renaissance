@@ -75,14 +75,15 @@ class UserInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-
         // During first turn players must choose which LeaderCards to keep
-        assertTrue(game.getCurrentPlayer().getLeaderCards().size() == 0);
-        game.chooseLeaderCard(1);
-        game.endTurn();
+        for (PlayerBoard player : game.getPlayers()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
 
         // TEST
-        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+        game.buyDevelopmentCard(CardColor.GREEN, 3, 1);
     }
 
     @Test
