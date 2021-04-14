@@ -36,35 +36,35 @@ class UserInterfaceTest {
     }
 
     // TOM SECTION
-     @Test
-     void sendResourceToDepot() {
+    @Test
+    void sendResourceToDepot() {
 
-     }
+    }
 
-     @Test
-     void chooseMarbleConversion() {
+    @Test
+    void chooseMarbleConversion() {
 
-     }
+    }
 
-     @Test
-     void takeResourceFromWarehouseCard() {
+    @Test
+    void takeResourceFromWarehouseCard() {
 
-     }
+    }
 
-     @Test
-     void takeResourceFromStrongboxCard() {
+    @Test
+    void takeResourceFromStrongboxCard() {
 
-     }
+    }
 
-     @Test
-     void takeResourceFromWarehouseProduction() {
+    @Test
+    void takeResourceFromWarehouseProduction() {
 
-     }
+    }
 
-     @Test
-     void takeResourceFromStrongboxProduction() {
+    @Test
+    void takeResourceFromStrongboxProduction() {
 
-     }
+    }
 
     // ANDRE SECTION
     @Test
@@ -83,7 +83,7 @@ class UserInterfaceTest {
         }
 
         // TEST
-        game.buyDevelopmentCard(CardColor.GREEN, 3, 1);
+        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
     }
 
     @Test
@@ -91,27 +91,27 @@ class UserInterfaceTest {
 
     }
 
-     @Test
+    @Test
     void resetProductionChoice() {
 
-     }
+    }
 
-     @Test
+    @Test
     void confirmProductionChoice() {
 
-     }
+    }
 
-     @Test
+    @Test
     void chooseJollyInput() {
 
-     }
+    }
 
-     @Test
+    @Test
     void chooseJollyOutput() {
 
-     }
+    }
 
-     // END TURN
+    // END TURN
     @Test
     void endTurn() {
 

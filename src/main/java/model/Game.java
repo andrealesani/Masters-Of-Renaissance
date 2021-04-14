@@ -189,7 +189,7 @@ public class Game implements UserInterface {
         return currentPlayer;
     }
 
-    public List<PlayerBoard> getPlayers () {
+    public List<PlayerBoard> getPlayers() {
         return playersTurnOrder;
     }
 
@@ -197,10 +197,10 @@ public class Game implements UserInterface {
 
         shuffleLeaderCards();
 
-        int j =0;
+        int j = 0;
 
         for (PlayerBoard playerBoard : playersTurnOrder) {
-            for (int i=0; i <= 3; i++) {
+            for (int i = 0; i <= 3; i++) {
                 playerBoard.addLeaderCard(leaderCards.get(j));
                 j++;
             }
@@ -270,7 +270,7 @@ public class Game implements UserInterface {
 
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
 
-        currentPlayer = playersTurnOrder.get((currentIndex+1)%playersTurnOrder.size());
+        currentPlayer = playersTurnOrder.get((currentIndex + 1) % playersTurnOrder.size());
 
 
     }
@@ -308,7 +308,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void chooseLeaderCard(int pos) throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.LEADERCHOICE) {
+        if (turnPhase != TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         //TODO leadercard does not exist
@@ -322,7 +322,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException {
-        if (turnPhase==TurnPhase.LEADERCHOICE) {
+        if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         //TODO leadercard does not exist
@@ -336,7 +336,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void discardLeaderCard(int number) throws WrongTurnPhaseException {
-        if (turnPhase==TurnPhase.LEADERCHOICE) {
+        if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         //TODO leadercard does not exist
@@ -353,7 +353,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void selectFromMarket(MarketScope marketScope, int numScope) throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO marketscope null, numScope invalido, currentPlayer null
@@ -371,7 +371,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceTypeException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.MARKETDISTRIBUTION) {
+        if (turnPhase != TurnPhase.MARKETDISTRIBUTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO negative quantities, null type
@@ -386,7 +386,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.MARKETDISTRIBUTION) {
+        if (turnPhase != TurnPhase.MARKETDISTRIBUTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO negative quantities
@@ -399,16 +399,16 @@ public class Game implements UserInterface {
      * Allows the player to buy a development card from the cardTable
      *
      * @param cardColor the color of the card to buy
-     * @param row       the card table row from which to buy the card
+     * @param level     the level of the card to be bought
      * @param slot      the car slot in which to put the card
      */
     @Override
-    public void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+    public void buyDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO cardcolor null, invalid row
-        cardTable.buyTopCard(cardColor, row, currentPlayer, slot);
+        cardTable.buyTopCard(cardColor, level, currentPlayer, slot);
         currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.CARDPAYMENT;
     }
@@ -422,7 +422,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.CARDPAYMENT) {
+        if (turnPhase != TurnPhase.CARDPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
@@ -437,7 +437,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void takeResourceFromStrongboxCard(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.CARDPAYMENT) {
+        if (turnPhase != TurnPhase.CARDPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
@@ -453,7 +453,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void selectProduction(int number) throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO production does not exist
@@ -465,7 +465,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void resetProductionChoice() throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         currentPlayer.resetProductionChoice();
@@ -476,7 +476,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         currentPlayer.confirmProductionChoice();
@@ -490,7 +490,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void chooseJollyInput(Resource resource) throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
@@ -504,11 +504,11 @@ public class Game implements UserInterface {
      */
     @Override
     public void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
-        currentPlayer.chooseJollyOutput (resource);
+        currentPlayer.chooseJollyOutput(resource);
     }
 
     /**
@@ -520,7 +520,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.PRODUCTIONPAYMENT) {
+        if (turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
@@ -529,7 +529,7 @@ public class Game implements UserInterface {
 
     @Override
     public void takeResourceFromStrongboxProduction(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase!=TurnPhase.PRODUCTIONPAYMENT) {
+        if (turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
@@ -551,7 +551,7 @@ public class Game implements UserInterface {
 
         } else if (turnPhase == TurnPhase.CARDPAYMENT) {
 
-            if (currentPlayer.leftInWaitingRoom()>0) {
+            if (currentPlayer.leftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.clearWaitingRoom();
@@ -566,11 +566,11 @@ public class Game implements UserInterface {
 
         } else if (turnPhase == TurnPhase.LEADERCHOICE) {
             //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
-            if (currentPlayer.getActiveLeaderCards()!=2) {
+            if (currentPlayer.getActiveLeaderCards() != 2) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.finishLeaderCardSelection();
-            if (playersTurnOrder.indexOf(currentPlayer) >= playersTurnOrder.size()-1) {
+            if (playersTurnOrder.indexOf(currentPlayer) >= playersTurnOrder.size() - 1) {
                 turnPhase = TurnPhase.ACTIONSELECTION;
             }
 
