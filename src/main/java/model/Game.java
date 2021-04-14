@@ -44,6 +44,7 @@ public class Game implements UserInterface {
         weReInTheEndGameNow = false;
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
+        distributeLeaderCards();
 
         //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
@@ -192,7 +193,7 @@ public class Game implements UserInterface {
     //shufflare le leadercards (shuffleLeaderCards())
     //dividere il mazzo delle leader cards in un mazzetto di 4 carte per ogni giocatore
     //Per ogni playerboard in currentplayers chiami addLeaderCard() per e gli dai in ingresso il proprio mazzetto (lista)
-    public void distributeLeaderCards() {
+    private void distributeLeaderCards() {
 
         shuffleLeaderCards();
 
