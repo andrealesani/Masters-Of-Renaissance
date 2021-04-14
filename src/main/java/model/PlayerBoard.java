@@ -5,6 +5,7 @@ import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
+import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 
@@ -180,6 +181,13 @@ public class PlayerBoard {
     public Warehouse getWarehouse() {
         return warehouse;
     }
+
+    /**
+     * Getter for the player's waiting room
+     *
+     * @return the player's waiting room
+     */
+    public UnlimitedStorage getWaitingRoom() {return waitingRoom;}
 
     /**
      * Getter for the player's faith
@@ -457,11 +465,11 @@ public class PlayerBoard {
     /**
      * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
      */
-    public void addWhiteMarble() {
+    public void addWhiteMarble(int quantity) {
         if (marbleConversions.size() == 1) {
-            waitingRoom.addResource(marbleConversions.get(0), 1);
+            waitingRoom.addResource(marbleConversions.get(0), quantity);
         } else if (marbleConversions.size() > 1) {
-            whiteMarbleNum++;
+            whiteMarbleNum += quantity;
         }
     }
 
@@ -630,6 +638,15 @@ public class PlayerBoard {
      */
     public void addDiscount(ResourceType resourceType, int discount) {
         discounts.put(resourceType, discount);
+    }
+
+    /**
+     * Adds the given depot to the list of available depots in the warehouse
+     *
+     * @param depot the depot to be added
+     */
+    public void addNewDepot(ResourceDepot depot) {
+        warehouse.addNewDepot(depot);
     }
 
     /**

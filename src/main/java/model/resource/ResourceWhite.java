@@ -11,7 +11,7 @@ public class ResourceWhite extends Resource {
 
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addWhiteMarble();
+        playerBoard.addWhiteMarble(1);
     }
 
     @Override
