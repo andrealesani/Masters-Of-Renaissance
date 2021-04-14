@@ -734,11 +734,12 @@ public class PlayerBoard {
     }
 
     public void chooseLeaderCard(int pos){
+        LeaderCard leaderCard = leaderCards.get(pos - 1);
 
-        if(leaderCards.get(pos - 1).isActive())
-            leaderCards.get(pos-1).deActivate();
-        else if(!leaderCards.get(pos - 1).isActive())
-            leaderCards.get(pos-1).activate();
+        if(leaderCard.isActive())
+            leaderCard.deActivate();
+        else if(!leaderCard.isActive())
+            leaderCard.activate();
 
     }
 
