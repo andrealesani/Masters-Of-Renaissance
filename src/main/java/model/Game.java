@@ -45,7 +45,6 @@ public class Game implements UserInterface {
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
         distributeLeaderCards();
-        distributeLeaderCards();
 
         //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
