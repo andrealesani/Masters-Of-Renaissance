@@ -58,6 +58,14 @@ public interface UserInterface {
      */
     void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException;
 
+    /**
+     * Allows the user to swap the contents of two warehouse depots
+     *
+     * @param depotNumber1 the number of the first depot to swap
+     * @param depotNumber2 the number of the second depot to swap
+     */
+    void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException;
+
     //DevelopmentCard purchasing actions
 
     /**

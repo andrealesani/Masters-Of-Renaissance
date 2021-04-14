@@ -189,6 +189,11 @@ public class Game implements UserInterface {
         return currentPlayer;
     }
 
+    /**
+     * Getter
+     *
+     * @return player turn order
+     */
     public List<PlayerBoard> getPlayers() {
         return playersTurnOrder;
     }
@@ -391,6 +396,16 @@ public class Game implements UserInterface {
         }
         //TODO negative quantities
         currentPlayer.chooseMarbleConversion(resource.getType(), quantity);
+    }
+
+    /**
+     * Allows the user to swap the contents of two warehouse depots
+     *
+     * @param depotNumber1 the number of the first depot to swap
+     * @param depotNumber2 the number of the second depot to swap
+     */
+    public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException {
+        currentPlayer.swapDepotContent(depotNumber1, depotNumber2);
     }
 
     //DevelopmentCard purchasing actions
