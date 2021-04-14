@@ -28,6 +28,7 @@ class UserInterfaceTest {
     void selectFromMarket() {
 
     }
+
     // TOM SECTION
      @Test
      void sendResourceToDepot() {
@@ -93,6 +94,6 @@ class UserInterfaceTest {
      // END TURN
     @Test
     void endTurn() {
-        
+
     }
 }
