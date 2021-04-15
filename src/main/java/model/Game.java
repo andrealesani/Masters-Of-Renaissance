@@ -166,7 +166,7 @@ public class Game implements UserInterface {
      * @throws WrongTurnPhaseException if the player attempts this action when they are not allowed to
      */
     @Override
-    public void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException {
         if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
@@ -215,7 +215,7 @@ public class Game implements UserInterface {
      * @param quantity    the amount of resource to send
      */
     @Override
-    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceTypeException, WrongTurnPhaseException {
+    public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceInsertionException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.MARKETDISTRIBUTION) {
             throw new WrongTurnPhaseException();
         }

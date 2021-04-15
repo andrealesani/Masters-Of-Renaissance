@@ -2,7 +2,7 @@ package model.storage;
 
 import Exceptions.BlockedResourceException;
 import Exceptions.NotEnoughSpaceException;
-import Exceptions.WrongResourceTypeException;
+import Exceptions.WrongResourceInsertionException;
 import model.ResourceType;
 
 /**
@@ -15,11 +15,11 @@ public interface ResourceDepot extends ResourceStash {
      *
      * @param resource the resource to be added
      * @param quantity the amount of resource to add to the amount stored
-     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the storage
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the storage
      * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
      * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
      */
-    void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException;
+    void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException;
 
     /**
      * Returns whether or not the depot, if it were empty, could hold the contents of the given depot

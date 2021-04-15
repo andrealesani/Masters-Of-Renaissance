@@ -229,12 +229,12 @@ public class PlayerBoard {
      * @param resource the resource to be moved
      * @param quantity the amount of the resource to be moved
      * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
-     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the target depot
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the target depot
      * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
      * @throws NotEnoughResourceException if the waiting room contains less than the given amount of the given resource
      */
-    public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
+    public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
         waitingRoom.removeResource(resource, quantity);
         warehouse.addToDepot(depot, resource, quantity);
     }
@@ -536,12 +536,12 @@ public class PlayerBoard {
      * Checks if the player can activate a certain LeaderCard and activates it
      *
      * @param i specifies the position of the LeaderCard in the leaderCards list
-     * @throws RequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
+     * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
      */
-    public void playLeaderCard(int i) throws RequirementsNotMetException {
+    public void playLeaderCard(int i) throws LeaderRequirementsNotMetException {
         if (leaderCards.get(i).areRequirementsMet(this)) {
             leaderCards.get(i).doAction(this);
-        } else throw new RequirementsNotMetException();
+        } else throw new LeaderRequirementsNotMetException();
     }
 
     /**

@@ -23,7 +23,7 @@ public interface UserInterface {
      *
      * @param number the number of the leaderCard to activate
      */
-    void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException;
+    void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException;
 
     /**
      * Allows the player to discard the leader card corresponding to the given number
@@ -49,7 +49,7 @@ public interface UserInterface {
      * @param resource    the resource to send to the depot
      * @param quantity    the amount of resource to send
      */
-    void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceTypeException, WrongTurnPhaseException;
+    void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceInsertionException, WrongTurnPhaseException;
 
     /**
      * Allows the player to choose to convert a white marble resource into one from their conversions list

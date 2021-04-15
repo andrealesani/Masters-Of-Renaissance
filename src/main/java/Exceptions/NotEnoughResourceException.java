@@ -13,6 +13,6 @@ public class NotEnoughResourceException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: Resource is not present in sufficient quantity.");
+        return ("Error: Resource is not present in sufficient quantity for the selected action.");
     }
 }

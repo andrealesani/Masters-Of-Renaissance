@@ -177,7 +177,7 @@ class MarketTest {
     }
 
     @Test
-    public void selectResourcesRow() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+    public void selectResourcesRow() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
@@ -208,7 +208,7 @@ class MarketTest {
     }
 
     @Test
-    public void selectResourcesColumn() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+    public void selectResourcesColumn() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);

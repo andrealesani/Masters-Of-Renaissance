@@ -62,11 +62,11 @@ public class Warehouse {
      * @param resource    the resource to be added
      * @param quantity    the quantity of the resource to add
      * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
-     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the target depot
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the target depot
      * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
      */
-    public void addToDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughSpaceException, WrongResourceTypeException, BlockedResourceException {
+    public void addToDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException {
         if (depotNumber < 1 || depotNumber > depots.size()) {
             throw new DepotNotPresentException(depotNumber);
         }
@@ -146,7 +146,7 @@ public class Warehouse {
         try {
             depot1.addResource(resource2, amount2);
             depot2.addResource(resource1, amount1);
-        } catch (WrongResourceTypeException | NotEnoughSpaceException | BlockedResourceException ex) {
+        } catch (WrongResourceInsertionException | NotEnoughSpaceException | BlockedResourceException ex) {
             //This should never happen
             System.out.println(ex.getMessage());
         }

@@ -1,24 +1,20 @@
 package model;
 
 import Exceptions.*;
-import model.card.DevelopmentCard;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
 import model.card.leadercard.LeaderCard;
 import model.resource.*;
 import model.storage.LeaderDepot;
-import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
-import java.beans.Transient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.ObjLongConsumer;
 
 import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
@@ -92,7 +88,7 @@ class UserInterfaceTest {
 
     // TOM SECTION
     @Test
-    void sendResourceToDepotCorrect() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceTypeException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
+    void sendResourceToDepotCorrect() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -131,7 +127,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void chooseMarbleConversion() throws WrongTurnPhaseException, ConversionNotAvailableException, NotEnoughResourceException, WrongResourceTypeException, BlockedResourceException, NotEnoughSpaceException, DepotNotPresentException {
+    void chooseMarbleConversion() throws WrongTurnPhaseException, ConversionNotAvailableException, NotEnoughResourceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, DepotNotPresentException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -178,7 +174,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException {
+    void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException {
         // Game creation
             List<String> nicknames = new ArrayList<>();
             nicknames.add("Andre");
@@ -215,7 +211,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException {
+    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -353,7 +349,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException {
+    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -425,7 +421,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
 // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");

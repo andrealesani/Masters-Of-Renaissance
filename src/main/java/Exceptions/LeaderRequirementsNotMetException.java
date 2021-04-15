@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class RequirementsNotMetException extends Exception{
+public class LeaderRequirementsNotMetException extends Exception{
     /**
      * Returns the message describing the type of error that occurred
      *

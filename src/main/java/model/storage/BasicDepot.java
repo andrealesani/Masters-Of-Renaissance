@@ -44,12 +44,12 @@ public class BasicDepot implements ResourceDepot {
      *
      * @param resource the resource to be added
      * @param quantity the amount of resource to add to the amount stored
-     * @throws WrongResourceTypeException if the type of the resource to be added cannot (currently) be added to the storage
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the storage
      * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
      * @throws BlockedResourceException   if the resource is being blocked by a different depot
      */
     @Override
-    public void addResource(ResourceType resource, int quantity) throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
+    public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
         if (resource!=null && quantity>0) {
             int newQuantity = amount + quantity;
             if (newQuantity > size) {
@@ -65,7 +65,7 @@ public class BasicDepot implements ResourceDepot {
                 storedResource = resource;
             } else {
                 if (resource != storedResource) {
-                    throw new WrongResourceTypeException();
+                    throw new WrongResourceInsertionException();
                 }
             }
 
