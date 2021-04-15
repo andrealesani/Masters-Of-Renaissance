@@ -11,6 +11,8 @@ import java.util.List;
  * It has methods for increasing and decreasing the contained resources, as well as visualizing its content.
  */
 public interface ResourceStash {
+    //PUBLIC METHODS
+
     //TODO add wrong parameters exceptions
     /**
      * Remove a certain amount of the given resource from storage
@@ -20,6 +22,13 @@ public interface ResourceStash {
      * @throws NotEnoughResourceException - if the given resource is not present in the storage in the amount to be deleted
      */
     void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException;
+
+    /**
+     * Empties the storage of its entire content
+     */
+    void clear();
+
+    //GETTERS
 
     /**
      * Returns the stored amount of the given resource
@@ -35,9 +44,4 @@ public interface ResourceStash {
      * @return a List of the stored resource types (if there are no resources in storage, the list is empty)
      */
     List<ResourceType> getStoredResources();
-
-    /**
-     * Empties the storage of its entire content
-     */
-    void clear();
 }

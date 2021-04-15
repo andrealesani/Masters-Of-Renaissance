@@ -16,6 +16,8 @@ public class Warehouse {
      */
     private final List<ResourceDepot> depots = new ArrayList<>();
 
+    //CONSTRUCTORS
+
     /**
      * The class constructor
      *
@@ -27,6 +29,8 @@ public class Warehouse {
         }
     }
 
+    //PUBLIC METHODS
+
     /**
      * Adds the given depot to the list of available depots
      *
@@ -34,25 +38,6 @@ public class Warehouse {
      */
     public void addNewDepot(ResourceDepot depot) {
         depots.add(depot);
-    }
-
-    /**
-     * Returns the number of depots currently accessible in the warehouse
-     *
-     * @return the number of depots
-     */
-    public int getNumOfDepots() {
-        return depots.size();
-    }
-
-    /**
-     * Returns the depot corresponding to the given number
-     *
-     * @param depotNumber the number of the depot to get
-     * @return the requested depot
-     */
-    public ResourceDepot getDepot(int depotNumber) {
-        return depots.get(depotNumber-1);
     }
 
     /**
@@ -169,6 +154,27 @@ public class Warehouse {
             }
         }
         return false;
+    }
+
+    //GETTERS
+
+    /**
+     * Returns the number of depots currently accessible in the warehouse
+     *
+     * @return the number of depots
+     */
+    public int getNumOfDepots() {
+        return depots.size();
+    }
+
+    /**
+     * Returns the depot corresponding to the given number
+     *
+     * @param depotNumber the number of the depot to get
+     * @return the requested depot
+     */
+    public ResourceDepot getDepot(int depotNumber) {
+        return depots.get(depotNumber-1);
     }
 
     /**

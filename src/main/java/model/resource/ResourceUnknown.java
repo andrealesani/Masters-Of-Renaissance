@@ -3,19 +3,15 @@ package model.resource;
 import model.PlayerBoard;
 import model.ResourceType;
 
+/**
+ * This class represents the game's jolly resource
+ */
 public class ResourceUnknown extends Resource {
-
+    //CONSTRUCTOR
+    /**
+     * Constructor
+     */
     public ResourceUnknown() {
         super(ResourceType.UNKNOWN);
-    }
-
-    @Override
-    public void addResourceFromMarket(PlayerBoard playerBoard) {
-        //does nothing
-    }
-
-    @Override
-    public void addResourceFromProduction(PlayerBoard playerBoard) {
-        //does nothing
     }
 }

@@ -10,6 +10,8 @@ import model.ResourceType;
  * It has methods for evaluating the depot's capacity or whether it is blocking a specific resource, and to empty the depot, as well as the standard methods for a ResourceStash.
  */
 public interface ResourceDepot extends ResourceStash {
+    //PUBLIC METHODS
+
     /**
      * Adds the given resource to the storage
      *
@@ -36,6 +38,8 @@ public interface ResourceDepot extends ResourceStash {
      * @return true if the given resource is blocked by this depot
      */
     boolean isBlocking(ResourceType resource);
+
+    //GETTERS
 
     /**
      * Returns the maximum number of resources that can be stored in the depot

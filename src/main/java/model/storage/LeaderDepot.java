@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a depot of the kind obtained after activating certain leader cards, providing the player with additional warehouse space.
+ * This class represents a depot of the type obtained after activating certain leader cards, providing the player with additional warehouse space.
  * This kind of depot can usually contain only two pieces of a single type of resource, and is not counted when determining resource blocking for basic depots.
  */
 public class LeaderDepot implements ResourceDepot {
@@ -24,6 +24,8 @@ public class LeaderDepot implements ResourceDepot {
      */
     private int amount = 0;
 
+    //CONSTRUCTORS
+
     /**
      * The class constructor
      *
@@ -34,6 +36,8 @@ public class LeaderDepot implements ResourceDepot {
         this.size = size;
         this.acceptedResource = resource;
     }
+
+    //PUBLIC METHODS
 
     /**
      * Adds the given resource to storageContent
@@ -89,16 +93,6 @@ public class LeaderDepot implements ResourceDepot {
     }
 
     /**
-     * Returns the maximum number of resources that can be stored in the depot
-     *
-     * @return the size of the depot
-     */
-    @Override
-    public int getSize() {
-        return size;
-    }
-
-    /**
      * Empties the depot of its entire content
      */
     @Override
@@ -124,6 +118,18 @@ public class LeaderDepot implements ResourceDepot {
             }
             amount = newQuantity;
         }
+    }
+
+    //GETTERS
+
+    /**
+     * Returns the maximum number of resources that can be stored in the depot
+     *
+     * @return the size of the depot
+     */
+    @Override
+    public int getSize() {
+        return size;
     }
 
     /**
