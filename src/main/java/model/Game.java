@@ -189,22 +189,22 @@ public class Game implements UserInterface {
         return currentPlayer;
     }
 
+
     /**
      * Getter
      *
-<<<<<<< Updated upstream
-     * @return player turn order
-     */
-    public List<PlayerBoard> getPlayers() {
-=======
      * @return CardTable
      */
-    public CardTable getCardTable() {
+   CardTable getCardTable() {
         return cardTable;
     }
 
+    /**
+     * Getter
+     *
+     * @return player turn order
+     */
     public List<PlayerBoard> getPlayersTurnOrder() {
->>>>>>> Stashed changes
         return playersTurnOrder;
     }
 
