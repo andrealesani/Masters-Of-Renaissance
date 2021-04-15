@@ -16,7 +16,7 @@ public class ResourceCoin extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.COIN, 1);
+        playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
     }
 
 

@@ -29,7 +29,7 @@ class ResourceServantTest {
 
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         ResourceServant servant = new ResourceServant();
 
         servant.addResourceFromMarket(playerBoard);

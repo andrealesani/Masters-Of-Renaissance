@@ -8,6 +8,7 @@ import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
+import model.resource.ResourceUnknown;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,16 +21,56 @@ import java.util.List;
  * This class models a single game of Masters of the Renaissance
  */
 public class Game implements UserInterface {
+    /**
+     * This attribute stores the game's market
+     */
     private final Market market;
+    /**
+     * This attribute stores the game's card table
+     */
     private final CardTable cardTable;
+    /**
+     * This attribute stores the game's leader cards before they are distributed to players
+     */
     private final List<LeaderCard> leaderCards;
+    /**
+     * This attribute stores the player's boards in the same order as the turn order
+     */
     private final List<PlayerBoard> playersTurnOrder;
+    /**
+     * This attribute stores the player who is currently taking their turn
+     */
     private PlayerBoard currentPlayer;
+    /**
+     * This attribute stores the artificial intelligence for solo games
+     */
     private ArtificialIntelligence lorenzo;
+    /**
+     * This stores the last pope's favor tile to have been triggered as part of a vatican report
+     */
     private int lastTriggeredTile;
+    /**
+     * This attribute the faith score value that triggers the end of the game
+     */
     private final int finalFaith;
+    /**
+     * This attribute stores the flag that determines if the ending phase of the game has been triggered
+     */
     private boolean weReInTheEndGameNow;
+    /**
+     * This attribute stores the number of leader cards each player is given at the beginning of the game
+     */
+    private final int initialLeaderCardNumber;
+    /**
+     * This attribute stores the number of leader cards each player must keep at the beginning of the game
+     */
+    private final int finalLeaderCardNumber;
+    /**
+     * This attribute stores the phase of the turn in which the current player is in
+     */
     private TurnPhase turnPhase;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -45,12 +86,21 @@ public class Game implements UserInterface {
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
 
-        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, devCardMax and finalfaith initialized in a JSON
+        //TODO make popefavortiles, leaderCardNumbers, vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and finalfaith initialized in a JSON
         finalFaith = 24;
+        initialLeaderCardNumber = 4;
+        finalLeaderCardNumber = 2;
         int devCardMax = 7;
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
         int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
+        Resource jolly = new ResourceUnknown();
+        List<Resource> baseProdInput = new ArrayList<>();
+        baseProdInput.add(jolly);
+        baseProdInput.add(jolly);
+        List<Resource> baseProdOutput = new ArrayList<>();
+        baseProdOutput.add(jolly);
+        Production baseProduction = new Production(baseProdInput, baseProdOutput);
 
         for (String nickname : nicknames) {
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
@@ -62,7 +112,7 @@ public class Game implements UserInterface {
                 lorenzo = new Lorenzo(cardTable, popeFavorTiles);
             }
 
-            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles));
+            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles, baseProduction));
         }
 
         //TODO give leadercards to player in constructor
@@ -81,6 +131,8 @@ public class Game implements UserInterface {
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         finalFaith = 24;
+        initialLeaderCardNumber = 4;
+        finalLeaderCardNumber = 2;
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
         distributeLeaderCards();
@@ -88,245 +140,22 @@ public class Game implements UserInterface {
         weReInTheEndGameNow = false;
     }
 
-    /**
-     * !! ATM The method does NOT control the validity of the values read from the JSON files, like quantities <0 or typos in enums !!
-     * This method creates the instances of all the LeaderCards before the game starts
-     */
-    private void initializeLeaderCards() {
-
-        Gson gson = new Gson();
-        JsonReader reader = null;
-
-        // DEPOT LEADER CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DepotLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
-        }.getType();
-        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
-        leaderCards.addAll(depotLeaderCards);
-
-        // DISCOUNT LEADER CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DiscountLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
-        }.getType();
-        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
-        leaderCards.addAll(discountLeaderCards);
-
-        // MARBLE LEADER CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/MarbleLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
-        }.getType();
-        ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
-        leaderCards.addAll(marbleLeaderCards);
-
-        // PRODUCTION LEADER CARDS
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/ProductionLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
-        }.getType();
-        ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
-        leaderCards.addAll(productionLeaderCards);
-    }
-
-    /**
-     * This method assumes that playersTurnOrder list has been filled already. Shuffles playersTurnOrder, first in list is first player
-     */
-    private void assignInkwell() {
-        Collections.shuffle(playersTurnOrder);
-    }
-
-    /**
-     * This method shuffles the LeaderCards before distributing them to the players
-     */
-    private void shuffleLeaderCards() {
-        Collections.shuffle(leaderCards);
-    }
-
-    /**
-     * This method is called when a player's move makes all other players increase their faith
-     * (for example when discarding resources)
-     *
-     * @param quantity number of faith points to add
-     */
-    private void increaseFaithAll(int quantity) {
-        for (PlayerBoard playerBoard : playersTurnOrder) {
-            if (!playerBoard.equals(getCurrentPlayer())) {
-                playerBoard.increaseFaith(quantity);
-            }
-        }
-    }
-
-
-    /**
-     * Getter
-     *
-     * @return leaderCards list
-     */
-    public List<LeaderCard> getLeaderCards() {
-        return leaderCards;
-    }
-
-    /**
-     * Getter
-     *
-     * @return current active player
-     */
-    public PlayerBoard getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-
-    /**
-     * Getter
-     *
-     * @return CardTable
-     */
-    CardTable getCardTable() {
-        return cardTable;
-    }
-
-    /**
-     * Getter
-     *
-     * @return player turn order
-     */
-    public List<PlayerBoard> getPlayersTurnOrder() {
-        return playersTurnOrder;
-    }
-
-    private void distributeLeaderCards() {
-
-        shuffleLeaderCards();
-
-        int j = 0;
-
-        for (PlayerBoard playerBoard : playersTurnOrder) {
-            for (int i = 0; i <= 3; i++) {
-                playerBoard.addLeaderCard(leaderCards.get(j));
-                j++;
-            }
-        }
-    }
-
-    private void checkDiscarded() {
-        int numDiscardedResources = currentPlayer.leftInWaitingRoom();
-
-        if (numDiscardedResources > 0) {
-
-            if (lorenzo != null) {
-                lorenzo.increaseFaith(numDiscardedResources);
-            } else {
-                String currentPlayerName = currentPlayer.getUsername();
-                for (PlayerBoard playerBoard : playersTurnOrder) {
-                    if (!playerBoard.getUsername().equals(currentPlayerName)) {
-                        playerBoard.increaseFaith(numDiscardedResources);
-                    }
-                }
-            }
-            currentPlayer.clearWaitingRoom();
-
-        }
-    }
-
-    private void checkVaticanReport() {
-        int newTriggeredTile = 0;
-
-        //If in solo game: check Lorenzo
-        if (lorenzo != null) {
-            newTriggeredTile = lorenzo.getNewTriggeredTile(lastTriggeredTile);
-        }
-
-        //Check all players
-        for (PlayerBoard player : playersTurnOrder) {
-            if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
-                newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
-            }
-        }
-
-        //If necessity for vatican report, call it
-        if (newTriggeredTile > lastTriggeredTile) {
-            for (PlayerBoard player : playersTurnOrder) {
-                player.theVaticanReport(newTriggeredTile, lastTriggeredTile);
-            }
-            lastTriggeredTile = newTriggeredTile;
-        }
-    }
-
-    private boolean isGameEnding() {
-        if (lorenzo != null) {
-            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
-                return true;
-            }
-        }
-        for (PlayerBoard player : playersTurnOrder) {
-            if (player.isGameEnding()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private void switchPlayer() {
-
-        int currentIndex = playersTurnOrder.indexOf(currentPlayer);
-
-        currentPlayer = playersTurnOrder.get((currentIndex + 1) % playersTurnOrder.size());
-
-
-    }
-
-    private void endTheGame() {
-        if (lorenzo != null) {
-            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
-                System.out.println("FATALITY: Lorenzo wins!");
-            } else {
-                System.out.println("FATALITY: " + currentPlayer.getUsername() + " wins with " + currentPlayer.calculateVictoryPoints() + " victory points!");
-            }
-        } else {
-            //TODO maybe change with stream implementation?
-            int winner = 0;
-            int maxVictoryPoints = 0;
-            for (int i = 0; i < playersTurnOrder.size(); i++) {
-                int playerPoints = playersTurnOrder.get(i).calculateVictoryPoints();
-                if (playerPoints > maxVictoryPoints) {
-                    winner = i;
-                    maxVictoryPoints = playerPoints;
-                }
-            }
-            System.out.println("FATALITY: " + playersTurnOrder.get(winner).getUsername() + " wins with " + playersTurnOrder.get(winner).calculateVictoryPoints() + " victory points!");
-        }
-    }
-
-    // HIC SUNT ACTIONEM GIOCATORIBUS
+    //PLAYER ACTIONS
 
     //LeaderCards handling actions
 
     /**
-     * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
+     * Allows the player to choose which leader cards to keep (after choosing leaderCardsNumber cards, the rest are discarded)
      *
      * @param pos the number of the leaderCard to choose  (STARTS FROM 1)
+     * @throws WrongTurnPhaseException if the player attempts this action when they are not allowed to
      */
     @Override
     public void chooseLeaderCard(int pos) throws WrongTurnPhaseException {
         if (turnPhase != TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
-        //TODO leadercard does not exist
+        //TODO leadercard does not exist exception
         currentPlayer.chooseLeaderCard(pos);
     }
 
@@ -334,6 +163,7 @@ public class Game implements UserInterface {
      * Allows the player to activate the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to activate
+     * @throws WrongTurnPhaseException if the player attempts this action when they are not allowed to
      */
     @Override
     public void playLeaderCard(int number) throws RequirementsNotMetException, WrongTurnPhaseException {
@@ -562,7 +392,7 @@ public class Game implements UserInterface {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
-        currentPlayer.takeResourceFromStrongboxCard(resource.getType(), quantity);
+        currentPlayer.takeResourceFromStrongboxProduction(resource, quantity);
     }
 
     @Override
@@ -595,7 +425,7 @@ public class Game implements UserInterface {
 
         } else if (turnPhase == TurnPhase.LEADERCHOICE) {
             //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
-            if (currentPlayer.getActiveLeaderCards() != 2) {
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.finishLeaderCardSelection();
@@ -626,5 +456,232 @@ public class Game implements UserInterface {
         } else if (isGameEnding()) {
             weReInTheEndGameNow = true;
         }
+    }
+
+    //PRIVATE METHODS
+
+    /**
+     * Creates the leader cards for the game by reading them from a JSON file
+     */
+    private void initializeLeaderCards() {
+        //TODO controllare valori in input dal JSON (typo nelle enum, valori <0, etc)
+        Gson gson = new Gson();
+        JsonReader reader = null;
+
+        // depot leader cards
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DepotLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
+        }.getType();
+        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
+        leaderCards.addAll(depotLeaderCards);
+
+        // discount leader cards
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DiscountLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
+        }.getType();
+        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
+        leaderCards.addAll(discountLeaderCards);
+
+        // marble leader cards
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/MarbleLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
+        }.getType();
+        ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
+        leaderCards.addAll(marbleLeaderCards);
+
+        // production leader cards
+        try {
+            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/ProductionLeaderCards.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
+        }.getType();
+        ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
+        leaderCards.addAll(productionLeaderCards);
+    }
+
+    /**
+     * Shuffles the leader cards, then splits them into decks of size initialLeaderCardNumber and gives them to each player
+     */
+    private void distributeLeaderCards() {
+
+        Collections.shuffle(leaderCards);
+
+        int j = 0;
+
+        for (PlayerBoard playerBoard : playersTurnOrder) {
+            for (int i = 0; i <= initialLeaderCardNumber; i++) {
+                playerBoard.addLeaderCard(leaderCards.get(j));
+                j++;
+            }
+        }
+    }
+
+    /**
+     * Checks number of discarded resources at the end of a player's turn, after they have used the market action
+     */
+    private void checkDiscarded() {
+        int numDiscardedResources = currentPlayer.leftInWaitingRoom();
+
+        if (numDiscardedResources > 0) {
+
+            if (lorenzo != null) {
+                lorenzo.increaseFaith(numDiscardedResources);
+            } else {
+                String currentPlayerName = currentPlayer.getUsername();
+                for (PlayerBoard playerBoard : playersTurnOrder) {
+                    if (!playerBoard.getUsername().equals(currentPlayerName)) {
+                        playerBoard.increaseFaith(numDiscardedResources);
+                    }
+                }
+            }
+            currentPlayer.clearWaitingRoom();
+
+        }
+    }
+
+    /**
+     * Checks the players' faith score to see if a vatican report is triggered, and if so it carries it out
+     */
+    private void checkVaticanReport() {
+        int newTriggeredTile = 0;
+
+        //If in solo game: check Lorenzo
+        if (lorenzo != null) {
+            newTriggeredTile = lorenzo.getNewTriggeredTile(lastTriggeredTile);
+        }
+
+        //Check all players
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getNewTriggeredTile(lastTriggeredTile) > newTriggeredTile) {
+                newTriggeredTile = player.getNewTriggeredTile(lastTriggeredTile);
+            }
+        }
+
+        //If necessity for vatican report, call it
+        if (newTriggeredTile > lastTriggeredTile) {
+            for (PlayerBoard player : playersTurnOrder) {
+                player.theVaticanReport(newTriggeredTile, lastTriggeredTile);
+            }
+            lastTriggeredTile = newTriggeredTile;
+        }
+    }
+
+    /**
+     * Returns whether or not the conditions are met to start the final phase of the game
+     *
+     * @return true if the final phase has been triggered
+     */
+    private boolean isGameEnding() {
+        if (lorenzo != null) {
+            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
+                return true;
+            }
+        }
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.isGameEnding()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Switches the current player to the next in the turn order
+     */
+    private void switchPlayer() {
+
+        int currentIndex = playersTurnOrder.indexOf(currentPlayer);
+
+        currentPlayer = playersTurnOrder.get((currentIndex + 1) % playersTurnOrder.size());
+
+
+    }
+
+    /**
+     * Determines the winner and their score, then prints endgame messages
+     */
+    private void endTheGame() {
+        //TODO this method probably needs to be implemented in some other way tied to the lobby
+        if (lorenzo != null) {
+            if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
+                System.out.println("FATALITY: Lorenzo wins!");
+            } else {
+                System.out.println("FATALITY: " + currentPlayer.getUsername() + " wins with " + currentPlayer.calculateVictoryPoints() + " victory points!");
+            }
+        } else {
+            //TODO maybe change with stream implementation?
+            int winner = 0;
+            int maxVictoryPoints = 0;
+            for (int i = 0; i < playersTurnOrder.size(); i++) {
+                int playerPoints = playersTurnOrder.get(i).calculateVictoryPoints();
+                if (playerPoints > maxVictoryPoints) {
+                    winner = i;
+                    maxVictoryPoints = playerPoints;
+                }
+            }
+            System.out.println("FATALITY: " + playersTurnOrder.get(winner).getUsername() + " wins with " + playersTurnOrder.get(winner).calculateVictoryPoints() + " victory points!");
+        }
+    }
+
+    /**
+     * Assumes that playersTurnOrder list has been filled already.
+     * Shuffles playersTurnOrder, first in list is first player
+     */
+    private void assignInkwell() {
+        Collections.shuffle(playersTurnOrder);
+    }
+
+
+    //GETTERS (mostly for debug purposes)
+
+    /**
+     * Getter
+     *
+     * @return leaderCards list
+     */
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    /**
+     * Getter
+     *
+     * @return current active player
+     */
+    public PlayerBoard getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Getter
+     *
+     * @return CardTable
+     */
+    CardTable getCardTable() {
+        return cardTable;
+    }
+
+    /**
+     * Getter
+     *
+     * @return player turn order
+     */
+    public List<PlayerBoard> getPlayersTurnOrder() {
+        return playersTurnOrder;
     }
 }

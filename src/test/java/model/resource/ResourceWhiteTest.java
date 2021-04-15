@@ -17,7 +17,7 @@ class ResourceWhiteTest {
 
     @Test
     void addResourceFromMarketNoConversion() {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         ResourceWhite white = new ResourceWhite();
 
         white.addResourceFromMarket(playerBoard);
@@ -27,7 +27,7 @@ class ResourceWhiteTest {
 
     @Test
     void addResourceFromMarketWithConversion() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         playerBoard.addMarbleConversion(ResourceType.SHIELD);
         ResourceWhite white = new ResourceWhite();
 
@@ -41,7 +41,7 @@ class ResourceWhiteTest {
 
     @Test
     void addResourceFromMarketMultipleConversion() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException, ConversionNotAvailableException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         playerBoard.addMarbleConversion(ResourceType.SHIELD);
         playerBoard.addMarbleConversion(ResourceType.COIN);
         ResourceWhite white = new ResourceWhite();

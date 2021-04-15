@@ -94,7 +94,7 @@ public class PlayerBoard {
      * @param numOfDepots    the number of basic depots to be instantiated in the warehouse
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
-    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int devCardMax, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles) {
+    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int devCardMax, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles, Production baseProduction) {
         this.game = game;
         this.username = username;
         faith = 0;
@@ -113,6 +113,7 @@ public class PlayerBoard {
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
+        productionHandler.addProduction(baseProduction);
     }
 
     /**

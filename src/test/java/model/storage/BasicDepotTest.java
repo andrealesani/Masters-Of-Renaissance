@@ -108,11 +108,6 @@ class BasicDepotTest {
         Exception ex = assertThrows(BlockedResourceException.class, () -> {
             stash2.addResource(ResourceType.SHIELD, 2);
         });
-
-        String expectedMessage = "Error: Resource can't be added to depot because it is blocked by a different one.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**

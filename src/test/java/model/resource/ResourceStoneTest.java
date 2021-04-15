@@ -29,7 +29,7 @@ class ResourceStoneTest {
 
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         ResourceStone stone = new ResourceStone();
 
         stone.addResourceFromMarket(playerBoard);

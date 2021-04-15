@@ -22,7 +22,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         assertTrue(productionHandler.getCurrentInput().get(0) instanceof ResourceServant);
     }
@@ -38,7 +38,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceCoin);
     }
@@ -64,7 +64,7 @@ class ProductionHandlerTest {
         productionHandler.addProduction(production);
 
         // Then it selects the production
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         productionHandler.chooseJollyInput(coin);
@@ -97,7 +97,7 @@ class ProductionHandlerTest {
         productionHandler.addProduction(production);
 
         // Then it selects the production
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         productionHandler.chooseJollyOutput(coin);
@@ -121,7 +121,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         Exception ex = assertThrows(RuntimeException.class, () -> {
@@ -142,7 +142,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         assertFalse(productionHandler.getCurrentInput().isEmpty());
@@ -160,7 +160,7 @@ class ProductionHandlerTest {
     @Test
     void resourcesAreEnough() throws UnknownResourceException, DepotNotPresentException, WrongResourceTypeException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
         // Creates a PlayerBoard
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
 
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
         // Then it selects the production
@@ -173,7 +173,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         assertFalse(productionHandler.resourcesAreEnough(playerBoard));
@@ -201,7 +201,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         // TEST
         assertEquals(1, productionHandler.getDebt(new ResourceServant()));
@@ -215,7 +215,7 @@ class ProductionHandlerTest {
     @Test
     void takeResource() throws UnknownResourceException, ResourceNotPresentException {
         // Creates a PlayerBoard
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
 
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
         // Then it selects the production
@@ -228,7 +228,7 @@ class ProductionHandlerTest {
         output.add(new ResourceCoin());
         Production production = new Production(input, output);
         productionHandler.addProduction(production);
-        productionHandler.selectProduction(0);
+        productionHandler.selectProduction(1);
 
         playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
         playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);

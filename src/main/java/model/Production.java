@@ -49,7 +49,7 @@ public class Production {
      * @return returns the Production input list
      */
     public List<Resource> getInput() {
-        return input;
+        return new ArrayList<>(input);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Production {
      * @return returns the Production output list
      */
     public List<Resource> getOutput() {
-        return output;
+        return new ArrayList<> (output);
     }
 
     /**

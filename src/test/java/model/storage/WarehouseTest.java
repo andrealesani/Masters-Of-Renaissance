@@ -64,19 +64,9 @@ class WarehouseTest {
             warehouse.addToDepot(0, ResourceType.SHIELD, 1);
         });
 
-        String expectedMessage = "Error: Depot with the given index does not exist.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
         ex = assertThrows(DepotNotPresentException.class, () -> {
             warehouse.addToDepot(4, ResourceType.SHIELD, 1);
         });
-
-        expectedMessage = "Error: Depot with the given index does not exist.";
-        actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -111,7 +101,7 @@ class WarehouseTest {
      */
     @Test
     void removeFromDepotDepotNotPresent() {
-        Warehouse warehouse = new Warehouse (3);
+        Warehouse warehouse = new Warehouse(3);
         warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
         warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
 
@@ -119,19 +109,10 @@ class WarehouseTest {
             warehouse.removeFromDepot(0, ResourceType.SHIELD, 1);
         });
 
-        String expectedMessage = "Error: Depot with the given index does not exist.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
         ex = assertThrows(DepotNotPresentException.class, () -> {
             warehouse.removeFromDepot(6, ResourceType.SHIELD, 1);
         });
 
-        expectedMessage = "Error: Depot with the given index does not exist.";
-        actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -241,18 +222,9 @@ class WarehouseTest {
             warehouse.swapDepotContent(1,0);
         });
 
-        String expectedMessage = "Error: Depot with the given index does not exist.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
         ex = assertThrows(DepotNotPresentException.class, () -> {
             warehouse.swapDepotContent(2,1);
         });
-
-        expectedMessage = "Error: Depot with the given index does not exist.";
-        actualMessage = ex.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**

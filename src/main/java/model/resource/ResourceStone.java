@@ -16,6 +16,6 @@ public class ResourceStone extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.STONE, 1);
+        playerBoard.addResourceToStrongbox(ResourceType.STONE, 1);
     }
 }

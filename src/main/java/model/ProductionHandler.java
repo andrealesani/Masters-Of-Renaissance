@@ -143,10 +143,10 @@ public class ProductionHandler {
      * Marks the specified Production as selected and updates currentInput and currentOutput lists.
      * At the end of the turn, only selected Productions will be activated
      *
-     * @param i indicates the position of the Production in the List
+     * @param productionNumber indicates the number of the required production
      */
-    public void selectProduction(int i) {
-        productions.get(i).select();
+    public void selectProduction(int productionNumber) {
+        productions.get(productionNumber-1).select();
 
         updateCurrentInput();
         updateCurrentOutput();

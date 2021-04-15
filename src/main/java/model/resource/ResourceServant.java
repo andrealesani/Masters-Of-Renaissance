@@ -16,6 +16,6 @@ public class ResourceServant extends Resource {
 
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.SERVANT, 1);
+        playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
     }
 }
