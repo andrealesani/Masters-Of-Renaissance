@@ -4,6 +4,8 @@ import Exceptions.*;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
+import model.card.leadercard.DepotLeaderCard;
+import model.card.leadercard.DiscountLeaderCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.*;
 import model.storage.LeaderDepot;
@@ -57,27 +59,42 @@ class UserInterfaceTest {
         Game game = new Game(nicknames);
         // FIRST TURN: players must choose which LeaderCards to keep
 
-        PlayerBoard currentPlayer = game.getCurrentPlayer();
-
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
         }
 
-        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
-        LeaderCard LeaderCard1 = listaLeaderCards.get(0);
+        LeaderCard LeaderCard1 = game.getCurrentPlayer().getLeaderCards().get(0);
+
+        int NumOFDepots = 0;
+        if(LeaderCard1 instanceof DepotLeaderCard)
+            NumOFDepots = game.getCurrentPlayer().getWarehouse().getNumOfDepots();
+        else if(LeaderCard1 instanceof DiscountLeaderCard)
+            game.getCurrentPlayer().getDiscounts();
 
         LeaderCard1.doAction(game.getCurrentPlayer());
+
+        //depot
+        //numdepot -> numdepot+1
+
+        if(LeaderCard1 instanceof DepotLeaderCard)
+            assertEquals(NumOFDepots+1, game.getCurrentPlayer().getWarehouse().getNumOfDepots());
+
         //DiscountLeaderCard
         //prima di attivazione: no sconti
         //dopo: un solo sconto
 
+        else if(LeaderCard1 instanceof DiscountLeaderCard)
+
+
+
+
+
         //white
         //marbleconversion.get(0) , COIN
 
-        //depot
-        //numdepot, numdepot -> numdepot+1
+
 
         //production
         //game.getCurrentPlayer.getProductionHandler.getProductions.size(),  2
