@@ -6,16 +6,18 @@ import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
 import model.card.leadercard.LeaderCard;
-import model.resource.ResourceCoin;
-import model.resource.ResourceShield;
-import model.resource.ResourceStone;
+import model.resource.*;
 import model.storage.LeaderDepot;
+import model.storage.ResourceDepot;
+import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 import java.beans.Transient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
@@ -212,7 +214,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException {
+    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -226,6 +228,68 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
+        //Adds manually large depots to the player to ensure they can pay the cost
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN));
+
+        //Adds manually resources to the depots
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 3);
+        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
+        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
+        warehouse.addToDepot(6, ResourceType.STONE, 20);
+        warehouse.addToDepot(7, ResourceType.COIN, 20);
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 23);
+        inStock.put(ResourceType.COIN, 22);
+        inStock.put(ResourceType.SHIELD, 21);
+        inStock.put(ResourceType.SERVANT, 20);
+        UnlimitedStorage strongbox = player.getStrongbox();
+
+        //Saves the cost of the card
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
+
+        //Buys the card
+        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+
+        //Actually tests the method
+        for (ResourceType resource : cost) {
+            System.out.println("Processing cost: " + resource);
+            for (int i=1; i<8; i++) {
+                try {
+                    game.takeResourceFromWarehouseCard(i, UtilsForModel.typeToResource(resource), 1);
+                    System.out.println("Taking resource from depot: " + i);
+                    inStock.put(resource, inStock.get(resource)-1);
+                    break;
+                } catch (NotEnoughResourceException ex) {
+                    //DO NOTHING
+                }
+            }
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals (inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals (inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals (inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals (inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+
+        //Visual verification
+        System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
+        System.out.println(warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(4).getNumOfResource(ResourceType.SERVANT));
+        System.out.println(warehouse.getDepot(5).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
 
     }
 

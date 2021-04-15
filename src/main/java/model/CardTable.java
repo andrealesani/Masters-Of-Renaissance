@@ -119,6 +119,7 @@ public class CardTable {
      * @param cardColor color received in input
      * @return the column in the grid that contains the cards of the specified color
      */
+    //TODO questa cosa orrenda si può evitare usando una mappa <cardColor, List<List<DevelopmentCard>>> ?
     private List<List<DevelopmentCard>> colorToColumn(CardColor cardColor) {
         List<List<DevelopmentCard>> deckColumn = null;
         if (cardColor.equals(CardColor.GREEN))

@@ -3,6 +3,7 @@ package model;
 import Exceptions.*;
 import model.resource.Resource;
 
+//TODO add exceptions to javadoc
 /**
  * This interface indicates that the implementing class can be used as an interface for the player actions called by the controller.
  * It has methods for doing everything a player can do in the game.
