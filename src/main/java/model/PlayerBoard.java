@@ -840,4 +840,12 @@ public class PlayerBoard {
         return Math.toIntExact(leaderCards.stream().filter(Card::isActive).count());
     }
 
+    /**
+     * Getter
+     *
+     * @return popeFavorTiles
+     */
+    public List<PopeFavorTile> getPopeFavorTiles() {
+        return popeFavorTiles;
+    }
 }
