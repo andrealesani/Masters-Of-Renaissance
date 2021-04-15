@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a depot of the basic kind, which are present in the warehouse at the start of the game.
+ * This class represents a depot of the basic type, which are present in the warehouse at the start of the game.
  * This kind of depot can only contain one type of resource, it can only contain a finite amount of that resource, and no two depots of this kind can contain the same resource at the same time.
  */
 public class BasicDepot implements ResourceDepot {
@@ -28,6 +28,8 @@ public class BasicDepot implements ResourceDepot {
      */
     private int amount = 0;
 
+    //CONSTRUCTORS
+
     /**
      * The class constructor
      *
@@ -38,6 +40,8 @@ public class BasicDepot implements ResourceDepot {
         this.warehouse = warehouse;
         this.size = size;
     }
+
+    //PUBLIC METHODS
 
     /**
      * Adds the given resource to the storage
@@ -115,25 +119,6 @@ public class BasicDepot implements ResourceDepot {
     }
 
     /**
-     * Returns the maximum number of resources that can be stored in the depot
-     *
-     * @return the size of the depot
-     */
-    @Override
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * Empties the depot of its entire content
-     */
-    @Override
-    public void clear() {
-        amount = 0;
-        storedResource = null;
-    }
-
-    /**
      * Remove a certain amount of the given resource from storage
      *
      * @param resource the resource to be decreased in quantity
@@ -156,6 +141,27 @@ public class BasicDepot implements ResourceDepot {
                 amount = newQuantity;
             }
         }
+    }
+
+    /**
+     * Empties the depot of its entire content
+     */
+    @Override
+    public void clear() {
+        amount = 0;
+        storedResource = null;
+    }
+
+    // GETTERS
+
+    /**
+     * Returns the maximum number of resources that can be stored in the depot
+     *
+     * @return the size of the depot
+     */
+    @Override
+    public int getSize() {
+        return size;
     }
 
     /**
