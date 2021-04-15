@@ -175,12 +175,57 @@ class UserInterfaceTest {
     }
 
     @Test
-    void swapDepotContent() {
+    void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException {
+        // Game creation
+            List<String> nicknames = new ArrayList<>();
+            nicknames.add("Andre");
+            nicknames.add("Tom");
+            nicknames.add("Gigi");
+            Game game = new Game(nicknames);
+            // During first turn players must choose which LeaderCards to keep
+            for (PlayerBoard player : game.getPlayersTurnOrder()) {
+                game.chooseLeaderCard(1);
+                game.chooseLeaderCard(2);
+                game.endTurn();
+            }
 
+        //Adds manually resources to the depots
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 1);
+        warehouse.addToDepot(4, ResourceType.SHIELD, 1);
+
+
+        //actually tests the method
+        game.swapDepotContent(2, 3);
+        game.swapDepotContent(1, 2);
+        game.swapDepotContent(2, 4);
+
+        //Verify resources got to the correct depots
+        assertEquals(1, warehouse.getDepot(1).getNumOfResource(ResourceType.STONE));
+        assertEquals(1, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.COIN));
+        assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
     @Test
-    void takeResourceFromWarehouseCard() {
+    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // During first turn players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
 
     }
 

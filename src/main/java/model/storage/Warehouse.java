@@ -89,6 +89,8 @@ public class Warehouse {
         depots.get(depotNumber - 1).removeResource(resource, quantity);
     }
 
+    //TODO add a move depot content method
+
     /**
      * Swaps the contents of two warehouse depots
      *

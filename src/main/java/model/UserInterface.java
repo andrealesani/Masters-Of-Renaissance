@@ -64,7 +64,7 @@ public interface UserInterface {
      * @param depotNumber1 the number of the first depot to swap
      * @param depotNumber2 the number of the second depot to swap
      */
-    void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException;
+    void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException, WrongTurnPhaseException;
 
     //DevelopmentCard purchasing actions
 

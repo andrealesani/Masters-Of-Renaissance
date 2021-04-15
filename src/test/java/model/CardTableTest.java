@@ -5,6 +5,8 @@ import Exceptions.NotEnoughResourceException;
 import Exceptions.NotEnoughSpaceException;
 import Exceptions.SlotNotValidException;
 import model.card.DevelopmentCard;
+import model.storage.UnlimitedStorage;
+import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,8 +104,13 @@ class CardTableTest {
     void buyTopCard() throws SlotNotValidException, NotEnoughResourceException {
         CardTable cardTable = new CardTable();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null);
+        UnlimitedStorage strongbox = playerBoard.getStrongbox();
+        strongbox.addResource(ResourceType.SHIELD, 20);
+        strongbox.addResource(ResourceType.COIN, 20);
+        strongbox.addResource(ResourceType.STONE, 20);
+        strongbox.addResource(ResourceType.SERVANT, 20);
 
-        cardTable.buyTopCard(CardColor.GREEN, 3, playerBoard, 1);
+        cardTable.buyTopCard(CardColor.GREEN, 1, playerBoard, 1);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getColor() == CardColor.GREEN);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getLevel() == 1);
         System.out.println(playerBoard.getCardSlots().get(0).get(0).getVictoryPoints());

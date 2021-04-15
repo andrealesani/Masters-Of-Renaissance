@@ -195,7 +195,7 @@ public class Game implements UserInterface {
      *
      * @return CardTable
      */
-   CardTable getCardTable() {
+    CardTable getCardTable() {
         return cardTable;
     }
 
@@ -414,7 +414,10 @@ public class Game implements UserInterface {
      * @param depotNumber1 the number of the first depot to swap
      * @param depotNumber2 the number of the second depot to swap
      */
-    public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException {
+    public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException, WrongTurnPhaseException {
+        if (turnPhase == TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
         currentPlayer.swapDepotContent(depotNumber1, depotNumber2);
     }
 
@@ -602,13 +605,15 @@ public class Game implements UserInterface {
 
         }
 
-        //If in solo mode, Lorenzo takes His action
-        if (lorenzo != null) {
-            lorenzo.takeTurn();
-        }
+        if (turnPhase == TurnPhase.ACTIONSELECTION) {
+            //If in solo mode, Lorenzo takes His action
+            if (lorenzo != null) {
+                lorenzo.takeTurn();
+            }
 
-        //Activates a vatican report if necessary
-        checkVaticanReport();
+            //Activates a vatican report if necessary
+            checkVaticanReport();
+        }
 
         //Switches current player to the next one
         switchPlayer();
