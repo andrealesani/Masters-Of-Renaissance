@@ -229,7 +229,7 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
-        //Adds manually large depots to the player to ensure they can pay the cost
+        //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
         player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
         player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
@@ -252,7 +252,6 @@ class UserInterfaceTest {
         inStock.put(ResourceType.COIN, 22);
         inStock.put(ResourceType.SHIELD, 21);
         inStock.put(ResourceType.SERVANT, 20);
-        UnlimitedStorage strongbox = player.getStrongbox();
 
         //Saves the cost of the card
         List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
@@ -269,7 +268,7 @@ class UserInterfaceTest {
                     System.out.println("Taking resource from depot: " + i);
                     inStock.put(resource, inStock.get(resource)-1);
                     break;
-                } catch (NotEnoughResourceException ex) {
+                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
                     //DO NOTHING
                 }
             }
@@ -295,18 +294,141 @@ class UserInterfaceTest {
     }
 
     @Test
-    void test() throws ConversionNotAvailableException, DepotNotPresentException, NotEnoughResourceException {
-        
+    void takeResourceFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // During first turn players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
+        //Manually adds resources to player's strongbox
+        PlayerBoard player = game.getCurrentPlayer();
+        UnlimitedStorage strongbox = player.getStrongbox();
+        strongbox.addResource(ResourceType.SHIELD, 20);
+        strongbox.addResource(ResourceType.STONE, 20);
+        strongbox.addResource(ResourceType.SERVANT, 20);
+        strongbox.addResource(ResourceType.COIN, 20);
+
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 20);
+        inStock.put(ResourceType.COIN, 20);
+        inStock.put(ResourceType.SHIELD, 20);
+        inStock.put(ResourceType.SERVANT, 20);
+
+        //Saves the cost of the card
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
+
+        //Buys the card
+        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+
+        //Actually tests the method
+        for (ResourceType resource : cost) {
+            System.out.println("Processing cost: " + resource);
+            game.takeResourceFromStrongboxCard(UtilsForModel.typeToResource(resource), 1);
+            inStock.put(resource, inStock.get(resource)-1);
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals (inStock.get(ResourceType.SHIELD), strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals (inStock.get(ResourceType.COIN), strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals (inStock.get(ResourceType.SERVANT), strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals (inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
+
+        //Visual verification
+        System.out.println(strongbox.getNumOfResource(ResourceType.SHIELD));
+        System.out.println(strongbox.getNumOfResource(ResourceType.COIN));
+        System.out.println(strongbox.getNumOfResource(ResourceType.STONE));
+        System.out.println(strongbox.getNumOfResource(ResourceType.SERVANT));
+
     }
 
     @Test
-    void takeResourceFromStrongboxCard() {
+    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException, DepotNotPresentException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // During first turn players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
 
-    }
+        //Manually adds large depots to the player to ensure they can pay the cost
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN));
 
-    @Test
-    void takeResourceFromWarehouseProduction() {
+        //Adds manually resources to the depots
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 3);
+        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
+        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
+        warehouse.addToDepot(6, ResourceType.STONE, 20);
+        warehouse.addToDepot(7, ResourceType.COIN, 20);
 
+        //Saves card production and buys the card
+        player.addProduction();
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 23);
+        inStock.put(ResourceType.COIN, 22);
+        inStock.put(ResourceType.SHIELD, 21);
+        inStock.put(ResourceType.SERVANT, 20);
+
+        //Buys the card
+        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+
+        //Actually tests the method
+        for (ResourceType resource : cost) {
+            System.out.println("Processing cost: " + resource);
+            for (int i=1; i<8; i++) {
+                try {
+                    game.takeResourceFromWarehouseCard(i, UtilsForModel.typeToResource(resource), 1);
+                    System.out.println("Taking resource from depot: " + i);
+                    inStock.put(resource, inStock.get(resource)-1);
+                    break;
+                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
+                    //DO NOTHING
+                }
+            }
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals (inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals (inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals (inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals (inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+
+        //Visual verification
+        System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
+        System.out.println(warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(4).getNumOfResource(ResourceType.SERVANT));
+        System.out.println(warehouse.getDepot(5).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
     }
 
     @Test
