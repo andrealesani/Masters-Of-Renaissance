@@ -13,6 +13,6 @@ public class UnknownResourceException extends Exception{
      */
     @Override
     public String getMessage() {
-        return ("Error: There are still undefined resources in" + unknownResourceLocation + ".");
+        return ("Error: There are still undefined resources in " + unknownResourceLocation + ".");
     }
 }
