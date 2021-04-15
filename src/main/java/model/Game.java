@@ -191,6 +191,12 @@ public class Game implements UserInterface {
     //Market selection actions
 
     /**
+     * Getter
+     *
+     * @return market
+     */
+    public Market getMarket(){ return market;}
+    /**
      * Allows the player to select a row or column from the market and take its resources
      *
      * @param marketScope distinguishes between selecting a row or column
