@@ -586,7 +586,7 @@ class UserInterfaceTest {
         // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in the next test)
 
         assertEquals(4, game.getCardTable().getGreenCards().get(2).size());
-        // SECOND TURN: every player can only do one move out of 3 possible moves
+        // SECOND TURN: first player chooses to buy a DevelopmentCard
         game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
         assertEquals(3, game.getCardTable().getGreenCards().get(2).size());
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
