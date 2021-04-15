@@ -2,7 +2,7 @@ package model.card.leadercard;
 
 import Exceptions.BlockedResourceException;
 import Exceptions.NotEnoughSpaceException;
-import Exceptions.WrongResourceTypeException;
+import Exceptions.WrongResourceInsertionException;
 import model.PlayerBoard;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DepotLeaderCardTest {
 
     @Test
-    void doAction() throws WrongResourceTypeException, NotEnoughSpaceException, BlockedResourceException {
+    void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
 
@@ -25,7 +25,7 @@ class DepotLeaderCardTest {
             playerBoard.getWarehouse().getDepot(4).addResource(ResourceType.COIN, 6);
         });
 
-        Exception ex1 = assertThrows(WrongResourceTypeException.class, () -> {
+        Exception ex1 = assertThrows(WrongResourceInsertionException.class, () -> {
             playerBoard.getWarehouse().getDepot(4).addResource(ResourceType.STONE, 3);
         });
     }

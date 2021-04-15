@@ -14,7 +14,7 @@ class LeaderDepotTest {
      * This method tests the addition of resources to the depot (up to the maximum amount)
      */
     @Test
-    void addResource() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void addResource() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
         ResourceDepot stashBlock = new BasicDepot(warehouse, 4);
@@ -57,7 +57,7 @@ class LeaderDepotTest {
      * This method tests the addition of a resource already present in the depot, for a total amount greater than the size of the depot
      */
     @Test
-    void addResourceNotEnoughSpaceOldResource() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void addResourceNotEnoughSpaceOldResource() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
 
         stash.addResource(ResourceType.SHIELD, 1);
@@ -79,7 +79,7 @@ class LeaderDepotTest {
     void addResourceWrongResourceType() {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
 
-        Exception ex = assertThrows(WrongResourceTypeException.class, () -> {
+        Exception ex = assertThrows(WrongResourceInsertionException.class, () -> {
             stash.addResource(ResourceType.COIN, 1);
         });
 
@@ -93,7 +93,7 @@ class LeaderDepotTest {
      * This method tests the canHoldContentOf method in the affirmative case
      */
     @Test
-    void canHoldContentOfTrue() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void canHoldContentOfTrue() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new BasicDepot(warehouse, 3);
@@ -117,7 +117,7 @@ class LeaderDepotTest {
      * This method tests the canHoldContentOf method in the affirmative case when one or both depots are empty
      */
     @Test
-    void canHoldContentOfTrueEmpty() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void canHoldContentOfTrueEmpty() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash = new BasicDepot(warehouse, 3);
         ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
@@ -148,7 +148,7 @@ class LeaderDepotTest {
      * This method tests the canHoldContentOf method in the negative case for size constraints
      */
     @Test
-    void canHoldContentOfFalseSize() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void canHoldContentOfFalseSize() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 5);
         ResourceDepot stashLeader1 = new LeaderDepot(2, ResourceType.SHIELD);
@@ -168,7 +168,7 @@ class LeaderDepotTest {
      * This method tests the canHoldContentOf method in the negative case for resource type constraints
      */
     @Test
-    void canHoldContentOfFalseResourceType() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void canHoldContentOfFalseResourceType() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 5);
         ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
@@ -206,7 +206,7 @@ class LeaderDepotTest {
      * This method tests the emptying of the storage's contents
      */
     @Test
-    void empty() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void empty() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
 
         stash.addResource(ResourceType.SHIELD, 2);
@@ -219,7 +219,7 @@ class LeaderDepotTest {
      * This method tests the removal of resources from the storage
      */
     @Test
-    void removeResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void removeResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
 
         stash.addResource(ResourceType.SHIELD, 4);
@@ -233,7 +233,7 @@ class LeaderDepotTest {
      * This method tests the removal of an amount of resource greater than that present in stash
      */
     @Test
-    void removeResourceNotEnough() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void removeResourceNotEnough() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
 
         stash.addResource(ResourceType.SHIELD, 3);
@@ -269,7 +269,7 @@ class LeaderDepotTest {
      * This method tests the removal of a resource that cannot be present in stash
      */
     @Test
-    void removeResourceNotInStash() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void removeResourceNotInStash() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.COIN);
 
         stash.addResource(ResourceType.COIN, 3);
@@ -288,7 +288,7 @@ class LeaderDepotTest {
      * This method tests the reaction of the getNumOfResource method to several operations being made on the fetched resource
      */
     @Test
-    void getNumOfResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void getNumOfResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD);
 
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
@@ -305,7 +305,7 @@ class LeaderDepotTest {
      * This method tests the reaction of the getNumOfResource method to a previously present resource being deleted from the stash
      */
     @Test
-    void getNumOfResourceRemoved() throws NotEnoughResourceException, BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void getNumOfResourceRemoved() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD);
 
         stash.addResource(ResourceType.SHIELD, 17);
@@ -319,7 +319,7 @@ class LeaderDepotTest {
      * This method test the reaction of the getStoredResources method to resources being added and removed from stash
      */
     @Test
-    void getStoredResources() throws BlockedResourceException, WrongResourceTypeException, NotEnoughSpaceException {
+    void getStoredResources() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
 
         assertTrue(stash.getStoredResources().isEmpty());
