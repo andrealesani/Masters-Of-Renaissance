@@ -592,7 +592,7 @@ public class Game implements UserInterface {
             }
         }
         for (PlayerBoard player : playersTurnOrder) {
-            if (player.isGameEnding()) {
+            if (player.isEndGameTime()) {
                 return true;
             }
         }
