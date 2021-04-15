@@ -21,11 +21,29 @@ public class DevelopmentCard extends Card {
      * This attribute stores the card's level
      */
     private final int level;
+    /**
+     * This array stores the types of the resources in the card's cost
+     */
     private final ResourceType[] costType;
+    /**
+     * This array stores the amounts of each type of resource in the card's cost
+     */
     private final int[] costQuantity;
+    /**
+     * This array stores the types of the resources in the card's production's input
+     */
     private final ResourceType[] inputType;
+    /**
+     * This array stores the amounts of each type of resource in the card's production's input
+     */
     private final int[] inputQuantities;
+    /**
+     * This array stores the types of the resources in the card's production's output
+     */
     private final  ResourceType[] outputType;
+    /**
+     * This array stores the amounts of each type of resource in the card's production's input
+     */
     private final int[] outputQuantities;
 
     //CONSTRUCTORS

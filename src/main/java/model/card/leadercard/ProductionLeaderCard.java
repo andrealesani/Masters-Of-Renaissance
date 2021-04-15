@@ -20,13 +20,28 @@ public class ProductionLeaderCard extends LeaderCard {
      */
     private final CardColor requiredColor;
     /**
-     * This attribute stores the amount of development cards of the given color required for activation
+     * This attribute stores the development card level required for activation
      */
     private final int requiredLevel;
+    /**
+     * This attribute stores the amount of development cards of the given color required for activation
+     */
     private final int requiredQuantity;
+    /**
+     * This array stores the types of the resources in the card's production's input
+     */
     private final ResourceType[] inputType;
+    /**
+     * This array stores the amounts of each type of resource in the card's production's input
+     */
     private final int[] inputQuantities;
+    /**
+     * This array stores the types of the resources in the card's production's output
+     */
     private final ResourceType[] outputType;
+    /**
+     * This array stores the amounts of each type of resource in the card's production's input
+     */
     private final int[] outputQuantities;
 
     //CONSTRUCTORS
