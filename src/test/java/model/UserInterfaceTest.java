@@ -588,7 +588,7 @@ class UserInterfaceTest {
 
     // ANDRE SECTION
     @Test
-    void buyDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+    void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -640,7 +640,7 @@ class UserInterfaceTest {
             player.addResourceToStrongbox(ResourceType.SHIELD, 100);
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
-        // SECOND TURN: every player can only do one move out of 3 possible moves and he chooses to BUY A DEVELOPMENT CARD
+        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
@@ -677,7 +677,7 @@ class UserInterfaceTest {
             player.addResourceToStrongbox(ResourceType.SHIELD, 100);
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
-        // SECOND TURN: every player can only do one move out of 3 possible moves
+        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
@@ -686,35 +686,93 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
-        // The player now selects stupid Productions he doesn't actually want to activate
+        // The first player now selects stupid Productions he doesn't actually want to activate
+        game.selectProduction(1);
         game.selectProduction(2);
         assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
-        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
+        assertEquals(2, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
 
         // TEST STARTS HERE
-        // The player realizes how deficient his decision making is and wants to go bacc
+        // The first player realizes how deficient his decision making is and wants to go bacc
         game.resetProductionChoice();
         assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
         assertEquals(0, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
-        // The player should now be able to do whatever he wants during the turn, he could even chose to buy a DevelopmentCard
+        // The first player should now be able to do whatever he wants during the turn, he could even chose to buy a DevelopmentCard
         // coz he has realized he's dumb and doesn't really want to activate that stupid Production
         game.takeDevelopmentCard(CardColor.YELLOW, 1, 2);
 
     }
 
     @Test
-    void confirmProductionChoice() {
+    void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
+            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+            }
+            game.endTurn();
+        }
+
+        // The first player now selects 1 Production
+        game.selectProduction(2);
+        assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+        assertEquals(2, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
+
+        // The first player realizes the Production he selected represents a very good deal and decides to activate it
+        game.confirmProductionChoice();
 
     }
 
     @Test
-    void chooseJollyInput() {
-
-    }
-
-    @Test
-    void chooseJollyOutput() {
-
+    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        // First player decides to activate the basic Production (WHICH INCLUDES UNKNOWN RESOURCES) so he has to choose Jolly for both input and output
+        game.selectProduction(1);
+        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        game.chooseJollyInput(new ResourceStone());
+        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        game.chooseJollyInput(new ResourceStone());
+        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        game.chooseJollyOutput(new ResourceServant());
+        game.confirmProductionChoice();
     }
 
     // END TURN
