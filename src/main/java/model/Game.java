@@ -192,9 +192,19 @@ public class Game implements UserInterface {
     /**
      * Getter
      *
+<<<<<<< Updated upstream
      * @return player turn order
      */
     public List<PlayerBoard> getPlayers() {
+=======
+     * @return CardTable
+     */
+    public CardTable getCardTable() {
+        return cardTable;
+    }
+
+    public List<PlayerBoard> getPlayersTurnOrder() {
+>>>>>>> Stashed changes
         return playersTurnOrder;
     }
 
@@ -463,6 +473,7 @@ public class Game implements UserInterface {
 
     /**
      * Allows the player to select a production for activation
+     * STARTS FROM 0
      *
      * @param number the number of the production
      */

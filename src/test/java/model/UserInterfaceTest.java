@@ -1,7 +1,13 @@
 package model;
 
+<<<<<<< Updated upstream
 import Exceptions.*;
 import model.card.DevelopmentCard;
+=======
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
+import Exceptions.WrongTurnPhaseException;
+>>>>>>> Stashed changes
 import model.card.leadercard.LeaderCard;
 import model.resource.ResourceCoin;
 import model.resource.ResourceShield;
@@ -9,10 +15,15 @@ import model.resource.ResourceStone;
 import model.storage.LeaderDepot;
 import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
+<<<<<<< Updated upstream
 import java.beans.Transient;
+=======
+
+>>>>>>> Stashed changes
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInterfaceTest {
@@ -26,7 +37,7 @@ class UserInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
+        // FIRST TURN: players must choose which LeaderCards to keep
 
         PlayerBoard currentPlayer = game.getCurrentPlayer();
         List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
@@ -37,7 +48,7 @@ class UserInterfaceTest {
         game.endTurn();
 
         assertEquals(2, currentPlayer.getLeaderCards().size());
-        
+
         assertEquals(memoryList.get(0), currentPlayer.getLeaderCards().get(0));
         assertEquals(memoryList.get(2), currentPlayer.getLeaderCards().get(1));
 
@@ -56,11 +67,16 @@ class UserInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
+<<<<<<< Updated upstream
 
         PlayerBoard currentPlayer = game.getCurrentPlayer();
         List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
 
         for (PlayerBoard player : game.getPlayers()) {
+=======
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+>>>>>>> Stashed changes
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
@@ -202,24 +218,100 @@ class UserInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayers()) {
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
         }
 
         // TEST
+        // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in the next test)
+        assertEquals(4, game.getCardTable().getGreenCards().get(2).size());
         game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+        assertEquals(3, game.getCardTable().getGreenCards().get(2).size());
+        assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
     }
 
     @Test
-    void selectProduction() {
+    void selectProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        // SECOND TURN: every player can only do one move out of 3 possible moves
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+                game.takeResourceFromStrongboxCard(typeToResource(resourceType), 1);
+            }
+            game.endTurn();
+        }
+
+        // TEST
+        game.selectProduction(0);
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
 
     }
 
     @Test
-    void resetProductionChoice() {
+    void resetProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        // SECOND TURN: every player can only do one move out of 3 possible moves
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+                game.takeResourceFromStrongboxCard(typeToResource(resourceType), 1);
+            }
+            game.endTurn();
+        }
+
+        // The player now selects stupid Productions he doesn't actually want to activate
+        game.selectProduction(0);
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
+
+        // TEST
+        game.resetProductionChoice();
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+        assertEquals(0, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
+        // The should now be able to do whatever he wants during the turn, he could even chose to buy a DevelopmentCard
+        // coz he realized he's dumb and doesn't really want to activate that stupid Production
+        game.buyDevelopmentCard(CardColor.YELLOW, 1, 2);
 
     }
 

@@ -98,6 +98,7 @@ public interface UserInterface {
 
     /**
      * Allows the player to select a production for activation
+     * STARTS FROM 0
      *
      * @param number the number of the production
      */

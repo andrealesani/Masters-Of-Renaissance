@@ -65,7 +65,7 @@ public class DevelopmentCard extends Card {
     /**
      * Getter
      *
-     * @return returns card cost
+     * @return returns a list of ResourceTypes that represents the card's cost. Each ResourceType represents one single Resource unit that has to be paid
      */
     public List<ResourceType> getCost() {
         List<ResourceType> costList = new ArrayList<>();

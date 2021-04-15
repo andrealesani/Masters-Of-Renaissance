@@ -305,7 +305,8 @@ public class PlayerBoard {
                 }
             }
 
-            if (resourceQuantities.get(resource) < getNumOfResource(resource)) {
+            if (resourceQuantities.get(resource) > getNumOfResource(resource)) {
+                System.out.println("\nCard's cost is " + resourceQuantities.get(resource).toString() + " " + resource + " and player has only " + getNumOfResource(resource) + " " + resource + ", throwing exception");
                 waitingRoom.clear();
                 throw new NotEnoughResourceException();
             }

@@ -64,6 +64,20 @@ public class ProductionHandler {
     }
 
     /**
+     * Getter that returns only production that are currently selected
+     *
+     * @return a list of Productions that are currently selected in the player's ProductionHandler
+     */
+    public List<Production> getSelectedProductions() {
+        List<Production> selectedProductions = new ArrayList<>();
+        for (Production production : productions) {
+            if(production.isSelectedByHandler())
+                selectedProductions.add(production);
+        }
+        return selectedProductions;
+    }
+
+    /**
      * Getter
      *
      * @return currentInput
