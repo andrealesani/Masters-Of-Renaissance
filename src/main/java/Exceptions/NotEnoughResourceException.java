@@ -1,5 +1,7 @@
 package Exceptions;
 
+import model.ResourceType;
+
 /**
  * This Exception is thrown when an operation is attempted that is present in the object, but not in a sufficient quantity for the required operation.
  */

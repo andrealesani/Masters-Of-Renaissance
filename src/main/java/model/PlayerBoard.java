@@ -501,7 +501,7 @@ public class PlayerBoard {
      */
     public void chooseMarbleConversion(ResourceType resource, int quantity) throws NotEnoughResourceException, ConversionNotAvailableException {
         if (!marbleConversions.contains(resource)) {
-            throw new ConversionNotAvailableException();
+            throw new ConversionNotAvailableException(resource);
         }
         int newQuantity = whiteMarbleNum - quantity;
         if (newQuantity < 0) {

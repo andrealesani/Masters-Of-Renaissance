@@ -68,7 +68,7 @@ public class Warehouse {
      */
     public void addToDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughSpaceException, WrongResourceTypeException, BlockedResourceException {
         if (depotNumber < 1 || depotNumber > depots.size()) {
-            throw new DepotNotPresentException();
+            throw new DepotNotPresentException(depotNumber);
         }
         depots.get(depotNumber - 1).addResource(resource, quantity);
     }
@@ -84,7 +84,7 @@ public class Warehouse {
      */
     public void removeFromDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException {
         if (depotNumber < 1 || depotNumber > depots.size()) {
-            throw new DepotNotPresentException();
+            throw new DepotNotPresentException(depotNumber);
         }
         depots.get(depotNumber - 1).removeResource(resource, quantity);
     }
@@ -105,8 +105,11 @@ public class Warehouse {
             throw new ParametersNotValidException();
         }
 
-        if (depotNumber1 < 1 || depotNumber2 < 1 || depotNumber1 > depots.size() || depotNumber2 > depots.size()) {
-            throw new DepotNotPresentException();
+        if (depotNumber1 < 1 || depotNumber1 > depots.size()) {
+            throw new DepotNotPresentException(depotNumber1);
+        }
+        if (depotNumber2 < 1 || depotNumber2 > depots.size()) {
+            throw new DepotNotPresentException(depotNumber2);
         }
 
         ResourceDepot depot1 = depots.get(depotNumber1-1);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.ObjLongConsumer;
 
 import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
@@ -291,6 +292,11 @@ class UserInterfaceTest {
         System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
         System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
 
+    }
+
+    @Test
+    void test() throws ConversionNotAvailableException, DepotNotPresentException, NotEnoughResourceException {
+        
     }
 
     @Test

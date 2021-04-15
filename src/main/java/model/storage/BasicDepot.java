@@ -60,7 +60,7 @@ public class BasicDepot implements ResourceDepot {
                 List<ResourceDepot> exclusions = new ArrayList<>();
                 exclusions.add(this);
                 if (warehouse.isResourceBlocked(resource, exclusions)) {
-                    throw new BlockedResourceException();
+                    throw new BlockedResourceException(resource);
                 }
                 storedResource = resource;
             } else {
