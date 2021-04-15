@@ -69,12 +69,14 @@ class LorenzoTest {
     void shuffleDeck() {
         Lorenzo lorenzo = new Lorenzo(new CardTable(), null);
         int numOfTokens = lorenzo.getActiveDeck().size();
-        List<ActionToken> firstList = lorenzo.getActiveDeck();
+        List<ActionToken> firstList = new ArrayList<>(lorenzo.getActiveDeck());
 
+        //lollo takes 3 turns
         lorenzo.takeTurn();
         lorenzo.takeTurn();
         lorenzo.takeTurn();
 
+        //shuffle the deck
         lorenzo.shuffleDeck();
 
         assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
@@ -87,6 +89,7 @@ class LorenzoTest {
         lorenzo.shuffleDeck();
 
         assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
+
 
         boolean same = true;
         for (int i=0; i<firstList.size(); i++) {

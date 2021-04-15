@@ -832,7 +832,35 @@ class UserInterfaceTest {
     }
 
     @Test
-    void endTurnVaticanReport() {
+    void endTurnVaticanReport() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        List<PlayerBoard> players = game.getPlayersTurnOrder();
+        // During first turn players must choose which LeaderCards to keep
+        for (int i = 0; i<players.size(); i++) {
+            assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
 
+        //adds faith to players
+        players.get(0).increaseFaith(9);
+        players.get(1).increaseFaith(5);
+        players.get(2).increaseFaith(1);
+
+        //selects from market with player one, but then empties waiting room to not cause increases in the others' faith
+        game.selectFromMarket(MarketScope.ROW, 1);
+        players.get(0).clearWaitingRoom();
+        game.endTurn();
+
+        //checks popetile status for the three players
+        assertEquals (PopeTileState.ACTIVE, players.get(0).getPopeFavorTiles().get(0).getState());
+        assertEquals (PopeTileState.ACTIVE, players.get(1).getPopeFavorTiles().get(0).getState());
+        assertEquals (PopeTileState.DISCARDED, players.get(2).getPopeFavorTiles().get(0).getState());
     }
 }
