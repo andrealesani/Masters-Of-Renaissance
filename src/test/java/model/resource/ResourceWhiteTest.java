@@ -21,7 +21,7 @@ class ResourceWhiteTest {
         ResourceWhite white = new ResourceWhite();
 
         white.addResourceFromMarket(playerBoard);
-        assertEquals(0, playerBoard.leftInWaitingRoom());
+        assertEquals(0, playerBoard.getLeftInWaitingRoom());
 
     }
 
@@ -32,7 +32,7 @@ class ResourceWhiteTest {
         ResourceWhite white = new ResourceWhite();
 
         white.addResourceFromMarket(playerBoard);
-        assertEquals(1, playerBoard.leftInWaitingRoom());
+        assertEquals(1, playerBoard.getLeftInWaitingRoom());
 
         playerBoard.sendResourceToDepot(1, ResourceType.SHIELD, 1 );
         assertEquals(1, playerBoard.getNumOfResource(ResourceType.SHIELD));
@@ -48,16 +48,16 @@ class ResourceWhiteTest {
 
         white.addResourceFromMarket(playerBoard);
         white.addResourceFromMarket(playerBoard);
-        assertEquals(2, playerBoard.leftInWaitingRoom());
+        assertEquals(2, playerBoard.getLeftInWaitingRoom());
 
         playerBoard.chooseMarbleConversion(ResourceType.SHIELD, 1);
-        assertEquals(2, playerBoard.leftInWaitingRoom());
+        assertEquals(2, playerBoard.getLeftInWaitingRoom());
 
         playerBoard.sendResourceToDepot(1, ResourceType.SHIELD, 1 );
         assertEquals(1, playerBoard.getNumOfResource(ResourceType.SHIELD));
 
         playerBoard.chooseMarbleConversion(ResourceType.COIN, 1);
-        assertEquals(1, playerBoard.leftInWaitingRoom());
+        assertEquals(1, playerBoard.getLeftInWaitingRoom());
 
         playerBoard.sendResourceToDepot(2, ResourceType.COIN, 1 );
         assertEquals(1, playerBoard.getNumOfResource(ResourceType.COIN));

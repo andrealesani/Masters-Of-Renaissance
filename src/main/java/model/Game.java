@@ -410,7 +410,7 @@ public class Game implements UserInterface {
 
         } else if (turnPhase == TurnPhase.CARDPAYMENT) {
 
-            if (currentPlayer.leftInWaitingRoom() > 0) {
+            if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.clearWaitingRoom();
@@ -534,7 +534,7 @@ public class Game implements UserInterface {
      * Checks number of discarded resources at the end of a player's turn, after they have used the market action
      */
     private void checkDiscarded() {
-        int numDiscardedResources = currentPlayer.leftInWaitingRoom();
+        int numDiscardedResources = currentPlayer.getLeftInWaitingRoom();
 
         if (numDiscardedResources > 0) {
 

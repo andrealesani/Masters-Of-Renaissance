@@ -201,7 +201,7 @@ class UserInterfaceTest {
         game.chooseMarbleConversion(new ResourceCoin(), 1);
 
         //verifies resources are present in waiting room
-        assertTrue(player.leftInWaitingRoom() >= 6);
+        assertTrue(player.getLeftInWaitingRoom() >= 6);
 
         game.sendResourceToDepot(1, new ResourceCoin(), 1);
         game.sendResourceToDepot(2, new ResourceShield(), 2);
@@ -214,7 +214,7 @@ class UserInterfaceTest {
         assertEquals(3, warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
 
         //verifies quantity of resources in waiting room
-        assertTrue(player.leftInWaitingRoom() <=4);
+        assertTrue(player.getLeftInWaitingRoom() <=4);
     }
 
     @Test
@@ -667,6 +667,7 @@ class UserInterfaceTest {
     }
 
     // END TURN
+
     @Test
     void endTurnBasic() throws WrongTurnPhaseException {
         // Game creation
@@ -690,5 +691,37 @@ class UserInterfaceTest {
             game.selectFromMarket(MarketScope.ROW, 1);
             game.endTurn();
         }
+    }
+
+    @Test
+    void endTurnDiscardResources() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        List<PlayerBoard> players = game.getPlayersTurnOrder();
+        // During first turn players must choose which LeaderCards to keep
+        for (int i = 0; i<players.size(); i++) {
+            assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
+        //First player selects from market and discards all obtained resources
+        game.selectFromMarket(MarketScope.ROW, 1);
+        int discarded = players.get(0).getLeftInWaitingRoom();
+        game.endTurn();
+
+        //Checks that other players' faith has been increased by amount of discarded resources
+        assertEquals(discarded, players.get(1).getFaith());
+        assertEquals(discarded, players.get(2).getFaith());
+    }
+
+    @Test
+    void endTurn () {
+
     }
 }

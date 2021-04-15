@@ -608,21 +608,6 @@ public class PlayerBoard {
     }
 
     /**
-     * Returns the number of resources still present in waiting room
-     *
-     * @return the number of resources left
-     */
-    public int leftInWaitingRoom() {
-        List<ResourceType> leftovers = waitingRoom.getStoredResources();
-        int sum = 0;
-        for (ResourceType resource : leftovers) {
-            sum += waitingRoom.getNumOfResource(resource);
-        }
-        sum += whiteMarbleNum;
-        return sum;
-    }
-
-    /**
      * Empties the content of the player's waiting room
      */
     public void clearWaitingRoom() {
@@ -735,6 +720,21 @@ public class PlayerBoard {
             }
         }
         return num;
+    }
+
+    /**
+     * Returns the number of resources still present in waiting room (white marbles are included)
+     *
+     * @return the number of resources left
+     */
+    public int getLeftInWaitingRoom() {
+        List<ResourceType> leftovers = waitingRoom.getStoredResources();
+        int sum = 0;
+        for (ResourceType resource : leftovers) {
+            sum += waitingRoom.getNumOfResource(resource);
+        }
+        sum += whiteMarbleNum;
+        return sum;
     }
 
     //Simple getters

@@ -203,7 +203,7 @@ class MarketTest {
             }
         }
 
-        assertEquals(countNormal, playerBoard.leftInWaitingRoom());
+        assertEquals(countNormal, playerBoard.getLeftInWaitingRoom());
         assertEquals(countFaith, playerBoard.getFaith());
     }
 
@@ -234,7 +234,7 @@ class MarketTest {
             }
         }
 
-        assertEquals(countNormal, playerBoard.leftInWaitingRoom());
+        assertEquals(countNormal, playerBoard.getLeftInWaitingRoom());
         assertEquals(countFaith, playerBoard.getFaith());
     }
 
