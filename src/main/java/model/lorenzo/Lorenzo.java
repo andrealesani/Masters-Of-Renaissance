@@ -61,9 +61,9 @@ public class Lorenzo implements ArtificialIntelligence {
      */
     public void takeTurn() {
         ActionToken currentAction = activeDeck.get(0);
-        currentAction.doAction();
         activeDeck.remove(0);
         usedDeck.add(currentAction);
+        currentAction.doAction();
     }
 
     /**
@@ -88,6 +88,8 @@ public class Lorenzo implements ArtificialIntelligence {
         for (int tileNumber = lastTriggeredTile; tileNumber < popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
                 newTriggeredTile = tileNumber + 1;
+            } else {
+                break;
             }
         }
         return newTriggeredTile;
@@ -116,9 +118,19 @@ public class Lorenzo implements ArtificialIntelligence {
     /**
      * Getter for the active cards deck
      *
-     * @return the deck containing all the drawable cards
+     * @return the deck containing all the drawable tokens
      */
     public List<ActionToken> getActiveDeck() {
-        return new ArrayList<>(activeDeck);
+        return activeDeck;
     }
+
+    /**
+     * Getter for the inactive cards deck
+     *
+     * @return the deck containing all the drawn tokens
+     */
+    public List<ActionToken> getUsedDeck() {
+        return usedDeck;
+    }
+
 }

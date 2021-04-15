@@ -147,6 +147,8 @@ public class Market {
 
     //GETTERS
 
+    //TODO return copie, non l'oggetto stesso gigi
+
     /**
      * Getter
      *

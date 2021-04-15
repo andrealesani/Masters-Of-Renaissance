@@ -1,8 +1,11 @@
 package model.lorenzo;
 
+import model.CardColor;
 import model.CardTable;
 import model.PopeFavorTile;
 import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.DoubleFaithToken;
+import model.lorenzo.tokens.RemoveCardsToken;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ class LorenzoTest {
 
         lorenzo.takeTurn();
 
-        assertEquals(5, lorenzo.getActiveDeck().size());
+
     }
 
     /**

@@ -335,7 +335,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION || currentPlayer.isProductionInputEmpty()) {
             throw new WrongTurnPhaseException();
         }
         currentPlayer.confirmProductionChoice();
@@ -413,7 +413,7 @@ public class Game implements UserInterface {
             if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
-            currentPlayer.clearWaitingRoom();
+            currentPlayer.resetProductionChoice();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
@@ -423,7 +423,21 @@ public class Game implements UserInterface {
             }
             turnPhase = TurnPhase.ACTIONSELECTION;
 
-        } else if (turnPhase == TurnPhase.LEADERCHOICE) {
+        }
+
+        //Other than in the first game turn
+        if (turnPhase == TurnPhase.ACTIONSELECTION) {
+            //If in solo mode, Lorenzo takes His action
+            if (lorenzo != null) {
+                lorenzo.takeTurn();
+            }
+
+            //Activates a vatican report if necessary
+            checkVaticanReport();
+        }
+
+        //If in first game turn
+        if (turnPhase == TurnPhase.LEADERCHOICE) {
             //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
             if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber) {
                 throw new WrongTurnPhaseException();
@@ -433,16 +447,6 @@ public class Game implements UserInterface {
                 turnPhase = TurnPhase.ACTIONSELECTION;
             }
 
-        }
-
-        if (turnPhase == TurnPhase.ACTIONSELECTION) {
-            //If in solo mode, Lorenzo takes His action
-            if (lorenzo != null) {
-                lorenzo.takeTurn();
-            }
-
-            //Activates a vatican report if necessary
-            checkVaticanReport();
         }
 
         //Switches current player to the next one
@@ -691,4 +695,11 @@ public class Game implements UserInterface {
     public List<PlayerBoard> getPlayersTurnOrder() {
         return playersTurnOrder;
     }
+
+    /**
+     * Getter
+     *
+     * @return lorenzo
+     */
+    public ArtificialIntelligence getLorenzo() {return lorenzo;}
 }

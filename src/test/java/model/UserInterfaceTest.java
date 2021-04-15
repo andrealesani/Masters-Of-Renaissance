@@ -7,6 +7,11 @@ import Exceptions.WrongTurnPhaseException;
 import model.card.leadercard.DepotLeaderCard;
 import model.card.leadercard.DiscountLeaderCard;
 import model.card.leadercard.LeaderCard;
+import model.lorenzo.Lorenzo;
+import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.DoubleFaithToken;
+import model.lorenzo.tokens.RemoveCardsToken;
+import model.lorenzo.tokens.SingleFaithShuffleToken;
 import model.resource.*;
 import model.storage.LeaderDepot;
 import model.storage.UnlimitedStorage;
@@ -603,7 +608,7 @@ class UserInterfaceTest {
         // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in the next test)
 
         assertEquals(4, game.getCardTable().getGreenCards().get(2).size());
-        // SECOND TURN: every player can only do one move out of 3 possible moves
+        // SECOND TURN: first player chooses to buy a DevelopmentCard
         game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
         assertEquals(3, game.getCardTable().getGreenCards().get(2).size());
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
@@ -751,6 +756,9 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
+        //First player selects a production but doesn't activate it
+        game.selectProduction(1);
+
         //First player selects from market and discards all obtained resources
         game.selectFromMarket(MarketScope.ROW, 1);
         int discarded = players.get(0).getLeftInWaitingRoom();
@@ -759,10 +767,73 @@ class UserInterfaceTest {
         //Checks that other players' faith has been increased by amount of discarded resources
         assertEquals(discarded, players.get(1).getFaith());
         assertEquals(discarded, players.get(2).getFaith());
+
+        //Checks that productions have been reset
+        assertTrue(players.get(0).isProductionInputEmpty());
     }
 
     @Test
-    void endTurn () {
+    void endTurnSoloGame () throws WrongTurnPhaseException, NotEnoughResourceException, UnknownResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+
+        //Verify Lorenzo lives
+        Lorenzo lollo = (Lorenzo) game.getLorenzo();
+        List<ActionToken> activeTokens = lollo.getActiveDeck();
+        List<ActionToken> usedTokens = lollo.getUsedDeck();
+        assertTrue (lollo!=null);
+
+        //Player takes first turn
+        assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Lorenzo should not take first turn
+        assertEquals (6, activeTokens.size());
+        assertEquals (0, usedTokens.size());
+        assertEquals (0, lollo.getFaith());
+
+        //Player takes second turn
+        game.selectFromMarket(MarketScope.ROW, 1);
+        int baseFaith = player.getLeftInWaitingRoom();
+        game.endTurn();
+
+        //Verification
+        if (usedTokens.isEmpty()) {
+            assertEquals (6, activeTokens.size());
+            assertEquals (baseFaith+1, lollo.getFaith());
+        }else {
+            assertEquals (5, activeTokens.size());
+            assertEquals (1, usedTokens.size());
+            if (usedTokens.get(0) instanceof DoubleFaithToken) {
+                assertEquals (baseFaith+2, lollo.getFaith());
+            } else if (usedTokens.get(0) instanceof RemoveCardsToken) {
+                if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.GREEN) {
+                    assertEquals(2, game.getCardTable().getGreenCards().get(2).size());
+                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.BLUE) {
+                    assertEquals(2, game.getCardTable().getBlueCards().get(2).size());
+                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.YELLOW) {
+                    assertEquals(2, game.getCardTable().getYellowCards().get(2).size());
+                }else {
+                    assertEquals(2, game.getCardTable().getPurpleCards().get(2).size());
+                }
+            }
+        }
+
+        //Check that action tokens do not accumulate in following turns
+        for (int i=0; i<10; i++) {
+            game.selectFromMarket(MarketScope.ROW, 1);
+            game.endTurn();
+            assertEquals(6, activeTokens.size()+usedTokens.size());
+        }
+    }
+
+    @Test
+    void endTurnVaticanReport() {
 
     }
 }
