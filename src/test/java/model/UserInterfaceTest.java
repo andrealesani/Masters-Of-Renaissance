@@ -82,7 +82,51 @@ class UserInterfaceTest {
     }
 
     @Test
-    void selectFromMarket() {
+    void selectFromMarket() throws WrongTurnPhaseException {
+
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+
+
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
+        PlayerBoard currentPlayer = game.getCurrentPlayer();
+        UnlimitedStorage waitingRoom = currentPlayer.getWaitingRoom();
+
+        Market market = game.getMarket();
+        Resource[][] board = market.getBoard();
+        int numCoins = 0, numShields = 0, numServants = 0, numStones = 0, numFaithes = 0, numWhites = 0;
+
+        for (int j = 0; j < 4; j++) {
+            if (board[2][j] instanceof ResourceCoin)
+                numCoins++;
+            else if (board[2][j] instanceof ResourceFaith)
+                numFaithes++;
+            else if (board[2][j] instanceof ResourceServant)
+                numServants++;
+            else if (board[2][j] instanceof ResourceShield)
+                numShields++;
+            else if (board[2][j] instanceof ResourceStone)
+                numStones++;
+            else if (board[2][j] instanceof ResourceWhite)
+                numWhites++;
+        }
+
+        //TEST
+        game.selectFromMarket(MarketScope.ROW, 2);
+
+        assertEquals(numShields,waitingRoom.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(numCoins,waitingRoom.getNumOfResource(ResourceType.COIN));
+        assertEquals(numStones,waitingRoom.getNumOfResource(ResourceType.STONE));
+        assertEquals(numServants,waitingRoom.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(numFaithes, currentPlayer.getFaith());
 
     }
 
