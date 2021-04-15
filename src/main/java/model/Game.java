@@ -673,7 +673,7 @@ public class Game implements UserInterface {
      * @return market
      */
     public Market getMarket(){ return market;}
-    
+
     /**
      * Getter
      *

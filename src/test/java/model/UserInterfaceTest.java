@@ -48,8 +48,39 @@ class UserInterfaceTest {
     }
 
     @Test
-    void playLeaderCard() {
+    void playLeaderCard() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
 
+        PlayerBoard currentPlayer = game.getCurrentPlayer();
+
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+
+        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
+        LeaderCard LeaderCard1 = listaLeaderCards.get(0);
+
+        LeaderCard1.doAction(game.getCurrentPlayer());
+        //DiscountLeaderCard
+        //prima di attivazione: no sconti
+        //dopo: un solo sconto
+
+        //white
+        //marbleconversion.get(0) , COIN
+
+        //depot
+        //numdepot, numdepot -> numdepot+1
+
+        //production
+        //game.getCurrentPlayer.getProductionHandler.getProductions.size(),  2
     }
 
     @Test
@@ -61,9 +92,6 @@ class UserInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        PlayerBoard currentPlayer = game.getCurrentPlayer();
-        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
-
         // FIRST TURN: players must choose which LeaderCards to keep
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
@@ -71,13 +99,13 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
-        List<LeaderCard> memoryList = new ArrayList(listaLeaderCards);
-        int preFaith = currentPlayer.getFaith();
+        List<LeaderCard> memoryList = new ArrayList(game.getCurrentPlayer().getLeaderCards());
+        int preFaith = game.getCurrentPlayer().getFaith();
         game.discardLeaderCard(1);
 
-        assertEquals(memoryList.size()-1, currentPlayer.getLeaderCards().size());
-        assertEquals(memoryList.get(0), currentPlayer.getLeaderCards().get(0));
-        assertEquals(preFaith+1, currentPlayer.getFaith());
+        assertEquals(memoryList.size()-1, game.getCurrentPlayer().getLeaderCards().size());
+        assertEquals(memoryList.get(0), game.getCurrentPlayer().getLeaderCards().get(0));
+        assertEquals(preFaith+1, game.getCurrentPlayer().getFaith());
 
     }
 
@@ -96,12 +124,8 @@ class UserInterfaceTest {
             game.chooseLeaderCard(2);
             game.endTurn();
         }
-
-        PlayerBoard currentPlayer = game.getCurrentPlayer();
-        UnlimitedStorage waitingRoom = currentPlayer.getWaitingRoom();
-
-        Market market = game.getMarket();
-        Resource[][] board = market.getBoard();
+        
+        Resource[][] board = game.getMarket().getBoard();
         int numCoins = 0, numShields = 0, numServants = 0, numStones = 0, numFaithes = 0, numWhites = 0;
 
         for (int j = 0; j < 4; j++) {
@@ -122,11 +146,11 @@ class UserInterfaceTest {
         //TEST
         game.selectFromMarket(MarketScope.ROW, 2);
 
-        assertEquals(numShields,waitingRoom.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(numCoins,waitingRoom.getNumOfResource(ResourceType.COIN));
-        assertEquals(numStones,waitingRoom.getNumOfResource(ResourceType.STONE));
-        assertEquals(numServants,waitingRoom.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(numFaithes, currentPlayer.getFaith());
+        assertEquals(numShields, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
+        assertEquals(numCoins, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.COIN));
+        assertEquals(numStones, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.STONE));
+        assertEquals(numServants, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SERVANT));
+        assertEquals(numFaithes, game.getCurrentPlayer().getFaith());
 
     }
 
