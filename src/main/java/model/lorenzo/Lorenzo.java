@@ -3,25 +3,43 @@ package model.lorenzo;
 import model.CardColor;
 import model.CardTable;
 import model.PopeFavorTile;
-import model.ResourceType;
-import model.lorenzo.ActionToken;
+import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.DoubleFaithToken;
+import model.lorenzo.tokens.RemoveCardsToken;
+import model.lorenzo.tokens.SingleFaithShuffleToken;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Contains all information and methods needed to play solo mode. Lorenzo is not meant to be considered as
- * a second player in the game but only as a series of actions done between the player's turns
+ * This class represents the game's base artificial intelligence, whose actions are based on action tokens
  */
 public class Lorenzo implements ArtificialIntelligence {
+    /**
+     * This attribute stores Lorenzo's faith score (the black cross)
+     */
     private int faith;
+    /**
+     * This attribute stores the player's pope's favor tiles
+     */
     private List<PopeFavorTile> popeFavorTiles;
+    /**
+     * This list stores Lorenzo's tokens that have not been used since the last shuffleDeck
+     */
     private List<ActionToken> activeDeck = new ArrayList<>();
+    /**
+     * This list stores Lorenzo's tokens that have been used since the last shuffleDeck
+     */
     private List<ActionToken> usedDeck = new ArrayList<>();
+
+    //CONSTRUCTOR
 
     /**
      * Constructor
+     *
+     * @param cardTable the game's card table
+     * @param popeFavorTiles the player's pope's favor tiles
      */
     public Lorenzo(CardTable cardTable, List<PopeFavorTile> popeFavorTiles) {
         faith = 0;
@@ -36,23 +54,7 @@ public class Lorenzo implements ArtificialIntelligence {
         this.popeFavorTiles = popeFavorTiles;
     }
 
-    /**
-     * Getter for lorenzo's faith score
-     *
-     * @return Lorenzo's current faith
-     */
-    public int getFaith() {
-        return faith;
-    }
-
-    /**
-     * Getter for the active cards deck
-     *
-     * @return the deck containing all the drawable cards
-     */
-    public List<ActionToken> getActiveDeck() {
-        return new ArrayList<>(activeDeck);
-    }
+    //PUBLIC METHODS
 
     /**
      * Makes Lorenzo take his turn by activating one of his action tokens
@@ -98,5 +100,25 @@ public class Lorenzo implements ArtificialIntelligence {
         activeDeck.addAll(usedDeck);
         Collections.shuffle(activeDeck);
         usedDeck.clear();
+    }
+
+    //GETTERS
+
+    /**
+     * Getter for lorenzo's faith score
+     *
+     * @return Lorenzo's current faith
+     */
+    public int getFaith() {
+        return faith;
+    }
+
+    /**
+     * Getter for the active cards deck
+     *
+     * @return the deck containing all the drawable cards
+     */
+    public List<ActionToken> getActiveDeck() {
+        return new ArrayList<>(activeDeck);
     }
 }

@@ -1,10 +1,17 @@
-package model.lorenzo;
+package model.lorenzo.tokens;
+
+import model.lorenzo.Lorenzo;
 
 /**
  * Represents the token that increases Lorenzo's faith by 2 points
  */
 public class DoubleFaithToken implements ActionToken {
+    /**
+     * This attribute stores the token's owning a.i.
+     */
     private final Lorenzo lorenzo;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -15,17 +22,20 @@ public class DoubleFaithToken implements ActionToken {
         this.lorenzo = lorenzo;
     }
 
-    /**
-     * Increases Lorenzo's faith by 2 points
-     */
-    private void doubleIncrease() {
-        lorenzo.increaseFaith(2);
-    }
+    //PUBLIC METHODS
 
     /**
      * Standard method in the interface that calls the class-specific method doubleIncrease()
      */
     public void doAction() {
         doubleIncrease();
+    }
+
+    //PRIVATE METHODS
+    /**
+     * Increases Lorenzo's faith by 2 points
+     */
+    private void doubleIncrease() {
+        lorenzo.increaseFaith(2);
     }
 }

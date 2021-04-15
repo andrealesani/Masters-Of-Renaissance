@@ -2,11 +2,13 @@ package model.lorenzo;
 
 /**
  * This interface indicates that the implementing class can be used as an artificial intelligence for solo mode.
- * It has methods to increase its faith score, check the necessity for a vatican report and taking its own turn.
+ * It is not meant to be considered as a second player in the game, but only as a series of actions done between the player's turns
  */
 public interface ArtificialIntelligence {
+    //PUBLIC METHODS
+
     /**
-     * Makes the A.I. take its turn
+     * Makes the A.I. takes its turn
      */
     void takeTurn();
 
@@ -26,6 +28,8 @@ public interface ArtificialIntelligence {
      * @return the index of the tile the with the highest index that has been triggered (during this turn)
      */
     public int getNewTriggeredTile(int lastTriggeredTile);
+
+    //GETTERS
 
     /**
      * Getter for the A.I's faith score

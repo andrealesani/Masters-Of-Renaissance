@@ -1,10 +1,17 @@
-package model.lorenzo;
+package model.lorenzo.tokens;
+
+import model.lorenzo.Lorenzo;
 
 /**
  * Represents the token that increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
  */
 public class SingleFaithShuffleToken implements ActionToken {
+    /**
+     * This attribute stores the token's owner a.i.
+     */
     private final Lorenzo lorenzo;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -15,18 +22,22 @@ public class SingleFaithShuffleToken implements ActionToken {
         this.lorenzo = lorenzo;
     }
 
-    /**
-     * Increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
-     */
-    private void singleIncreaseShuffle() {
-        lorenzo.increaseFaith(1);
-        lorenzo.shuffleDeck();
-    }
+    //PUBLIC METHODS
 
     /**
      * Standard method in the interface that calls the class-specific method singleIncreaseShuffle()
      */
     public void doAction() {
         singleIncreaseShuffle();
+    }
+
+    //PRIVATE METHODS
+
+    /**
+     * Increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
+     */
+    private void singleIncreaseShuffle() {
+        lorenzo.increaseFaith(1);
+        lorenzo.shuffleDeck();
     }
 }

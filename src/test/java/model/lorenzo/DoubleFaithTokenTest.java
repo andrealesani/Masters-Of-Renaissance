@@ -1,5 +1,7 @@
 package model.lorenzo;
 
+import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.DoubleFaithToken;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

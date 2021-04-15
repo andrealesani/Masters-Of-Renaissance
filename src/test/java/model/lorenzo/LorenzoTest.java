@@ -2,7 +2,7 @@ package model.lorenzo;
 
 import model.CardTable;
 import model.PopeFavorTile;
-import model.PopeTileState;
+import model.lorenzo.tokens.ActionToken;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
