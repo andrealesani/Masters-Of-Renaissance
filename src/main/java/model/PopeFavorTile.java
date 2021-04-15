@@ -22,6 +22,8 @@ public class PopeFavorTile {
      */
     private final int activeSectionSize;
 
+    //CONSTRUCTORS
+
     /**
      * The class constructor
      *
@@ -35,6 +37,8 @@ public class PopeFavorTile {
         this.popeSpaceValue = popeSpaceValue;
         state = PopeTileState.INACTIVE;
     }
+
+    //PUBLIC METHODS
 
     /**
      * Returns whether or not the tile has been triggered, thus signaling the necessity for all players to check if they are within the activation area
@@ -63,6 +67,8 @@ public class PopeFavorTile {
             }
         }
     }
+
+    //GETTERS
 
     /**
      * Returns the number of victory points the tile awards the player

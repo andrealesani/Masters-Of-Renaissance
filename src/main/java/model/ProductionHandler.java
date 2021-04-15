@@ -16,10 +16,20 @@ import static model.ResourceType.*;
  * time at the end of the turn
  */
 public class ProductionHandler {
-
+    /**
+     * This list contains all of the player's currently available productions
+     */
     private final List<Production> productions;
+    /**
+     * This list contains the cumulative input requirements for all currently selected productions
+     */
     private final List<Resource> currentInput;
+    /**
+     * This list contains the cumulative output for all currently selected productions
+     */
     private final List<Resource> currentOutput;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -30,70 +40,7 @@ public class ProductionHandler {
         currentOutput = new ArrayList<>();
     }
 
-    /**
-     * Updates the input list every time a Production is selected or unselected
-     */
-    private void updateCurrentInput() {
-        currentInput.clear();
-        for (Production production : productions) {
-            if (production.isSelectedByHandler()) {
-                currentInput.addAll(production.getInput());
-            }
-        }
-    }
-
-    /**
-     * Updates the output list every time a Production is selected or unselected
-     */
-    private void updateCurrentOutput() {
-        currentOutput.clear();
-        for (Production production : productions) {
-            if (production.isSelectedByHandler()) {
-                currentOutput.addAll(production.getOutput());
-            }
-        }
-    }
-
-    /**
-     * Getter
-     *
-     * @return productions
-     */
-    public List<Production> getProductions() {
-        return productions;
-    }
-
-    /**
-     * Getter that returns only production that are currently selected
-     *
-     * @return a list of Productions that are currently selected in the player's ProductionHandler
-     */
-    public List<Production> getSelectedProductions() {
-        List<Production> selectedProductions = new ArrayList<>();
-        for (Production production : productions) {
-            if(production.isSelectedByHandler())
-                selectedProductions.add(production);
-        }
-        return selectedProductions;
-    }
-
-    /**
-     * Getter
-     *
-     * @return currentInput
-     */
-    public List<Resource> getCurrentInput() {
-        return currentInput;
-    }
-
-    /**
-     * Getter
-     *
-     * @return currentOutput
-     */
-    public List<Resource> getCurrentOutput() {
-        return currentOutput;
-    }
+    //PUBLIC METHODS
 
     /**
      * Adds the specified Production to the player's ProductionHandler
@@ -208,16 +155,6 @@ public class ProductionHandler {
         return true;
     }
 
-    public int getDebt(Resource resource) {
-        int sum = 0;
-        for (Resource debt : currentInput) {
-            if (debt.equals(resource)) {
-                sum++;
-            }
-        }
-        return sum;
-    }
-
     /**
      * Removes a Resource from currentInput list when that Resource has been taken from the player's stashes (the method is called from the PlayerBoard).
      * If currentInput is empty this means that all input Resources have been paid.
@@ -238,6 +175,32 @@ public class ProductionHandler {
         }
     }
 
+    //PRIVATE METHODS
+
+    /**
+     * Updates the input list every time a Production is selected or unselected
+     */
+    private void updateCurrentInput() {
+        currentInput.clear();
+        for (Production production : productions) {
+            if (production.isSelectedByHandler()) {
+                currentInput.addAll(production.getInput());
+            }
+        }
+    }
+
+    /**
+     * Updates the output list every time a Production is selected or unselected
+     */
+    private void updateCurrentOutput() {
+        currentOutput.clear();
+        for (Production production : productions) {
+            if (production.isSelectedByHandler()) {
+                currentOutput.addAll(production.getOutput());
+            }
+        }
+    }
+
     /**
      * Puts all the Resources due in currentOutput in the player's strongbox
      */
@@ -245,5 +208,58 @@ public class ProductionHandler {
         for (Resource resource : currentOutput) {
             resource.addResourceFromProduction(playerBoard);
         }
+    }
+
+    //GETTERS
+
+    /**
+     * Getter
+     *
+     * @return productions
+     */
+    public List<Production> getProductions() {
+        return productions;
+    }
+
+    /**
+     * Getter that returns only production that are currently selected
+     *
+     * @return a list of Productions that are currently selected in the player's ProductionHandler
+     */
+    public List<Production> getSelectedProductions() {
+        List<Production> selectedProductions = new ArrayList<>();
+        for (Production production : productions) {
+            if(production.isSelectedByHandler())
+                selectedProductions.add(production);
+        }
+        return selectedProductions;
+    }
+
+    /**
+     * Getter
+     *
+     * @return currentInput
+     */
+    public List<Resource> getCurrentInput() {
+        return currentInput;
+    }
+
+    /**
+     * Getter
+     *
+     * @return currentOutput
+     */
+    public List<Resource> getCurrentOutput() {
+        return currentOutput;
+    }
+
+    public int getDebt(Resource resource) {
+        int sum = 0;
+        for (Resource debt : currentInput) {
+            if (debt.equals(resource)) {
+                sum++;
+            }
+        }
+        return sum;
     }
 }

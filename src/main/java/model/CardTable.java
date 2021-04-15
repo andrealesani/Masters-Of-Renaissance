@@ -23,6 +23,11 @@ public class CardTable {
     private final List<List<DevelopmentCard>> yellowCards;
     private final List<List<DevelopmentCard>> purpleCards;
 
+    //CONSTRUCTORS
+
+    /**
+     * Constructor
+     */
     public CardTable() {
         greenCards = new ArrayList<>();
         blueCards = new ArrayList<>();
@@ -42,97 +47,7 @@ public class CardTable {
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
     }
 
-    /**
-     * Getter
-     *
-     * @return the CardTable column with only green cards decks
-     */
-    public List<List<DevelopmentCard>> getGreenCards() {
-        return greenCards;
-    }
-
-    /**
-     * Getter
-     *
-     * @return the CardTable column with only blue cards decks
-     */
-    public List<List<DevelopmentCard>> getBlueCards() {
-        return blueCards;
-    }
-
-    /**
-     * Getter
-     *
-     * @return the CardTable column with only yellow cards decks
-     */
-    public List<List<DevelopmentCard>> getYellowCards() {
-        return yellowCards;
-    }
-
-    /**
-     * Getter
-     *
-     * @return the CardTable column with only purple cards decks
-     */
-    public List<List<DevelopmentCard>> getPurpleCards() {
-        return purpleCards;
-    }
-
-    /**
-     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
-     * then it reads the cards from the file and splits them into decks based on the cards level.
-     * To keep the analogy with the physical game, level 3 cards will be on the upper part of the table (first lists of
-     * every column), level 2 cards will be in the middle (second lists of every column) and level 1 cards will be on
-     * the bottom of the table (third lists of every column)
-     *
-     * @param JsonPath   specifies the path where the JSON file is stored
-     * @param colorCards specifies which column of the deck is going to be instantiated
-     */
-    private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
-        Gson gson = new Gson();
-        JsonReader reader = null;
-        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
-        }.getType();
-
-        try {
-            reader = new JsonReader(new FileReader(JsonPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
-        for (int i = 0; i < 3; i++) {
-            colorCards.add(new ArrayList<DevelopmentCard>());
-        }
-        for (DevelopmentCard developmentCard : allColorCards) {
-            if (developmentCard.getLevel() == 1)
-                colorCards.get(2).add(developmentCard);
-            else if (developmentCard.getLevel() == 2)
-                colorCards.get(1).add(developmentCard);
-            else if (developmentCard.getLevel() == 3)
-                colorCards.get(0).add(developmentCard);
-        }
-    }
-
-    /**
-     * Transforms the CardColor in input into the corresponding column of the CardTable
-     *
-     * @param cardColor color received in input
-     * @return the column in the grid that contains the cards of the specified color
-     */
-    //TODO questa cosa orrenda si può evitare usando una mappa <cardColor, List<List<DevelopmentCard>>> ?
-    private List<List<DevelopmentCard>> colorToColumn(CardColor cardColor) {
-        List<List<DevelopmentCard>> deckColumn = null;
-        if (cardColor.equals(CardColor.GREEN))
-            deckColumn = greenCards;
-        else if (cardColor.equals(CardColor.BLUE))
-            deckColumn = blueCards;
-        else if (cardColor.equals(CardColor.YELLOW))
-            deckColumn = yellowCards;
-        else if (cardColor.equals(CardColor.PURPLE))
-            deckColumn = purpleCards;
-
-        return deckColumn;
-    }
+    //PUBLIC METHODS
 
     /**
      * Adds the selected card to the specified PlayerBoard in the specified slot
@@ -205,5 +120,101 @@ public class CardTable {
         }
 
         return true;
+    }
+
+    //PRIVATE METHODS
+
+    /**
+     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
+     * then it reads the cards from the file and splits them into decks based on the cards level.
+     * To keep the analogy with the physical game, level 3 cards will be on the upper part of the table (first lists of
+     * every column), level 2 cards will be in the middle (second lists of every column) and level 1 cards will be on
+     * the bottom of the table (third lists of every column)
+     *
+     * @param JsonPath   specifies the path where the JSON file is stored
+     * @param colorCards specifies which column of the deck is going to be instantiated
+     */
+    private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
+        Gson gson = new Gson();
+        JsonReader reader = null;
+        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
+        }.getType();
+
+        try {
+            reader = new JsonReader(new FileReader(JsonPath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
+        for (int i = 0; i < 3; i++) {
+            colorCards.add(new ArrayList<DevelopmentCard>());
+        }
+        for (DevelopmentCard developmentCard : allColorCards) {
+            if (developmentCard.getLevel() == 1)
+                colorCards.get(2).add(developmentCard);
+            else if (developmentCard.getLevel() == 2)
+                colorCards.get(1).add(developmentCard);
+            else if (developmentCard.getLevel() == 3)
+                colorCards.get(0).add(developmentCard);
+        }
+    }
+
+    /**
+     * Transforms the CardColor in input into the corresponding column of the CardTable
+     *
+     * @param cardColor color received in input
+     * @return the column in the grid that contains the cards of the specified color
+     */
+    //TODO questa cosa orrenda si può evitare usando una mappa <cardColor, List<List<DevelopmentCard>>> ?
+    private List<List<DevelopmentCard>> colorToColumn(CardColor cardColor) {
+        List<List<DevelopmentCard>> deckColumn = null;
+        if (cardColor.equals(CardColor.GREEN))
+            deckColumn = greenCards;
+        else if (cardColor.equals(CardColor.BLUE))
+            deckColumn = blueCards;
+        else if (cardColor.equals(CardColor.YELLOW))
+            deckColumn = yellowCards;
+        else if (cardColor.equals(CardColor.PURPLE))
+            deckColumn = purpleCards;
+
+        return deckColumn;
+    }
+
+    //GETTERS
+
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only green cards decks
+     */
+    public List<List<DevelopmentCard>> getGreenCards() {
+        return greenCards;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only blue cards decks
+     */
+    public List<List<DevelopmentCard>> getBlueCards() {
+        return blueCards;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only yellow cards decks
+     */
+    public List<List<DevelopmentCard>> getYellowCards() {
+        return yellowCards;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the CardTable column with only purple cards decks
+     */
+    public List<List<DevelopmentCard>> getPurpleCards() {
+        return purpleCards;
     }
 }

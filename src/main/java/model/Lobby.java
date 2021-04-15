@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the game's lobby
+ */
 public class Lobby {
     private List<String> playerLobby;
     private int nextGamePlayers;

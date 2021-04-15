@@ -17,6 +17,8 @@ public class Production {
     private final List<Resource> output;
     private boolean selectedByHandler;
 
+    //CONSTRUCTORS
+
     /**
      * Constructor
      *
@@ -29,19 +31,23 @@ public class Production {
         selectedByHandler = false;
     }
 
+    //PUBLIC METHODS
+
     /**
-     * Equals
-     *
-     * @param obj object to compare
-     * @return true only if the 2 Productions input and output lists are equal
+     * Setter for selectedByHandler
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Production)
-            if (input.equals(((Production) obj).getInput()) && output.equals(((Production) obj).getOutput()))
-                return true;
-        return false;
+    public void select() {
+        this.selectedByHandler = true;
     }
+
+    /**
+     * Setter for selectedByHandler
+     */
+    public void unselect() {
+        this.selectedByHandler = false;
+    }
+
+    //GETTERS
 
     /**
      * Getter
@@ -70,17 +76,19 @@ public class Production {
         return this.selectedByHandler;
     }
 
-    /**
-     * Setter for selectedByHandler
-     */
-    public void select() {
-        this.selectedByHandler = true;
-    }
+    //EQUALS
 
     /**
-     * Setter for selectedByHandler
+     * Equals
+     *
+     * @param obj object to compare
+     * @return true only if the 2 Productions input and output lists are equal
      */
-    public void unselect() {
-        this.selectedByHandler = false;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Production)
+            if (input.equals(((Production) obj).getInput()) && output.equals(((Production) obj).getOutput()))
+                return true;
+        return false;
     }
 }

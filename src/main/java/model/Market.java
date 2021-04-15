@@ -2,10 +2,26 @@ package model;
 
 import model.resource.*;
 
+/**
+ * This class represents the game's market
+ */
+//TODO rendere dimensioni matrice parametrici?
 public class Market {
+    /**
+     * This matrix stores the market's marbles
+     */
     private Resource board[][] = new Resource[3][4];
-    private Resource slideOrb;
+    /**
+     * This attribute stores the marble in the market's slide
+     */
+    private Resource slideMarble;
 
+    //CONSTRUCTORS
+
+    /**
+     * Constructor
+     */
+    //TODO togliere else/ifs?
     public Market() {
         int totalOrbs = 13;
         int orb;
@@ -46,35 +62,33 @@ public class Market {
 
             if(totalOrbs == 1) {
                 if(countRS < 2)
-                    slideOrb = new ResourceCoin();
+                    slideMarble = new ResourceCoin();
                 else if(countRF < 1)
-                    slideOrb = new ResourceFaith();
+                    slideMarble = new ResourceFaith();
                 else if(countRSe < 2)
-                    slideOrb = new ResourceServant();
+                    slideMarble = new ResourceServant();
                 else if(countRSh < 2)
-                    slideOrb = new ResourceShield();
+                    slideMarble = new ResourceShield();
                 else if(countRSt < 2)
-                    slideOrb = new ResourceStone();
+                    slideMarble = new ResourceStone();
                 else if(countRW < 4)
-                    slideOrb = new ResourceWhite();
+                    slideMarble = new ResourceWhite();
                 }
             }
         }
 
     }
 
-    public Resource[][] getBoard() {
-        return board;
-    }
+    //PUBLIC METHODS
 
-    public Resource getMarble(int row, int column) {
-        return board[row][column];
-    }
-
-    public Resource getSlideOrb() {
-        return slideOrb;
-    }
-
+    /**
+     * Activates addResourceFromMarket methods on all resources in the selected row or column
+     *
+     * @param marketScope either row or column
+     * @param numScope the number of the selected row or column
+     * @param playerBoard the player's board
+     */
+    //TODO dividere in 2 metodi diversi per riga e colonna?
     public void selectResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
         int riga, col;
 
@@ -95,7 +109,14 @@ public class Market {
 
     }
 
+    //PRIVATE METHODS
 
+    /**
+     * Shifts the given row or column based on the market's rules, substituting the marble on the slide
+     *
+     * @param marketScope either row or column
+     * @param numScope the number of the selected row or column
+     */
     private void shiftResources(MarketScope marketScope, int numScope) {
         int riga, col;
         Resource temp;
@@ -107,8 +128,8 @@ public class Market {
             for(j = 0; j < 3; j++)
                 board[riga][j] = board[riga][j+1];
 
-            board[riga][j] = slideOrb;
-            slideOrb = temp;
+            board[riga][j] = slideMarble;
+            slideMarble = temp;
         }
 
         else if(marketScope == MarketScope.COLUMN) {
@@ -118,9 +139,40 @@ public class Market {
             for(i = 0; i < 2; i++)
                 board[i][col] = board[i+1][col];
 
-            board[i][col] = slideOrb;
-            slideOrb = temp;
+            board[i][col] = slideMarble;
+            slideMarble = temp;
         }
 
+    }
+
+    //GETTERS
+
+    /**
+     * Getter
+     *
+     * @return the marble matrix
+     */
+    public Resource[][] getBoard() {
+        return board;
+    }
+
+    /**
+     * Getter
+     *
+     * @param row the row number
+     * @param column the column number
+     * @return the marble in the given spot
+     */
+    public Resource getMarble(int row, int column) {
+        return board[row][column];
+    }
+
+    /**
+     * Getter
+     *
+     * @return the marble on the market's slide
+     */
+    public Resource getSlideOrb() {
+        return slideMarble;
     }
 }

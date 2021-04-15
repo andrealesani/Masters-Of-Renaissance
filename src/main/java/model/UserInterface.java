@@ -9,6 +9,8 @@ import model.resource.Resource;
  * It has methods for doing everything a player can do in the game.
  */
 public interface UserInterface {
+    //PUBLIC METHODS
+
     //LeaderCards handling actions
 
     /**

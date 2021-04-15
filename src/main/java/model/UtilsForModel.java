@@ -2,8 +2,15 @@ package model;
 
 import model.resource.*;
 
+/**
+ * This class is used to store some debugging methods.
+ */
 public final class UtilsForModel {
+    //CONSTRUCTORS
+
     private UtilsForModel() {}
+
+    //PUBLIC METHODS
 
     /**
      * Useful method that returns a specific Resource from a given the ResourceType
