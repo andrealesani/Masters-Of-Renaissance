@@ -4,15 +4,38 @@ import model.PlayerBoard;
 import model.card.Card;
 
 /**
- * This interface must be implemented by every LeaderCard
+ * This class represents a generic leader card for the game
  */
+//TODO maybe make abstract?
 public class LeaderCard extends Card {
-    public void doAction(PlayerBoard playerBoard){} /* this method should either be boolean or throw an exception */
-    public boolean areRequirementsMet(PlayerBoard playerBoard) {return false;}
+    //CONSTRUCTORS
 
-    public LeaderCard(){}
-
+    /**
+     * Constructor
+     * @param victoryPoints the card's victory points
+     */
     public LeaderCard(int victoryPoints) {
         super(victoryPoints);
     }
+
+    /**
+     * Fast constructor used for testing
+     */
+    public LeaderCard(){}
+
+    //PUBLIC METHODS
+
+    /**
+     * Activates the leader's specific ability
+     *
+     * @param playerBoard the player for whom to activate the ability
+     */
+    public void doAction(PlayerBoard playerBoard){}
+
+    /**
+     * Returns whether or not the given player meets the requirements for activating the card
+     * @param playerBoard the player board to check
+     * @return true if the player meets the card's requirements
+     */
+    public boolean areRequirementsMet(PlayerBoard playerBoard) {return false;}
 }

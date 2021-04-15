@@ -11,13 +11,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This LeaderCard lets the user have a new Special Depot in his warehouse
+ * This LeaderCard awards the user with a new Leader Depot in his warehouse upon activation
  */
 public class DepotLeaderCard extends LeaderCard {
+    /**
+     * This attribute stores the card's required resource for activation
+     */
     private final ResourceType requiredResource;
+    /**
+     * This attribute stores the card's required quantity for the resource
+     */
     private final int requiredQuantity;
+    /**
+     * This attribute stores the resource type that can be stored by the card's depot
+     */
     private final ResourceType storableResource;
+    /**
+     * This attribute stores the maximum capacity of the card's depot
+     */
     private final int storableQuantity;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -33,14 +47,7 @@ public class DepotLeaderCard extends LeaderCard {
         this.storableQuantity = storableQuantity;
     }
 
-    /**
-     * Adds a SpecialDepot with the parameters specified by the card to the specified PlayerBoard
-     *
-     * @param playerBoard specifies to which PlayerBoard the SpecialDepot has to be added
-     */
-    private void activateSpecialDepot(PlayerBoard playerBoard) {
-        playerBoard.addNewDepot(new LeaderDepot(storableQuantity, storableResource));
-    }
+    //PUBLIC METHODS
 
     /**
      * Calls the specific method for this LeaderCard, activateSpecialDepot()
@@ -65,6 +72,19 @@ public class DepotLeaderCard extends LeaderCard {
             return true;
         return false;
     }
+
+    //PRIVATE METHODS
+
+    /**
+     * Adds a SpecialDepot with the parameters specified by the card to the specified PlayerBoard
+     *
+     * @param playerBoard specifies to which PlayerBoard the SpecialDepot has to be added
+     */
+    private void activateSpecialDepot(PlayerBoard playerBoard) {
+        playerBoard.addNewDepot(new LeaderDepot(storableQuantity, storableResource));
+    }
+
+    //GETTERS
 
     /**
      * Getter TESTING ONLY

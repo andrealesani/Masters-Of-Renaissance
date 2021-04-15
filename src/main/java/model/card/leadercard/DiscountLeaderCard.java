@@ -7,13 +7,27 @@ import model.ResourceType;
 import java.util.ArrayList;
 
 /**
- * This LeaderCard grants to the user a discount when buying DevelopmentCards
+ * This LeaderCard awards the user with a discount when buying DevelopmentCards upon activation
  */
 public class DiscountLeaderCard extends LeaderCard {
+    /**
+     * This attribute stores the type of resource cost that the discount applies to
+     */
     private final ResourceType discountType;
+    /**
+     * This attribute stores the amount by which the resource gets discounted
+     */
     private final int discount;
+    /**
+     * This array stores the development card colors required for activation
+     */
     private final CardColor[] requiredColors;
+    /**
+     * This array stores the amounts required for each card color
+     */
     private final int[] requiredQuantities;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -31,14 +45,7 @@ public class DiscountLeaderCard extends LeaderCard {
         this.requiredQuantities = requiredQuantities;
     }
 
-    /**
-     * Adds the specified discount to the specified PlayerBoard
-     *
-     * @param playerBoard specifies which player has activated the discount
-     */
-    private void applyDiscount(PlayerBoard playerBoard) {
-        playerBoard.addDiscount(discountType, discount);
-    }
+    //PUBLIC METHODS
 
     /**
      * Calls the specific method for this LeaderCard, applyDiscount()
@@ -65,6 +72,19 @@ public class DiscountLeaderCard extends LeaderCard {
         }
         return true;
     }
+
+    //PRIVATE METHODS
+
+    /**
+     * Adds the specified discount to the specified PlayerBoard
+     *
+     * @param playerBoard specifies which player has activated the discount
+     */
+    private void applyDiscount(PlayerBoard playerBoard) {
+        playerBoard.addDiscount(discountType, discount);
+    }
+
+    //GETTERS
 
     /**
      * Getter TESTING ONLY

@@ -10,11 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents the development cards in the physical game. All its attributes are set once in the constructor
- * and all its methods are getters except for the addTo() method
+ * This class represents the development cards in the physical game. All its attributes are set once in the constructor and all its methods are getters
  */
 public class DevelopmentCard extends Card {
+    /**
+     * This attribute stores the card's color
+     */
     private final CardColor color;
+    /**
+     * This attribute stores the card's level
+     */
     private final int level;
     private final ResourceType[] costType;
     private final int[] costQuantity;
@@ -22,6 +27,8 @@ public class DevelopmentCard extends Card {
     private final int[] inputQuantities;
     private final  ResourceType[] outputType;
     private final int[] outputQuantities;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -43,6 +50,8 @@ public class DevelopmentCard extends Card {
         this.outputType = outputType;
         this.outputQuantities = outputQuantities;
     }
+
+    //GETTERS
 
     /**
      * Getter
@@ -82,6 +91,7 @@ public class DevelopmentCard extends Card {
      *
      * @return returns the Production that this card enables for the player
      */
+    //TODO make it not use else/ifs
     public Production getProduction() {
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();
@@ -128,15 +138,5 @@ public class DevelopmentCard extends Card {
         }
 
         return new Production(input, output);
-    }
-
-    /**
-     * Adds the DevelopmentCard to the specified PlayerBoard in the specified slot
-     *
-     * @param playerBoard    - specifies to which PlayerBoard the card has to be added
-     * @param productionSlot - specifies in which slot the card has to be added
-     */
-    public void addTo(PlayerBoard playerBoard, int productionSlot) {
-        //TODO
     }
 }

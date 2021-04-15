@@ -12,16 +12,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This LeaderCard lets the user add the specified Production in his PlayerBoard
+ * This LeaderCard awards the user with the permanent addition of a specific Production in their PlayerBoard upon activation
  */
 public class ProductionLeaderCard extends LeaderCard {
+    /**
+     * This attribute stores the development card color required for activation
+     */
     private final CardColor requiredColor;
+    /**
+     * This attribute stores the amount of development cards of the given color required for activation
+     */
     private final int requiredLevel;
     private final int requiredQuantity;
     private final ResourceType[] inputType;
     private final int[] inputQuantities;
     private final ResourceType[] outputType;
     private final int[] outputQuantities;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -43,11 +51,40 @@ public class ProductionLeaderCard extends LeaderCard {
         this.outputQuantities = outputQuantities;
     }
 
+    //PUBLIC METHODS
+
+    /**
+     * Calls the specific method for this LeaderCard, addProduction()
+     *
+     * @param playerBoard specifies to which PlayerBoard the discount has to be added
+     */
+    @Override
+    public void doAction(PlayerBoard playerBoard) {
+        activate();
+        addProduction(playerBoard);
+    }
+
+    /**
+     * Checks if the player has enough DevelopmentCards of the required ColorType and level
+     *
+     * @param playerBoard specifies which PlayerBoard to check
+     * @return returns true if the requirements are met, false otherwise
+     */
+    @Override
+    public boolean areRequirementsMet(PlayerBoard playerBoard) {
+        if (playerBoard.getNumOfCards(requiredColor, requiredLevel) >= requiredQuantity) /* ATTENTION atm it's only counting the exact level required and not levels above */
+            return true;
+        return false;
+    }
+
+    //PRIVATE METHODS
+
     /**
      * Creates a Production from the parameters specified by the LeaderCard and then adds it to the specified PlayerBoard
      *
      * @param playerBoard specifies to which PlayerBoard the Production has to be added
      */
+    //TODO avoid else/ifs
     private void addProduction(PlayerBoard playerBoard) {
         ResourceCoin coin = new ResourceCoin();
         ResourceServant servant = new ResourceServant();
@@ -86,27 +123,7 @@ public class ProductionLeaderCard extends LeaderCard {
         playerBoard.addProduction(new Production(input, output));
     }
 
-    /**
-     * Calls the specific method for this LeaderCard, addProduction()
-     *
-     * @param playerBoard specifies to which PlayerBoard the discount has to be added
-     */
-    @Override
-    public void doAction(PlayerBoard playerBoard) {
-        activate();
-        addProduction(playerBoard);
-    }
+    //GETTERS
 
-    /**
-     * Checks if the player has enough DevelopmentCards of the required ColorType and level
-     *
-     * @param playerBoard specifies which PlayerBoard to check
-     * @return returns true if the requirements are met, false otherwise
-     */
-    @Override
-    public boolean areRequirementsMet(PlayerBoard playerBoard) {
-        if (playerBoard.getNumOfCards(requiredColor, requiredLevel) >= requiredQuantity) /* ATTENTION atm it's only counting the exact level required and not levels above */
-            return true;
-        return false;
-    }
+    //TODO getters?
 }

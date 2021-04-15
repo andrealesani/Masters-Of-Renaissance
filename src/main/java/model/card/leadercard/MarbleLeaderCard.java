@@ -7,12 +7,23 @@ import model.ResourceType;
 import java.util.ArrayList;
 
 /**
- * This LeaderCard lets the user convert a WhiteOrb to a specified Resource when he picks it from the Market
+ * This LeaderCard awards the user a conversion for white marbles to a specified Resource type (when they are picked from the Market) upon activation
  */
 public class MarbleLeaderCard extends LeaderCard {
+    /**
+     * This attribute stores the resource type to which the white marble can be converted
+     */
     private final ResourceType resourceType;
+    /**
+     * This array stores the development card colors required for activation
+     */
     private final CardColor[] requiredColors;
+    /**
+     * This array stores the amounts required for each card color
+     */
     private final int[] requiredQuantities;
+
+    //CONSTRUCTORS
 
     /**
      * Constructor
@@ -28,14 +39,7 @@ public class MarbleLeaderCard extends LeaderCard {
         this.requiredQuantities = requiredQuantities;
     }
 
-    /**
-     * Adds the specified marble conversion to the specified PlayerBoard
-     *
-     * @param playerBoard specifies to which PlayerBoard the marble conversion has to be added
-     */
-    private void activateMarbleEffect(PlayerBoard playerBoard) {
-        playerBoard.addMarbleConversion(resourceType);
-    }
+    //PUBLIC METHODS
 
     /**
      * Calls the specific method for this LeaderCard, activateMarbleEffect()
@@ -62,4 +66,19 @@ public class MarbleLeaderCard extends LeaderCard {
         }
         return true;
     }
+
+    //PRIVATE METHODS
+
+    /**
+     * Adds the specified marble conversion to the specified PlayerBoard
+     *
+     * @param playerBoard specifies to which PlayerBoard the marble conversion has to be added
+     */
+    private void activateMarbleEffect(PlayerBoard playerBoard) {
+        playerBoard.addMarbleConversion(resourceType);
+    }
+
+    //GETTERS
+
+    //TODO getters?
 }
