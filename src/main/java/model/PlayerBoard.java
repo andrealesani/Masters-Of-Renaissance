@@ -228,11 +228,11 @@ public class PlayerBoard {
      * @param depot    the number of the depot to which to add the resource
      * @param resource the resource to be moved
      * @param quantity the amount of the resource to be moved
-     * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
+     * @throws DepotNotPresentException        if the number of the target depot does not correspond to any depot in the warehouse
      * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the target depot
-     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
-     * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
-     * @throws NotEnoughResourceException if the waiting room contains less than the given amount of the given resource
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
+     * @throws BlockedResourceException        if the depot is affected by resource blocking and the resource is being blocked by a different depot
+     * @throws NotEnoughResourceException      if the waiting room contains less than the given amount of the given resource
      */
     public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
         waitingRoom.removeResource(resource, quantity);
@@ -394,7 +394,7 @@ public class PlayerBoard {
      * @param resource the resource into which to turn the jolly
      */
     public void chooseJollyInput(Resource resource) {
-        productionHandler.chooseJollyInput (resource);
+        productionHandler.chooseJollyInput(resource);
     }
 
     /**
@@ -403,10 +403,11 @@ public class PlayerBoard {
      * @param resource the resource into which to turn the jolly
      */
     public void chooseJollyOutput(Resource resource) {
-        productionHandler.chooseJollyOutput (resource);
+        productionHandler.chooseJollyOutput(resource);
     }
 
     //TODO maybe unify takeResourceFrom* methods
+
     /**
      * Removes the given amount of the given resource from the given depot, as part of the player's choice of where to take resources to pay for the cost of their productions.
      * If the player asks to pay a greater amount than that required by the cost, only the required amount is taken
@@ -502,14 +503,15 @@ public class PlayerBoard {
 
     /**
      * Selects or deselects the leader card with the given number, as part of the player's choice of which cards to keep from the initial deck
+     *
      * @param number the number of the card to select or deselect
      */
-    public void chooseLeaderCard(int number){
+    public void chooseLeaderCard(int number) {
         LeaderCard leaderCard = leaderCards.get(number - 1);
 
-        if(leaderCard.isActive())
+        if (leaderCard.isActive())
             leaderCard.deActivate();
-        else if(!leaderCard.isActive())
+        else if (!leaderCard.isActive())
             leaderCard.activate();
 
     }
@@ -520,7 +522,7 @@ public class PlayerBoard {
     public void finishLeaderCardSelection() {
         int size = leaderCards.size();
         int i = 0;
-        while (i<size) {
+        while (i < size) {
             LeaderCard card = leaderCards.get(i);
             if (!card.isActive()) {
                 leaderCards.remove(card);
@@ -598,6 +600,7 @@ public class PlayerBoard {
 
     /**
      * Returns whether or not the production handler's current input is empty, signaling the productions' price has been paid
+     *
      * @return
      */
     public boolean isProductionInputEmpty() {
@@ -629,6 +632,7 @@ public class PlayerBoard {
 
     /**
      * Returns whether or not the player has meets the requirements for starting the ending phase of the game
+     *
      * @return true if the final phase should start after this turn
      */
     public boolean isEndGameTime() {
@@ -654,7 +658,7 @@ public class PlayerBoard {
         int vp = 0;
         //LeaderCards
         for (LeaderCard leaderCard : leaderCards) {
-            if(leaderCard.isActive())
+            if (leaderCard.isActive())
                 vp += leaderCard.getVictoryPoints();
         }
         //DevelopmentCards
@@ -668,8 +672,8 @@ public class PlayerBoard {
             vp += tile.getVictoryPoints();
         }
         //Faith track
-        for (int i=0; i<vpFaithTiles.length; i++) {
-            if (faith>=vpFaithTiles[i]) {
+        for (int i = 0; i < vpFaithTiles.length; i++) {
+            if (faith >= vpFaithTiles[i]) {
                 vp += vpFaithValues[i];
             }
         }
@@ -749,7 +753,9 @@ public class PlayerBoard {
      *
      * @return the player's username
      */
-    public String getUsername () {return username;}
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * Getter for player's discounts
@@ -783,7 +789,9 @@ public class PlayerBoard {
      *
      * @return the player's waiting room
      */
-    public UnlimitedStorage getWaitingRoom() {return waitingRoom;}
+    public UnlimitedStorage getWaitingRoom() {
+        return waitingRoom;
+    }
 
     /**
      * Getter for the player's faith
