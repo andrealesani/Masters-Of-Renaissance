@@ -52,4 +52,15 @@ public class RemoveCardsToken implements ActionToken {
             //Does nothing
         }
     }
+
+    //GETTERS
+
+    /**
+     * Getter
+     *
+     * @return the color of the cards the token removes
+     */
+    public CardColor getColor() {
+        return color;
+    }
 }

@@ -470,6 +470,8 @@ public class PlayerBoard {
         for (int tileNumber = lastTriggeredTile; tileNumber < popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
                 newTriggeredTile = tileNumber + 1;
+            } else {
+                break;
             }
         }
         return newTriggeredTile;
@@ -485,7 +487,7 @@ public class PlayerBoard {
      * @param lastTriggeredTile the index of the tile the with the highest index that has been triggered (before this turn)
      */
     public void theVaticanReport(int newTriggeredTile, int lastTriggeredTile) {
-        for (int tileNumber = lastTriggeredTile; tileNumber <= newTriggeredTile; tileNumber++) {
+        for (int tileNumber = lastTriggeredTile; tileNumber < newTriggeredTile; tileNumber++) {
             popeFavorTiles.get(tileNumber).checkActivation(faith);
         }
     }
