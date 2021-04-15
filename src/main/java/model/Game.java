@@ -261,7 +261,7 @@ public class Game implements UserInterface {
      * @param slot      the car slot in which to put the card
      */
     @Override
-    public void buyDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+    public void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
@@ -279,7 +279,7 @@ public class Game implements UserInterface {
      * @param quantity    the amount of resource to take (and of cost to pay)
      */
     @Override
-    public void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
+    public void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.CARDPAYMENT) {
             throw new WrongTurnPhaseException();
         }
@@ -294,7 +294,7 @@ public class Game implements UserInterface {
      * @param quantity the amount of resource to take (and of cost to pay)
      */
     @Override
-    public void takeResourceFromStrongboxCard(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
+    public void payResourceFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.CARDPAYMENT) {
             throw new WrongTurnPhaseException();
         }

@@ -78,7 +78,7 @@ public interface UserInterface {
      * @param row       the card table row from which to buy the card
      * @param slot      the car slot in which to put the card
      */
-    void buyDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException;
+    void takeDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
@@ -87,7 +87,7 @@ public interface UserInterface {
      * @param resource    the resource to take
      * @param quantity    the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromWarehouseCard(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException;
+    void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the strongbox
@@ -95,7 +95,7 @@ public interface UserInterface {
      * @param resource the resource to take
      * @param quantity the amount of resource to take (and of cost to pay)
      */
-    void takeResourceFromStrongboxCard(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
+    void payResourceFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
 
     //Production selection actions
 

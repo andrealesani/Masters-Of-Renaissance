@@ -11,7 +11,6 @@ import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.DoubleFaithToken;
 import model.lorenzo.tokens.RemoveCardsToken;
-import model.lorenzo.tokens.SingleFaithShuffleToken;
 import model.resource.*;
 import model.storage.LeaderDepot;
 import model.storage.UnlimitedStorage;
@@ -90,7 +89,7 @@ class UserInterfaceTest {
         //prima di attivazione: no sconti
         //dopo: un solo sconto
 
-        else if(LeaderCard1 instanceof DiscountLeaderCard)
+        //else if(LeaderCard1 instanceof DiscountLeaderCard)
 
 
 
@@ -343,14 +342,14 @@ class UserInterfaceTest {
         List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
 
         //Buys the card
-        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
 
         //Actually tests the method
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
             for (int i=1; i<8; i++) {
                 try {
-                    game.takeResourceFromWarehouseCard(i, UtilsForModel.typeToResource(resource), 1);
+                    game.payFromWarehouse(i, UtilsForModel.typeToResource(resource), 1);
                     System.out.println("Taking resource from depot: " + i);
                     inStock.put(resource, inStock.get(resource)-1);
                     break;
@@ -414,12 +413,12 @@ class UserInterfaceTest {
         List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
 
         //Buys the card
-        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
 
         //Actually tests the method
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
-            game.takeResourceFromStrongboxCard(UtilsForModel.typeToResource(resource), 1);
+            game.payResourceFromStrongbox(UtilsForModel.typeToResource(resource), 1);
             inStock.put(resource, inStock.get(resource)-1);
         }
 
@@ -609,7 +608,7 @@ class UserInterfaceTest {
 
         assertEquals(4, game.getCardTable().getGreenCards().get(2).size());
         // SECOND TURN: first player chooses to buy a DevelopmentCard
-        game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
         assertEquals(3, game.getCardTable().getGreenCards().get(2).size());
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
     }
@@ -637,9 +636,9 @@ class UserInterfaceTest {
         }
         // SECOND TURN: every player can only do one move out of 3 possible moves and he chooses to BUY A DEVELOPMENT CARD
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.takeResourceFromStrongboxCard(typeToResource(resourceType), 1);
+                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
             }
             game.endTurn();
         }
@@ -674,9 +673,9 @@ class UserInterfaceTest {
         }
         // SECOND TURN: every player can only do one move out of 3 possible moves
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.buyDevelopmentCard(CardColor.GREEN, 1, 1);
+            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.takeResourceFromStrongboxCard(typeToResource(resourceType), 1);
+                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
             }
             game.endTurn();
         }
@@ -693,7 +692,7 @@ class UserInterfaceTest {
         assertEquals(0, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
         // The player should now be able to do whatever he wants during the turn, he could even chose to buy a DevelopmentCard
         // coz he has realized he's dumb and doesn't really want to activate that stupid Production
-        game.buyDevelopmentCard(CardColor.YELLOW, 1, 2);
+        game.takeDevelopmentCard(CardColor.YELLOW, 1, 2);
 
     }
 
