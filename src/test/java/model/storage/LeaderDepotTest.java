@@ -241,11 +241,6 @@ class LeaderDepotTest {
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
         });
-
-        String expectedMessage = "Error: Resource is not present in sufficient quantity.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -258,11 +253,6 @@ class LeaderDepotTest {
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
         });
-
-        String expectedMessage = "Error: Resource is not present in sufficient quantity.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -277,11 +267,6 @@ class LeaderDepotTest {
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
         });
-
-        String expectedMessage = "Error: Resource is not present in sufficient quantity.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
