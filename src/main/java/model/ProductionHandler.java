@@ -119,12 +119,14 @@ public class ProductionHandler {
     public boolean resourcesAreEnough(PlayerBoard playerBoard) throws UnknownResourceException {
         int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
 
+        if(getCurrentInput().contains(new ResourceUnknown()))
+            throw new UnknownResourceException("input");
+        if(getCurrentOutput().contains(new ResourceUnknown()))
+            throw new UnknownResourceException("output");
+
         //TODO una versione che non usi gli if, magari prendendo il contenuto di currentInput e trasformandolo in una mappa come in playerboard.buyDevelopmentCard
-        // In più perchè usare getCurrentInput quando currentInput è un attributo della classe??
         for (Resource resource : getCurrentInput()) {
-            if (resource.equals(new ResourceUnknown()))
-                throw new UnknownResourceException("input");
-            else if (resource.equals(new ResourceCoin()))
+           if (resource.equals(new ResourceCoin()))
                 numCoin++;
             else if (resource.equals(new ResourceFaith()))
                 numFaith++;
@@ -134,10 +136,6 @@ public class ProductionHandler {
                 numShield++;
             else if (resource.equals(new ResourceStone()))
                 numStone++;
-        }
-        for (Resource resource : getCurrentOutput()) {
-            if (resource.equals(new ResourceUnknown()))
-                throw new UnknownResourceException("output");
         }
 
         //TODO come sopra
