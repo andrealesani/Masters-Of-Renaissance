@@ -73,15 +73,24 @@ class UserInterfaceTest {
         //PRE-TEST
 
         int NumOFDepots = 0;
-        if(LeaderCard1 instanceof DepotLeaderCard)
+
+        if(LeaderCard1 instanceof DepotLeaderCard) {
             NumOFDepots = game.getCurrentPlayer().getWarehouse().getNumOfDepots();
-        else if(LeaderCard1 instanceof DiscountLeaderCard)
+            System.out.println("DEPOT");
+        }
+        else if(LeaderCard1 instanceof DiscountLeaderCard) {
             assertTrue(game.getCurrentPlayer().getDiscounts().isEmpty());
-        else if(LeaderCard1 instanceof MarbleLeaderCard)
+            System.out.println("DISCOUNT");
+        }
+        else if(LeaderCard1 instanceof MarbleLeaderCard) {
             assertTrue(game.getCurrentPlayer().getMarbleConversions().isEmpty());
-        else if(LeaderCard1 instanceof ProductionLeaderCard)
+            assertEquals(0, game.getCurrentPlayer().getMarbleConversions().size());
+            System.out.println("WHITEMARBLE");
+        }
+        else if(LeaderCard1 instanceof ProductionLeaderCard) {
             assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
-        
+            System.out.println("PRODUCTION");
+        }
 
         //TEST
 
@@ -100,14 +109,19 @@ class UserInterfaceTest {
         //white
         //marbleconversion.get(0) , COIN
 
-        else if(LeaderCard1 instanceof MarbleLeaderCard)
+        else if(LeaderCard1 instanceof MarbleLeaderCard) {
             assertFalse(game.getCurrentPlayer().getMarbleConversions().isEmpty());
+            assertEquals(1, game.getCurrentPlayer().getMarbleConversions().size());
+            assertFalse(ResourceType.UNKNOWN == game.getCurrentPlayer().getMarbleConversions().get(0));
+            assertFalse(ResourceType.FAITH == game.getCurrentPlayer().getMarbleConversions().get(0));
+
+        }
 
         //production
         //game.getCurrentPlayer.getProductionHandler.getProductions.size(),  2
 
         else if(LeaderCard1 instanceof ProductionLeaderCard)
-            assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+            assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
 
     }
 
