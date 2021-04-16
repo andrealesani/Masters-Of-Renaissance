@@ -24,6 +24,9 @@ public class Warehouse {
      * @param numOfDepots the number of basic depots in the warehouse
      */
     public Warehouse(int numOfDepots) {
+        if (numOfDepots < 0) {
+            throw new ParametersNotValidException();
+        }
         for (int i = 1; i <= numOfDepots; i++) {
             depots.add(new BasicDepot(this, i));
         }
@@ -37,6 +40,9 @@ public class Warehouse {
      * @param depot the depot to be added
      */
     public void addNewDepot(ResourceDepot depot) {
+        if (depot == null) {
+            throw new ParametersNotValidException();
+        }
         depots.add(depot);
     }
 
@@ -46,16 +52,21 @@ public class Warehouse {
      * @param depotNumber the number of the depot to which to add the resource
      * @param resource    the resource to be added
      * @param quantity    the quantity of the resource to add
-     * @throws DepotNotPresentException   if the number of the target depot does not correspond to any depot in the warehouse
+     * @throws DepotNotPresentException        if the number of the target depot does not correspond to any depot in the warehouse
      * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the target depot
-     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
-     * @throws BlockedResourceException   if the depot is affected by resource blocking and the resource is being blocked by a different depot
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the target depot exceeds the depot's maximum capacity
+     * @throws BlockedResourceException        if the depot is affected by resource blocking and the resource is being blocked by a different depot
      */
     public void addToDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException {
-        if (depotNumber < 1 || depotNumber > depots.size()) {
+        if (depotNumber < 1 || quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (depotNumber > depots.size()) {
             throw new DepotNotPresentException(depotNumber);
         }
-        depots.get(depotNumber - 1).addResource(resource, quantity);
+        if (resource != null && quantity > 0) {
+            depots.get(depotNumber - 1).addResource(resource, quantity);
+        }
     }
 
     /**
@@ -68,10 +79,15 @@ public class Warehouse {
      * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
      */
     public void removeFromDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException {
-        if (depotNumber < 1 || depotNumber > depots.size()) {
+        if (depotNumber < 1 || quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (depotNumber > depots.size()) {
             throw new DepotNotPresentException(depotNumber);
         }
-        depots.get(depotNumber - 1).removeResource(resource, quantity);
+        if (resource != null && quantity > 0) {
+            depots.get(depotNumber - 1).removeResource(resource, quantity);
+        }
     }
 
     //TODO add a move depot content method
@@ -86,19 +102,18 @@ public class Warehouse {
      * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws DepotNotPresentException, ParametersNotValidException, SwapNotValidException {
-        if (depotNumber1 == depotNumber2) {
+        if (depotNumber1 < 1 || depotNumber2 < 1 || depotNumber1 == depotNumber2) {
             throw new ParametersNotValidException();
         }
-
-        if (depotNumber1 < 1 || depotNumber1 > depots.size()) {
+        if (depotNumber1 > depots.size()) {
             throw new DepotNotPresentException(depotNumber1);
         }
-        if (depotNumber2 < 1 || depotNumber2 > depots.size()) {
+        if (depotNumber2 > depots.size()) {
             throw new DepotNotPresentException(depotNumber2);
         }
 
-        ResourceDepot depot1 = depots.get(depotNumber1-1);
-        ResourceDepot depot2 = depots.get(depotNumber2-1);
+        ResourceDepot depot1 = depots.get(depotNumber1 - 1);
+        ResourceDepot depot2 = depots.get(depotNumber2 - 1);
 
         if (!depot1.canHoldContentOf(depot2) || !depot2.canHoldContentOf(depot1)) {
             throw new SwapNotValidException();
@@ -145,8 +160,11 @@ public class Warehouse {
      * @return true if one of the depots is blocking the resource
      */
     public boolean isResourceBlocked(ResourceType resource, List<ResourceDepot> exclusions) {
-        if (exclusions==null) {
-            exclusions=new ArrayList<>();
+        if (resource == null) {
+            return false;
+        }
+        if (exclusions == null) {
+            exclusions = new ArrayList<>();
         }
         for (ResourceDepot depot : depots) {
             if (!exclusions.contains(depot) && depot.isBlocking(resource)) {
@@ -174,7 +192,7 @@ public class Warehouse {
      * @return the requested depot
      */
     public ResourceDepot getDepot(int depotNumber) {
-        return depots.get(depotNumber-1);
+        return depots.get(depotNumber - 1);
     }
 
     /**

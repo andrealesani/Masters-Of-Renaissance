@@ -1,6 +1,7 @@
 package model.storage;
 
 import Exceptions.NotEnoughResourceException;
+import Exceptions.ParametersNotValidException;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -26,7 +27,10 @@ public class UnlimitedStorage implements ResourceStash {
      * @param quantity the amount of resource to add to the amount stored
      */
     public void addResource(ResourceType resource, int quantity) {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             if (!storageContent.containsKey(resource)) {
                 storageContent.put(resource, quantity);
             } else {
@@ -44,7 +48,10 @@ public class UnlimitedStorage implements ResourceStash {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             if (!storageContent.containsKey(resource)) {
                 throw new NotEnoughResourceException();
             }

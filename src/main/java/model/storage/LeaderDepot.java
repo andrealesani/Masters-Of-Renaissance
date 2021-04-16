@@ -33,6 +33,9 @@ public class LeaderDepot implements ResourceDepot {
      * @param resource the only type of resource the depot can contain
      */
     public LeaderDepot(int size, ResourceType resource) {
+        if (size <= 0 || resource == null) {
+            throw new ParametersNotValidException();
+        }
         this.size = size;
         this.acceptedResource = resource;
     }
@@ -45,11 +48,14 @@ public class LeaderDepot implements ResourceDepot {
      * @param resource the resource to be added
      * @param quantity the amount of resource to add to the amount stored
      * @throws WrongResourceInsertionException if the resource is not the kind accepted by this depot
-     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
-     * @throws BlockedResourceException   under no circumstance, because this type of depot is not affected by resource blocking
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException        under no circumstance, because this type of depot is not affected by resource blocking
      */
     public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             if (resource != acceptedResource) {
                 throw new WrongResourceInsertionException();
             }
@@ -69,7 +75,7 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public boolean canHoldContentOf(ResourceDepot depot) {
-        if (depot==null) {
+        if (depot == null) {
             return false;
         }
         List<ResourceType> depotResourcesList = depot.getStoredResources();
@@ -108,7 +114,10 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             if (resource != acceptedResource) {
                 throw new NotEnoughResourceException();
             }

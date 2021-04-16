@@ -37,6 +37,9 @@ public class BasicDepot implements ResourceDepot {
      * @param size      the maximum number of resources the depot can contain
      */
     public BasicDepot(Warehouse warehouse, int size) {
+        if (warehouse == null || size <= 0) {
+            throw new ParametersNotValidException();
+        }
         this.warehouse = warehouse;
         this.size = size;
     }
@@ -49,12 +52,15 @@ public class BasicDepot implements ResourceDepot {
      * @param resource the resource to be added
      * @param quantity the amount of resource to add to the amount stored
      * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the storage
-     * @throws NotEnoughSpaceException    if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
-     * @throws BlockedResourceException   if the resource is being blocked by a different depot
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored exceeds the maximum capacity
+     * @throws BlockedResourceException        if the resource is being blocked by a different depot
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             int newQuantity = amount + quantity;
             if (newQuantity > size) {
                 throw new NotEnoughSpaceException();
@@ -85,7 +91,7 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public boolean canHoldContentOf(ResourceDepot depot) {
-        if(depot==null) {
+        if (depot == null) {
             return false;
         }
         List<ResourceType> depotResourcesList = depot.getStoredResources();
@@ -112,7 +118,7 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public boolean isBlocking(ResourceType resource) {
-        if (amount == 0) {
+        if (amount == 0 || resource == null) {
             return false;
         }
         return resource == storedResource;
@@ -123,11 +129,14 @@ public class BasicDepot implements ResourceDepot {
      *
      * @param resource the resource to be decreased in quantity
      * @param quantity the amount of resource to remove from the amount stored
-     * @throws NotEnoughResourceException if the given resource is present in storage in fewer quantity than the amount to be deleted
+     * @throws NotEnoughResourceException  if the given resource is present in storage in fewer quantity than the amount to be deleted
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (resource!=null && quantity>0) {
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (resource != null && quantity > 0) {
             if (amount == 0 || resource != storedResource) {
                 throw new NotEnoughResourceException();
             }

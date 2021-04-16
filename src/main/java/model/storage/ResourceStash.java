@@ -13,7 +13,6 @@ import java.util.List;
 public interface ResourceStash {
     //PUBLIC METHODS
 
-    //TODO add wrong parameters exceptions
     /**
      * Remove a certain amount of the given resource from storage
      *
