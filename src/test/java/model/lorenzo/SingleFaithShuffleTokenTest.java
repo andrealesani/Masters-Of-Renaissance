@@ -5,6 +5,8 @@ import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.SingleFaithShuffleToken;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SingleFaithShuffleTokenTest {
@@ -14,7 +16,7 @@ class SingleFaithShuffleTokenTest {
      */
     @Test
     void doAction() {
-        Lorenzo lorenzo = new Lorenzo(new CardTable(), null);
+        Lorenzo lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
         ActionToken token = new SingleFaithShuffleToken(lorenzo);
 
         int tokenTotal = lorenzo.getActiveDeck().size();

@@ -1,5 +1,6 @@
 package model.lorenzo.tokens;
 
+import Exceptions.ParametersNotValidException;
 import model.lorenzo.Lorenzo;
 
 /**
@@ -19,6 +20,9 @@ public class DoubleFaithToken implements ActionToken {
      * @param lorenzo reference to Lorenzo instance
      */
     public DoubleFaithToken(Lorenzo lorenzo) {
+        if (lorenzo==null) {
+            throw new ParametersNotValidException();
+        }
         this.lorenzo = lorenzo;
     }
 

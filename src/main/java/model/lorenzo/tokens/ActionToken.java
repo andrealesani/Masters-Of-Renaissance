@@ -5,6 +5,7 @@ package model.lorenzo.tokens;
  */
 public interface ActionToken {
     //PUBLIC METHODS
+
     /**
      * Activates the specific action of the token that has been drawn
      */

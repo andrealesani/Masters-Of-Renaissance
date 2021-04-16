@@ -1,6 +1,7 @@
 package model.lorenzo.tokens;
 
 import Exceptions.EmptyDeckException;
+import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
 
@@ -26,6 +27,9 @@ public class RemoveCardsToken implements ActionToken {
      * @param cardTable reference to CardTable instance
      */
     public RemoveCardsToken(CardColor color, CardTable cardTable) {
+        if (color == null || cardTable == null) {
+            throw new ParametersNotValidException();
+        }
         this.color = color;
         this.cardTable = cardTable;
     }

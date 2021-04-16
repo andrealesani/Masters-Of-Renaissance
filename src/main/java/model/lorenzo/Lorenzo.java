@@ -1,5 +1,6 @@
 package model.lorenzo;
 
+import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
 import model.PopeFavorTile;
@@ -38,12 +39,14 @@ public class Lorenzo implements ArtificialIntelligence {
     /**
      * Constructor
      *
-     * @param cardTable the game's card table
+     * @param cardTable      the game's card table
      * @param popeFavorTiles the player's pope's favor tiles
      */
     public Lorenzo(CardTable cardTable, List<PopeFavorTile> popeFavorTiles) {
+        if (cardTable == null || popeFavorTiles == null) {
+            throw new ParametersNotValidException();
+        }
         faith = 0;
-        //TODO Read ActionTokens from file
         activeDeck.add(new RemoveCardsToken(CardColor.BLUE, cardTable));
         activeDeck.add(new RemoveCardsToken(CardColor.YELLOW, cardTable));
         activeDeck.add(new RemoveCardsToken(CardColor.PURPLE, cardTable));
@@ -72,7 +75,10 @@ public class Lorenzo implements ArtificialIntelligence {
      * @param quantity the amount by which to increase the faith score
      */
     public void addFaith(int quantity) {
-        faith+=quantity;
+        if (quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        faith += quantity;
     }
 
     /**
@@ -84,6 +90,9 @@ public class Lorenzo implements ArtificialIntelligence {
      * @return the index of the tile the with the highest index that has been triggered (during this turn)
      */
     public int getNewTriggeredTile(int lastTriggeredTile) {
+        if (lastTriggeredTile < 0 || lastTriggeredTile > popeFavorTiles.size()) {
+            throw new ParametersNotValidException();
+        }
         int newTriggeredTile = lastTriggeredTile;
         for (int tileNumber = lastTriggeredTile; tileNumber < popeFavorTiles.size(); tileNumber++) {
             if (popeFavorTiles.get(tileNumber).isTriggered(faith)) {
