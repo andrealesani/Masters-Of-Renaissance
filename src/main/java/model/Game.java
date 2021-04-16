@@ -91,7 +91,7 @@ public class Game implements UserInterface {
         initialLeaderCardNumber = 4;
         finalLeaderCardNumber = 2;
 
-        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
+        //TODO make vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
         int devCardMax = 7;
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
@@ -105,6 +105,7 @@ public class Game implements UserInterface {
         Production baseProduction = new Production(baseProdInput, baseProdOutput);
 
         for (String nickname : nicknames) {
+            //TODO make popefavor tiles initialized in json?
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
             popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
             popeFavorTiles.add(new PopeFavorTile(3, 16, 5));

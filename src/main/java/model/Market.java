@@ -84,10 +84,10 @@ public class Market {
     public void selectRow(int numScope, PlayerBoard playerBoard) {
         int riga;
 
-            riga = numScope;
-            for (int j = 0; j < 4; j++)
-                board[riga][j].addResourceFromMarket(playerBoard);
-            shiftRow(riga);
+        riga = numScope;
+        for (int j = 0; j < 4; j++)
+            board[riga][j].addResourceFromMarket(playerBoard);
+        shiftRow(riga);
     }
 
     /**
@@ -99,10 +99,10 @@ public class Market {
     public void selectColumn(int numScope, PlayerBoard playerBoard) {
         int col;
 
-            col = numScope;
-            for (int i = 0; i < 3; i++)
-                board[i][col].addResourceFromMarket(playerBoard);
-            shiftColumn(col);
+        col = numScope;
+        for (int i = 0; i < 3; i++)
+            board[i][col].addResourceFromMarket(playerBoard);
+        shiftColumn(col);
     }
 
     //PRIVATE METHODS
@@ -110,42 +110,42 @@ public class Market {
     /**
      * Shifts the given row based on the market's rules, substituting the marble on the slide
      *
-     * @param numScope    the number of the selected row
+     * @param numScope the number of the selected row
      */
     private void shiftRow(int numScope) {
         int riga;
         Resource temp;
 
 
-            riga = numScope;
-            int j = 0;
-            temp = board[riga][j];
-            for (j = 0; j < 3; j++)
-                board[riga][j] = board[riga][j + 1];
+        riga = numScope;
+        int j = 0;
+        temp = board[riga][j];
+        for (j = 0; j < 3; j++)
+            board[riga][j] = board[riga][j + 1];
 
 
-            board[riga][j] = slideMarble;
-            slideMarble = temp;
+        board[riga][j] = slideMarble;
+        slideMarble = temp;
     }
 
     /**
      * Shifts the given column based on the market's rules, substituting the marble on the slide
      *
-     * @param numScope    the number of the selected column
+     * @param numScope the number of the selected column
      */
     private void shiftColumn(int numScope) {
         int col;
         Resource temp;
 
 
-            col = numScope;
-            int i = 0;
-            temp = board[i][col];
-            for (i = 0; i < 2; i++)
-                board[i][col] = board[i + 1][col];
+        col = numScope;
+        int i = 0;
+        temp = board[i][col];
+        for (i = 0; i < 2; i++)
+            board[i][col] = board[i + 1][col];
 
-            board[i][col] = slideMarble;
-            slideMarble = temp;
+        board[i][col] = slideMarble;
+        slideMarble = temp;
 
 
     }
