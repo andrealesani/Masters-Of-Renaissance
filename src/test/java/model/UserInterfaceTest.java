@@ -878,7 +878,7 @@ class UserInterfaceTest {
 
         //Checks that other players' faith has been increased by amount of discarded resources
         assertEquals(discarded, players.get(1).getFaith());
-        assertEquals(discarded, players.get(2).getFaith());
+        assertEquals(discarded+1, players.get(2).getFaith());
 
         //Checks that productions have been reset
         assertTrue(players.get(0).isProductionInputEmpty());

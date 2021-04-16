@@ -124,7 +124,7 @@ public class Game implements UserInterface {
 
         //TODO initialize in a JSON
         int[] firstTurnBonusResources = {0, 1, 1, 2};
-        int[] firstTurnBonusFaith = {0, 1, 1, 2};
+        int[] firstTurnBonusFaith = {0, 0, 1, 1};
         for (int i = 0; i<playersTurnOrder.size(); i++) {
             playersTurnOrder.get(i).addWhiteNoCheck(firstTurnBonusResources[i]);
             playersTurnOrder.get(i).addFaith(firstTurnBonusFaith[i]);
