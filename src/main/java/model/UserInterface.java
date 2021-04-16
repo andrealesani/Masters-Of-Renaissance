@@ -19,6 +19,7 @@ public interface UserInterface {
      *
      * @param resource the type of bonus resource to get
      * @param quantity the amount of resource to get
+     * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
     void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
 

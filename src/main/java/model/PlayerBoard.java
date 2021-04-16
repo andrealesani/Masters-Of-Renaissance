@@ -10,6 +10,7 @@ import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 
+import java.io.ObjectStreamException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,6 +98,9 @@ public class PlayerBoard {
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
     public PlayerBoard(Game game, String username, int finalFaith, List<PopeFavorTile> popeFavorTiles) {
+        if (game == null || username == null || finalFaith<=0 || popeFavorTiles==null) {
+            throw new ParametersNotValidException();
+        }
 
         //TODO make vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
         int devCardMax = 7;
