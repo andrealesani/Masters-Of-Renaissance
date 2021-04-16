@@ -101,7 +101,7 @@ class CardTableTest {
     }
 
     @Test
-    void buyTopCard() throws SlotNotValidException, NotEnoughResourceException {
+    void buyTopCard() throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         CardTable cardTable = new CardTable();
         PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
         UnlimitedStorage strongbox = playerBoard.getStrongbox();

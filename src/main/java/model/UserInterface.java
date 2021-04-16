@@ -89,7 +89,7 @@ public interface UserInterface {
      * @param row       the card table row from which to buy the card
      * @param slot      the car slot in which to put the card
      */
-    void takeDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException;
+    void takeDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException;
 
     /**
      * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse

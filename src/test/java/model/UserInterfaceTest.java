@@ -333,7 +333,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException {
+    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -414,7 +414,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+    void takeResourceFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -623,7 +623,7 @@ class UserInterfaceTest {
 
     // ANDRE SECTION
     @Test
-    void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+    void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -657,7 +657,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void selectProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+    void selectProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -696,7 +696,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void resetProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+    void resetProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -745,7 +745,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException {
+    void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -1051,7 +1051,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+    void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -1093,7 +1093,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+    void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");

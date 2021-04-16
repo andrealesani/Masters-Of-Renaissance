@@ -2,6 +2,7 @@ package model;
 
 import Exceptions.EmptyDeckException;
 import Exceptions.NotEnoughResourceException;
+import Exceptions.ParametersNotValidException;
 import Exceptions.SlotNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,16 +58,23 @@ public class CardTable {
      * @param playerBoard specifies which player is buying the card
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
-    public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException {
-        //TODO controllare che i deck non siano vuoti
-        int row = -1;
+    public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
+        if(cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
+            throw new ParametersNotValidException();
+
         // Hardcoded connection between the card's level and its row in the CardTable
+        int row = -1;
         if (level == 1)
             row = 2;
         else if (level == 2)
             row = 1;
         else if (level == 3)
             row = 0;
+
+        // Checks that the deck is not empty before trying to access it
+        if(colorToColumn(cardColor).get(row).isEmpty())
+            throw new EmptyDeckException();
+
         playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row).get(0), cardSlot);
         colorToColumn(cardColor).get(row).remove(0);
     }

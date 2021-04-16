@@ -290,7 +290,7 @@ public class Game implements UserInterface {
      * @param slot      the car slot in which to put the card
      */
     @Override
-    public void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException {
+    public void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
