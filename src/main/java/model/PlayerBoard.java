@@ -5,6 +5,7 @@ import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
+import model.resource.ResourceUnknown;
 import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
@@ -93,10 +94,24 @@ public class PlayerBoard {
      *
      * @param game           reference to the game the player is playing
      * @param username       nickname that the player chose in the lobby
-     * @param numOfDepots    the number of basic depots to be instantiated in the warehouse
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
-    public PlayerBoard(Game game, String username, int numOfDepots, int finalFaith, int devCardMax, int[] vpFaithTiles, int[] vpFaithValues, List<PopeFavorTile> popeFavorTiles, Production baseProduction) {
+    public PlayerBoard(Game game, String username, int finalFaith, List<PopeFavorTile> popeFavorTiles) {
+
+        //TODO make vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
+        int devCardMax = 7;
+        int devCardSlots = 3;
+        int numOfDepots = 3;
+        int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
+        int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
+        Resource jolly = new ResourceUnknown();
+        List<Resource> baseProdInput = new ArrayList<>();
+        baseProdInput.add(jolly);
+        baseProdInput.add(jolly);
+        List<Resource> baseProdOutput = new ArrayList<>();
+        baseProdOutput.add(jolly);
+        Production baseProduction = new Production(baseProdInput, baseProdOutput);
+
         this.game = game;
         this.username = username;
         faith = 0;
@@ -111,7 +126,7 @@ public class PlayerBoard {
         this.devCardMax = devCardMax;
         this.vpFaithTiles = vpFaithTiles;
         this.vpFaithValues = vpFaithValues;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < devCardSlots; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
@@ -125,8 +140,8 @@ public class PlayerBoard {
         game = null;
         username = null;
         faith = 0;
-        popeFavorTiles = null;
-        warehouse = new Warehouse(0);
+        popeFavorTiles = new ArrayList<>();
+        warehouse = new Warehouse(3);
         waitingRoom = new UnlimitedStorage();
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
@@ -577,11 +592,12 @@ public class PlayerBoard {
 
     /**
      * Converts the given amount of white marbles into the given resource
+     *
      * @param resource the resource into which to convert the white marbles
      * @param quantity the amount of resource to convert
      * @throws NotEnoughResourceException if there are not enough white marbles to get the required resource
      */
-    public void chooseStartingResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
+    public void chooseStartingResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
         int newQuantity = whiteMarbleNum - quantity;
         if (newQuantity < 0) {
             throw new NotEnoughResourceException();

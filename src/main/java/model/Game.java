@@ -91,19 +91,6 @@ public class Game implements UserInterface {
         initialLeaderCardNumber = 4;
         finalLeaderCardNumber = 2;
 
-        //TODO make vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
-        int devCardMax = 7;
-        int numOfDepots = 3;
-        int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
-        int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
-        Resource jolly = new ResourceUnknown();
-        List<Resource> baseProdInput = new ArrayList<>();
-        baseProdInput.add(jolly);
-        baseProdInput.add(jolly);
-        List<Resource> baseProdOutput = new ArrayList<>();
-        baseProdOutput.add(jolly);
-        Production baseProduction = new Production(baseProdInput, baseProdOutput);
-
         for (String nickname : nicknames) {
             //TODO make popefavor tiles initialized in json?
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
@@ -115,7 +102,7 @@ public class Game implements UserInterface {
                 lorenzo = new Lorenzo(cardTable, popeFavorTiles);
             }
 
-            playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles, baseProduction));
+            playersTurnOrder.add(new PlayerBoard(this, nickname, finalFaith, popeFavorTiles));
         }
 
         //TODO give leadercards to player in constructor?

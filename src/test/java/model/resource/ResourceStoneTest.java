@@ -1,6 +1,7 @@
 package model.resource;
 
 import Exceptions.*;
+import model.Game;
 import model.PlayerBoard;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class ResourceStoneTest {
 
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
         ResourceStone stone = new ResourceStone();
 
         stone.addResourceFromMarket(playerBoard);

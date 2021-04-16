@@ -180,7 +180,7 @@ class MarketTest {
     public void selectResourcesRow() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
         int riga = 0;
         int countNormal = 0, countFaith = 0;
 
@@ -211,7 +211,7 @@ class MarketTest {
     public void selectResourcesColumn() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
         int col = 0;
         int countNormal = 0, countFaith = 0;
 
@@ -241,7 +241,7 @@ class MarketTest {
     @Test
     public void shiftResourcesRow(){
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
 
         Resource[][] actualBoard = market.getBoard();
         Resource oldSlideOrb = market.getSlideOrb();
@@ -339,7 +339,7 @@ class MarketTest {
     @Test
     public void shiftResourcesColumn(){
         Market market = new Market();
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
 
         Resource[][] actualBoard = market.getBoard();
         Resource oldSlideOrb = market.getSlideOrb();

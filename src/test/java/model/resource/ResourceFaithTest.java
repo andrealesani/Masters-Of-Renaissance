@@ -15,7 +15,7 @@ class ResourceFaithTest {
 
     @Test
     void addResourceFromMarket() {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
         ResourceFaith faith = new ResourceFaith();
 
         faith.addResourceFromMarket(playerBoard);
@@ -27,7 +27,7 @@ class ResourceFaithTest {
 
     @Test
     void addResourceFromProduction() {
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
         ResourceFaith faith = new ResourceFaith();
 
         faith.addResourceFromMarket(playerBoard);

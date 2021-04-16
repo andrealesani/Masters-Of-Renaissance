@@ -160,7 +160,7 @@ class ProductionHandlerTest {
     @Test
     void resourcesAreEnough() throws UnknownResourceException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
         // Creates a PlayerBoard
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
 
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
         // Then it selects the production
@@ -215,7 +215,7 @@ class ProductionHandlerTest {
     @Test
     void takeResource() throws UnknownResourceException, ResourceNotPresentException {
         // Creates a PlayerBoard
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
 
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
         // Then it selects the production

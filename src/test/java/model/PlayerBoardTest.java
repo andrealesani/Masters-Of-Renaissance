@@ -10,8 +10,6 @@ class PlayerBoardTest {
 
     @Test
     void addResourceToWarehouse() {
-        new PlayerBoard(null, null, 3, 24, 7, null, null, null, null);
-        
     }
 
     @Test

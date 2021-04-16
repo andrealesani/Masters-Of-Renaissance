@@ -14,7 +14,7 @@ class DepotLeaderCardTest {
     @Test
     void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
-        PlayerBoard playerBoard = new PlayerBoard(null, null, 3, 100, 100, null, null, null, null);
+        PlayerBoard playerBoard = new PlayerBoard();
 
         leaderCard.doAction(playerBoard);
         assertEquals(4, playerBoard.getWarehouse().getNumOfDepots());
