@@ -25,7 +25,7 @@ public class ResourceCoin extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(getType(), 1);
+        playerBoard.addResourceToWaitingRoom(getType(), 1);
     }
 
     /**

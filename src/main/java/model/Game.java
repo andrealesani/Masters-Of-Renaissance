@@ -303,37 +303,6 @@ public class Game implements UserInterface {
         turnPhase = TurnPhase.CARDPAYMENT;
     }
 
-    /**
-     * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
-     *
-     * @param depotNumber the number of the depot from which to take the resource
-     * @param resource    the resource to take
-     * @param quantity    the amount of resource to take (and of cost to pay)
-     */
-    @Override
-    public void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.CARDPAYMENT) {
-            throw new WrongTurnPhaseException();
-        }
-        //TODO resource null, negative quantity, no more debt
-        currentPlayer.takeResourceFromWarehouseCard(depotNumber, resource.getType(), quantity);
-    }
-
-    /**
-     * Allows the player to pay the development card cost by taking resources from the strongbox
-     *
-     * @param resource the resource to take
-     * @param quantity the amount of resource to take (and of cost to pay)
-     */
-    @Override
-    public void payResourceFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.CARDPAYMENT) {
-            throw new WrongTurnPhaseException();
-        }
-        //TODO resource null, negative quantity, no more debt
-        currentPlayer.takeResourceFromStrongboxCard(resource.getType(), quantity);
-    }
-
     //Production selection actions
 
     /**
@@ -402,31 +371,44 @@ public class Game implements UserInterface {
         currentPlayer.chooseJollyOutput(resource);
     }
 
+    //Debt payment actions
+
     /**
-     * Allows the player to pay the production cost by taking resources from the given depot in the warehouse
+     * Allows the player to pay the development card cost by taking resources from the given depot in the warehouse
      *
      * @param depotNumber the number of the depot from which to take the resource
      * @param resource    the resource to take
      * @param quantity    the amount of resource to take (and of cost to pay)
      */
     @Override
-    public void takeResourceFromWarehouseProduction(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
+    public void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
+        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
-        currentPlayer.takeResourceFromWarehouseProduction(depotNumber, resource, quantity);
+        currentPlayer.takeResourceFromWarehouse(depotNumber, resource.getType(), quantity);
     }
 
+    /**
+     * Allows the player to pay the development card cost by taking resources from the strongbox
+     *
+     * @param resource the resource to take
+     * @param quantity the amount of resource to take (and of cost to pay)
+     */
     @Override
-    public void takeResourceFromStrongboxProduction(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
+    public void payFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
             throw new WrongTurnPhaseException();
         }
         //TODO resource null, negative quantity, no more debt
-        currentPlayer.takeResourceFromStrongboxProduction(resource, quantity);
+        currentPlayer.takeResourceFromStrongbox(resource.getType(), quantity);
     }
 
+    //End turn actions
+
+    /**
+     * Allows the player to end their current turn
+     */
     @Override
     public void endTurn() throws WrongTurnPhaseException {
         if (turnPhase == TurnPhase.ACTIONSELECTION) {
@@ -448,9 +430,10 @@ public class Game implements UserInterface {
 
         } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
 
-            if (!currentPlayer.isProductionInputEmpty()) {
+            if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
+            currentPlayer.releaseProductionOutput();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         }

@@ -25,7 +25,7 @@ public class ResourceServant extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.SERVANT, 1);
+        playerBoard.addResourceToWaitingRoom(ResourceType.SERVANT, 1);
     }
 
     /**

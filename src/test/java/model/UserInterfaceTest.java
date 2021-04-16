@@ -223,9 +223,9 @@ class UserInterfaceTest {
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
         player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
-        player.addResourceToWarehouse(ResourceType.SHIELD, 3);
-        player.addResourceToWarehouse(ResourceType.COIN, 1);
-        player.addResourceToWarehouse(ResourceType.STONE, 1);
+        player.addResourceToWaitingRoom(ResourceType.SHIELD, 3);
+        player.addResourceToWaitingRoom(ResourceType.COIN, 1);
+        player.addResourceToWaitingRoom(ResourceType.STONE, 1);
 
         //to change game phase to MARKETDISTRIBUTION
         game.selectMarketRow(1);
@@ -455,7 +455,7 @@ class UserInterfaceTest {
         //Actually tests the method
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
-            game.payResourceFromStrongbox(UtilsForModel.typeToResource(resource), 1);
+            game.payFromStrongbox(UtilsForModel.typeToResource(resource), 1);
             inStock.put(resource, inStock.get(resource)-1);
         }
 
@@ -491,12 +491,29 @@ class UserInterfaceTest {
             game.endTurn();
         }
 
-        //Adds manually resources to the depots
+        //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN));
+
+        //Adds manually resources to the depots
         Warehouse warehouse = player.getWarehouse();
         warehouse.addToDepot(1, ResourceType.SHIELD, 1);
         warehouse.addToDepot(2, ResourceType.COIN, 2);
         warehouse.addToDepot(3, ResourceType.STONE, 3);
+        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
+        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
+        warehouse.addToDepot(6, ResourceType.STONE, 20);
+        warehouse.addToDepot(7, ResourceType.COIN, 20);
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 23);
+        inStock.put(ResourceType.COIN, 22);
+        inStock.put(ResourceType.SHIELD, 21);
+        inStock.put(ResourceType.SERVANT, 20);
 
         //Loads two productions in current player's board
         List<Resource> input = new ArrayList<>();
@@ -520,32 +537,42 @@ class UserInterfaceTest {
         //Confirm choice
         game.confirmProductionChoice();
 
+        //Saves the cost of the productions
+        List<Resource> cost = new ArrayList<>();
+        cost.addAll(input);
+        cost.add(new ResourceCoin());
+        cost.add(new ResourceStone());
+
         //Actually tests the method
-        game.takeResourceFromWarehouseProduction(1, new ResourceShield(), 1);
-        game.takeResourceFromWarehouseProduction(2, new ResourceCoin(), 1);
-        game.takeResourceFromWarehouseProduction(3, new ResourceStone(), 2);
+        for (Resource resource : cost) {
+            for (int i=1; i<8; i++) {
+                try {
+                    game.payFromWarehouse(i, UtilsForModel.typeToResource(resource.getType()), 1);
+                    inStock.put(resource.getType(), inStock.get(resource.getType())-1);
+                    break;
+                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
+                    //DO NOTHING
+                }
+            }
+        }
 
         game.endTurn();
 
-        //Verifies quantities left in warehouse
-        assertEquals (0, warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
-        assertEquals (1, warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
-        assertEquals (1, warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
+        //verifies quantities left
+        assertEquals (inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals (inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals (inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals (inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
 
-        //Verifies quantities earned in strongbox and faith score
-        UnlimitedStorage strongbox = player.getStrongbox();
-        assertEquals (2, strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals (0, strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (0, strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals (0, strongbox.getNumOfResource(ResourceType.STONE));
-        assertEquals (2, player.getFaith());
+        //Visual verification
+        System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
+        System.out.println(warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(4).getNumOfResource(ResourceType.SERVANT));
+        System.out.println(warehouse.getDepot(5).getNumOfResource(ResourceType.SHIELD));
+        System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
+        System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
 
-        //Some more checks just to be safe
-        strongbox.addResource(ResourceType.COIN, 3);
-        assertEquals (0, player.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (4, player.getNumOfResource(ResourceType.COIN));
-        assertEquals (1, player.getNumOfResource(ResourceType.STONE));
-        assertEquals (2, player.getNumOfResource(ResourceType.SERVANT));
     }
 
     @Test
@@ -600,8 +627,8 @@ class UserInterfaceTest {
         game.confirmProductionChoice();
 
         //Actually tests the method
-        game.takeResourceFromStrongboxProduction(new ResourceShield(), 5);
-        game.takeResourceFromStrongboxProduction(new ResourceCoin(), 18);
+        game.payFromStrongbox(new ResourceShield(), 5);
+        game.payFromStrongbox(new ResourceCoin(), 18);
 
         game.endTurn();
 
@@ -683,7 +710,7 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(typeToResource(resourceType), 1);
             }
             game.endTurn();
         }
@@ -722,7 +749,7 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(typeToResource(resourceType), 1);
             }
             game.endTurn();
         }
@@ -771,7 +798,7 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(typeToResource(resourceType), 1);
             }
             game.endTurn();
         }
@@ -1084,7 +1111,7 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(typeToResource(resourceType), 1);
             }
 
             // Game should end after the last player's turn
@@ -1122,7 +1149,7 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(typeToResource(resourceType), 1);
             }
 
             // Game should end after the last player's turn
