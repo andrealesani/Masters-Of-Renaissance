@@ -60,7 +60,7 @@ class WarehouseTest {
         Warehouse warehouse = new Warehouse (2);
         warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
 
-        Exception ex = assertThrows(DepotNotPresentException.class, () -> {
+        Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.addToDepot(0, ResourceType.SHIELD, 1);
         });
 
@@ -105,7 +105,7 @@ class WarehouseTest {
         warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
         warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
 
-        Exception ex = assertThrows(DepotNotPresentException.class, () -> {
+        Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.removeFromDepot(0, ResourceType.SHIELD, 1);
         });
 
@@ -218,7 +218,7 @@ class WarehouseTest {
     void swapDepotDepotNotPresent() {
         Warehouse warehouse = new Warehouse (1);
 
-        Exception ex = assertThrows(DepotNotPresentException.class, () -> {
+        Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.swapDepotContent(1,0);
         });
 
