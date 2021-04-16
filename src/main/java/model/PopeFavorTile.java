@@ -1,5 +1,7 @@
 package model;
 
+import Exceptions.ParametersNotValidException;
+
 /**
  * This class represents a single Pope's Favor Tile and all of its distinctive parameters.
  * It has methods for changing its state depending on the player's faith score, and to determine how many victory points they earn from it.
@@ -32,6 +34,9 @@ public class PopeFavorTile {
      * @param activeSectionSize the size of the area before and including the popeSpaceValue that constitutes the tile activation area
      */
     public PopeFavorTile(int victoryPoints, int popeSpaceValue, int activeSectionSize) {
+        if (victoryPoints < 0 || popeSpaceValue <= 0 || activeSectionSize <= 0) {
+            throw new ParametersNotValidException();
+        }
         this.victoryPoints = victoryPoints;
         this.activeSectionSize = activeSectionSize;
         this.popeSpaceValue = popeSpaceValue;

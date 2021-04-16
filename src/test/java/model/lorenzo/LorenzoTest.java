@@ -44,7 +44,7 @@ class LorenzoTest {
     @Test
     void getNewTriggeredTile() {
         List<PopeFavorTile> tileList = new ArrayList<>();
-        PopeFavorTile tile1 = new PopeFavorTile(0, 10, 0);
+        PopeFavorTile tile1 = new PopeFavorTile(0, 10, 1);
         tileList.add(tile1);
         ArtificialIntelligence lorenzo = new Lorenzo(new CardTable(), tileList);
 

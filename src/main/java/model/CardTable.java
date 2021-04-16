@@ -69,7 +69,7 @@ public class CardTable {
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
     public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
-        if(cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
+        if (cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
             throw new ParametersNotValidException();
 
         // Hardcoded connection between the card's level and its row in the CardTable
@@ -82,7 +82,7 @@ public class CardTable {
             row = 0;
 
         // Checks that the deck is not empty before trying to access it
-        if(cardTable.get(cardColor).get(row).isEmpty())
+        if (cardTable.get(cardColor).get(row).isEmpty())
             throw new EmptyDeckException();
 
         playerBoard.buyDevelopmentCard(cardTable.get(cardColor).get(row).get(0), cardSlot);
