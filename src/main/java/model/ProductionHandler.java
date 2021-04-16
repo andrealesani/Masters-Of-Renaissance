@@ -6,6 +6,9 @@ import model.resource.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static model.ResourceType.*;
 
@@ -124,31 +127,17 @@ public class ProductionHandler {
         if(getCurrentOutput().contains(new ResourceUnknown()))
             throw new UnknownResourceException("output");
 
-        //TODO una versione che non usi gli if, magari prendendo il contenuto di currentInput e trasformandolo in una mappa come in playerboard.buyDevelopmentCard
-        for (Resource resource : getCurrentInput()) {
-           if (resource.equals(new ResourceCoin()))
-                numCoin++;
-            else if (resource.equals(new ResourceFaith()))
-                numFaith++;
-            else if (resource.equals(new ResourceServant()))
-                numServant++;
-            else if (resource.equals(new ResourceShield()))
-                numShield++;
-            else if (resource.equals(new ResourceStone()))
-                numStone++;
-        }
+        //Turns the input into a map, and makes a set of the different resource types it contains
+        List<ResourceType> input = getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList());
+        Map<ResourceType, Long> inputQuantities =
+                input.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        Set<ResourceType> inputCostMap = inputQuantities.keySet();
 
-        //TODO come sopra
-        if (playerBoard.getNumOfResource(COIN) < numCoin)
-            return false;
-        if (playerBoard.getNumOfResource(FAITH) < numFaith)
-            return false;
-        if (playerBoard.getNumOfResource(SERVANT) < numServant)
-            return false;
-        if (playerBoard.getNumOfResource(SHIELD) < numShield)
-            return false;
-        if (playerBoard.getNumOfResource(STONE) < numStone)
-            return false;
+        for (ResourceType resourceType: inputCostMap) {
+            int resourceCost = Math.toIntExact(inputQuantities.get(resourceType));
+            if (playerBoard.getNumOfResource(resourceType) < resourceCost )
+                return false;
+        }
 
         return true;
     }
