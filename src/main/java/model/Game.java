@@ -151,7 +151,6 @@ public class Game implements UserInterface {
      * @param quantity the amount of resource to get
      * @throws WrongTurnPhaseException if the player attempts this action when they are not allowed to
      */
-    //TODO integrate with 'take resource from' methods
     public void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
@@ -217,7 +216,7 @@ public class Game implements UserInterface {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
-        //TODO marketscope null, numScope invalido, currentPlayer null
+        //TODO num scope invalido, currentPlayer null
         market.selectRow(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.MARKETDISTRIBUTION;
@@ -233,7 +232,7 @@ public class Game implements UserInterface {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
-        //TODO marketscope null, numScope invalido, currentPlayer null
+        //TODO numScope invalido, currentPlayer null
         market.selectColumn(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.MARKETDISTRIBUTION;
@@ -276,6 +275,7 @@ public class Game implements UserInterface {
      * @param depotNumber1 the number of the first depot to swap
      * @param depotNumber2 the number of the second depot to swap
      */
+    @Override
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException, WrongTurnPhaseException {
         if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
@@ -291,13 +291,13 @@ public class Game implements UserInterface {
      * @param resource the resource to move between the two depots
      * @param quantity the quantity of the resource to move
      */
+    @Override
     public void moveDepotContent(int depotNumberTake, int depotNumberGive, Resource resource, int quantity) throws WrongTurnPhaseException, DepotNotPresentException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, NotEnoughResourceException {
         if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         currentPlayer.moveDepotContent(depotNumberTake, depotNumberGive, resource.getType(), quantity);
     }
-
 
     //DevelopmentCard purchasing actions
 
