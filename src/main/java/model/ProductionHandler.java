@@ -60,7 +60,7 @@ public class ProductionHandler {
      * @param production specifies the Production to be removed
      */
     public void removeProduction(Production production) {
-        if(production.isSelectedByHandler())
+        if (production.isSelectedByHandler())
             throw new RuntimeException("Can't remove a production when it's selected, please use resetProductionChoice() before calling this method");
         productions.remove(production);
     }
@@ -96,7 +96,7 @@ public class ProductionHandler {
      * @param productionNumber indicates the number of the required production
      */
     public void selectProduction(int productionNumber) {
-        productions.get(productionNumber-1).select();
+        productions.get(productionNumber - 1).select();
 
         updateCurrentInput();
         updateCurrentOutput();
@@ -122,9 +122,9 @@ public class ProductionHandler {
     public boolean resourcesAreEnough(PlayerBoard playerBoard) throws UnknownResourceException {
         int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
 
-        if(getCurrentInput().contains(new ResourceUnknown()))
+        if (getCurrentInput().contains(new ResourceUnknown()))
             throw new UnknownResourceException("input");
-        if(getCurrentOutput().contains(new ResourceUnknown()))
+        if (getCurrentOutput().contains(new ResourceUnknown()))
             throw new UnknownResourceException("output");
 
         //Turns the input into a map, and makes a set of the different resource types it contains
@@ -133,9 +133,10 @@ public class ProductionHandler {
                 input.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         Set<ResourceType> inputCostMap = inputQuantities.keySet();
 
-        for (ResourceType resourceType: inputCostMap) {
+        //Controls that for each ResourceType in the map the player has enough Resources to pay up the cost
+        for (ResourceType resourceType : inputCostMap) {
             int resourceCost = Math.toIntExact(inputQuantities.get(resourceType));
-            if (playerBoard.getNumOfResource(resourceType) < resourceCost )
+            if (playerBoard.getNumOfResource(resourceType) < resourceCost)
                 return false;
         }
 
@@ -216,7 +217,7 @@ public class ProductionHandler {
     public List<Production> getSelectedProductions() {
         List<Production> selectedProductions = new ArrayList<>();
         for (Production production : productions) {
-            if(production.isSelectedByHandler())
+            if (production.isSelectedByHandler())
                 selectedProductions.add(production);
         }
         return selectedProductions;
