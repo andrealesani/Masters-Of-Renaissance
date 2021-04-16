@@ -1,11 +1,8 @@
 package model.lorenzo;
 
-import model.CardColor;
 import model.CardTable;
 import model.PopeFavorTile;
 import model.lorenzo.tokens.ActionToken;
-import model.lorenzo.tokens.DoubleFaithToken;
-import model.lorenzo.tokens.RemoveCardsToken;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -35,8 +32,8 @@ class LorenzoTest {
     void increaseFaith() {
         ArtificialIntelligence lorenzo = new Lorenzo(null, null);
 
-        lorenzo.increaseFaith(13);
-        lorenzo.increaseFaith(13);
+        lorenzo.addFaith(13);
+        lorenzo.addFaith(13);
 
         assertEquals(26, lorenzo.getFaith());
     }
@@ -53,11 +50,11 @@ class LorenzoTest {
 
         assertEquals(0, lorenzo.getNewTriggeredTile(0));
 
-        lorenzo.increaseFaith(5);
+        lorenzo.addFaith(5);
 
         assertEquals(0, lorenzo.getNewTriggeredTile(0));
 
-        lorenzo.increaseFaith(5);
+        lorenzo.addFaith(5);
 
         assertEquals(1, lorenzo.getNewTriggeredTile(0));
     }

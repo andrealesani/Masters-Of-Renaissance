@@ -37,7 +37,7 @@ public class SingleFaithShuffleToken implements ActionToken {
      * Increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
      */
     private void singleIncreaseShuffle() {
-        lorenzo.increaseFaith(1);
+        lorenzo.addFaith(1);
         lorenzo.shuffleDeck();
     }
 }

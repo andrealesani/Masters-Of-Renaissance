@@ -7,7 +7,6 @@ import model.CardColor;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.card.DevelopmentCard;
-import model.resource.ResourceStone;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -52,11 +51,11 @@ class DiscountLeaderCardTest {
         PlayerBoard playerBoard = new PlayerBoard();
 
         assertFalse(discountLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, developmentCard);
+        playerBoard.addDevelopmentCardNoCheck(1, developmentCard);
         assertFalse(discountLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
+        playerBoard.addDevelopmentCardNoCheck(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
         assertFalse(discountLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
+        playerBoard.addDevelopmentCardNoCheck(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
         assertTrue(discountLeaderCard.areRequirementsMet(playerBoard));
     }
 

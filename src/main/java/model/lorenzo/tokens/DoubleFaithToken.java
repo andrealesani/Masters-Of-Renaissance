@@ -36,6 +36,6 @@ public class DoubleFaithToken implements ActionToken {
      * Increases Lorenzo's faith by 2 points
      */
     private void doubleIncrease() {
-        lorenzo.increaseFaith(2);
+        lorenzo.addFaith(2);
     }
 }

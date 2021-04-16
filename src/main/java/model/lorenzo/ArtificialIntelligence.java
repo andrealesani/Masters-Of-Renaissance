@@ -17,7 +17,7 @@ public interface ArtificialIntelligence {
      *
      * @param quantity the amount by which to increase the faith score
      */
-    void increaseFaith(int quantity);
+    void addFaith(int quantity);
 
     /**
      * Checks the necessity for a vatican report by checking the player's pope's favor tiles, starting from the one with the highest index to not have yet been triggered up until last turn.

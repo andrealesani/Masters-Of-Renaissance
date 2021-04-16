@@ -71,7 +71,7 @@ public class Lorenzo implements ArtificialIntelligence {
      *
      * @param quantity the amount by which to increase the faith score
      */
-    public void increaseFaith(int quantity) {
+    public void addFaith(int quantity) {
         faith+=quantity;
     }
 

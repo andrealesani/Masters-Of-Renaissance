@@ -86,10 +86,12 @@ public class Game implements UserInterface {
         turnPhase = TurnPhase.LEADERCHOICE;
         initializeLeaderCards();
 
-        //TODO make popefavortiles, leaderCardNumbers, vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and finalfaith initialized in a JSON
+        //TODO make these attributes initialized in a JSON (these ones have to be in Game)
         finalFaith = 24;
         initialLeaderCardNumber = 4;
         finalLeaderCardNumber = 2;
+
+        //TODO make popefavortiles, vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
         int devCardMax = 7;
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
@@ -115,9 +117,19 @@ public class Game implements UserInterface {
             playersTurnOrder.add(new PlayerBoard(this, nickname, numOfDepots, finalFaith, devCardMax, vpFaithTiles, vpFaithValues, popeFavorTiles, baseProduction));
         }
 
-        //TODO give leadercards to player in constructor
+        //TODO give leadercards to player in constructor?
         distributeLeaderCards();
+
         assignInkwell();
+
+        //TODO initialize in a JSON
+        int[] firstTurnBonusResources = {0, 1, 1, 2};
+        int[] firstTurnBonusFaith = {0, 1, 1, 2};
+        for (int i = 0; i<playersTurnOrder.size(); i++) {
+            playersTurnOrder.get(i).addWhiteNoCheck(firstTurnBonusResources[i]);
+            playersTurnOrder.get(i).addFaith(firstTurnBonusFaith[i]);
+        }
+
         currentPlayer = playersTurnOrder.get(0);
     }
 
@@ -142,7 +154,22 @@ public class Game implements UserInterface {
 
     //PLAYER ACTIONS
 
-    //LeaderCards handling actions
+    //First turn actions
+
+    /**
+     * Allows the player to choose which resource to get (if any) as part of the first turn's bonus resources
+     *
+     * @param resource the type of bonus resource to get
+     * @param quantity the amount of resource to get
+     * @throws WrongTurnPhaseException if the player attempts this action when they are not allowed to
+     */
+    //TODO integrate with 'take resource from' methods
+    public void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
+        if (turnPhase != TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
+        currentPlayer.chooseStartingResource(resource.getType(), quantity);
+    }
 
     /**
      * Allows the player to choose which leader cards to keep (after choosing leaderCardsNumber cards, the rest are discarded)
@@ -158,6 +185,8 @@ public class Game implements UserInterface {
         //TODO leadercard does not exist exception
         currentPlayer.chooseLeaderCard(pos);
     }
+
+    //LeaderCards handling actions
 
     /**
      * Allows the player to activate the leader card corresponding to the given number
@@ -216,7 +245,7 @@ public class Game implements UserInterface {
      */
     @Override
     public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceInsertionException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.MARKETDISTRIBUTION) {
+        if (turnPhase != TurnPhase.MARKETDISTRIBUTION && turnPhase != TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
         //TODO negative quantities, null type
@@ -438,8 +467,8 @@ public class Game implements UserInterface {
 
         //If in first game turn
         if (turnPhase == TurnPhase.LEADERCHOICE) {
-            //TODO EXTRA RESOURCES AND FAITH AT FIRST TURN
-            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber) {
+
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom()>0) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.finishLeaderCardSelection();
@@ -452,13 +481,14 @@ public class Game implements UserInterface {
         //Switches current player to the next one
         switchPlayer();
 
-        //Checks if the current turn is the last one, or if the final phase of the game has been triggered
-        if (weReInTheEndGameNow) {
-            if (currentPlayer == playersTurnOrder.get(0)) {
-                endTheGame();
-            }
-        } else if (isGameEnding()) {
+        //Checks if the final phase of the game should be triggered
+        if (isGameEnding() && !weReInTheEndGameNow) {
             weReInTheEndGameNow = true;
+        }
+
+        //Checks if the game is in its final phase and the next turn is the first player's, and if so ends the game
+        if (weReInTheEndGameNow && currentPlayer == playersTurnOrder.get(0)) {
+            endTheGame();
         }
     }
 
@@ -543,12 +573,12 @@ public class Game implements UserInterface {
         if (numDiscardedResources > 0) {
 
             if (lorenzo != null) {
-                lorenzo.increaseFaith(numDiscardedResources);
+                lorenzo.addFaith(numDiscardedResources);
             } else {
                 String currentPlayerName = currentPlayer.getUsername();
                 for (PlayerBoard playerBoard : playersTurnOrder) {
                     if (!playerBoard.getUsername().equals(currentPlayerName)) {
-                        playerBoard.increaseFaith(numDiscardedResources);
+                        playerBoard.addFaith(numDiscardedResources);
                     }
                 }
             }

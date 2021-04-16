@@ -4,6 +4,7 @@ import Exceptions.*;
 import model.resource.Resource;
 
 //TODO add exceptions to javadoc
+
 /**
  * This interface indicates that the implementing class can be used as an interface for the player actions called by the controller.
  * It has methods for doing everything a player can do in the game.
@@ -11,7 +12,15 @@ import model.resource.Resource;
 public interface UserInterface {
     //PUBLIC METHODS
 
-    //LeaderCards handling actions
+    //First turn actions
+
+    /**
+     * Allows the player to choose which resource to get (if any) as part of the first turn's bonus resources
+     *
+     * @param resource the type of bonus resource to get
+     * @param quantity the amount of resource to get
+     */
+    void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException;
 
     /**
      * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
@@ -19,6 +28,8 @@ public interface UserInterface {
      * @param pos the number of the leaderCard to choose (STARTS FROM 1)
      */
     void chooseLeaderCard(int pos) throws WrongTurnPhaseException;
+
+    //LeaderCards handling actions
 
     /**
      * Allows the player to activate the leader card corresponding to the given number

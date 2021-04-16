@@ -4,8 +4,6 @@ import model.CardColor;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.card.DevelopmentCard;
-import model.resource.ResourceCoin;
-import model.resource.ResourceStone;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,11 +43,11 @@ class MarbleLeaderCardTest {
         PlayerBoard playerBoard = new PlayerBoard();
 
         assertFalse(marbleLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, developmentCard);
+        playerBoard.addDevelopmentCardNoCheck(1, developmentCard);
         assertFalse(marbleLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
+        playerBoard.addDevelopmentCardNoCheck(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
         assertFalse(marbleLeaderCard.areRequirementsMet(playerBoard));
-        playerBoard.addDevelopmentCard(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
+        playerBoard.addDevelopmentCardNoCheck(1, new DevelopmentCard(10, 2, CardColor.BLUE, costType, costQuantity, inputType, inputQuantity, outputType, outputQuantity));
         assertTrue(marbleLeaderCard.areRequirementsMet(playerBoard));
     }
 }

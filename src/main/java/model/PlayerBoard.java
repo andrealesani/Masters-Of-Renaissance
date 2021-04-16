@@ -172,7 +172,7 @@ public class PlayerBoard {
      *
      * @param quantity the amount by which to increase the player's faith
      */
-    public void increaseFaith(int quantity) {
+    public void addFaith(int quantity) {
         faith += quantity;
     }
 
@@ -311,7 +311,7 @@ public class PlayerBoard {
      * @param slot            specifies to which production slot the Card must be added
      * @param developmentCard card that must be added
      */
-    public void addDevelopmentCard(int slot, DevelopmentCard developmentCard) {
+    public void addDevelopmentCardNoCheck(int slot, DevelopmentCard developmentCard) {
         cardSlots.get(slot - 1).add(developmentCard);
     }
 
@@ -504,39 +504,6 @@ public class PlayerBoard {
     }
 
     /**
-     * Selects or deselects the leader card with the given number, as part of the player's choice of which cards to keep from the initial deck
-     *
-     * @param number the number of the card to select or deselect
-     */
-    public void chooseLeaderCard(int number) {
-        LeaderCard leaderCard = leaderCards.get(number - 1);
-
-        if (leaderCard.isActive())
-            leaderCard.deActivate();
-        else if (!leaderCard.isActive())
-            leaderCard.activate();
-
-    }
-
-    /**
-     * After the player has chosen which cards to keep, deactivates them and deletes the rest
-     */
-    public void finishLeaderCardSelection() {
-        int size = leaderCards.size();
-        int i = 0;
-        while (i < size) {
-            LeaderCard card = leaderCards.get(i);
-            if (!card.isActive()) {
-                leaderCards.remove(card);
-                size--;
-            } else {
-                card.deActivate();
-                i++;
-            }
-        }
-    }
-
-    /**
      * Checks if the player can activate a certain LeaderCard and activates it
      *
      * @param i specifies the position of the LeaderCard in the leaderCards list
@@ -555,7 +522,7 @@ public class PlayerBoard {
      */
     public void discardLeaderCard(int i) {
         leaderCards.remove(i);
-        increaseFaith(1);
+        addFaith(1);
     }
 
     /**
@@ -596,6 +563,64 @@ public class PlayerBoard {
      */
     public void addNewDepot(ResourceDepot depot) {
         warehouse.addNewDepot(depot);
+    }
+
+
+    //First turn methods
+
+    /**
+     * Adds the selected amount of white marbles to waiting room
+     */
+    public void addWhiteNoCheck(int quantity) {
+        whiteMarbleNum += quantity;
+    }
+
+    /**
+     * Converts the given amount of white marbles into the given resource
+     * @param resource the resource into which to convert the white marbles
+     * @param quantity the amount of resource to convert
+     * @throws NotEnoughResourceException if there are not enough white marbles to get the required resource
+     */
+    public void chooseStartingResource (ResourceType resource, int quantity) throws NotEnoughResourceException {
+        int newQuantity = whiteMarbleNum - quantity;
+        if (newQuantity < 0) {
+            throw new NotEnoughResourceException();
+        }
+        waitingRoom.addResource(resource, quantity);
+        whiteMarbleNum = newQuantity;
+    }
+
+    /**
+     * Selects or deselects the leader card with the given number, as part of the player's choice of which cards to keep from the initial deck
+     *
+     * @param number the number of the card to select or deselect
+     */
+    public void chooseLeaderCard(int number) {
+        LeaderCard leaderCard = leaderCards.get(number - 1);
+
+        if (leaderCard.isActive())
+            leaderCard.deActivate();
+        else if (!leaderCard.isActive())
+            leaderCard.activate();
+
+    }
+
+    /**
+     * After the player has chosen which cards to keep, deactivates them and deletes the rest
+     */
+    public void finishLeaderCardSelection() {
+        int size = leaderCards.size();
+        int i = 0;
+        while (i < size) {
+            LeaderCard card = leaderCards.get(i);
+            if (!card.isActive()) {
+                leaderCards.remove(card);
+                size--;
+            } else {
+                card.deActivate();
+                i++;
+            }
+        }
     }
 
     //End turn checks methods

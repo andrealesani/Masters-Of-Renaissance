@@ -65,6 +65,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -138,6 +140,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -164,6 +168,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         
@@ -209,6 +215,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -248,6 +256,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -295,6 +305,8 @@ class UserInterfaceTest {
             for (PlayerBoard player : game.getPlayersTurnOrder()) {
                 game.chooseLeaderCard(1);
                 game.chooseLeaderCard(2);
+                //Avoids having to deal with bonus first-turn resource choice
+                player.clearWaitingRoom();
                 game.endTurn();
             }
 
@@ -332,6 +344,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -411,6 +425,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -470,6 +486,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -542,6 +560,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
 
@@ -614,6 +634,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
@@ -646,6 +668,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
@@ -683,6 +707,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
@@ -730,6 +756,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
@@ -751,7 +779,7 @@ class UserInterfaceTest {
         // The first player now selects 1 Production
         game.selectProduction(2);
         assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
-        assertEquals(2, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
+        assertEquals(1, game.getCurrentPlayer().getProductionHandler().getSelectedProductions().size());
 
         // The first player realizes the Production he selected represents a very good deal and decides to activate it
         game.confirmProductionChoice();
@@ -770,6 +798,8 @@ class UserInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.endTurn();
         }
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
@@ -804,6 +834,8 @@ class UserInterfaceTest {
         // During first turn players must choose which LeaderCards to keep
         for (int i = 0; i<players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
+            //Avoids having to deal with bonus first-turn resource choice
+            players.get(i).clearWaitingRoom();
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
@@ -829,6 +861,8 @@ class UserInterfaceTest {
         // During first turn players must choose which LeaderCards to keep
         for (int i = 0; i<players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
+            //Avoids having to deal with bonus first-turn resource choice
+            players.get(i).clearWaitingRoom();
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
@@ -922,15 +956,17 @@ class UserInterfaceTest {
         // During first turn players must choose which LeaderCards to keep
         for (int i = 0; i<players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
+            //Avoids having to deal with bonus first-turn resource choice
+            players.get(i).clearWaitingRoom();
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
         }
 
         //adds faith to players
-        players.get(0).increaseFaith(9);
-        players.get(1).increaseFaith(5);
-        players.get(2).increaseFaith(1);
+        players.get(0).addFaith(9);
+        players.get(1).addFaith(5);
+        players.get(2).addFaith(1);
 
         //selects from market with player one, but then empties waiting room to not cause increases in the others' faith
         game.selectFromMarket(MarketScope.ROW, 1);
@@ -972,8 +1008,7 @@ class UserInterfaceTest {
         game.selectFromMarket(MarketScope.ROW, 1);
         int baseFaith = player.getLeftInWaitingRoom();
         //Lil cheat to make Lollo win faster
-        lollo.increaseFaith(24);
-        game.getCurrentPlayer().increaseFaith(24);
+        lollo.addFaith(24);
 
         //Game should end
         game.endTurn();
@@ -1025,6 +1060,8 @@ class UserInterfaceTest {
         Game game = new Game(nicknames);
         // FIRST TURN: players must choose which LeaderCards to keep
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
@@ -1050,7 +1087,45 @@ class UserInterfaceTest {
                 game.payResourceFromStrongbox(typeToResource(resourceType), 1);
             }
 
-            // Game should end
+            // Game should end after the last player's turn
+            game.endTurn();
+        }
+    }
+
+    @Test
+    void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            //Avoids having to deal with bonus first-turn resource choice
+            player.clearWaitingRoom();
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We're gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        //We're gonna do what's called a 'pro-gamer-move' and add a bunch of faith to the first player
+        game.getCurrentPlayer().addFaith(25);
+
+        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
+            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+            }
+
+            // Game should end after the last player's turn
             game.endTurn();
         }
     }

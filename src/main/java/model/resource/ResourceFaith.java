@@ -25,7 +25,7 @@ public class ResourceFaith extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.increaseFaith(1);
+        playerBoard.addFaith(1);
     }
 
     /**
@@ -35,6 +35,6 @@ public class ResourceFaith extends Resource {
      */
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        playerBoard.increaseFaith(1);
+        playerBoard.addFaith(1);
     }
 }
