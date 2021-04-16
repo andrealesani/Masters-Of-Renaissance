@@ -25,7 +25,7 @@ public class ResourceShield extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.SHIELD, 1);
+        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 1);
     }
 
     /**

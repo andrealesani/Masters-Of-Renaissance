@@ -176,16 +176,16 @@ class ProductionHandlerTest {
         productionHandler.selectProduction(1);
 
         // TEST
-        assertFalse(productionHandler.resourcesAreEnough(playerBoard));
+        assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
 
         playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
-        assertFalse(productionHandler.resourcesAreEnough(playerBoard));
+        assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
 
         // Resources are divided into strongbox and depots and together they're enough to activated all the productions
         playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
-        playerBoard.addResourceToWarehouse(ResourceType.SHIELD, 2);
+        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 2);
         playerBoard.sendResourceToDepot(2, ResourceType.SHIELD, 2);
-        assertTrue(productionHandler.resourcesAreEnough(playerBoard));
+        assertTrue(productionHandler.arePlayerResourcesEnough(playerBoard));
     }
 
     @Test
@@ -232,10 +232,7 @@ class ProductionHandlerTest {
 
         playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
         playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
-        playerBoard.addResourceToWarehouse(ResourceType.SHIELD, 2);
-
-        productionHandler.takeResource(playerBoard, new ResourceServant(), 1);
-        productionHandler.takeResource(playerBoard, new ResourceShield(), 2);
+        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 2);
     }
 
 

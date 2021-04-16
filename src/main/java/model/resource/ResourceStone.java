@@ -25,7 +25,7 @@ public class ResourceStone extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        playerBoard.addResourceToWarehouse(ResourceType.STONE, 1);
+        playerBoard.addResourceToWaitingRoom(ResourceType.STONE, 1);
     }
 
     /**

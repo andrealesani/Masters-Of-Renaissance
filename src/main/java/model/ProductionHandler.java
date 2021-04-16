@@ -115,11 +115,13 @@ public class ProductionHandler {
     }
 
     /**
+     * Returns whether or not the player has enough resources to activate the currently selected productions
+     *
      * @param playerBoard specifies which PlayerBoard to control in order to ensure that it has enough Resources
      * @return true if the player has enough resources (considering the entirety of his storage) to activate all the Productions he selected
      * @throws UnknownResourceException if there are still UnknownResources in input or output lists (the exception message will specify if they're in input or output)
      */
-    public boolean resourcesAreEnough(PlayerBoard playerBoard) throws UnknownResourceException {
+    public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UnknownResourceException {
         int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
 
         if (getCurrentInput().contains(new ResourceUnknown()))
@@ -144,22 +146,24 @@ public class ProductionHandler {
     }
 
     /**
-     * Removes a Resource from currentInput list when that Resource has been taken from the player's stashes (the method is called from the PlayerBoard).
-     * If currentInput is empty this means that all input Resources have been paid.
-     * In this case, the method will call releaseOutput() and give all output Resources to the player
+     * Adds to the player's waiting room the resources in the active productions input
      *
-     * @param playerBoard specifies the PlayerBoard that has spent the resources so that the ProductionHandler can give it the output Resources if the input debt is extinguished
-     * @param resource    specifies the Resource to be removed from currentInput
-     * @param quantity    specifies the quantity of the Resource to be removed
-     * @throws ResourceNotPresentException is thrown when the player tries to remove a Resource that is not present in the inputList
+     * @param playerBoard the player's board
      */
-    public void takeResource(PlayerBoard playerBoard, Resource resource, int quantity) throws ResourceNotPresentException {
-        for (int i = 0; i < quantity; i++) {
-            if (!currentInput.remove(resource))
-                throw new ResourceNotPresentException();
+    public void releaseInput(PlayerBoard playerBoard) {
+        for (Resource resource : currentInput) {
+            playerBoard.addResourceToWaitingRoom(resource.getType(), 1);
         }
-        if (currentInput.isEmpty()) {
-            releaseOutput(playerBoard);
+    }
+
+    /**
+     * Adds to the player's strongbox the resources in the active productions output
+     *
+     * @param playerBoard the player's board
+     */
+    public void releaseOutput(PlayerBoard playerBoard) {
+        for (Resource resource : currentOutput) {
+            resource.addResourceFromProduction(playerBoard);
         }
     }
 
@@ -186,15 +190,6 @@ public class ProductionHandler {
             if (production.isSelectedByHandler()) {
                 currentOutput.addAll(production.getOutput());
             }
-        }
-    }
-
-    /**
-     * Puts all the Resources due in currentOutput in the player's strongbox
-     */
-    private void releaseOutput(PlayerBoard playerBoard) {
-        for (Resource resource : currentOutput) {
-            resource.addResourceFromProduction(playerBoard);
         }
     }
 
