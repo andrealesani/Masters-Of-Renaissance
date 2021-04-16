@@ -192,7 +192,7 @@ class UserInterfaceTest {
         }
 
         //TEST
-        game.selectFromMarket(MarketScope.ROW, 2);
+        game.selectMarketRow( 2);
 
         assertEquals(numShields, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
         assertEquals(numCoins, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.COIN));
@@ -228,7 +228,7 @@ class UserInterfaceTest {
         player.addResourceToWarehouse(ResourceType.STONE, 1);
 
         //to change game phase to MARKETDISTRIBUTION
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow(1);
 
         //Test the actual method
         game.sendResourceToDepot(1, new ResourceCoin(), 1);
@@ -269,7 +269,7 @@ class UserInterfaceTest {
         player.addWhiteMarble(6);
 
         //To change game phase to MARKETDISTRIBUTION
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow(1);
 
         //Actually tests the method
         game.chooseMarbleConversion(new ResourceShield(), 2);
@@ -844,7 +844,7 @@ class UserInterfaceTest {
         //Pass the turn just taking from market and discarding all resources
         for (int i = 0; i<players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
-            game.selectFromMarket(MarketScope.ROW, 1);
+            game.selectMarketRow(1);
             game.endTurn();
         }
     }
@@ -872,7 +872,7 @@ class UserInterfaceTest {
         game.selectProduction(1);
 
         //First player selects from market and discards all obtained resources
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow( 1);
         int discarded = players.get(0).getLeftInWaitingRoom();
         game.endTurn();
 
@@ -910,7 +910,7 @@ class UserInterfaceTest {
         assertEquals (0, lollo.getFaith());
 
         //Player takes second turn
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow( 1);
         int baseFaith = player.getLeftInWaitingRoom();
         game.endTurn();
 
@@ -938,7 +938,7 @@ class UserInterfaceTest {
 
         //Check that action tokens do not accumulate in following turns
         for (int i=0; i<10; i++) {
-            game.selectFromMarket(MarketScope.ROW, 1);
+            game.selectMarketRow(1);
             game.endTurn();
             assertEquals(6, activeTokens.size()+usedTokens.size());
         }
@@ -969,7 +969,7 @@ class UserInterfaceTest {
         players.get(2).addFaith(1);
 
         //selects from market with player one, but then empties waiting room to not cause increases in the others' faith
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow(1);
         players.get(0).clearWaitingRoom();
         game.endTurn();
 
@@ -1005,7 +1005,7 @@ class UserInterfaceTest {
         assertEquals (0, lollo.getFaith());
 
         //Player takes second turn
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow(1);
         int baseFaith = player.getLeftInWaitingRoom();
         //Lil cheat to make Lollo win faster
         lollo.addFaith(24);
@@ -1039,7 +1039,7 @@ class UserInterfaceTest {
         assertEquals (0, lollo.getFaith());
 
         //Player takes second turn
-        game.selectFromMarket(MarketScope.ROW, 1);
+        game.selectMarketRow(1);
         int baseFaith = player.getLeftInWaitingRoom();
         //Lil cheat to force the game to end by removing all green cards from the table
         game.getCardTable().getGreenCards().get(2).clear();

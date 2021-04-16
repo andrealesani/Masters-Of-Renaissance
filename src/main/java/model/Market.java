@@ -76,52 +76,68 @@ public class Market {
     //PUBLIC METHODS
 
     /**
-     * Activates addResourceFromMarket methods on all resources in the selected row or column
+     * Activates addResourceFromMarket methods on all resources in the selected row
      *
-     * @param marketScope either row or column
-     * @param numScope    the number of the selected row or column
+     * @param numScope    the number of the selected row
      * @param playerBoard the player's board
      */
-    public void selectResources(MarketScope marketScope, int numScope, PlayerBoard playerBoard) {
-        int riga, col;
+    public void selectRow(int numScope, PlayerBoard playerBoard) {
+        int riga;
 
-        if (marketScope == MarketScope.ROW) {
             riga = numScope;
             for (int j = 0; j < 4; j++)
                 board[riga][j].addResourceFromMarket(playerBoard);
-            shiftResources(MarketScope.ROW, riga);
-        } else if (marketScope == MarketScope.COLUMN) {
+            shiftRow(riga);
+    }
+
+    /**
+     * Activates addResourceFromMarket methods on all resources in the selected column
+     *
+     * @param numScope    the number of the selected column
+     * @param playerBoard the player's board
+     */
+    public void selectColumn(int numScope, PlayerBoard playerBoard) {
+        int col;
+
             col = numScope;
             for (int i = 0; i < 3; i++)
                 board[i][col].addResourceFromMarket(playerBoard);
-            shiftResources(MarketScope.COLUMN, col);
-        }
-
-
+            shiftColumn(col);
     }
 
     //PRIVATE METHODS
 
     /**
-     * Shifts the given row or column based on the market's rules, substituting the marble on the slide
+     * Shifts the given row based on the market's rules, substituting the marble on the slide
      *
-     * @param marketScope either row or column
-     * @param numScope    the number of the selected row or column
+     * @param numScope    the number of the selected row
      */
-    private void shiftResources(MarketScope marketScope, int numScope) {
-        int riga, col;
+    private void shiftRow(int numScope) {
+        int riga;
         Resource temp;
 
-        if (marketScope == MarketScope.ROW) {
+
             riga = numScope;
             int j = 0;
             temp = board[riga][j];
             for (j = 0; j < 3; j++)
                 board[riga][j] = board[riga][j + 1];
 
+
             board[riga][j] = slideMarble;
             slideMarble = temp;
-        } else if (marketScope == MarketScope.COLUMN) {
+    }
+
+    /**
+     * Shifts the given column based on the market's rules, substituting the marble on the slide
+     *
+     * @param numScope    the number of the selected column
+     */
+    private void shiftColumn(int numScope) {
+        int col;
+        Resource temp;
+
+
             col = numScope;
             int i = 0;
             temp = board[i][col];
@@ -130,7 +146,7 @@ public class Market {
 
             board[i][col] = slideMarble;
             slideMarble = temp;
-        }
+
 
     }
 

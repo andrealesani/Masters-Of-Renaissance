@@ -220,18 +220,33 @@ public class Game implements UserInterface {
     //Market selection actions
 
     /**
-     * Allows the player to select a row or column from the market and take its resources
+     * Allows the player to select a row from the market and take its resources
      *
-     * @param marketScope distinguishes between selecting a row or column
-     * @param numScope    the index of the selected row or column
+     * @param numScope    the index of the selected row
      */
     @Override
-    public void selectFromMarket(MarketScope marketScope, int numScope) throws WrongTurnPhaseException {
+    public void selectMarketRow(int numScope) throws WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }
         //TODO marketscope null, numScope invalido, currentPlayer null
-        market.selectResources(marketScope, numScope, currentPlayer);
+        market.selectRow(numScope, currentPlayer);
+        currentPlayer.resetProductionChoice();
+        turnPhase = TurnPhase.MARKETDISTRIBUTION;
+    }
+
+    /**
+     * Allows the player to select a column from the market and take its resources
+     *
+     * @param numScope    the index of the selected column
+     */
+    @Override
+    public void selectMarketColumn(int numScope) throws WrongTurnPhaseException {
+        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+            throw new WrongTurnPhaseException();
+        }
+        //TODO marketscope null, numScope invalido, currentPlayer null
+        market.selectColumn(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
         turnPhase = TurnPhase.MARKETDISTRIBUTION;
     }
@@ -434,7 +449,6 @@ public class Game implements UserInterface {
         if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
 
             checkDiscarded();
-            currentPlayer.resetProductionChoice();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.CARDPAYMENT) {
@@ -442,7 +456,6 @@ public class Game implements UserInterface {
             if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
-            currentPlayer.resetProductionChoice();
             turnPhase = TurnPhase.ACTIONSELECTION;
 
         } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {

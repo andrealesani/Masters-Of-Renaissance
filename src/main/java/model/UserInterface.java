@@ -48,12 +48,18 @@ public interface UserInterface {
     //Market selection actions
 
     /**
-     * Allows the player to select a row or column from the market and take its resources
+     * Allows the player to select a row from the market and take its resources
      *
-     * @param marketScope distinguishes between selecting a row or column
-     * @param numScope    the index of the selected row or column
+     * @param numScope    the index of the selected row
      */
-    void selectFromMarket(MarketScope marketScope, int numScope) throws WrongTurnPhaseException;
+    void selectMarketRow(int numScope) throws WrongTurnPhaseException;
+
+    /**
+     * Allows the player to select a column from the market and take its resources
+     *
+     * @param numScope    the index of the selected column
+     */
+    void selectMarketColumn(int numScope) throws WrongTurnPhaseException;
 
     /**
      * Allows the player to send a resource obtained from the market to a specific depot
