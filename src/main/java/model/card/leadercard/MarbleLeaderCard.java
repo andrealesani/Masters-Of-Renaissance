@@ -80,5 +80,30 @@ public class MarbleLeaderCard extends LeaderCard {
 
     //GETTERS
 
-    //TODO getters?
+    /**
+     * Getter
+     *
+     * @return the ResourceType of the Resource to which the white marble can be converted
+     */
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array with the colors of the DevelopmentCards that the player needs to own in order to activate this LeaderCard
+     */
+    public CardColor[] getRequiredColors() {
+        return requiredColors;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array with the number of DevelopmentCards for each color that the player needs to own in order to activate this LeaderCard
+     */
+    public int[] getRequiredQuantities() {
+        return requiredQuantities;
+    }
 }

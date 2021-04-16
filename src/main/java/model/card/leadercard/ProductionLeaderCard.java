@@ -140,5 +140,66 @@ public class ProductionLeaderCard extends LeaderCard {
 
     //GETTERS
 
-    //TODO getters?
+    /**
+     * Getter
+     *
+     * @return the CardColor of the DevelopmentCard required to activate this LeaderCard
+     */
+    public CardColor getRequiredColor() {
+        return requiredColor;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the level of the DevelopmentCard required to activate this LeaderCard
+     */
+    public int getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the amount of DevelopmentCards of the given color required to activate this LeaderCard
+     */
+    public int getRequiredQuantity() {
+        return requiredQuantity;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array that contains the ResourceTypes of the resources in the card's production's input
+     */
+    public ResourceType[] getInputType() {
+        return inputType;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array that contains the amounts of each type of resource in the card's production's input
+     */
+    public int[] getInputQuantities() {
+        return inputQuantities;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array that contains the ResourceTypes of the resources in the card's production's output
+     */
+    public ResourceType[] getOutputType() {
+        return outputType;
+    }
+
+    /**
+     * Getter
+     *
+     * @return an array that contains the amounts of each type of resource in the card's production's output
+     */
+    public int[] getOutputQuantities() {
+        return outputQuantities;
+    }
 }
