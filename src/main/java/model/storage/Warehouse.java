@@ -90,8 +90,6 @@ public class Warehouse {
         }
     }
 
-    //TODO add a move depot content method
-
     /**
      * Swaps the contents of two warehouse depots
      *
@@ -102,6 +100,7 @@ public class Warehouse {
      * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws DepotNotPresentException, ParametersNotValidException, SwapNotValidException {
+        //Checks the input parameters
         if (depotNumber1 < 1 || depotNumber2 < 1 || depotNumber1 == depotNumber2) {
             throw new ParametersNotValidException();
         }
@@ -112,44 +111,83 @@ public class Warehouse {
             throw new DepotNotPresentException(depotNumber2);
         }
 
+        //Stores the affected depots in variables
         ResourceDepot depot1 = depots.get(depotNumber1 - 1);
         ResourceDepot depot2 = depots.get(depotNumber2 - 1);
 
+        //Checks that the contents of the depots can be exchanged with one another
         if (!depot1.canHoldContentOf(depot2) || !depot2.canHoldContentOf(depot1)) {
             throw new SwapNotValidException();
         }
 
+        //Temporarily stores the contents of the two depots into variables
         List<ResourceType> resourceList1 = depot1.getStoredResources();
-        ResourceType resource1;
-        int amount1;
-        if (resourceList1.isEmpty()) {
-            resource1 = null;
-            amount1 = 0;
-        } else {
+        List<ResourceType> resourceList2 = depot2.getStoredResources();
+        ResourceType resource1 = null;
+        ResourceType resource2 = null;
+        int amount1 = 0;
+        int amount2 = 0;
+        if (!resourceList1.isEmpty()) {
             resource1 = resourceList1.get(0);
             amount1 = depot1.getNumOfResource(resource1);
             depot1.clear();
         }
-
-        List<ResourceType> resourceList2 = depot2.getStoredResources();
-        ResourceType resource2;
-        int amount2;
-        if (resourceList2.isEmpty()) {
-            resource2 = null;
-            amount2 = 0;
-        } else {
+        if (!resourceList2.isEmpty()) {
             resource2 = resourceList2.get(0);
             amount2 = depot2.getNumOfResource(resource2);
             depot2.clear();
         }
 
+        //Completes the exchange
         try {
-            depot1.addResource(resource2, amount2);
-            depot2.addResource(resource1, amount1);
+            if (amount2 != 0) {
+                depot1.addResource(resource2, amount2);
+            }
+            if (amount1 != 0) {
+                depot2.addResource(resource1, amount1);
+            }
         } catch (WrongResourceInsertionException | NotEnoughSpaceException | BlockedResourceException ex) {
             //This should never happen
             System.out.println(ex.getMessage());
         }
+    }
+
+    /**
+     * Moves a certain amount of resource from one depot to another
+     *
+     * @param depotNumberTake the number of the depot from which to take the resources
+     * @param depotNumberGive the number of the depot to which to move the resources
+     * @param resource        the resource to move between the two depots
+     * @param quantity        the quantity of the resource to move
+     * @throws DepotNotPresentException        if one of the depot numbers given does not correspond with any depot
+     * @throws ParametersNotValidException     if the two inputs are the same number or below 1
+     * @throws NotEnoughResourceException if the given resource is not present in the providing depot in the amount to be deleted
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the receiving depot
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the receiving depot exceeds the depot's maximum capacity
+     * @throws BlockedResourceException        if the receiving depot is affected by resource blocking and the resource is being blocked by a different depot
+     */
+    public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
+        //Checks the input parameters
+        if (depotNumberTake < 1 || depotNumberGive < 1 || depotNumberTake == depotNumberGive || quantity < 0) {
+            throw new ParametersNotValidException();
+        }
+        if (depotNumberTake > depots.size()) {
+            throw new DepotNotPresentException(depotNumberTake);
+        }
+        if (depotNumberGive > depots.size()) {
+            throw new DepotNotPresentException(depotNumberGive);
+        }
+
+        //Checks that the providing depot contains them in sufficient quantity
+        if (depots.get(depotNumberTake - 1).getNumOfResource(resource) < quantity) {
+            throw new NotEnoughResourceException();
+        }
+
+        //Attempts to add the resources to the receiving depot
+        depots.get(depotNumberGive - 1).addResource(resource, quantity);
+
+        //Removes the resources from the providing depot
+        depots.get(depotNumberTake - 1).removeResource(resource, quantity);
     }
 
     /**

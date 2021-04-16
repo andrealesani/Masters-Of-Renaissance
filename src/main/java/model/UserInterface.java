@@ -87,6 +87,16 @@ public interface UserInterface {
      */
     void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, ParametersNotValidException, DepotNotPresentException, WrongTurnPhaseException;
 
+    /**
+     * Allows user to send some of the contents of a depot to a different one
+     *
+     * @param depotNumberTake the number of the depot from which to take the resources
+     * @param depotNumberGive the number of the depot to which to move the resources
+     * @param resource the resource to move between the two depots
+     * @param quantity the quantity of the resource to move
+     */
+    void moveDepotContent(int depotNumberTake, int depotNumberGive, Resource resource, int quantity) throws WrongTurnPhaseException, DepotNotPresentException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, NotEnoughResourceException;
+
     //DevelopmentCard purchasing actions
 
     /**

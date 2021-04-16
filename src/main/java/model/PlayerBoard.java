@@ -258,6 +258,24 @@ public class PlayerBoard {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
     }
 
+    /**
+     * Moves a certain amount of resource from one depot to another
+     *
+     * @param depotNumberTake the number of the depot from which to take the resources
+     * @param depotNumberGive the number of the depot to which to move the resources
+     * @param resource        the resource to move between the two depots
+     * @param quantity        the quantity of the resource to move
+     * @throws DepotNotPresentException        if one of the depot numbers given does not correspond with any depot
+     * @throws ParametersNotValidException     if the two inputs are the same number or below 1
+     * @throws NotEnoughResourceException if the given resource is not present in the providing depot in the amount to be deleted
+     * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the receiving depot
+     * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the receiving depot exceeds the depot's maximum capacity
+     * @throws BlockedResourceException        if the receiving depot is affected by resource blocking and the resource is being blocked by a different depot
+     */
+    public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
+        warehouse.moveDepotContent(depotNumberTake, depotNumberGive, resource, quantity);
+    }
+
     //Development card purchase methods
 
     /**

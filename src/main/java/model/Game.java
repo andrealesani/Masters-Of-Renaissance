@@ -283,6 +283,22 @@ public class Game implements UserInterface {
         currentPlayer.swapDepotContent(depotNumber1, depotNumber2);
     }
 
+    /**
+     * Allows user to send some of the contents of a depot to a different one
+     *
+     * @param depotNumberTake the number of the depot from which to take the resources
+     * @param depotNumberGive the number of the depot to which to move the resources
+     * @param resource the resource to move between the two depots
+     * @param quantity the quantity of the resource to move
+     */
+    public void moveDepotContent(int depotNumberTake, int depotNumberGive, Resource resource, int quantity) throws WrongTurnPhaseException, DepotNotPresentException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, NotEnoughResourceException {
+        if (turnPhase == TurnPhase.LEADERCHOICE) {
+            throw new WrongTurnPhaseException();
+        }
+        currentPlayer.moveDepotContent(depotNumberTake, depotNumberGive, resource.getType(), quantity);
+    }
+
+
     //DevelopmentCard purchasing actions
 
     /**
@@ -411,32 +427,8 @@ public class Game implements UserInterface {
      */
     @Override
     public void endTurn() throws WrongTurnPhaseException {
-        if (turnPhase == TurnPhase.ACTIONSELECTION) {
-            throw new WrongTurnPhaseException();
-        }
-
-        //Depending on which action the player took, makes different end-of-turn checks
-        if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
-
-            checkDiscarded();
-            turnPhase = TurnPhase.ACTIONSELECTION;
-
-        } else if (turnPhase == TurnPhase.CARDPAYMENT) {
-
-            if (currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
-            turnPhase = TurnPhase.ACTIONSELECTION;
-
-        } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
-
-            if (currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
-            currentPlayer.releaseProductionOutput();
-            turnPhase = TurnPhase.ACTIONSELECTION;
-
-        }
+        //Checks that the player can end their turn based on the action taken
+        endTurnChecks();
 
         //Other than in the first game turn
         if (turnPhase == TurnPhase.ACTIONSELECTION) {
@@ -567,6 +559,37 @@ public class Game implements UserInterface {
                 }
             }
             currentPlayer.clearWaitingRoom();
+
+        }
+    }
+
+    /**
+     * Checks that the player can end their turn based on the action taken and makes end-of-turn tidying up
+     */
+    private void endTurnChecks() throws WrongTurnPhaseException {
+        if (turnPhase == TurnPhase.ACTIONSELECTION) {
+
+            throw new WrongTurnPhaseException();
+
+        } else if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
+
+            checkDiscarded();
+            turnPhase = TurnPhase.ACTIONSELECTION;
+
+        } else if (turnPhase == TurnPhase.CARDPAYMENT) {
+
+            if (currentPlayer.getLeftInWaitingRoom() > 0) {
+                throw new WrongTurnPhaseException();
+            }
+            turnPhase = TurnPhase.ACTIONSELECTION;
+
+        } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
+
+            if (currentPlayer.getLeftInWaitingRoom() > 0) {
+                throw new WrongTurnPhaseException();
+            }
+            currentPlayer.releaseProductionOutput();
+            turnPhase = TurnPhase.ACTIONSELECTION;
 
         }
     }

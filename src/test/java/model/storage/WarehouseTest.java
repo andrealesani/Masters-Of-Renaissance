@@ -274,6 +274,33 @@ class WarehouseTest {
     }
 
     /**
+     * This method tests the movement of a resource from a depot to another
+     */
+    @Test
+    void moveDepotContent () throws WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
+        Warehouse warehouse = new Warehouse (2);
+        ResourceDepot stash1 = warehouse.getDepot(1);
+        ResourceDepot stash2 = warehouse.getDepot(2);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        warehouse.addNewDepot(stashLeader);
+
+        warehouse.addToDepot (1, ResourceType.COIN, 1);
+        warehouse.addToDepot (2, ResourceType.SHIELD, 1);
+        warehouse.addToDepot (3, ResourceType.SHIELD, 1);
+
+        warehouse.moveDepotContent(2,3, ResourceType.SHIELD,1);
+
+        assertEquals(0, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.SHIELD));
+
+        warehouse.moveDepotContent(3,2, ResourceType.SHIELD,2);
+
+        assertEquals(2, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(0, warehouse.getDepot(3).getNumOfResource(ResourceType.SHIELD));
+
+    }
+
+    /**
      * This method tests the blocking of a resource for the affirmative case
      */
     @Test
