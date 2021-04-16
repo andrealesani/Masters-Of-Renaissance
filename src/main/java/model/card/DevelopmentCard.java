@@ -1,9 +1,6 @@
 package model.card;
 
-import model.CardColor;
-import model.PlayerBoard;
-import model.Production;
-import model.ResourceType;
+import model.*;
 import model.resource.*;
 
 import java.util.ArrayList;
@@ -114,44 +111,15 @@ public class DevelopmentCard extends Card {
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();
 
-        Resource stone = new ResourceStone();
-        Resource coin = new ResourceCoin();
-        Resource shield = new ResourceShield();
-        Resource servant = new ResourceServant();
-        Resource unknown = new ResourceUnknown();
-        Resource faith = new ResourceFaith();
-
         for (int i = 0; i < inputType.length; i++) {
             for(int j = 0; j < inputQuantities[i]; j++) {
-                if (inputType[i] == ResourceType.SHIELD) {
-                    input.add(shield);
-                } else if (inputType[i] == ResourceType.COIN) {
-                    input.add(coin);
-                } else if (inputType[i] == ResourceType.STONE) {
-                    input.add(stone);
-                } else if (inputType[i] == ResourceType.SERVANT) {
-                    input.add(servant);
-                } else if (inputType[i] == ResourceType.UNKNOWN) {
-                    input.add(unknown);
-                }
+                input.add(UtilsForModel.typeToResource(inputType[i]));
             }
         }
 
         for (int i = 0; i < inputType.length; i++) {
             for(int j = 0; j < outputQuantities[i]; j++) {
-                if (outputType[i] == ResourceType.SHIELD) {
-                    output.add(shield);
-                } else if (outputType[i] == ResourceType.COIN) {
-                    output.add(coin);
-                } else if (outputType[i] == ResourceType.STONE) {
-                    output.add(stone);
-                } else if (outputType[i] == ResourceType.SERVANT) {
-                    output.add(servant);
-                } else if (inputType[i] == ResourceType.UNKNOWN) {
-                    input.add(unknown);
-                } else if (inputType[i] == ResourceType.FAITH) {
-                    input.add(faith);
-                }
+                output.add(UtilsForModel.typeToResource(outputType[i]));
             }
         }
 

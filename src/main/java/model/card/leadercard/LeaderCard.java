@@ -6,7 +6,6 @@ import model.card.Card;
 /**
  * This class represents a generic leader card for the game
  */
-//TODO maybe make abstract?
 public class LeaderCard extends Card {
     //CONSTRUCTORS
 
