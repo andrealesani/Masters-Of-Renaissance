@@ -4,9 +4,7 @@ import Exceptions.*;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
-import model.card.leadercard.DepotLeaderCard;
-import model.card.leadercard.DiscountLeaderCard;
-import model.card.leadercard.LeaderCard;
+import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.DoubleFaithToken;
@@ -71,37 +69,45 @@ class UserInterfaceTest {
 
         LeaderCard LeaderCard1 = game.getCurrentPlayer().getLeaderCards().get(0);
 
+        //PRE-TEST
+
         int NumOFDepots = 0;
         if(LeaderCard1 instanceof DepotLeaderCard)
             NumOFDepots = game.getCurrentPlayer().getWarehouse().getNumOfDepots();
         else if(LeaderCard1 instanceof DiscountLeaderCard)
-            game.getCurrentPlayer().getDiscounts();
+            assertTrue(game.getCurrentPlayer().getDiscounts().isEmpty());
+        else if(LeaderCard1 instanceof MarbleLeaderCard)
+            assertTrue(game.getCurrentPlayer().getMarbleConversions().isEmpty());
+        else if(LeaderCard1 instanceof ProductionLeaderCard)
+            assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+        
+
+        //TEST
 
         LeaderCard1.doAction(game.getCurrentPlayer());
 
-        //depot
-        //numdepot -> numdepot+1
+        //DEPOT
 
         if(LeaderCard1 instanceof DepotLeaderCard)
             assertEquals(NumOFDepots+1, game.getCurrentPlayer().getWarehouse().getNumOfDepots());
 
-        //DiscountLeaderCard
-        //prima di attivazione: no sconti
-        //dopo: un solo sconto
+        //DISCOUNT
 
-        //else if(LeaderCard1 instanceof DiscountLeaderCard)
-
-
-
-
+        else if(LeaderCard1 instanceof DiscountLeaderCard)
+            assertFalse(game.getCurrentPlayer().getDiscounts().isEmpty());
 
         //white
         //marbleconversion.get(0) , COIN
 
-
+        else if(LeaderCard1 instanceof MarbleLeaderCard)
+            assertFalse(game.getCurrentPlayer().getMarbleConversions().isEmpty());
 
         //production
         //game.getCurrentPlayer.getProductionHandler.getProductions.size(),  2
+
+        else if(LeaderCard1 instanceof ProductionLeaderCard)
+            assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
+
     }
 
     @Test
