@@ -4,6 +4,7 @@ import Exceptions.*;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
+import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
@@ -926,5 +927,117 @@ class UserInterfaceTest {
         assertEquals (PopeTileState.ACTIVE, players.get(0).getPopeFavorTiles().get(0).getState());
         assertEquals (PopeTileState.ACTIVE, players.get(1).getPopeFavorTiles().get(0).getState());
         assertEquals (PopeTileState.DISCARDED, players.get(2).getPopeFavorTiles().get(0).getState());
+    }
+
+    @Test
+    void lorenzoWinsFromFaith() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+
+        //Verify Lorenzo lives
+        Lorenzo lollo = (Lorenzo) game.getLorenzo();
+        List<ActionToken> activeTokens = lollo.getActiveDeck();
+        List<ActionToken> usedTokens = lollo.getUsedDeck();
+        assertTrue (lollo!=null);
+
+        //Player takes first turn
+        assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Lorenzo should not take first turn
+        assertEquals (6, activeTokens.size());
+        assertEquals (0, usedTokens.size());
+        assertEquals (0, lollo.getFaith());
+
+        //Player takes second turn
+        game.selectFromMarket(MarketScope.ROW, 1);
+        int baseFaith = player.getLeftInWaitingRoom();
+        //Lil cheat to make Lollo win faster
+        lollo.increaseFaith(24);
+        game.getCurrentPlayer().increaseFaith(24);
+
+        //Game should end
+        game.endTurn();
+    }
+
+    @Test void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+
+        //Verify Lorenzo lives
+        Lorenzo lollo = (Lorenzo) game.getLorenzo();
+        List<ActionToken> activeTokens = lollo.getActiveDeck();
+        List<ActionToken> usedTokens = lollo.getUsedDeck();
+        assertTrue (lollo!=null);
+
+        //Player takes first turn
+        assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Lorenzo should not take first turn
+        assertEquals (6, activeTokens.size());
+        assertEquals (0, usedTokens.size());
+        assertEquals (0, lollo.getFaith());
+
+        //Player takes second turn
+        game.selectFromMarket(MarketScope.ROW, 1);
+        int baseFaith = player.getLeftInWaitingRoom();
+        //Lil cheat to force the game to end by removing all green cards from the table
+        game.getCardTable().getGreenCards().get(2).clear();
+        game.getCardTable().getGreenCards().get(1).clear();
+        game.getCardTable().getGreenCards().get(0).clear();
+
+        //Game should end
+        game.endTurn();
+    }
+
+    @Test
+    void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException {
+        // Game creation
+        List<String> nicknames = new ArrayList<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: players must choose which LeaderCards to keep
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            game.endTurn();
+        }
+        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            player.addResourceToStrongbox(ResourceType.COIN, 100);
+            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
+            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
+            player.addResourceToStrongbox(ResourceType.STONE, 100);
+        }
+        // We gonna cheat again and add 6 cards to a player so that the next turn he will buy his 7th and end the game
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null ,null));
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null ,null));
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null ,null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null ,null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null ,null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null ,null));
+        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
+            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+                game.payResourceFromStrongbox(typeToResource(resourceType), 1);
+            }
+
+            // Game should end
+            game.endTurn();
+        }
     }
 }

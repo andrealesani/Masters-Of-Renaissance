@@ -585,7 +585,9 @@ public class Game implements UserInterface {
     }
 
     /**
-     * Returns whether or not the conditions are met to start the final phase of the game
+     * Returns whether or not the conditions are met to start the final phase of the game. In order to do that, the
+     * method asks each PlayerBoard if it has one of the requirements to call the end of the game by calling isEndGameTime().
+     * If the game is in solo mode, this method checks if Lorenzo has any of the requirements that make him win the game
      *
      * @return true if the final phase has been triggered
      */
