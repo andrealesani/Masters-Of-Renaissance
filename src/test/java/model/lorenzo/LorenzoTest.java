@@ -76,7 +76,7 @@ class LorenzoTest {
         //shuffle the deck
         lorenzo.shuffleDeck();
 
-        assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
+        assertEquals(numOfTokens, lorenzo.getActiveDeck().size());
 
         List<ActionToken> secondList = lorenzo.getActiveDeck();
 
@@ -85,12 +85,12 @@ class LorenzoTest {
 
         lorenzo.shuffleDeck();
 
-        assertEquals (numOfTokens, lorenzo.getActiveDeck().size());
+        assertEquals(numOfTokens, lorenzo.getActiveDeck().size());
 
 
         boolean same = true;
-        for (int i=0; i<firstList.size(); i++) {
-            if (firstList.get(i)!=secondList.get(i)) {
+        for (int i = 0; i < firstList.size(); i++) {
+            if (firstList.get(i) != secondList.get(i)) {
                 same = false;
             }
         }

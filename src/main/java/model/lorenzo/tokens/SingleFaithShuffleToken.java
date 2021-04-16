@@ -20,7 +20,7 @@ public class SingleFaithShuffleToken implements ActionToken {
      * @param lorenzo reference to Lorenzo instance
      */
     public SingleFaithShuffleToken(Lorenzo lorenzo) {
-        if (lorenzo==null) {
+        if (lorenzo == null) {
             throw new ParametersNotValidException();
         }
         this.lorenzo = lorenzo;

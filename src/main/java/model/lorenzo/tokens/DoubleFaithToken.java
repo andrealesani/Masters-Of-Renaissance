@@ -20,7 +20,7 @@ public class DoubleFaithToken implements ActionToken {
      * @param lorenzo reference to Lorenzo instance
      */
     public DoubleFaithToken(Lorenzo lorenzo) {
-        if (lorenzo==null) {
+        if (lorenzo == null) {
             throw new ParametersNotValidException();
         }
         this.lorenzo = lorenzo;
@@ -36,6 +36,7 @@ public class DoubleFaithToken implements ActionToken {
     }
 
     //PRIVATE METHODS
+
     /**
      * Increases Lorenzo's faith by 2 points
      */
