@@ -13,7 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents what in the physical game is the grid that holds all the development cards still available for players to buy
@@ -23,6 +25,8 @@ public class CardTable {
     private final List<List<DevelopmentCard>> blueCards;
     private final List<List<DevelopmentCard>> yellowCards;
     private final List<List<DevelopmentCard>> purpleCards;
+
+    private final Map<CardColor, List<List<DevelopmentCard>>> cardTable;
 
     //CONSTRUCTORS
 
@@ -35,17 +39,23 @@ public class CardTable {
         yellowCards = new ArrayList<>();
         purpleCards = new ArrayList<>();
 
+        cardTable = new HashMap<>();
+
         // GREEN CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
+        cardTable.put(CardColor.GREEN, greenCards);
 
         // BLUE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
+        cardTable.put(CardColor.BLUE, blueCards);
 
         // YELLOW CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
+        cardTable.put(CardColor.YELLOW, yellowCards);
 
         // PURPLE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
+        cardTable.put(CardColor.PURPLE, purpleCards);
     }
 
     //PUBLIC METHODS
@@ -72,11 +82,11 @@ public class CardTable {
             row = 0;
 
         // Checks that the deck is not empty before trying to access it
-        if(colorToColumn(cardColor).get(row).isEmpty())
+        if(cardTable.get(cardColor).get(row).isEmpty())
             throw new EmptyDeckException();
 
-        playerBoard.buyDevelopmentCard(colorToColumn(cardColor).get(row).get(0), cardSlot);
-        colorToColumn(cardColor).get(row).remove(0);
+        playerBoard.buyDevelopmentCard(cardTable.get(cardColor).get(row).get(0), cardSlot);
+        cardTable.get(cardColor).get(row).remove(0);
     }
 
     /**
@@ -85,7 +95,7 @@ public class CardTable {
      * @param cardColor specifies the color of the card that has to be removed
      */
     public void discardTop(CardColor cardColor) throws EmptyDeckException {
-        List<List<DevelopmentCard>> deckColumn = colorToColumn(cardColor);
+        List<List<DevelopmentCard>> deckColumn = cardTable.get(cardColor);
 
         if (deckColumn.get(2).size() > 0)
             deckColumn.get(2).remove(0);
@@ -165,27 +175,6 @@ public class CardTable {
             else if (developmentCard.getLevel() == 3)
                 colorCards.get(0).add(developmentCard);
         }
-    }
-
-    /**
-     * Transforms the CardColor in input into the corresponding column of the CardTable
-     *
-     * @param cardColor color received in input
-     * @return the column in the grid that contains the cards of the specified color
-     */
-    //TODO questa cosa orrenda si può evitare usando una mappa <cardColor, List<List<DevelopmentCard>>> ?
-    private List<List<DevelopmentCard>> colorToColumn(CardColor cardColor) {
-        List<List<DevelopmentCard>> deckColumn = null;
-        if (cardColor.equals(CardColor.GREEN))
-            deckColumn = greenCards;
-        else if (cardColor.equals(CardColor.BLUE))
-            deckColumn = blueCards;
-        else if (cardColor.equals(CardColor.YELLOW))
-            deckColumn = yellowCards;
-        else if (cardColor.equals(CardColor.PURPLE))
-            deckColumn = purpleCards;
-
-        return deckColumn;
     }
 
     //GETTERS
