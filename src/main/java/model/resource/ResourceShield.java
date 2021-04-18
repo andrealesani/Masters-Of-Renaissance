@@ -1,5 +1,6 @@
 package model.resource;
 
+import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
@@ -25,6 +26,9 @@ public class ResourceShield extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
+        if(playerBoard == null)
+            throw new ParametersNotValidException();
+
         playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 1);
     }
 
@@ -35,6 +39,9 @@ public class ResourceShield extends Resource {
      */
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
+        if(playerBoard == null)
+            throw new ParametersNotValidException();
+
         playerBoard.addResourceToStrongbox(ResourceType.SHIELD, 1);
     }
 }
