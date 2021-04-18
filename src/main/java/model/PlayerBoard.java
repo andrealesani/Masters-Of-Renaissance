@@ -596,6 +596,9 @@ public class PlayerBoard {
      * @param number the number of the card to select or deselect
      */
     public void chooseLeaderCard(int number) {
+        if(number <= 0)
+            throw new ParametersNotValidException();
+        
         LeaderCard leaderCard = leaderCards.get(number - 1);
 
         if (leaderCard.isActive())
