@@ -1,6 +1,5 @@
 package model.resource;
 
-import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
@@ -26,9 +25,6 @@ public class ResourceWhite extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        if(playerBoard == null)
-            throw new ParametersNotValidException();
-        
         playerBoard.addWhiteMarble(1);
     }
 }

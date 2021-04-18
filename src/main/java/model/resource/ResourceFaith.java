@@ -1,6 +1,5 @@
 package model.resource;
 
-import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
@@ -13,7 +12,9 @@ public class ResourceFaith extends Resource {
     /**
      * Constructor
      */
-    public ResourceFaith() { super(ResourceType.FAITH); }
+    public ResourceFaith() {
+        super(ResourceType.FAITH);
+    }
 
     //PUBLIC METHODS
 
@@ -24,9 +25,6 @@ public class ResourceFaith extends Resource {
      */
     @Override
     public void addResourceFromMarket(PlayerBoard playerBoard) {
-        if(playerBoard == null)
-            throw new ParametersNotValidException();
-
         playerBoard.addFaith(1);
     }
 
@@ -37,9 +35,6 @@ public class ResourceFaith extends Resource {
      */
     @Override
     public void addResourceFromProduction(PlayerBoard playerBoard) {
-        if(playerBoard == null)
-            throw new ParametersNotValidException();
-
         playerBoard.addFaith(1);
     }
 }
