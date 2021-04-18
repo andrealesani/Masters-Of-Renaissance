@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.ParametersNotValidException;
 import model.resource.*;
 
 /**
@@ -82,6 +83,9 @@ public class Market {
      * @param playerBoard the player's board
      */
     public void selectRow(int numScope, PlayerBoard playerBoard) {
+        if((numScope < 0) || (numScope >= 3) || (playerBoard == null))
+            throw new ParametersNotValidException();
+
         int riga;
 
         riga = numScope;
@@ -97,6 +101,9 @@ public class Market {
      * @param playerBoard the player's board
      */
     public void selectColumn(int numScope, PlayerBoard playerBoard) {
+        if((numScope < 0) || (numScope >= 4) || (playerBoard == null))
+            throw new ParametersNotValidException();
+
         int col;
 
         col = numScope;
@@ -113,6 +120,9 @@ public class Market {
      * @param numScope the number of the selected row
      */
     private void shiftRow(int numScope) {
+        if((numScope < 0) || (numScope >= 3))
+            throw new ParametersNotValidException();
+
         int riga;
         Resource temp;
 
@@ -134,6 +144,9 @@ public class Market {
      * @param numScope the number of the selected column
      */
     private void shiftColumn(int numScope) {
+        if((numScope < 0) || (numScope >= 4))
+            throw new ParametersNotValidException();
+
         int col;
         Resource temp;
 
@@ -169,6 +182,9 @@ public class Market {
      * @return the marble in the given spot
      */
     public Resource getMarble(int row, int column) {
+        if((row < 0) || (column < 0) || (row >= 3) || (column >= 4))
+            throw new ParametersNotValidException();
+
         return board[row][column];
     }
 
