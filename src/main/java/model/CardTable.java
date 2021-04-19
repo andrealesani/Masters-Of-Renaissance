@@ -116,29 +116,14 @@ public class CardTable {
      * @return true if there's at least one card of each color still available
      */
     public boolean checkAllColorsAvailable() {
-        for (List<DevelopmentCard> deck : greenCards) {
-            if (deck.size() >= 1)
-                break;
-            else
-                return false;
-        }
-        for (List<DevelopmentCard> deck : blueCards) {
-            if (deck.size() >= 1)
-                break;
-            else
-                return false;
-        }
-        for (List<DevelopmentCard> deck : yellowCards) {
-            if (deck.size() >= 1)
-                break;
-            else
-                return false;
-        }
-        for (List<DevelopmentCard> deck : purpleCards) {
-            if (deck.size() >= 1)
-                break;
-            else
-                return false;
+
+        for (CardColor color : cardTable.keySet()) {
+            for (List<DevelopmentCard> deck : cardTable.get(color)) {
+                if (deck.size() >= 1)
+                    break;
+                else
+                    return false;
+            }
         }
 
         return true;
