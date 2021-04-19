@@ -374,7 +374,7 @@ class UserInterfaceTest {
         inStock.put(ResourceType.SERVANT, 20);
 
         //Saves the cost of the card
-        List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
 
         //Buys the card
         game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
@@ -447,7 +447,7 @@ class UserInterfaceTest {
         inStock.put(ResourceType.SERVANT, 20);
 
         //Saves the cost of the card
-        List<ResourceType> cost = game.getCardTable().getGreenCards().get(2).get(0).getCost();
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
 
         //Buys the card
         game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
@@ -676,10 +676,10 @@ class UserInterfaceTest {
         // TEST STARTS HERE
         // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in the next test)
 
-        assertEquals(4, game.getCardTable().getGreenCards().get(2).size());
+        assertEquals(4, game.getCardTable().getGreenCards().get(0).size());
         // SECOND TURN: first player chooses to buy a DevelopmentCard
         game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-        assertEquals(3, game.getCardTable().getGreenCards().get(2).size());
+        assertEquals(3, game.getCardTable().getGreenCards().get(0).size());
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
     }
 

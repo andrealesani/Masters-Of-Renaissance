@@ -23,7 +23,7 @@ class CardTableTest {
     @Test
     void createDecksFromJSON() {
         CardTable cardTable = new CardTable();
-        for (DevelopmentCard developmentCard : cardTable.getGreenCards().get(0)) {
+        for (DevelopmentCard developmentCard : cardTable.getGreenCards().get(2)) {
             assertTrue(developmentCard.getLevel() == 3);
             assertTrue(developmentCard.getColor() == CardColor.GREEN);
         }
@@ -31,11 +31,11 @@ class CardTableTest {
             assertTrue(developmentCard.getLevel() == 2);
             assertTrue(developmentCard.getColor() == CardColor.GREEN);
         }
-        for (DevelopmentCard developmentCard : cardTable.getGreenCards().get(2)) {
+        for (DevelopmentCard developmentCard : cardTable.getGreenCards().get(0)) {
             assertTrue(developmentCard.getLevel() == 1);
             assertTrue(developmentCard.getColor() == CardColor.GREEN);
         }
-        for (DevelopmentCard developmentCard : cardTable.getBlueCards().get(0)) {
+        for (DevelopmentCard developmentCard : cardTable.getBlueCards().get(2)) {
             assertTrue(developmentCard.getLevel() == 3);
             assertTrue(developmentCard.getColor() == CardColor.BLUE);
         }
@@ -43,11 +43,11 @@ class CardTableTest {
             assertTrue(developmentCard.getLevel() == 2);
             assertTrue(developmentCard.getColor() == CardColor.BLUE);
         }
-        for (DevelopmentCard developmentCard : cardTable.getBlueCards().get(2)) {
+        for (DevelopmentCard developmentCard : cardTable.getBlueCards().get(0)) {
             assertTrue(developmentCard.getLevel() == 1);
             assertTrue(developmentCard.getColor() == CardColor.BLUE);
         }
-        for (DevelopmentCard developmentCard : cardTable.getYellowCards().get(0)) {
+        for (DevelopmentCard developmentCard : cardTable.getYellowCards().get(2)) {
             assertTrue(developmentCard.getLevel() == 3);
             assertTrue(developmentCard.getColor() == CardColor.YELLOW);
         }
@@ -55,11 +55,11 @@ class CardTableTest {
             assertTrue(developmentCard.getLevel() == 2);
             assertTrue(developmentCard.getColor() == CardColor.YELLOW);
         }
-        for (DevelopmentCard developmentCard : cardTable.getYellowCards().get(2)) {
+        for (DevelopmentCard developmentCard : cardTable.getYellowCards().get(0)) {
             assertTrue(developmentCard.getLevel() == 1);
             assertTrue(developmentCard.getColor() == CardColor.YELLOW);
         }
-        for (DevelopmentCard developmentCard : cardTable.getPurpleCards().get(0)) {
+        for (DevelopmentCard developmentCard : cardTable.getPurpleCards().get(2)) {
             assertTrue(developmentCard.getLevel() == 3);
             assertTrue(developmentCard.getColor() == CardColor.PURPLE);
         }
@@ -67,7 +67,7 @@ class CardTableTest {
             assertTrue(developmentCard.getLevel() == 2);
             assertTrue(developmentCard.getColor() == CardColor.PURPLE);
         }
-        for (DevelopmentCard developmentCard : cardTable.getPurpleCards().get(2)) {
+        for (DevelopmentCard developmentCard : cardTable.getPurpleCards().get(0)) {
             assertTrue(developmentCard.getLevel() == 1);
             assertTrue(developmentCard.getColor() == CardColor.PURPLE);
         }

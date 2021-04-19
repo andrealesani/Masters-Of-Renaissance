@@ -72,14 +72,7 @@ public class CardTable {
         if (cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
             throw new ParametersNotValidException();
 
-        // Hardcoded connection between the card's level and its row in the CardTable
-        int row = -1;
-        if (level == 1)
-            row = 2;
-        else if (level == 2)
-            row = 1;
-        else if (level == 3)
-            row = 0;
+        int row = level -1;
 
         // Checks that the deck is not empty before trying to access it
         if (cardTable.get(cardColor).get(row).isEmpty())
@@ -158,11 +151,11 @@ public class CardTable {
         }
         for (DevelopmentCard developmentCard : allColorCards) {
             if (developmentCard.getLevel() == 1)
-                colorCards.get(2).add(developmentCard);
+                colorCards.get(0).add(developmentCard);
             else if (developmentCard.getLevel() == 2)
                 colorCards.get(1).add(developmentCard);
             else if (developmentCard.getLevel() == 3)
-                colorCards.get(0).add(developmentCard);
+                colorCards.get(2).add(developmentCard);
         }
     }
 
