@@ -96,14 +96,18 @@ public class CardTable {
      */
     public void discardTop(CardColor cardColor) throws EmptyDeckException {
         List<List<DevelopmentCard>> deckColumn = cardTable.get(cardColor);
+        int i;
 
-        if (deckColumn.get(2).size() > 0)
-            deckColumn.get(2).remove(0);
-        else if (deckColumn.get(1).size() > 0)
-            deckColumn.get(1).remove(0);
-        else if (deckColumn.get(0).size() > 0)
-            deckColumn.get(0).remove(0);
-        else throw new EmptyDeckException();
+        for (i=2; i>=0; i--) {
+            if (deckColumn.get(i).size() > 0) {
+                deckColumn.get(i).remove(0);
+                break;
+            }
+        }
+
+        if (i < 0) {
+            throw new EmptyDeckException();
+        }
     }
 
     /**
