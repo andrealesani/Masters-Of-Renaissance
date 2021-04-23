@@ -6,9 +6,9 @@
     "discountsType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
     "discountsQuantities" : [0, 0, 0, 0],
     "waitingRoomType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "WHITEORB"],
-    "waitingRoomQuantity" : [0, 0, 0, 0, 0, 0],
+    "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "strongboxQuantity" : [0, 0, 0, 0, 0],
+    "strongboxQuantities" : [0, 0, 0, 0, 0],
     "cardSlots" : [
       {"Slot1" : [
         {
