@@ -17,8 +17,7 @@ class DevelopmentCardBeanTest {
     void readJSON() {
         Gson gson = new Gson();
         JsonReader reader = null;
-
-        // depot leader cards
+        
         try {
             reader = new JsonReader(new FileReader("./src/main/java/network/gsonIN.json"));
         } catch (
