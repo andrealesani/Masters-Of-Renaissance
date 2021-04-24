@@ -10,7 +10,7 @@
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
     "strongboxQuantities" : [0, 0, 0, 0, 0],
     "cardSlots" : [
-      {"Slot1" : [
+      {"developmentCards" : [
         {
           "victoryPoints": 3,
           "color": "YELLOW",
@@ -34,7 +34,7 @@
           "outputQuantities": [0, 2, 0, 0, 0, 2]
         }
       ]},
-      {"Slot2" : [
+      {"developmentCards" : [
         {
           "victoryPoints": 2,
           "color": "PURPLE",
@@ -47,7 +47,7 @@
           "outputQuantities": [0, 0, 1, 0, 0, 0]
         }
       ]},
-      {"Slot3" : [
+      {"developmentCards" : [
         {
           "victoryPoints": 3,
           "color": "PURPLE",
