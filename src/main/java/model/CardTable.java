@@ -33,6 +33,8 @@ public class CardTable {
     /**
      * Constructor
      */
+
+    //TODO forse sostituire i 4 deck con l'usare l'unico json per tutte le carte
     public CardTable() {
         greenCards = new ArrayList<>();
         blueCards = new ArrayList<>();
