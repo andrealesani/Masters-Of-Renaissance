@@ -1,4 +1,4 @@
-package network;
+package network.beans;
 
 import model.CardColor;
 import model.ResourceType;

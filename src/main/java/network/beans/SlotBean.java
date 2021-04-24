@@ -1,7 +1,8 @@
-package network;
+package network.beans;
+
+import network.beans.DevelopmentCardBean;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class SlotBean {
     private DevelopmentCardBean[] developmentCards;
