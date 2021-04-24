@@ -6,9 +6,49 @@ import com.google.gson.stream.JsonReader;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerMain {
+
+    private int port;
+
+    public ServerMain(int port) {
+        this.port = port;
+    }
+
+    public void startServer() {
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        System.out.println("Server started!");
+
+        //Creates connection socket
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            return;
+        }
+
+        System.out.println("Server ready");
+
+        //Creates connections with clients in new threads
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                System.out.println("Creating new connection...");
+                executor.submit(new ServerClientHandler(socket));
+            } catch(IOException ex) {
+                System.err.println(ex.getMessage());
+                break; //If serverSocket is shut down
+            }
+        }
+
+        executor.shutdown();
+    }
 
     public static void main(String[] args) {
 
@@ -28,64 +68,12 @@ public class ServerMain {
                 portNumber = Integer.parseInt(map.get("PortNumber"));
 
             } catch (FileNotFoundException ex) {
-                System.out.println(ex.getMessage());
+                System.err.println(ex.getMessage());
                 System.exit(1);
             }
         }
 
-        System.out.println("Server started!");
-
-        //Creates connection socket
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(portNumber);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
-
-        System.out.println("Waiting for connection..");
-
-        //Waits for connection from client
-        Socket clientSocket = null;
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
-
-        System.out.println("Connected!");
-
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader (new InputStreamReader(clientSocket.getInputStream()));
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
-
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
-
-        readLoop(in, out);
-    }
-
-    private static void readLoop(BufferedReader in, PrintWriter out) {
-        String s;
-        try {
-            while ((s = in.readLine()) != null) {
-                out.println(s);
-                System.out.println(s);
-            }
-        } catch (IOException | NullPointerException ex) {
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
+        ServerMain server = new ServerMain(portNumber); //not sure why we do this instead of running the code in main
+        server.startServer();
     }
 }

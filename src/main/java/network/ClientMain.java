@@ -29,7 +29,7 @@ public class ClientMain {
                 portNumber = Integer.parseInt(map.get("PortNumber"));
 
             } catch (FileNotFoundException ex) {
-                System.out.println(ex.getMessage());
+                System.err.println(ex.getMessage());
                 System.exit(1);
             }
         }
@@ -41,7 +41,7 @@ public class ClientMain {
         try {
             clientSocket = new Socket(hostName, portNumber);
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
             System.exit(1);
         }
 
@@ -61,10 +61,17 @@ public class ClientMain {
         //Reads input string and sends it to server
         String userInput;
         while ((userInput = stdIn.readLine()) != null) {
-            if (userInput.equals("ESC + :q + ENTER"))
+            try {
+                out.println(userInput);
+                if (userInput.equals("ESC + :q")) {
+                    System.out.println("Closing connection...");
                     break;
-            out.println(userInput);
-            System.out.println("echo: " + in.readLine());
+                } else
+                    System.out.println("echo: " + in.readLine());
+            } catch(IOException ex) {
+                System.err.println(ex.getMessage());
+                System.exit(1); //If serverSocket is shut down
+            }
         }
     }
 }
