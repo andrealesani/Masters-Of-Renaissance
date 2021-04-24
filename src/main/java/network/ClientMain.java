@@ -1,0 +1,70 @@
+package network;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.Map;
+
+public class ClientMain {
+    public static void main(String[] args) throws IOException {
+
+        //Initialize hostName and portNumber
+        String hostName = null;
+        int portNumber = 0;
+        if (args.length > 0){
+            hostName = args[0];
+            portNumber = Integer.parseInt(args[1]);
+        }else{
+            System.out.println("No parameters on command line: reading from Json.");
+            Gson gson = new Gson();
+            JsonReader reader = null;
+
+            try {
+
+                reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
+                Map<String, String> map = gson.fromJson(reader, Map.class);
+                hostName = map.get("HostName");
+                portNumber = Integer.parseInt(map.get("PortNumber"));
+
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex.getMessage());
+                System.exit(1);
+            }
+        }
+
+        System.out.println("Attempting connection...");
+
+        //Attempts connection to server
+        Socket clientSocket = null;
+        try {
+            clientSocket = new Socket(hostName, portNumber);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            System.exit(1);
+        }
+
+        System.out.println("Client connected!");
+
+        PrintWriter out =
+                new PrintWriter(clientSocket.getOutputStream(), true);
+
+        BufferedReader in =
+                new BufferedReader(
+                        new InputStreamReader(clientSocket.getInputStream()));
+
+        BufferedReader stdIn =
+                new BufferedReader(
+                        new InputStreamReader(System.in));
+
+        //Reads input string and sends it to server
+        String userInput;
+        while ((userInput = stdIn.readLine()) != null) {
+            if (userInput.equals("ESC + :q + ENTER"))
+                    break;
+            out.println(userInput);
+            System.out.println("echo: " + in.readLine());
+        }
+    }
+}
