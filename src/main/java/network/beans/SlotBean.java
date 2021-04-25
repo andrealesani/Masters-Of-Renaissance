@@ -5,13 +5,13 @@ import network.beans.DevelopmentCardBean;
 import java.util.Arrays;
 
 public class SlotBean {
-    private DevelopmentCardBean[] developmentCards;
+    private int[] developmentCards;
 
-    public DevelopmentCardBean[] getDevelopmentCards() {
+    public int[] getDevelopmentCards() {
         return developmentCards;
     }
 
-    public void setDevelopmentCards(DevelopmentCardBean[] developmentCards) {
+    public void setDevelopmentCards(int[] developmentCards) {
         this.developmentCards = developmentCards;
     }
 
