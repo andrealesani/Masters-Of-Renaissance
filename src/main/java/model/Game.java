@@ -484,8 +484,7 @@ public class Game implements UserInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
-        }.getType();
+        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {}.getType();
         ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
         leaderCards.addAll(depotLeaderCards);
 
@@ -495,8 +494,7 @@ public class Game implements UserInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
-        }.getType();
+        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {}.getType();
         ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         leaderCards.addAll(discountLeaderCards);
 
@@ -506,8 +504,7 @@ public class Game implements UserInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
-        }.getType();
+        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {}.getType();
         ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
         leaderCards.addAll(marbleLeaderCards);
 
@@ -517,10 +514,14 @@ public class Game implements UserInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
-        }.getType();
+        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {}.getType();
         ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
         leaderCards.addAll(productionLeaderCards);
+
+        int i = 1; // i++ prima passa i e poi lo incrementa => se voglio che id parta da 1 devo settare i a 1
+        for(LeaderCard leaderCard : leaderCards) {
+            leaderCard.setId(i++);
+        }
     }
 
     /**
