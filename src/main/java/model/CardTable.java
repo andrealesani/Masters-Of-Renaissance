@@ -43,21 +43,35 @@ public class CardTable {
 
         cardTable = new HashMap<>();
 
-        // GREEN CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
-        cardTable.put(CardColor.GREEN, greenCards);
+        int i = 1;
 
         // BLUE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
         cardTable.put(CardColor.BLUE, blueCards);
+        for(List<DevelopmentCard> deck : cardTable.get(CardColor.BLUE))
+            for(DevelopmentCard card : deck)
+                card.setId(i++);
 
-        // YELLOW CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
-        cardTable.put(CardColor.YELLOW, yellowCards);
+        // GREEN CARDS
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
+        cardTable.put(CardColor.GREEN, greenCards);
+        for(List<DevelopmentCard> deck : cardTable.get(CardColor.GREEN))
+            for(DevelopmentCard card : deck)
+                card.setId(i++);
 
         // PURPLE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
         cardTable.put(CardColor.PURPLE, purpleCards);
+        for(List<DevelopmentCard> deck : cardTable.get(CardColor.PURPLE))
+            for(DevelopmentCard card : deck)
+                card.setId(i++);
+
+        // YELLOW CARDS
+        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
+        cardTable.put(CardColor.YELLOW, yellowCards);
+        for(List<DevelopmentCard> deck : cardTable.get(CardColor.YELLOW))
+            for(DevelopmentCard card : deck)
+                card.setId(i++);
     }
 
     //PUBLIC METHODS
