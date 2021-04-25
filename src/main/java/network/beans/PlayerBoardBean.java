@@ -11,12 +11,14 @@ public class PlayerBoardBean {
     private ResourceType[] marbleConversions;
     private ResourceType[] discountsType;
     private int[] discountsQuantities;
+    private int whiteMarbles;
     private ResourceType[] waitingRoomType;
     private int[] waitingRoomQuantities;
     private ResourceType[] strongboxType;
     private int[] strongboxQuantities;
     private SlotBean[] cardSlots;
     private int[] leaderCards;
+    private boolean[] activeLeaderCards;
 
     public String getUsername() {
         return username;
@@ -36,6 +38,10 @@ public class PlayerBoardBean {
 
     public int[] getDiscountsQuantities() {
         return discountsQuantities;
+    }
+
+    public int getWhiteMarbles() {
+        return whiteMarbles;
     }
 
     public ResourceType[] getWaitingRoomType() {
@@ -60,6 +66,10 @@ public class PlayerBoardBean {
 
     public int[] getLeaderCards() {
         return leaderCards;
+    }
+
+    public boolean[] getActiveLeaderCards() {
+        return activeLeaderCards;
     }
 
     public void setFaithFromPB(PlayerBoard playerBoard) {

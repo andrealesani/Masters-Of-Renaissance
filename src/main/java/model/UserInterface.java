@@ -58,7 +58,7 @@ public interface UserInterface {
     /**
      * Allows the player to select a column from the market and take its resources
      *
-     * @param numScope    the index of the selected column
+     * @param numScope    the index of the selected column+
      */
     void selectMarketColumn(int numScope) throws WrongTurnPhaseException;
 
@@ -103,10 +103,10 @@ public interface UserInterface {
      * Allows the player to buy a development card from the cardTable
      *
      * @param cardColor the color of the card to buy
-     * @param row       the card table row from which to buy the card
-     * @param slot      the car slot in which to put the card
+     * @param level     the level of the card to buy
+     * @param slot      the card slot in which to put the card
      */
-    void takeDevelopmentCard(CardColor cardColor, int row, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException;
+    void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException;
 
     //Production selection actions
 
@@ -124,11 +124,6 @@ public interface UserInterface {
     void resetProductionChoice() throws WrongTurnPhaseException;
 
     /**
-     * Allows the player to confirm the selected production for activation
-     */
-    void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException;
-
-    /**
      * Allows the player to choose into which resource to turn a jolly in the production's input
      *
      * @param resource the resource into which to turn the jolly
@@ -141,6 +136,11 @@ public interface UserInterface {
      * @param resource the resource into which to turn the jolly
      */
     void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException;
+
+    /**
+     * Allows the player to confirm the selected production for activation
+     */
+    void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException;
 
     //Debt payment actions
 
