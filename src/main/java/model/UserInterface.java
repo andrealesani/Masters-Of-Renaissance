@@ -123,6 +123,7 @@ public interface UserInterface {
      */
     void resetProductionChoice() throws WrongTurnPhaseException;
 
+    //TODO aggiungere quantità ai metodi chooseJolly
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's input
      *
