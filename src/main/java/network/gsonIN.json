@@ -7,96 +7,14 @@
     "discountsQuantities" : [0, 0, 0, 0],
     "waitingRoomType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "WHITEORB"],
     "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
-    "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "strongboxQuantities" : [0, 0, 0, 0, 0],
+    "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
+    "strongboxQuantities" : [0, 0, 0, 0],
     "cardSlots" : [
-      {"developmentCards" : [
-        {
-          "victoryPoints": 3,
-          "color": "YELLOW",
-          "level": 1,
-          "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "costQuantity": [0, 0, 0, 3, 0],
-          "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "inputQuantities": [0, 0, 2, 0, 0],
-          "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-          "outputQuantities": [1, 1, 0, 1, 0, 0]
-        },
-        {
-          "victoryPoints": 7,
-          "color": "YELLOW",
-          "level": 2,
-          "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "costQuantity": [0, 0, 0, 5, 0],
-          "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "inputQuantities": [0, 0, 2, 0, 0],
-          "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-          "outputQuantities": [0, 2, 0, 0, 0, 2]
-        }
-      ]},
-      {"developmentCards" : [
-        {
-          "victoryPoints": 2,
-          "color": "PURPLE",
-          "level": 1,
-          "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "costQuantity": [1, 1, 1, 0, 0],
-          "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "inputQuantities": [1, 0, 0, 0, 0],
-          "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-          "outputQuantities": [0, 0, 1, 0, 0, 0]
-        }
-      ]},
-      {"developmentCards" : [
-        {
-          "victoryPoints": 3,
-          "color": "PURPLE",
-          "level": 1,
-          "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "costQuantity": [0, 0, 3, 0, 0],
-          "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-          "inputQuantities": [2, 0, 0, 0, 0],
-          "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-          "outputQuantities": [0, 1, 1, 1, 0, 0]
-        }
-      ]}
+      {"developmentCards" : [5, 4]},
+      {"developmentCards" : [13]},
+      {"developmentCards" : [2]}
     ],
-    "leaderCards" : [
-      {
-        "type" : "DEPOT",
-        "victoryPoints": 3,
-        "requiredResource": "SHIELD",
-        "requiredQuantity": 5,
-        "storableResource": "COIN",
-        "storableQuantity": 2
-      },
-      {
-        "type" : "DISCOUNT",
-        "victoryPoints": 2,
-        "discountType": "COIN",
-        "discount": 1,
-        "requiredColors": ["YELLOW", "PURPLE"],
-        "requiredQuantities": [1, 1]
-      },
-      {
-        "type" : "MARBLE",
-        "victoryPoints": 5,
-        "resourceType": "STONE",
-        "requiredColors": ["BLUE", "YELLOW"],
-        "requiredQuantities": [2, 1]
-      },
-      {
-        "type" : "PRODUCTION",
-        "victoryPoints": 4,
-        "requiredColor": "PURPLE",
-        "requiredLevel": 2,
-        "requiredQuantity": 1,
-        "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-        "inputQuantities": [0, 0, 0, 1, 0],
-        "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-        "outputQuantities": [0, 0, 0, 0, 1, 1]
-      }
-    ],
+    "leaderCards" : [3, 8, 12, 1],
     "vpFaithTiles" : ["NON SO COME FUNZIONINO"],
     "vpFaithValues" : ["NON SO COME FUNZIONINO"]
   }

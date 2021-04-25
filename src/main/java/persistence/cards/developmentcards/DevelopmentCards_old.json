@@ -1,5 +1,38 @@
 [
   {
+    "victoryPoints": 3,
+    "color": "YELLOW",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 0, 3, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 2, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [1, 1, 0, 1, 0, 0]
+  },
+  {
+    "victoryPoints": 2,
+    "color": "PURPLE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [1, 1, 1, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 0, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 1, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 7,
+    "color": "YELLOW",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 0, 5, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 2, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 2, 0, 0, 0, 2]
+  },
+  {
     "victoryPoints": 12,
     "color": "BLUE",
     "level": 3,
@@ -9,6 +42,17 @@
     "inputQuantities": [0, 1, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "outputQuantities": [1, 0, 3, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 3,
+    "color": "PURPLE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 3, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [2, 0, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 1, 1, 1, 0, 0]
   },
   {
     "victoryPoints": 11,
@@ -22,114 +66,37 @@
     "outputQuantities": [0, 0, 1, 0, 0, 3]
   },
   {
-    "victoryPoints": 9,
-    "color": "BLUE",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [6, 0, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 2, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 3, 0, 0, 2]
-  },
-  {
-    "victoryPoints": 6,
-    "color": "BLUE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [3, 0, 0, 2, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 0, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 3, 0, 0, 0]
-  },
-  {
     "victoryPoints": 8,
-    "color": "BLUE",
+    "color": "YELLOW",
     "level": 2,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [3, 0, 0, 3, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 1, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 2, 0, 1]
-  },
-  {
-    "victoryPoints": 3,
-    "color": "BLUE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [3, 0, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 0, 2, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [1, 1, 1, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 4,
-    "color": "BLUE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [2, 2, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 2, 0, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 1,
-    "color": "BLUE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [2, 0, 0, 0, 0],
+    "costQuantity": [0, 3, 0, 3, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
     "inputQuantities": [0, 0, 1, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 0, 0, 1]
+    "outputQuantities": [2, 0, 0, 0, 0, 1]
   },
   {
-    "victoryPoints": 10,
-    "color": "BLUE",
+    "victoryPoints": 11,
+    "color": "PURPLE",
     "level": 3,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [5, 0, 0, 2, 0],
+    "costQuantity": [0, 7, 0, 0, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 1, 0, 0],
+    "inputQuantities": [1, 0, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 2, 0, 2, 0, 1]
+    "outputQuantities": [0, 0, 0, 1, 0, 3]
   },
   {
-    "victoryPoints": 5,
-    "color": "BLUE",
+    "victoryPoints": 8,
+    "color": "PURPLE",
     "level": 2,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [4, 0, 0, 0, 0],
+    "costQuantity": [0, 3, 3, 0, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 1, 0, 0, 0],
+    "inputQuantities": [0, 0, 0, 1, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 0, 0, 2]
-  },
-  {
-    "victoryPoints": 2,
-    "color": "BLUE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [1, 1, 0, 1, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 1, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 1, 0, 0]
-  },
-  {
-    "victoryPoints": 7,
-    "color": "BLUE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [5, 0, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 2, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 2, 0, 0, 2]
+    "outputQuantities": [0, 2, 0, 0, 0, 1]
   },
   {
     "victoryPoints": 1,
@@ -143,6 +110,39 @@
     "outputQuantities": [0, 0, 0, 0, 0, 1]
   },
   {
+    "victoryPoints": 2,
+    "color": "YELLOW",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [1, 0, 1, 1, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [1, 0, 0, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 9,
+    "color": "BLUE",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [6, 0, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 2, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 3, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 4,
+    "color": "YELLOW",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 2, 2, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 2, 0, 0, 1]
+  },
+  {
     "victoryPoints": 6,
     "color": "GREEN",
     "level": 2,
@@ -154,6 +154,28 @@
     "outputQuantities": [0, 0, 0, 3, 0, 0]
   },
   {
+    "victoryPoints": 9,
+    "color": "PURPLE",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 6, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 0, 2, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [3, 0, 0, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 6,
+    "color": "BLUE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [3, 0, 0, 2, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 0, 0, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 3, 0, 0, 0]
+  },
+  {
     "victoryPoints": 3,
     "color": "GREEN",
     "level": 1,
@@ -163,6 +185,17 @@
     "inputQuantities": [0, 2, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "outputQuantities": [1, 0, 1, 1, 0, 0]
+  },
+  {
+    "victoryPoints": 8,
+    "color": "BLUE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [3, 0, 0, 3, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 2, 0, 1]
   },
   {
     "victoryPoints": 9,
@@ -198,6 +231,72 @@
     "outputQuantities": [0, 0, 2, 0, 0, 1]
   },
   {
+    "victoryPoints": 6,
+    "color": "YELLOW",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 2, 3, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [3, 0, 0, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 10,
+    "color": "PURPLE",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [2, 5, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [2, 2, 0, 0, 0, 1]
+  },
+  {
+    "victoryPoints": 3,
+    "color": "BLUE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [3, 0, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 0, 2, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [1, 1, 1, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 6,
+    "color": "PURPLE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [2, 3, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 3, 0, 0, 0]
+  },
+  {
+    "victoryPoints": 4,
+    "color": "BLUE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [2, 2, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 2, 0, 0, 0, 1]
+  },
+  {
+    "victoryPoints": 1,
+    "color": "BLUE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [2, 0, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 0, 0, 1]
+  },
+  {
     "victoryPoints": 5,
     "color": "GREEN",
     "level": 2,
@@ -209,6 +308,39 @@
     "outputQuantities": [0, 0, 0, 0, 0, 2]
   },
   {
+    "victoryPoints": 4,
+    "color": "PURPLE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 2, 0, 2, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 0, 1, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 2, 0, 1]
+  },
+  {
+    "victoryPoints": 11,
+    "color": "YELLOW",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 0, 7, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 1, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 1, 0, 0, 0, 3]
+  },
+  {
+    "victoryPoints": 10,
+    "color": "BLUE",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [5, 0, 0, 2, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 0, 1, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 2, 0, 2, 0, 1]
+  },
+  {
     "victoryPoints": 7,
     "color": "GREEN",
     "level": 2,
@@ -218,6 +350,83 @@
     "inputQuantities": [2, 0, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "outputQuantities": [0, 0, 0, 2, 0, 2]
+  },
+  {
+    "victoryPoints": 10,
+    "color": "YELLOW",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 2, 0, 5, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 1, 0, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [2, 0, 2, 0, 0, 1]
+  },
+  {
+    "victoryPoints": 1,
+    "color": "YELLOW",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 0, 2, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 0, 0, 1]
+  },
+  {
+    "victoryPoints": 5,
+    "color": "BLUE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [4, 0, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 5,
+    "color": "PURPLE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 4, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [1, 0, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 9,
+    "color": "YELLOW",
+    "level": 3,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 0, 0, 6, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 2, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 3, 0, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 2,
+    "color": "BLUE",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [1, 1, 0, 1, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 1, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 0, 1, 0, 0]
+  },
+  {
+    "victoryPoints": 7,
+    "color": "PURPLE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 5, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 0, 2, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [2, 0, 0, 0, 0, 2]
   },
   {
     "victoryPoints": 4,
@@ -253,127 +462,6 @@
     "outputQuantities": [1, 0, 0, 0, 0, 3]
   },
   {
-    "victoryPoints": 2,
-    "color": "GREEN",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 1, 1, 1, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 0, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 1, 0, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 2,
-    "color": "PURPLE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [1, 1, 1, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 1, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 3,
-    "color": "PURPLE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 3, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [2, 0, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 1, 1, 1, 0, 0]
-  },
-  {
-    "victoryPoints": 11,
-    "color": "PURPLE",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 7, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 1, 0, 3]
-  },
-  {
-    "victoryPoints": 8,
-    "color": "PURPLE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 3, 3, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 0, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 2, 0, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 9,
-    "color": "PURPLE",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 6, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 0, 2, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [3, 0, 0, 0, 0, 2]
-  },
-  {
-    "victoryPoints": 10,
-    "color": "PURPLE",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [2, 5, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [2, 2, 0, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 6,
-    "color": "PURPLE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [2, 3, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 1, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 3, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 4,
-    "color": "PURPLE",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 2, 0, 2, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 1, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 2, 0, 1]
-  },
-  {
-    "victoryPoints": 5,
-    "color": "PURPLE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 4, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 0, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 0, 0, 2]
-  },
-  {
-    "victoryPoints": 7,
-    "color": "PURPLE",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 5, 0, 0, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 0, 2, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [2, 0, 0, 0, 0, 2]
-  },
-  {
     "victoryPoints": 1,
     "color": "PURPLE",
     "level": 1,
@@ -396,125 +484,26 @@
     "outputQuantities": [0, 1, 0, 3, 0, 0]
   },
   {
-    "victoryPoints": 3,
-    "color": "YELLOW",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 0, 3, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 2, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [1, 1, 0, 1, 0, 0]
-  },
-  {
-    "victoryPoints": 7,
-    "color": "YELLOW",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 0, 5, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 2, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 2, 0, 0, 0, 2]
-  },
-  {
-    "victoryPoints": 8,
-    "color": "YELLOW",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 3, 0, 3, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [2, 0, 0, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 2,
-    "color": "YELLOW",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [1, 0, 1, 1, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [1, 0, 0, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 4,
-    "color": "YELLOW",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 2, 2, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [1, 1, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 2, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 6,
-    "color": "YELLOW",
-    "level": 2,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 2, 3, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [3, 0, 0, 0, 0, 0]
-  },
-  {
-    "victoryPoints": 11,
-    "color": "YELLOW",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 0, 7, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 1, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 1, 0, 0, 0, 3]
-  },
-  {
-    "victoryPoints": 10,
-    "color": "YELLOW",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 2, 0, 5, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 1, 0, 1, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [2, 0, 2, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 1,
-    "color": "YELLOW",
-    "level": 1,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 0, 2, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 1, 0, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 0, 0, 0, 0, 1]
-  },
-  {
-    "victoryPoints": 9,
-    "color": "YELLOW",
-    "level": 3,
-    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "costQuantity": [0, 0, 0, 6, 0],
-    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
-    "inputQuantities": [0, 0, 2, 0, 0],
-    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [0, 3, 0, 0, 0, 2]
-  },
-  {
     "victoryPoints": 5,
     "color": "YELLOW",
-    "level": 2,
+    "level": 3,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
     "costQuantity": [0, 0, 0, 4, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
     "inputQuantities": [0, 0, 1, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "outputQuantities": [0, 0, 0, 0, 0, 2]
+  },
+  {
+    "victoryPoints": 2,
+    "color": "GREEN",
+    "level": 1,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [0, 1, 1, 1, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 0, 0, 1, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 1, 0, 0, 0, 0]
   },
   {
     "victoryPoints": 12,
@@ -526,5 +515,16 @@
     "inputQuantities": [0, 0, 1, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "outputQuantities": [0, 3, 0, 1, 0, 0]
+  },
+  {
+    "victoryPoints": 7,
+    "color": "BLUE",
+    "level": 2,
+    "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "costQuantity": [5, 0, 0, 0, 0],
+    "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN"],
+    "inputQuantities": [0, 2, 0, 0, 0],
+    "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
+    "outputQuantities": [0, 0, 2, 0, 0, 2]
   }
 ]
