@@ -1,5 +1,6 @@
 package network.beans;
 
+import model.PlayerBoard;
 import model.ResourceType;
 
 import java.util.Arrays;
@@ -21,88 +22,48 @@ public class PlayerBoardBean {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getFaith() {
         return faith;
-    }
-
-    public void setFaith(int faith) {
-        this.faith = faith;
     }
 
     public ResourceType[] getMarbleConversions() {
         return marbleConversions;
     }
 
-    public void setMarbleConversions(ResourceType[] marbleConversions) {
-        this.marbleConversions = marbleConversions;
-    }
-
     public ResourceType[] getDiscountsType() {
         return discountsType;
-    }
-
-    public void setDiscountsType(ResourceType[] discountsType) {
-        this.discountsType = discountsType;
     }
 
     public int[] getDiscountsQuantities() {
         return discountsQuantities;
     }
 
-    public void setDiscountsQuantities(int[] discountsQuantities) {
-        this.discountsQuantities = discountsQuantities;
-    }
-
     public ResourceType[] getWaitingRoomType() {
         return waitingRoomType;
-    }
-
-    public void setWaitingRoomType(ResourceType[] waitingRoomType) {
-        this.waitingRoomType = waitingRoomType;
     }
 
     public int[] getWaitingRoomQuantities() {
         return waitingRoomQuantities;
     }
 
-    public void setWaitingRoomQuantities(int[] waitingRoomQuantities) {
-        this.waitingRoomQuantities = waitingRoomQuantities;
-    }
-
     public ResourceType[] getStrongboxType() {
         return strongboxType;
-    }
-
-    public void setStrongboxType(ResourceType[] strongboxType) {
-        this.strongboxType = strongboxType;
     }
 
     public int[] getStrongboxQuantities() {
         return strongboxQuantities;
     }
 
-    public void setStrongboxQuantities(int[] strongboxQuantities) {
-        this.strongboxQuantities = strongboxQuantities;
-    }
-
     public SlotBean[] getCardSlots() {
         return cardSlots;
-    }
-
-    public void setCardSlots(SlotBean[] cardSlots) {
-        this.cardSlots = cardSlots;
     }
 
     public LeaderCardBean[] getLeaderCards() {
         return leaderCards;
     }
 
-    public void setLeaderCards(LeaderCardBean[] leaderCards) {
-        this.leaderCards = leaderCards;
+    public void setFaithFromPB(PlayerBoard playerBoard) {
+        faith = playerBoard.getFaith();
     }
 
     @Override
