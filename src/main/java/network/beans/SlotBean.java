@@ -1,7 +1,5 @@
 package network.beans;
 
-import network.beans.DevelopmentCardBean;
-
 import java.util.Arrays;
 
 public class SlotBean {
