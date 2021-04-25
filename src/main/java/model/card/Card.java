@@ -13,6 +13,8 @@ public abstract class Card {
      */
     private boolean isActive = false;
 
+    private int id = 0;
+
     //CONSTRUCTORS
 
     /**
@@ -65,5 +67,23 @@ public abstract class Card {
      */
     public int getVictoryPoints() {
         return victoryPoints;
+    }
+
+    /**
+     * Getter
+     *
+     * @return card's id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Setter
+     *
+     * @param id that you want to assign to the card
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }
