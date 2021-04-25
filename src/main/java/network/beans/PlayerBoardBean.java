@@ -15,8 +15,8 @@ public class PlayerBoardBean {
     private int[] waitingRoomQuantities;
     private ResourceType[] strongboxType;
     private int[] strongboxQuantities;
-    private SlotBean[] cardSlots;
-    private LeaderCardBean[] leaderCards;
+    private int[] cardSlots;
+    private int[] leaderCards;
 
     public String getUsername() {
         return username;
@@ -54,11 +54,11 @@ public class PlayerBoardBean {
         return strongboxQuantities;
     }
 
-    public SlotBean[] getCardSlots() {
+    public int[] getCardSlots() {
         return cardSlots;
     }
 
-    public LeaderCardBean[] getLeaderCards() {
+    public int[] getLeaderCards() {
         return leaderCards;
     }
 
