@@ -1,6 +1,7 @@
 package network.beans;
 
 import model.PlayerBoard;
+import model.PopeTileState;
 import model.ResourceType;
 
 import java.util.Arrays;
@@ -8,9 +9,6 @@ import java.util.Arrays;
 public class PlayerBoardBean {
     private String username;
     private int faith;
-    private ResourceType[] marbleConversions;
-    private ResourceType[] discountsType;
-    private int[] discountsQuantities;
     private int whiteMarbles;
     private ResourceType[] waitingRoomType;
     private int[] waitingRoomQuantities;
@@ -19,6 +17,10 @@ public class PlayerBoardBean {
     private SlotBean[] cardSlots;
     private int[] leaderCards;
     private boolean[] activeLeaderCards;
+    private int[] vpFaithTiles;
+    private int[] vpFaithValues;
+    private PopeTileState[] popeTileStates;
+    private int[] popeTilePoints;
 
     public String getUsername() {
         return username;
@@ -26,18 +28,6 @@ public class PlayerBoardBean {
 
     public int getFaith() {
         return faith;
-    }
-
-    public ResourceType[] getMarbleConversions() {
-        return marbleConversions;
-    }
-
-    public ResourceType[] getDiscountsType() {
-        return discountsType;
-    }
-
-    public int[] getDiscountsQuantities() {
-        return discountsQuantities;
     }
 
     public int getWhiteMarbles() {
@@ -81,9 +71,6 @@ public class PlayerBoardBean {
         return "PlayerBoardBean{" +
                 "\n" + "username='" + username + '\'' +
                 ",\n faith=" + faith +
-                ",\n marbleConversions=" + Arrays.toString(marbleConversions) +
-                ",\n discountsType=" + Arrays.toString(discountsType) +
-                ",\n discountsQuantities=" + Arrays.toString(discountsQuantities) +
                 ",\n waitingRoomType=" + Arrays.toString(waitingRoomType) +
                 ",\n waitingRoomQuantities=" + Arrays.toString(waitingRoomQuantities) +
                 ",\n strongboxType=" + Arrays.toString(strongboxType) +

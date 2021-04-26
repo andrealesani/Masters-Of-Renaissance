@@ -2,9 +2,6 @@
   {
     "username" : "Gigi",
     "faith" : 0,
-    "marbleConversions" : ["FOR_EXAMPLE", "COIN"],
-    "discountsType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
-    "discountsQuantities" : [0, 0, 0, 0],
     "waitingRoomType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "WHITEORB"],
     "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
@@ -17,6 +14,7 @@
       {"developmentCards" : [2]}
     ],
     "leaderCards" : [3, 8, 12, 1],
+    "activeLeaderCards" : ["TRUE", "FALSE", "FALSE", "TRUE"],
     "vpFaithTiles" : [3, 6, 9, 12, 15, 18, 21, 24],
     "vpFaithValues" : [1, 2, 4, 6, 9, 12, 16, 20],
     "popeTileStates" : ["INACTIVE", "INACTIVE", "INACTIVE"],
