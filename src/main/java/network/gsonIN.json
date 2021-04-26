@@ -9,13 +9,17 @@
     "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
     "strongboxQuantities" : [0, 0, 0, 0],
+    "depotResources" : ["COIN", "SERVANT", "SHIELD", "STONE"],
+    "depotQuantities" : [0, 0, 0, 0],
     "cardSlots" : [
       {"developmentCards" : [5, 4]},
       {"developmentCards" : [13]},
       {"developmentCards" : [2]}
     ],
     "leaderCards" : [3, 8, 12, 1],
-    "vpFaithTiles" : ["NON SO COME FUNZIONINO"],
-    "vpFaithValues" : ["NON SO COME FUNZIONINO"]
+    "vpFaithTiles" : [3, 6, 9, 12, 15, 18, 21, 24],
+    "vpFaithValues" : [1, 2, 4, 6, 9, 12, 16, 20],
+    "popeTileStates" : ["INACTIVE", "INACTIVE", "INACTIVE"],
+    "popeTilePoints" : [2, 3, 4]
   }
 ]
