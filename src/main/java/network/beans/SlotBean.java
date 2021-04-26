@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class SlotBean {
     private int[] developmentCards;
 
+    // GETTERS
+
     public int[] getDevelopmentCards() {
         return developmentCards;
     }
 
-    public void setDevelopmentCards(int[] developmentCards) {
-        this.developmentCards = developmentCards;
-    }
+    // SETTERS
 
     @Override
     public String toString() {

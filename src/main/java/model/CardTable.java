@@ -26,50 +26,50 @@ public class CardTable {
     private final List<List<DevelopmentCard>> yellowCards;
     private final List<List<DevelopmentCard>> purpleCards;
 
-    private final Map<CardColor, List<List<DevelopmentCard>>> cardTable;
+    private final Map<CardColor, List<List<DevelopmentCard>>> cards;
 
     //CONSTRUCTORS
 
     /**
      * Constructor
      */
-
     //TODO forse sostituire i 4 deck con l'usare l'unico json per tutte le carte
+    //TODO shufflare tutti i mazzetti
     public CardTable() {
         greenCards = new ArrayList<>();
         blueCards = new ArrayList<>();
         yellowCards = new ArrayList<>();
         purpleCards = new ArrayList<>();
 
-        cardTable = new HashMap<>();
+        cards = new HashMap<>();
 
         int i = 1;
 
         // BLUE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
-        cardTable.put(CardColor.BLUE, blueCards);
-        for(List<DevelopmentCard> deck : cardTable.get(CardColor.BLUE))
+        cards.put(CardColor.BLUE, blueCards);
+        for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
                 card.setId(i++);
 
         // GREEN CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
-        cardTable.put(CardColor.GREEN, greenCards);
-        for(List<DevelopmentCard> deck : cardTable.get(CardColor.GREEN))
+        cards.put(CardColor.GREEN, greenCards);
+        for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
                 card.setId(i++);
 
         // PURPLE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
-        cardTable.put(CardColor.PURPLE, purpleCards);
-        for(List<DevelopmentCard> deck : cardTable.get(CardColor.PURPLE))
+        cards.put(CardColor.PURPLE, purpleCards);
+        for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
                 card.setId(i++);
 
         // YELLOW CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
-        cardTable.put(CardColor.YELLOW, yellowCards);
-        for(List<DevelopmentCard> deck : cardTable.get(CardColor.YELLOW))
+        cards.put(CardColor.YELLOW, yellowCards);
+        for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)
                 card.setId(i++);
     }
@@ -91,11 +91,11 @@ public class CardTable {
         int row = level -1;
 
         // Checks that the deck is not empty before trying to access it
-        if (cardTable.get(cardColor).get(row).isEmpty())
+        if (cards.get(cardColor).get(row).isEmpty())
             throw new EmptyDeckException();
 
-        playerBoard.buyDevelopmentCard(cardTable.get(cardColor).get(row).get(0), cardSlot);
-        cardTable.get(cardColor).get(row).remove(0);
+        playerBoard.buyDevelopmentCard(cards.get(cardColor).get(row).get(0), cardSlot);
+        cards.get(cardColor).get(row).remove(0);
     }
 
     /**
@@ -104,7 +104,7 @@ public class CardTable {
      * @param cardColor specifies the color of the card that has to be removed
      */
     public void discardTop(CardColor cardColor) throws EmptyDeckException {
-        List<List<DevelopmentCard>> deckColumn = cardTable.get(cardColor);
+        List<List<DevelopmentCard>> deckColumn = cards.get(cardColor);
         int i;
 
         for (i=2; i>=0; i--) {
@@ -126,8 +126,8 @@ public class CardTable {
      */
     public boolean checkAllColorsAvailable() {
 
-        for (CardColor color : cardTable.keySet()) {
-            for (List<DevelopmentCard> deck : cardTable.get(color)) {
+        for (CardColor color : cards.keySet()) {
+            for (List<DevelopmentCard> deck : cards.get(color)) {
                 if (deck.size() >= 1)
                     break;
                 else
@@ -143,21 +143,22 @@ public class CardTable {
     /**
      * Takes in input the path of the JSON file to read and the List of decks of a specific color,
      * then it reads the cards from the file and splits them into decks based on the cards level.
-     * To keep the analogy with the physical game, level 3 cards will be on the upper part of the table (first lists of
-     * every column), level 2 cards will be in the middle (second lists of every column) and level 1 cards will be on
-     * the bottom of the table (third lists of every column)
+     * Level 1 cards will be in the first lists of every column.
+     * Level 2 cards will be in the middle (second lists of every column).
+     * Level 3 cards will be in the third lists of every column.
+     * The method is hardcoded to receive cards with levels from 1 to 3.
      *
-     * @param JsonPath   specifies the path where the JSON file is stored
+     * @param jsonPath   specifies the path where the JSON file is stored
      * @param colorCards specifies which column of the deck is going to be instantiated
      */
-    private void createDecksFromJSON(String JsonPath, List<List<DevelopmentCard>> colorCards) {
+    private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards) {
         Gson gson = new Gson();
         JsonReader reader = null;
         Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
         }.getType();
 
         try {
-            reader = new JsonReader(new FileReader(JsonPath));
+            reader = new JsonReader(new FileReader(jsonPath));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -180,6 +181,25 @@ public class CardTable {
     /**
      * Getter
      *
+     * @return the Map with all the cards in the CardTable
+     */
+    public Map<CardColor, List<List<DevelopmentCard>>> getCards() {
+        return cards;
+    }
+
+    /**
+     * Gets the ID of the card on top of a specific deck of the CardTable
+     *
+     * @param deck of the card that u need
+     * @return the ID of the card on top of the specified deck
+     */
+    public int getTopCardId(List<DevelopmentCard> deck) {
+        return deck.get(0).getId();
+    }
+
+    /**
+     * Getter (DEPRECATED, don't use it)
+     *
      * @return the CardTable column with only green cards decks
      */
     public List<List<DevelopmentCard>> getGreenCards() {
@@ -187,7 +207,7 @@ public class CardTable {
     }
 
     /**
-     * Getter
+     * Getter (DEPRECATED, don't use it)
      *
      * @return the CardTable column with only blue cards decks
      */
@@ -196,7 +216,7 @@ public class CardTable {
     }
 
     /**
-     * Getter
+     * Getter (DEPRECATED, don't use it)
      *
      * @return the CardTable column with only yellow cards decks
      */
@@ -205,7 +225,7 @@ public class CardTable {
     }
 
     /**
-     * Getter
+     * Getter (DEPRECATED, don't use it)
      *
      * @return the CardTable column with only purple cards decks
      */

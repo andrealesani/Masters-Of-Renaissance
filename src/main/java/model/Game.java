@@ -723,7 +723,7 @@ public class Game implements UserInterface {
      *
      * @return CardTable
      */
-    CardTable getCardTable() {
+    public CardTable getCardTable() {
         return cardTable;
     }
 
@@ -742,4 +742,6 @@ public class Game implements UserInterface {
      * @return lorenzo
      */
     public ArtificialIntelligence getLorenzo() {return lorenzo;}
+
+
 }

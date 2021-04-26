@@ -5,6 +5,8 @@ public class LorenzoBean {
     private TokenType[] activeTokens;
     private TokenType[] discardedTokens;
 
+    // GETTERS
+
     public int getFaith() {
         return faith;
     }
@@ -16,4 +18,7 @@ public class LorenzoBean {
     public TokenType[] getDiscardedTokens() {
         return discardedTokens;
     }
+
+    // SETTERS
+
 }
