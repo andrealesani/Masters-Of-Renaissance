@@ -22,6 +22,8 @@ public class PlayerBoardBean {
     private PopeTileState[] popeTileStates;
     private int[] popeTilePoints;
 
+    // GETTERS
+
     public String getUsername() {
         return username;
     }
@@ -61,6 +63,8 @@ public class PlayerBoardBean {
     public boolean[] getActiveLeaderCards() {
         return activeLeaderCards;
     }
+
+    // SETTERS
 
     public void setFaithFromPB(PlayerBoard playerBoard) {
         faith = playerBoard.getFaith();
