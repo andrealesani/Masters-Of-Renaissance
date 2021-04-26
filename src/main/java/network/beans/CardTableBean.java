@@ -8,23 +8,26 @@ import java.util.List;
 import java.util.Map;
 
 public class CardTableBean {
-    private int[][] cardTable;
+    /**
+     * Holds the IDs of the cards in CardTable's cards attribute
+     */
+    private int[][] cards;
 
     // GETTERS
 
-    public int[][] getCardTable() {
-        return cardTable;
+    public int[][] getCards() {
+        return cards;
     }
 
     // SETTERS
 
     public void setCardTableFromGame(Game game) {
-        cardTable = new int[game.getCardTable().getCards().entrySet().size()][3];
+        cards = new int[game.getCardTable().getCards().entrySet().size()][3];
         int i = 0, j;
         for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
             j = 0;
             for (List<DevelopmentCard> deck : color.getValue()) {
-                cardTable[i][j] = game.getCardTable().getTopCardId(deck);
+                cards[i][j] = game.getCardTable().getTopCardId(deck);
                 j++;
             }
             i++;

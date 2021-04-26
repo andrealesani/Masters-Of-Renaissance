@@ -6,6 +6,9 @@ import model.card.DevelopmentCard;
 import java.util.Arrays;
 
 public class SlotBean {
+    /**
+     * Holds the IDs of the cards in the slot this bean represents
+     */
     private int[] developmentCards;
 
     // GETTERS

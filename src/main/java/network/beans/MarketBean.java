@@ -4,7 +4,13 @@ import model.Game;
 import model.ResourceType;
 
 public class MarketBean {
+    /**
+     * Represents Market's board attribute
+     */
     private ResourceType[][] marketBoard;
+    /**
+     * Represents Market's slideMarble
+     */
     private ResourceType slide;
 
     // GETTERS
