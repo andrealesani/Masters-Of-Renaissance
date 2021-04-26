@@ -2,7 +2,7 @@
   {
     "username" : "Gigi",
     "faith" : 0,
-    "waitingRoomType" : ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "WHITEORB"],
+    "waitingRoomType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
     "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
     "strongboxQuantities" : [0, 0, 0, 0],
