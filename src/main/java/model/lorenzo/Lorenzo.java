@@ -4,10 +4,7 @@ import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
 import model.PopeFavorTile;
-import model.lorenzo.tokens.ActionToken;
-import model.lorenzo.tokens.DoubleFaithToken;
-import model.lorenzo.tokens.RemoveCardsToken;
-import model.lorenzo.tokens.SingleFaithShuffleToken;
+import model.lorenzo.tokens.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,10 +44,10 @@ public class Lorenzo implements ArtificialIntelligence {
             throw new ParametersNotValidException();
         }
         faith = 0;
-        activeDeck.add(new RemoveCardsToken(CardColor.BLUE, cardTable));
-        activeDeck.add(new RemoveCardsToken(CardColor.YELLOW, cardTable));
-        activeDeck.add(new RemoveCardsToken(CardColor.PURPLE, cardTable));
-        activeDeck.add(new RemoveCardsToken(CardColor.GREEN, cardTable));
+        activeDeck.add(new RemoveBlueToken(cardTable));
+        activeDeck.add(new RemoveGreenToken(cardTable));
+        activeDeck.add(new RemovePurpleToken(cardTable));
+        activeDeck.add(new RemoveYellowToken(cardTable));
         activeDeck.add(new DoubleFaithToken(this));
         activeDeck.add(new SingleFaithShuffleToken(this));
         Collections.shuffle(activeDeck);

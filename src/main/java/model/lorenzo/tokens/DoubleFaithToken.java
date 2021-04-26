@@ -2,11 +2,12 @@ package model.lorenzo.tokens;
 
 import Exceptions.ParametersNotValidException;
 import model.lorenzo.Lorenzo;
+import network.beans.TokenType;
 
 /**
  * Represents the token that increases Lorenzo's faith by 2 points
  */
-public class DoubleFaithToken implements ActionToken {
+public class DoubleFaithToken extends ActionToken {
     /**
      * This attribute stores the token's owning a.i.
      */
@@ -20,6 +21,8 @@ public class DoubleFaithToken implements ActionToken {
      * @param lorenzo reference to Lorenzo instance
      */
     public DoubleFaithToken(Lorenzo lorenzo) {
+        super(TokenType.DoubleFaith);
+
         if (lorenzo == null) {
             throw new ParametersNotValidException();
         }
@@ -31,6 +34,7 @@ public class DoubleFaithToken implements ActionToken {
     /**
      * Standard method in the interface that calls the class-specific method doubleIncrease()
      */
+    @Override
     public void doAction() {
         doubleIncrease();
     }

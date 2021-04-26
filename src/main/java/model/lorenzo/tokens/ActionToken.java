@@ -1,13 +1,32 @@
 package model.lorenzo.tokens;
 
+import network.beans.TokenType;
+
 /**
- * This interfaces indicates that the implementing class can be used as an action token for the game's lorenzo a.i.
+ * This abstract class represents an action token for the game's lorenzo a.i.
  */
-public interface ActionToken {
+public abstract class ActionToken {
+    /**
+     * TokenType associated to the specific ActionToken
+     */
+    private final TokenType type;
+
+    // CONSTRUCTOR
+
+    public ActionToken(TokenType type) {
+        this.type = type;
+    }
+
     //PUBLIC METHODS
 
     /**
      * Activates the specific action of the token that has been drawn
      */
-    void doAction();
+    public void doAction(){};
+
+    // GETTERS
+
+    public TokenType getType() {
+        return type;
+    }
 }
