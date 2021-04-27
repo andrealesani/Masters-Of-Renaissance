@@ -4,11 +4,12 @@ import Exceptions.EmptyDeckException;
 import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
+import network.beans.TokenType;
 
 /**
  * Represents the token that removes 2 DevelopmentCards of the specified color from the grid
  */
-public class RemoveCardsToken implements ActionToken {
+public abstract class RemoveCardsToken extends ActionToken {
     /**
      * This attribute stores the color of the development cards to discard
      */
@@ -26,7 +27,9 @@ public class RemoveCardsToken implements ActionToken {
      * @param color     specifies the color of the cards that this token remove
      * @param cardTable reference to CardTable instance
      */
-    public RemoveCardsToken(CardColor color, CardTable cardTable) {
+    public RemoveCardsToken(CardColor color, CardTable cardTable, TokenType type) {
+        super(type);
+
         if (color == null || cardTable == null) {
             throw new ParametersNotValidException();
         }
@@ -39,6 +42,7 @@ public class RemoveCardsToken implements ActionToken {
     /**
      * Standard method in the interface that calls the class-specific method singleIncreaseShuffle()
      */
+    @Override
     public void doAction() {
         removeCardsFromCardTable();
     }

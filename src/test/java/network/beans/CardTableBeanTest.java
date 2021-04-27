@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CardTableBeanTest {
 
     @Test
@@ -25,7 +23,7 @@ class CardTableBeanTest {
         cardTableBean.setCardTableFromGame(game);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print(" " + cardTableBean.getCardTable()[i][j] + " ");
+                System.out.print(" " + cardTableBean.getCards()[i][j] + " ");
             }
             System.out.println("\n");
         }

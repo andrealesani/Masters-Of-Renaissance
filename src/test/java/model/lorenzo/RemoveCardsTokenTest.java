@@ -5,6 +5,7 @@ import model.CardColor;
 import model.CardTable;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.RemoveCardsToken;
+import model.lorenzo.tokens.RemoveYellowToken;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,7 @@ class RemoveCardsTokenTest {
     @Test
     void doAction() throws EmptyDeckException {
         CardTable cardTable = new CardTable();
-        ActionToken token = new RemoveCardsToken(CardColor.YELLOW, cardTable);
+        ActionToken token = new RemoveYellowToken(cardTable);
 
         int levelOneNumber = cardTable.getYellowCards().get(2).size();
         int levelTwoNumber = cardTable.getYellowCards().get(1).size();
