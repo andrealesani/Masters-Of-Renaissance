@@ -60,14 +60,19 @@ public class ClientMain {
 
         //Reads input string and sends it to server
         String userInput;
+        String serverResponse;
         while ((userInput = stdIn.readLine()) != null) {
             try {
                 out.println(userInput);
                 if (userInput.equals("ESC + :q")) {
                     System.out.println("Closing connection...");
                     break;
-                } else
-                    System.out.println("echo: " + in.readLine());
+                } else {
+                    while (!(serverResponse = in.readLine()).equals("End of message")) {
+                        System.out.println("echo: " + serverResponse);
+                    }
+                    System.out.println("Out of the loop");
+                }
             } catch(IOException ex) {
                 System.err.println(ex.getMessage());
                 System.exit(1); //If serverSocket is shut down

@@ -518,8 +518,12 @@ public class PlayerBoard {
      * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
      *
      * @param i specifies the position of the LeaderCard in the leaderCards list
+     * @throws LeaderIsActiveException if the leader card to be discarded has been activated
      */
-    public void discardLeaderCard(int i) {
+    public void discardLeaderCard(int i) throws LeaderIsActiveException {
+        if (leaderCards.get(i).isActive()) {
+            throw new LeaderIsActiveException();
+        }
         leaderCards.remove(i);
         addFaith(1);
     }

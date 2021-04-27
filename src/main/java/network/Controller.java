@@ -40,7 +40,7 @@ public class Controller {
             serverOut.println("Received: " + command);
         }
 
-        //Call method whose name is in command
+        //Call method the name of which is in 'command'
         java.lang.reflect.Method commandMethod = null;
         try {
             commandMethod = Controller.class.getDeclaredMethod(command, PrintWriter.class, Map.class);
