@@ -162,6 +162,8 @@ public class ProductionHandler {
      * @param playerBoard the player's board
      */
     public void releaseInput(PlayerBoard playerBoard) {
+        if(playerBoard == null)
+            throw new ParametersNotValidException();
         for (Resource resource : currentInput) {
             playerBoard.addResourceToWaitingRoom(resource.getType(), 1);
         }
@@ -173,6 +175,8 @@ public class ProductionHandler {
      * @param playerBoard the player's board
      */
     public void releaseOutput(PlayerBoard playerBoard) {
+        if(playerBoard == null)
+            throw new ParametersNotValidException();
         for (Resource resource : currentOutput) {
             resource.addResourceFromProduction(playerBoard);
         }
