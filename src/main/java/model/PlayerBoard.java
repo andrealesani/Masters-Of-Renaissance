@@ -250,8 +250,8 @@ public class PlayerBoard {
      *
      * @param depotNumber1 the number of the first depot
      * @param depotNumber2 the number of the second depot
-     * @throws DepotNotPresentException    if one of the depot numbers given does not correspond with any depot
-     * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
+     * @throws DepotNotPresentException if one of the depot numbers given does not correspond with any depot
+     * @throws SwapNotValidException    if the content of one or both of the depots cannot be transferred to the other
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, DepotNotPresentException {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
@@ -893,5 +893,23 @@ public class PlayerBoard {
      */
     public List<PopeFavorTile> getPopeFavorTiles() {
         return popeFavorTiles;
+    }
+
+    /**
+     * Getter
+     *
+     * @return vpFaithTiles
+     */
+    public int[] getVpFaithTiles() {
+        return vpFaithTiles;
+    }
+
+    /**
+     * Getter
+     *
+     * @return vpFaithValues
+     */
+    public int[] getVpFaithValues() {
+        return vpFaithValues;
     }
 }
