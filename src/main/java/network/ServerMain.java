@@ -64,8 +64,8 @@ public class ServerMain {
             try {
 
                 reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
-                Map<String, String> map = gson.fromJson(reader, Map.class);
-                portNumber = Integer.parseInt(map.get("PortNumber"));
+                Map map = gson.fromJson(reader, Map.class);
+                portNumber = ((Double)map.get("portNumber")).intValue();
 
             } catch (FileNotFoundException ex) {
                 System.err.println(ex.getMessage());

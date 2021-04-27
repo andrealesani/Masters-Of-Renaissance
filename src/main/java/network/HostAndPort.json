@@ -1,4 +1,4 @@
 {
-    "HostName" : "localhost",
-    "PortNumber" : "1234"
+    "hostName" : "localhost",
+    "portNumber" : 1234
  }

@@ -19,14 +19,14 @@ public class ClientMain {
         }else{
             System.out.println("No parameters on command line: reading from Json.");
             Gson gson = new Gson();
-            JsonReader reader = null;
+            JsonReader reader;
 
             try {
 
                 reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
-                Map<String, String> map = gson.fromJson(reader, Map.class);
-                hostName = map.get("HostName");
-                portNumber = Integer.parseInt(map.get("PortNumber"));
+                Map map = gson.fromJson(reader, Map.class);
+                hostName = (String)map.get("hostName");
+                portNumber = ((Double)map.get("portNumber")).intValue();
 
             } catch (FileNotFoundException ex) {
                 System.err.println(ex.getMessage());

@@ -1,5 +1,9 @@
 package network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -30,18 +34,20 @@ public class ServerClientHandler implements Runnable{
             return;
         }
 
+        //Create Controller for this player
+        Controller controller = new Controller();
+
         //Reads and writes on the connection until it receives terminator string
         while (true) {
-            String line = in.nextLine();
-            if (line.equals("ESC + :q")) {
+            String command = in.nextLine();
+            if (command.equals("ESC + :q")) {
                 break;
             } else {
-                System.out.println("Received: " + line);
-                out.println("Received: " + line);
+                controller.readCommand(out, command);
             }
         }
 
-        System.out.println("Closing a connection.");
+        System.out.println("Closing the connection.");
 
         //Close streams and socket
         in.close();
