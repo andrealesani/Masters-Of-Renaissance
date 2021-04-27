@@ -27,7 +27,7 @@ public class Lobby {
     /**
      * Adds a player to the Lobby
      *
-     * @param nickname is a String that specified the nickname the player has chosen
+     * @param nickname is a String that specifies the nickname the player has chosen
      */
     public void addPlayer(String nickname) {
         playerLobby.add(nickname);
