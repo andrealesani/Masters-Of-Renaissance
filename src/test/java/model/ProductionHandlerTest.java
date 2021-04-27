@@ -45,7 +45,7 @@ class ProductionHandlerTest {
 
 
     @Test
-    void chooseJollyInput() throws ProductionNotPresentException {
+    void chooseJollyInput() throws ProductionNotPresentException, ResourceNotPresentException {
         // Creates an instance of every resource type
         ResourceUnknown unknown = new ResourceUnknown();
         ResourceCoin coin = new ResourceCoin();
@@ -72,13 +72,13 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.getCurrentInput().size() == 1, "wrong output size");
         assertTrue(productionHandler.getCurrentInput().get(0) instanceof ResourceCoin, "wrong ResourceType in output");
 
-        Exception ex = assertThrows(RuntimeException.class, () -> {
+        Exception ex = assertThrows(ResourceNotPresentException.class, () -> {
             productionHandler.chooseJollyInput(stone);
         });
     }
 
     @Test
-    void chooseJollyOutput() throws ProductionNotPresentException {
+    void chooseJollyOutput() throws ProductionNotPresentException, ResourceNotPresentException {
         // Creates an instance of every resource type
         ResourceUnknown unknown = new ResourceUnknown();
         ResourceCoin coin = new ResourceCoin();
@@ -105,7 +105,7 @@ class ProductionHandlerTest {
         assertEquals(1, productionHandler.getCurrentOutput().size(), "wrong output size");
         assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceCoin, "wrong ResourceType in output");
 
-        Exception ex = assertThrows(RuntimeException.class, () -> {
+        Exception ex = assertThrows(ResourceNotPresentException.class, () -> {
             productionHandler.chooseJollyOutput(stone);
         });
     }

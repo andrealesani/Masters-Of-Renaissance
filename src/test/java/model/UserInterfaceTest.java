@@ -475,7 +475,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException, ProductionNotPresentException {
+    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -576,7 +576,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException {
+    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException {
 // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");
@@ -814,7 +814,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, ProductionNotPresentException {
+    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");

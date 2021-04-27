@@ -50,7 +50,7 @@ public class ProductionHandler {
      * @param production specifies the Production to be added
      */
     public void addProduction(Production production) {
-        if(production == null)
+        if (production == null)
             throw new ParametersNotValidException();
         productions.add(production);
     }
@@ -61,9 +61,9 @@ public class ProductionHandler {
      * @param production specifies the Production to be removed
      */
     public void removeProduction(Production production) throws ProductionIsSelectedException, ProductionNotPresentException {
-        if(production == null)
+        if (production == null)
             throw new ParametersNotValidException();
-        if(!productions.contains(production))
+        if (!productions.contains(production))
             throw new ProductionNotPresentException();
         if (production.isSelectedByHandler())
             throw new ProductionIsSelectedException();
@@ -75,11 +75,12 @@ public class ProductionHandler {
      * Throws RuntimeException if it doesn't find any ResourceUnknown.
      *
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
+     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyInput(Resource resource) {
+    public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
         if (currentInput.remove(new ResourceUnknown()))
             currentInput.add(resource);
-        else throw new ParametersNotValidException();
+        else throw new ResourceNotPresentException();
     }
 
     /**
@@ -87,11 +88,12 @@ public class ProductionHandler {
      * Throws RuntimeException if it doesn't find any ResourceUnknown.
      *
      * @param resource specifies the Resource that is going to replace the ResourceUnknown
+     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyOutput(Resource resource) {
+    public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
         if (currentOutput.remove(new ResourceUnknown()))
             currentOutput.add(resource);
-        else throw new ParametersNotValidException();
+        else throw new ResourceNotPresentException();
     }
 
     /**
@@ -101,9 +103,9 @@ public class ProductionHandler {
      * @param productionNumber indicates the number of the required production
      */
     public void selectProduction(int productionNumber) throws ProductionNotPresentException {
-        if(productionNumber < 1)
+        if (productionNumber < 1)
             throw new ParametersNotValidException();
-        if(productions.size() < productionNumber)
+        if (productions.size() < productionNumber)
             throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
 

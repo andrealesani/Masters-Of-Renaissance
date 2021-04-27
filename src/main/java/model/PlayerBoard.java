@@ -98,7 +98,7 @@ public class PlayerBoard {
      * @param popeFavorTiles a List of the player's pope's favor tiles
      */
     public PlayerBoard(Game game, String username, int finalFaith, List<PopeFavorTile> popeFavorTiles) {
-        if (game == null || username == null || finalFaith<=0 || popeFavorTiles==null) {
+        if (game == null || username == null || finalFaith <= 0 || popeFavorTiles == null) {
             throw new ParametersNotValidException();
         }
 
@@ -251,10 +251,9 @@ public class PlayerBoard {
      * @param depotNumber1 the number of the first depot
      * @param depotNumber2 the number of the second depot
      * @throws DepotNotPresentException    if one of the depot numbers given does not correspond with any depot
-     * @throws ParametersNotValidException if the two inputs are the same number or below 1
      * @throws SwapNotValidException       if the content of one or both of the depots cannot be transferred to the other
      */
-    public void swapDepotContent(int depotNumber1, int depotNumber2) throws ParametersNotValidException, SwapNotValidException, DepotNotPresentException {
+    public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, DepotNotPresentException {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
     }
 
@@ -267,7 +266,7 @@ public class PlayerBoard {
      * @param quantity        the quantity of the resource to move
      * @throws DepotNotPresentException        if one of the depot numbers given does not correspond with any depot
      * @throws ParametersNotValidException     if the two inputs are the same number or below 1
-     * @throws NotEnoughResourceException if the given resource is not present in the providing depot in the amount to be deleted
+     * @throws NotEnoughResourceException      if the given resource is not present in the providing depot in the amount to be deleted
      * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the receiving depot
      * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the receiving depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException        if the receiving depot is affected by resource blocking and the resource is being blocked by a different depot
@@ -388,8 +387,9 @@ public class PlayerBoard {
      * Converts a jolly resource in current production input into the given resource
      *
      * @param resource the resource into which to turn the jolly
+     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyInput(Resource resource) {
+    public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
         productionHandler.chooseJollyInput(resource);
     }
 
@@ -397,15 +397,16 @@ public class PlayerBoard {
      * Converts a jolly resource in current production output into the given resource
      *
      * @param resource the resource into which to turn the jolly
+     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyOutput(Resource resource) {
+    public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
         productionHandler.chooseJollyOutput(resource);
     }
 
     /**
      * Prompts the board's production handler to release the active production's output to the player's storage
      */
-    public void releaseProductionOutput () {
+    public void releaseProductionOutput() {
         productionHandler.releaseOutput(this);
     }
 
@@ -604,9 +605,9 @@ public class PlayerBoard {
      * @param number the number of the card to select or deselect
      */
     public void chooseLeaderCard(int number) {
-        if(number <= 0)
+        if (number <= 0)
             throw new ParametersNotValidException();
-        
+
         LeaderCard leaderCard = leaderCards.get(number - 1);
 
         if (leaderCard.isActive())
