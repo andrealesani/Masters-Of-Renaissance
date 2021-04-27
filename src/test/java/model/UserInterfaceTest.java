@@ -128,7 +128,7 @@ class UserInterfaceTest {
     }
 
     @Test
-    void discardLeaderCard() throws WrongTurnPhaseException {
+    void discardLeaderCard() throws WrongTurnPhaseException, LeaderIsActiveException {
         // Game creation
         List<String> nicknames = new ArrayList<>();
         nicknames.add("Andre");

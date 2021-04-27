@@ -1,9 +1,9 @@
 package Exceptions;
 
 /**
- * This Exception is thrown when a leader card is attempted to be activated despite the player not meeting its requirements.
+ * This Exception is thrown when a leader card is attempted to be discarded despite being active.
  */
-public class LeaderRequirementsNotMetException extends Exception{
+public class LeaderIsActiveException extends Exception {
     /**
      * Returns the message describing the type of error that occurred
      *
