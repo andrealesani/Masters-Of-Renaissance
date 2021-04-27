@@ -1,7 +1,6 @@
 package model;
 
-import Exceptions.ResourceNotPresentException;
-import Exceptions.UnknownResourceException;
+import Exceptions.*;
 import model.resource.*;
 
 import java.util.ArrayList;
@@ -51,6 +50,8 @@ public class ProductionHandler {
      * @param production specifies the Production to be added
      */
     public void addProduction(Production production) {
+        if(production == null)
+            throw new ParametersNotValidException();
         productions.add(production);
     }
 
@@ -59,9 +60,13 @@ public class ProductionHandler {
      *
      * @param production specifies the Production to be removed
      */
-    public void removeProduction(Production production) {
+    public void removeProduction(Production production) throws ProductionIsSelectedException, ProductionNotPresentException {
+        if(production == null)
+            throw new ParametersNotValidException();
+        if(!productions.contains(production))
+            throw new ProductionNotPresentException();
         if (production.isSelectedByHandler())
-            throw new RuntimeException("Can't remove a production when it's selected, please use resetProductionChoice() before calling this method");
+            throw new ProductionIsSelectedException();
         productions.remove(production);
     }
 
@@ -74,7 +79,7 @@ public class ProductionHandler {
     public void chooseJollyInput(Resource resource) {
         if (currentInput.remove(new ResourceUnknown()))
             currentInput.add(resource);
-        else throw new RuntimeException("no UnknownResource present in currentInput");
+        else throw new ParametersNotValidException();
     }
 
     /**
@@ -86,7 +91,7 @@ public class ProductionHandler {
     public void chooseJollyOutput(Resource resource) {
         if (currentOutput.remove(new ResourceUnknown()))
             currentOutput.add(resource);
-        else throw new RuntimeException("no UnknownResource present in currentOutput");
+        else throw new ParametersNotValidException();
     }
 
     /**
@@ -95,7 +100,11 @@ public class ProductionHandler {
      *
      * @param productionNumber indicates the number of the required production
      */
-    public void selectProduction(int productionNumber) {
+    public void selectProduction(int productionNumber) throws ProductionNotPresentException {
+        if(productionNumber < 1)
+            throw new ParametersNotValidException();
+        if(productions.size() < productionNumber)
+            throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
 
         updateCurrentInput();

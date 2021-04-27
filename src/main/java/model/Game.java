@@ -196,7 +196,7 @@ public class Game implements UserInterface {
      * @param number the number of the leaderCard to discard
      */
     @Override
-    public void discardLeaderCard(int number) throws WrongTurnPhaseException {
+    public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException {
         if (turnPhase == TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
@@ -328,7 +328,7 @@ public class Game implements UserInterface {
      * @param number the number of the production
      */
     @Override
-    public void selectProduction(int number) throws WrongTurnPhaseException {
+    public void selectProduction(int number) throws WrongTurnPhaseException, ProductionNotPresentException {
         if (turnPhase != TurnPhase.ACTIONSELECTION) {
             throw new WrongTurnPhaseException();
         }

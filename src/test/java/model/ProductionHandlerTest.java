@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductionHandlerTest {
 
     @Test
-    void getCurrentInputAfterSelect() {
+    void getCurrentInputAfterSelect() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
         // Then it selects the production
         ProductionHandler productionHandler = new ProductionHandler();
@@ -28,7 +28,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void getCurrentOutputAfterSelect() {
+    void getCurrentOutputAfterSelect() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
         // Then it selects the production
         ProductionHandler productionHandler = new ProductionHandler();
@@ -45,7 +45,7 @@ class ProductionHandlerTest {
 
 
     @Test
-    void chooseJollyInput() {
+    void chooseJollyInput() throws ProductionNotPresentException {
         // Creates an instance of every resource type
         ResourceUnknown unknown = new ResourceUnknown();
         ResourceCoin coin = new ResourceCoin();
@@ -78,7 +78,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void chooseJollyOutput() {
+    void chooseJollyOutput() throws ProductionNotPresentException {
         // Creates an instance of every resource type
         ResourceUnknown unknown = new ResourceUnknown();
         ResourceCoin coin = new ResourceCoin();
@@ -111,7 +111,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void removeSelectedProductionRunTimeException() {
+    void removeSelectedProductionRunTimeException() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
         // Then it selects the production
         ProductionHandler productionHandler = new ProductionHandler();
@@ -124,7 +124,7 @@ class ProductionHandlerTest {
         productionHandler.selectProduction(1);
 
         // TEST
-        Exception ex = assertThrows(RuntimeException.class, () -> {
+        Exception ex = assertThrows(ProductionIsSelectedException.class, () -> {
             productionHandler.removeProduction(production);
         });
 
@@ -132,7 +132,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void resetProductionChoice() {
+    void resetProductionChoice() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
         // Then it selects the production
         ProductionHandler productionHandler = new ProductionHandler();
@@ -158,7 +158,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void resourcesAreEnough() throws UnknownResourceException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
+    void resourcesAreEnough() throws UnknownResourceException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException, ProductionNotPresentException {
         // Creates a PlayerBoard
         PlayerBoard playerBoard = new PlayerBoard();
 
@@ -189,7 +189,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void getDebt() {
+    void getDebt() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
         // Then it selects the production
         ProductionHandler productionHandler = new ProductionHandler();
@@ -213,7 +213,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void takeResource() throws UnknownResourceException, ResourceNotPresentException {
+    void takeResource() throws UnknownResourceException, ResourceNotPresentException, ProductionNotPresentException {
         // Creates a PlayerBoard
         PlayerBoard playerBoard = new PlayerBoard();
 

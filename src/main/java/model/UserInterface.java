@@ -44,7 +44,7 @@ public interface UserInterface {
      *
      * @param number the number of the leaderCard to discard
      */
-    void discardLeaderCard(int number) throws WrongTurnPhaseException;
+    void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException;
 
     //Market selection actions
 
@@ -116,7 +116,7 @@ public interface UserInterface {
      *
      * @param number the number of the production
      */
-    void selectProduction(int number) throws WrongTurnPhaseException;
+    void selectProduction(int number) throws WrongTurnPhaseException, ProductionNotPresentException;
 
     /**
      * Allows the player to reset the selected productions

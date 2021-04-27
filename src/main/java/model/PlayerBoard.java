@@ -336,7 +336,11 @@ public class PlayerBoard {
 
         //Adds the new production and card, deleting the old production if an old card is covered
         if (cardLevel > 1) {
-            productionHandler.removeProduction(requestedSlot.get(requestedSlot.size() - 1).getProduction());
+            try {
+                productionHandler.removeProduction(requestedSlot.get(requestedSlot.size() - 1).getProduction());
+            } catch (ProductionIsSelectedException | ProductionNotPresentException e) {
+                e.printStackTrace();
+            }
         }
         productionHandler.addProduction(card.getProduction());
         requestedSlot.add(card);
@@ -359,7 +363,7 @@ public class PlayerBoard {
      *
      * @param number the number of the production
      */
-    public void selectProduction(int number) {
+    public void selectProduction(int number) throws ProductionNotPresentException {
         productionHandler.selectProduction(number);
     }
 
