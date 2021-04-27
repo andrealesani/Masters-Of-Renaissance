@@ -44,6 +44,8 @@ public class ServerClientHandler implements Runnable{
                 break;
             } else {
                 controller.readCommand(out, command);
+                System.out.println("End of message");
+                out.println("End of message");
             }
         }
 
