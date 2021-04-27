@@ -781,6 +781,15 @@ public class PlayerBoard {
     /**
      * Getter
      *
+     * @return whiteMarbleNum
+     */
+    public int getWhiteMarbles() {
+        return whiteMarbleNum;
+    }
+
+    /**
+     * Getter
+     *
      * @return ProductionHandler
      */
     public ProductionHandler getProductionHandler() {
