@@ -78,52 +78,114 @@ public class PlayerBoardBean {
 
     // GETTERS
 
-    public String getUsername() {
-        return username;
-    }
+    /**
+     * Getter
+     *
+     * @return player's username
+     */
+    public String getUsername() { return username; }
 
-    public int getFaith() {
-        return faith;
-    }
+    /**
+     * Getter
+     *
+     * @return player's faith
+     */
+    public int getFaith() { return faith; }
 
-    public int getWhiteMarbles() {
-        return whiteMarbles;
-    }
+    /**
+     * Getter
+     *
+     * @return player's whitemarbles
+     */
+    public int getWhiteMarbles() { return whiteMarbles; }
 
-    public ResourceType[] getWaitingRoomType() {
-        return waitingRoomType;
-    }
+    /**
+     * Getter for resource's type in WaitingRoom
+     *
+     * @return waitingRoomType
+     */
+    public ResourceType[] getWaitingRoomType() { return waitingRoomType; }
 
+    /**
+     * Getter for resource's quantity in WaitingRoom
+     *
+     * @return waitingRoomQuantities
+     */
     public int[] getWaitingRoomQuantities() {
         return waitingRoomQuantities;
     }
 
+    /**
+     * Getter for resource's type in the strongbox
+     *
+     * @return strongboxType
+     */
     public ResourceType[] getStrongboxType() {
         return strongboxType;
     }
 
+    /**
+     * Getter for resource's quantity in the strongbox
+     *
+     * @return strongboxQuantities
+     */
     public int[] getStrongboxQuantities() {
         return strongboxQuantities;
     }
 
+    /**
+     * Getter for player's set of cards
+     *
+     * @return cardSlots
+     */
     public SlotBean[] getCardSlots() {
         return cardSlots;
     }
 
+    /**
+     * Getter
+     *
+     * @return player's leaderCards
+     */
     public int[] getLeaderCards() {
         return leaderCards;
     }
 
+    /**
+     * Getter leadercard's activity
+     *
+     * @return activeLeaderCards
+     */
     public boolean[] getActiveLeaderCards() {
         return activeLeaderCards;
     }
 
+    /**
+     * Getter
+     *
+     * @return VpFaithTiles
+     */
     public int[] getVpFaithTiles() { return vpFaithTiles;}
 
+    /**
+     * Getter
+     *
+     * @return vpFaithValues
+     */
     public int[] getVpFaithValues() { return vpFaithValues; }
 
+    /**
+     * Getter
+     *
+     * @return popeTileStates
+     */
     public PopeTileState[] getPopeTileStates() { return popeTileStates; }
 
+    /**
+     * Getter
+     *
+     * @return popeTilePoints
+     */
     public int[] getPopeTilePoints() { return popeTilePoints; }
 
     // SETTERS
