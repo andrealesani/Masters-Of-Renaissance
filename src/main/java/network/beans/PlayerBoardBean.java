@@ -11,20 +11,69 @@ import model.resource.Resource;
 import java.util.Arrays;
 import java.util.List;
 
+
+/**
+ * The purpose of this class is to simplify the information contained in the playerboard in order to
+ * transcribe it into a gson file that will be passed to the server for the communication with the client
+ */
+
 public class PlayerBoardBean {
+    /**
+     *  Represents the player's username
+     */
     private String username;
+    /**
+     * Represents the player's faith
+     */
     private int faith;
+    /**
+     * Represents the player's number of whiteMarbles
+     */
     private int whiteMarbles;
+    /**
+     * Represents the different types of resources in the waitingRoom
+     */
     private ResourceType[] waitingRoomType;
+    /**
+     * Represents the number present in the waitingRoom for each type of resources
+     */
     private int[] waitingRoomQuantities;
+    /**
+     * Represents the different types of resources in the strongbox
+     */
     private ResourceType[] strongboxType;
+    /**
+     * Represents the number present in the strongbox for each type of resources
+     */
     private int[] strongboxQuantities;
+    /**
+     * Represents the set of 3 slots in which the development cards are inserted.
+     * The card in the first position corresponds to the one at the top of the pile
+     */
     private SlotBean[] cardSlots;
+    /**
+     * Represents the different types of leadercards for each player
+     */
     private int[] leaderCards;
+    /**
+     * Represents which player's leadercards are active or not
+     */
     private boolean[] activeLeaderCards;
+    /**
+     * Represents the faith value reached by the player to earns victory points
+     */
     private int[] vpFaithTiles;
+    /**
+     * Represents the victory points assigned to each square
+     */
     private int[] vpFaithValues;
+    /**
+     * Represents the status (active/inactive/discarded) of each Pope's favor tile
+     */
     private PopeTileState[] popeTileStates;
+    /**
+    * Represents the victory points assigned to each Pope's favor tile when it is activated
+     */
     private int[] popeTilePoints;
 
     // GETTERS
