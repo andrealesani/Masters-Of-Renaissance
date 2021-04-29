@@ -3,7 +3,6 @@ package network;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import model.CardColor;
 import model.ResourceType;
 import model.UserInterface;
@@ -474,7 +473,7 @@ public class Controller {
      * @return the resulting int
      */
     private int extractInt(Object obj) {
-        if (obj == null)
+        if (obj == null || !(obj instanceof Double))
             throw new ParametersNotValidException();
         return ((Double) obj).intValue();
     }

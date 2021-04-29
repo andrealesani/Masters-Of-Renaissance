@@ -22,6 +22,7 @@ public class Lobby {
             playerLobby.remove(0);
         }
         activeGames.add(new Game(playersEnteringGame));
+        nextGamePlayers = 0;
     }
 
     /**

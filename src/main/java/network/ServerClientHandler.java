@@ -2,6 +2,7 @@ package network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Lobby;
 
 import javax.naming.ldap.Control;
 import java.io.IOException;
@@ -12,12 +13,16 @@ import java.util.Scanner;
 public class ServerClientHandler implements Runnable{
 
     private final Socket socket;
-    public ServerClientHandler(Socket socket) {
+    private final Lobby lobby;
+
+    public ServerClientHandler(Socket socket, Lobby lobby) {
         this.socket = socket;
+        this.lobby = lobby;
     }
 
     public void run() {
 
+        //Creating input stream
         Scanner in;
         try {
             in = new Scanner(socket.getInputStream());
@@ -26,6 +31,7 @@ public class ServerClientHandler implements Runnable{
             return;
         }
 
+        //Creating output stream
         PrintWriter out;
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -35,9 +41,7 @@ public class ServerClientHandler implements Runnable{
         }
 
         //Create Controller for this player
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting();
-        Gson gson = builder.create();
+        Gson gson = new Gson();
         Controller controller = new Controller(gson);
 
         //Reads and writes on the connection until it receives terminator string
@@ -57,12 +61,10 @@ public class ServerClientHandler implements Runnable{
         //Close streams and socket
         in.close();
         out.close();
-
         try {
             socket.close();
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
-            return;
         }
     }
 }
