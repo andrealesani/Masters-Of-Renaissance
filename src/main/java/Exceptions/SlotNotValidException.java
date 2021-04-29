@@ -10,6 +10,6 @@ public class SlotNotValidException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: The selected slot cannot hold a card of this level.");
+        return ("The selected slot cannot hold a card of this level.");
     }
 }

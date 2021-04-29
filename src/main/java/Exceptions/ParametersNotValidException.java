@@ -10,6 +10,6 @@ public class ParametersNotValidException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return ("Error: The given input values are not allowed.");
+        return ("The given input values are not allowed.");
     }
 }

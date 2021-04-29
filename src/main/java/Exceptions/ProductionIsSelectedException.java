@@ -8,6 +8,6 @@ public class ProductionIsSelectedException extends Exception{
      */
     @Override
     public String getMessage() {
-        return ("Error: Can't remove a production when it's selected, please use resetProductionChoice() before calling this method");
+        return ("Can't remove a production when it's selected, please use resetProductionChoice() before calling this method");
     }
 }

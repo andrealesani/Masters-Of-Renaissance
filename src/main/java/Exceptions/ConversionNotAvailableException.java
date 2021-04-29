@@ -23,6 +23,6 @@ public class ConversionNotAvailableException extends Exception{
      */
     @Override
     public String getMessage() {
-        return ("Error: Conversion of white marbles to resource " + conversion + " is not available.");
+        return ("Conversion of white marbles to resource " + conversion + " is not available.");
     }
 }

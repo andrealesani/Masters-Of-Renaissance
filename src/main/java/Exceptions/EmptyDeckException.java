@@ -8,6 +8,6 @@ public class EmptyDeckException extends Exception{
      */
     @Override
     public String getMessage() {
-        return ("Error: The deck is already empty");
+        return ("The selected deck is empty");
     }
 }

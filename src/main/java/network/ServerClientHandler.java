@@ -35,7 +35,10 @@ public class ServerClientHandler implements Runnable{
         }
 
         //Create Controller for this player
-        Controller controller = new Controller();
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        Controller controller = new Controller(gson);
 
         //Reads and writes on the connection until it receives terminator string
         while (true) {

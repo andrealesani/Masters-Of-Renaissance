@@ -10,6 +10,6 @@ public class ResourceNotPresentException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: Resource is not present.");
+        return ("Resource is not present.");
     }
 }

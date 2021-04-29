@@ -23,6 +23,6 @@ public class BlockedResourceException extends Exception{
      */
     @Override
     public String getMessage() {
-        return ("Error: Resource " + resource + " can't be added to depot because it is blocked by a different one.");
+        return ("Resource " + resource + " can't be added to depot because it is blocked by a different one.");
     }
 }

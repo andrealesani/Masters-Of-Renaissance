@@ -10,7 +10,7 @@ public class WrongResourceInsertionException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: This type of resource cannot be inserted into this storage.");
+        return ("This type of resource cannot be inserted into this storage.");
     }
 }
 

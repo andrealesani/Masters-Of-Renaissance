@@ -21,6 +21,6 @@ public class DepotNotPresentException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: Depot number " + depotNumber + " does not exist.");
+        return ("Depot number " + depotNumber + " does not exist.");
     }
 }

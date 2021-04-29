@@ -11,6 +11,6 @@ public class NotEnoughSpaceException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: There is no space left in storage for this type of resource.");
+        return ("There is no space left in storage for this type of resource.");
     }
 }

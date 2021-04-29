@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.Map;
 
 public class ClientMain {
+
+    //MAIN
+
     public static void main(String[] args) throws IOException {
 
         //Initialize hostName and portNumber
@@ -47,6 +50,16 @@ public class ClientMain {
 
         System.out.println("Client connected!");
 
+        try {
+            connectionLoop(clientSocket);
+        } catch (IOException ex) {
+            System.out.println("Uh oh, something went wrong in the connection loop");
+        }
+    }
+
+    //PRIVATE METHODS
+
+    private static void connectionLoop(Socket clientSocket) throws IOException {
         PrintWriter out =
                 new PrintWriter(clientSocket.getOutputStream(), true);
 
@@ -58,9 +71,11 @@ public class ClientMain {
                 new BufferedReader(
                         new InputStreamReader(System.in));
 
-        //Reads input string and sends it to server
+        //Reads input string and sends it to server, and prints the answer
         String userInput;
         String serverResponse;
+        Gson gson = new Gson();
+        Map<String, String> jsonMap;
         while ((userInput = stdIn.readLine()) != null) {
             try {
                 out.println(userInput);
@@ -69,13 +84,19 @@ public class ClientMain {
                     break;
                 } else {
                     while (!(serverResponse = in.readLine()).equals("End of message")) {
-                        System.out.println("echo: " + serverResponse);
+                        try {
+                            System.out.println("Unprocessed response: " + serverResponse);
+                            jsonMap = gson.fromJson(serverResponse, Map.class);
+                            System.out.println("Response: " + jsonMap.get("Result"));
+                        } catch (Exception ex) {
+                            System.err.println(ex.getMessage());
+                        }
                     }
-                    System.out.println("Out of the loop");
+                    System.out.println("Server has finished answering");
                 }
             } catch(IOException ex) {
                 System.err.println(ex.getMessage());
-                System.exit(1); //If serverSocket is shut down
+                return;
             }
         }
     }

@@ -10,6 +10,6 @@ public class WrongTurnPhaseException extends  Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: This action is not allowed during this phase of the turn.");
+        return ("This action is not allowed during this phase of the turn.");
     }
 }

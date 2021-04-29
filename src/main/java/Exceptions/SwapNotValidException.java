@@ -10,6 +10,6 @@ public class SwapNotValidException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Error: The contents of the two depots cannot be swapped.");
+        return ("The contents of the two depots cannot be swapped.");
     }
 }
