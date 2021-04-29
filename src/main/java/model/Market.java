@@ -3,11 +3,18 @@ package model;
 import Exceptions.ParametersNotValidException;
 import model.resource.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents the game's market
  */
 //TODO rendere dimensioni matrice parametrici?
-public class Market {
+public class Market implements Observable {
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
     /**
      * This matrix stores the market's marbles
      */
@@ -72,6 +79,7 @@ public class Market {
             }
         }
 
+        notifyObservers();
     }
 
     //PUBLIC METHODS
@@ -83,7 +91,7 @@ public class Market {
      * @param playerBoard the player's board
      */
     public void selectRow(int numScope, PlayerBoard playerBoard) {
-        if((numScope < 0) || (numScope >= 3) || (playerBoard == null))
+        if ((numScope < 0) || (numScope >= 3) || (playerBoard == null))
             throw new ParametersNotValidException();
 
         int riga;
@@ -92,6 +100,8 @@ public class Market {
         for (int j = 0; j < 4; j++)
             board[riga][j].addResourceFromMarket(playerBoard);
         shiftRow(riga);
+
+        notifyObservers();
     }
 
     /**
@@ -101,7 +111,7 @@ public class Market {
      * @param playerBoard the player's board
      */
     public void selectColumn(int numScope, PlayerBoard playerBoard) {
-        if((numScope < 0) || (numScope >= 4) || (playerBoard == null))
+        if ((numScope < 0) || (numScope >= 4) || (playerBoard == null))
             throw new ParametersNotValidException();
 
         int col;
@@ -110,6 +120,8 @@ public class Market {
         for (int i = 0; i < 3; i++)
             board[i][col].addResourceFromMarket(playerBoard);
         shiftColumn(col);
+
+        notifyObservers();
     }
 
     //PRIVATE METHODS
@@ -120,7 +132,7 @@ public class Market {
      * @param numScope the number of the selected row
      */
     private void shiftRow(int numScope) {
-        if((numScope < 0) || (numScope >= 3))
+        if ((numScope < 0) || (numScope >= 3))
             throw new ParametersNotValidException();
 
         int riga;
@@ -144,7 +156,7 @@ public class Market {
      * @param numScope the number of the selected column
      */
     private void shiftColumn(int numScope) {
-        if((numScope < 0) || (numScope >= 4))
+        if ((numScope < 0) || (numScope >= 4))
             throw new ParametersNotValidException();
 
         int col;
@@ -159,8 +171,6 @@ public class Market {
 
         board[i][col] = slideMarble;
         slideMarble = temp;
-
-
     }
 
     //GETTERS
@@ -182,7 +192,7 @@ public class Market {
      * @return the marble in the given spot
      */
     public Resource getMarble(int row, int column) {
-        if((row < 0) || (column < 0) || (row >= 3) || (column >= 4))
+        if ((row < 0) || (column < 0) || (row >= 3) || (column >= 4))
             throw new ParametersNotValidException();
 
         return board[row][column];
@@ -195,5 +205,15 @@ public class Market {
      */
     public Resource getSlideOrb() {
         return slideMarble;
+    }
+
+    // OBSERVABLE METHODS
+
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 }

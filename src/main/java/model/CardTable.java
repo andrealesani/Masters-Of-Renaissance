@@ -20,12 +20,31 @@ import java.util.Map;
 /**
  * Represents what in the physical game is the grid that holds all the development cards still available for players to buy
  */
-public class CardTable {
+public class CardTable implements Observable{
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+    /**
+     * Represents the table column with all green cards
+     */
     private final List<List<DevelopmentCard>> greenCards;
+    /**
+     * Represents the table column with all blue cards
+     */
     private final List<List<DevelopmentCard>> blueCards;
+    /**
+     * Represents the table column with all yellow cards
+     */
     private final List<List<DevelopmentCard>> yellowCards;
+    /**
+     * Represents the table column with all purple cards
+     */
     private final List<List<DevelopmentCard>> purpleCards;
 
+    /**
+     * Map of all the DevelopmentCards on the table. It's a map that for each CardColor has list of decks that represent the group of cards of a specific color and level
+     */
     private final Map<CardColor, List<List<DevelopmentCard>>> cards;
 
     //CONSTRUCTORS
@@ -72,6 +91,8 @@ public class CardTable {
         for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)
                 card.setId(i++);
+
+        notifyObservers();
     }
 
     //PUBLIC METHODS
@@ -96,6 +117,8 @@ public class CardTable {
 
         playerBoard.buyDevelopmentCard(cards.get(cardColor).get(row).get(0), cardSlot);
         cards.get(cardColor).get(row).remove(0);
+
+        notifyObservers();
     }
 
     /**
@@ -117,6 +140,8 @@ public class CardTable {
         if (i < 0) {
             throw new EmptyDeckException();
         }
+
+        notifyObservers();
     }
 
     /**
@@ -231,5 +256,15 @@ public class CardTable {
      */
     public List<List<DevelopmentCard>> getPurpleCards() {
         return purpleCards;
+    }
+
+    // OBSERVABLE METHODS
+
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 }

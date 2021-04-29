@@ -1,9 +1,7 @@
 package model.lorenzo;
 
 import Exceptions.ParametersNotValidException;
-import model.CardColor;
-import model.CardTable;
-import model.PopeFavorTile;
+import model.*;
 import model.lorenzo.tokens.*;
 
 import java.util.ArrayList;
@@ -13,7 +11,11 @@ import java.util.List;
 /**
  * This class represents the game's base artificial intelligence, whose actions are based on action tokens
  */
-public class Lorenzo implements ArtificialIntelligence {
+public class Lorenzo implements ArtificialIntelligence, Observable {
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
     /**
      * This attribute stores Lorenzo's faith score (the black cross)
      */
@@ -21,15 +23,15 @@ public class Lorenzo implements ArtificialIntelligence {
     /**
      * This attribute stores the player's pope's favor tiles
      */
-    private List<PopeFavorTile> popeFavorTiles;
+    private final List<PopeFavorTile> popeFavorTiles;
     /**
      * This list stores Lorenzo's tokens that have not been used since the last shuffleDeck
      */
-    private List<ActionToken> activeDeck = new ArrayList<>();
+    private final List<ActionToken> activeDeck = new ArrayList<>();
     /**
      * This list stores Lorenzo's tokens that have been used since the last shuffleDeck
      */
-    private List<ActionToken> usedDeck = new ArrayList<>();
+    private final List<ActionToken> usedDeck = new ArrayList<>();
 
     //CONSTRUCTOR
 
@@ -139,4 +141,13 @@ public class Lorenzo implements ArtificialIntelligence {
         return usedDeck;
     }
 
+    // OBSERVABLE METHODS
+
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
 }

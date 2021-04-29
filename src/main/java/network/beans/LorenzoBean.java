@@ -1,10 +1,13 @@
 package network.beans;
 
+import model.CardTable;
 import model.Game;
+import model.Observable;
+import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 
-public class LorenzoBean {
+public class LorenzoBean implements Observer {
     /**
      * Lorenzo's faith
      */
@@ -34,23 +37,32 @@ public class LorenzoBean {
 
     // SETTERS
 
-    public void setFaithFromGame(Game game) {
-        faith = game.getLorenzo().getFaith();
+    private void setFaithFromGame(Lorenzo lorenzo) {
+        faith = lorenzo.getFaith();
     }
 
-    public void setActiveTokensFromGame(Game game) {
+    private void setActiveTokensFromGame(Lorenzo lorenzo) {
         int i = 0;
-        activeTokens = new TokenType[((Lorenzo) game.getLorenzo()).getActiveDeck().size()];
-        for(ActionToken token : ((Lorenzo) game.getLorenzo()).getActiveDeck()) {
+        activeTokens = new TokenType[lorenzo.getActiveDeck().size()];
+        for (ActionToken token : lorenzo.getActiveDeck()) {
             activeTokens[i++] = token.getType();
         }
     }
 
-    public void setDiscardedTokensFromGame(Game game) {
+    private void setDiscardedTokensFromGame(Lorenzo lorenzo) {
         int i = 0;
-        discardedTokens = new TokenType[((Lorenzo) game.getLorenzo()).getUsedDeck().size()];
-        for(ActionToken token : ((Lorenzo) game.getLorenzo()).getUsedDeck()) {
+        discardedTokens = new TokenType[lorenzo.getUsedDeck().size()];
+        for (ActionToken token : lorenzo.getUsedDeck()) {
             discardedTokens[i++] = token.getType();
         }
+    }
+
+    // OBSERVER METHODS
+
+    public void update(Object observable) {
+        Lorenzo lorenzo = (Lorenzo) observable;
+        setFaithFromGame(lorenzo);
+        setActiveTokensFromGame(lorenzo);
+        setDiscardedTokensFromGame(lorenzo);
     }
 }

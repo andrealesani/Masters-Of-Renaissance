@@ -1,9 +1,11 @@
 package network.beans;
 
 import model.Game;
+import model.Market;
+import model.Observer;
 import model.ResourceType;
 
-public class MarketBean {
+public class MarketBean implements Observer {
     /**
      * Represents Market's board attribute
      */
@@ -25,17 +27,25 @@ public class MarketBean {
 
     // SETTERS
 
-    public void setMarketBoardFromGame(Game game) {
-        marketBoard = new ResourceType[game.getMarket().getBoard().length][game.getMarket().getBoard()[0].length];
-        for(int i = 0; i < game.getMarket().getBoard().length; i++) {
-            for(int j = 0; j < game.getMarket().getBoard()[0].length; j++) {
-                marketBoard[i][j] = game.getMarket().getBoard()[i][j].getType();
+    private void setMarketBoardFromGame(Market market) {
+        marketBoard = new ResourceType[market.getBoard().length][market.getBoard()[0].length];
+        for (int i = 0; i < market.getBoard().length; i++) {
+            for (int j = 0; j < market.getBoard()[0].length; j++) {
+                marketBoard[i][j] = market.getBoard()[i][j].getType();
             }
         }
     }
 
-    public void setSlideFromGame(Game game) {
-        slide = game.getMarket().getSlideOrb().getType();
+    public void setSlideFromGame(Market market) {
+        slide = market.getSlideOrb().getType();
+    }
+
+    // OBSERVER METHODS
+
+    public void update(Object observable) {
+        Market market = (Market) observable;
+        setMarketBoardFromGame(market);
+        setSlideFromGame(market);
     }
 
 }

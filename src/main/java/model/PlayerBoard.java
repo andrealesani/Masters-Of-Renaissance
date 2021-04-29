@@ -18,7 +18,11 @@ import java.util.stream.Collectors;
  * This class represents one single physical game player board. It holds all the information about a player's status
  * during the game, and has methods for executing many of the users actions.
  */
-public class PlayerBoard {
+public class PlayerBoard implements Observable {
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
     /**
      * Attribute used to store the game to which the player belongs
      */
@@ -135,6 +139,8 @@ public class PlayerBoard {
         leaderCards = new ArrayList<LeaderCard>();
         productionHandler = new ProductionHandler();
         productionHandler.addProduction(baseProduction);
+
+        notifyObservers();
     }
 
     /**
@@ -159,6 +165,8 @@ public class PlayerBoard {
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
         productionHandler = new ProductionHandler();
+
+        notifyObservers();
     }
 
     //PUBLIC METHODS
@@ -173,6 +181,8 @@ public class PlayerBoard {
      */
     public void addResourceToWaitingRoom(ResourceType resource, int quantity) {
         waitingRoom.addResource(resource, quantity);
+
+        notifyObservers();
     }
 
     /**
@@ -183,6 +193,8 @@ public class PlayerBoard {
      */
     public void addResourceToStrongbox(ResourceType resource, int quantity) {
         strongbox.addResource(resource, quantity);
+
+        notifyObservers();
     }
 
 
@@ -193,6 +205,8 @@ public class PlayerBoard {
      */
     public void addFaith(int quantity) {
         faith += quantity;
+
+        notifyObservers();
     }
 
     /**
@@ -204,6 +218,8 @@ public class PlayerBoard {
         } else if (marbleConversions.size() > 1) {
             whiteMarbleNum += quantity;
         }
+
+        notifyObservers();
     }
 
     //Market's resources distribution methods
@@ -226,6 +242,8 @@ public class PlayerBoard {
         }
         waitingRoom.addResource(resource, quantity);
         whiteMarbleNum = newQuantity;
+
+        notifyObservers();
     }
 
     /**
@@ -243,6 +261,8 @@ public class PlayerBoard {
     public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
         waitingRoom.removeResource(resource, quantity);
         warehouse.addToDepot(depot, resource, quantity);
+
+        notifyObservers();
     }
 
     /**
@@ -255,6 +275,8 @@ public class PlayerBoard {
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, DepotNotPresentException {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
+
+        notifyObservers();
     }
 
     /**
@@ -273,6 +295,8 @@ public class PlayerBoard {
      */
     public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
         warehouse.moveDepotContent(depotNumberTake, depotNumberGive, resource, quantity);
+
+        notifyObservers();
     }
 
     //Development card purchase methods
@@ -343,6 +367,8 @@ public class PlayerBoard {
         }
         productionHandler.addProduction(card.getProduction());
         requestedSlot.add(card);
+
+        notifyObservers();
     }
 
     /**
@@ -353,6 +379,8 @@ public class PlayerBoard {
      */
     public void addDevelopmentCardNoCheck(int slot, DevelopmentCard developmentCard) {
         cardSlots.get(slot - 1).add(developmentCard);
+
+        notifyObservers();
     }
 
     //Productions activation methods
@@ -364,6 +392,7 @@ public class PlayerBoard {
      */
     public void selectProduction(int number) throws ProductionNotPresentException {
         productionHandler.selectProduction(number);
+        // notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**
@@ -371,6 +400,7 @@ public class PlayerBoard {
      */
     public void resetProductionChoice() {
         productionHandler.resetProductionChoice();
+        // notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**
@@ -381,6 +411,8 @@ public class PlayerBoard {
             throw new NotEnoughResourceException();
         }
         productionHandler.releaseInput(this);
+
+        notifyObservers();
     }
 
     /**
@@ -391,6 +423,8 @@ public class PlayerBoard {
      */
     public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
         productionHandler.chooseJollyInput(resource);
+
+        notifyObservers();
     }
 
     /**
@@ -401,6 +435,8 @@ public class PlayerBoard {
      */
     public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
         productionHandler.chooseJollyOutput(resource);
+
+        notifyObservers();
     }
 
     /**
@@ -408,6 +444,8 @@ public class PlayerBoard {
      */
     public void releaseProductionOutput() {
         productionHandler.releaseOutput(this);
+
+        notifyObservers();
     }
 
     //Vatican report handling methods
@@ -446,6 +484,8 @@ public class PlayerBoard {
         for (int tileNumber = lastTriggeredTile; tileNumber < newTriggeredTile; tileNumber++) {
             popeFavorTiles.get(tileNumber).checkActivation(faith);
         }
+
+        notifyObservers();
     }
 
     //Dept payment methods
@@ -472,6 +512,8 @@ public class PlayerBoard {
             //This should never happen
             System.out.println(ex.getMessage());
         }
+
+        notifyObservers();
     }
 
     /**
@@ -494,6 +536,8 @@ public class PlayerBoard {
             //This should never happen
             System.out.println(ex.getMessage());
         }
+
+        notifyObservers();
     }
 
     //Leader card handling methods
@@ -505,6 +549,8 @@ public class PlayerBoard {
      */
     public void addLeaderCard(LeaderCard leaderCard) {
         leaderCards.add(leaderCard);
+
+        notifyObservers();
     }
 
     /**
@@ -517,6 +563,8 @@ public class PlayerBoard {
         if (leaderCards.get(i).areRequirementsMet(this)) {
             leaderCards.get(i).doAction(this);
         } else throw new LeaderRequirementsNotMetException();
+
+        notifyObservers();
     }
 
     /**
@@ -531,6 +579,8 @@ public class PlayerBoard {
         }
         leaderCards.remove(i);
         addFaith(1);
+
+        notifyObservers();
     }
 
     /**
@@ -541,6 +591,8 @@ public class PlayerBoard {
      */
     public void addMarbleConversion(ResourceType resource) {
         marbleConversions.add(resource);
+
+        notifyObservers();
     }
 
     /**
@@ -551,6 +603,8 @@ public class PlayerBoard {
      */
     public void addProduction(Production production) {
         productionHandler.addProduction(production);
+
+        notifyObservers();
     }
 
     /**
@@ -562,6 +616,8 @@ public class PlayerBoard {
      */
     public void addDiscount(ResourceType resourceType, int discount) {
         discounts.put(resourceType, discount);
+
+        notifyObservers();
     }
 
     /**
@@ -571,6 +627,8 @@ public class PlayerBoard {
      */
     public void addNewDepot(ResourceDepot depot) {
         warehouse.addNewDepot(depot);
+
+        notifyObservers();
     }
 
 
@@ -581,6 +639,8 @@ public class PlayerBoard {
      */
     public void addWhiteNoCheck(int quantity) {
         whiteMarbleNum += quantity;
+
+        notifyObservers();
     }
 
     /**
@@ -597,6 +657,8 @@ public class PlayerBoard {
         }
         waitingRoom.addResource(resource, quantity);
         whiteMarbleNum = newQuantity;
+
+        notifyObservers();
     }
 
     /**
@@ -615,6 +677,7 @@ public class PlayerBoard {
         else if (!leaderCard.isActive())
             leaderCard.activate();
 
+        notifyObservers();
     }
 
     /**
@@ -633,6 +696,8 @@ public class PlayerBoard {
                 i++;
             }
         }
+
+        notifyObservers();
     }
 
     //End turn checks methods
@@ -640,7 +705,7 @@ public class PlayerBoard {
     /**
      * Returns whether or not the production handler's current input is empty, signaling the productions' price has been paid
      *
-     * @return
+     * @return true if ProductionHandler's currentInput is empty
      */
     public boolean isProductionInputEmpty() {
         return productionHandler.getCurrentInput().isEmpty();
@@ -652,6 +717,8 @@ public class PlayerBoard {
     public void clearWaitingRoom() {
         waitingRoom.clear();
         whiteMarbleNum = 0;
+
+        notifyObservers();
     }
 
     /**
@@ -911,5 +978,15 @@ public class PlayerBoard {
      */
     public int[] getVpFaithValues() {
         return vpFaithValues;
+    }
+
+    // OBSERVABLE METHODS
+
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 }

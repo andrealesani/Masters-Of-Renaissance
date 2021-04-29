@@ -1,13 +1,16 @@
 package network.beans;
 
 import model.CardColor;
+import model.CardTable;
 import model.Game;
+import model.Observer;
+import model.card.Card;
 import model.card.DevelopmentCard;
 
 import java.util.List;
 import java.util.Map;
 
-public class CardTableBean {
+public class CardTableBean implements Observer {
     /**
      * Holds the IDs of the cards in CardTable's cards attribute
      */
@@ -21,16 +24,23 @@ public class CardTableBean {
 
     // SETTERS
 
-    public void setCardTableFromGame(Game game) {
-        cards = new int[game.getCardTable().getCards().entrySet().size()][3];
+    private void setCardTableFromGame(CardTable cardTable) {
+        cards = new int[cardTable.getCards().entrySet().size()][3];
         int i = 0, j;
-        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
+        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cardTable.getCards().entrySet()) {
             j = 0;
             for (List<DevelopmentCard> deck : color.getValue()) {
-                cards[i][j] = game.getCardTable().getTopCardId(deck);
+                cards[i][j] = cardTable.getTopCardId(deck);
                 j++;
             }
             i++;
         }
+    }
+
+    // OBSERVER METHODS
+
+    public void update(Object observable) {
+        CardTable cardTable = (CardTable) observable;
+        setCardTableFromGame(cardTable);
     }
 }

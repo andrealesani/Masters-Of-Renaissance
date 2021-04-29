@@ -1,23 +1,18 @@
 package network.beans;
 
-import model.PlayerBoard;
-import model.PopeFavorTile;
-import model.PopeTileState;
-import model.ResourceType;
-import model.card.DevelopmentCard;
+import model.*;
 import model.card.leadercard.LeaderCard;
-import model.resource.Resource;
 
 import java.util.Arrays;
 import java.util.List;
 
 
 /**
- * The purpose of this class is to simplify the information contained in the playerboard in order to
+ * The purpose of this class is to simplify the information contained in the PlayerBoard in order to
  * transcribe it into a gson file that will be passed to the server for the communication with the client
  */
 
-public class PlayerBoardBean {
+public class PlayerBoardBean implements Observer {
     /**
      *  Represents the player's username
      */
@@ -52,11 +47,11 @@ public class PlayerBoardBean {
      */
     private SlotBean[] cardSlots;
     /**
-     * Represents the different types of leadercards for each player
+     * Represents the different types of LeaderCards for each player
      */
     private int[] leaderCards;
     /**
-     * Represents which player's leadercards are active or not
+     * Represents which player's LeaderCards are active or not
      */
     private boolean[] activeLeaderCards;
     /**
@@ -95,7 +90,7 @@ public class PlayerBoardBean {
     /**
      * Getter
      *
-     * @return player's whitemarbles
+     * @return player's WhiteMarbles
      */
     public int getWhiteMarbles() { return whiteMarbles; }
 
@@ -152,7 +147,7 @@ public class PlayerBoardBean {
     }
 
     /**
-     * Getter leadercard's activity
+     * Getter LeaderCard's activity
      *
      * @return activeLeaderCards
      */
@@ -190,17 +185,17 @@ public class PlayerBoardBean {
 
     // SETTERS
 
-    public void setUsernameFromPB(PlayerBoard playerBoard) {
+    private void setUsernameFromPB(PlayerBoard playerBoard) {
         username = playerBoard.getUsername();
     }
 
-    public void setFaithFromPB(PlayerBoard playerBoard) {
+    private void setFaithFromPB(PlayerBoard playerBoard) {
         faith = playerBoard.getFaith();
     }
 
-    public void setWhiteMarblesFromPB(PlayerBoard playerBoard) { whiteMarbles = playerBoard.getWhiteMarbles(); }
+    private void setWhiteMarblesFromPB(PlayerBoard playerBoard) { whiteMarbles = playerBoard.getWhiteMarbles(); }
 
-    public void setWaitingRoomTypeFromPB(PlayerBoard playerBoard) {
+    private void setWaitingRoomTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         waitingRoomType = new ResourceType[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
@@ -216,7 +211,7 @@ public class PlayerBoardBean {
 
     }
 
-    public void setWaitingRoomQuantitiesFromPB(PlayerBoard playerBoard) {
+    private void setWaitingRoomQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
         waitingRoomQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
@@ -233,7 +228,7 @@ public class PlayerBoardBean {
         }
     }
 
-    public void setStrongboxTypeFromPB(PlayerBoard playerBoard) {
+    private void setStrongboxTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         strongboxType = new ResourceType[(int) playerBoard.getStrongbox().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getStrongbox().getStoredResources()) {
@@ -248,7 +243,7 @@ public class PlayerBoardBean {
         }
     }
 
-    public void setStrongboxQuantitiesFromPB(PlayerBoard playerBoard) {
+    private void setStrongboxQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
         strongboxQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
@@ -265,7 +260,7 @@ public class PlayerBoardBean {
         }
     }
 
-    public void setCardSlotsFromPB(PlayerBoard playerBoard) {
+    private void setCardSlotsFromPB(PlayerBoard playerBoard) {
         int i;
         cardSlots = new SlotBean[playerBoard.getCardSlots().size()];
         for(i = 0; i < 3; i++) {
@@ -276,7 +271,7 @@ public class PlayerBoardBean {
     }
 
 
-    public void setLeaderCardsFromPB(PlayerBoard playerBoard) {
+    private void setLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         leaderCards = new int[playerBoard.getLeaderCards().size()];
         for(LeaderCard leaderCard : playerBoard.getLeaderCards()) {
@@ -284,7 +279,7 @@ public class PlayerBoardBean {
         }
     }
 
-    public void setActiveLeaderCardsFromPB(PlayerBoard playerBoard) {
+    private void setActiveLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         activeLeaderCards = new boolean[playerBoard.getLeaderCards().size()];
         for(LeaderCard leaderCard : playerBoard.getLeaderCards()) {
@@ -295,7 +290,7 @@ public class PlayerBoardBean {
         }
     }
 
-    public void setVpFaithTilesFromPB(PlayerBoard playerBoard) {
+    private void setVpFaithTilesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithTiles();
         vpFaithTiles = new int[current.length];
@@ -304,7 +299,7 @@ public class PlayerBoardBean {
 
     }
 
-    public void setVpFaithValuesFromPB(PlayerBoard playerBoard) {
+    private void setVpFaithValuesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithValues();
         vpFaithValues = new int[current.length];
@@ -312,7 +307,7 @@ public class PlayerBoardBean {
             vpFaithValues[i] = current[i];
     }
 
-    public void setPopeTileStatesFromPB(PlayerBoard playerBoard) {
+    private void setPopeTileStatesFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
         popeTileStates = new PopeTileState[current.size()];
@@ -320,7 +315,7 @@ public class PlayerBoardBean {
             popeTileStates[i] = current.get(i).getState();
     }
 
-    public void setPopeTilePointsFromPB(PlayerBoard playerBoard) {
+    private void setPopeTilePointsFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
         popeTilePoints = new int[current.size()];
@@ -340,5 +335,25 @@ public class PlayerBoardBean {
                 ",\n cardSlots=" + Arrays.toString(cardSlots) +
                 ",\n leaderCards=" + Arrays.toString(leaderCards) +
                 '\n' + '}';
+    }
+
+    // OBSERVER METHODS
+
+    public void update(Object observable) {
+        PlayerBoard pb = (PlayerBoard) observable;
+        setUsernameFromPB(pb);
+        setFaithFromPB(pb);
+        setWhiteMarblesFromPB(pb);
+        setWaitingRoomTypeFromPB(pb);
+        setWaitingRoomQuantitiesFromPB(pb);
+        setStrongboxTypeFromPB(pb);
+        setStrongboxQuantitiesFromPB(pb);
+        setCardSlotsFromPB(pb);
+        setLeaderCardsFromPB(pb);
+        setActiveLeaderCardsFromPB(pb);
+        setVpFaithTilesFromPB(pb);
+        setVpFaithValuesFromPB(pb);
+        setPopeTileStatesFromPB(pb);
+        setPopeTilePointsFromPB(pb);
     }
 }
