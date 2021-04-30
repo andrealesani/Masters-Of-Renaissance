@@ -1,8 +1,5 @@
 package network.beans;
 
-import model.CardTable;
-import model.Game;
-import model.Observable;
 import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
