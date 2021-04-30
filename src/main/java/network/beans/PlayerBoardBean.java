@@ -185,16 +185,28 @@ public class PlayerBoardBean implements Observer {
 
     // SETTERS
 
-    private void setUsernameFromPB(PlayerBoard playerBoard) {
-        username = playerBoard.getUsername();
-    }
+    /**Sets the value for the bean's username
+     *
+     * @param playerBoard
+     */
+    private void setUsernameFromPB(PlayerBoard playerBoard) { username = playerBoard.getUsername(); }
 
-    private void setFaithFromPB(PlayerBoard playerBoard) {
-        faith = playerBoard.getFaith();
-    }
+    /**Sets the value for the bean's faith
+     *
+     * @param playerBoard
+     */
+    private void setFaithFromPB(PlayerBoard playerBoard) { faith = playerBoard.getFaith(); }
 
+    /**Sets the value for the bean's whiteMarbles
+     *
+     * @param playerBoard
+     */
     private void setWhiteMarblesFromPB(PlayerBoard playerBoard) { whiteMarbles = playerBoard.getWhiteMarbles(); }
 
+    /**Sets the value for the bean's WaitingRoomType
+     *
+     * @param playerBoard
+     */
     private void setWaitingRoomTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         waitingRoomType = new ResourceType[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
@@ -211,6 +223,10 @@ public class PlayerBoardBean implements Observer {
 
     }
 
+    /**Sets the value for the bean's WaitingRoomQuantities
+     *
+     * @param playerBoard
+     */
     private void setWaitingRoomQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
         waitingRoomQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
@@ -228,6 +244,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    /**Sets the value for the bean's StrongboxType
+     *
+     * @param playerBoard
+     */
     private void setStrongboxTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         strongboxType = new ResourceType[(int) playerBoard.getStrongbox().getStoredResources().stream().distinct().count()];
@@ -243,6 +263,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    /**Sets the value for the bean's StrongboxQuantities
+     *
+     * @param playerBoard
+     */
     private void setStrongboxQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
         strongboxQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
@@ -260,6 +284,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    /**Sets the value for the bean's CardSlots
+     *
+     * @param playerBoard
+     */
     private void setCardSlotsFromPB(PlayerBoard playerBoard) {
         int i;
         cardSlots = new SlotBean[playerBoard.getCardSlots().size()];
@@ -270,7 +298,10 @@ public class PlayerBoardBean implements Observer {
 
     }
 
-
+    /**Sets the value for the bean's LeaderCards
+     *
+     * @param playerBoard
+     */
     private void setLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         leaderCards = new int[playerBoard.getLeaderCards().size()];
@@ -279,6 +310,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    /**Sets the value for the bean's ActiveLeaderCards
+     *
+     * @param playerBoard
+     */
     private void setActiveLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         activeLeaderCards = new boolean[playerBoard.getLeaderCards().size()];
@@ -290,6 +325,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    /**Sets the value for the bean's VpFaithTiles
+     *
+     * @param playerBoard
+     */
     private void setVpFaithTilesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithTiles();
@@ -299,6 +338,10 @@ public class PlayerBoardBean implements Observer {
 
     }
 
+    /**Sets the value for the bean's VpFaithValues
+     *
+     * @param playerBoard
+     */
     private void setVpFaithValuesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithValues();
@@ -307,6 +350,10 @@ public class PlayerBoardBean implements Observer {
             vpFaithValues[i] = current[i];
     }
 
+    /**Sets the value for the bean's PopeTilesStates
+     *
+     * @param playerBoard
+     */
     private void setPopeTileStatesFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
@@ -315,6 +362,10 @@ public class PlayerBoardBean implements Observer {
             popeTileStates[i] = current.get(i).getState();
     }
 
+    /**Sets the value for the bean's PopeTilesPoints
+     *
+     * @param playerBoard
+     */
     private void setPopeTilePointsFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
