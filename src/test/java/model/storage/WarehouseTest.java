@@ -204,11 +204,6 @@ class WarehouseTest {
         Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.swapDepotContent(1,1);
         });
-
-        String expectedMessage = "Error: The given input values are not allowed.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -250,27 +245,15 @@ class WarehouseTest {
             warehouse.swapDepotContent(2,3);
         });
 
-        String expectedMessage = "Error: The contents of the two depots cannot be swapped.";
-        String actualMessage = ex.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
-
         //Testing for blocking constraints
         ex = assertThrows(SwapNotValidException.class, () -> {
-            warehouse.swapDepotContent(1,4);
+                    warehouse.swapDepotContent(1, 4);
         });
-
-        expectedMessage = "Error: The contents of the two depots cannot be swapped.";
-        actualMessage = ex.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
 
         //Testing for resource type constraints
         ex = assertThrows(SwapNotValidException.class, () -> {
             warehouse.swapDepotContent(3,5);
         });
-
-        expectedMessage = "Error: The contents of the two depots cannot be swapped.";
-        actualMessage = ex.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**

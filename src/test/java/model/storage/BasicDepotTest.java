@@ -45,11 +45,6 @@ class BasicDepotTest {
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
             stash.addResource(ResourceType.SHIELD, 5);
         });
-
-        String expectedMessage = "Error: There is no space left in storage for this type of resource.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -66,11 +61,6 @@ class BasicDepotTest {
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
             stash.addResource(ResourceType.SHIELD, 5);
         });
-
-        String expectedMessage = "Error: There is no space left in storage for this type of resource.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
@@ -85,11 +75,6 @@ class BasicDepotTest {
         Exception ex = assertThrows(WrongResourceInsertionException.class, () -> {
             stash.addResource(ResourceType.COIN, 1);
         });
-
-        String expectedMessage = "Error: This type of resource cannot be inserted into this storage.";
-        String actualMessage = ex.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     /**
