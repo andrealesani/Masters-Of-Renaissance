@@ -8,7 +8,6 @@ import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
-import model.resource.ResourceUnknown;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * This class models a single game of Masters of the Renaissance
  */
-public class Game implements UserInterface {
+public class Game implements UserCommands {
     /**
      * This attribute stores the game's market
      */
