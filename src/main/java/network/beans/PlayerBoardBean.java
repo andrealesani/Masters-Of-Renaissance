@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import model.*;
 import model.card.leadercard.LeaderCard;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static model.ResourceType.*;
 
 
 /**
  * The purpose of this class is to simplify the information contained in the PlayerBoard in order to
- * transcribe it into a gson file that will be passed to the server for the communication with the client
+ * transcribe it into a json file that will be passed to the Server object for the communication with the client
  */
 
 public class PlayerBoardBean implements Observer {
@@ -19,13 +20,21 @@ public class PlayerBoardBean implements Observer {
      */
     private String username;
     /**
-     * Represents the player's faith
+     * Represents the status (active/inactive/discarded) of each Pope's favor tile
      */
-    private int faith;
+    private PopeTileState[] popeTileStates;
     /**
-     * Represents the player's number of whiteMarbles
+     * Represents the victory points assigned to each Pope's favor tile when it is activated
      */
-    private int whiteMarbles;
+    private int[] popeTilePoints;
+    /**
+     * Represents the different types of resources in the strongbox
+     */
+    private ResourceType[] strongboxType;
+    /**
+     * Represents the number present in the strongbox for each type of resources
+     */
+    private int[] strongboxQuantities;
     /**
      * Represents the different types of resources in the waitingRoom
      */
@@ -35,13 +44,13 @@ public class PlayerBoardBean implements Observer {
      */
     private int[] waitingRoomQuantities;
     /**
-     * Represents the different types of resources in the strongbox
+     * Represents the player's number of whiteMarbles
      */
-    private ResourceType[] strongboxType;
+    private int whiteMarbles;
     /**
-     * Represents the number present in the strongbox for each type of resources
+     * Represents the player's faith
      */
-    private int[] strongboxQuantities;
+    private int faith;
     /**
      * Represents the set of 3 slots in which the development cards are inserted.
      * The card in the first position corresponds to the one at the top of the pile
@@ -63,14 +72,9 @@ public class PlayerBoardBean implements Observer {
      * Represents the victory points assigned to each square
      */
     private int[] vpFaithValues;
-    /**
-     * Represents the status (active/inactive/discarded) of each Pope's favor tile
-     */
-    private PopeTileState[] popeTileStates;
-    /**
-     * Represents the victory points assigned to each Pope's favor tile when it is activated
-     */
-    private int[] popeTilePoints;
+
+    // TODO add productions, marble conversions, discounts
+
 
     // GETTERS
 
@@ -238,14 +242,7 @@ public class PlayerBoardBean implements Observer {
         int i = 0;
         waitingRoomType = new ResourceType[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            if (resourceType == ResourceType.COIN)
-                waitingRoomType[i++] = ResourceType.valueOf("COIN");
-            else if (resourceType == ResourceType.SERVANT)
-                waitingRoomType[i++] = ResourceType.valueOf("SERVANT");
-            else if (resourceType == ResourceType.SHIELD)
-                waitingRoomType[i++] = ResourceType.valueOf("SHIELD");
-            else if (resourceType == ResourceType.STONE)
-                waitingRoomType[i++] = ResourceType.valueOf("STONE");
+            waitingRoomType[i++] = resourceType;
         }
 
     }
@@ -259,16 +256,7 @@ public class PlayerBoardBean implements Observer {
         int i = 0;
         waitingRoomQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            if (resourceType == ResourceType.COIN)
-                waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.COIN);
-            else if (resourceType == ResourceType.SERVANT)
-                waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.SERVANT);
-            else if (resourceType == ResourceType.SHIELD)
-                waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.SHIELD);
-            else if (resourceType == ResourceType.STONE)
-                waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.STONE);
-            else
-                waitingRoomQuantities[i++] = 0;
+            waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(resourceType);
         }
     }
 
@@ -281,14 +269,7 @@ public class PlayerBoardBean implements Observer {
         int i = 0;
         strongboxType = new ResourceType[(int) playerBoard.getStrongbox().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getStrongbox().getStoredResources()) {
-            if (resourceType == ResourceType.COIN)
-                strongboxType[i++] = ResourceType.valueOf("COIN");
-            else if (resourceType == ResourceType.SERVANT)
-                strongboxType[i++] = ResourceType.valueOf("SERVANT");
-            else if (resourceType == ResourceType.SHIELD)
-                strongboxType[i++] = ResourceType.valueOf("SHIELD");
-            else if (resourceType == ResourceType.STONE)
-                strongboxType[i++] = ResourceType.valueOf("STONE");
+            strongboxType[i++] = resourceType;
         }
     }
 
@@ -301,16 +282,7 @@ public class PlayerBoardBean implements Observer {
         int i = 0;
         strongboxQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            if (resourceType == ResourceType.COIN)
-                strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.COIN);
-            else if (resourceType == ResourceType.SERVANT)
-                strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.SERVANT);
-            else if (resourceType == ResourceType.SHIELD)
-                strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.SHIELD);
-            else if (resourceType == ResourceType.STONE)
-                strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(ResourceType.STONE);
-            else
-                strongboxQuantities[i++] = 0;
+            strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(resourceType);
         }
     }
 
@@ -326,7 +298,6 @@ public class PlayerBoardBean implements Observer {
             cardSlots[i] = new SlotBean();
             cardSlots[i].setDevelopmentCardsFromPB(playerBoard, i + 1);
         }
-
     }
 
     /**
@@ -409,20 +380,6 @@ public class PlayerBoardBean implements Observer {
         popeTilePoints = new int[current.size()];
         for (i = 0; i < popeTilePoints.length; i++)
             popeTilePoints[i] = current.get(i).getVictoryPoints();
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerBoardBean{" +
-                "\n" + "username='" + username + '\'' +
-                ",\n faith=" + faith +
-                ",\n waitingRoomType=" + Arrays.toString(waitingRoomType) +
-                ",\n waitingRoomQuantities=" + Arrays.toString(waitingRoomQuantities) +
-                ",\n strongboxType=" + Arrays.toString(strongboxType) +
-                ",\n strongboxQuantities=" + Arrays.toString(strongboxQuantities) +
-                ",\n cardSlots=" + Arrays.toString(cardSlots) +
-                ",\n leaderCards=" + Arrays.toString(leaderCards) +
-                '\n' + '}';
     }
 
     // OBSERVER METHODS
