@@ -1,6 +1,8 @@
 package model.storage;
 
 import Exceptions.*;
+import model.Observable;
+import model.Observer;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * This class represents the player board's warehouse, intended as the collection of all of its depots (both the basic, starting ones and the ones obtained through other means).
  */
-public class Warehouse {
+public class Warehouse implements Observable {
     /**
      * List used to store and index the various depots available to the player
      */
@@ -258,5 +260,25 @@ public class Warehouse {
             resourceList.addAll(depot.getStoredResources());
         }
         return resourceList.stream().distinct().collect(Collectors.toList());
+    }
+
+
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+        notifyObservers();
     }
 }

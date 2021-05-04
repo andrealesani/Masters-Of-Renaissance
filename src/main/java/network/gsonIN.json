@@ -6,8 +6,16 @@
     "waitingRoomQuantities" : [0, 0, 0, 0, 0, 0],
     "strongboxType" : ["COIN", "SERVANT", "SHIELD", "STONE"],
     "strongboxQuantities" : [0, 0, 0, 0],
-    "depotResources" : ["COIN", "SERVANT", "SHIELD", "STONE"],
-    "depotQuantities" : [0, 0, 0, 0],
+    "warehouse" : [
+      {
+        "depotResources" : ["COIN", "SERVANT", "SHIELD", "STONE"],
+        "depotQuantities" : [0, 0, 0, 0]
+      },
+      {
+        "depotResources" : ["COIN", "SERVANT", "SHIELD", "STONE"],
+        "depotQuantities" : [0, 0, 0, 0]
+      }
+    ],
     "cardSlots" : [
       {"developmentCards" : [5, 4]},
       {"developmentCards" : [13]},

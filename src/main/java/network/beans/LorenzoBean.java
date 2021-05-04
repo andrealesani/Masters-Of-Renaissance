@@ -13,11 +13,11 @@ public class LorenzoBean implements Observer {
     /**
      * Represents Lorenzo's activeDeck list
      */
-    private TokenType[] activeTokens;
+    private LorenzoTokenType[] activeTokens;
     /**
      * Represents Lorenzo's usedDeck list
      */
-    private TokenType[] discardedTokens;
+    private LorenzoTokenType[] discardedTokens;
 
     // GETTERS
 
@@ -25,11 +25,11 @@ public class LorenzoBean implements Observer {
         return faith;
     }
 
-    public TokenType[] getActiveTokens() {
+    public LorenzoTokenType[] getActiveTokens() {
         return activeTokens;
     }
 
-    public TokenType[] getDiscardedTokens() {
+    public LorenzoTokenType[] getDiscardedTokens() {
         return discardedTokens;
     }
 
@@ -41,7 +41,7 @@ public class LorenzoBean implements Observer {
 
     private void setActiveTokensFromGame(Lorenzo lorenzo) {
         int i = 0;
-        activeTokens = new TokenType[lorenzo.getActiveDeck().size()];
+        activeTokens = new LorenzoTokenType[lorenzo.getActiveDeck().size()];
         for (ActionToken token : lorenzo.getActiveDeck()) {
             activeTokens[i++] = token.getType();
         }
@@ -49,7 +49,7 @@ public class LorenzoBean implements Observer {
 
     private void setDiscardedTokensFromGame(Lorenzo lorenzo) {
         int i = 0;
-        discardedTokens = new TokenType[lorenzo.getUsedDeck().size()];
+        discardedTokens = new LorenzoTokenType[lorenzo.getUsedDeck().size()];
         for (ActionToken token : lorenzo.getUsedDeck()) {
             discardedTokens[i++] = token.getType();
         }

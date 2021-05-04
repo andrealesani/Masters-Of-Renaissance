@@ -2,6 +2,8 @@ package model.storage;
 
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ParametersNotValidException;
+import model.Observable;
+import model.Observer;
 import model.ResourceType;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.Map;
 /**
  * This class represents a storage for resources with no size limits or checks on addition of resources
  */
-public class UnlimitedStorage implements ResourceStash {
+public class UnlimitedStorage implements ResourceStash, Observable {
     /**
      * Data structure used to map each stored resource with the amount stored
      */
@@ -100,5 +102,25 @@ public class UnlimitedStorage implements ResourceStash {
     @Override
     public List<ResourceType> getStoredResources() {
         return new ArrayList<>(storageContent.keySet());
+    }
+
+
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+        notifyObservers();
     }
 }
