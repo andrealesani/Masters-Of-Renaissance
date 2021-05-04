@@ -12,10 +12,6 @@ import java.util.List;
 //TODO rendere dimensioni matrice parametrici?
 public class Market implements Observable {
     /**
-     * List of observers that need to get updated when the object state changes
-     */
-    private final List<Observer> observers = new ArrayList<>();
-    /**
      * This matrix stores the market's marbles
      */
     private Resource board[][] = new Resource[3][4];
@@ -207,8 +203,17 @@ public class Market implements Observable {
         return slideMarble;
     }
 
-    // OBSERVABLE METHODS
 
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
     public void notifyObservers() {
         observers.forEach(observer -> observer.update(this));
     }

@@ -22,10 +22,6 @@ import java.util.Map;
  */
 public class CardTable implements Observable{
     /**
-     * List of observers that need to get updated when the object state changes
-     */
-    private final List<Observer> observers = new ArrayList<>();
-    /**
      * Represents the table column with all green cards
      */
     private final List<List<DevelopmentCard>> greenCards;
@@ -258,8 +254,17 @@ public class CardTable implements Observable{
         return purpleCards;
     }
 
-    // OBSERVABLE METHODS
 
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
     public void notifyObservers() {
         observers.forEach(observer -> observer.update(this));
     }

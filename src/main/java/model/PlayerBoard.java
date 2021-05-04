@@ -20,10 +20,6 @@ import java.util.stream.Collectors;
  */
 public class PlayerBoard implements Observable {
     /**
-     * List of observers that need to get updated when the object state changes
-     */
-    private final List<Observer> observers = new ArrayList<>();
-    /**
      * Attribute used to store the game to which the player belongs
      */
     private final Game game;
@@ -980,8 +976,17 @@ public class PlayerBoard implements Observable {
         return vpFaithValues;
     }
 
-    // OBSERVABLE METHODS
 
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
     public void notifyObservers() {
         observers.forEach(observer -> observer.update(this));
     }

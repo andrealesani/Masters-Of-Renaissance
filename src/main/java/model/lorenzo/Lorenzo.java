@@ -13,10 +13,6 @@ import java.util.List;
  */
 public class Lorenzo implements ArtificialIntelligence, Observable {
     /**
-     * List of observers that need to get updated when the object state changes
-     */
-    private final List<Observer> observers = new ArrayList<>();
-    /**
      * This attribute stores Lorenzo's faith score (the black cross)
      */
     private int faith;
@@ -141,8 +137,17 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         return usedDeck;
     }
 
-    // OBSERVABLE METHODS
 
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
     public void notifyObservers() {
         observers.forEach(observer -> observer.update(this));
     }
