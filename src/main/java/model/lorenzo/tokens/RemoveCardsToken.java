@@ -4,7 +4,7 @@ import Exceptions.EmptyDeckException;
 import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
-import network.beans.TokenType;
+import network.beans.LorenzoTokenType;
 
 /**
  * Represents the token that removes 2 DevelopmentCards of the specified color from the grid
@@ -27,7 +27,7 @@ public abstract class RemoveCardsToken extends ActionToken {
      * @param color     specifies the color of the cards that this token remove
      * @param cardTable reference to CardTable instance
      */
-    public RemoveCardsToken(CardColor color, CardTable cardTable, TokenType type) {
+    public RemoveCardsToken(CardColor color, CardTable cardTable, LorenzoTokenType type) {
         super(type);
 
         if (color == null || cardTable == null) {

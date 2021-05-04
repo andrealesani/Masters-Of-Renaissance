@@ -2,7 +2,7 @@ package model.lorenzo.tokens;
 
 import Exceptions.ParametersNotValidException;
 import model.lorenzo.Lorenzo;
-import network.beans.TokenType;
+import network.beans.LorenzoTokenType;
 
 /**
  * Represents the token that increases Lorenzo's faith by 1 and then shuffles the entire action tokens deck
@@ -21,7 +21,7 @@ public class SingleFaithShuffleToken extends ActionToken {
      * @param lorenzo reference to Lorenzo instance
      */
     public SingleFaithShuffleToken(Lorenzo lorenzo) {
-        super(TokenType.SingleFaith);
+        super(LorenzoTokenType.SingleFaith);
 
         if (lorenzo == null) {
             throw new ParametersNotValidException();

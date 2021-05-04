@@ -1,5 +1,5 @@
 package network.beans;
 
-public enum TokenType {
+public enum LorenzoTokenType {
     SingleFaith, DoubleFaith, RemoveBlue,  RemoveGreen, RemovePurple, RemoveYellow
 }
