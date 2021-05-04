@@ -4,7 +4,7 @@ import Exceptions.*;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.ResourceType;
-import model.UserInterface;
+import model.UserCommands;
 import model.resource.Resource;
 
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class GameController {
     final Gson gson;
-    UserInterface game = null;
+    UserCommands game = null;
 
     //CONSTRUCTORS
 
