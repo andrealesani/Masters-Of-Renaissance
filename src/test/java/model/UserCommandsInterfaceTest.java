@@ -709,7 +709,7 @@ class UserCommandsInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
         }
@@ -748,7 +748,7 @@ class UserCommandsInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
         }
@@ -797,7 +797,7 @@ class UserCommandsInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
         }
@@ -1110,7 +1110,7 @@ class UserCommandsInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(resourceType.toResource(), 1);
             }
 
             // Game should end after the last player's turn
@@ -1148,7 +1148,7 @@ class UserCommandsInterfaceTest {
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
             for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(typeToResource(resourceType), 1);
+                game.payFromStrongbox(resourceType.toResource(), 1);
             }
 
             // Game should end after the last player's turn
