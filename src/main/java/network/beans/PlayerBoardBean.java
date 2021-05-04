@@ -13,7 +13,6 @@ import static model.ResourceType.*;
  * The purpose of this class is to simplify the information contained in the PlayerBoard in order to
  * transcribe it into a json file that will be passed to the Server object for the communication with the client
  */
-
 public class PlayerBoardBean implements Observer {
     /**
      * Represents the player's username
@@ -74,6 +73,7 @@ public class PlayerBoardBean implements Observer {
     private int[] vpFaithValues;
 
     // TODO add productions, marble conversions, discounts
+    // TODO remove strongbox and waiting room attributes
 
 
     // GETTERS
