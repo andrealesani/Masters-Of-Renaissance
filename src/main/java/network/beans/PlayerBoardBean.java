@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PlayerBoardBean implements Observer {
     /**
-     *  Represents the player's username
+     * Represents the player's username
      */
     private String username;
     /**
@@ -68,7 +68,7 @@ public class PlayerBoardBean implements Observer {
      */
     private PopeTileState[] popeTileStates;
     /**
-    * Represents the victory points assigned to each Pope's favor tile when it is activated
+     * Represents the victory points assigned to each Pope's favor tile when it is activated
      */
     private int[] popeTilePoints;
 
@@ -79,28 +79,36 @@ public class PlayerBoardBean implements Observer {
      *
      * @return player's username
      */
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * Getter
      *
      * @return player's faith
      */
-    public int getFaith() { return faith; }
+    public int getFaith() {
+        return faith;
+    }
 
     /**
      * Getter
      *
      * @return player's WhiteMarbles
      */
-    public int getWhiteMarbles() { return whiteMarbles; }
+    public int getWhiteMarbles() {
+        return whiteMarbles;
+    }
 
     /**
      * Getter for resource's type in WaitingRoom
      *
      * @return waitingRoomType
      */
-    public ResourceType[] getWaitingRoomType() { return waitingRoomType; }
+    public ResourceType[] getWaitingRoomType() {
+        return waitingRoomType;
+    }
 
     /**
      * Getter for resource's quantity in WaitingRoom
@@ -161,72 +169,91 @@ public class PlayerBoardBean implements Observer {
      *
      * @return VpFaithTiles
      */
-    public int[] getVpFaithTiles() { return vpFaithTiles;}
+    public int[] getVpFaithTiles() {
+        return vpFaithTiles;
+    }
 
     /**
      * Getter
      *
      * @return vpFaithValues
      */
-    public int[] getVpFaithValues() { return vpFaithValues; }
+    public int[] getVpFaithValues() {
+        return vpFaithValues;
+    }
 
     /**
      * Getter
      *
      * @return popeTileStates
      */
-    public PopeTileState[] getPopeTileStates() { return popeTileStates; }
+    public PopeTileState[] getPopeTileStates() {
+        return popeTileStates;
+    }
 
     /**
      * Getter
      *
      * @return popeTilePoints
      */
-    public int[] getPopeTilePoints() { return popeTilePoints; }
+    public int[] getPopeTilePoints() {
+        return popeTilePoints;
+    }
 
     // SETTERS
 
-    /**Sets the value for the bean's username
+    /**
+     * Sets the value for the bean's username
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
-    private void setUsernameFromPB(PlayerBoard playerBoard) { username = playerBoard.getUsername(); }
+    private void setUsernameFromPB(PlayerBoard playerBoard) {
+        username = playerBoard.getUsername();
+    }
 
-    /**Sets the value for the bean's faith
+    /**
+     * Sets the value for the bean's faith
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
-    private void setFaithFromPB(PlayerBoard playerBoard) { faith = playerBoard.getFaith(); }
+    private void setFaithFromPB(PlayerBoard playerBoard) {
+        faith = playerBoard.getFaith();
+    }
 
-    /**Sets the value for the bean's whiteMarbles
+    /**
+     * Sets the value for the bean's whiteMarbles
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
-    private void setWhiteMarblesFromPB(PlayerBoard playerBoard) { whiteMarbles = playerBoard.getWhiteMarbles(); }
+    private void setWhiteMarblesFromPB(PlayerBoard playerBoard) {
+        whiteMarbles = playerBoard.getWhiteMarbles();
+    }
 
-    /**Sets the value for the bean's WaitingRoomType
+    /**
+     * Sets the value for the bean's WaitingRoomType
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setWaitingRoomTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         waitingRoomType = new ResourceType[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            if(resourceType == ResourceType.COIN)
+            if (resourceType == ResourceType.COIN)
                 waitingRoomType[i++] = ResourceType.valueOf("COIN");
-            else if(resourceType == ResourceType.SERVANT)
+            else if (resourceType == ResourceType.SERVANT)
                 waitingRoomType[i++] = ResourceType.valueOf("SERVANT");
-            else if(resourceType == ResourceType.SHIELD)
+            else if (resourceType == ResourceType.SHIELD)
                 waitingRoomType[i++] = ResourceType.valueOf("SHIELD");
-            else if(resourceType == ResourceType.STONE)
+            else if (resourceType == ResourceType.STONE)
                 waitingRoomType[i++] = ResourceType.valueOf("STONE");
         }
 
     }
 
-    /**Sets the value for the bean's WaitingRoomQuantities
+    /**
+     * Sets the value for the bean's WaitingRoomQuantities
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setWaitingRoomQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
@@ -245,28 +272,30 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
-    /**Sets the value for the bean's StrongboxType
+    /**
+     * Sets the value for the bean's StrongboxType
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setStrongboxTypeFromPB(PlayerBoard playerBoard) {
         int i = 0;
         strongboxType = new ResourceType[(int) playerBoard.getStrongbox().getStoredResources().stream().distinct().count()];
         for (ResourceType resourceType : playerBoard.getStrongbox().getStoredResources()) {
-            if(resourceType == ResourceType.COIN)
+            if (resourceType == ResourceType.COIN)
                 strongboxType[i++] = ResourceType.valueOf("COIN");
-            else if(resourceType == ResourceType.SERVANT)
+            else if (resourceType == ResourceType.SERVANT)
                 strongboxType[i++] = ResourceType.valueOf("SERVANT");
-            else if(resourceType == ResourceType.SHIELD)
+            else if (resourceType == ResourceType.SHIELD)
                 strongboxType[i++] = ResourceType.valueOf("SHIELD");
-            else if(resourceType == ResourceType.STONE)
+            else if (resourceType == ResourceType.STONE)
                 strongboxType[i++] = ResourceType.valueOf("STONE");
         }
     }
 
-    /**Sets the value for the bean's StrongboxQuantities
+    /**
+     * Sets the value for the bean's StrongboxQuantities
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setStrongboxQuantitiesFromPB(PlayerBoard playerBoard) {
         int i = 0;
@@ -285,93 +314,100 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
-    /**Sets the value for the bean's CardSlots
+    /**
+     * Sets the value for the bean's CardSlots
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setCardSlotsFromPB(PlayerBoard playerBoard) {
         int i;
         cardSlots = new SlotBean[playerBoard.getCardSlots().size()];
-        for(i = 0; i < 3; i++) {
+        for (i = 0; i < 3; i++) {
             cardSlots[i] = new SlotBean();
-            cardSlots[i].setDevelopmentCardsFromPB(playerBoard, i+1);
+            cardSlots[i].setDevelopmentCardsFromPB(playerBoard, i + 1);
         }
 
     }
 
-    /**Sets the value for the bean's LeaderCards
+    /**
+     * Sets the value for the bean's LeaderCards
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         leaderCards = new int[playerBoard.getLeaderCards().size()];
-        for(LeaderCard leaderCard : playerBoard.getLeaderCards()) {
-           leaderCards[i++] = leaderCard.getId();
+        for (LeaderCard leaderCard : playerBoard.getLeaderCards()) {
+            leaderCards[i++] = leaderCard.getId();
         }
     }
 
-    /**Sets the value for the bean's ActiveLeaderCards
+    /**
+     * Sets the value for the bean's ActiveLeaderCards
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setActiveLeaderCardsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         activeLeaderCards = new boolean[playerBoard.getLeaderCards().size()];
-        for(LeaderCard leaderCard : playerBoard.getLeaderCards()) {
-            if(leaderCard.isActive())
+        for (LeaderCard leaderCard : playerBoard.getLeaderCards()) {
+            if (leaderCard.isActive())
                 activeLeaderCards[i++] = true;
             else
                 activeLeaderCards[i++] = false;
         }
     }
 
-    /**Sets the value for the bean's VpFaithTiles
+    /**
+     * Sets the value for the bean's VpFaithTiles
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setVpFaithTilesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithTiles();
         vpFaithTiles = new int[current.length];
-        for(i = 0; i < vpFaithTiles.length; i++)
+        for (i = 0; i < vpFaithTiles.length; i++)
             vpFaithTiles[i] = current[i];
 
     }
 
-    /**Sets the value for the bean's VpFaithValues
+    /**
+     * Sets the value for the bean's VpFaithValues
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setVpFaithValuesFromPB(PlayerBoard playerBoard) {
         int i;
         int[] current = playerBoard.getVpFaithValues();
         vpFaithValues = new int[current.length];
-        for(i = 0; i < vpFaithValues.length; i++)
+        for (i = 0; i < vpFaithValues.length; i++)
             vpFaithValues[i] = current[i];
     }
 
-    /**Sets the value for the bean's PopeTilesStates
+    /**
+     * Sets the value for the bean's PopeTilesStates
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setPopeTileStatesFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
         popeTileStates = new PopeTileState[current.size()];
-        for(i = 0; i < popeTileStates.length; i++)
+        for (i = 0; i < popeTileStates.length; i++)
             popeTileStates[i] = current.get(i).getState();
     }
 
-    /**Sets the value for the bean's PopeTilesPoints
+    /**
+     * Sets the value for the bean's PopeTilesPoints
      *
-     * @param playerBoard
+     * @param playerBoard from which information is retrieved
      */
     private void setPopeTilePointsFromPB(PlayerBoard playerBoard) {
         int i;
         List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
         popeTilePoints = new int[current.size()];
-        for(i = 0; i < popeTilePoints.length; i++)
+        for (i = 0; i < popeTilePoints.length; i++)
             popeTilePoints[i] = current.get(i).getVictoryPoints();
     }
 
