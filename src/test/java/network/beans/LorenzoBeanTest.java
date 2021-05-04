@@ -14,26 +14,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoBeanTest {
 
-     /* The test doesn't work anymore since beans setters are now private methods :(
-    @Test
-    void setActiveTokensFromGame() {
-        List<String> REE = new ArrayList<>();
-        REE.add("Jimmy");
-        Game game = new Game(REE);
-        for(ActionToken token : ((Lorenzo) game.getLorenzo()).getActiveDeck()) {
-            System.out.print(" " + token.getType() + " ");
-        }
-        System.out.println("\n");
-        LorenzoBean lolloBean = new LorenzoBean();
-        lolloBean.setActiveTokensFromGame((Lorenzo) game.getLorenzo());
-        for(TokenType token : lolloBean.getActiveTokens()) {
-            System.out.print(" " + token + " ");
-        }
-        System.out.println("\n");
-
-        // Useless, it's just bragging ( * crying dab * , I wrote it to use assertEquals() but eventually I desisted and couldn't delete diz lil artpiece)
-        ((Lorenzo) game.getLorenzo()).getActiveDeck().stream().map(ActionToken::getType).forEach(s -> System.out.print(" " + s + " "));
-    }
-      */
-
 }
