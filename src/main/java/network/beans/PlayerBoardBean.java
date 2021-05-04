@@ -1,5 +1,6 @@
 package network.beans;
 
+import com.google.gson.Gson;
 import model.*;
 import model.card.leadercard.LeaderCard;
 
@@ -391,7 +392,9 @@ public class PlayerBoardBean implements Observer {
     // OBSERVER METHODS
 
     public void update(Object observable) {
+        Gson gson = new Gson();
         PlayerBoard pb = (PlayerBoard) observable;
+
         setUsernameFromPB(pb);
         setFaithFromPB(pb);
         setWhiteMarblesFromPB(pb);
@@ -406,5 +409,9 @@ public class PlayerBoardBean implements Observer {
         setVpFaithValuesFromPB(pb);
         setPopeTileStatesFromPB(pb);
         setPopeTilePointsFromPB(pb);
+
+        BeanWrapper beanWrapper = new BeanWrapper(BeanType.PLAYERBOARD, gson.toJson(this));
+
+        // TODO ask to the Controller to be sent to the clients
     }
 }
