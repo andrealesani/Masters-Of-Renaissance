@@ -156,6 +156,8 @@ public class Game implements UserCommands {
         if (turnPhase != TurnPhase.LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
+        if (currentPlayer == null)
+            throw new ParametersNotValidException();
         currentPlayer.chooseStartingResource(resource.getType(), quantity);
     }
 
