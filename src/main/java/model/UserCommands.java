@@ -69,7 +69,7 @@ public interface UserCommands {
     /**
      * Allows the player to select a column from the market and take its resources
      *
-     * @param numScope the index of the selected column+
+     * @param numScope the index of the selected column
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
