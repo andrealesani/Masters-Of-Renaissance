@@ -2,7 +2,6 @@ package network;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import model.Lobby;
 
 import java.io.*;
 import java.net.ServerSocket;

@@ -1,16 +1,11 @@
 package network;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import model.Lobby;
-
-import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ServerClientHandler implements Runnable{
+public class ServerClientHandler implements Runnable {
 
     private final Socket socket;
     private final Lobby lobby;
@@ -40,9 +35,14 @@ public class ServerClientHandler implements Runnable{
             return;
         }
 
-        //Create Controller for this player
-        Gson gson = new Gson();
-        Controller controller = new Controller(gson);
+        //Validates player's login and (if necessary) asks for number of players in current game
+        GameController gameController = null;
+
+        while (gameController == null) {
+            String message = in.nextLine();
+            gameController = lobby.loginHandler(out, message);
+            }
+
 
         //Reads and writes on the connection until it receives terminator string
         while (true) {
@@ -50,7 +50,8 @@ public class ServerClientHandler implements Runnable{
             if (command.equals("ESC + :q")) {
                 break;
             } else {
-                controller.readCommand(out, command);
+                gameController.readCommand(out, command);
+
                 System.out.println("End of message");
                 out.println("End of message");
             }

@@ -77,6 +77,7 @@ public class ClientMain {
         String serverResponse;
         Gson gson = new Gson();
         Map<String, String> jsonMap;
+
         while ((userInput = stdIn.readLine()) != null) {
             try {
                 out.println(userInput);

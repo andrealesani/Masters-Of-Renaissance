@@ -1,15 +1,53 @@
-package model;
+package network;
 
+import com.google.gson.Gson;
+import model.Game;
+import model.PlayerBoard;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents the game's lobby
  */
 public class Lobby {
     private final List<String> playerLobby = new ArrayList<>();
-    private int nextGamePlayers;
     private final List<Game> activeGames = new ArrayList<>();
+
+    private int nextGamePlayers;
+    private GameController nextGameController;
+    private final Gson gson = new Gson();
+
+    public GameController loginHandler (PrintWriter out, String message) {
+        Map jsonMap;
+        Map<String, String> opResult = new HashMap<>();
+
+        //Extract json into jsonMap
+        try {
+            jsonMap = gson.fromJson(message, Map.class);
+        } catch (Exception ex) {
+            opResult.put("Result", "Error");
+            opResult.put("Message", "The message is not a json file.");
+            out.println(gson.toJson(opResult));
+            return null;
+        }
+
+        //Extract command
+        String command = (String) jsonMap.get("command");
+        if (command.equals("username")) {
+            String username = (String) jsonMap.get("username");
+            if (nextGamePlayers > 0) {
+                nextGameController = new GameController();
+
+            }
+        }
+
+        out.println(gson.toJson(opResult));
+        return nextGameController;
+    };
 
     /**
      * Creates a Game with the number of players specified in nextGamePlayers. The logic used to choose the players
