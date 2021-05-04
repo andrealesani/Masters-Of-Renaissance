@@ -1,5 +1,6 @@
 package network.beans;
 
+import com.google.gson.Gson;
 import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
@@ -57,9 +58,14 @@ public class LorenzoBean implements Observer {
     // OBSERVER METHODS
 
     public void update(Object observable) {
+        Gson gson = new Gson();
         Lorenzo lorenzo = (Lorenzo) observable;
         setFaithFromGame(lorenzo);
         setActiveTokensFromGame(lorenzo);
         setDiscardedTokensFromGame(lorenzo);
+
+        BeanWrapper beanWrapper = new BeanWrapper(BeanType.LORENZO, gson.toJson(this));
+
+        // TODO ask to the Controller to be sent to the clients
     }
 }

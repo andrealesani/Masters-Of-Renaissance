@@ -1,5 +1,5 @@
 package network.beans;
 
 public enum BeanType {
-    PLAYERBOARD, MARKET, CARDTABLE, ERROR
+    PLAYERBOARD, MARKET, CARDTABLE, LORENZO, ERROR
 }

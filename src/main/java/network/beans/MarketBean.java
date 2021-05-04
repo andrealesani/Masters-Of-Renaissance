@@ -1,5 +1,6 @@
 package network.beans;
 
+import com.google.gson.Gson;
 import model.Game;
 import model.Market;
 import model.Observer;
@@ -43,9 +44,14 @@ public class MarketBean implements Observer {
     // OBSERVER METHODS
 
     public void update(Object observable) {
+        Gson gson = new Gson();
         Market market = (Market) observable;
         setMarketBoardFromGame(market);
         setSlideFromGame(market);
+
+        BeanWrapper beanWrapper = new BeanWrapper(BeanType.MARKET, gson.toJson(this));
+
+        // TODO ask to the Controller to be sent to the clients
     }
 
 }
