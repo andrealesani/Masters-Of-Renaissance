@@ -988,5 +988,6 @@ public class PlayerBoard implements Observable {
 
     public void addObserver(Observer observer) {
         observers.add(observer);
+        notifyObservers();
     }
 }

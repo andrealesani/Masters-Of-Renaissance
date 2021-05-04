@@ -266,5 +266,6 @@ public class CardTable implements Observable{
 
     public void addObserver(Observer observer) {
         observers.add(observer);
+        notifyObservers();
     }
 }

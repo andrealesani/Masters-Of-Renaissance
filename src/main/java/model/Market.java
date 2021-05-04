@@ -215,5 +215,6 @@ public class Market implements Observable {
 
     public void addObserver(Observer observer) {
         observers.add(observer);
+        notifyObservers();
     }
 }
