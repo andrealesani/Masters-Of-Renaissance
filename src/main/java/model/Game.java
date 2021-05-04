@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * This class models a single game of Masters of the Renaissance
  */
-public class Game implements UserCommands {
+public class Game implements UserCommandsInterface {
     /**
      * This attribute stores the game's market
      */

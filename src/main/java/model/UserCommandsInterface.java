@@ -8,7 +8,7 @@ import model.resource.Resource;
  * This interface indicates that the implementing class can be used as an interface for the player actions called by the controller.
  * It has methods for doing everything a player can do in the game.
  */
-public interface UserCommands {
+public interface UserCommandsInterface {
     //PUBLIC METHODS
 
     //First turn actions

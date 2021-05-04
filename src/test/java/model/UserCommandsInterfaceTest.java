@@ -24,7 +24,7 @@ import java.util.Map;
 import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserCommandsTest {
+class UserCommandsInterfaceTest {
 
     // GIGI SECTION
     @Test

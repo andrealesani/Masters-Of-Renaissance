@@ -1,462 +1,252 @@
 package network;
 
-import Exceptions.ParametersNotValidException;
-import com.google.gson.Gson;
+import Exceptions.*;
 import model.CardColor;
-import model.Game;
 import model.ResourceType;
+import model.UserCommandsInterface;
 import model.resource.Resource;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents a single command sent by the client to the server
+ */
 public class Command {
-    Game game = null;
-    private String command;
-    private String attributes;
+    /**
+     * The command's parameters, used in calling the Game's methods
+     */
+    private Map parameters;
+    /**
+     * The type of user command that is being attempted
+     */
+    private UserCommandsType commandType;
 
-    public void run(Game game) {
-        Gson gson = new Gson();
-        this.game = game;
-        System.out.println("Executing: " + command);
+    //PUBLIC METHODS
 
-        Map attributesMap;
-        Map<String, String> opResult = new HashMap<>();
+    /**
+     * Executes the stored command on the Model's Game class
+     *
+     * @param game the Model's Game class
+     * @return a String detailing the error if the command fails, null otherwise
+     */
+    public String runCommand(UserCommandsInterface game) {
 
-        //Extract attributes json into attributesMap
-        try {
-            attributesMap = gson.fromJson(attributes, Map.class);
-        } catch (Exception ex) {
-            opResult.put("Result", "Error: The attributes are not a json file.");
-            //serverOut.println(gson.toJson(opResult));
-            return;
-        }
-
-        /*
-        //Extract command from map
-        String command = (String) attributesMap.get("command");
-        if (command == null) {
-            opResult.put("Result", "Error: Command not valid.");
-            //serverOut.println(gson.toJson(opResult));
-            return;
-        } else {
-            System.out.println("Command type: " + command);
-            //serverOut.println("Received: " + command);
-        }
-         */
-
-        //Call method whose name is in 'command' and save the result in 'opResult'
         Method commandMethod = null;
         try {
-            commandMethod = Controller.class.getDeclaredMethod(command, Map.class);
+            commandMethod = Command.class.getDeclaredMethod(commandType.toString(), UserCommandsInterface.class);
         } catch (SecurityException | NoSuchMethodException ex) {
-            opResult.put("Result", "Error: Command not valid.");
-            //serverOut.println(gson.toJson(opResult));
-            return;
+            return "Command not valid.";
         }
         try {
-            opResult.put("Result", (String) commandMethod.invoke(this, attributesMap));
-        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
-            opResult.put("Result", "Error: " + ex.getMessage());
-            //serverOut.println(gson.toJson(opResult));
-            return;
+            commandMethod.invoke(this, game);
+        } catch (Exception ex) {
+           return ex.getMessage();
         }
-
-        //serverOut.println(gson.toJson(opResult));
+        return null;
     }
 
-    //PRIVATE METHODS (they are called inside run() with invoke() method)
+    //PRIVATE METHODS
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String chooseBonusResourceType(Map map) {
-        System.out.println("Calling chooseBonusResourceType() on Game");
-        String result;
+    private void chooseBonusResourceType(UserCommandsInterface game) throws NotEnoughResourceException, WrongTurnPhaseException {
 
-        try {
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.chooseBonusResourceType(resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.chooseBonusResourceType(resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String chooseLeaderCard(Map map) {
-        String result;
+    private void chooseLeaderCard(UserCommandsInterface game) throws WrongTurnPhaseException {
 
-        try {
-            int number = extractInt(map.get("number"));
-            game.chooseLeaderCard(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+        int number = extractInt(parameters.get("number"));
+        game.chooseLeaderCard(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String playLeaderCard(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            game.playLeaderCard(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        game.playLeaderCard(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String discardLeaderCard(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            game.discardLeaderCard(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void discardLeaderCard(UserCommandsInterface game) throws LeaderIsActiveException, WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        game.discardLeaderCard(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String selectMarketRow(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            game.selectMarketRow(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void selectMarketRow(UserCommandsInterface game) throws WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        game.selectMarketRow(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String selectMarketColumn(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            game.selectMarketColumn(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void selectMarketColumn(UserCommandsInterface game) throws WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        game.selectMarketColumn(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String sendResourceToDepot(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.sendResourceToDepot(number, resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void sendResourceToDepot(UserCommandsInterface game) throws DepotNotPresentException, NotEnoughSpaceException, NotEnoughResourceException, WrongResourceInsertionException, WrongTurnPhaseException, BlockedResourceException {
+        int number = extractInt(parameters.get("number"));
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.sendResourceToDepot(number, resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String chooseMarbleConversion(Map map) {
-        String result;
-
-        try {
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.chooseMarbleConversion(resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void chooseMarbleConversion(UserCommandsInterface game) throws NotEnoughResourceException, ConversionNotAvailableException, WrongTurnPhaseException {
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.chooseMarbleConversion(resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String swapDepotContent(Map map) {
-        String result;
-
-        try {
-            int[] depots = extractIntArray(map.get("depots"));
-            game.swapDepotContent(depots[0], depots[1]);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void swapDepotContent(UserCommandsInterface game) throws DepotNotPresentException, SwapNotValidException, WrongTurnPhaseException {
+        int[] depots = extractIntArray(parameters.get("depots"));
+        game.swapDepotContent(depots[0], depots[1]);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String moveDepotContent(Map map) {
-        String result;
-
-        try {
-            int[] depots = extractIntArray(map.get("depots"));
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.moveDepotContent(depots[0], depots[1], resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void moveDepotContent(UserCommandsInterface game) throws DepotNotPresentException, NotEnoughSpaceException, NotEnoughResourceException, WrongTurnPhaseException, WrongResourceInsertionException, BlockedResourceException {
+        int[] depots = extractIntArray(parameters.get("depots"));
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.moveDepotContent(depots[0], depots[1], resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String takeDevelopmentCard(Map map) {
-        String result;
-
-        try {
-            CardColor color = extractColor(map.get("color"));
-            int level = extractInt(map.get("level"));
-            int number = extractInt(map.get("number"));
-            game.takeDevelopmentCard(color, level, number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void takeDevelopmentCard(UserCommandsInterface game) throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException, WrongTurnPhaseException {
+        CardColor color = extractColor(parameters.get("color"));
+        int level = extractInt(parameters.get("level"));
+        int number = extractInt(parameters.get("number"));
+        game.takeDevelopmentCard(color, level, number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String selectProduction(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            game.selectProduction(number);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void selectProduction(UserCommandsInterface game) throws ProductionNotPresentException, WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        game.selectProduction(number);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String resetProductionChoice(Map map) {
-        String result;
-
-        try {
-            game.resetProductionChoice();
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void resetProductionChoice(UserCommandsInterface game) throws WrongTurnPhaseException {
+        game.resetProductionChoice();
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String confirmProductionChoice(Map map) {
-        String result;
-
-        try {
-            game.confirmProductionChoice();
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void confirmProductionChoice(UserCommandsInterface game) throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
+        game.confirmProductionChoice();
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String chooseJollyInput(Map map) {
-        String result;
-
-        try {
-            Resource resource = extractResource(map.get("resource"));
-            game.chooseJollyInput(resource);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void chooseJollyInput(UserCommandsInterface game) throws ResourceNotPresentException, WrongTurnPhaseException {
+        Resource resource = extractResource(parameters.get("resource"));
+        game.chooseJollyInput(resource);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String chooseJollyOutput(Map map) {
-        String result;
-
-        try {
-            Resource resource = extractResource(map.get("resource"));
-            game.chooseJollyOutput(resource);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void chooseJollyOutput(UserCommandsInterface game) throws ResourceNotPresentException, WrongTurnPhaseException {
+        Resource resource = extractResource(parameters.get("resource"));
+        game.chooseJollyOutput(resource);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String payFromWarehouse(Map map) {
-        String result;
-
-        try {
-            int number = extractInt(map.get("number"));
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.payFromWarehouse(number, resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void payFromWarehouse(UserCommandsInterface game) throws DepotNotPresentException, NotEnoughResourceException, WrongTurnPhaseException {
+        int number = extractInt(parameters.get("number"));
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.payFromWarehouse(number, resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String payFromStrongbox(Map map) {
-        String result;
-
-        try {
-            Resource resource = extractResource(map.get("resource"));
-            int quantity = extractInt(map.get("quantity"));
-            game.payFromStrongbox(resource, quantity);
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void payFromStrongbox(UserCommandsInterface game) throws NotEnoughResourceException, WrongTurnPhaseException {
+        Resource resource = extractResource(parameters.get("resource"));
+        int quantity = extractInt(parameters.get("quantity"));
+        game.payFromStrongbox(resource, quantity);
     }
 
     /**
      * Invokes homonymous method on the Model's Game class
      *
-     * @param map the message received from the player
-     * @return a string containing the result of the operation, to be forwarded to the player
+     * @param game the Model's Game class
      */
-    private String endTurn(Map map) {
-        String result;
-
-        try {
-            game.endTurn();
-            result = "Success";
-        } catch (Exception ex) {
-            result = "Error: " + ex.getMessage();
-        }
-
-        return result;
+    private void endTurn(UserCommandsInterface game) throws WrongTurnPhaseException {
+        game.endTurn();
     }
 
     //EXTRACTORS
@@ -480,7 +270,7 @@ public class Command {
      * @return the resulting Resource
      */
     private Resource extractResource(Object obj) {
-        if (obj == null)
+        if (obj == null || !(obj instanceof String))
             throw new ParametersNotValidException();
         return (ResourceType.valueOf((String) obj)).toResource();
     }
@@ -492,7 +282,7 @@ public class Command {
      * @return the resulting CardColor
      */
     private CardColor extractColor(Object obj) {
-        if (obj == null)
+        if (obj == null || !(obj instanceof String))
             throw new ParametersNotValidException();
         return CardColor.valueOf((String) obj);
     }
@@ -504,16 +294,28 @@ public class Command {
      * @return the resulting int[]
      */
     private int[] extractIntArray(Object obj) {
-        if (obj == null)
+        if (obj == null || !(obj instanceof ArrayList))
             throw new ParametersNotValidException();
         return ((ArrayList<Double>) obj).stream().mapToInt(Double::intValue).toArray();
     }
 
-    @Override
-    public String toString() {
-        return "Command{" +
-                "command='" + command + '\'' +
-                ", attributes='" + attributes + '\'' +
-                '}';
+    //SETTERS
+
+    /**
+     * Setter
+     *
+     * @param parameters the command's parameters
+     */
+    public void setParameters(Map parameters) {
+        this.parameters = parameters;
+    }
+
+    /**
+     * Setter
+     *
+     * @param commandType the command's type
+     */
+    public void setCommandType(UserCommandsType commandType) {
+        this.commandType = commandType;
     }
 }
