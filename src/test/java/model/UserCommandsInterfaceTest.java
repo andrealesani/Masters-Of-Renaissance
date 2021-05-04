@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static model.UtilsForModel.typeToResource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserCommandsInterfaceTest {
@@ -384,7 +383,7 @@ class UserCommandsInterfaceTest {
             System.out.println("Processing cost: " + resource);
             for (int i=1; i<8; i++) {
                 try {
-                    game.payFromWarehouse(i, UtilsForModel.typeToResource(resource), 1);
+                    game.payFromWarehouse(i, resource.toResource(), 1);
                     System.out.println("Taking resource from depot: " + i);
                     inStock.put(resource, inStock.get(resource)-1);
                     break;
@@ -455,7 +454,7 @@ class UserCommandsInterfaceTest {
         //Actually tests the method
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
-            game.payFromStrongbox(UtilsForModel.typeToResource(resource), 1);
+            game.payFromStrongbox(resource.toResource(), 1);
             inStock.put(resource, inStock.get(resource)-1);
         }
 
@@ -547,7 +546,7 @@ class UserCommandsInterfaceTest {
         for (Resource resource : cost) {
             for (int i=1; i<8; i++) {
                 try {
-                    game.payFromWarehouse(i, UtilsForModel.typeToResource(resource.getType()), 1);
+                    game.payFromWarehouse(i, resource, 1);
                     inStock.put(resource.getType(), inStock.get(resource.getType())-1);
                     break;
                 } catch (NotEnoughResourceException | DepotNotPresentException ex) {

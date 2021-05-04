@@ -113,13 +113,13 @@ public class DevelopmentCard extends Card {
 
         for (int i = 0; i < inputType.length; i++) {
             for(int j = 0; j < inputQuantities[i]; j++) {
-                input.add(UtilsForModel.typeToResource(inputType[i]));
+                input.add(inputType[i].toResource());
             }
         }
 
         for (int i = 0; i < inputType.length; i++) {
             for(int j = 0; j < outputQuantities[i]; j++) {
-                output.add(UtilsForModel.typeToResource(outputType[i]));
+                output.add(outputType[i].toResource());
             }
         }
 
