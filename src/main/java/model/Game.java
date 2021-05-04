@@ -21,11 +21,7 @@ import static model.TurnPhase.*;
 /**
  * This class models a single game of Masters of the Renaissance
  */
-<<<<<<< Updated upstream
-public class Game implements UserCommandsInterface {
-=======
-public class Game implements UserCommands, Observable {
->>>>>>> Stashed changes
+public class Game implements UserCommandsInterface, Observable {
     /**
      * This attribute stores the game's market
      */
