@@ -72,9 +72,7 @@ public class PlayerBoardBean implements Observer {
      * Represents the victory points assigned to each square
      */
     private int[] vpFaithValues;
-
-    // TODO remove strongbox and waiting room attributes
-
+    
 
     // GETTERS
 
