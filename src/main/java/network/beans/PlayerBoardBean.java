@@ -356,21 +356,27 @@ public class PlayerBoardBean implements Observer {
     }
 
     // OBSERVER METHODS
+    private boolean isFirstUpdate = true;
 
     public void update(Object observable) {
         Gson gson = new Gson();
         PlayerBoard pb = (PlayerBoard) observable;
 
-        setUsernameFromPB(pb);
+        if(isFirstUpdate) {
+            setUsernameFromPB(pb);
+            setVpFaithTilesFromPB(pb);
+            setVpFaithValuesFromPB(pb);
+            setPopeTilePointsFromPB(pb);
+
+            isFirstUpdate = false;
+        }
+
         setFaithFromPB(pb);
         setWhiteMarblesFromPB(pb);
         setCardSlotsFromPB(pb);
         setLeaderCardsFromPB(pb);
         setActiveLeaderCardsFromPB(pb);
-        setVpFaithTilesFromPB(pb);
-        setVpFaithValuesFromPB(pb);
         setPopeTileStatesFromPB(pb);
-        setPopeTilePointsFromPB(pb);
         setProductionsFromPB(pb);
         setMarbleConversionsFromPB(pb);
         setDiscountFromPB(pb);
