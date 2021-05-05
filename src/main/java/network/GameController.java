@@ -32,11 +32,12 @@ public class GameController {
 
     //PUBLIC METHODS
 
-    public void readCommand(String username, Command command) {
+    public void readCommand(String username, String commandString) {
         if (!username.equals(getCurrentPlayerUsername())) {
             //TODO rispondere con messaggio errore
             players.get(username).println("Ur not the right dude, my dude.");
         } else {
+            Command command = gson.fromJson(commandString, Command.class);
             String result = command.runCommand(this);
             if (result != null) {
                 //TODO rispondere con messaggio errore

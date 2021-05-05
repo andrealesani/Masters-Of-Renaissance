@@ -9,6 +9,7 @@ public class ServerClientHandler implements Runnable {
 
     private final Socket socket;
     private final GameLobby lobby;
+    private String username;
 
     public ServerClientHandler(Socket socket, GameLobby lobby) {
         this.socket = socket;
@@ -35,15 +36,32 @@ public class ServerClientHandler implements Runnable {
             return;
         }
 
+        System.out.println("Logging in player...");
 
-        //Reads and writes on the connection until it receives terminator string
+        //logs in the player
+        GameController controller = null;
+        while (controller == null) {
+            String username = in.nextLine();
+            try {
+                controller = lobby.login(username, out);
+                this.username = username;
+            } catch (Exception ex) {
+                out.println(ex.getMessage());
+                //TODO inviare eccezione in un bel pacchetto
+            }
+        }
+
+        System.out.println("Listening for player commands...");
+
+        //Forwards the commands to the game's controller class until it receives the terminator string
         while (true) {
             String command = in.nextLine();
             if (command.equals("ESC + :q")) {
                 break;
             } else {
+                controller.readCommand(username, command);
 
-
+                //TODO eliminare
                 System.out.println("End of message");
                 out.println("End of message");
             }
