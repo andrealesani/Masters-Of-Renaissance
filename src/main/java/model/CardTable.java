@@ -50,7 +50,7 @@ public class CardTable implements Observable{
      */
     //TODO forse sostituire i 4 deck con l'usare l'unico json per tutte le carte
     //TODO shufflare tutti i mazzetti
-    public CardTable() {
+    public CardTable(int id) {
         greenCards = new ArrayList<>();
         blueCards = new ArrayList<>();
         yellowCards = new ArrayList<>();
@@ -58,35 +58,35 @@ public class CardTable implements Observable{
 
         cards = new HashMap<>();
 
-        int i = 1;
+        id++;
 
         // BLUE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
         cards.put(CardColor.BLUE, blueCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
-                card.setId(i++);
+                card.setId(id++);
 
         // GREEN CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
         cards.put(CardColor.GREEN, greenCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
-                card.setId(i++);
+                card.setId(id++);
 
         // PURPLE CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
         cards.put(CardColor.PURPLE, purpleCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
-                card.setId(i++);
+                card.setId(id++);
 
         // YELLOW CARDS
         createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
         cards.put(CardColor.YELLOW, yellowCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)
-                card.setId(i++);
+                card.setId(id++);
 
         notifyObservers();
     }

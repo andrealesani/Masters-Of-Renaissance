@@ -78,7 +78,6 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public Game(List<String> nicknames) {
         market = new Market();
-        cardTable = new CardTable();
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
@@ -86,6 +85,7 @@ public class Game implements UserCommandsInterface, Observable {
         weReInTheEndGameNow = false;
         setTurnPhase(LEADERCHOICE);
         initializeLeaderCards();
+        cardTable = new CardTable(leaderCards.size()); // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
 
         //TODO make these attributes initialized in a JSON (these ones have to be in Game)
         finalFaith = 24;
@@ -126,8 +126,8 @@ public class Game implements UserCommandsInterface, Observable {
      * Testing Constructor
      */
     public Game() {
+
         market = new Market();
-        cardTable = new CardTable();
         leaderCards = new ArrayList<>();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
@@ -136,6 +136,7 @@ public class Game implements UserCommandsInterface, Observable {
         finalLeaderCardNumber = 2;
         setTurnPhase(LEADERCHOICE);
         initializeLeaderCards();
+        cardTable = new CardTable(leaderCards.size());  // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
         distributeLeaderCards();
         lastTriggeredTile = 0;
         weReInTheEndGameNow = false;
