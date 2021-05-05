@@ -107,13 +107,13 @@ class PlayerBoardBeanTest {
 
         PlayerBoardBean pbBean = new PlayerBoardBean();
         game.getCurrentPlayer().addObserver(pbBean);
-        game.getCurrentPlayer().addDiscount(ResourceType.COIN, 1);
+        game.getCurrentPlayer().addDiscount(ResourceType.SHIELD, 1);
 
         Map<ResourceType, Integer> disc = game.getCurrentPlayer().getDiscounts();
 
         for (ResourceType resourceType : ResourceType.values()) {
             if (resourceType != ResourceType.FAITH && resourceType != ResourceType.UNKNOWN && resourceType != ResourceType.WHITEORB)
-                if (java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType) != -1) {
+                if (Arrays.asList(pbBean.getDiscountType()).contains(resourceType)) {
                     assertEquals(game.getCurrentPlayer().getDiscounts().get(resourceType), pbBean.getDiscountQuantity()[java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType)]);
                     System.out.println(resourceType);
                 }
