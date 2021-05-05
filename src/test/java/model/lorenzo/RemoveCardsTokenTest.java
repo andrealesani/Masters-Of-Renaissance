@@ -16,7 +16,7 @@ class RemoveCardsTokenTest {
      */
     @Test
     void doAction() throws EmptyDeckException {
-        CardTable cardTable = new CardTable();
+        CardTable cardTable = new CardTable(0);
         ActionToken token = new RemoveYellowToken(cardTable);
 
         int levelOneNumber = cardTable.getYellowCards().get(2).size();

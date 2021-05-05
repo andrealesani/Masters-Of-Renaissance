@@ -15,7 +15,7 @@ class DoubleFaithTokenTest {
      */
     @Test
     void doAction() {
-        Lorenzo lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
+        Lorenzo lorenzo = new Lorenzo(new CardTable(0), new ArrayList<>());
         ActionToken token = new DoubleFaithToken(lorenzo);
 
         token.doAction();

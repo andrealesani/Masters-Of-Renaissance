@@ -16,7 +16,7 @@ class LorenzoTest {
      */
     @Test
     void takeTurn() {
-        Lorenzo lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
+        Lorenzo lorenzo = new Lorenzo(new CardTable(0), new ArrayList<>());
 
         assertEquals(6, lorenzo.getActiveDeck().size());
 
@@ -30,7 +30,7 @@ class LorenzoTest {
      */
     @Test
     void increaseFaith() {
-        ArtificialIntelligence lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
+        ArtificialIntelligence lorenzo = new Lorenzo(new CardTable(0), new ArrayList<>());
 
         lorenzo.addFaith(13);
         lorenzo.addFaith(13);
@@ -46,7 +46,7 @@ class LorenzoTest {
         List<PopeFavorTile> tileList = new ArrayList<>();
         PopeFavorTile tile1 = new PopeFavorTile(0, 10, 1);
         tileList.add(tile1);
-        ArtificialIntelligence lorenzo = new Lorenzo(new CardTable(), tileList);
+        ArtificialIntelligence lorenzo = new Lorenzo(new CardTable(0), tileList);
 
         assertEquals(0, lorenzo.getNewTriggeredTile(0));
 
@@ -64,7 +64,7 @@ class LorenzoTest {
      */
     @Test
     void shuffleDeck() {
-        Lorenzo lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
+        Lorenzo lorenzo = new Lorenzo(new CardTable(0), new ArrayList<>());
         int numOfTokens = lorenzo.getActiveDeck().size();
         List<ActionToken> firstList = new ArrayList<>(lorenzo.getActiveDeck());
 

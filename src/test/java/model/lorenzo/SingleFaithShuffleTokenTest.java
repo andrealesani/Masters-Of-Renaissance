@@ -16,7 +16,7 @@ class SingleFaithShuffleTokenTest {
      */
     @Test
     void doAction() {
-        Lorenzo lorenzo = new Lorenzo(new CardTable(), new ArrayList<>());
+        Lorenzo lorenzo = new Lorenzo(new CardTable(0), new ArrayList<>());
         ActionToken token = new SingleFaithShuffleToken(lorenzo);
 
         int tokenTotal = lorenzo.getActiveDeck().size();
