@@ -59,7 +59,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setProductionsFromPB(){
-        List<String> nicknames = new ArrayList<String>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
@@ -80,7 +80,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setMarbleConversionsFromPB(){
-        List<String> nicknames = new ArrayList<String>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
@@ -103,7 +103,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setDiscountFromPB(){
-       /* List<String> nicknames = new ArrayList<String>();
+       /* Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
