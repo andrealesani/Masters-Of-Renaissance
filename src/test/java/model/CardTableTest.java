@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardTableTest {
     @Test
     void constructor() {
-        CardTable cardTable = new CardTable();
+        CardTable cardTable = new CardTable(0);
     }
 
     /**
@@ -22,7 +22,7 @@ class CardTableTest {
      */
     @Test
     void createDecksFromJSON() {
-        CardTable cardTable = new CardTable();
+        CardTable cardTable = new CardTable(0);
         for (DevelopmentCard developmentCard : cardTable.getGreenCards().get(2)) {
             assertTrue(developmentCard.getLevel() == 3);
             assertTrue(developmentCard.getColor() == CardColor.GREEN);
@@ -91,7 +91,7 @@ class CardTableTest {
 
     @Test
     void discardTop() throws EmptyDeckException {
-        CardTable cardtable = new CardTable();
+        CardTable cardtable = new CardTable(0);
         for (int i = 0; i < 12; i++)
             cardtable.discardTop(CardColor.YELLOW);
 
@@ -102,7 +102,7 @@ class CardTableTest {
 
     @Test
     void buyTopCard() throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
-        CardTable cardTable = new CardTable();
+        CardTable cardTable = new CardTable(0);
         PlayerBoard playerBoard = new PlayerBoard();
         UnlimitedStorage strongbox = playerBoard.getStrongbox();
         strongbox.addResource(ResourceType.SHIELD, 20);
@@ -118,7 +118,7 @@ class CardTableTest {
 
     @Test
     void checkAllColorsAvailable() throws EmptyDeckException {
-        CardTable cardTable = new CardTable();
+        CardTable cardTable = new CardTable(0);
         assertTrue(cardTable.checkAllColorsAvailable());
 
         for (int i = 0; i < 11; i++)
