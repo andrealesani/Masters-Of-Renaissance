@@ -7,11 +7,27 @@ import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoBeanTest {
+    @Test
+    void test() {
+        Set<String> list = new HashSet<>();
+        list.add("Gigi");
+        Game game = new Game(list);
+        LorenzoBean lorenzoBean = new LorenzoBean();
+        ((Lorenzo) game.getLorenzo()).addObserver(lorenzoBean);
 
+        assertEquals(game.getLorenzo().getFaith(), lorenzoBean.getFaith());
+        int i = 0;
+        for (ActionToken token : ((Lorenzo) game.getLorenzo()).getActiveDeck()){
+            assertEquals(token.getType(), lorenzoBean.getActiveTokens()[i++]);
+        }
+        i = 0;
+        for (ActionToken token : ((Lorenzo) game.getLorenzo()).getUsedDeck()){
+            assertEquals(token.getType(), lorenzoBean.getDiscardedTokens()[i++]);
+        }
+    }
 }

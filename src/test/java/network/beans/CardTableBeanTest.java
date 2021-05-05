@@ -5,9 +5,29 @@ import model.Game;
 import model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CardTableBeanTest {
+    @Test
+    void test() {
+        Set<String> list = new HashSet<>();
+        list.add("Gigi");
+        list.add("Pipino");
+        Game game = new Game(list);
 
+        CardTableBean cardTableBean = new CardTableBean();
+        game.getCardTable().addObserver(cardTableBean);
+
+        int i = 0, j;
+        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
+            j = 0;
+            for (List<DevelopmentCard> deck : color.getValue()) {
+                assertEquals(game.getCardTable().getTopCardId(deck), cardTableBean.getCards()[i][j]);
+                j++;
+            }
+            i++;
+        }
+    }
 }

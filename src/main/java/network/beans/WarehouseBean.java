@@ -42,8 +42,9 @@ public class WarehouseBean implements Observer {
         depotQuantity = new int[depotType.length];
 
         for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
-            depotType[i] = warehouse.getDepot(i).getStoredResources().get(0);
-            depotQuantity[i] = warehouse.getDepot(i).getStoredResources().size();
+            if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
+                depotType[i] = warehouse.getDepot(i + 1).getStoredResources().get(0);
+            depotQuantity[i] = warehouse.getDepot(i + 1).getStoredResources().size();
         }
     }
 
