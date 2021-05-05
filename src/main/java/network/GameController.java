@@ -77,6 +77,12 @@ public class GameController {
         checkGameStart();
     }
 
+    public void broadcastMessage(String message) {
+        for (PrintWriter out : players.values()) {
+            out.println(message);
+        }
+    }
+
     public boolean isFull() {
         if (size == 0 || players.size() < size) {
             return false;
@@ -98,11 +104,9 @@ public class GameController {
             return;
 
         game = new Game(players.keySet());
-        //TODO Broadcastare a tutti i giocatori che la partita è iniziata (forse creare canale broadcast) e inviare tutti i bean
-        for (PrintWriter out : players.values()) {
-            out.println("YOOOOOOO LESSS GOOOOOOOO, the game is ONNNNNNNNN!");
-            out.println("First up is my dude! My man! None other than motherf*****g " + getCurrentPlayerUsername() + "!!!");
-        }
+
+        broadcastMessage("YOOOOOOO LESSS GOOOOOOOO, the game is ONNNNNNNNN!");
+        broadcastMessage("First up is my dude! My man! None other than motherf*****g " + getCurrentPlayerUsername() + "!!!");
         System.out.println("The game will now start.");
     }
 
