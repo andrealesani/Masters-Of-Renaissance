@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when two depots are attempted to be swapped, and the resources of one cannot be added to the other.

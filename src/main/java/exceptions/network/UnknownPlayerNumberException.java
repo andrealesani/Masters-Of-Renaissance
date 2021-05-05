@@ -1,4 +1,4 @@
-package exceptions.network;
+package Exceptions.network;
 
 /**
  * This Exception is thrown when a player attempts to enter a game while its number of players has not yet been decided.

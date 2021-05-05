@@ -1,7 +1,7 @@
 package model.storage;
 
-import exceptions.NotEnoughResourceException;
-import exceptions.ParametersNotValidException;
+import Exceptions.NotEnoughResourceException;
+import Exceptions.ParametersNotValidException;
 import model.Observable;
 import model.Observer;
 import model.ResourceType;

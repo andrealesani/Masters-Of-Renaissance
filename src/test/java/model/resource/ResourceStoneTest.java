@@ -1,6 +1,6 @@
 package model.resource;
 
-import exceptions.*;
+import Exceptions.*;
 import model.PlayerBoard;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;

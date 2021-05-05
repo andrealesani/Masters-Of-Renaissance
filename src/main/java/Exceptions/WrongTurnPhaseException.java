@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when the player attempts an action not allowed during the current phase of the turn.

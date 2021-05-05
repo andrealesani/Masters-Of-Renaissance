@@ -1,6 +1,6 @@
 package model.storage;
 
-import exceptions.*;
+import Exceptions.*;
 import model.ResourceType;
 
 import java.util.ArrayList;

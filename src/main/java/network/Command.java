@@ -1,6 +1,6 @@
 package network;
 
-import exceptions.*;
+import Exceptions.*;
 import model.CardColor;
 import model.ResourceType;
 import model.UserCommandsInterface;

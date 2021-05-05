@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when an operation is attempted on a resource which is not present in the object that throws the exception.

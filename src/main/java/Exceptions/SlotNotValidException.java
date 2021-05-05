@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when the player attempts to buy a development card for a slot that cannot hold a card of that level.

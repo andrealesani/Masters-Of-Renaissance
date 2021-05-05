@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when an operation is attempted on a non-existent depot by using the wrong depot number.

@@ -1,9 +1,9 @@
 package model;
 
-import exceptions.*;
-import exceptions.NotEnoughResourceException;
-import exceptions.SlotNotValidException;
-import exceptions.WrongTurnPhaseException;
+import Exceptions.*;
+import Exceptions.NotEnoughResourceException;
+import Exceptions.SlotNotValidException;
+import Exceptions.WrongTurnPhaseException;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;

@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when an operation is attempted that is present in the object, but not in a sufficient quantity for the required operation.

@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.*;
+import Exceptions.*;
 import model.resource.*;
 
 import java.util.ArrayList;

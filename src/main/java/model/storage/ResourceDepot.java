@@ -1,8 +1,8 @@
 package model.storage;
 
-import exceptions.BlockedResourceException;
-import exceptions.NotEnoughSpaceException;
-import exceptions.WrongResourceInsertionException;
+import Exceptions.BlockedResourceException;
+import Exceptions.NotEnoughSpaceException;
+import Exceptions.WrongResourceInsertionException;
 import model.ResourceType;
 
 /**

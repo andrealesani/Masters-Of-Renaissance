@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when a resource is tried to be inserted in a storage that can't contain its type.

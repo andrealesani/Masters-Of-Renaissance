@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when a leader card is attempted to be activated despite the player not meeting its requirements.

@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 public class UnknownResourceException extends Exception{
     private String unknownResourceLocation = null;

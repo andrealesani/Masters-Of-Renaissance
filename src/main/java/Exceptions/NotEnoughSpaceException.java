@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * This Exception is thrown when a resource is attempted to be inserted in a storage that is at full capacity.

@@ -1,6 +1,6 @@
 package model.storage;
 
-import exceptions.*;
+import Exceptions.*;
 import model.Observable;
 import model.Observer;
 import model.ResourceType;

@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.*;
+import Exceptions.*;
 import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;

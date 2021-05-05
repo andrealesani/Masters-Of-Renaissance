@@ -1,6 +1,6 @@
 package model.lorenzo;
 
-import exceptions.EmptyDeckException;
+import Exceptions.EmptyDeckException;
 import model.CardColor;
 import model.CardTable;
 import model.lorenzo.tokens.ActionToken;

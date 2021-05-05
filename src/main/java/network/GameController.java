@@ -1,10 +1,10 @@
 package network;
 
 import com.google.gson.Gson;
-import exceptions.ParametersNotValidException;
-import exceptions.network.GameFullException;
-import exceptions.network.PlayerNumberAlreadySetException;
-import exceptions.network.UnknownPlayerNumberException;
+import Exceptions.ParametersNotValidException;
+import Exceptions.network.GameFullException;
+import Exceptions.network.PlayerNumberAlreadySetException;
+import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import model.UserCommandsInterface;
 
