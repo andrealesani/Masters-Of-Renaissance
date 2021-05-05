@@ -8,9 +8,9 @@ import java.util.Scanner;
 public class ServerClientHandler implements Runnable {
 
     private final Socket socket;
-    private final Lobby lobby;
+    private final GameLobby lobby;
 
-    public ServerClientHandler(Socket socket, Lobby lobby) {
+    public ServerClientHandler(Socket socket, GameLobby lobby) {
         this.socket = socket;
         this.lobby = lobby;
     }
@@ -35,14 +35,6 @@ public class ServerClientHandler implements Runnable {
             return;
         }
 
-        //Validates player's login and (if necessary) asks for number of players in current game
-        GameController gameController = null;
-
-        while (gameController == null) {
-            String message = in.nextLine();
-            gameController = lobby.loginHandler(out, message);
-            }
-
 
         //Reads and writes on the connection until it receives terminator string
         while (true) {
@@ -50,7 +42,7 @@ public class ServerClientHandler implements Runnable {
             if (command.equals("ESC + :q")) {
                 break;
             } else {
-                gameController.readCommand(out, command);
+
 
                 System.out.println("End of message");
                 out.println("End of message");

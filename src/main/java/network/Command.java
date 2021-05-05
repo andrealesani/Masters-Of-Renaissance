@@ -1,6 +1,6 @@
 package network;
 
-import Exceptions.*;
+import exceptions.*;
 import model.CardColor;
 import model.ResourceType;
 import model.UserCommandsInterface;
@@ -8,6 +8,7 @@ import model.resource.Resource;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ public class Command {
     /**
      * The command's parameters, used in calling the Game's methods
      */
-    private Map parameters;
+    private Map parameters = new HashMap();
     /**
      * The type of user command that is being attempted
      */
@@ -26,28 +27,43 @@ public class Command {
     //PUBLIC METHODS
 
     /**
-     * Executes the stored command on the Model's Game class
+     * Executes the stored command
      *
-     * @param game the Model's Game class
+     * @param controller the Game's Controller class
      * @return a String detailing the error if the command fails, null otherwise
      */
-    public String runCommand(UserCommandsInterface game) {
+    public String runCommand(GameController controller) {
+        if (commandType == null) {
+            return "Command not valid.";
+        }
 
+        if (commandType == UserCommandsType.choosePlayerNumber) {
+            choosePlayerNumber(controller);
+            return null;
+        }
+
+        UserCommandsInterface game = controller.getGameInterface();
         Method commandMethod = null;
         try {
             commandMethod = Command.class.getDeclaredMethod(commandType.toString(), UserCommandsInterface.class);
         } catch (SecurityException | NoSuchMethodException ex) {
             return "Command not valid.";
         }
+
         try {
             commandMethod.invoke(this, game);
         } catch (Exception ex) {
-           return ex.getMessage();
+            return ex.getMessage();
         }
+
         return null;
     }
 
     //PRIVATE METHODS
+
+    private void choosePlayerNumber(GameController controller) {
+        //TODO
+    }
 
     /**
      * Invokes homonymous method on the Model's Game class
@@ -317,5 +333,15 @@ public class Command {
      */
     public void setCommandType(UserCommandsType commandType) {
         this.commandType = commandType;
+    }
+
+    //GETTERS
+
+    public Map getParameters() {
+        return parameters;
+    }
+
+    public UserCommandsType getCommandType() {
+        return commandType;
     }
 }

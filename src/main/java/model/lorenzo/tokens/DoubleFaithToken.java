@@ -1,6 +1,6 @@
 package model.lorenzo.tokens;
 
-import Exceptions.ParametersNotValidException;
+import exceptions.ParametersNotValidException;
 import model.lorenzo.Lorenzo;
 import network.beans.LorenzoTokenType;
 

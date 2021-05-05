@@ -1,8 +1,8 @@
 package model.card.leadercard;
 
-import Exceptions.BlockedResourceException;
-import Exceptions.NotEnoughSpaceException;
-import Exceptions.WrongResourceInsertionException;
+import exceptions.BlockedResourceException;
+import exceptions.NotEnoughSpaceException;
+import exceptions.WrongResourceInsertionException;
 import model.PlayerBoard;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;

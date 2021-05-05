@@ -1,12 +1,10 @@
 package model;
 
-import Exceptions.EmptyDeckException;
-import Exceptions.NotEnoughResourceException;
-import Exceptions.NotEnoughSpaceException;
-import Exceptions.SlotNotValidException;
+import exceptions.EmptyDeckException;
+import exceptions.NotEnoughResourceException;
+import exceptions.SlotNotValidException;
 import model.card.DevelopmentCard;
 import model.storage.UnlimitedStorage;
-import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
 package model.lorenzo;
 
-import Exceptions.ParametersNotValidException;
+import exceptions.ParametersNotValidException;
 import model.*;
 import model.lorenzo.tokens.*;
 

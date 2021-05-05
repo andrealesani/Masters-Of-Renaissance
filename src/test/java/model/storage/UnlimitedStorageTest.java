@@ -1,6 +1,6 @@
 package model.storage;
 
-import Exceptions.NotEnoughResourceException;
+import exceptions.NotEnoughResourceException;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
 

@@ -23,7 +23,7 @@ public class ServerMain {
         }else{
             System.out.println("No parameters found on command line: reading them from Json.");
             Gson gson = new Gson();
-            JsonReader reader = null;
+            JsonReader reader;
 
             try {
 
@@ -59,7 +59,7 @@ public class ServerMain {
         System.out.println("Server ready for connections!");
 
         //Creates connections with clients
-        Lobby lobby = new Lobby();
+        GameLobby lobby = new GameLobby();
         while (true) {
             try {
                 Socket socket = serverSocket.accept();

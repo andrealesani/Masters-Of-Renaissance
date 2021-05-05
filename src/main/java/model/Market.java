@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.ParametersNotValidException;
+import exceptions.ParametersNotValidException;
 import model.resource.*;
 
 import java.util.ArrayList;

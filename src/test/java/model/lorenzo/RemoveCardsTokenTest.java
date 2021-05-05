@@ -1,10 +1,9 @@
 package model.lorenzo;
 
-import Exceptions.EmptyDeckException;
+import exceptions.EmptyDeckException;
 import model.CardColor;
 import model.CardTable;
 import model.lorenzo.tokens.ActionToken;
-import model.lorenzo.tokens.RemoveCardsToken;
 import model.lorenzo.tokens.RemoveYellowToken;
 import org.junit.jupiter.api.Test;
 

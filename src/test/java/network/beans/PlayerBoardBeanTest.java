@@ -8,7 +8,9 @@ import model.storage.UnlimitedStorage;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static model.ResourceType.COIN;
 import static model.ResourceType.SERVANT;
@@ -18,7 +20,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setUsernameFromPB() {
-        List<String> nicknames = new ArrayList<String>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
@@ -33,7 +35,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setFaithFromPB() {
-        List<String> nicknames = new ArrayList<String>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
@@ -47,7 +49,7 @@ class PlayerBoardBeanTest {
 
     @Test
     void setWhiteMarblesFromPB() {
-        List<String> nicknames = new ArrayList<String>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");

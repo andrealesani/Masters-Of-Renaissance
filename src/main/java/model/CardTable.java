@@ -1,9 +1,9 @@
 package model;
 
-import Exceptions.EmptyDeckException;
-import Exceptions.NotEnoughResourceException;
-import Exceptions.ParametersNotValidException;
-import Exceptions.SlotNotValidException;
+import exceptions.EmptyDeckException;
+import exceptions.NotEnoughResourceException;
+import exceptions.ParametersNotValidException;
+import exceptions.SlotNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;

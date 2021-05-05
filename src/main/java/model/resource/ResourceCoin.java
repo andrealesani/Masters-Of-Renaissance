@@ -1,6 +1,6 @@
 package model.resource;
 
-import Exceptions.ParametersNotValidException;
+import exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 

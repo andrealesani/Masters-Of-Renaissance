@@ -1,9 +1,9 @@
 package model;
 
-import Exceptions.*;
-import Exceptions.NotEnoughResourceException;
-import Exceptions.SlotNotValidException;
-import Exceptions.WrongTurnPhaseException;
+import exceptions.*;
+import exceptions.NotEnoughResourceException;
+import exceptions.SlotNotValidException;
+import exceptions.WrongTurnPhaseException;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;
@@ -16,10 +16,7 @@ import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +26,7 @@ class UserCommandsInterfaceTest {
     @Test
     void chooseLeaderCard() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -54,7 +51,7 @@ class UserCommandsInterfaceTest {
     @Test
     void playLeaderCard() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -129,7 +126,7 @@ class UserCommandsInterfaceTest {
     @Test
     void discardLeaderCard() throws WrongTurnPhaseException, LeaderIsActiveException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -157,7 +154,7 @@ class UserCommandsInterfaceTest {
     @Test
     void selectFromMarket() throws WrongTurnPhaseException {
 
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -205,7 +202,7 @@ class UserCommandsInterfaceTest {
     @Test
     void sendResourceToDepotCorrect() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -246,7 +243,7 @@ class UserCommandsInterfaceTest {
     @Test
     void chooseMarbleConversion() throws WrongTurnPhaseException, ConversionNotAvailableException, NotEnoughResourceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, DepotNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -295,7 +292,7 @@ class UserCommandsInterfaceTest {
     @Test
     void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException {
         // Game creation
-            List<String> nicknames = new ArrayList<>();
+            Set<String> nicknames = new HashSet<>();
             nicknames.add("Andre");
             nicknames.add("Tom");
             nicknames.add("Gigi");
@@ -334,7 +331,7 @@ class UserCommandsInterfaceTest {
     @Test
     void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -415,7 +412,7 @@ class UserCommandsInterfaceTest {
     @Test
     void takeResourceFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -476,7 +473,7 @@ class UserCommandsInterfaceTest {
     @Test
     void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -577,7 +574,7 @@ class UserCommandsInterfaceTest {
     @Test
     void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException {
 // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -651,7 +648,7 @@ class UserCommandsInterfaceTest {
     @Test
     void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -685,7 +682,7 @@ class UserCommandsInterfaceTest {
     @Test
     void selectProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, ProductionNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -724,7 +721,7 @@ class UserCommandsInterfaceTest {
     @Test
     void resetProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, ProductionNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -773,7 +770,7 @@ class UserCommandsInterfaceTest {
     @Test
     void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, EmptyDeckException, ProductionNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -815,7 +812,7 @@ class UserCommandsInterfaceTest {
     @Test
     void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -851,7 +848,7 @@ class UserCommandsInterfaceTest {
     @Test
     void endTurnBasic() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -878,7 +875,7 @@ class UserCommandsInterfaceTest {
     @Test
     void endTurnDiscardResources() throws WrongTurnPhaseException, ProductionNotPresentException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -913,7 +910,7 @@ class UserCommandsInterfaceTest {
     @Test
     void endTurnSoloGame () throws WrongTurnPhaseException, NotEnoughResourceException, UnknownResourceException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
         PlayerBoard player = game.getPlayersTurnOrder().get(0);
@@ -973,7 +970,7 @@ class UserCommandsInterfaceTest {
     @Test
     void endTurnVaticanReport() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -1008,7 +1005,7 @@ class UserCommandsInterfaceTest {
     @Test
     void lorenzoWinsFromFaith() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
         PlayerBoard player = game.getPlayersTurnOrder().get(0);
@@ -1042,7 +1039,7 @@ class UserCommandsInterfaceTest {
 
     @Test void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
         PlayerBoard player = game.getPlayersTurnOrder().get(0);
@@ -1079,7 +1076,7 @@ class UserCommandsInterfaceTest {
     @Test
     void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");
@@ -1121,7 +1118,7 @@ class UserCommandsInterfaceTest {
     @Test
     void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         // Game creation
-        List<String> nicknames = new ArrayList<>();
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
         nicknames.add("Gigi");

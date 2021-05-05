@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.ParametersNotValidException;
+import exceptions.ParametersNotValidException;
 
 /**
  * This class represents a single Pope's Favor Tile and all of its distinctive parameters.

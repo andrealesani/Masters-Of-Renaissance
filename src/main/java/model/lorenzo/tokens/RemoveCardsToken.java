@@ -1,7 +1,7 @@
 package model.lorenzo.tokens;
 
-import Exceptions.EmptyDeckException;
-import Exceptions.ParametersNotValidException;
+import exceptions.EmptyDeckException;
+import exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
 import network.beans.LorenzoTokenType;

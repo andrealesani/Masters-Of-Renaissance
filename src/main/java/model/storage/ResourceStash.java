@@ -1,6 +1,6 @@
 package model.storage;
 
-import Exceptions.NotEnoughResourceException;
+import exceptions.NotEnoughResourceException;
 import model.ResourceType;
 
 import java.util.List;

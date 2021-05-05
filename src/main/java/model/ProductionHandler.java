@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.*;
+import exceptions.*;
 import model.resource.*;
 
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static model.ResourceType.*;
 
 /**
  * This class was made to simplify the interaction between PlayerBoard and Production classes during a single turn.

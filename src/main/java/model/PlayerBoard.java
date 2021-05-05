@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.*;
+import exceptions.*;
 import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
@@ -10,7 +10,6 @@ import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 
-import java.io.ObjectStreamException;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,6 @@
 package model;
 
-import Exceptions.*;
+import exceptions.*;
 import model.resource.*;
 import org.junit.jupiter.api.Test;
 
