@@ -1,7 +1,7 @@
 package Exceptions.network;
 
 /**
- * This Exception is thrown when a player attempts to set the player number for a game for which it has already been set.
+ * This Exception is thrown when a player attempts to login with a username already taken by another player.
  */
 public class UsernameAlreadyExistsException extends Exception {
     /**
@@ -11,6 +11,6 @@ public class UsernameAlreadyExistsException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("The current game has already reached maximum player capacity.");
+        return ("The selected username already exists.");
     }
 }
