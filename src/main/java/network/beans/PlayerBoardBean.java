@@ -5,6 +5,7 @@ import model.*;
 import model.card.leadercard.LeaderCard;
 
 import java.util.List;
+import java.util.Map;
 
 import static model.ResourceType.*;
 
@@ -27,21 +28,9 @@ public class PlayerBoardBean implements Observer {
      */
     private int[] popeTilePoints;
     /**
-     * Represents the different types of resources in the strongbox
+     * Represents the IDs of the productions available to the player
      */
-    private ResourceType[] strongboxType;
-    /**
-     * Represents the number present in the strongbox for each type of resources
-     */
-    private int[] strongboxQuantities;
-    /**
-     * Represents the different types of resources in the waitingRoom
-     */
-    private ResourceType[] waitingRoomType;
-    /**
-     * Represents the number present in the waitingRoom for each type of resources
-     */
-    private int[] waitingRoomQuantities;
+    private int[] productions;
     /**
      * Represents the player's number of whiteMarbles
      */
@@ -50,6 +39,18 @@ public class PlayerBoardBean implements Observer {
      * Represents the player's faith
      */
     private int faith;
+    /**
+     * Represents all the marble conversions available to the player
+     */
+    private ResourceType[] marbleConversions;
+    /**
+     * Represents the type of Resources that the player has a discount on
+     */
+    private ResourceType[] discountType = {COIN, SERVANT, SHIELD, STONE};
+    /**
+     * Represents the discount applied to the Resource in the same position of the discountType array
+     */
+    private int[] discountQuantity;
     /**
      * Represents the set of 3 slots in which the development cards are inserted.
      * The card in the first position corresponds to the one at the top of the pile
@@ -72,7 +73,6 @@ public class PlayerBoardBean implements Observer {
      */
     private int[] vpFaithValues;
 
-    // TODO add productions, marble conversions, discounts
     // TODO remove strongbox and waiting room attributes
 
 
@@ -103,42 +103,6 @@ public class PlayerBoardBean implements Observer {
      */
     public int getWhiteMarbles() {
         return whiteMarbles;
-    }
-
-    /**
-     * Getter for resource's type in WaitingRoom
-     *
-     * @return waitingRoomType
-     */
-    public ResourceType[] getWaitingRoomType() {
-        return waitingRoomType;
-    }
-
-    /**
-     * Getter for resource's quantity in WaitingRoom
-     *
-     * @return waitingRoomQuantities
-     */
-    public int[] getWaitingRoomQuantities() {
-        return waitingRoomQuantities;
-    }
-
-    /**
-     * Getter for resource's type in the strongbox
-     *
-     * @return strongboxType
-     */
-    public ResourceType[] getStrongboxType() {
-        return strongboxType;
-    }
-
-    /**
-     * Getter for resource's quantity in the strongbox
-     *
-     * @return strongboxQuantities
-     */
-    public int[] getStrongboxQuantities() {
-        return strongboxQuantities;
     }
 
     /**
@@ -204,6 +168,42 @@ public class PlayerBoardBean implements Observer {
         return popeTilePoints;
     }
 
+    /**
+     * Getter
+     *
+     * @return productions IDs
+     */
+    public int[] getProductions() {
+        return productions;
+    }
+
+    /**
+     * Getter
+     *
+     * @return marbleConversions
+     */
+    public ResourceType[] getMarbleConversions() {
+        return marbleConversions;
+    }
+
+    /**
+     * Getter
+     *
+     * @return discountType
+     */
+    public ResourceType[] getDiscountType() {
+        return discountType;
+    }
+
+    /**
+     * Getter
+     *
+     * @return discountQuantity
+     */
+    public int[] getDiscountQuantity() {
+        return discountQuantity;
+    }
+
     // SETTERS
 
     /**
@@ -231,59 +231,6 @@ public class PlayerBoardBean implements Observer {
      */
     private void setWhiteMarblesFromPB(PlayerBoard playerBoard) {
         whiteMarbles = playerBoard.getWhiteMarbles();
-    }
-
-    /**
-     * Sets the value for the bean's WaitingRoomType
-     *
-     * @param playerBoard from which information is retrieved
-     */
-    private void setWaitingRoomTypeFromPB(PlayerBoard playerBoard) {
-        int i = 0;
-        waitingRoomType = new ResourceType[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
-        for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            waitingRoomType[i++] = resourceType;
-        }
-
-    }
-
-    /**
-     * Sets the value for the bean's WaitingRoomQuantities
-     *
-     * @param playerBoard from which information is retrieved
-     */
-    private void setWaitingRoomQuantitiesFromPB(PlayerBoard playerBoard) {
-        int i = 0;
-        waitingRoomQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
-        for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            waitingRoomQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(resourceType);
-        }
-    }
-
-    /**
-     * Sets the value for the bean's StrongboxType
-     *
-     * @param playerBoard from which information is retrieved
-     */
-    private void setStrongboxTypeFromPB(PlayerBoard playerBoard) {
-        int i = 0;
-        strongboxType = new ResourceType[(int) playerBoard.getStrongbox().getStoredResources().stream().distinct().count()];
-        for (ResourceType resourceType : playerBoard.getStrongbox().getStoredResources()) {
-            strongboxType[i++] = resourceType;
-        }
-    }
-
-    /**
-     * Sets the value for the bean's StrongboxQuantities
-     *
-     * @param playerBoard from which information is retrieved
-     */
-    private void setStrongboxQuantitiesFromPB(PlayerBoard playerBoard) {
-        int i = 0;
-        strongboxQuantities = new int[(int) playerBoard.getWaitingRoom().getStoredResources().stream().distinct().count()];
-        for (ResourceType resourceType : playerBoard.getWaitingRoom().getStoredResources()) {
-            strongboxQuantities[i++] = playerBoard.getWaitingRoom().getNumOfResource(resourceType);
-        }
     }
 
     /**
@@ -382,6 +329,32 @@ public class PlayerBoardBean implements Observer {
             popeTilePoints[i] = current.get(i).getVictoryPoints();
     }
 
+    private void setProductionsFromPB(PlayerBoard playerBoard) {
+        int i = 0;
+        productions = new int[playerBoard.getProductionHandler().getProductions().size()];
+        for (Production production : playerBoard.getProductionHandler().getProductions()) {
+            productions[i++] = production.getId();
+        }
+    }
+
+    private void setMarbleConversionsFromPB(PlayerBoard playerBoard) {
+        int i = 0;
+        marbleConversions = new ResourceType[playerBoard.getMarbleConversions().size()];
+        for (ResourceType resourceType : playerBoard.getMarbleConversions()) {
+            marbleConversions[i++] = resourceType;
+        }
+    }
+
+    private void setDiscountFromPB(PlayerBoard playerBoard) {
+        int i = 0;
+        discountType = new ResourceType[playerBoard.getDiscounts().size()];
+        discountQuantity = new int[discountType.length];
+        for (Map.Entry<ResourceType, Integer> entry : playerBoard.getDiscounts().entrySet()) {
+            discountType[i] = entry.getKey();
+            discountQuantity[i++] = entry.getValue();
+        }
+    }
+
     // OBSERVER METHODS
 
     public void update(Object observable) {
@@ -391,10 +364,6 @@ public class PlayerBoardBean implements Observer {
         setUsernameFromPB(pb);
         setFaithFromPB(pb);
         setWhiteMarblesFromPB(pb);
-        setWaitingRoomTypeFromPB(pb);
-        setWaitingRoomQuantitiesFromPB(pb);
-        setStrongboxTypeFromPB(pb);
-        setStrongboxQuantitiesFromPB(pb);
         setCardSlotsFromPB(pb);
         setLeaderCardsFromPB(pb);
         setActiveLeaderCardsFromPB(pb);
@@ -402,6 +371,9 @@ public class PlayerBoardBean implements Observer {
         setVpFaithValuesFromPB(pb);
         setPopeTileStatesFromPB(pb);
         setPopeTilePointsFromPB(pb);
+        setProductionsFromPB(pb);
+        setMarbleConversionsFromPB(pb);
+        setDiscountFromPB(pb);
 
         BeanWrapper beanWrapper = new BeanWrapper(BeanType.PLAYERBOARD, gson.toJson(this));
 
