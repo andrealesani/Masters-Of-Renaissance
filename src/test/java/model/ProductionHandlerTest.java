@@ -20,7 +20,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(new ResourceServant());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -36,7 +36,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(new ResourceServant());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -60,7 +60,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(unknown);
         output.add(unknown);
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
 
         // Then it selects the production
@@ -93,7 +93,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(unknown);
         output.add(unknown);
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
 
         // Then it selects the production
@@ -119,7 +119,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(new ResourceServant());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -140,7 +140,7 @@ class ProductionHandlerTest {
         List<Resource> output = new ArrayList<>();
         input.add(new ResourceServant());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -171,7 +171,7 @@ class ProductionHandlerTest {
         input.add(new ResourceShield());
         input.add(new ResourceShield());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -199,7 +199,7 @@ class ProductionHandlerTest {
         input.add(new ResourceShield());
         input.add(new ResourceShield());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
@@ -226,7 +226,7 @@ class ProductionHandlerTest {
         input.add(new ResourceShield());
         input.add(new ResourceShield());
         output.add(new ResourceCoin());
-        Production production = new Production(input, output);
+        Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 

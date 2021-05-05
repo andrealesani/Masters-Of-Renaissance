@@ -123,6 +123,6 @@ public class DevelopmentCard extends Card {
             }
         }
 
-        return new Production(input, output);
+        return new Production(getId(), input, output);
     }
 }

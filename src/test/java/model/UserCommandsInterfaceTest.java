@@ -522,7 +522,7 @@ class UserCommandsInterfaceTest {
         output.add(new ResourceFaith());
         output.add(new ResourceFaith());
         output.add(new ResourceServant());
-        player.addProduction(new Production(input, output));
+        player.addProduction(new Production(-1, input, output));
 
         //Activates the two productions
         game.selectProduction(1);
@@ -606,14 +606,14 @@ class UserCommandsInterfaceTest {
         List<Resource> output1 = new ArrayList<>();
         output1.add(new ResourceFaith());
         output1.add(new ResourceUnknown());
-        player.addProduction(new Production(input1, output1));
+        player.addProduction(new Production(-1, input1, output1));
 
         List<Resource> input2 = new ArrayList<>();
         input2.add(new ResourceShield());
         List<Resource> output2 = new ArrayList<>();
         output2.add(new ResourceStone());
         output2.add(new ResourceStone());
-        player.addProduction(new Production(input2, output2));
+        player.addProduction(new Production(-1, input2, output2));
 
         //Activates the two productions
         game.selectProduction(2);

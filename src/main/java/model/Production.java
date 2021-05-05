@@ -13,6 +13,7 @@ import java.util.Map;
  * the ProductionHandler
  */
 public class Production {
+    private final int id;
     private final List<Resource> input;
     private final List<Resource> output;
     private boolean selectedByHandler;
@@ -25,7 +26,8 @@ public class Production {
      * @param input  specifies the Resources used to produce the output
      * @param output specifies the Resources obtained by executing this Production
      */
-    public Production(List<Resource> input, List<Resource> output) {
+    public Production(int id, List<Resource> input, List<Resource> output) {
+        this.id = id;
         this.input = input;
         this.output = output;
         selectedByHandler = false;
@@ -48,6 +50,15 @@ public class Production {
     }
 
     //GETTERS
+
+    /**
+     * Getter
+     *
+     * @return the id of the card that represents this production
+     */
+    public int getId() {
+        return id;
+    }
 
     /**
      * Getter
@@ -79,7 +90,8 @@ public class Production {
     //EQUALS
 
     /**
-     * Equals
+     * Equals controls only if the input and output lists are equals. This means that 2 Productions with different IDs
+     * but the same input/output will be considered equal
      *
      * @param obj object to compare
      * @return true only if the 2 Productions input and output lists are equal

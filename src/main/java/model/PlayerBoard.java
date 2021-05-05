@@ -114,7 +114,7 @@ public class PlayerBoard implements Observable {
         baseProdInput.add(jolly);
         List<Resource> baseProdOutput = new ArrayList<>();
         baseProdOutput.add(jolly);
-        Production baseProduction = new Production(baseProdInput, baseProdOutput);
+        Production baseProduction = new Production(0, baseProdInput, baseProdOutput);
 
         this.game = game;
         this.username = username;

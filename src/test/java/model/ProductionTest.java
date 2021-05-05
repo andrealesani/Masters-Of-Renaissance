@@ -22,9 +22,9 @@ class ProductionTest {
         output1.add(new ResourceFaith());
         output2.add(new ResourceShield());
 
-        assertTrue(new Production(input1, output1).equals(new Production(input1, output1)));
-        assertFalse(new Production(input1, output1).equals(new Production(input2, output2)));
-        assertFalse(new Production(input1, output1).equals(new Production(input1, output2)));
-        assertFalse(new Production(input1, output1).equals(new Production(input2, output1)));
+        assertTrue(new Production(-1, input1, output1).equals(new Production(-1, input1, output1)));
+        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input2, output2)));
+        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input1, output2)));
+        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input2, output1)));
     }
 }

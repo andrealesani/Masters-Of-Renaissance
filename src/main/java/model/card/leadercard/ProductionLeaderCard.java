@@ -135,7 +135,7 @@ public class ProductionLeaderCard extends LeaderCard {
         for (int i = 0; i < outputQuantities[5]; i++)
             output.add(faith);
 
-        playerBoard.addProduction(new Production(input, output));
+        playerBoard.addProduction(new Production(getId(), input, output));
     }
 
     //GETTERS

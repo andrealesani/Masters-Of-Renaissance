@@ -39,6 +39,6 @@ class ProductionLeaderCardTest {
         // TEST
         productionLeaderCard.doAction(playerBoard);
         assertEquals(1, playerBoard.getProductionHandler().getProductions().size());
-        assertTrue(playerBoard.getProductionHandler().getProductions().get(0).equals(new Production(input, output)));
+        assertTrue(playerBoard.getProductionHandler().getProductions().get(0).equals(new Production(-1, input, output)));
     }
 }
