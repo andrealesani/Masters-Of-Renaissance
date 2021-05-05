@@ -5,10 +5,7 @@ import model.Production;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +55,7 @@ class PlayerBoardBeanTest {
     }
 
     @Test
-    void setProductionsFromPB(){
+    void setProductionsFromPB() {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
@@ -73,13 +70,13 @@ class PlayerBoardBeanTest {
 
         int i;
         int j = game.getCurrentPlayer().getProductionHandler().getProductions().size();
-        for(i = 0; i < j; i++){
+        for (i = 0; i < j; i++) {
             assertEquals(prod.get(i).getId(), prodBean[i]);
         }
     }
 
     @Test
-    void setMarbleConversionsFromPB(){
+    void setMarbleConversionsFromPB() {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
@@ -95,15 +92,14 @@ class PlayerBoardBeanTest {
         int i;
         int j = game.getCurrentPlayer().getMarbleConversions().size();
 
-        for(i = 0; i < j; i++)
+        for (i = 0; i < j; i++)
             assertEquals(marbleConv.get(i), marbleConvBean[i]);
-
 
     }
 
     @Test
-    void setDiscountFromPB(){
-       /* Set<String> nicknames = new HashSet<>();
+    void setDiscountFromPB() {
+        Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         nicknames.add("Tom");
         nicknames.add("Andre");
@@ -111,11 +107,18 @@ class PlayerBoardBeanTest {
 
         PlayerBoardBean pbBean = new PlayerBoardBean();
         game.getCurrentPlayer().addObserver(pbBean);
+        game.getCurrentPlayer().addDiscount(ResourceType.COIN, 1);
 
-        List<ResourceType> marbleConv = game.getCurrentPlayer().getMarbleConversions();
-        ResourceType[] marbleConvBean = pbBean.getMarbleConversions();
-        */
-        
+        Map<ResourceType, Integer> disc = game.getCurrentPlayer().getDiscounts();
+
+        for (ResourceType resourceType : ResourceType.values()) {
+            if (resourceType != ResourceType.FAITH && resourceType != ResourceType.UNKNOWN && resourceType != ResourceType.WHITEORB)
+                if (java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType) != -1) {
+                    assertEquals(game.getCurrentPlayer().getDiscounts().get(resourceType), pbBean.getDiscountQuantity()[java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType)]);
+                    System.out.println(resourceType);
+                }
+            }
+
     }
 
     @Test
