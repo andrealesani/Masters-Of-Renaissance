@@ -64,7 +64,7 @@ public class ServerMain {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("Creating new connection...");
-                executor.submit(new ServerClientHandler(socket, lobby));
+                executor.submit(new ServerPlayerHandler(socket, lobby));
             } catch(IOException ex) {
                 System.err.println(ex.getMessage());
                 break;

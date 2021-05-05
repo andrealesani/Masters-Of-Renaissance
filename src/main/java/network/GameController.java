@@ -17,59 +17,75 @@ public class GameController {
     private final Gson gson;
     private Game game;
     private Map<String, PrintWriter> players;
-    int numOfPlayers;
+    int size;
 
     //CONSTRUCTORS
 
     public GameController(String username, PrintWriter userOut) {
         this.gson = new Gson();
-        this.numOfPlayers = 0;
+        this.size = 0;
 
         this.players = new HashMap<>();
         players.put(username, userOut);
-        //TODO rispondere chiedendo al giocator e di inviare il numero di giocatori
     }
 
     //PUBLIC METHODS
 
+    //TODO fix responses
     public void readCommand(String username, String commandString) {
-        if (!username.equals(getCurrentPlayerUsername())) {
-            //TODO rispondere con messaggio errore
+        if (game == null) {
+            players.get(username).println("Yo my man take a chill pill, everyone ain't here just yet.");
+            System.out.println("Player tried sending a command before the game start.");
+        } else if (!username.equals(getCurrentPlayerUsername())) {
             players.get(username).println("Ur not the right dude, my dude.");
+            System.out.println("Wrong player tried to send a command.");
         } else {
-            Command command = gson.fromJson(commandString, Command.class);
-            String result = command.runCommand(this);
-            if (result != null) {
-                //TODO rispondere con messaggio errore
-                players.get(username).println(result);
+            try {
+                Command command = gson.fromJson(commandString, Command.class);
+                String result = command.runCommand(game);
+                if (result != null) {
+                    players.get(username).println(result);
+                    System.out.println("Error: " + result);
+                }
+            } catch (Exception ex) {
+                players.get(username).println("Dude c'mon... that look like a json to you??");
+                System.out.println("Player sent a message that was not a json.");
             }
         }
     }
 
     public void addPlayer(String username, PrintWriter userOut) throws GameFullException, UnknownPlayerNumberException {
-        if (numOfPlayers == 0)
+        if (size == 0)
             throw new UnknownPlayerNumberException();
-        if (players.size() >= numOfPlayers)
+        if (players.size() >= size)
             throw new GameFullException();
 
         players.put(username, userOut);
+        System.out.println("Added player: " + username + " to current game.");
         checkGameStart();
     }
 
-    //TODO non hardcodare il numero max di giocatori?
     public void choosePlayerNumber(int number) throws PlayerNumberAlreadySetException {
-        if (numOfPlayers > 0) {
+        if (size > 0) {
             throw new PlayerNumberAlreadySetException();
         }
+        //TODO non hardcodare il numero massimo di giocatori?
         if (number < 1 || number > 4) {
             throw new ParametersNotValidException();
         }
-        numOfPlayers = number;
+        size = number;
         checkGameStart();
     }
 
     public boolean isFull() {
-        if (numOfPlayers == 0 || players.size() < numOfPlayers) {
+        if (size == 0 || players.size() < size) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isSizeSet() {
+        if (size == 0) {
             return false;
         }
         return true;
@@ -78,18 +94,19 @@ public class GameController {
     //PRIVATE METHODS
 
     private void checkGameStart() {
-        if (players.size() != numOfPlayers)
+        if (players.size() != size)
             return;
 
         game = new Game(players.keySet());
         //TODO Broadcastare a tutti i giocatori che la partita è iniziata (forse creare canale broadcast) e inviare tutti i bean
+        for (PrintWriter out : players.values()) {
+            out.println("YOOOOOOO LESSS GOOOOOOOO, the game is ONNNNNNNNN!");
+            out.println("First up is my dude! My man! None other than motherf*****g " + getCurrentPlayerUsername() + "!!!");
+        }
+        System.out.println("The game will now start.");
     }
 
     //GETTERS
-
-    public UserCommandsInterface getGameInterface() {
-        return game;
-    }
 
     public String getCurrentPlayerUsername() {
         return game.getCurrentPlayer().getUsername();

@@ -1,12 +1,13 @@
 package network;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientMain {
 
@@ -51,55 +52,52 @@ public class ClientMain {
 
         System.out.println("Client connected!");
 
-        try {
-            connectionLoop(clientSocket);
-        } catch (IOException ex) {
-            System.out.println("Uh oh, something went wrong in the connection loop");
-        }
+        startClient(clientSocket);
     }
 
     //PRIVATE METHODS
 
-    private static void connectionLoop(Socket clientSocket) throws IOException {
-        PrintWriter out =
-                new PrintWriter(clientSocket.getOutputStream(), true);
+    private static void startClient(Socket clientSocket) {
+        ExecutorService executor = Executors.newCachedThreadPool();
 
-        BufferedReader in =
-                new BufferedReader(
-                        new InputStreamReader(clientSocket.getInputStream()));
+        try {
+            BufferedReader in =
+                    new BufferedReader(
+                            new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out =
+                    new PrintWriter(clientSocket.getOutputStream(), true);
 
-        BufferedReader stdIn =
-                new BufferedReader(
-                        new InputStreamReader(System.in));
+            BufferedReader stdIn =
+                    new BufferedReader(
+                            new InputStreamReader(System.in));
 
-        //Reads input string and sends it to server, and prints the answer
-        String userInput;
-        String serverResponse;
-        Gson gson = new Gson();
-        Map<String, String> jsonMap;
+            ClientReader clientReader = new ClientReader(in);
+            Thread writerThread = new Thread(clientReader);
+            writerThread.start();
 
-        while ((userInput = stdIn.readLine()) != null) {
-            try {
-                out.println(userInput);
-                if (userInput.equals("ESC + :q")) {
-                    System.out.println("Closing connection...");
-                    break;
-                } else {
-                    while (!(serverResponse = in.readLine()).equals("End of message")) {
-                        try {
-                            System.out.println("Unprocessed response: " + serverResponse);
-                            jsonMap = gson.fromJson(serverResponse, Map.class);
-                            System.out.println("Response: " + jsonMap.get("Result"));
-                        } catch (Exception ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }
-                    System.out.println("Server has finished answering");
-                }
-            } catch(IOException ex) {
-                System.err.println(ex.getMessage());
-                return;
-            }
+            inputLoop(stdIn, out);
+
+            clientReader.doStop();
+
+        } catch (IOException ex) {
+            System.out.println("Uh-oh, there's been an IO problem!");
         }
     }
+
+    private static void inputLoop(BufferedReader stdIn, PrintWriter out) throws IOException {
+        String userInput;
+        while ((userInput = stdIn.readLine()) != null) {
+
+            if (userInput.equals("ESC + :q")) {
+                out.println(userInput);
+                System.out.println("Closing connection...");
+                break;
+            }
+
+            System.out.println("Sending message to server...");
+
+            out.println(userInput);
+        }
+    }
+
 }

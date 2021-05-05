@@ -29,20 +29,14 @@ public class Command {
     /**
      * Executes the stored command
      *
-     * @param controller the Game's Controller class
+     * @param game the Model's Game class
      * @return a String detailing the error if the command fails, null otherwise
      */
-    public String runCommand(GameController controller) {
+    public String runCommand(UserCommandsInterface game) {
         if (commandType == null) {
             return "Command not valid.";
         }
 
-        if (commandType == UserCommandsType.choosePlayerNumber) {
-            choosePlayerNumber(controller);
-            return null;
-        }
-
-        UserCommandsInterface game = controller.getGameInterface();
         Method commandMethod = null;
         try {
             commandMethod = Command.class.getDeclaredMethod(commandType.toString(), UserCommandsInterface.class);
@@ -60,10 +54,6 @@ public class Command {
     }
 
     //PRIVATE METHODS
-
-    private void choosePlayerNumber(GameController controller) {
-        //TODO
-    }
 
     /**
      * Invokes homonymous method on the Model's Game class

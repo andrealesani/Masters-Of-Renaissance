@@ -5,10 +5,11 @@ import Exceptions.network.UnknownPlayerNumberException;
 import Exceptions.network.UsernameAlreadyExistsException;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameLobby {
-    private List<GameController> currentGames;
+    private final List<GameController> currentGames = new ArrayList<>();
     private GameController newGame;
 
     public GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, GameFullException, UsernameAlreadyExistsException {
@@ -18,6 +19,7 @@ public class GameLobby {
                 throw new UsernameAlreadyExistsException();
             }
         }
+
 
         if (newGame == null) {
 
