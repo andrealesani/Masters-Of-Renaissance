@@ -1,10 +1,8 @@
 package network.beans;
 
 import model.Game;
-import model.PlayerBoard;
+import model.Production;
 import model.ResourceType;
-import model.resource.ResourceCoin;
-import model.storage.UnlimitedStorage;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static model.ResourceType.COIN;
-import static model.ResourceType.SERVANT;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardBeanTest {
@@ -59,6 +55,67 @@ class PlayerBoardBeanTest {
         game.getCurrentPlayer().addObserver(pbBean);
 
         assertEquals(game.getCurrentPlayer().getWhiteMarbles(), pbBean.getWhiteMarbles());
+    }
+
+    @Test
+    void setProductionsFromPB(){
+        List<String> nicknames = new ArrayList<String>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<Production> prod = game.getCurrentPlayer().getProductionHandler().getProductions();
+        int[] prodBean = pbBean.getProductions();
+
+        int i;
+        int j = game.getCurrentPlayer().getProductionHandler().getProductions().size();
+        for(i = 0; i < j; i++){
+            assertEquals(prod.get(i).getId(), prodBean[i]);
+        }
+    }
+
+    @Test
+    void setMarbleConversionsFromPB(){
+        List<String> nicknames = new ArrayList<String>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<ResourceType> marbleConv = game.getCurrentPlayer().getMarbleConversions();
+        ResourceType[] marbleConvBean = pbBean.getMarbleConversions();
+
+        int i;
+        int j = game.getCurrentPlayer().getMarbleConversions().size();
+
+        for(i = 0; i < j; i++)
+            assertEquals(marbleConv.get(i), marbleConvBean[i]);
+
+
+    }
+
+    @Test
+    void setDiscountFromPB(){
+       /* List<String> nicknames = new ArrayList<String>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<ResourceType> marbleConv = game.getCurrentPlayer().getMarbleConversions();
+        ResourceType[] marbleConvBean = pbBean.getMarbleConversions();
+        */
+        
     }
 
     @Test
