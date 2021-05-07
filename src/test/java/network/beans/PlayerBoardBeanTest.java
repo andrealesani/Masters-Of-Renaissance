@@ -1,6 +1,7 @@
 package network.beans;
 
 import model.*;
+import model.card.leadercard.LeaderCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -125,10 +126,47 @@ class PlayerBoardBeanTest {
 
     @Test
     void setLeaderCardsFromPB() {
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<LeaderCard> leaderCards = game.getCurrentPlayer().getLeaderCards();
+        int[] leaderCardsBean = pbBean.getLeaderCards();
+
+        int i;
+        for (i = 0; i < leaderCards.size(); i++)
+            assertEquals(leaderCardsBean[i], leaderCards.get(i).getId());
+
     }
 
     @Test
     void setActiveLeaderCardsFromPB() {
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<LeaderCard> activeLeaderCards = game.getCurrentPlayer().getLeaderCards();
+        boolean[] activeLeaderCardsBean = pbBean.getActiveLeaderCards();
+
+        int i;
+        for(i = 0; i < activeLeaderCards.size(); i++) {
+            if (activeLeaderCards.get(i).isActive())
+                assertTrue(activeLeaderCardsBean[i]);
+            else
+                assertFalse(activeLeaderCardsBean[i]);
+        }
+
+
     }
 
     @Test
@@ -205,5 +243,5 @@ class PlayerBoardBeanTest {
         int i;
         for (i = 0; i < popeFavorTilesPointsBean.length; i++)
             assertEquals(popeFavorTilesPointsBean[i], popeFavorTilesPoints.get(i).getVictoryPoints());
-    }   
+    }
 }
