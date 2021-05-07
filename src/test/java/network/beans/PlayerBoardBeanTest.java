@@ -135,10 +135,40 @@ class PlayerBoardBeanTest {
 
     @Test
     void setVpFaithTilesFromPB() {
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        int[] vpFaithTiles = game.getCurrentPlayer().getVpFaithTiles();
+        int[] vpFaithTilesBean = pbBean.getVpFaithTiles();
+        int i;
+
+        for(i = 0; i < vpFaithTilesBean.length; i++)
+            assertEquals(vpFaithTilesBean[i], vpFaithTiles[i]);
     }
 
     @Test
     void setVpFaithValuesFromPB() {
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        int[] vpFaithValues = game.getCurrentPlayer().getVpFaithValues();
+        int[] vpFaithValuesBean = pbBean.getVpFaithValues();
+        int i;
+
+        for(i = 0; i < vpFaithValuesBean.length; i++)
+            assertEquals(vpFaithValuesBean[i], vpFaithValues[i]);
     }
 
     @Test
