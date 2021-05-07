@@ -1,8 +1,6 @@
 package network.beans;
 
-import model.Game;
-import model.Production;
-import model.ResourceType;
+import model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -173,9 +171,39 @@ class PlayerBoardBeanTest {
 
     @Test
     void setPopeTileStatesFromPB() {
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<PopeFavorTile> popeFavorTilesStates = game.getCurrentPlayer().getPopeFavorTiles();
+        PopeTileState[] popeFavorTilesStatesBean = pbBean.getPopeTileStates();
+
+        int i;
+        for (i = 0; i < popeFavorTilesStatesBean.length; i++)
+            assertEquals(popeFavorTilesStatesBean[i], popeFavorTilesStates.get(i).getState());
     }
 
     @Test
     void setPopeTilePointsFromPB() {
-    }
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Gigi");
+        nicknames.add("Tom");
+        nicknames.add("Andre");
+        Game game = new Game(nicknames);
+
+        PlayerBoardBean pbBean = new PlayerBoardBean();
+        game.getCurrentPlayer().addObserver(pbBean);
+
+        List<PopeFavorTile> popeFavorTilesPoints = game.getCurrentPlayer().getPopeFavorTiles();
+        int[] popeFavorTilesPointsBean = pbBean.getPopeTilePoints();
+
+        int i;
+        for (i = 0; i < popeFavorTilesPointsBean.length; i++)
+            assertEquals(popeFavorTilesPointsBean[i], popeFavorTilesPoints.get(i).getVictoryPoints());
+    }   
 }
