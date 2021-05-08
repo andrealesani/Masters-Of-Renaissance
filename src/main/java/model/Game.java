@@ -495,7 +495,7 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void endTurn() throws WrongTurnPhaseException {
-        //Checks that the player can end their turn based on the action taken
+        //Does all necessary end turn checks and updates based on the action taken by the player
         endTurnChecks();
 
         //Other than in the first game turn
@@ -606,7 +606,7 @@ public class Game implements UserCommandsInterface, Observable {
         int j = 0;
 
         for (PlayerBoard playerBoard : playersTurnOrder) {
-            for (int i = 0; i <= initialLeaderCardNumber; i++) {
+            for (int i = 0; i < initialLeaderCardNumber; i++) {
                 playerBoard.addLeaderCard(leaderCards.get(j));
                 j++;
             }

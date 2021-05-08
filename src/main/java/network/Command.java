@@ -18,11 +18,25 @@ public class Command {
     /**
      * The command's parameters, used in calling the Game's methods
      */
-    private Map parameters = new HashMap();
+    private final Map parameters;
     /**
      * The type of user command that is being attempted
      */
-    private UserCommandsType commandType;
+    private final UserCommandsType commandType;
+
+    //CONSTRUCTORS
+
+    public Command(UserCommandsType commandType, Map parameters) {
+        if (commandType == null)
+            throw new ParametersNotValidException();
+        this.commandType = commandType;
+
+        if (parameters == null) {
+            this.parameters = new HashMap<String, String>();
+        } else {
+            this.parameters = parameters;
+        }
+    }
 
     //PUBLIC METHODS
 
@@ -33,10 +47,6 @@ public class Command {
      * @return a String detailing the error if the command fails, null otherwise
      */
     public String runCommand(UserCommandsInterface game) {
-        if (commandType == null) {
-            return "Command not valid.";
-        }
-
         Method commandMethod = null;
         try {
             commandMethod = Command.class.getDeclaredMethod(commandType.toString(), UserCommandsInterface.class);
@@ -47,6 +57,9 @@ public class Command {
         try {
             commandMethod.invoke(this, game);
         } catch (Exception ex) {
+            if (ex.getMessage() == null) {
+                return "Unspecified error when executing command.";
+            }
             return ex.getMessage();
         }
 
@@ -73,7 +86,6 @@ public class Command {
      * @param game the Model's Game class
      */
     private void chooseLeaderCard(UserCommandsInterface game) throws WrongTurnPhaseException {
-
         int number = extractInt(parameters.get("number"));
         game.chooseLeaderCard(number);
     }
@@ -258,71 +270,51 @@ public class Command {
     //EXTRACTORS
 
     /**
-     * Converts a Double received as an Object into an int
+     * Converts an Integer received as an Object into an int
      *
      * @param obj the object to be converted
      * @return the resulting int
      */
     private int extractInt(Object obj) {
-        if (obj == null || !(obj instanceof Double))
+        if (!(obj instanceof Integer))
             throw new ParametersNotValidException();
-        return ((Double) obj).intValue();
+        return (Integer) obj;
     }
 
     /**
-     * Converts a String received as an Object into a Resource
+     * Converts a ResourceType received as an object into a Resource
      *
      * @param obj the object to be converted
      * @return the resulting Resource
      */
     private Resource extractResource(Object obj) {
-        if (obj == null || !(obj instanceof String))
+        if (!(obj instanceof ResourceType))
             throw new ParametersNotValidException();
-        return (ResourceType.valueOf((String) obj)).toResource();
+        return ((ResourceType) obj).toResource();
     }
 
     /**
-     * Converts a String received as an Object into a CardColor
+     * Converts a CardColor received as an object into a CardColor
      *
      * @param obj the object to be converted
      * @return the resulting CardColor
      */
     private CardColor extractColor(Object obj) {
-        if (obj == null || !(obj instanceof String))
+        if (!(obj instanceof CardColor))
             throw new ParametersNotValidException();
-        return CardColor.valueOf((String) obj);
+        return (CardColor) obj;
     }
 
     /**
-     * Converts an array of Doubles received as an Object into an array of int
+     * Converts an ArrayList of Integers received as an Object into an array of int
      *
      * @param obj the object to be converted
      * @return the resulting int[]
      */
     private int[] extractIntArray(Object obj) {
-        if (obj == null || !(obj instanceof ArrayList))
+        if (!(obj instanceof int[]))
             throw new ParametersNotValidException();
-        return ((ArrayList<Double>) obj).stream().mapToInt(Double::intValue).toArray();
-    }
-
-    //SETTERS
-
-    /**
-     * Setter
-     *
-     * @param parameters the command's parameters
-     */
-    public void setParameters(Map parameters) {
-        this.parameters = parameters;
-    }
-
-    /**
-     * Setter
-     *
-     * @param commandType the command's type
-     */
-    public void setCommandType(UserCommandsType commandType) {
-        this.commandType = commandType;
+        return (int[]) obj;
     }
 
     //GETTERS

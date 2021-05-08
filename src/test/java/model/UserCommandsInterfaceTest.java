@@ -34,8 +34,8 @@ class UserCommandsInterfaceTest {
         // FIRST TURN: players must choose which LeaderCards to keep
 
         PlayerBoard currentPlayer = game.getCurrentPlayer();
-        List<LeaderCard> listaLeaderCards = currentPlayer.getLeaderCards();
-        List<LeaderCard> memoryList = new ArrayList(listaLeaderCards);
+        List<LeaderCard> listLeaderCards = currentPlayer.getLeaderCards();
+        List<LeaderCard> memoryList = new ArrayList(listLeaderCards);
 
         game.chooseLeaderCard(1);
         game.chooseLeaderCard(3);
@@ -670,7 +670,7 @@ class UserCommandsInterfaceTest {
         }
 
         // TEST STARTS HERE
-        // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in the next test)
+        // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in another test)
 
         assertEquals(4, game.getCardTable().getGreenCards().get(0).size());
         // SECOND TURN: first player chooses to buy a DevelopmentCard
