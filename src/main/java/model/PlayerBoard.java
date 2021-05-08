@@ -95,6 +95,7 @@ public class PlayerBoard implements Observable {
      * @param game           reference to the game the player is playing
      * @param username       nickname that the player chose in the lobby
      * @param popeFavorTiles a List of the player's pope's favor tiles
+     * @param finalFaith     the faith amount that, once reached by the player, ends the game
      */
     public PlayerBoard(Game game, String username, int finalFaith, List<PopeFavorTile> popeFavorTiles) {
         if (game == null || username == null || finalFaith <= 0 || popeFavorTiles == null) {

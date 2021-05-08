@@ -10,10 +10,16 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class represents the executable for the game on the server machine
+ */
 public class ServerMain {
 
     //MAIN
 
+    /**
+     * The server's 'main'
+     */
     public static void main(String[] args) {
 
         //Initialize portNumber
@@ -37,11 +43,17 @@ public class ServerMain {
             }
         }
 
+        //Start the server
         startServer(portNumber);
     }
 
     //PRIVATE METHODS
 
+    /**
+     * Reads connections from the given port and creates new threads to andle them
+     *
+     * @param port the port from which to take connections
+     */
     private static void startServer(int port) {
         ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -58,8 +70,10 @@ public class ServerMain {
 
         System.out.println("Server ready for connections!");
 
-        //Creates connections with clients
+        //Creates the lobby for this server
         GameLobby lobby = new GameLobby();
+
+        //Creates connections with clients on new threads
         while (true) {
             try {
                 Socket socket = serverSocket.accept();

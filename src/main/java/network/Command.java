@@ -327,10 +327,20 @@ public class Command {
 
     //GETTERS
 
+    /**
+     * Getter
+     *
+     * @return a Map containing the command's parameters as values, and their String names as keys
+     */
     public Map getParameters() {
         return parameters;
     }
 
+    /**
+     * Getter
+     *
+     * @return the type of the command
+     */
     public UserCommandsType getCommandType() {
         return commandType;
     }
