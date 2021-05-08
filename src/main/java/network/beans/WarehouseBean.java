@@ -55,7 +55,7 @@ public class WarehouseBean implements Observer {
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.WAREHOUSE, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.WAREHOUSE, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

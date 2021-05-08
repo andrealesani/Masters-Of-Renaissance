@@ -1,6 +1,8 @@
 package network;
 
-import model.Game;
+import com.google.gson.Gson;
+import network.beans.MessageType;
+import network.beans.MessageWrapper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,6 +37,10 @@ public class ServerPlayerHandler implements Runnable {
      * The username for this player's client
      */
     private String username;
+    /**
+     * The handler's gson object used to serialize messages for the client
+     */
+    private final Gson gson;
 
     //CONSTRUCTORS
 
@@ -48,11 +54,10 @@ public class ServerPlayerHandler implements Runnable {
         this.socket = socket;
         this.lobby = lobby;
         this.controller = null;
+        this.gson = new Gson();
     }
 
     //MULTITHREADING METHODS
-
-    //TODO messaggi all'user fatti bene
 
     /**
      * The run method for this handler.
@@ -79,10 +84,10 @@ public class ServerPlayerHandler implements Runnable {
 
         System.out.println("Listening for player commands...");
 
-        //Read the player's commands
-        commandLoop();
+        //Read the player's messages
+        messageLoop();
 
-        System.out.println("Closing the connection.");
+        System.out.println("Closing the connection...");
 
         //Close streams and socket
         in.close();
@@ -92,6 +97,8 @@ public class ServerPlayerHandler implements Runnable {
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
+
+        System.out.println("Connection closed.");
     }
 
     //PRIVATE METHODS
@@ -102,14 +109,21 @@ public class ServerPlayerHandler implements Runnable {
      */
     private void loginPlayer() {
         while (controller == null) {
-            out.println("Please, set your username: ");
+
+            sendMessage(MessageType.INFO, "Please, set your username.");
+
             String username = in.nextLine();
+
             try {
+
                 controller = lobby.login(username, out);
                 this.username = username;
-                out.println("Username was correctly set to: " + username + ".");
+                sendMessage(MessageType.INFO, "Username was correctly set to: " + username + ".");
+
             } catch (Exception ex) {
-                out.println("Error: " + ex.getMessage());
+
+                sendMessage(MessageType.ERROR, ex.getMessage());
+
             }
         }
     }
@@ -119,33 +133,60 @@ public class ServerPlayerHandler implements Runnable {
      */
     private void setGameSize() {
         while (!controller.isSizeSet()) {
-            out.println("Please, choose the game's number of players: ");
+
+            sendMessage(MessageType.INFO, "Please, choose the game's number of players.");
+
             String sizeString = in.nextLine();
+
             try {
+
                 int size = Integer.parseInt(sizeString);
                 controller.choosePlayerNumber(size);
-                out.println("Game size was correctly set to: " + size + " players.");
+                sendMessage(MessageType.INFO, "Game size was correctly set to: " + size + " players.");
+
             } catch (NumberFormatException ex) {
-                out.println("Hey yo this ain't a number, dude!");
+
+                sendMessage(MessageType.ERROR, "Game's number of players must be an integer.");
+
             } catch (Exception ex) {
-                out.println("Error: " + ex.getMessage());
+
+                sendMessage(MessageType.ERROR, ex.getMessage());
+
             }
         }
     }
 
     /**
-     * Reads commands from the client, until it receives the termination string
+     * Reads messages from the client, until it receives the termination string
      */
-    private void commandLoop() {
+    private void messageLoop() {
         while (true) {
-            String command = in.nextLine();
-            if (command.equals("ESC + :q")) {
+
+            String message = in.nextLine();
+
+            if (message.equals("ESC + :q")) {
+
                 break;
+
             } else {
-                System.out.println("Received command: " + command);
-                controller.readCommand(username, command);
+
+                System.out.println("Received message: " + message);
+                controller.readCommand(username, message);
+
             }
         }
+    }
+
+    /**
+     * Sends a message encapsulated in a MessageWrapper to the handler's client in json form
+     *
+     * @param type    the type of the message
+     * @param message the content of the message
+     */
+    private void sendMessage(MessageType type, String message) {
+        out.println(
+                gson.toJson(
+                        new MessageWrapper(type, message)));
     }
 
 }

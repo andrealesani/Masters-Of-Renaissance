@@ -50,7 +50,7 @@ public class ServerMain {
     //PRIVATE METHODS
 
     /**
-     * Reads connections from the given port and creates new threads to andle them
+     * Reads connections from the given port and creates new threads to handle them
      *
      * @param port the port from which to take connections
      */

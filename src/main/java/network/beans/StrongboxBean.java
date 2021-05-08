@@ -47,7 +47,7 @@ public class StrongboxBean implements Observer {
         UnlimitedStorage strongbox = (UnlimitedStorage) observable;
         setQuantityFromStrongbox(strongbox);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.STRONGBOX, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.STRONGBOX, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

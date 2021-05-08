@@ -47,7 +47,7 @@ public class WaitingRoomBean implements Observer {
         UnlimitedStorage waitingRoom = (UnlimitedStorage) observable;
         setQuantityFromStrongbox(waitingRoom);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.WAITINGROOM, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.WAITINGROOM, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

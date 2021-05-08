@@ -7,6 +7,8 @@ import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import model.UserCommandsInterface;
+import network.beans.MessageType;
+import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class GameController {
      */
     private Game game;
     /**
-     * A data structure used to store the game's players and the streams used to send them messages
+     * Map used to associate the game's players and the streams used to send messages to each of them
      */
     private Map<String, PrintWriter> players;
     /**
@@ -52,8 +54,6 @@ public class GameController {
 
     //PUBLIC METHODS
 
-    //TODO fix responses
-
     /**
      * Deserializes from json and runs a single command from one of the game's players
      *
@@ -62,22 +62,30 @@ public class GameController {
      */
     public void readCommand(String username, String commandString) {
         if (game == null) {
-            players.get(username).println("Yo my man take a chill pill, everyone ain't here just yet.");
+
+            playerMessage(username, MessageType.ERROR, "The game has not yet started, as some players are still missing.");
             System.out.println("Player tried sending a command before the game start.");
+
         } else if (!username.equals(getCurrentPlayerUsername())) {
-            players.get(username).println("Ur not the right dude, my dude.");
+
+            playerMessage(username, MessageType.ERROR, "It is not your turn to act.");
             System.out.println("Wrong player tried to send a command.");
+
         } else {
             try {
+
                 Command command = gson.fromJson(commandString, Command.class);
                 String result = command.runCommand(game);
                 if (result != null) {
-                    players.get(username).println(result);
+                    playerMessage(username, MessageType.ERROR, result);
                     System.out.println("Error: " + result);
                 }
+
             } catch (Exception ex) {
-                players.get(username).println("Dude c'mon... that look like a json to you??");
+
+                playerMessage(username, MessageType.ERROR, "The message is not in json format.");
                 System.out.println("Player sent a message that was not a json.");
+
             }
         }
     }
@@ -120,13 +128,27 @@ public class GameController {
     }
 
     /**
-     * Broadcasts a message to all of the controller's game's players
+     * Sends a message encapsulated in a MessageWrapper in json form to the player with the given username
      *
-     * @param message the message to be broadcast
+     * @param username the player's username
+     * @param type     the type of the message
+     * @param message  the content of the message
      */
-    public void broadcastMessage(String message) {
-        for (PrintWriter out : players.values()) {
-            out.println(message);
+    public void playerMessage(String username, MessageType type, String message) {
+        players.get(username).println(
+                gson.toJson(
+                        new MessageWrapper(type, message)));
+    }
+
+    /**
+     * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
+     *
+     * @param type     the type of the message
+     * @param message  the content of the message
+     */
+    public void broadcastMessage(MessageType type, String message) {
+        for (String player : players.keySet()) {
+            playerMessage(player, type, message);
         }
     }
 
@@ -166,8 +188,8 @@ public class GameController {
 
         game = new Game(players.keySet());
 
-        broadcastMessage("YOOOOOOO LESSS GOOOOOOOO, the game is ONNNNNNNNN!");
-        broadcastMessage("First up is my dude! My man! None other than motherf*****g " + getCurrentPlayerUsername() + "!!!");
+        broadcastMessage(MessageType.INFO, "All of the players have joined, the game will now begin.");
+        broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
         System.out.println("The game will now start.");
     }
 

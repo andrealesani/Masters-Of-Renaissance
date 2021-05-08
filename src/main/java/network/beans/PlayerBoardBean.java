@@ -379,7 +379,7 @@ public class PlayerBoardBean implements Observer {
         setMarbleConversionsFromPB(pb);
         setDiscountFromPB(pb);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.PLAYERBOARD, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.PLAYERBOARD, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

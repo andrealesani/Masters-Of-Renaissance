@@ -3,9 +3,7 @@ package network.beans;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.CardTable;
-import model.Game;
 import model.Observer;
-import model.card.Card;
 import model.card.DevelopmentCard;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class CardTableBean implements Observer {
         CardTable cardTable = (CardTable) observable;
         setCardTableFromGame(cardTable);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.CARDTABLE, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.CARDTABLE, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

@@ -64,7 +64,7 @@ public class LorenzoBean implements Observer {
         setActiveTokensFromGame(lorenzo);
         setDiscardedTokensFromGame(lorenzo);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.LORENZO, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.LORENZO, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }

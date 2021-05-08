@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import model.Game;
 import model.Observer;
 import model.TurnPhase;
-import model.storage.Warehouse;
 
 public class GameBean implements Observer {
     private String currentPlayer;
@@ -39,7 +38,7 @@ public class GameBean implements Observer {
         setCurrentPlayerFromGame(game);
         setTurnPhaseFromGame(game);
 
-        BeanWrapper beanWrapper = new BeanWrapper(BeanType.GAME, gson.toJson(this));
+        MessageWrapper messageWrapper = new MessageWrapper(MessageType.GAME, gson.toJson(this));
 
         // TODO ask to the Controller to be sent to the clients
     }
