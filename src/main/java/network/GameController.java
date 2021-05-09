@@ -6,7 +6,6 @@ import Exceptions.network.GameFullException;
 import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
-import model.UserCommandsInterface;
 import network.beans.MessageType;
 import network.beans.MessageWrapper;
 
@@ -30,7 +29,7 @@ public class GameController {
     /**
      * Map used to associate the game's players and the streams used to send messages to each of them
      */
-    private Map<String, PrintWriter> players;
+    private final Map<String, PrintWriter> players;
     /**
      * The game's number of players
      */
@@ -158,10 +157,7 @@ public class GameController {
      * @return true if the current number of players is equal to the game's size
      */
     public boolean isFull() {
-        if (size == 0 || players.size() < size) {
-            return false;
-        }
-        return true;
+        return size != 0 && players.size() >= size;
     }
 
     /**
@@ -170,10 +166,7 @@ public class GameController {
      * @return true if the game's size has been set
      */
     public boolean isSizeSet() {
-        if (size == 0) {
-            return false;
-        }
-        return true;
+        return size != 0;
     }
 
     //PRIVATE METHODS

@@ -25,7 +25,7 @@ class CommandTest {
     void serialize() {
         Gson gson = new Gson();
 
-        Map parameters = new HashMap();
+        Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("Resource","COIN");
         parameters.put("Quantity", 2);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
@@ -34,19 +34,19 @@ class CommandTest {
         System.out.println(jsonCommand);
 
         String expected = "{\"parameters\":{\"Resource\":\"COIN\",\"Quantity\":2},\"commandType\":\"chooseBonusResourceType\"}";
-        assertTrue(jsonCommand.equals(expected));
+        assertEquals(jsonCommand, expected);
 
         Command rebuiltCommand = (Command) gson.fromJson(jsonCommand, Command.class);
 
-        assertTrue(rebuiltCommand.getCommandType()==UserCommandsType.chooseBonusResourceType);
+        assertSame(rebuiltCommand.getCommandType(), UserCommandsType.chooseBonusResourceType);
 
-        Map rebuiltParameters = rebuiltCommand.getParameters();
+        Map<String, Object> rebuiltParameters = rebuiltCommand.getParameters();
 
         ResourceType resource = ResourceType.valueOf((String) rebuiltParameters.get("Resource"));
-        assertTrue(resource == ResourceType.COIN);
+        assertSame(resource, ResourceType.COIN);
 
         Double quantity = (Double) rebuiltParameters.get("Quantity");
-        assertTrue(quantity.intValue() == 2);
+        assertEquals(2, quantity.intValue());
     }
 
     @Test
@@ -61,23 +61,23 @@ class CommandTest {
 
         PlayerBoard currentPlayer = game.getCurrentPlayer();
         List<LeaderCard> listLeaderCards = currentPlayer.getLeaderCards();
-        List<LeaderCard> memoryList = new ArrayList(listLeaderCards);
+        List<LeaderCard> memoryList = new ArrayList<>(listLeaderCards);
 
-        Map parameters1 = new HashMap();
+        Map<String, Object> parameters1 = new HashMap<String, Object>();
         parameters1.put("number", 1);
         Command command1 = new Command(UserCommandsType.chooseLeaderCard, parameters1);
         String result1 = command1.runCommand(game);
-        assertEquals(result1, null);
+        assertNull(result1);
 
-        Map parameters2 = new HashMap();
+        Map<String, Object> parameters2 = new HashMap<String, Object>();
         parameters2.put("number", 3);
         Command command2 = new Command(UserCommandsType.chooseLeaderCard, parameters2);
         String result2 = command2.runCommand(game);
-        assertEquals(result2, null);
+        assertNull(result2);
 
         Command command3 = new Command(UserCommandsType.endTurn, null);
         String result3 = command3.runCommand(game);
-        assertEquals(result3, null);
+        assertNull(result3);
 
         assertEquals(2, currentPlayer.getLeaderCards().size());
 
@@ -113,41 +113,41 @@ class CommandTest {
         game.selectMarketRow(1);
 
         //Test the actual method
-        Map parameters1 = new HashMap();
+        Map<String, Object> parameters1 = new HashMap<String, Object>();
         parameters1.put("number", 1);
         parameters1.put("resource", ResourceType.COIN);
         parameters1.put("quantity", 1);
         Command command1 = new Command(UserCommandsType.sendResourceToDepot, parameters1);
         String result1 = command1.runCommand(game);
-        assertEquals(result1, null);
+        assertNull(result1);
 
-        Map parameters2 = new HashMap();
+        Map<String, Object> parameters2 = new HashMap<String, Object>();
         parameters2.put("number", 2);
         parameters2.put("resource", ResourceType.SHIELD);
         parameters2.put("quantity", 2);
         Command command2 = new Command(UserCommandsType.sendResourceToDepot, parameters2);
         String result2 = command2.runCommand(game);
-        assertEquals(result2, null);
+        assertNull(result2);
 
-        Map parameters3 = new HashMap();
+        Map<String, Object> parameters3 = new HashMap<String, Object>();
         parameters3.put("number", 3);
         parameters3.put("resource", ResourceType.STONE);
         parameters3.put("quantity", 1);
         Command command3 = new Command(UserCommandsType.sendResourceToDepot, parameters3);
         String result3 = command3.runCommand(game);
-        assertEquals(result3, null);
+        assertNull(result3);
 
-        Map parameters4 = new HashMap();
+        Map<String, Object> parameters4 = new HashMap<String, Object>();
         parameters4.put("number", 4);
         parameters4.put("resource", ResourceType.SHIELD);
         parameters4.put("quantity", 1);
         Command command4 = new Command(UserCommandsType.sendResourceToDepot, parameters4);
         String result4 = command4.runCommand(game);
-        assertEquals(result4, null);
+        assertNull(result4);
 
         Command command5 = new Command(UserCommandsType.endTurn, null);
-        String result5 = command3.runCommand(game);
-        assertEquals(result5, null);
+        String result5 = command5.runCommand(game);
+        assertNull(result5);
 
         //Verify resources got to the correct depots
         Warehouse warehouse = player.getWarehouse();
@@ -187,13 +187,13 @@ class CommandTest {
         assertEquals(4, game.getCardTable().getGreenCards().get(0).size());
 
         // SECOND TURN: first player chooses to buy a DevelopmentCard
-        Map parameters1 = new HashMap();
+        Map<String, Object> parameters1 = new HashMap<String, Object>();
         parameters1.put("color", CardColor.GREEN);
         parameters1.put("level", 1);
         parameters1.put("number", 1);
         Command command1 = new Command(UserCommandsType.takeDevelopmentCard, parameters1);
         String result1 = command1.runCommand(game);
-        assertEquals(result1, null);
+        assertNull(result1);
 
         assertEquals(3, game.getCardTable().getGreenCards().get(0).size());
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
@@ -227,21 +227,21 @@ class CommandTest {
 
 
         //actually tests the method
-        Map parameters1 = new HashMap();
+        Map<String, Object> parameters1 = new HashMap<String, Object>();
         int[] depots1 = {2, 3};
         parameters1.put("depots", depots1);
         Command command1 = new Command(UserCommandsType.swapDepotContent, parameters1);
         String result1 = command1.runCommand(game);
-        assertEquals(result1, null);
+        assertNull(result1);
 
-        Map parameters2 = new HashMap();
+        Map<String, Object> parameters2 = new HashMap<String, Object>();
         int[] depots2 = {1, 2};
         parameters2.put("depots", depots2);
         Command command2 = new Command(UserCommandsType.swapDepotContent, parameters2);
         String result2 = command2.runCommand(game);
-        assertEquals(result2, null);
+        assertNull(result2);
 
-        Map parameters3 = new HashMap();
+        Map<String, Object> parameters3 = new HashMap<String, Object>();
         int[] depots3 = {2, 4};
         parameters3.put("depots", depots3);
         Command command3 = new Command(UserCommandsType.swapDepotContent, parameters3);

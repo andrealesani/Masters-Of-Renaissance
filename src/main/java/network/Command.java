@@ -7,9 +7,9 @@ import model.UserCommandsInterface;
 import model.resource.Resource;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This class represents a single command sent by the client to the server
@@ -18,7 +18,7 @@ public class Command {
     /**
      * The command's parameters, used in calling the Game's methods
      */
-    private final Map parameters;
+    private final Map<String, Object> parameters;
     /**
      * The type of user command that is being attempted
      */
@@ -26,16 +26,12 @@ public class Command {
 
     //CONSTRUCTORS
 
-    public Command(UserCommandsType commandType, Map parameters) {
+    public Command(UserCommandsType commandType, Map<String, Object> parameters) {
         if (commandType == null)
             throw new ParametersNotValidException();
         this.commandType = commandType;
 
-        if (parameters == null) {
-            this.parameters = new HashMap<String, String>();
-        } else {
-            this.parameters = parameters;
-        }
+        this.parameters = Objects.requireNonNullElseGet(parameters, HashMap::new);
     }
 
     //PUBLIC METHODS
@@ -47,7 +43,7 @@ public class Command {
      * @return a String detailing the error if the command fails, null otherwise
      */
     public String runCommand(UserCommandsInterface game) {
-        Method commandMethod = null;
+        Method commandMethod;
         try {
             commandMethod = Command.class.getDeclaredMethod(commandType.toString(), UserCommandsInterface.class);
         } catch (SecurityException | NoSuchMethodException ex) {
@@ -324,7 +320,7 @@ public class Command {
      *
      * @return a Map containing the command's parameters as values, and their String names as keys
      */
-    public Map getParameters() {
+    public Map<String, Object> getParameters() {
         return parameters;
     }
 
