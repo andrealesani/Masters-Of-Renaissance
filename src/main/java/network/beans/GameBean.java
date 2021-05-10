@@ -4,10 +4,21 @@ import com.google.gson.Gson;
 import model.Game;
 import model.Observer;
 import model.TurnPhase;
+import network.GameController;
 
 public class GameBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     private String currentPlayer;
     private TurnPhase turnPhase;
+
+    // CONSTRUCTOR
+
+    public GameBean(GameController controller) {
+        this.controller = controller;
+    }
 
     // GETTERS
 
@@ -38,8 +49,6 @@ public class GameBean implements Observer {
         setCurrentPlayerFromGame(game);
         setTurnPhaseFromGame(game);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.GAME, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.GAME,  gson.toJson(this));
     }
 }

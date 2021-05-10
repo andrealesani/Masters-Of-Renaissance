@@ -3,17 +3,30 @@ package network.beans;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.CardTable;
+import model.Game;
 import model.Observer;
 import model.card.DevelopmentCard;
+import network.GameController;
 
 import java.util.List;
 import java.util.Map;
 
 public class CardTableBean implements Observer {
     /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
+    /**
      * Holds the IDs of the cards in CardTable's cards attribute
      */
     private int[][] cards;
+
+    // CONSTRUCTOR
+
+    public CardTableBean(GameController controller) {
+        this.controller = controller;
+    }
+
 
     // GETTERS
 
@@ -43,8 +56,6 @@ public class CardTableBean implements Observer {
         CardTable cardTable = (CardTable) observable;
         setCardTableFromGame(cardTable);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.CARDTABLE, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
     }
 }

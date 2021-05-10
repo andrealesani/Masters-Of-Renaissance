@@ -4,17 +4,23 @@ import com.google.gson.Gson;
 import model.Observer;
 import model.ResourceType;
 import model.storage.UnlimitedStorage;
+import network.GameController;
 
 import static model.ResourceType.*;
 
 public class WaitingRoomBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     private final String username;
     private final ResourceType[] type = {COIN, SERVANT, SHIELD, STONE};
     private final int[] quantity = new int[type.length];
 
     // CONSTRUCTOR
 
-    public WaitingRoomBean(String username) {
+    public WaitingRoomBean(GameController controller, String username) {
+        this.controller = controller;
         this.username = username;
     }
 
@@ -47,9 +53,7 @@ public class WaitingRoomBean implements Observer {
         UnlimitedStorage waitingRoom = (UnlimitedStorage) observable;
         setQuantityFromStrongbox(waitingRoom);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.WAITINGROOM, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.WAITINGROOM, gson.toJson(this));
     }
 }
 

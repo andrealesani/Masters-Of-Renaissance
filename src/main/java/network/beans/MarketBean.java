@@ -4,8 +4,13 @@ import com.google.gson.Gson;
 import model.Market;
 import model.Observer;
 import model.ResourceType;
+import network.GameController;
 
 public class MarketBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     /**
      * Represents Market's board attribute
      */
@@ -14,6 +19,12 @@ public class MarketBean implements Observer {
      * Represents Market's slideMarble
      */
     private ResourceType slide;
+
+    // CONSTRUCTOR
+
+    public MarketBean(GameController controller) {
+        this.controller = controller;
+    }
 
     // GETTERS
 
@@ -48,9 +59,7 @@ public class MarketBean implements Observer {
         setMarketBoardFromGame(market);
         setSlideFromGame(market);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.MARKET, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
     }
 
 }

@@ -4,15 +4,23 @@ import com.google.gson.Gson;
 import model.Observer;
 import model.ResourceType;
 import model.storage.Warehouse;
+import network.GameController;
 
 
 public class WarehouseBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     private final String username;
     private final int basicDepotNum;
     private ResourceType[] depotType;
     private int[] depotQuantity;
 
-    public WarehouseBean(String username, int basicDepotNum) {
+    // CONSTRUCTOR
+
+    public WarehouseBean(GameController controller, String username, int basicDepotNum) {
+        this.controller = controller;
         this.username = username;
         this.basicDepotNum = basicDepotNum;
     }
@@ -55,8 +63,6 @@ public class WarehouseBean implements Observer {
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.WAREHOUSE, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
     }
 }

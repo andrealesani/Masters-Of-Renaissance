@@ -4,8 +4,13 @@ import com.google.gson.Gson;
 import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
+import network.GameController;
 
 public class LorenzoBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     /**
      * Lorenzo's faith
      */
@@ -18,6 +23,10 @@ public class LorenzoBean implements Observer {
      * Represents Lorenzo's usedDeck list
      */
     private LorenzoTokenType[] discardedTokens;
+
+    public LorenzoBean(GameController controller) {
+        this.controller = controller;
+    }
 
     // GETTERS
 
@@ -64,8 +73,6 @@ public class LorenzoBean implements Observer {
         setActiveTokensFromGame(lorenzo);
         setDiscardedTokensFromGame(lorenzo);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.LORENZO, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.LORENZO, gson.toJson(this));
     }
 }

@@ -3,6 +3,7 @@ package network.beans;
 import com.google.gson.Gson;
 import model.*;
 import model.card.leadercard.LeaderCard;
+import network.GameController;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,10 @@ import static model.ResourceType.*;
  * transcribe it into a json file that will be passed to the Server object for the communication with the client
  */
 public class PlayerBoardBean implements Observer {
+    /**
+     * The Controller that will have to send the bean when it changes
+     */
+    private final GameController controller;
     /**
      * Represents the player's username
      */
@@ -72,7 +77,12 @@ public class PlayerBoardBean implements Observer {
      * Represents the victory points assigned to each square
      */
     private int[] vpFaithValues;
-    
+
+    // CONSTRUCTOR
+
+    public PlayerBoardBean(GameController controller) {
+        this.controller = controller;
+    }
 
     // GETTERS
 
@@ -379,8 +389,6 @@ public class PlayerBoardBean implements Observer {
         setMarbleConversionsFromPB(pb);
         setDiscountFromPB(pb);
 
-        MessageWrapper messageWrapper = new MessageWrapper(MessageType.PLAYERBOARD, gson.toJson(this));
-
-        // TODO ask to the Controller to be sent to the clients
+        controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
     }
 }
