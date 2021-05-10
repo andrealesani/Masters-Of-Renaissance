@@ -71,7 +71,7 @@ public class ServerMain {
         System.out.println("Server ready for connections!");
 
         //Creates the lobby for this server
-        GameLobby lobby = new GameLobby();
+        ServerLobby lobby = new ServerLobby();
 
         //Creates connections with clients on new threads
         while (true) {

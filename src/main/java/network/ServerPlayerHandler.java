@@ -20,7 +20,7 @@ public class ServerPlayerHandler implements Runnable {
     /**
      * The server's lobby
      */
-    private final GameLobby lobby;
+    private final ServerLobby lobby;
     /**
      * This handler's input reader
      */
@@ -50,7 +50,7 @@ public class ServerPlayerHandler implements Runnable {
      * @param socket the socket associated with the handler's client
      * @param lobby  the server's lobby
      */
-    public ServerPlayerHandler(Socket socket, GameLobby lobby) {
+    public ServerPlayerHandler(Socket socket, ServerLobby lobby) {
         this.socket = socket;
         this.lobby = lobby;
         this.controller = null;
