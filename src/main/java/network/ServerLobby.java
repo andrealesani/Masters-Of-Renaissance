@@ -12,7 +12,7 @@ import java.util.List;
  * This class represents the game lobby.
  * It handles the creation of controllers for the games hosted on the server, and the logging in of users.
  */
-public class GameLobby {
+public class ServerLobby {
     /**
      * List used to store the controllers of the games currently running on the server
      */
