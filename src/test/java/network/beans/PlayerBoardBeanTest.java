@@ -2,8 +2,11 @@ package network.beans;
 
 import model.*;
 import model.card.leadercard.LeaderCard;
+import network.GameController;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +21,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         assertEquals(game.getCurrentPlayer().getUsername(), pbBean.getUsername());
@@ -33,7 +37,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         assertEquals(game.getCurrentPlayer().getFaith(), pbBean.getFaith());
@@ -47,7 +52,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         assertEquals(game.getCurrentPlayer().getWhiteMarbles(), pbBean.getWhiteMarbles());
@@ -61,7 +67,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<Production> prod = game.getCurrentPlayer().getProductionHandler().getProductions();
@@ -82,7 +89,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<ResourceType> marbleConv = game.getCurrentPlayer().getMarbleConversions();
@@ -104,7 +112,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
         game.getCurrentPlayer().addDiscount(ResourceType.SHIELD, 1);
 
@@ -117,7 +126,6 @@ class PlayerBoardBeanTest {
                     System.out.println(resourceType);
                 }
             }
-
     }
 
     @Test
@@ -132,7 +140,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<LeaderCard> leaderCards = game.getCurrentPlayer().getLeaderCards();
@@ -152,7 +161,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<LeaderCard> activeLeaderCards = game.getCurrentPlayer().getLeaderCards();
@@ -177,7 +187,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         int[] vpFaithTiles = game.getCurrentPlayer().getVpFaithTiles();
@@ -196,7 +207,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         int[] vpFaithValues = game.getCurrentPlayer().getVpFaithValues();
@@ -215,7 +227,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<PopeFavorTile> popeFavorTilesStates = game.getCurrentPlayer().getPopeFavorTiles();
@@ -234,7 +247,8 @@ class PlayerBoardBeanTest {
         nicknames.add("Andre");
         Game game = new Game(nicknames);
 
-        PlayerBoardBean pbBean = new PlayerBoardBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
         List<PopeFavorTile> popeFavorTilesPoints = game.getCurrentPlayer().getPopeFavorTiles();

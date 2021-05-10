@@ -1,7 +1,11 @@
 package network.beans;
 
 import model.Market;
+import network.GameController;
 import org.junit.jupiter.api.Test;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +14,9 @@ class MarketBeanTest {
     void test() {
 
         Market market = new Market();
-        MarketBean marketBean = new MarketBean();
+
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        MarketBean marketBean = new MarketBean(new GameController("Gigi", printWriter));
         market.addObserver(marketBean);
 
         assertEquals(marketBean.getSlide(), market.getSlideOrb().getType());

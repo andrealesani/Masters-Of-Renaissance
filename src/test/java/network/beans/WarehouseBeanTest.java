@@ -1,8 +1,11 @@
 package network.beans;
 
 import model.Game;
+import network.GameController;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +21,8 @@ class WarehouseBeanTest {
         list.add("Pipino");
         Game game = new Game(list);
 
-        WarehouseBean warehouseBean = new WarehouseBean(game.getCurrentPlayer().getUsername(), 3);
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        WarehouseBean warehouseBean = new WarehouseBean(new GameController("Gigi", printWriter), game.getCurrentPlayer().getUsername(), 3);
         game.getCurrentPlayer().getWarehouse().addObserver(warehouseBean);
 
         // TODO

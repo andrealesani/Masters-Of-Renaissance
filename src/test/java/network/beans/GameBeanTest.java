@@ -1,8 +1,11 @@
 package network.beans;
 
 import model.Game;
+import network.GameController;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +21,8 @@ class GameBeanTest {
         list.add("Pipino");
         Game game = new Game(list);
 
-        GameBean gameBean = new GameBean();
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        GameBean gameBean = new GameBean(new GameController("Gigi", printWriter));
         game.addObserver(gameBean);
 
         assertEquals(game.getCurrentPlayer().getUsername(), gameBean.getCurrentPlayer());

@@ -2,8 +2,11 @@ package network.beans;
 
 import model.Game;
 import model.ResourceType;
+import network.GameController;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +22,8 @@ class WaitingRoomBeanTest {
         list.add("Pipino");
         Game game = new Game(list);
 
-        WaitingRoomBean waitingRoomBean = new WaitingRoomBean(game.getCurrentPlayer().getUsername());
+        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
+        WaitingRoomBean waitingRoomBean = new WaitingRoomBean(new GameController("Gigi", printWriter), game.getCurrentPlayer().getUsername());
         game.getCurrentPlayer().getWaitingRoom().addObserver(waitingRoomBean);
 
         assertEquals(game.getCurrentPlayer().getUsername(), waitingRoomBean.getUsername());
