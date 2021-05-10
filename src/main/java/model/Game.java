@@ -8,6 +8,8 @@ import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
+import network.GameController;
+import network.beans.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -836,6 +838,27 @@ public class Game implements UserCommandsInterface, Observable {
         notifyObservers();
     }
 
+    /**
+     * This method is called by the Controller right after creating the Game. It creates the beans so that they
+     * can notify the clients when something in the model changes
+     *
+     * @param controller that the beans will have to interact with
+     */
+    public void createBeans(GameController controller) {
+        addObserver(new GameBean(controller));
+        getCardTable().addObserver(new CardTableBean(controller));
+        getMarket().addObserver(new MarketBean(controller));
+        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+            playerBoard.addObserver(new PlayerBoardBean(controller));
+            playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
+            playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
+            playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
+        }
+
+        if(getPlayersTurnOrder().size() == 1) {
+            ((Lorenzo)getLorenzo()).addObserver(new LorenzoBean(controller));
+        }
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 
