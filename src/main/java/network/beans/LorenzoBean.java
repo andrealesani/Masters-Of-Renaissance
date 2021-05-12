@@ -6,6 +6,8 @@ import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import network.GameController;
 
+import java.util.Arrays;
+
 public class LorenzoBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
@@ -74,5 +76,13 @@ public class LorenzoBean implements Observer {
         setDiscardedTokensFromGame(lorenzo);
 
         controller.broadcastMessage(MessageType.LORENZO, gson.toJson(this));
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[32mLorenzo:\u001B[0m\n" +
+                "faith: " + faith +
+                "\nactiveTokens: " + Arrays.toString(activeTokens) +
+                "\ndiscardedTokens: " + Arrays.toString(discardedTokens) + "\n";
     }
 }

@@ -6,6 +6,8 @@ import model.ResourceType;
 import model.storage.UnlimitedStorage;
 import network.GameController;
 
+import java.util.Arrays;
+
 import static model.ResourceType.*;
 
 public class WaitingRoomBean implements Observer {
@@ -54,6 +56,13 @@ public class WaitingRoomBean implements Observer {
         setQuantityFromStrongbox(waitingRoom);
 
         controller.broadcastMessage(MessageType.WAITINGROOM, gson.toJson(this));
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[32m" + username + "'s waitingRoomBean:\u001B[0m\n" +
+                "type: " + Arrays.toString(type) + "\n" +
+                "quantity: " + Arrays.toString(quantity) + "\n";
     }
 }
 

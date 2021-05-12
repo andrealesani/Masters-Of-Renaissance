@@ -6,6 +6,8 @@ import model.Observer;
 import model.ResourceType;
 import network.GameController;
 
+import java.util.Arrays;
+
 public class MarketBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
@@ -62,4 +64,10 @@ public class MarketBean implements Observer {
         controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
     }
 
+    @Override
+    public String toString() {
+        return "\u001B[32mMarket:\u001B[0m\n" +
+                Arrays.deepToString(marketBoard) +
+                "\nslide: " + slide + "\n";
+    }
 }

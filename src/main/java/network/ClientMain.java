@@ -18,10 +18,10 @@ public class ClientMain {
         //Initialize hostName and portNumber
         String hostName = null;
         int portNumber = 0;
-        if (args.length > 0){
+        if (args.length > 0) {
             hostName = args[0];
             portNumber = Integer.parseInt(args[1]);
-        }else{
+        } else {
             System.out.println("No parameters on command line: reading from Json.");
             Gson gson = new Gson();
             JsonReader reader;
@@ -30,8 +30,8 @@ public class ClientMain {
 
                 reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
                 Map map = gson.fromJson(reader, Map.class);
-                hostName = (String)map.get("hostName");
-                portNumber = ((Double)map.get("portNumber")).intValue();
+                hostName = (String) map.get("hostName");
+                portNumber = ((Double) map.get("portNumber")).intValue();
 
             } catch (FileNotFoundException ex) {
                 System.err.println(ex.getMessage());
@@ -58,6 +58,7 @@ public class ClientMain {
     //PRIVATE METHODS
 
     private static void startClient(Socket clientSocket) {
+        ClientView clientView = new ClientView();
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try {
@@ -71,11 +72,11 @@ public class ClientMain {
                     new BufferedReader(
                             new InputStreamReader(System.in));
 
-            ClientReader clientReader = new ClientReader(in);
+            ClientReader clientReader = new ClientReader(in, clientView);
             Thread writerThread = new Thread(clientReader);
             writerThread.start();
 
-            inputLoop(stdIn, out);
+            inputLoop(stdIn, out, clientView);
 
             clientReader.doStop();
 
@@ -84,7 +85,7 @@ public class ClientMain {
         }
     }
 
-    private static void inputLoop(BufferedReader stdIn, PrintWriter out) throws IOException {
+    private static void inputLoop(BufferedReader stdIn, PrintWriter out, ClientView clientView) throws IOException {
         String userInput;
         while ((userInput = stdIn.readLine()) != null) {
 
@@ -94,9 +95,10 @@ public class ClientMain {
                 break;
             }
 
-            System.out.println("Sending message to server...");
-
-            out.println(userInput);
+            if (userInput.contains("show")) {
+                System.out.println("\n\n" + clientView);
+            } else
+                out.println(userInput);
         }
     }
 

@@ -52,4 +52,11 @@ public class GameBean implements Observer {
 
         controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
     }
+
+    @Override
+    public String toString() {
+        return "\u001B[32mGame State:\u001B[0m\n" +
+                "currentPlayer is " + currentPlayer +
+                " and we're in " + turnPhase + " phase\n";
+    }
 }

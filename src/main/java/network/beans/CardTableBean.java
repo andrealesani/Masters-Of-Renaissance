@@ -8,6 +8,7 @@ import model.Observer;
 import model.card.DevelopmentCard;
 import network.GameController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -57,5 +58,11 @@ public class CardTableBean implements Observer {
         setCardTableFromGame(cardTable);
 
         controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[32mCardTable:\u001B[0m\n" +
+                Arrays.deepToString(cards) + "\n";
     }
 }

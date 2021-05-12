@@ -5,6 +5,7 @@ import model.*;
 import model.card.leadercard.LeaderCard;
 import network.GameController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -80,8 +81,20 @@ public class PlayerBoardBean implements Observer {
 
     // CONSTRUCTOR
 
+    /**
+     * Server constructor
+     *
+     * @param controller to which the bean notifies changes
+     */
     public PlayerBoardBean(GameController controller) {
         this.controller = controller;
+    }
+
+    /**
+     * Client constructor, it doesn't need reference to the controller
+     */
+    public PlayerBoardBean() {
+        this.controller = null;
     }
 
     // GETTERS
@@ -370,7 +383,7 @@ public class PlayerBoardBean implements Observer {
         Gson gson = new Gson();
         PlayerBoard pb = (PlayerBoard) observable;
 
-        if(isFirstUpdate) {
+        if (isFirstUpdate) {
             setUsernameFromPB(pb);
             setVpFaithTilesFromPB(pb);
             setVpFaithValuesFromPB(pb);
@@ -390,5 +403,24 @@ public class PlayerBoardBean implements Observer {
         setDiscountFromPB(pb);
 
         controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[32m" + username + "'s playerBoardBean:\u001B[0m\n" +
+                "   popeTileStates=" + Arrays.toString(popeTileStates) + "\n" +
+                "   popeTilePoints=" + Arrays.toString(popeTilePoints) + "\n" +
+                "   productions=" + Arrays.toString(productions) + "\n" +
+                "   whiteMarbles=" + whiteMarbles + "\n" +
+                "   faith=" + faith + "\n" +
+                "   marbleConversions=" + Arrays.toString(marbleConversions) + "\n" +
+                "   discountType=" + Arrays.toString(discountType) + "\n" +
+                "   discountQuantity=" + Arrays.toString(discountQuantity) + "\n" +
+                "   cardSlots=" + Arrays.toString(cardSlots) + "\n" +
+                "   leaderCards=" + Arrays.toString(leaderCards) + "\n" +
+                "   activeLeaderCards=" + Arrays.toString(activeLeaderCards) + "\n" +
+                "   vpFaithTiles=" + Arrays.toString(vpFaithTiles) + "\n" +
+                "   vpFaithValues=" + Arrays.toString(vpFaithValues) + "\n" +
+                "   isFirstUpdate=" + isFirstUpdate + "\n";
     }
 }
