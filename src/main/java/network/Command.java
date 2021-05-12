@@ -6,7 +6,9 @@ import model.ResourceType;
 import model.UserCommandsInterface;
 import model.resource.Resource;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -55,11 +57,11 @@ public class Command {
 
         try {
             commandMethod.invoke(this, game);
+        } catch (InvocationTargetException ex) {
+            Exception methodEx = (Exception) ex.getTargetException();
+            return methodEx.getMessage();
         } catch (Exception ex) {
-            if (ex.getMessage() == null) {
-                return "Unspecified error when executing command.";
-            }
-            return ex.getMessage();
+            return "Unspecified error when executing command.";
         }
 
         return null;
@@ -275,9 +277,13 @@ public class Command {
      * @return the resulting int
      */
     private int extractInt(Object obj) {
-        if (!(obj instanceof Integer))
-            throw new ParametersNotValidException();
-        return (Integer) obj;
+        if (obj instanceof Integer)
+            return (Integer) obj;
+
+        if (obj instanceof Double)
+            return ((Double) obj).intValue();
+
+        throw new ParametersNotValidException();
     }
 
     /**
@@ -287,9 +293,13 @@ public class Command {
      * @return the resulting Resource
      */
     private Resource extractResource(Object obj) {
-        if (!(obj instanceof ResourceType))
-            throw new ParametersNotValidException();
-        return ((ResourceType) obj).toResource();
+        if (obj instanceof ResourceType)
+            return ((ResourceType) obj).toResource();
+
+        if (obj instanceof String)
+            return (ResourceType.valueOf((String) obj)).toResource();
+
+        throw new ParametersNotValidException();
     }
 
     /**
@@ -299,9 +309,13 @@ public class Command {
      * @return the resulting CardColor
      */
     private CardColor extractColor(Object obj) {
-        if (!(obj instanceof CardColor))
-            throw new ParametersNotValidException();
-        return (CardColor) obj;
+        if (obj instanceof CardColor)
+            return (CardColor) obj;
+
+        if (obj instanceof String)
+            return CardColor.valueOf((String) obj);
+
+        throw new ParametersNotValidException();
     }
 
     /**
@@ -311,9 +325,17 @@ public class Command {
      * @return the resulting int[]
      */
     private int[] extractIntArray(Object obj) {
-        if (!(obj instanceof int[]))
-            throw new ParametersNotValidException();
-        return (int[]) obj;
+        if (obj instanceof int[])
+            return (int[]) obj;
+
+        if (obj instanceof ArrayList) {
+            try {
+                return ((ArrayList<Double>) obj).stream().mapToInt(Double::intValue).toArray();
+            } catch (Exception ex) {}
+        }
+
+        throw new ParametersNotValidException();
+
     }
 
     //GETTERS

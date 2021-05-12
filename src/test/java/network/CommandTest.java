@@ -118,6 +118,10 @@ class CommandTest {
         parameters1.put("resource", ResourceType.COIN);
         parameters1.put("quantity", 1);
         Command command1 = new Command(UserCommandsType.sendResourceToDepot, parameters1);
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(command1));
+
         String result1 = command1.runCommand(game);
         assertNull(result1);
 
@@ -192,6 +196,10 @@ class CommandTest {
         parameters1.put("level", 1);
         parameters1.put("number", 1);
         Command command1 = new Command(UserCommandsType.takeDevelopmentCard, parameters1);
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(command1));
+
         String result1 = command1.runCommand(game);
         assertNull(result1);
 
@@ -231,6 +239,10 @@ class CommandTest {
         int[] depots1 = {2, 3};
         parameters1.put("depots", depots1);
         Command command1 = new Command(UserCommandsType.swapDepotContent, parameters1);
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(command1));
+
         String result1 = command1.runCommand(game);
         assertNull(result1);
 

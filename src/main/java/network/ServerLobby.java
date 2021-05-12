@@ -29,7 +29,7 @@ public class ServerLobby {
      * @throws GameFullException              if the game currently in creation phase is already full (should never happen)
      * @throws UsernameAlreadyExistsException if the there given username is already taken by another player
      */
-    public GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, GameFullException, UsernameAlreadyExistsException {
+    public synchronized GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, GameFullException, UsernameAlreadyExistsException {
 
         //Checks if the given username is already taken, and attempts to add the player to the first one that isn't full
         for (GameController game : currentGames) {
