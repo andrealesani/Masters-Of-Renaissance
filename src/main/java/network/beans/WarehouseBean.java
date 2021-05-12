@@ -11,7 +11,7 @@ public class WarehouseBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
      */
-    private final GameController controller;
+    private transient final GameController controller;
     private final String username;
     private final int basicDepotNum;
     private ResourceType[] depotType;

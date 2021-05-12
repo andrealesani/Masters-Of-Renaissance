@@ -74,6 +74,8 @@ public class GameController {
             try {
 
                 Command command = gson.fromJson(commandString, Command.class);
+                System.out.println(gson.toJson(command));
+                System.out.println(command.getCommandType() + " " + command.getParameters());
                 String result = command.runCommand(game);
                 if (result != null) {
                     playerMessage(username, MessageType.ERROR, result);

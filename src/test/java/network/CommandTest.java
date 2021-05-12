@@ -253,4 +253,13 @@ class CommandTest {
         assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.COIN));
         assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
+
+    @Test
+    void poo() {
+        Gson gson = new Gson();
+        Map<String, Object> map = new HashMap<>();
+        map.put("number", 1);
+        Command command = new Command(UserCommandsType.chooseLeaderCard, map);
+        System.out.println(gson.toJson(command, Command.class));
+    }
 }

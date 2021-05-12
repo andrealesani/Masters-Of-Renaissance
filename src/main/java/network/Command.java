@@ -18,11 +18,11 @@ public class Command {
     /**
      * The command's parameters, used in calling the Game's methods
      */
-    private final Map<String, Object> parameters;
+    private Map<String, Object> parameters;
     /**
      * The type of user command that is being attempted
      */
-    private final UserCommandsType commandType;
+    private UserCommandsType commandType;
 
     //CONSTRUCTORS
 
@@ -33,6 +33,9 @@ public class Command {
 
         this.parameters = Objects.requireNonNullElseGet(parameters, HashMap::new);
     }
+
+    // For Gson
+    public Command() {}
 
     //PUBLIC METHODS
 

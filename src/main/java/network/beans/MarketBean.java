@@ -10,7 +10,7 @@ public class MarketBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
      */
-    private final GameController controller;
+    private transient final GameController controller;
     /**
      * Represents Market's board attribute
      */

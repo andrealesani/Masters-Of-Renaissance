@@ -12,7 +12,7 @@ public class StrongboxBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
      */
-    private final GameController controller;
+    private transient final GameController controller;
     private final String username;
     private final ResourceType[] type = {COIN, SERVANT, SHIELD, STONE};
     private final int[] quantity = new int[type.length];

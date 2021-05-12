@@ -10,7 +10,7 @@ public class GameBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
      */
-    private final GameController controller;
+    private transient final GameController controller;
     private String currentPlayer;
     private TurnPhase turnPhase;
 
@@ -18,6 +18,7 @@ public class GameBean implements Observer {
 
     public GameBean(GameController controller) {
         this.controller = controller;
+        System.out.println("Game bean created");
     }
 
     // GETTERS
@@ -49,6 +50,6 @@ public class GameBean implements Observer {
         setCurrentPlayerFromGame(game);
         setTurnPhaseFromGame(game);
 
-        controller.broadcastMessage(MessageType.GAME,  gson.toJson(this));
+        controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
     }
 }

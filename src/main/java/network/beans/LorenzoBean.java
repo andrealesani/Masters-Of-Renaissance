@@ -10,7 +10,7 @@ public class LorenzoBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
      */
-    private final GameController controller;
+    private transient final GameController controller;
     /**
      * Lorenzo's faith
      */
