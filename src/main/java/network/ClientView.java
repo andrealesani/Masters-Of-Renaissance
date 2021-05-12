@@ -10,10 +10,46 @@ public class ClientView {
     private MarketBean market;
     private CardTableBean cardTable;
     private LorenzoBean lorenzo;
-    private List<PlayerBoardBean> playerBoards = new ArrayList<>();
-    private List<StrongboxBean> strongboxes = new ArrayList<>();
-    private List<WaitingRoomBean> waitingRooms = new ArrayList<>();
-    private List<WarehouseBean> warehouses = new ArrayList<>();
+    private List<PlayerBoardBean> playerBoards = new ArrayList<>() {
+        @Override
+        public String toString() {
+            String string = "";
+            for (PlayerBoardBean playerBoardBean : playerBoards) {
+                string += playerBoardBean.toString() + "\n";
+            }
+            return string;
+        }
+    };
+    private List<StrongboxBean> strongboxes = new ArrayList<>() {
+        @Override
+        public String toString() {
+            String string = "";
+            for (StrongboxBean strongboxBean : strongboxes) {
+                string += strongboxBean.toString() + "\n";
+            }
+            return string;
+        }
+    };
+    private List<WaitingRoomBean> waitingRooms = new ArrayList<>() {
+        @Override
+        public String toString() {
+            String string = "";
+            for (WaitingRoomBean waitingRoomBean : waitingRooms) {
+                string += waitingRoomBean.toString() + "\n";
+            }
+            return string;
+        }
+    };
+    private List<WarehouseBean> warehouses = new ArrayList<>() {
+        @Override
+        public String toString() {
+            String string = "";
+            for (WarehouseBean warehouseBean : warehouses) {
+                string += warehouseBean.toString() + "\n";
+            }
+            return string;
+        }
+    };
 
     // GETTERS
 
@@ -85,10 +121,10 @@ public class ClientView {
 
     @Override
     public String toString() {
-        return "\u001B[34mClientView:\n" +
-                "\u001B[0m\n" + game +
-                "\u001B[0m\n" + market +
-                "\u001B[0m\n" + cardTable +
+        return "\u001B[34;1mView:\n" +
+                "\u001B[0m\n" + game + "\n" +
+                "\u001B[0m\n" + market + "\n" +
+                "\u001B[0m\n" + cardTable + "\n" +
                 "\u001B[0m\n" + lorenzo +
                 "\u001B[0m\n" + playerBoards +
                 "\u001B[0m\n" + strongboxes +

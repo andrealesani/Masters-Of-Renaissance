@@ -377,7 +377,7 @@ public class PlayerBoardBean implements Observer {
     }
 
     // OBSERVER METHODS
-    private boolean isFirstUpdate = true;
+    private transient boolean isFirstUpdate = true;
 
     public void update(Object observable) {
         Gson gson = new Gson();
@@ -407,20 +407,25 @@ public class PlayerBoardBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32m" + username + "'s playerBoardBean:\u001B[0m\n" +
-                "   popeTileStates=" + Arrays.toString(popeTileStates) + "\n" +
-                "   popeTilePoints=" + Arrays.toString(popeTilePoints) + "\n" +
-                "   productions=" + Arrays.toString(productions) + "\n" +
-                "   whiteMarbles=" + whiteMarbles + "\n" +
-                "   faith=" + faith + "\n" +
-                "   marbleConversions=" + Arrays.toString(marbleConversions) + "\n" +
-                "   discountType=" + Arrays.toString(discountType) + "\n" +
-                "   discountQuantity=" + Arrays.toString(discountQuantity) + "\n" +
-                "   cardSlots=" + Arrays.toString(cardSlots) + "\n" +
-                "   leaderCards=" + Arrays.toString(leaderCards) + "\n" +
-                "   activeLeaderCards=" + Arrays.toString(activeLeaderCards) + "\n" +
-                "   vpFaithTiles=" + Arrays.toString(vpFaithTiles) + "\n" +
-                "   vpFaithValues=" + Arrays.toString(vpFaithValues) + "\n" +
-                "   isFirstUpdate=" + isFirstUpdate + "\n";
+        String slots = "";
+        for(SlotBean slotBean : cardSlots) {
+            slots += "      ";
+            slots += slotBean.toString();
+        }
+        return "\n\u001B[32:1m" + username + "'s PlayerBoard:\u001B[0m\n" +
+                "   popeTileStates: " + Arrays.toString(popeTileStates) + "\n" +
+                "   popeTilePoints: " + Arrays.toString(popeTilePoints) + "\n" +
+                "   productions: " + Arrays.toString(productions) + "\n" +
+                "   whiteMarbles: " + whiteMarbles + "\n" +
+                "   faith: " + faith + "\n" +
+                "   marbleConversions: " + Arrays.toString(marbleConversions) + "\n" +
+                "   discountType: " + Arrays.toString(discountType) + "\n" +
+                "   discountQuantity: " + Arrays.toString(discountQuantity) + "\n" +
+                "   cardSlots:\n" + slots +
+                "   leaderCards: " + Arrays.toString(leaderCards) + "\n" +
+                "   activeLeaderCards: " + Arrays.toString(activeLeaderCards) + "\n" +
+                "   vpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
+                "   vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n" +
+                "   isFirstUpdate: " + isFirstUpdate + "\n";
     }
 }

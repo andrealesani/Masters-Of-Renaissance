@@ -1,10 +1,7 @@
 package network.beans;
 
 import com.google.gson.Gson;
-import model.CardColor;
-import model.CardTable;
-import model.Game;
-import model.Observer;
+import model.*;
 import model.card.DevelopmentCard;
 import network.GameController;
 
@@ -62,7 +59,15 @@ public class CardTableBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32mCardTable:\u001B[0m\n" +
-                Arrays.deepToString(cards) + "\n";
+        String board = "";
+        for(int[] row : cards) {
+            board += "\n   ";
+            for (int cell : row) {
+                board += "\033[48;2;0;51;51m  " + cell + "  \u001B[0m ";
+            }
+            board += "\n";
+        }
+        return "\u001B[32;1mCardTable:\u001B[0m\n" +
+                board;
     }
 }

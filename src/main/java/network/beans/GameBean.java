@@ -55,8 +55,8 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32mGame State:\u001B[0m\n" +
-                "currentPlayer is " + currentPlayer +
+        return "\u001B[32;1mGame State:\u001B[0m\n" +
+                "   Current player is " + currentPlayer +
                 " and we're in " + turnPhase + " phase\n";
     }
 }

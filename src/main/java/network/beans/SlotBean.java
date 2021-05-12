@@ -34,8 +34,8 @@ public class SlotBean {
 
     @Override
     public String toString() {
-        return "SlotBean:\n" +
-                "   developmentCards=" + Arrays.toString(developmentCards) +
-                '\n' + '}';
+        return "SlotBean: " +
+                Arrays.toString(developmentCards) +
+                '\n';
     }
 }

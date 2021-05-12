@@ -66,8 +66,15 @@ public class MarketBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32mMarket:\u001B[0m\n" +
-                Arrays.deepToString(marketBoard) +
-                "\nslide: " + slide + "\n";
+        String board = "";
+        for(ResourceType[] row : marketBoard) {
+            for (ResourceType cell : row) {
+                board += cell.formattedString() + "\u001B[0m ";
+            }
+            board += "\n\n   ";
+        }
+        return "\u001B[32;1mMarket:\u001B[0m\n   " +
+                board +
+                "Slide: " + slide.formattedString() + "\n";
     }
 }

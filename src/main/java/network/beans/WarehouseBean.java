@@ -70,9 +70,9 @@ public class WarehouseBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32m" + username + "'s warehouse:\u001B[0m\n" +
-                "basicDepotNum=" + basicDepotNum + "\n" +
-                "depotType=" + Arrays.toString(depotType) + "\n" +
-                "depotQuantity=" + Arrays.toString(depotQuantity) + "\n";
+        return "\u001B[32;1m" + username + "'s Warehouse:\u001B[0m\n" +
+                "   basicDepotNum: " + basicDepotNum + "\n" +
+                "   depotType: " + Arrays.toString(depotType) + "\n" +
+                "   depotQuantity: " + Arrays.toString(depotQuantity) + "\n";
     }
 }

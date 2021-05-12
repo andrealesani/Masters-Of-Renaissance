@@ -80,9 +80,9 @@ public class LorenzoBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32mLorenzo:\u001B[0m\n" +
-                "faith: " + faith +
-                "\nactiveTokens: " + Arrays.toString(activeTokens) +
-                "\ndiscardedTokens: " + Arrays.toString(discardedTokens) + "\n";
+        return "\u001B[32;1mLorenzo:\u001B[0m\n" +
+                "   faith: " + faith +
+                "\n   activeTokens: " + Arrays.toString(activeTokens) +
+                "\n   discardedTokens: " + Arrays.toString(discardedTokens) + "\n";
     }
 }

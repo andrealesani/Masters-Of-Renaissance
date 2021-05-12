@@ -60,9 +60,9 @@ public class WaitingRoomBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32m" + username + "'s waitingRoomBean:\u001B[0m\n" +
-                "type: " + Arrays.toString(type) + "\n" +
-                "quantity: " + Arrays.toString(quantity) + "\n";
+        return "\u001B[32;1m" + username + "'s WaitingRoom:\u001B[0m\n" +
+                "   type: " + Arrays.toString(type) + "\n" +
+                "   quantity: " + Arrays.toString(quantity) + "\n";
     }
 }
 
