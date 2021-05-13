@@ -129,7 +129,7 @@ public class DevelopmentCard extends Card {
 
     @Override
     public String toString() {
-        return "DevelopmentCard:" +
+        return "\n\u001B[32;1mDevelopmentCard:\u001B[0m" +
                 "\n id: " + getId() +
                 "\n color: " + color +
                 ",\n level: " + level +
