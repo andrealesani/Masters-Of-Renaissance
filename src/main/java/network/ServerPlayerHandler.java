@@ -164,6 +164,7 @@ public class ServerPlayerHandler implements Runnable {
 
                 int size = Integer.parseInt(sizeString);
                 controller.choosePlayerNumber(size);
+                sendMessage(MessageType.INFO, "Game size correctly set to: " + size + " players.");
 
             } catch (NumberFormatException ex) {
 

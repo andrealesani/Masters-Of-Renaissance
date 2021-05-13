@@ -226,7 +226,7 @@ public class GameController {
      * If so, creates the game class and alerts the clients
      */
     private void checkGameStart() {
-        if (players.size() != size)
+        if (players.size() != size || game != null)
             return;
 
         game = new Game(players.keySet());

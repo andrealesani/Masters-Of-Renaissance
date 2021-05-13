@@ -86,7 +86,7 @@ class CommandTest {
     }
 
     @Test
-    void runCommandResourceParameter() throws WrongTurnPhaseException {
+    void runCommandResourceParameter() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -162,7 +162,7 @@ class CommandTest {
     }
 
     @Test
-    void runCommandCardColorParameter() throws WrongTurnPhaseException {
+    void runCommandCardColorParameter() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -208,7 +208,7 @@ class CommandTest {
     }
 
     @Test
-    void runCommandIntArrayParameter() throws WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException {
+    void runCommandIntArrayParameter() throws WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");

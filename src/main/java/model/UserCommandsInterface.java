@@ -28,10 +28,11 @@ public interface UserCommandsInterface {
      * Allows the player to choose which leader cards to keep (after choosing two the rest are discarded)
      *
      * @param pos the number of the leaderCard to choose (STARTS FROM 1)
+     * @throws LeaderNotPresentException   if the number selected does not correspond to a leader card
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
-    void chooseLeaderCard(int pos) throws WrongTurnPhaseException;
+    void chooseLeaderCard(int pos) throws WrongTurnPhaseException, LeaderNotPresentException;
 
     //LeaderCards handling actions
 
@@ -40,20 +41,22 @@ public interface UserCommandsInterface {
      *
      * @param number the number of the leaderCard to activate
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
+     * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
      */
-    void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException;
+    void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException;
 
     /**
      * Allows the player to discard the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to discard
      * @throws LeaderIsActiveException     if the player attempts to discard a leader card they have previously activated
+     * @throws LeaderNotPresentException   if the number selected does not correspond to a leader card
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
-    void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException;
+    void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException;
 
     //Market selection actions
 

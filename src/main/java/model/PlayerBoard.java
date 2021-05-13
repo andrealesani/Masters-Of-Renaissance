@@ -556,12 +556,18 @@ public class PlayerBoard implements Observable {
     /**
      * Checks if the player can activate a certain LeaderCard and activates it
      *
-     * @param i specifies the position of the LeaderCard in the leaderCards list
+     * @param number specifies the position of the LeaderCard in the leaderCards list
      * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
+     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
-    public void playLeaderCard(int i) throws LeaderRequirementsNotMetException {
-        if (leaderCards.get(i).areRequirementsMet(this)) {
-            leaderCards.get(i).doAction(this);
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException {
+        if (number <= 0)
+            throw new ParametersNotValidException();
+        if (number >= leaderCards.size())
+            throw new LeaderNotPresentException();
+
+        if (leaderCards.get(number).areRequirementsMet(this)) {
+            leaderCards.get(number).doAction(this);
         } else throw new LeaderRequirementsNotMetException();
 
         notifyObservers();
@@ -570,14 +576,19 @@ public class PlayerBoard implements Observable {
     /**
      * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
      *
-     * @param i specifies the position of the LeaderCard in the leaderCards list
+     * @param number specifies the position of the LeaderCard in the leaderCards list
      * @throws LeaderIsActiveException if the leader card to be discarded has been activated
+     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
-    public void discardLeaderCard(int i) throws LeaderIsActiveException {
-        if (leaderCards.get(i).isActive()) {
+    public void discardLeaderCard(int number) throws LeaderIsActiveException, LeaderNotPresentException {
+        if (number <= 0)
+            throw new ParametersNotValidException();
+        if (number >= leaderCards.size())
+            throw new LeaderNotPresentException();
+        if (leaderCards.get(number).isActive())
             throw new LeaderIsActiveException();
-        }
-        leaderCards.remove(i);
+
+        leaderCards.remove(number);
         addFaith(1);
 
         notifyObservers();
@@ -665,10 +676,13 @@ public class PlayerBoard implements Observable {
      * Selects or deselects the leader card with the given number, as part of the player's choice of which cards to keep from the initial deck
      *
      * @param number the number of the card to select or deselect
+     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
-    public void chooseLeaderCard(int number) {
+    public void chooseLeaderCard(int number) throws LeaderNotPresentException {
         if (number <= 0)
             throw new ParametersNotValidException();
+        if (number >= leaderCards.size())
+            throw new LeaderNotPresentException();
 
         LeaderCard leaderCard = leaderCards.get(number - 1);
 

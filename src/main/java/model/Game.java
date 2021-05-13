@@ -177,7 +177,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
     @Override
-    public void chooseLeaderCard(int pos) throws WrongTurnPhaseException {
+    public void chooseLeaderCard(int pos) throws WrongTurnPhaseException, LeaderNotPresentException {
         if (turnPhase != LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
@@ -194,9 +194,10 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
+     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
     @Override
-    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException {
         if (turnPhase == LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
@@ -211,9 +212,10 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws LeaderIsActiveException     if the player attempts to discard a leader card they have previously activated
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
+     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
     @Override
-    public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException {
+    public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
         if (turnPhase == LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }

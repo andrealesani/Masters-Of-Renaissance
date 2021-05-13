@@ -86,7 +86,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void chooseLeaderCard(UserCommandsInterface game) throws WrongTurnPhaseException {
+    private void chooseLeaderCard(UserCommandsInterface game) throws WrongTurnPhaseException, LeaderNotPresentException {
         int number = extractInt(parameters.get("number"));
         game.chooseLeaderCard(number);
     }
@@ -96,7 +96,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException {
+    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException {
         int number = extractInt(parameters.get("number"));
         game.playLeaderCard(number);
     }
@@ -106,7 +106,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void discardLeaderCard(UserCommandsInterface game) throws LeaderIsActiveException, WrongTurnPhaseException {
+    private void discardLeaderCard(UserCommandsInterface game) throws LeaderIsActiveException, WrongTurnPhaseException, LeaderNotPresentException {
         int number = extractInt(parameters.get("number"));
         game.discardLeaderCard(number);
     }
