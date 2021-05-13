@@ -379,6 +379,13 @@ public class ClientWriter implements Runnable {
                 out.println(gson.toJson(command));
             }
 
+            else if (userInput.equals("endTurn")) {
+                System.out.println("Action endTurn selected");
+
+                Command command = new Command(UserCommandsType.endTurn, null);
+                out.println(gson.toJson(command));
+            }
+            
             else
                 out.println(userInput);
 
