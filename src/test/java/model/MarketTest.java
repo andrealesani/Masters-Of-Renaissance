@@ -145,21 +145,26 @@ class MarketTest {
             System.out.print("\n");
         }
 
-        assertTrue(countRS <= 2);
-        assertTrue(countRF <= 1);
-        assertTrue(countRSe <= 2);
-        assertTrue(countRSh <= 3);
-        assertTrue(countRSt <= 2);
-        assertTrue(countRW <= 4);
+        Resource slideOrb = market.getSlideOrb();
+        if (slideOrb instanceof ResourceCoin)
+            countRS++;
+        else if (slideOrb instanceof ResourceFaith)
+            countRF++;
+        else if (slideOrb instanceof ResourceShield)
+            countRSh++;
+        else if (slideOrb instanceof ResourceStone)
+            countRSt++;
+        else if (slideOrb instanceof ResourceServant)
+            countRSe++;
+        else if (slideOrb instanceof ResourceWhite)
+            countRW++;
 
-
-        assertTrue((market.getSlideOrb() instanceof ResourceCoin)
-                || (market.getSlideOrb() instanceof ResourceFaith)
-                || (market.getSlideOrb() instanceof ResourceServant)
-                || (market.getSlideOrb() instanceof ResourceShield)
-                || (market.getSlideOrb() instanceof ResourceStone)
-                || (market.getSlideOrb() instanceof ResourceWhite)
-        ) ;
+        assertEquals(2, countRS);
+        assertEquals(1, countRF);
+        assertEquals(2, countRSe);
+        assertEquals(3, countRSh);
+        assertEquals(2, countRSt);
+        assertEquals(4, countRW);
 
         if(market.getSlideOrb() instanceof ResourceCoin)
             System.out.print("SlideOrb: Coin\n");
