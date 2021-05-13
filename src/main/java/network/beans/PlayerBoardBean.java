@@ -425,7 +425,6 @@ public class PlayerBoardBean implements Observer {
                 "   leaderCards: " + Arrays.toString(leaderCards) + "\n" +
                 "   activeLeaderCards: " + Arrays.toString(activeLeaderCards) + "\n" +
                 "   vpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                "   vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n" +
-                "   isFirstUpdate: " + isFirstUpdate + "\n";
+                "   vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
     }
 }

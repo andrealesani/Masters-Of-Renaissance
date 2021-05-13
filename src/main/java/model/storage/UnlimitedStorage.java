@@ -20,6 +20,13 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      */
     private Map<ResourceType, Integer> storageContent = new HashMap<>();
 
+    //CONSTRUCTOR
+
+    public UnlimitedStorage() {
+        notifyObservers();
+    }
+
+
     //PUBLIC METHODS
 
     /**
@@ -39,6 +46,8 @@ public class UnlimitedStorage implements ResourceStash, Observable {
                 storageContent.put(resource, storageContent.get(resource) + quantity);
             }
         }
+
+        notifyObservers();
     }
 
     /**
@@ -68,6 +77,8 @@ public class UnlimitedStorage implements ResourceStash, Observable {
                 storageContent.put(resource, newQuantity);
             }
         }
+
+        notifyObservers();
     }
 
     /**
@@ -76,6 +87,8 @@ public class UnlimitedStorage implements ResourceStash, Observable {
     @Override
     public void clear() {
         storageContent = new HashMap<>();
+
+        notifyObservers();
     }
 
     //GETTERS

@@ -73,6 +73,12 @@ public class MarketBean implements Observer {
             }
             board += "\n\n   ";
         }
+        /* for (int i = 0; i < marketBoard.length; i++) {
+            for (int j = 0; j < marketBoard[0].length; j++) {
+                board += marketBoard[i][j].formattedString() + "\u001B[0m ";
+            }
+            board += "\n\n   ";
+        } */
         return "\u001B[32;1mMarket:\u001B[0m\n   " +
                 board +
                 "Slide: " + slide.formattedString() + "\n";

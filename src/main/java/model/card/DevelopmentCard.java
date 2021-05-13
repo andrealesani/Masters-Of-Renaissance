@@ -4,6 +4,7 @@ import model.*;
 import model.resource.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -124,5 +125,19 @@ public class DevelopmentCard extends Card {
         }
 
         return new Production(getId(), input, output);
+    }
+
+    @Override
+    public String toString() {
+        return "DevelopmentCard:" +
+                "\n id: " + getId() +
+                "\n color: " + color +
+                ",\n level: " + level +
+                ",\n costType: " + Arrays.toString(costType) +
+                ",\n costQuantity: " + Arrays.toString(costQuantity) +
+                ",\n inputType: " + Arrays.toString(inputType) +
+                ",\n inputQuantities: " + Arrays.toString(inputQuantities) +
+                ",\n outputType: " + Arrays.toString(outputType) +
+                ",\n outputQuantities: " + Arrays.toString(outputQuantities) + "\n";
     }
 }

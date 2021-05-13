@@ -50,6 +50,8 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         activeDeck.add(new SingleFaithShuffleToken(this));
         Collections.shuffle(activeDeck);
         this.popeFavorTiles = popeFavorTiles;
+
+        notifyObservers();
     }
 
     //PUBLIC METHODS
@@ -62,6 +64,8 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         activeDeck.remove(0);
         usedDeck.add(currentAction);
         currentAction.doAction();
+
+        notifyObservers();
     }
 
     /**
@@ -74,6 +78,8 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
             throw new ParametersNotValidException();
         }
         faith += quantity;
+
+        notifyObservers();
     }
 
     /**
@@ -106,6 +112,8 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         activeDeck.addAll(usedDeck);
         Collections.shuffle(activeDeck);
         usedDeck.clear();
+
+        notifyObservers();
     }
 
     //GETTERS

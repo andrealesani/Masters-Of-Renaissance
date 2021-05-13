@@ -1,5 +1,6 @@
 package network;
 
+import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.ResourceType;
@@ -39,7 +40,6 @@ public class ClientWriter implements Runnable {
 
             try {
                 userInput = stdIn.readLine();
-                System.out.println(userInput);
 
                 if (userInput.equals("ESC + :q")) {
                     out.println(userInput);
@@ -49,6 +49,15 @@ public class ClientWriter implements Runnable {
                 
                 switch (userInput) {
                     case "show" -> System.out.println("\n\n" + clientView);
+                    case "card" -> {
+                        System.out.println("Which card do you want to see?");
+                        int cardId = getInt();
+                        try {
+                            System.out.println(clientView.getDevelopmentCardFromId(cardId));
+                        } catch (CardNotPresentException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
                     case "showActions" -> {
                         System.out.println("0. chooseBonusResourceType");
                         System.out.println("1. chooseLeaderCard");

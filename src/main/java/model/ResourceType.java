@@ -89,7 +89,7 @@ public enum ResourceType {
             return "\033[48;5;23m UNKNOWN  \u001B[0m";
         }
         if (this == ResourceType.FAITH) {
-            return "\033[48;5;23m  SHIELD  \u001B[0m";
+            return "\033[48;5;23m  FAITH   \u001B[0m";
         }
         if (this == ResourceType.WHITEORB) {
             return "\033[48;5;23m WHITEORB \u001B[0m";

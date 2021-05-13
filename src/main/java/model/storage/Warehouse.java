@@ -32,6 +32,8 @@ public class Warehouse implements Observable {
         for (int i = 1; i <= numOfDepots; i++) {
             depots.add(new BasicDepot(this, i));
         }
+
+        notifyObservers();
     }
 
     //PUBLIC METHODS
@@ -46,6 +48,8 @@ public class Warehouse implements Observable {
             throw new ParametersNotValidException();
         }
         depots.add(depot);
+
+        notifyObservers();
     }
 
     /**
@@ -69,6 +73,8 @@ public class Warehouse implements Observable {
         if (resource != null && quantity > 0) {
             depots.get(depotNumber - 1).addResource(resource, quantity);
         }
+
+        notifyObservers();
     }
 
     /**
@@ -90,6 +96,8 @@ public class Warehouse implements Observable {
         if (resource != null && quantity > 0) {
             depots.get(depotNumber - 1).removeResource(resource, quantity);
         }
+
+        notifyObservers();
     }
 
     /**
@@ -152,6 +160,8 @@ public class Warehouse implements Observable {
             //This should never happen
             System.out.println(ex.getMessage());
         }
+
+        notifyObservers();
     }
 
     /**
@@ -190,6 +200,8 @@ public class Warehouse implements Observable {
 
         //Removes the resources from the providing depot
         depots.get(depotNumberTake - 1).removeResource(resource, quantity);
+
+        notifyObservers();
     }
 
     /**

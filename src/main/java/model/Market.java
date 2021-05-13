@@ -14,7 +14,7 @@ public class Market implements Observable {
     /**
      * This matrix stores the market's marbles
      */
-    private Resource board[][] = new Resource[3][4];
+    private final Resource[][] board = new Resource[3][4];
     /**
      * This attribute stores the marble in the market's slide
      */
@@ -80,6 +80,7 @@ public class Market implements Observable {
 
     //PUBLIC METHODS
 
+    //TODO non hardcodare dimensioni market
     /**
      * Activates addResourceFromMarket methods on all resources in the selected row
      *
@@ -87,12 +88,12 @@ public class Market implements Observable {
      * @param playerBoard the player's board
      */
     public void selectRow(int numScope, PlayerBoard playerBoard) {
-        if ((numScope < 0) || (numScope >= 3) || (playerBoard == null))
+        if ((numScope <= 0) || (numScope > 3) || (playerBoard == null))
             throw new ParametersNotValidException();
 
         int riga;
 
-        riga = numScope;
+        riga = numScope-1;
         for (int j = 0; j < 4; j++)
             board[riga][j].addResourceFromMarket(playerBoard);
         shiftRow(riga);
@@ -107,12 +108,12 @@ public class Market implements Observable {
      * @param playerBoard the player's board
      */
     public void selectColumn(int numScope, PlayerBoard playerBoard) {
-        if ((numScope < 0) || (numScope >= 4) || (playerBoard == null))
+        if ((numScope <= 0) || (numScope > 4) || (playerBoard == null))
             throw new ParametersNotValidException();
 
         int col;
 
-        col = numScope;
+        col = numScope-1;
         for (int i = 0; i < 3; i++)
             board[i][col].addResourceFromMarket(playerBoard);
         shiftColumn(col);

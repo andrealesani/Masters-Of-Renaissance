@@ -70,7 +70,6 @@ public class ClientReader implements Runnable {
                 } catch (Exception ignored) {
                     System.out.println("Warning: Market update failed");
                 }
-                ;
                 break;
             case "CARDTABLE":
                 try {
@@ -84,9 +83,9 @@ public class ClientReader implements Runnable {
                 try {
                     PlayerBoardBean pbbUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), PlayerBoardBean.class);
                     if (clientView.getPlayerBoards().size() > 0) {
-                        for (PlayerBoardBean pbb : clientView.getPlayerBoards())
-                            if (pbb.getUsername().equals(pbbUpdate.getUsername())) {
-                                pbb = pbbUpdate;
+                        for (int i = 0; i < clientView.getPlayerBoards().size(); i++)
+                            if (clientView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
+                                clientView.getPlayerBoards().set(i, pbbUpdate);
                                 System.out.println("Updated PlayerBoard");
                                 break;
                             } else {
@@ -106,17 +105,18 @@ public class ClientReader implements Runnable {
                 try {
                     StrongboxBean strongboxUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), StrongboxBean.class);
                     if (clientView.getStrongboxes().size() > 0) {
-                        for (StrongboxBean strongbox : clientView.getStrongboxes())
-                            if (strongbox.getUsername().equals(strongboxUpdate.getUsername())) {
-                                strongbox = strongboxUpdate;
+                        for (int i = 0; i < clientView.getStrongboxes().size(); i++)
+                            if (clientView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
+                                clientView.getStrongboxes().set(i, strongboxUpdate);
+                                System.out.println("Updated Strongbox");
                                 break;
                             } else {
                                 clientView.getStrongboxes().add(strongboxUpdate);
-                                System.out.println("Updated Strongbox");
+                                System.out.println("Added new Strongbox");
                             }
                     } else {
                         clientView.getStrongboxes().add(strongboxUpdate);
-                        System.out.println("Updated Strongbox");
+                        System.out.println("Added new Strongbox");
                     }
                     break;
                 } catch (Exception ignored) {
@@ -127,17 +127,18 @@ public class ClientReader implements Runnable {
                 try {
                     WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WaitingRoomBean.class);
                     if(clientView.getWaitingRooms().size() > 0) {
-                        for (WaitingRoomBean waitingRoom : clientView.getWaitingRooms())
-                            if (waitingRoom.getUsername().equals(waitingRoomUpdate.getUsername())) {
-                                waitingRoom = waitingRoomUpdate;
+                        for (int i = 0; i < clientView.getWaitingRooms().size(); i++)
+                            if (clientView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
+                                clientView.getWaitingRooms().set(i, waitingRoomUpdate);
+                                System.out.println("Updated WaitingRoom");
                                 break;
                             } else {
                                 clientView.getWaitingRooms().add(waitingRoomUpdate);
-                                System.out.println("Updated WaitingRoom");
+                                System.out.println("Added new WaitingRoom");
                             }
                     } else {
                         clientView.getWaitingRooms().add(waitingRoomUpdate);
-                        System.out.println("Updated WaitingRoom");
+                        System.out.println("Added new WaitingRoom");
                     }
                     break;
                 } catch (Exception ignored) {
@@ -148,17 +149,18 @@ public class ClientReader implements Runnable {
                 try {
                     WarehouseBean warehouseUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WarehouseBean.class);
                     if(clientView.getWarehouses().size() > 0) {
-                        for (WarehouseBean warehouse : clientView.getWarehouses())
-                            if (warehouse.getUsername().equals(warehouseUpdate.getUsername())) {
-                                warehouse = warehouseUpdate;
+                        for (int i = 0; i < clientView.getWaitingRooms().size(); i++)
+                            if (clientView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
+                                clientView.getWarehouses().set(i, warehouseUpdate);
+                                System.out.println("Updated Warehouse");
                                 break;
                             } else {
                                 clientView.getWarehouses().add(warehouseUpdate);
-                                System.out.println("Updated Warehouse");
+                                System.out.println("Added new Warehouse");
                             }
                     } else {
                         clientView.getWarehouses().add(warehouseUpdate);
-                        System.out.println("Updated Warehouse");
+                        System.out.println("Added new Warehouse");
                     }
                     break;
                 } catch (Exception ignored) {
