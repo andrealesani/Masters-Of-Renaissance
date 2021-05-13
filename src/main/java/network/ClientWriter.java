@@ -46,10 +46,7 @@ public class ClientWriter implements Runnable {
                     System.out.println("Closing connection...");
                     break;
                 }
-
-                System.out.println("If you want to see your playerboard try the command 'show' ");
-                System.out.println("If you want to see which actions you can do try the command 'showActions' ");
-
+                
                 switch (userInput) {
                     case "show" -> System.out.println("\n\n" + clientView);
                     case "showActions" -> {
