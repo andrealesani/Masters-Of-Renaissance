@@ -14,6 +14,7 @@ import network.beans.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +43,8 @@ public class Game implements UserCommandsInterface, Observable {
      */
     private final List<PlayerBoard> playersTurnOrder;
     /**
-     * This attribute stores the player who is currently taking their turn
+     * This attribute stores the player board of the player who is currently taking their turn.
+     * Is set to null if all players are not connected
      */
     private PlayerBoard currentPlayer;
     /**
@@ -524,17 +526,84 @@ public class Game implements UserCommandsInterface, Observable {
 
         }
 
-        //Switches current player to the next one
-        switchPlayer();
-
         //Checks if the final phase of the game should be triggered
         if (isGameEnding() && !weReInTheEndGameNow) {
             weReInTheEndGameNow = true;
         }
 
         //Checks if the game is in its final phase and the next turn is the first player's, and if so ends the game
-        if (weReInTheEndGameNow && currentPlayer == playersTurnOrder.get(0)) {
+        if (weReInTheEndGameNow && currentPlayer == playersTurnOrder.get(playersTurnOrder.size() - 1)) {
             endTheGame();
+        }
+
+        //Switches current player to the next one
+        switchPlayer();
+    }
+
+    //PUBLIC METHODS
+
+    /**
+     * Sets whether the given player is connected or not.
+     * If all players were disconnected, sets the given player as current player
+     *
+     * @param username the player's username
+     * @param status   true if the user is connected, false if they are not
+     */
+    public void setConnectedStatus(String username, boolean status) {
+        for (PlayerBoard player : playersTurnOrder) {
+
+            if (player.getUsername().equals(username)) {
+
+                player.setConnectedStatus(status);
+
+                if (currentPlayer == null && status) {
+                    currentPlayer = player;
+                    notifyObservers();
+                }
+
+                return;
+            }
+
+        }
+
+        throw new InvalidParameterException();
+    }
+
+    /**
+     * Returns whether or not the given player is flagged as connected
+     *
+     * @param username the player's username
+     * @return true if the player is flagged as connected
+     */
+    public boolean isConnected(String username) {
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getUsername().equals(username)) {
+                return player.isConnected();
+            }
+        }
+
+        throw new InvalidParameterException();
+    }
+
+    /**
+     * This method is called by the Controller right after creating the Game. It creates the beans so that they
+     * can notify the clients when something in the model changes
+     *
+     * @param controller that the beans will have to interact with
+     */
+    public void createBeans(GameController controller) {
+        addObserver(new GameBean(controller));
+        getCardTable().addObserver(new CardTableBean(controller));
+        getMarket().addObserver(new MarketBean(controller));
+        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+            playerBoard.addObserver(new PlayerBoardBean(controller));
+            playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
+            playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
+            playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
+        }
+
+        if (getPlayersTurnOrder().size() == 1) {
+            ((Lorenzo) getLorenzo()).addObserver(new LorenzoBean(controller));
         }
     }
 
@@ -719,15 +788,27 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     /**
-     * Switches the current player to the next in the turn order
+     * Switches the current player to the next connected one in the turn order.
+     * If there are no players connected, sets current player to null
      */
     private void switchPlayer() {
+        int size = playersTurnOrder.size();
+
+        if (size == 1)
+            return;
 
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
 
-        currentPlayer = playersTurnOrder.get((currentIndex + 1) % playersTurnOrder.size());
+        for (int nextIndex = (currentIndex + 1) % size; nextIndex != currentIndex; nextIndex = (nextIndex + 1) % size) {
+            if (playersTurnOrder.get(nextIndex).isConnected()) {
+                currentPlayer = playersTurnOrder.get(nextIndex);
+                notifyObservers();
+                return;
+            }
+        }
 
-        notifyObservers();
+        System.out.println("All players have disconnected, next player to reconnect will become current player.");
+        currentPlayer = null;
     }
 
     /**
@@ -764,6 +845,15 @@ public class Game implements UserCommandsInterface, Observable {
         Collections.shuffle(playersTurnOrder);
     }
 
+    /**
+     * Changes the turn phase to the given one
+     *
+     * @param turnPhase the new turn phase
+     */
+    private void setTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
+        notifyObservers();
+    }
 
     //GETTERS (mostly for debug purposes)
 
@@ -828,36 +918,6 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public TurnPhase getTurnPhase() {
         return turnPhase;
-    }
-
-
-    // SETTERS
-
-    public void setTurnPhase(TurnPhase turnPhase) {
-        this.turnPhase = turnPhase;
-        notifyObservers();
-    }
-
-    /**
-     * This method is called by the Controller right after creating the Game. It creates the beans so that they
-     * can notify the clients when something in the model changes
-     *
-     * @param controller that the beans will have to interact with
-     */
-    public void createBeans(GameController controller) {
-        addObserver(new GameBean(controller));
-        getCardTable().addObserver(new CardTableBean(controller));
-        getMarket().addObserver(new MarketBean(controller));
-        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
-            playerBoard.addObserver(new PlayerBoardBean(controller));
-            playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
-            playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
-            playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
-        }
-
-        if(getPlayersTurnOrder().size() == 1) {
-            ((Lorenzo)getLorenzo()).addObserver(new LorenzoBean(controller));
-        }
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

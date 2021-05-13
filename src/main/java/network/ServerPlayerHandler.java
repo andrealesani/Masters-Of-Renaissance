@@ -75,18 +75,27 @@ public class ServerPlayerHandler implements Runnable {
             return;
         }
 
-        System.out.println("Logging in player...");
+        try {
+            System.out.println("Logging in player...");
 
-        //Login the player with a username
-        loginPlayer();
+            //Login the player with a username
+            loginPlayer();
 
-        //Let the player choose the game size, if necessary
-        setGameSize();
+            //Let the player choose the game size, if necessary
+            setGameSize();
 
-        System.out.println("Listening for player commands...");
+            System.out.println("Listening for player commands...");
 
-        //Read the player's messages
-        messageLoop();
+            //Read the player's messages
+            messageLoop();
+
+        } catch(NoSuchElementException ex) {
+            if (username == null) {
+                System.out.println("The connection with a player in login phase was lost.");
+            } else {
+                System.out.println("The connection with player " + username + " was lost.");
+            }
+        }
 
         System.out.println("Closing the connection...");
 
@@ -108,12 +117,17 @@ public class ServerPlayerHandler implements Runnable {
      * Reads a username for the player, and tries to add it to a game through the lobby.
      * If successful, the username is saved on the handler and the lobby return's the client's game's controller
      */
-    private void loginPlayer() {
+    private void loginPlayer() throws NoSuchElementException{
+        String username;
         while (controller == null) {
 
             sendMessage(MessageType.INFO, "Please, set your username.");
 
-            String username = in.nextLine();
+            try {
+                username = in.nextLine();
+            } catch (NoSuchElementException ex) {
+                throw ex;
+            }
 
             try {
 
@@ -132,18 +146,24 @@ public class ServerPlayerHandler implements Runnable {
     /**
      * If the client is the first player for a game, asks them to set the game's size
      */
-    private void setGameSize() {
+    private void setGameSize() throws NoSuchElementException {
+        String sizeString;
         while (!controller.isSizeSet()) {
 
             sendMessage(MessageType.INFO, "Please, choose the game's number of players.");
 
-            String sizeString = in.nextLine();
+            try {
+                sizeString = in.nextLine();
+            } catch (NoSuchElementException ex) {
+                System.out.println("Game in creation phase will be aborted, as its player has left.");
+                lobby.abortGame();
+                throw ex;
+            }
 
             try {
 
                 int size = Integer.parseInt(sizeString);
                 controller.choosePlayerNumber(size);
-                sendMessage(MessageType.INFO, "Game size was correctly set to: " + size + " players.");
 
             } catch (NumberFormatException ex) {
 
@@ -160,29 +180,24 @@ public class ServerPlayerHandler implements Runnable {
     /**
      * Reads messages from the client, until it receives the termination string
      */
-    private void messageLoop() {
+    private void messageLoop() throws NoSuchElementException {
         String message;
         while (true) {
 
             try {
                 message = in.nextLine();
-            } catch (IllegalStateException ex) {
-                System.out.println("Illegal state.");
-                break;
             } catch (NoSuchElementException ex) {
-                System.out.println("The connection with player " + username + " was closed.");
-                break;
+                controller.setConnectedStatus(username, false);
+                throw ex;
             }
 
             if (message.equals("ESC + :q")) {
-
+                System.out.println("The connection with player " + username + " was closed.");
                 break;
 
             } else {
-
                 System.out.println("Received message: " + message);
                 controller.readCommand(username, message);
-
             }
         }
     }

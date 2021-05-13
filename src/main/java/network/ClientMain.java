@@ -58,7 +58,7 @@ public class ClientMain {
     //PRIVATE METHODS
 
     private static void startClient(Socket clientSocket) {
-        ExecutorService executor = Executors.newCachedThreadPool();
+        //ExecutorService executor = Executors.newCachedThreadPool();
         CountDownLatch latch = new CountDownLatch(1);
 
         try {
@@ -75,10 +75,14 @@ public class ClientMain {
             ClientView clientView = new ClientView();
 
             ClientReader clientReader = new ClientReader(in, clientView, latch);
-            executor.submit(clientReader);
+            Thread readerThread = new Thread(clientReader);
+            readerThread.start();
+            //executor.submit(clientReader);
 
             ClientWriter clientWriter = new ClientWriter(stdIn, out, clientView, latch);
-            executor.submit(clientWriter);
+            Thread writerThread = new Thread(clientWriter);
+            writerThread.start();
+            //executor.submit(clientWriter);
 
             try {
                 latch.await();
@@ -86,10 +90,13 @@ public class ClientMain {
                 System.err.println("Latch was interrupted.");
             }
 
+            clientWriter.doClose();
+
         } catch (IOException ex) {
             System.out.println("Uh-oh, there's been an IO problem!");
         }
 
-        executor.shutdown();
+        //executor.shutdownNow();
+        System.out.println("Shut down.");
     }
 }

@@ -1,15 +1,18 @@
 package network;
 
+import Exceptions.network.UsernameAlreadyExistsException;
 import com.google.gson.Gson;
 import Exceptions.ParametersNotValidException;
 import Exceptions.network.GameFullException;
 import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
+import model.PlayerBoard;
 import network.beans.MessageType;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -74,9 +77,9 @@ public class GameController {
             try {
 
                 Command command = gson.fromJson(commandString, Command.class);
-                System.out.println(gson.toJson(command));
-                System.out.println(command.getCommandType() + " " + command.getParameters());
+
                 String result = command.runCommand(game);
+
                 if (result != null) {
                     playerMessage(username, MessageType.ERROR, result);
                     System.out.println("Error: " + result);
@@ -96,14 +99,27 @@ public class GameController {
      *
      * @param username the player's username
      * @param userOut  the player's writer stream
-     * @throws GameFullException            if the game has already reached its full size
-     * @throws UnknownPlayerNumberException if the first player has yet to decide the game's number of players
+     * @throws GameFullException              if the game has already reached its full size
+     * @throws UnknownPlayerNumberException   if the first player has yet to decide the game's number of players
+     * @throws UsernameAlreadyExistsException if the there given username is already taken by another player who is still connected
      */
-    public void addPlayer(String username, PrintWriter userOut) throws GameFullException, UnknownPlayerNumberException {
+    public void addPlayer(String username, PrintWriter userOut) throws GameFullException, UnknownPlayerNumberException, UsernameAlreadyExistsException {
         if (size == 0)
             throw new UnknownPlayerNumberException();
-        if (players.size() >= size)
-            throw new GameFullException();
+
+        if (!players.containsKey(username)) {
+            if (players.size() >= size) {
+                throw new GameFullException();
+            }
+        } else {
+            if (game!=null) {
+                if (game.isConnected(username)) {
+                    throw new UsernameAlreadyExistsException();
+                } else {
+                    setConnectedStatus(username, true);
+                }
+            }
+        }
 
         players.put(username, userOut);
         System.out.println("Added player: " + username + " to current game.");
@@ -144,22 +160,13 @@ public class GameController {
     /**
      * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
      *
-     * @param type     the type of the message
-     * @param message  the content of the message
+     * @param type    the type of the message
+     * @param message the content of the message
      */
     public void broadcastMessage(MessageType type, String message) {
         for (String player : players.keySet()) {
             playerMessage(player, type, message);
         }
-    }
-
-    /**
-     * Returns whether the controller's game has reached its full size
-     *
-     * @return true if the current number of players is equal to the game's size
-     */
-    public boolean isFull() {
-        return size != 0 && players.size() >= size;
     }
 
     /**
@@ -169,6 +176,47 @@ public class GameController {
      */
     public boolean isSizeSet() {
         return size != 0;
+    }
+
+    /**
+     * Sets whether the given player is connected or not
+     *
+     * @param username the player's username
+     * @param status   true if the user is connected, false if they are not
+     */
+    public void setConnectedStatus(String username, boolean status) {
+        if (!players.containsKey(username)) {
+            System.out.println("Connection status was attempted to be set for a player that does not belong to the game.");
+            return;
+        }
+
+        if (game == null) {
+
+            if (!status) {
+                System.out.println("Player " + username + " will now be removed from the game's players.");
+                players.remove(username);
+                if (players.isEmpty()) {
+                    //TODO forse eliminare il game se tutti i giocatori si disconnettono?
+                }
+            } else {
+                System.out.println("A player attempted to be reconnected before game start, which should never happen.");
+            }
+
+        } else {
+
+            try {
+                game.setConnectedStatus(username, status);
+                if (status) {
+                    System.out.println("Player " + username + " is now connected.");
+                } else {
+                    System.out.println("Player " + username + " is now disconnected.");
+                }
+
+            } catch (InvalidParameterException ex) {
+                System.out.println("Players in GameController do not correspond with games in GameModel.");
+            }
+
+        }
     }
 
     //PRIVATE METHODS
@@ -206,9 +254,15 @@ public class GameController {
     /**
      * Getter
      *
-     * @return a set of the game's player's usernames
+     * @return a set of the game's connected player's usernames
      */
-    public Set<String> getPlayersUsernames() {
-        return players.keySet();
+    public Set<String> getConnectedPlayersUsernames() {
+        Set<String> playersSet = players.keySet();
+
+        if (game != null) {
+            playersSet.removeIf(player -> !game.isConnected(player));
+        }
+
+        return playersSet;
     }
 }

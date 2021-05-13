@@ -26,25 +26,33 @@ public class ServerLobby {
      * @param userOut  the player's writer stream
      * @return the controller for the game to which the player will be added
      * @throws UnknownPlayerNumberException   if the number of players for the game currently in creation phase hasn't yet been specified
-     * @throws GameFullException              if the game currently in creation phase is already full (should never happen)
-     * @throws UsernameAlreadyExistsException if the there given username is already taken by another player
+     * @throws UsernameAlreadyExistsException if the the given username is already taken by another player
      */
-    public synchronized GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, GameFullException, UsernameAlreadyExistsException {
+    public synchronized GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, UsernameAlreadyExistsException {
 
-        //Checks if the given username is already taken, and attempts to add the player to the first one that isn't full
+        //Checks if the given username is already taken, and attempts to add the player to the first game that isn't full or to the one they belonged before disconnection
         for (GameController game : currentGames) {
-            if (game.getPlayersUsernames().contains(username)) {
-                throw new UsernameAlreadyExistsException();
-            }
-            if (!game.isFull()) {
+            try {
                 game.addPlayer(username, userOut);
                 return game;
-            }
+            } catch(GameFullException ignored) {}
         }
 
         GameController newGame = new GameController(username, userOut);
         currentGames.add(newGame);
 
         return newGame;
+    }
+
+    /**
+     * Abort the game for which the player number has already been set, as its player has disconnected
+     */
+    public synchronized void abortGame() {
+        for (GameController game : currentGames) {
+            if (!game.isSizeSet()) {
+                currentGames.remove(game);
+                break;
+            }
+        }
     }
 }
