@@ -7,6 +7,7 @@ import network.beans.MessageWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -160,9 +161,18 @@ public class ServerPlayerHandler implements Runnable {
      * Reads messages from the client, until it receives the termination string
      */
     private void messageLoop() {
+        String message;
         while (true) {
 
-            String message = in.nextLine();
+            try {
+                message = in.nextLine();
+            } catch (IllegalStateException ex) {
+                System.out.println("Illegal state.");
+                break;
+            } catch (NoSuchElementException ex) {
+                System.out.println("The connection with player " + username + " was closed.");
+                break;
+            }
 
             if (message.equals("ESC + :q")) {
 

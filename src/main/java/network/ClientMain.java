@@ -6,11 +6,11 @@ import com.google.gson.stream.JsonReader;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientMain {
-
     //MAIN
 
     public static void main(String[] args) throws IOException {
@@ -46,7 +46,7 @@ public class ClientMain {
         try {
             clientSocket = new Socket(hostName, portNumber);
         } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("Server is not online");
             System.exit(1);
         }
 
@@ -58,8 +58,8 @@ public class ClientMain {
     //PRIVATE METHODS
 
     private static void startClient(Socket clientSocket) {
-        ClientView clientView = new ClientView();
         ExecutorService executor = Executors.newCachedThreadPool();
+        CountDownLatch latch = new CountDownLatch(1);
 
         try {
             BufferedReader in =
@@ -72,34 +72,24 @@ public class ClientMain {
                     new BufferedReader(
                             new InputStreamReader(System.in));
 
-            ClientReader clientReader = new ClientReader(in, clientView);
-            Thread writerThread = new Thread(clientReader);
-            writerThread.start();
+            ClientView clientView = new ClientView();
 
-            inputLoop(stdIn, out, clientView);
+            ClientReader clientReader = new ClientReader(in, clientView, latch);
+            executor.submit(clientReader);
 
-            clientReader.doStop();
+            ClientWriter clientWriter = new ClientWriter(stdIn, out, clientView, latch);
+            executor.submit(clientWriter);
+
+            try {
+                latch.await();
+            } catch (InterruptedException ex) {
+                System.err.println("Latch was interrupted.");
+            }
 
         } catch (IOException ex) {
             System.out.println("Uh-oh, there's been an IO problem!");
         }
+
+        executor.shutdown();
     }
-
-    private static void inputLoop(BufferedReader stdIn, PrintWriter out, ClientView clientView) throws IOException {
-        String userInput;
-        while ((userInput = stdIn.readLine()) != null) {
-
-            if (userInput.equals("ESC + :q")) {
-                out.println(userInput);
-                System.out.println("Closing connection...");
-                break;
-            }
-
-            if (userInput.contains("show")) {
-                System.out.println("\n\n" + clientView);
-            } else
-                out.println(userInput);
-        }
-    }
-
 }

@@ -1,42 +1,45 @@
 package network;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import model.PlayerBoard;
 import network.beans.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 public class ClientReader implements Runnable {
 
     private final BufferedReader in;
-    private boolean doStop = false;
-    private ClientView clientView;
+    private final ClientView clientView;
+    private final CountDownLatch latch;
 
     //CONSTRUCTORS
 
-    public ClientReader(BufferedReader in, ClientView clientView) {
+    public ClientReader(BufferedReader in, ClientView clientView, CountDownLatch latch) {
         this.in = in;
         this.clientView = clientView;
+        this.latch = latch;
     }
 
     //MULTITHREADING METHODS
 
     public void run() {
-        while (!doStop) {
-            try {
-                String response = in.readLine();
-                elaborateResponse(response);
-            } catch (IOException ex) {
-                System.out.println("Uh-oh, something went wrong while reading from the connection!");
-            }
-        }
-    }
 
-    public void doStop() {
-        doStop = true;
+        String response;
+        while (true) {
+
+            try {
+                response = in.readLine();
+            } catch (IOException ex) {
+                System.err.println("Server has disconnected");
+                break;
+            }
+
+            elaborateResponse(response);
+        }
+
+        latch.countDown();
     }
 
     private void elaborateResponse(String response) {
