@@ -16,6 +16,7 @@ public class ClientWriter implements Runnable {
     private final PrintWriter out;
     private final ClientView clientView;
     private final CountDownLatch latch;
+    private boolean doClose;
 
     //CONSTRUCTORS
 
@@ -24,6 +25,7 @@ public class ClientWriter implements Runnable {
         this.out = out;
         this.clientView = clientView;
         this.latch = latch;
+        this.doClose = false;
     }
 
     //MULTITHREADING METHODS
@@ -31,10 +33,11 @@ public class ClientWriter implements Runnable {
     public void run() {
         Gson gson = new Gson();
         String userInput;
-        while (true) {
+        while (!doClose) {
 
             try {
                 userInput = stdIn.readLine();
+                System.out.println(userInput);
             } catch (IOException ex) {
                 System.out.println("Uh oh, IO exception when reading from stdIn.");
                 break;
@@ -392,5 +395,10 @@ public class ClientWriter implements Runnable {
         }
 
         latch.countDown();
+    }
+
+    public void doClose() {
+        doClose = true;
+        System.out.println("Server connection lost, press any key to terminate.");
     }
 }

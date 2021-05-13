@@ -86,6 +86,10 @@ public class PlayerBoard implements Observable {
      * Attribute used to store the number of development cards the player can have before triggering the endgame
      */
     private final int devCardMax;
+    /**
+     * Attribute used to indicate whether the player is connected or not
+     */
+    private boolean isConnected = true;
 
     //CONSTRUCTORS
 
@@ -774,6 +778,24 @@ public class PlayerBoard implements Observable {
         return vp;
     }
 
+    /**
+     * Sets whether the player is connected or not
+     *
+     * @param status true if the user is connected, false if they are not
+     */
+    public void setConnectedStatus(boolean status) {
+        isConnected = status;
+    }
+
+    /**
+     * Returns whether or not the player is flagged as connected
+     *
+     * @return true if the player is flagged as connected
+     */
+    public boolean isConnected() {
+        return isConnected;
+    }
+
     //GETTERS
 
     //Composite getters
@@ -975,7 +997,6 @@ public class PlayerBoard implements Observable {
     public int[] getVpFaithValues() {
         return vpFaithValues;
     }
-
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 

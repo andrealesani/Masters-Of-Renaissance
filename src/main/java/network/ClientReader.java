@@ -32,7 +32,12 @@ public class ClientReader implements Runnable {
             try {
                 response = in.readLine();
             } catch (IOException ex) {
-                System.err.println("Server has disconnected");
+                System.err.println("Server connection lost.");
+                break;
+            }
+
+            if (response == null) {
+                System.err.println("Server connection lost.");
                 break;
             }
 
