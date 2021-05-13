@@ -41,280 +41,341 @@ public class ClientWriter implements Runnable {
                 userInput = stdIn.readLine();
                 System.out.println(userInput);
 
-
                 if (userInput.equals("ESC + :q")) {
                     out.println(userInput);
                     System.out.println("Closing connection...");
                     break;
                 }
 
-                if (userInput.contains("show")) {
-                    System.out.println("\n\n" + clientView);
-                } else if (userInput.equals("chooseBonusResourceType")) {
-                    System.out.println("Action chooseBonusResourceType selected");
-                    Map<String, Object> map = new HashMap<>();
+                System.out.println("If you want to see your playerboard try the command 'show' ");
+                System.out.println("If you want to see which actions you can do try the command 'showActions' ");
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                switch (userInput) {
+                    case "show" -> System.out.println("\n\n" + clientView);
+                    case "showActions" -> {
+                        System.out.println("0. chooseBonusResourceType");
+                        System.out.println("1. chooseLeaderCard");
+                        System.out.println("2. playLeaderCard");
+                        System.out.println("3. discardLeaderCard");
+                        System.out.println("4. selectMarketRow");
+                        System.out.println("5. selectMarketColumn");
+                        System.out.println("6. sendResourceToDepot");
+                        System.out.println("7. chooseMarbleConversion");
+                        System.out.println("8. swapDepotContent");
+                        System.out.println("9. moveDepotContent");
+                        System.out.println("10. takeDevelopmentCard");
+                        System.out.println("11. selectProduction");
+                        System.out.println("12. resetProductionChoice");
+                        System.out.println("13. chooseJollyInput");
+                        System.out.println("14. chooseJollyOutput");
+                        System.out.println("15. confirmProductionChoice");
+                        System.out.println("16. payFromWarehouse");
+                        System.out.println("17. payFromStrongbox");
+                        System.out.println("18. endTurn");
+                    }
+                    case "chooseBonusResourceType", "0." -> {
+                        System.out.println("Action chooseBonusResourceType selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Resource: " + resourceSelected + "\nBonus: " + num);
-                    Command command = new Command(UserCommandsType.chooseBonusResourceType, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                } else if (userInput.equals("chooseLeaderCard")) {
-                    System.out.println("Action chooseLeaderCard selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Resource: " + resourceSelected + "\nBonus: " + num);
+                        Command command = new Command(UserCommandsType.chooseBonusResourceType, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which LeaderCard?");
-                    int leaderCardSelected = getInt();
-                    map.put("number", leaderCardSelected);
+                        ;
+                    }
+                    case "chooseLeaderCard", "1." -> {
+                        System.out.println("Action chooseLeaderCard selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("LeaderCard selected: " + leaderCardSelected);
-                    Command command = new Command(UserCommandsType.chooseLeaderCard, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which LeaderCard?");
+                        int leaderCardSelected = getInt();
+                        map.put("number", leaderCardSelected);
 
-                } else if (userInput.equals("playLeaderCard")) {
-                    System.out.println("Action playLeaderCard selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("LeaderCard selected: " + leaderCardSelected);
+                        Command command = new Command(UserCommandsType.chooseLeaderCard, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which LeaderCard?");
-                    int leaderCardSelected = getInt();
-                    map.put("number", leaderCardSelected);
+                        ;
+                    }
+                    case "playLeaderCard", "2." -> {
+                        System.out.println("Action playLeaderCard selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("LeaderCard selected: " + leaderCardSelected);
-                    Command command = new Command(UserCommandsType.playLeaderCard, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which LeaderCard?");
+                        int leaderCardSelected = getInt();
+                        map.put("number", leaderCardSelected);
 
-                } else if (userInput.equals("discardLeaderCard")) {
-                    System.out.println("Action discardLeaderCard selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("LeaderCard selected: " + leaderCardSelected);
+                        Command command = new Command(UserCommandsType.playLeaderCard, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which LeaderCard?");
-                    int leaderCardSelected = getInt();
-                    map.put("number", leaderCardSelected);
+                        ;
+                    }
+                    case "discardLeaderCard", "3." -> {
+                        System.out.println("Action discardLeaderCard selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("LeaderCard selected: " + leaderCardSelected);
-                    Command command = new Command(UserCommandsType.discardLeaderCard, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which LeaderCard?");
+                        int leaderCardSelected = getInt();
+                        map.put("number", leaderCardSelected);
 
-                } else if (userInput.equals("selectMarketRow")) {
-                    System.out.println("Action selectMarketRow selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("LeaderCard selected: " + leaderCardSelected);
+                        Command command = new Command(UserCommandsType.discardLeaderCard, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which row?");
-                    int rowSelected = getInt();
-                    map.put("number", rowSelected);
+                        ;
+                    }
+                    case "selectMarketRow", "4." -> {
+                        System.out.println("Action selectMarketRow selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Market's row selected: " + rowSelected);
-                    Command command = new Command(UserCommandsType.selectMarketRow, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which row?");
+                        int rowSelected = getInt();
+                        map.put("number", rowSelected);
 
-                } else if (userInput.equals("selectMarketColumn")) {
-                    System.out.println("Action selectMarketColumn selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Market's row selected: " + rowSelected);
+                        Command command = new Command(UserCommandsType.selectMarketRow, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which row?");
-                    int columnSelected = getInt();
-                    map.put("number", columnSelected);
+                        ;
+                    }
+                    case "selectMarketColumn", "5." -> {
+                        System.out.println("Action selectMarketColumn selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Market's column selected: " + columnSelected);
-                    Command command = new Command(UserCommandsType.selectMarketColumn, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which row?");
+                        int columnSelected = getInt();
+                        map.put("number", columnSelected);
 
-                } else if (userInput.equals("sendResourceToDepot")) {
-                    System.out.println("Action sendResourceToDepot selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Market's column selected: " + columnSelected);
+                        Command command = new Command(UserCommandsType.selectMarketColumn, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Depot?");
-                    int depotSelected = getInt();
-                    map.put("number", depotSelected);
+                        ;
+                    }
+                    case "sendResourceToDepot", "6." -> {
+                        System.out.println("Action sendResourceToDepot selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        System.out.println("Which Depot?");
+                        int depotSelected = getInt();
+                        map.put("number", depotSelected);
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Sending " + num + " " + resourceSelected + " to the " + depotSelected + " depot");
-                    Command command = new Command(UserCommandsType.sendResourceToDepot, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                } else if (userInput.equals("chooseMarbleConversion")) {
-                    System.out.println("Action chooseMarbleConversion selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Sending " + num + " " + resourceSelected + " to the " + depotSelected + " depot");
+                        Command command = new Command(UserCommandsType.sendResourceToDepot, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        ;
+                    }
+                    case "chooseMarbleConversion", "7." -> {
+                        System.out.println("Action chooseMarbleConversion selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Resource: " + resourceSelected + "\nQuantity: " + num);
-                    Command command = new Command(UserCommandsType.chooseMarbleConversion, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                } else if (userInput.equals("swapDepotContent")) {
-                    System.out.println("Action swapDepotContent selected");
-                    Map<String, Object> map = new HashMap<>();
-                    int[] depots = new int[2];
+                        System.out.println("Resource: " + resourceSelected + "\nQuantity: " + num);
+                        Command command = new Command(UserCommandsType.chooseMarbleConversion, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("First depot?");
-                    depots[0] = getInt();
-                    System.out.println("Second depot?");
-                    depots[1] = getInt();
-                    map.put("depots", depots);
+                        ;
+                    }
+                    case "swapDepotContent", "8." -> {
+                        System.out.println("Action swapDepotContent selected");
+                        Map<String, Object> map = new HashMap<>();
+                        int[] depots = new int[2];
 
-                    System.out.println("The depot " + depots[0] + " was swapped with the depot " + depots[1]);
-                    Command command = new Command(UserCommandsType.swapDepotContent, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("First depot?");
+                        depots[0] = getInt();
+                        System.out.println("Second depot?");
+                        depots[1] = getInt();
+                        map.put("depots", depots);
 
-                } else if (userInput.equals("moveDepotContent")) {
-                    System.out.println("Action moveDepotContent selected");
-                    Map<String, Object> map = new HashMap<>();
-                    int[] depots = new int[2];
+                        System.out.println("The depot " + depots[0] + " was swapped with the depot " + depots[1]);
+                        Command command = new Command(UserCommandsType.swapDepotContent, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("First depot?");
-                    depots[0] = getInt();
+                        ;
+                    }
+                    case "moveDepotContent", "9." -> {
+                        System.out.println("Action moveDepotContent selected");
+                        Map<String, Object> map = new HashMap<>();
+                        int[] depots = new int[2];
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        System.out.println("First depot?");
+                        depots[0] = getInt();
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("In which depot?");
-                    depots[1] = getInt();
-                    map.put("depots", depots);
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                    System.out.println(num + " " + resourceSelected + " were moved from depot " + depots[0] + " to depot " + depots[1]);
-                    Command command = new Command(UserCommandsType.moveDepotContent, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("In which depot?");
+                        depots[1] = getInt();
+                        map.put("depots", depots);
 
-                } else if (userInput.equals("takeDevelopmentCard")) {
-                    System.out.println("Action takeDevelopmentCard selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println(num + " " + resourceSelected + " were moved from depot " + depots[0] + " to depot " + depots[1]);
+                        Command command = new Command(UserCommandsType.moveDepotContent, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which color?");
-                    CardColor colorSelected = getColor();
-                    map.put("color", colorSelected);
+                        ;
+                    }
+                    case "takeDevelopmentCard", "10." -> {
+                        System.out.println("Action takeDevelopmentCard selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Which level?");
-                    int levelSelected = getInt();
-                    map.put("level", levelSelected);
+                        System.out.println("Which color?");
+                        CardColor colorSelected = getColor();
+                        map.put("color", colorSelected);
 
-                    System.out.println("Which number?");
-                    int numberSelected = getInt();
-                    map.put("number", numberSelected);
+                        System.out.println("Which level?");
+                        int levelSelected = getInt();
+                        map.put("level", levelSelected);
 
-                    System.out.println("Color: " + colorSelected);
-                    System.out.println("Level: " + levelSelected);
-                    System.out.println("Color: " + numberSelected);
-                    Command command = new Command(UserCommandsType.takeDevelopmentCard, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which number?");
+                        int numberSelected = getInt();
+                        map.put("number", numberSelected);
 
-                } else if (userInput.equals("selectProduction")) {
-                    System.out.println("Action selectProduction selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Color: " + colorSelected);
+                        System.out.println("Level: " + levelSelected);
+                        System.out.println("Color: " + numberSelected);
+                        Command command = new Command(UserCommandsType.takeDevelopmentCard, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Production?");
-                    int productionSelected = getInt();
-                    map.put("number", productionSelected);
+                        ;
+                    }
+                    case "selectProduction", "11." -> {
+                        System.out.println("Action selectProduction selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Production selected: " + productionSelected);
-                    Command command = new Command(UserCommandsType.selectProduction, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which Production?");
+                        int productionSelected = getInt();
+                        map.put("number", productionSelected);
 
-                } else if (userInput.equals("resetProductionChoice")) {
-                    System.out.println("Action resetProductionChoice selected");
-                    System.out.println("Resetting production...");
+                        System.out.println("Production selected: " + productionSelected);
+                        Command command = new Command(UserCommandsType.selectProduction, map);
+                        out.println(gson.toJson(command));
 
-                    Command command = new Command(UserCommandsType.resetProductionChoice, null);
-                    out.println(gson.toJson(command));
+                        ;
+                    }
+                    case "resetProductionChoice", "12." -> {
+                        System.out.println("Action resetProductionChoice selected");
+                        System.out.println("Resetting production...");
 
-                } else if (userInput.equals("confirmProductionChoice")) {
-                    System.out.println("Action confirmProductionChoice selected");
-                    System.out.println("Production Confirmed!");
+                        Command command = new Command(UserCommandsType.resetProductionChoice, null);
+                        out.println(gson.toJson(command));
 
-                    Command command = new Command(UserCommandsType.confirmProductionChoice, null);
-                    out.println(gson.toJson(command));
+                        ;
+                    }
+                    case "confirmProductionChoice", "13." -> {
+                        System.out.println("Action confirmProductionChoice selected");
+                        System.out.println("Production Confirmed!");
 
-                } else if (userInput.equals("chooseJollyInput")) {
-                    System.out.println("Action chooseJollyInput selected");
-                    Map<String, Object> map = new HashMap<>();
+                        Command command = new Command(UserCommandsType.confirmProductionChoice, null);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        ;
+                    }
+                    case "chooseJollyInput", "14." -> {
+                        System.out.println("Action chooseJollyInput selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Resource selected: " + resourceSelected);
-                    Command command = new Command(UserCommandsType.chooseJollyInput, map);
-                    out.println(gson.toJson(command));
-                } else if (userInput.equals("chooseJollyOutput")) {
-                    System.out.println("Action chooseJollyOutput selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        System.out.println("Resource selected: " + resourceSelected);
+                        Command command = new Command(UserCommandsType.chooseJollyInput, map);
+                        out.println(gson.toJson(command));
+                        ;
+                    }
+                    case "chooseJollyOutput", "15." -> {
+                        System.out.println("Action chooseJollyOutput selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Resource selected: " + resourceSelected);
-                    Command command = new Command(UserCommandsType.chooseJollyOutput, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                } else if (userInput.equals("payFromWarehouse")) {
-                    System.out.println("Action payFromWarehouse selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Resource selected: " + resourceSelected);
+                        Command command = new Command(UserCommandsType.chooseJollyOutput, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Depot?");
-                    int depotSelected = getInt();
-                    map.put("number", depotSelected);
+                        ;
+                    }
+                    case "payFromWarehouse", "16." -> {
+                        System.out.println("Action payFromWarehouse selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        System.out.println("Which Depot?");
+                        int depotSelected = getInt();
+                        map.put("number", depotSelected);
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Received " + num + " " + resourceSelected + " from depot " + depotSelected);
-                    Command command = new Command(UserCommandsType.payFromWarehouse, map);
-                    out.println(gson.toJson(command));
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                } else if (userInput.equals("payFromStrongbox")) {
-                    System.out.println("Action payFromStrongbox selected");
-                    Map<String, Object> map = new HashMap<>();
+                        System.out.println("Received " + num + " " + resourceSelected + " from depot " + depotSelected);
+                        Command command = new Command(UserCommandsType.payFromWarehouse, map);
+                        out.println(gson.toJson(command));
 
-                    System.out.println("Which Resource?");
-                    ResourceType resourceSelected = getResourceType();
-                    map.put("resource", resourceSelected);
+                        ;
+                    }
+                    case "payFromStrongbox", "17." -> {
+                        System.out.println("Action payFromStrongbox selected");
+                        Map<String, Object> map = new HashMap<>();
 
-                    System.out.println("How much?");
-                    int num = getInt();
-                    map.put("quantity", num);
+                        System.out.println("Which Resource?");
+                        ResourceType resourceSelected = getResourceType();
+                        map.put("resource", resourceSelected);
 
-                    System.out.println("Received " + num + " " + resourceSelected + " from Strongbox");
-                    Command command = new Command(UserCommandsType.payFromStrongbox, map);
-                    out.println(gson.toJson(command));
-                    
-                } else if (userInput.equals("endTurn")) {
-                    System.out.println("Action endTurn selected");
+                        System.out.println("How much?");
+                        int num = getInt();
+                        map.put("quantity", num);
 
-                    Command command = new Command(UserCommandsType.endTurn, null);
-                    out.println(gson.toJson(command));
-                } else
-                    out.println(userInput);
+                        System.out.println("Received " + num + " " + resourceSelected + " from Strongbox");
+                        Command command = new Command(UserCommandsType.payFromStrongbox, map);
+                        out.println(gson.toJson(command));
+
+                        ;
+                    }
+                    case "endTurn", "18." -> {
+                        System.out.println("Action endTurn selected");
+
+                        Command command = new Command(UserCommandsType.endTurn, null);
+                        out.println(gson.toJson(command));
+                        ;
+                    }
+                    default -> out.println(userInput);
+                }
 
             } catch (IOException ex) {
                 System.out.println("Uh oh, IO exception when reading from stdIn.");
@@ -342,7 +403,7 @@ public class ClientWriter implements Runnable {
                 result = Integer.parseInt(text);
                 break;
             } catch (NumberFormatException ex) {
-                System.out.println("Guarda che sta stringa non è un numero, riprova.");
+                System.out.println("This string is not a number, retry.");
             }
         }
         return result;
@@ -359,7 +420,7 @@ public class ClientWriter implements Runnable {
                 result = CardColor.valueOf(text);
                 break;
             } catch (IllegalArgumentException ex) {
-                System.out.println("Guarda che sta stringa non è un colore, riprova.");
+                System.out.println("This string is not a color, retry.");
             }
         }
         return result;
@@ -376,7 +437,7 @@ public class ClientWriter implements Runnable {
                 result = ResourceType.valueOf(text);
                 break;
             } catch (IllegalArgumentException ex) {
-                System.out.println("Guarda che sta stringa non è una risorsa, riprova.");
+                System.out.println("This string is not a resource, retry.");
             }
         }
         return result;
