@@ -25,3 +25,4 @@ hs_err_pid*
 # Added after project creation
 .idea/
 AM25.iml
+target/
