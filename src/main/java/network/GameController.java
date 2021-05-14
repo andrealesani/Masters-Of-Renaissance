@@ -159,7 +159,6 @@ public class GameController {
         players.get(username).println(
                 gson.toJson(
                         new MessageWrapper(type, message)));
-        System.out.println(username + " " + players.keySet().contains(username));
     }
 
     /**

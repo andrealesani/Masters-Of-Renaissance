@@ -47,10 +47,14 @@ public class ClientWriter implements Runnable {
                 }
 
                 switch (userInput) {
+                    case "status" -> {
+                        System.out.println("\n" + clientView.getGame());
+                    }
                     case "show" -> {
                         System.out.println("Specify what you want to see or press ENTER to show all:");
                         System.out.println("(Supported commands: 'market', 'cardtable', 'lorenzo', 'playerboard', 'strongbox', 'waitingroom', 'warehouse')");
                         String request = stdIn.readLine();
+
                         switch (request) {
                             case "" -> {
                                 System.out.println("\n" + clientView);
