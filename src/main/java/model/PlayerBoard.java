@@ -520,7 +520,7 @@ public class PlayerBoard implements Observable {
             waitingRoom.removeResource(resource, quantity);
         } catch (NotEnoughResourceException ex) {
             //This should never happen
-            System.out.println(ex.getMessage());
+            System.out.println("BUG! Tried to pay for a resource that was not required from warehouse!");
         }
 
         notifyObservers();
@@ -544,7 +544,7 @@ public class PlayerBoard implements Observable {
             waitingRoom.removeResource(resource, quantity);
         } catch (NotEnoughResourceException ex) {
             //This should never happen
-            System.out.println(ex.getMessage());
+            System.out.println("BUG! Tried to pay for a resource that was not required from strongbox!");
         }
 
         notifyObservers();
@@ -573,7 +573,7 @@ public class PlayerBoard implements Observable {
     public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException {
         if (number <= 0)
             throw new ParametersNotValidException();
-        if (number >= leaderCards.size())
+        if (number > leaderCards.size())
             throw new LeaderNotPresentException();
 
         if (leaderCards.get(number).areRequirementsMet(this)) {
@@ -593,7 +593,7 @@ public class PlayerBoard implements Observable {
     public void discardLeaderCard(int number) throws LeaderIsActiveException, LeaderNotPresentException {
         if (number <= 0)
             throw new ParametersNotValidException();
-        if (number >= leaderCards.size())
+        if (number > leaderCards.size())
             throw new LeaderNotPresentException();
         if (leaderCards.get(number).isActive())
             throw new LeaderIsActiveException();
@@ -691,7 +691,7 @@ public class PlayerBoard implements Observable {
     public void chooseLeaderCard(int number) throws LeaderNotPresentException {
         if (number <= 0)
             throw new ParametersNotValidException();
-        if (number >= leaderCards.size())
+        if (number > leaderCards.size())
             throw new LeaderNotPresentException();
 
         LeaderCard leaderCard = leaderCards.get(number - 1);
@@ -725,6 +725,38 @@ public class PlayerBoard implements Observable {
     }
 
     //End turn checks methods
+
+    /**
+     * Automatically handles payment for development cards or productions
+     */
+    public void automaticPayment() {
+        boolean found;
+        for (ResourceType resource : waitingRoom.getStoredResources()) {
+            while (waitingRoom.getNumOfResource(resource) > 0) {
+                found = false;
+                for (int i = 1; i <= warehouse.getNumOfDepots(); i++) {
+                    try {
+                        warehouse.removeFromDepot(i, resource, 1);
+                        waitingRoom.removeResource(resource, 1);
+                        found = true;
+                        break;
+                    } catch (DepotNotPresentException ex) {
+                        //This should never happen
+                        System.out.println("BUG! Automatic payment from non existent depot.");
+                    } catch (NotEnoughResourceException ignored) {}
+                }
+                if (!found) {
+                    try {
+                        strongbox.removeResource(resource, 1);
+                    } catch (NotEnoughResourceException ex) {
+                        //This should never happen
+                        System.out.println("BUG! Automatic payment failed because player does not have enough resources.");
+                    }
+                }
+            }
+        }
+
+    }
 
     /**
      * Returns whether or not the production handler's current input is empty, signaling the productions' price has been paid
@@ -813,7 +845,6 @@ public class PlayerBoard implements Observable {
 
     /**
      * Sets the player's connection status to disconnected
-     *
      */
     public void setDisconnectedStatus() {
         isConnected = false;

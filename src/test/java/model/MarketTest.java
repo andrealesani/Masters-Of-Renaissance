@@ -264,7 +264,7 @@ class MarketTest {
         for(int i = 0; i < actualBoard.length; i++)
             board[i] = actualBoard[i].clone();
 
-        market.selectRow(0, playerBoard);
+        market.selectRow(1, playerBoard);
 
         Resource[][] shifted = market.getBoard();
         Resource newSlideOrb = market.getSlideOrb();
@@ -289,7 +289,7 @@ class MarketTest {
         for(int i = 0; i < actualBoard.length; i++)
             board[i] = actualBoard[i].clone();
 
-        market.selectColumn(0, playerBoard);
+        market.selectColumn(1, playerBoard);
         Resource[][] shifted = market.getBoard();
         Resource newSlideOrb = market.getSlideOrb();
 

@@ -197,6 +197,7 @@ public class GameController {
         } else {
             try {
                 game.setConnectedStatus(username);
+                playerMessage(username, MessageType.INFO, "You have been reconnected to the game.");
                 System.out.println("Player " + username + " is now connected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");

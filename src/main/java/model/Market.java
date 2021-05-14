@@ -102,7 +102,7 @@ public class Market implements Observable {
         riga = numScope - 1;
         for (int j = 0; j < 4; j++)
             board[riga][j].addResourceFromMarket(playerBoard);
-        shiftRow(riga);
+        shiftRow(numScope);
 
         notifyObservers();
     }
@@ -122,7 +122,7 @@ public class Market implements Observable {
         col = numScope - 1;
         for (int i = 0; i < 3; i++)
             board[i][col].addResourceFromMarket(playerBoard);
-        shiftColumn(col);
+        shiftColumn(numScope);
 
         notifyObservers();
     }
@@ -135,14 +135,14 @@ public class Market implements Observable {
      * @param numScope the number of the selected row
      */
     private void shiftRow(int numScope) {
-        if ((numScope < 0) || (numScope >= 3))
+        if ((numScope <= 0) || (numScope > 3))
             throw new ParametersNotValidException();
 
         int riga;
         Resource temp;
 
 
-        riga = numScope;
+        riga = numScope - 1;
         int j = 0;
         temp = board[riga][j];
         for (j = 0; j < 3; j++)
@@ -159,14 +159,14 @@ public class Market implements Observable {
      * @param numScope the number of the selected column
      */
     private void shiftColumn(int numScope) {
-        if ((numScope < 0) || (numScope >= 4))
+        if ((numScope <= 0) || (numScope > 4))
             throw new ParametersNotValidException();
 
         int col;
         Resource temp;
 
 
-        col = numScope;
+        col = numScope - 1;
         int i = 0;
         temp = board[i][col];
         for (i = 0; i < 2; i++)

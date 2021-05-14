@@ -188,7 +188,7 @@ class UserCommandsInterfaceTest {
         }
 
         //TEST
-        game.selectMarketRow( 2);
+        game.selectMarketRow( 3);
 
         assertEquals(numShields, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
         assertEquals(numCoins, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.COIN));

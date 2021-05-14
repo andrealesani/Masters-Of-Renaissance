@@ -58,7 +58,7 @@ public class ClientWriter implements Runnable {
                             System.out.println(ex.getMessage());
                         }
                     }
-                    case "showActions" -> {
+                    case "actions" -> {
                         System.out.println("0. chooseBonusResourceType");
                         System.out.println("1. chooseLeaderCard");
                         System.out.println("2. playLeaderCard");

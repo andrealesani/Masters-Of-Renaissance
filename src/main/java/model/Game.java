@@ -521,7 +521,7 @@ public class Game implements UserCommandsInterface, Observable {
     //PUBLIC METHODS
 
     /**
-     * Sets the given player's connection status to reconnected.
+     * Sets the given player's connection status to connected.
      * If all players were disconnected, sets the given player as current player
      *
      * @param username the player's username
@@ -692,7 +692,8 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     /**
-     * Checks number of discarded resources at the end of a player's turn, after they have used the market action
+     * Checks number of discarded resources at the end of a player's turn, after they have used the market action.
+     * If there are more than zero, increases faith for all other players accordingly
      */
     private void checkDiscarded() {
         int numDiscardedResources = currentPlayer.getLeftInWaitingRoom();
@@ -738,15 +739,11 @@ public class Game implements UserCommandsInterface, Observable {
 
         } else if (turnPhase == CARDPAYMENT) {
 
-            if (currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
+            currentPlayer.automaticPayment();
 
         } else if (turnPhase == PRODUCTIONPAYMENT) {
 
-            if (currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
+            currentPlayer.automaticPayment();
             currentPlayer.releaseProductionOutput();
 
         }
