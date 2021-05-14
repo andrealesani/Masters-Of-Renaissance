@@ -405,6 +405,11 @@ public class PlayerBoardBean implements Observer {
         controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
+    }
+
     @Override
     public String toString() {
         String slots = "";

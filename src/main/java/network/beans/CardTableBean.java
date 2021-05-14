@@ -57,6 +57,11 @@ public class CardTableBean implements Observer {
         controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
     }
 
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
+    }
+
     @Override
     public String toString() {
         String board = "";

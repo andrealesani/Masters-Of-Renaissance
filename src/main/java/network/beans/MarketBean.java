@@ -64,6 +64,11 @@ public class MarketBean implements Observer {
         controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
     }
 
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
+    }
+
     @Override
     public String toString() {
         String board = "";

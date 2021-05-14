@@ -521,7 +521,7 @@ public class Game implements UserCommandsInterface, Observable {
     //PUBLIC METHODS
 
     /**
-     * Sets the given player's connection status to disconnected.
+     * Sets the given player's connection status to reconnected.
      * If all players were disconnected, sets the given player as current player
      *
      * @param username the player's username
@@ -531,6 +531,7 @@ public class Game implements UserCommandsInterface, Observable {
             if (player.getUsername().equals(username)) {
 
                 player.setConnectedStatus();
+                System.out.println("Player updated after reconnection");
 
                 if (currentPlayer == null) {
                     chooseTurnStartingPhase(player);
@@ -895,6 +896,28 @@ public class Game implements UserCommandsInterface, Observable {
         notifyObservers();
     }
 
+    public void updateSinglePlayer(String username) {
+        for (Observer observer : cardTable.getObservers())
+            observer.updateSinglePlayer(username);
+        for (Observer observer : getObservers())
+            observer.updateSinglePlayer(username);
+        if (lorenzo != null)
+            for (Observer observer : ((Lorenzo) lorenzo).getObservers())
+                observer.updateSinglePlayer(username);
+        for (Observer observer : market.getObservers())
+            observer.updateSinglePlayer(username);
+        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+            for (Observer observer : playerBoard.getObservers())
+                observer.updateSinglePlayer(username);
+            for(Observer observer : playerBoard.getStrongbox().getObservers())
+                observer.updateSinglePlayer(username);
+            for(Observer observer : playerBoard.getWaitingRoom().getObservers())
+                observer.updateSinglePlayer(username);
+            for(Observer observer : playerBoard.getWarehouse().getObservers())
+                observer.updateSinglePlayer(username);
+        }
+    }
+
     //GETTERS (mostly for debug purposes)
 
     /**
@@ -979,4 +1002,7 @@ public class Game implements UserCommandsInterface, Observable {
         notifyObservers();
     }
 
+    public List<Observer> getObservers() {
+        return observers;
+    }
 }

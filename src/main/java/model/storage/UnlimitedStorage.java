@@ -136,4 +136,8 @@ public class UnlimitedStorage implements ResourceStash, Observable {
         observers.add(observer);
         notifyObservers();
     }
+
+    public List<Observer> getObservers() {
+        return observers;
+    }
 }

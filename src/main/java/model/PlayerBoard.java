@@ -1066,4 +1066,8 @@ public class PlayerBoard implements Observable {
         observers.add(observer);
         notifyObservers();
     }
+
+    public List<Observer> getObservers() {
+        return observers;
+    }
 }

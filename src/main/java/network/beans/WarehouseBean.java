@@ -68,6 +68,11 @@ public class WarehouseBean implements Observer {
         controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
     }
 
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
+    }
+
     @Override
     public String toString() {
         return "\u001B[32;1m" + username + "'s Warehouse:\u001B[0m\n" +

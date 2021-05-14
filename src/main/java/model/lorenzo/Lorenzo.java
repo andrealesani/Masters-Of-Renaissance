@@ -164,4 +164,8 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         observers.add(observer);
         notifyObservers();
     }
+
+    public List<Observer> getObservers() {
+        return observers;
+    }
 }

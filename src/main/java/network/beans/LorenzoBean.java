@@ -78,6 +78,11 @@ public class LorenzoBean implements Observer {
         controller.broadcastMessage(MessageType.LORENZO, gson.toJson(this));
     }
 
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, MessageType.LORENZO, gson.toJson(this));
+    }
+
     @Override
     public String toString() {
         return "\u001B[32;1mLorenzo:\u001B[0m\n" +
