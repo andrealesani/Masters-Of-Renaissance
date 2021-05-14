@@ -121,4 +121,16 @@ public class DepotLeaderCard extends LeaderCard {
     public int getStorableQuantity() {
         return storableQuantity;
     }
+
+    @Override
+    public String toString() {
+        return "\n\u001B[32;1mDepotLeaderCard:\u001B[0m" +
+                "\n requiredResource: " + requiredResource +
+                "\n requiredQuantity: " + requiredQuantity +
+                "\n storableResource: " + storableResource +
+                "\n storableQuantity: " + storableQuantity +
+                '\n';
+    }
 }
+
+

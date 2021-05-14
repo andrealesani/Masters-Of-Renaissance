@@ -8,6 +8,7 @@ import model.Production;
 import model.resource.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -201,5 +202,18 @@ public class ProductionLeaderCard extends LeaderCard {
      */
     public int[] getOutputQuantities() {
         return outputQuantities;
+    }
+
+    @Override
+    public String toString() {
+        return "\n\u001B[32;1mProductionLeaderCard:\u001B[0m" +
+                "\n requiredColor: " + requiredColor +
+                "\n requiredLevel: " + requiredLevel +
+                "\n requiredQuantity: " + requiredQuantity +
+                "\n inputType: " + Arrays.toString(inputType) +
+                "\n inputQuantities: " + Arrays.toString(inputQuantities) +
+                "\n outputType: " + Arrays.toString(outputType) +
+                "\n outputQuantities: " + Arrays.toString(outputQuantities) +
+                '\n';
     }
 }

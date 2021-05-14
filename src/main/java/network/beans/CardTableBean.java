@@ -27,6 +27,10 @@ public class CardTableBean implements Observer {
      * Map that holds the information about all the DevelopmentCards
      */
     private transient Map<CardColor, List<List<DevelopmentCard>>> developmentCards;
+    /**
+     * Boolean parameters that is used by methods that need cards data to check if the cards have already been initialized
+     */
+    private transient boolean cardsInitialized = false;
 
     // CONSTRUCTOR
 
@@ -68,6 +72,10 @@ public class CardTableBean implements Observer {
     }
 
     public DevelopmentCard getDevelopmentCardFromId(int id) throws CardNotPresentException {
+        if (!cardsInitialized) {
+            setDevelopmentCardsFromJson();
+            cardsInitialized = true;
+        }
         int j;
         for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : developmentCards.entrySet()) {
             for (List<DevelopmentCard> deck : color.getValue()) {
@@ -147,8 +155,6 @@ public class CardTableBean implements Observer {
         controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
     }
 
-    private transient boolean cardsInitialized = false;
-
     @Override
     public String toString() {
         if (!cardsInitialized) {
@@ -157,7 +163,8 @@ public class CardTableBean implements Observer {
         }
         String board = "";
         for (int[] row : cards) {
-            board += "\n   ";
+            board += "\n ";
+            try { board += "Level " + getDevelopmentCardFromId(row[0]).getLevel() + "   "; } catch (CardNotPresentException ignored) {}
             for (int cell : row) {
                 try {
                     if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
@@ -169,7 +176,7 @@ public class CardTableBean implements Observer {
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
                         board += "\033[48;2;128;85;0m  " + cell + "  \u001B[0m ";
                 } catch (CardNotPresentException e) {
-                    e.printStackTrace();
+                    System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
                 }
             }
             board += "\n";

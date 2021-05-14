@@ -5,6 +5,7 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This LeaderCard awards the user with a discount when buying DevelopmentCards upon activation
@@ -120,5 +121,15 @@ public class DiscountLeaderCard extends LeaderCard {
      */
     public int[] getRequiredQuantities() {
         return requiredQuantities;
+    }
+
+    @Override
+    public String toString() {
+        return "\n\u001B[32;1mDiscountLeaderCard:\u001B[0m" +
+                "\n discountType: " + discountType +
+                "\n discount: " + discount +
+                "\n requiredColors: " + Arrays.toString(requiredColors) +
+                "\n requiredQuantities: " + Arrays.toString(requiredQuantities) +
+                '\n';
     }
 }

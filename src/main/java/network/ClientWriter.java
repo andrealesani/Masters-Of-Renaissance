@@ -87,7 +87,11 @@ public class ClientWriter implements Runnable {
                         try {
                             System.out.println(clientView.getCardTable().getDevelopmentCardFromId(cardId));
                         } catch (CardNotPresentException ex) {
-                            System.out.println(ex.getMessage());
+                            try {
+                                System.out.println(clientView.getGame().getLeaderCardFromId(cardId));
+                            } catch (CardNotPresentException ex1) {
+                                System.out.println("The specified ID does not match any Development or Leader Cards");
+                            }
                         }
                     }
                     case "actions" -> {

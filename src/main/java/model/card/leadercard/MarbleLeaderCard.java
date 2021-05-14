@@ -5,6 +5,7 @@ import model.PlayerBoard;
 import model.ResourceType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This LeaderCard awards the user a conversion for white marbles to a specified Resource type (when they are picked from the Market) upon activation
@@ -105,5 +106,14 @@ public class MarbleLeaderCard extends LeaderCard {
      */
     public int[] getRequiredQuantities() {
         return requiredQuantities;
+    }
+
+    @Override
+    public String toString() {
+        return "\n\u001B[32;1mMarbleLeaderCard:\u001B[0m" +
+                "\n resourceType: " + resourceType +
+                "\n requiredColors: " + Arrays.toString(requiredColors) +
+                "\n requiredQuantities: " + Arrays.toString(requiredQuantities) +
+                '\n';
     }
 }
