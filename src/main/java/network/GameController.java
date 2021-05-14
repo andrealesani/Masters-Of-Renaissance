@@ -120,6 +120,8 @@ public class GameController {
                     game.updateSinglePlayer(username);
                     return;
                 }
+            } else {
+                throw new UsernameAlreadyExistsException();
             }
         }
 
