@@ -927,27 +927,6 @@ public class Game implements UserCommandsInterface, Observable {
         notifyObservers();
     }
 
-    public void updateSinglePlayer(String username) {
-        for (Observer observer : cardTable.getObservers())
-            observer.updateSinglePlayer(username);
-            observer.updateSinglePlayer(username);
-        if (lorenzo != null)
-            for (Observer observer : ((Lorenzo) lorenzo).getObservers())
-                observer.updateSinglePlayer(username);
-        for (Observer observer : market.getObservers())
-            observer.updateSinglePlayer(username);
-        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
-            for (Observer observer : playerBoard.getObservers())
-                observer.updateSinglePlayer(username);
-            for (Observer observer : playerBoard.getStrongbox().getObservers())
-                observer.updateSinglePlayer(username);
-            for (Observer observer : playerBoard.getWaitingRoom().getObservers())
-                observer.updateSinglePlayer(username);
-            for (Observer observer : playerBoard.getWarehouse().getObservers())
-                observer.updateSinglePlayer(username);
-        }
-    }
-
     //GETTERS (mostly for debug purposes)
 
     /**

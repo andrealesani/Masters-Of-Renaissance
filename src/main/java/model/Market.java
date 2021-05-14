@@ -4,6 +4,8 @@ import Exceptions.ParametersNotValidException;
 import model.resource.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,67 +27,48 @@ public class Market implements Observable {
     /**
      * Constructor
      */
-    //TODO togliere else/ifs?
+    //TODO togliere hardcoding?
     public Market() {
-        int totalOrbs = 0;
-        int orb;
-        int countRS = 0, countRF = 0, countRSe = 0, countRSh = 0, countRSt = 0, countRW = 0;
+        int rowNum = 3, colNum = 4;
+        int numCoin = 2, numStone = 2, numShield = 2, numServant = 2, numFaith = 1, numWhite = 4;
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (totalOrbs < 12) {
-                    orb = (int) (Math.random() * 6);
-                    if ((orb == 0) && (countRS <= 1)) {
-                        board[i][j] = new ResourceCoin();
-                        countRS++;
-                    } else if ((orb == 1) && (countRF <= 0)) {
-                        board[i][j] = new ResourceFaith();
-                        countRF++;
-                    } else if ((orb == 2) && (countRSe <= 1)) {
-                        board[i][j] = new ResourceServant();
-                        countRSe++;
-                    } else if ((orb == 3) && (countRSh <= 1)) {
-                        board[i][j] = new ResourceShield();
-                        countRSh++;
-                    } else if ((orb == 4) && (countRSt <= 1)) {
-                        board[i][j] = new ResourceStone();
-                        countRSt++;
-                    } else if ((orb == 5) && (countRW <= 3)) {
-                        board[i][j] = new ResourceWhite();
-                        countRW++;
-                    } else {
-                        j--;
-                        totalOrbs--;
-                    }
+        Resource coin = new ResourceCoin(), stone = new ResourceStone(), shield = new ResourceShield(), servant = new ResourceServant();
+        Resource faith = new ResourceFaith(), whiteMarble = new ResourceWhite();
+        List<Resource> resources = new ArrayList<>();
 
-                    totalOrbs++;
-                    notifyObservers();
-                }
+        for (int i = 0; i<numCoin; i++) {
+            resources.add(coin);
+        }
+        for (int i = 0; i<numStone; i++) {
+            resources.add(stone);
+        }
+        for (int i = 0; i<numShield; i++) {
+            resources.add(shield);
+        }
+        for (int i = 0; i<numServant; i++) {
+            resources.add(servant);
+        }
+        for (int i = 0; i<numFaith; i++) {
+            resources.add(faith);
+        }
+        for (int i = 0; i<numWhite; i++) {
+            resources.add(whiteMarble);
+        }
+
+        Collections.shuffle(resources);
+
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
+                board[row][col] = resources.remove(0);
             }
         }
-        
-        if (totalOrbs == 12) {
-            if (countRS == 1)
-                slideMarble = new ResourceCoin();
-            else if (countRF <= 0)
-                slideMarble = new ResourceFaith();
-            else if (countRSe <= 1)
-                slideMarble = new ResourceServant();
-            else if (countRSh <= 1)
-                slideMarble = new ResourceShield();
-            else if (countRSt <= 1)
-                slideMarble = new ResourceStone();
-            else if (countRW <= 3)
-                slideMarble = new ResourceWhite();
-        }
+        slideMarble = resources.remove(0);
 
         notifyObservers();
 
     }
 
     //PUBLIC METHODS
-
-    //TODO non hardcodare dimensioni market
 
     /**
      * Activates addResourceFromMarket methods on all resources in the selected row
