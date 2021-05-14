@@ -115,6 +115,10 @@ public class GameController {
                     throw new UsernameAlreadyExistsException();
                 } else {
                     setConnectedStatus(username);
+                    players.put(username, userOut);
+                    System.out.println("Added player: " + username + " to current game.");
+                    game.updateSinglePlayer(username);
+                    return;
                 }
             }
         }
@@ -153,6 +157,7 @@ public class GameController {
         players.get(username).println(
                 gson.toJson(
                         new MessageWrapper(type, message)));
+        System.out.println(username + " " + players.keySet().contains(username));
     }
 
     /**
@@ -188,7 +193,7 @@ public class GameController {
         }
 
         if (game == null) {
-            System.out.println("A player attempted to be reconnected before game start, which should never happen.");
+            System.out.println("Warning: a player attempted to be reconnected before game start, which should never happen.");
         } else {
             try {
                 game.setConnectedStatus(username);
