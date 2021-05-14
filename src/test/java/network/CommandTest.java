@@ -93,14 +93,10 @@ class CommandTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
@@ -169,14 +165,11 @@ class CommandTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -190,7 +183,6 @@ class CommandTest {
 
         assertEquals(4, game.getCardTable().getGreenCards().get(0).size());
 
-        // SECOND TURN: first player chooses to buy a DevelopmentCard
         Map<String, Object> parameters1 = new HashMap<String, Object>();
         parameters1.put("color", CardColor.GREEN);
         parameters1.put("level", 1);
@@ -215,14 +207,10 @@ class CommandTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Adds manually resources to the depots
         PlayerBoard player = game.getCurrentPlayer();

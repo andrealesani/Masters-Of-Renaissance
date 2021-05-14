@@ -31,7 +31,6 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
 
         PlayerBoard currentPlayer = game.getCurrentPlayer();
         List<LeaderCard> listLeaderCards = currentPlayer.getLeaderCards();
@@ -56,15 +55,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         LeaderCard LeaderCard1 = game.getCurrentPlayer().getLeaderCards().get(0);
 
@@ -72,20 +66,17 @@ class UserCommandsInterfaceTest {
 
         int NumOFDepots = 0;
 
-        if(LeaderCard1 instanceof DepotLeaderCard) {
+        if (LeaderCard1 instanceof DepotLeaderCard) {
             NumOFDepots = game.getCurrentPlayer().getWarehouse().getNumOfDepots();
             System.out.println("DEPOT");
-        }
-        else if(LeaderCard1 instanceof DiscountLeaderCard) {
+        } else if (LeaderCard1 instanceof DiscountLeaderCard) {
             assertTrue(game.getCurrentPlayer().getDiscounts().isEmpty());
             System.out.println("DISCOUNT");
-        }
-        else if(LeaderCard1 instanceof MarbleLeaderCard) {
+        } else if (LeaderCard1 instanceof MarbleLeaderCard) {
             assertTrue(game.getCurrentPlayer().getMarbleConversions().isEmpty());
             assertEquals(0, game.getCurrentPlayer().getMarbleConversions().size());
             System.out.println("WHITEMARBLE");
-        }
-        else if(LeaderCard1 instanceof ProductionLeaderCard) {
+        } else if (LeaderCard1 instanceof ProductionLeaderCard) {
             assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
             System.out.println("PRODUCTION");
         }
@@ -96,18 +87,18 @@ class UserCommandsInterfaceTest {
 
         //DEPOT
 
-        if(LeaderCard1 instanceof DepotLeaderCard)
-            assertEquals(NumOFDepots+1, game.getCurrentPlayer().getWarehouse().getNumOfDepots());
+        if (LeaderCard1 instanceof DepotLeaderCard)
+            assertEquals(NumOFDepots + 1, game.getCurrentPlayer().getWarehouse().getNumOfDepots());
 
-        //DISCOUNT
+            //DISCOUNT
 
-        else if(LeaderCard1 instanceof DiscountLeaderCard)
+        else if (LeaderCard1 instanceof DiscountLeaderCard)
             assertFalse(game.getCurrentPlayer().getDiscounts().isEmpty());
 
-        //white
-        //marbleconversion.get(0) , COIN
+            //white
+            //marbleconversion.get(0) , COIN
 
-        else if(LeaderCard1 instanceof MarbleLeaderCard) {
+        else if (LeaderCard1 instanceof MarbleLeaderCard) {
             assertFalse(game.getCurrentPlayer().getMarbleConversions().isEmpty());
             assertEquals(1, game.getCurrentPlayer().getMarbleConversions().size());
             assertFalse(ResourceType.UNKNOWN == game.getCurrentPlayer().getMarbleConversions().get(0));
@@ -118,7 +109,7 @@ class UserCommandsInterfaceTest {
         //production
         //game.getCurrentPlayer.getProductionHandler.getProductions.size(),  2
 
-        else if(LeaderCard1 instanceof ProductionLeaderCard)
+        else if (LeaderCard1 instanceof ProductionLeaderCard)
             assertEquals(2, game.getCurrentPlayer().getProductionHandler().getProductions().size());
 
     }
@@ -132,22 +123,18 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         List<LeaderCard> memoryList = new ArrayList(game.getCurrentPlayer().getLeaderCards());
         int preFaith = game.getCurrentPlayer().getFaith();
         game.discardLeaderCard(1);
 
-        assertEquals(memoryList.size()-1, game.getCurrentPlayer().getLeaderCards().size());
+        assertEquals(memoryList.size() - 1, game.getCurrentPlayer().getLeaderCards().size());
         assertEquals(memoryList.get(0), game.getCurrentPlayer().getLeaderCards().get(0));
-        assertEquals(preFaith+1, game.getCurrentPlayer().getFaith());
+        assertEquals(preFaith + 1, game.getCurrentPlayer().getFaith());
 
     }
 
@@ -161,14 +148,11 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
 
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
-        
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
         Resource[][] board = game.getMarket().getBoard();
         int numCoins = 0, numShields = 0, numServants = 0, numStones = 0, numFaithes = 0, numWhites = 0;
 
@@ -188,7 +172,7 @@ class UserCommandsInterfaceTest {
         }
 
         //TEST
-        game.selectMarketRow( 3);
+        game.selectMarketRow(3);
 
         assertEquals(numShields, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
         assertEquals(numCoins, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.COIN));
@@ -207,14 +191,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
@@ -248,14 +228,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Manually add conversions and white marbles
         PlayerBoard player = game.getCurrentPlayer();
@@ -286,25 +262,21 @@ class UserCommandsInterfaceTest {
         assertEquals(3, warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
 
         //verifies quantity of resources in waiting room
-        assertTrue(player.getLeftInWaitingRoom() <=4);
+        assertTrue(player.getLeftInWaitingRoom() <= 4);
     }
 
     @Test
     void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException {
         // Game creation
-            Set<String> nicknames = new HashSet<>();
-            nicknames.add("Andre");
-            nicknames.add("Tom");
-            nicknames.add("Gigi");
-            Game game = new Game(nicknames);
-            // During first turn players must choose which LeaderCards to keep
-            for (PlayerBoard player : game.getPlayersTurnOrder()) {
-                game.chooseLeaderCard(1);
-                game.chooseLeaderCard(2);
-                //Avoids having to deal with bonus first-turn resource choice
-                player.clearWaitingRoom();
-                game.endTurn();
-            }
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Adds manually resources to the depots
         PlayerBoard player = game.getCurrentPlayer();
@@ -336,14 +308,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
@@ -378,11 +346,11 @@ class UserCommandsInterfaceTest {
         //Actually tests the method
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
-            for (int i=1; i<8; i++) {
+            for (int i = 1; i < 8; i++) {
                 try {
                     game.payFromWarehouse(i, resource.toResource(), 1);
                     System.out.println("Taking resource from depot: " + i);
-                    inStock.put(resource, inStock.get(resource)-1);
+                    inStock.put(resource, inStock.get(resource) - 1);
                     break;
                 } catch (NotEnoughResourceException | DepotNotPresentException ex) {
                     //DO NOTHING
@@ -393,10 +361,10 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //verifies quantities left
-        assertEquals (inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
-        assertEquals (inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
-        assertEquals (inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
 
         //Visual verification
         System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
@@ -417,14 +385,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Manually adds resources to player's strongbox
         PlayerBoard player = game.getCurrentPlayer();
@@ -452,16 +416,16 @@ class UserCommandsInterfaceTest {
         for (ResourceType resource : cost) {
             System.out.println("Processing cost: " + resource);
             game.payFromStrongbox(resource.toResource(), 1);
-            inStock.put(resource, inStock.get(resource)-1);
+            inStock.put(resource, inStock.get(resource) - 1);
         }
 
         game.endTurn();
 
         //verifies quantities left
-        assertEquals (inStock.get(ResourceType.SHIELD), strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (inStock.get(ResourceType.COIN), strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals (inStock.get(ResourceType.SERVANT), strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals (inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
+        assertEquals(inStock.get(ResourceType.SHIELD), strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
 
         //Visual verification
         System.out.println(strongbox.getNumOfResource(ResourceType.SHIELD));
@@ -478,14 +442,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
@@ -541,10 +501,10 @@ class UserCommandsInterfaceTest {
 
         //Actually tests the method
         for (Resource resource : cost) {
-            for (int i=1; i<8; i++) {
+            for (int i = 1; i < 8; i++) {
                 try {
                     game.payFromWarehouse(i, resource, 1);
-                    inStock.put(resource.getType(), inStock.get(resource.getType())-1);
+                    inStock.put(resource.getType(), inStock.get(resource.getType()) - 1);
                     break;
                 } catch (NotEnoughResourceException | DepotNotPresentException ex) {
                     //DO NOTHING
@@ -555,10 +515,10 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //verifies quantities left
-        assertEquals (inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
-        assertEquals (inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
-        assertEquals (inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
 
         //Visual verification
         System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
@@ -579,14 +539,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // During first turn players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
 
         //Adds manually resources to the strongbox
         PlayerBoard player = game.getCurrentPlayer();
@@ -629,19 +585,19 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //Verifies quantities left
-        assertEquals (22, strongbox.getNumOfResource(ResourceType.STONE));
-        assertEquals (21, strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals (18, strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals (19, strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals ( 1, player.getFaith());
+        assertEquals(22, strongbox.getNumOfResource(ResourceType.STONE));
+        assertEquals(21, strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(18, strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals(19, strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(1, player.getFaith());
 
         //Some more checks just to be safe
         player.getWarehouse().addToDepot(2, ResourceType.SHIELD, 2);
         player.getWarehouse().addToDepot(3, ResourceType.SERVANT, 3);
-        assertEquals (21, player.getNumOfResource(ResourceType.SHIELD));
-        assertEquals (18, player.getNumOfResource(ResourceType.COIN));
-        assertEquals (22, player.getNumOfResource(ResourceType.STONE));
-        assertEquals (24, player.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(21, player.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(18, player.getNumOfResource(ResourceType.COIN));
+        assertEquals(22, player.getNumOfResource(ResourceType.STONE));
+        assertEquals(24, player.getNumOfResource(ResourceType.SERVANT));
     }
 
     // ANDRE SECTION
@@ -653,14 +609,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -687,14 +639,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -702,14 +647,21 @@ class UserCommandsInterfaceTest {
             player.addResourceToStrongbox(ResourceType.SHIELD, 100);
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
-        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+
+
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            player.clearWaitingRoom();
+            game.endTurn();
+
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
                 game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
         }
+
 
         // TEST STARTS HERE
         game.selectProduction(2);
@@ -726,14 +678,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -741,10 +686,16 @@ class UserCommandsInterfaceTest {
             player.addResourceToStrongbox(ResourceType.SHIELD, 100);
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
-        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+
+
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            player.clearWaitingRoom();
+            game.endTurn();
+
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
                 game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
@@ -775,14 +726,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -790,10 +734,16 @@ class UserCommandsInterfaceTest {
             player.addResourceToStrongbox(ResourceType.SHIELD, 100);
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
-        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+
+
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            player.clearWaitingRoom();
+            game.endTurn();
+
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
                 game.payFromStrongbox(resourceType.toResource(), 1);
             }
             game.endTurn();
@@ -817,14 +767,10 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.endTurn();
-        }
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -855,17 +801,14 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
         List<PlayerBoard> players = game.getPlayersTurnOrder();
         // During first turn players must choose which LeaderCards to keep
-        for (int i = 0; i<players.size(); i++) {
+        for (int i = 0; i < players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
             //Avoids having to deal with bonus first-turn resource choice
             players.get(i).clearWaitingRoom();
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             game.endTurn();
-        }
 
-        //Pass the turn just taking from market and discarding all resources
-        for (int i = 0; i<players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
             game.selectMarketRow(1);
             game.endTurn();
@@ -882,33 +825,33 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
         List<PlayerBoard> players = game.getPlayersTurnOrder();
         // During first turn players must choose which LeaderCards to keep
-        for (int i = 0; i<players.size(); i++) {
-            assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
-            //Avoids having to deal with bonus first-turn resource choice
-            players.get(i).clearWaitingRoom();
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            game.endTurn();
-        }
+
+        assertEquals(players.get(0).getUsername(), game.getCurrentPlayer().getUsername());
+        //Avoids having to deal with bonus first-turn resource choice
+        players.get(0).clearWaitingRoom();
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
 
         //First player selects a production but doesn't activate it
         game.selectProduction(1);
 
         //First player selects from market and discards all obtained resources
-        game.selectMarketRow( 1);
+        game.selectMarketRow(1);
         int discarded = players.get(0).getLeftInWaitingRoom();
         game.endTurn();
 
         //Checks that other players' faith has been increased by amount of discarded resources
         assertEquals(discarded, players.get(1).getFaith());
-        assertEquals(discarded+1, players.get(2).getFaith());
+        assertEquals(discarded + 1, players.get(2).getFaith());
 
         //Checks that productions have been reset
         assertTrue(players.get(0).isProductionInputEmpty());
     }
 
     @Test
-    void endTurnSoloGame () throws WrongTurnPhaseException, NotEnoughResourceException, UnknownResourceException, LeaderNotPresentException {
+    void endTurnSoloGame() throws WrongTurnPhaseException, NotEnoughResourceException, UnknownResourceException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
@@ -919,7 +862,7 @@ class UserCommandsInterfaceTest {
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
         List<ActionToken> activeTokens = lollo.getActiveDeck();
         List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue (lollo!=null);
+        assertTrue(lollo != null);
 
         //Player takes first turn
         assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
@@ -928,42 +871,42 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //Lorenzo should not take first turn
-        assertEquals (6, activeTokens.size());
-        assertEquals (0, usedTokens.size());
-        assertEquals (0, lollo.getFaith());
+        assertEquals(6, activeTokens.size());
+        assertEquals(0, usedTokens.size());
+        assertEquals(0, lollo.getFaith());
 
         //Player takes second turn
-        game.selectMarketRow( 1);
+        game.selectMarketRow(1);
         int baseFaith = player.getLeftInWaitingRoom();
         game.endTurn();
 
         //Verification
         if (usedTokens.isEmpty()) {
-            assertEquals (6, activeTokens.size());
-            assertEquals (baseFaith+1, lollo.getFaith());
-        }else {
-            assertEquals (5, activeTokens.size());
-            assertEquals (1, usedTokens.size());
+            assertEquals(6, activeTokens.size());
+            assertEquals(baseFaith + 1, lollo.getFaith());
+        } else {
+            assertEquals(5, activeTokens.size());
+            assertEquals(1, usedTokens.size());
             if (usedTokens.get(0) instanceof DoubleFaithToken) {
-                assertEquals (baseFaith+2, lollo.getFaith());
+                assertEquals(baseFaith + 2, lollo.getFaith());
             } else if (usedTokens.get(0) instanceof RemoveCardsToken) {
-                if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.GREEN) {
+                if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.GREEN) {
                     assertEquals(2, game.getCardTable().getGreenCards().get(2).size());
-                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.BLUE) {
+                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.BLUE) {
                     assertEquals(2, game.getCardTable().getBlueCards().get(2).size());
-                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor()==CardColor.YELLOW) {
+                } else if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.YELLOW) {
                     assertEquals(2, game.getCardTable().getYellowCards().get(2).size());
-                }else {
+                } else {
                     assertEquals(2, game.getCardTable().getPurpleCards().get(2).size());
                 }
             }
         }
 
         //Check that action tokens do not accumulate in following turns
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             game.selectMarketRow(1);
             game.endTurn();
-            assertEquals(6, activeTokens.size()+usedTokens.size());
+            assertEquals(6, activeTokens.size() + usedTokens.size());
         }
     }
 
@@ -976,15 +919,6 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
         List<PlayerBoard> players = game.getPlayersTurnOrder();
-        // During first turn players must choose which LeaderCards to keep
-        for (int i = 0; i<players.size(); i++) {
-            assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
-            //Avoids having to deal with bonus first-turn resource choice
-            players.get(i).clearWaitingRoom();
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            game.endTurn();
-        }
 
         //adds faith to players
         players.get(0).addFaith(9);
@@ -992,14 +926,18 @@ class UserCommandsInterfaceTest {
         players.get(2).addFaith(1);
 
         //selects from market with player one, but then empties waiting room to not cause increases in the others' faith
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
         game.selectMarketRow(1);
         players.get(0).clearWaitingRoom();
         game.endTurn();
 
         //checks popetile status for the three players
-        assertEquals (PopeTileState.ACTIVE, players.get(0).getPopeFavorTiles().get(0).getState());
-        assertEquals (PopeTileState.ACTIVE, players.get(1).getPopeFavorTiles().get(0).getState());
-        assertEquals (PopeTileState.DISCARDED, players.get(2).getPopeFavorTiles().get(0).getState());
+        assertEquals(PopeTileState.ACTIVE, players.get(0).getPopeFavorTiles().get(0).getState());
+        assertEquals(PopeTileState.ACTIVE, players.get(1).getPopeFavorTiles().get(0).getState());
+        assertEquals(PopeTileState.DISCARDED, players.get(2).getPopeFavorTiles().get(0).getState());
     }
 
     @Test
@@ -1014,7 +952,7 @@ class UserCommandsInterfaceTest {
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
         List<ActionToken> activeTokens = lollo.getActiveDeck();
         List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue (lollo!=null);
+        assertTrue(lollo != null);
 
         //Player takes first turn
         assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
@@ -1023,9 +961,9 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //Lorenzo should not take first turn
-        assertEquals (6, activeTokens.size());
-        assertEquals (0, usedTokens.size());
-        assertEquals (0, lollo.getFaith());
+        assertEquals(6, activeTokens.size());
+        assertEquals(0, usedTokens.size());
+        assertEquals(0, lollo.getFaith());
 
         //Player takes second turn
         game.selectMarketRow(1);
@@ -1037,7 +975,8 @@ class UserCommandsInterfaceTest {
         game.endTurn();
     }
 
-    @Test void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException, LeaderNotPresentException {
+    @Test
+    void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
@@ -1048,7 +987,7 @@ class UserCommandsInterfaceTest {
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
         List<ActionToken> activeTokens = lollo.getActiveDeck();
         List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue (lollo!=null);
+        assertTrue(lollo != null);
 
         //Player takes first turn
         assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
@@ -1057,9 +996,9 @@ class UserCommandsInterfaceTest {
         game.endTurn();
 
         //Lorenzo should not take first turn
-        assertEquals (6, activeTokens.size());
-        assertEquals (0, usedTokens.size());
-        assertEquals (0, lollo.getFaith());
+        assertEquals(6, activeTokens.size());
+        assertEquals(0, usedTokens.size());
+        assertEquals(0, lollo.getFaith());
 
         //Player takes second turn
         game.selectMarketRow(1);
@@ -1081,14 +1020,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            game.endTurn();
-        }
+
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -1097,16 +1029,21 @@ class UserCommandsInterfaceTest {
             player.addResourceToStrongbox(ResourceType.STONE, 100);
         }
         // We gonna cheat again and add 6 cards to a player so that the next turn he will buy his 7th and end the game
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null ,null));
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null ,null));
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null ,null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null ,null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null ,null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null ,null));
-        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null, null));
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null, null));
+        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null, null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null, null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null, null));
+        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null, null));
+
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            player.clearWaitingRoom();
+            game.endTurn();
+
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
                 game.payFromStrongbox(resourceType.toResource(), 1);
             }
 
@@ -1123,14 +1060,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        // FIRST TURN: players must choose which LeaderCards to keep
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            //Avoids having to deal with bonus first-turn resource choice
-            player.clearWaitingRoom();
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            game.endTurn();
-        }
+
         // We're gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
             player.addResourceToStrongbox(ResourceType.COIN, 100);
@@ -1143,8 +1073,13 @@ class UserCommandsInterfaceTest {
 
         // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
+            game.chooseLeaderCard(1);
+            game.chooseLeaderCard(2);
+            player.clearWaitingRoom();
+            game.endTurn();
+
             game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType: game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
+            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
                 game.payFromStrongbox(resourceType.toResource(), 1);
             }
 

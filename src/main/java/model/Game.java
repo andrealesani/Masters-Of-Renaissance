@@ -500,6 +500,18 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void endTurn() throws WrongTurnPhaseException {
+        if (turnPhase == LEADERCHOICE) {
+
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0) {
+                throw new WrongTurnPhaseException();
+            }
+
+            currentPlayer.finishLeaderCardSelection();
+            currentPlayer.setFirstTurnTaken();
+            turnPhase = ACTIONSELECTION;
+            notifyObservers();
+            return;
+        }
 
         //Does all necessary end turn checks and actions and updates based on the action taken by the player
         endTurnChecks();
@@ -913,6 +925,27 @@ public class Game implements UserCommandsInterface, Observable {
     private void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
         notifyObservers();
+    }
+
+    public void updateSinglePlayer(String username) {
+        for (Observer observer : cardTable.getObservers())
+            observer.updateSinglePlayer(username);
+            observer.updateSinglePlayer(username);
+        if (lorenzo != null)
+            for (Observer observer : ((Lorenzo) lorenzo).getObservers())
+                observer.updateSinglePlayer(username);
+        for (Observer observer : market.getObservers())
+            observer.updateSinglePlayer(username);
+        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+            for (Observer observer : playerBoard.getObservers())
+                observer.updateSinglePlayer(username);
+            for (Observer observer : playerBoard.getStrongbox().getObservers())
+                observer.updateSinglePlayer(username);
+            for (Observer observer : playerBoard.getWaitingRoom().getObservers())
+                observer.updateSinglePlayer(username);
+            for (Observer observer : playerBoard.getWarehouse().getObservers())
+                observer.updateSinglePlayer(username);
+        }
     }
 
     //GETTERS (mostly for debug purposes)

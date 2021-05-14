@@ -60,7 +60,7 @@ public class GameController {
      * @param username      the username of the player that sent the message
      * @param commandString the message sent by the player, before deserialization
      */
-    public void readCommand(String username, String commandString) {
+    public synchronized void readCommand(String username, String commandString) {
         if (game == null) {
 
             playerMessage(username, MessageType.ERROR, "The game has not yet started, as some players are still missing.");
