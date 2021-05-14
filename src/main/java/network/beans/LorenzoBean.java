@@ -1,6 +1,7 @@
 package network.beans;
 
 import com.google.gson.Gson;
+import model.Color;
 import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
@@ -85,7 +86,7 @@ public class LorenzoBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32;1mLorenzo:\u001B[0m\n" +
+        return Color.HEADER + "Lorenzo:\u001B[0m\n" + Color.DEFAULT +
                 "   faith: " + faith +
                 "\n   activeTokens: " + Arrays.toString(activeTokens) +
                 "\n   discardedTokens: " + Arrays.toString(discardedTokens) + "\n";

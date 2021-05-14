@@ -4,6 +4,7 @@ import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import model.Color;
 import model.Game;
 import model.Observer;
 import model.TurnPhase;
@@ -141,7 +142,7 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32;1mGame State:\u001B[0m\n" +
+        return Color.HEADER + "Game State:\n" + Color.DEFAULT +
                 "   Current player is " + currentPlayer +
                 " and we're in " + turnPhase + " phase\n";
     }

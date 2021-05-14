@@ -1,6 +1,7 @@
 package network.beans;
 
 import com.google.gson.Gson;
+import model.Color;
 import model.Observer;
 import model.ResourceType;
 import model.storage.UnlimitedStorage;
@@ -65,7 +66,7 @@ public class WaitingRoomBean implements Observer {
 
     @Override
     public String toString() {
-        return "\u001B[32;1m" + username + "'s WaitingRoom:\u001B[0m\n" +
+        return Color.HEADER + username + "'s WaitingRoom:\n" + Color.DEFAULT +
                 "   type: " + Arrays.toString(type) + "\n" +
                 "   quantity: " + Arrays.toString(quantity) + "\n";
     }

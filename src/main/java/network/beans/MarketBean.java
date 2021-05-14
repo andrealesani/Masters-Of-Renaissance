@@ -1,6 +1,7 @@
 package network.beans;
 
 import com.google.gson.Gson;
+import model.Color;
 import model.Market;
 import model.Observer;
 import model.ResourceType;
@@ -84,7 +85,7 @@ public class MarketBean implements Observer {
             }
             board += "\n\n   ";
         } */
-        return "\u001B[32;1mMarket:\u001B[0m\n   " +
+        return Color.HEADER + "Market:\n   " + Color.DEFAULT +
                 board +
                 "Slide: " + slide.formattedString() + "\n";
     }

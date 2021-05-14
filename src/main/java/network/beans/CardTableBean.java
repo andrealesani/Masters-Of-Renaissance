@@ -12,6 +12,7 @@ import network.GameController;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
+import java.security.cert.CertificateParsingException;
 import java.util.*;
 
 public class CardTableBean implements Observer {
@@ -164,24 +165,27 @@ public class CardTableBean implements Observer {
         String board = "";
         for (int[] row : cards) {
             board += "\n ";
-            try { board += "Level " + getDevelopmentCardFromId(row[0]).getLevel() + "   "; } catch (CardNotPresentException ignored) {}
+            try {
+                board += "Level " + getDevelopmentCardFromId(row[0]).getLevel() + "   ";
+            } catch (CardNotPresentException ignored) {
+            }
             for (int cell : row) {
                 try {
                     if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                        board += "\033[48;2;0;25;120m  " + cell + "  \u001B[0m ";
+                        board += "  " + Color.BLUE_BG + cell + Color.DEFAULT + "   ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                        board += "\033[48;2;0;102;40m  " + cell + "  \u001B[0m ";
+                        board += "  " + Color.GREEN_BG + cell + Color.DEFAULT + "   ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                        board += "\033[48;2;80;15;200m  " + cell + "  \u001B[0m ";
+                        board += "  " + Color.PURPLE_BG + cell + Color.DEFAULT + "   ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                        board += "\033[48;2;128;85;0m  " + cell + "  \u001B[0m ";
+                        board += "  " + Color.YELLOW_BG + cell + Color.DEFAULT + "   ";
                 } catch (CardNotPresentException e) {
                     System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
                 }
             }
             board += "\n";
         }
-        return "\u001B[32;1mCardTable:\u001B[0m\n" +
+        return Color.HEADER + "CardTable:\n" + Color.DEFAULT +
                 board;
     }
 }

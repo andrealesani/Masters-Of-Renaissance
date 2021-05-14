@@ -9,43 +9,43 @@ public enum ResourceType {
     SHIELD {
         @Override
         public String toString() {
-            return "\u001B[36mSHIELD\u001B[0m";
+            return Color.ORANGE_FG + "SHIELD" + Color.DEFAULT;
         }
     },
     STONE {
         @Override
         public String toString() {
-            return "\u001B[36mSTONE\u001B[0m";
+            return Color.ORANGE_FG + "STONE" + Color.DEFAULT;
         }
     },
     SERVANT {
         @Override
         public String toString() {
-            return "\u001B[36mSERVANT\u001B[0m";
+            return Color.ORANGE_FG + "SERVANT" + Color.DEFAULT;
         }
     },
     COIN {
         @Override
         public String toString() {
-            return "\u001B[36mCOIN\u001B[0m";
+            return Color.ORANGE_FG + "COIN" + Color.DEFAULT;
         }
     },
     FAITH {
         @Override
         public String toString() {
-            return "\u001B[36mFAITH\u001B[0m";
+            return Color.ORANGE_FG + "FAITH" + Color.DEFAULT;
         }
     },
     WHITEORB {
         @Override
         public String toString() {
-            return "\u001B[36mWHITEORB\u001B[0m";
+            return Color.ORANGE_FG + "WHITEORB" + Color.DEFAULT;
         }
     },
     UNKNOWN {
         @Override
         public String toString() {
-            return "\u001B[36mUNKNOWN\u001B[0m";
+            return Color.ORANGE_FG + "UNKNOWN" + Color.DEFAULT;
         }
     };
 
@@ -74,25 +74,25 @@ public enum ResourceType {
 
     public String formattedString() {
         if (this == ResourceType.COIN) {
-            return "\033[48;5;23m   COIN   \u001B[0m";
+            return Color.AQUA_GREEN_BG + "   COIN   " + Color.DEFAULT;
         }
         if (this == ResourceType.SERVANT) {
-            return "\033[48;5;23m SERVANT  \u001B[0m";
+            return Color.AQUA_GREEN_BG + " SERVANT  " + Color.DEFAULT;
         }
         if (this == ResourceType.SHIELD) {
-            return "\033[48;5;23m  SHIELD  \u001B[0m";
+            return Color.AQUA_GREEN_BG + "  SHIELD  " + Color.DEFAULT;
         }
         if (this == ResourceType.STONE) {
-            return "\033[48;5;23m  STONE   \u001B[0m";
+            return Color.AQUA_GREEN_BG + "  STONE   " + Color.DEFAULT;
         }
         if (this == ResourceType.UNKNOWN) {
-            return "\033[48;5;23m UNKNOWN  \u001B[0m";
+            return Color.AQUA_GREEN_BG + " UNKNOWN  " + Color.DEFAULT;
         }
         if (this == ResourceType.FAITH) {
-            return "\033[48;5;23m  FAITH   \u001B[0m";
+            return Color.AQUA_GREEN_BG + "  FAITH   " + Color.DEFAULT;
         }
         if (this == ResourceType.WHITEORB) {
-            return "\033[48;5;23m WHITEORB \u001B[0m";
+            return Color.AQUA_GREEN_BG + " WHITEORB " + Color.DEFAULT;
         }
         // This should never happen
         return null;

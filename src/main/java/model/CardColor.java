@@ -7,25 +7,25 @@ public enum CardColor {
     GREEN {
         @Override
         public String toString() {
-            return "\u001B[36mGREEN\u001B[0m";
+            return Color.GREEN_BG + "GREEN" + Color.DEFAULT;
         }
     },
     YELLOW {
         @Override
         public String toString() {
-            return "\u001B[36mYELLOW\u001B[0m";
+            return Color.GREEN_BG + "YELLOW" + Color.DEFAULT;
         }
     },
     BLUE {
         @Override
         public String toString() {
-            return "\u001B[36mBLUE\u001B[0m";
+            return Color.GREEN_BG + "BLUE" + Color.DEFAULT;
         }
     },
     PURPLE{
         @Override
         public String toString() {
-            return "\u001B[36mPURPLE\u001B[0m";
+            return Color.GREEN_BG + "PURPLE" + Color.DEFAULT;
         }
     }
 }

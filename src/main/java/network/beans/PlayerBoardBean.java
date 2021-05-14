@@ -417,7 +417,7 @@ public class PlayerBoardBean implements Observer {
             slots += "      ";
             slots += slotBean.toString();
         }
-        return "\n\u001B[32:1m" + username + "'s PlayerBoard:\u001B[0m\n" +
+        return "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.DEFAULT +
                 "   popeTileStates: " + Arrays.toString(popeTileStates) + "\n" +
                 "   popeTilePoints: " + Arrays.toString(popeTilePoints) + "\n" +
                 "   productions: " + Arrays.toString(productions) + "\n" +
