@@ -188,7 +188,7 @@ public class ServerPlayerHandler implements Runnable {
             try {
                 message = in.nextLine();
             } catch (NoSuchElementException ex) {
-                controller.setConnectedStatus(username, false);
+                controller.setDisconnectedStatus(username);
                 throw ex;
             }
 

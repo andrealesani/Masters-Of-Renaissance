@@ -7,12 +7,10 @@ import Exceptions.network.GameFullException;
 import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
-import model.PlayerBoard;
 import network.beans.MessageType;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -116,7 +114,7 @@ public class GameController {
                 if (game.isConnected(username)) {
                     throw new UsernameAlreadyExistsException();
                 } else {
-                    setConnectedStatus(username, true);
+                    setConnectedStatus(username);
                 }
             }
         }
@@ -179,43 +177,50 @@ public class GameController {
     }
 
     /**
-     * Sets whether the given player is connected or not
+     * Communicates to the Game that the given player has reconnected
      *
      * @param username the player's username
-     * @param status   true if the user is connected, false if they are not
      */
-    public void setConnectedStatus(String username, boolean status) {
+    public void setConnectedStatus(String username) {
         if (!players.containsKey(username)) {
             System.out.println("Connection status was attempted to be set for a player that does not belong to the game.");
             return;
         }
 
         if (game == null) {
-
-            if (!status) {
-                System.out.println("Player " + username + " will now be removed from the game's players.");
-                players.remove(username);
-                if (players.isEmpty()) {
-                    //TODO forse eliminare il game se tutti i giocatori si disconnettono?
-                }
-            } else {
-                System.out.println("A player attempted to be reconnected before game start, which should never happen.");
-            }
-
+            System.out.println("A player attempted to be reconnected before game start, which should never happen.");
         } else {
-
             try {
-                game.setConnectedStatus(username, status);
-                if (status) {
-                    System.out.println("Player " + username + " is now connected.");
-                } else {
-                    System.out.println("Player " + username + " is now disconnected.");
-                }
-
-            } catch (InvalidParameterException ex) {
+                game.setConnectedStatus(username);
+                System.out.println("Player " + username + " is now connected.");
+            } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
             }
+        }
+    }
 
+    /**
+     * Communicates to the Game that the given player has disconnected
+     *
+     * @param username the player's username
+     */
+    public void setDisconnectedStatus(String username) {
+        if (!players.containsKey(username)) {
+            System.out.println("Connection status was attempted to be set for a player that does not belong to the game.");
+            return;
+        }
+
+        if (game == null) {
+            System.out.println("Player " + username + " will now be removed from the game's players.");
+            players.remove(username);
+            //TODO forse eliminare il game se tutti i giocatori si disconnettono prima dell'inizio della partita?
+        } else {
+            try {
+                game.setDisconnectedStatus(username);
+                System.out.println("Player " + username + " is now disconnected.");
+            } catch (ParametersNotValidException ex) {
+                System.out.println("Players in GameController do not correspond with games in GameModel.");
+            }
         }
     }
 

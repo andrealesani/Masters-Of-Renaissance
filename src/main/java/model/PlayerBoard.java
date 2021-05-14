@@ -87,9 +87,13 @@ public class PlayerBoard implements Observable {
      */
     private final int devCardMax;
     /**
-     * Attribute used to indicate whether the player is connected or not
+     * Attribute used to indicate whether or not the player is connected
      */
     private boolean isConnected = true;
+    /**
+     * Attribute used to indicate whether or not the player has taken the first turn (chosen the leader cards and bonus resources)
+     */
+    private boolean hasTakenFirstTurn;
 
     //CONSTRUCTORS
 
@@ -140,6 +144,9 @@ public class PlayerBoard implements Observable {
         productionHandler = new ProductionHandler();
         productionHandler.addProduction(baseProduction);
 
+        isConnected = true;
+        hasTakenFirstTurn = false;
+
         notifyObservers();
     }
 
@@ -165,6 +172,9 @@ public class PlayerBoard implements Observable {
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
         productionHandler = new ProductionHandler();
+
+        isConnected = true;
+        hasTakenFirstTurn = false;
 
         notifyObservers();
     }
@@ -558,7 +568,7 @@ public class PlayerBoard implements Observable {
      *
      * @param number specifies the position of the LeaderCard in the leaderCards list
      * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
-     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
+     * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
     public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException {
         if (number <= 0)
@@ -577,7 +587,7 @@ public class PlayerBoard implements Observable {
      * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
      *
      * @param number specifies the position of the LeaderCard in the leaderCards list
-     * @throws LeaderIsActiveException if the leader card to be discarded has been activated
+     * @throws LeaderIsActiveException   if the leader card to be discarded has been activated
      * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
     public void discardLeaderCard(int number) throws LeaderIsActiveException, LeaderNotPresentException {
@@ -792,22 +802,30 @@ public class PlayerBoard implements Observable {
         return vp;
     }
 
+    //CONNECTION METHODS
+
     /**
-     * Sets whether the player is connected or not
-     *
-     * @param status true if the user is connected, false if they are not
+     * Sets the player's connection status to connected
      */
-    public void setConnectedStatus(boolean status) {
-        isConnected = status;
+    public void setConnectedStatus() {
+        isConnected = true;
     }
 
     /**
-     * Returns whether or not the player is flagged as connected
+     * Sets the player's connection status to disconnected
      *
-     * @return true if the player is flagged as connected
      */
-    public boolean isConnected() {
-        return isConnected;
+    public void setDisconnectedStatus() {
+        isConnected = false;
+    }
+
+    //TURN PHASE HANDLING METHODS
+
+    /**
+     * Flags the user as having taken their first turn
+     */
+    public void setFirstTurnTaken() {
+        hasTakenFirstTurn = true;
     }
 
     //GETTERS
@@ -876,6 +894,24 @@ public class PlayerBoard implements Observable {
     }
 
     //Simple getters
+
+    /**
+     * Returns whether or not the player has taken the first turn
+     *
+     * @return true if the player has chosen their leader cards and starting resources
+     */
+    public boolean isFirstTurnTaken() {
+        return hasTakenFirstTurn;
+    }
+
+    /**
+     * Returns whether or not the player is flagged as connected
+     *
+     * @return true if the player is flagged as connected
+     */
+    public boolean isConnected() {
+        return isConnected;
+    }
 
     /**
      * Getter

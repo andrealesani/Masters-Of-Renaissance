@@ -194,7 +194,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
-     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
+     * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
     @Override
     public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException {
@@ -212,7 +212,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws LeaderIsActiveException     if the player attempts to discard a leader card they have previously activated
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
+     * @throws LeaderNotPresentException   if the number selected does not correspond to a leader card
      */
     @Override
     public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
@@ -441,7 +441,6 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws NotEnoughResourceException  if the player does not have enough resources to activate the selected productions
      * @throws UnknownResourceException    if the player still has to choose which resources some jollies in the productions' input or output will become
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
     @Override
     public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
@@ -501,32 +500,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void endTurn() throws WrongTurnPhaseException {
-        //Does all necessary end turn checks and updates based on the action taken by the player
+
+        //Does all necessary end turn checks and actions and updates based on the action taken by the player
         endTurnChecks();
-
-        //Other than in the first game turn
-        if (turnPhase == TurnPhase.ACTIONSELECTION) {
-            //If in solo mode, Lorenzo takes His action
-            if (lorenzo != null) {
-                lorenzo.takeTurn();
-            }
-
-            //Activates a vatican report if necessary
-            checkVaticanReport();
-        }
-
-        //If in first game turn
-        if (turnPhase == LEADERCHOICE) {
-
-            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
-            currentPlayer.finishLeaderCardSelection();
-            if (playersTurnOrder.indexOf(currentPlayer) >= playersTurnOrder.size() - 1) {
-                setTurnPhase(ACTIONSELECTION);
-            }
-
-        }
 
         //Checks if the final phase of the game should be triggered
         if (isGameEnding() && !weReInTheEndGameNow) {
@@ -545,29 +521,57 @@ public class Game implements UserCommandsInterface, Observable {
     //PUBLIC METHODS
 
     /**
-     * Sets whether the given player is connected or not.
+     * Sets the given player's connection status to disconnected.
      * If all players were disconnected, sets the given player as current player
      *
      * @param username the player's username
-     * @param status   true if the user is connected, false if they are not
      */
-    public void setConnectedStatus(String username, boolean status) {
+    public void setConnectedStatus(String username) {
         for (PlayerBoard player : playersTurnOrder) {
-
             if (player.getUsername().equals(username)) {
 
-                player.setConnectedStatus(status);
+                player.setConnectedStatus();
 
-                if (currentPlayer == null && status) {
+                if (currentPlayer == null) {
+                    chooseTurnStartingPhase(player);
                     currentPlayer = player;
                     notifyObservers();
                 }
 
                 return;
             }
-
         }
+        throw new InvalidParameterException();
+    }
 
+    /**
+     * Sets the given player's connection status to disconnected.
+     * If the player is the current player changes the current player
+     *
+     * @param username the player's username
+     */
+    public void setDisconnectedStatus(String username) {
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getUsername().equals(username)) {
+
+                if (currentPlayer == null) {
+                    throw new ParametersNotValidException();
+                } else {
+                    player.setDisconnectedStatus();
+
+                    if (currentPlayer == player) {
+                        try {
+                            endTurn();
+                        } catch (WrongTurnPhaseException ex) {
+                            currentPlayer.resetProductionChoice();
+                            switchPlayer();
+                        }
+                    }
+                }
+
+                return;
+            }
+        }
         throw new InvalidParameterException();
     }
 
@@ -717,27 +721,42 @@ public class Game implements UserCommandsInterface, Observable {
 
             throw new WrongTurnPhaseException();
 
-        } else if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
+        } else if (turnPhase == LEADERCHOICE) {
+
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0) {
+                throw new WrongTurnPhaseException();
+            }
+
+            currentPlayer.finishLeaderCardSelection();
+            currentPlayer.setFirstTurnTaken();
+            return;
+
+        } else if (turnPhase == MARKETDISTRIBUTION) {
 
             checkDiscarded();
-            setTurnPhase(ACTIONSELECTION);
 
-        } else if (turnPhase == TurnPhase.CARDPAYMENT) {
+        } else if (turnPhase == CARDPAYMENT) {
 
             if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
-            setTurnPhase(ACTIONSELECTION);
 
-        } else if (turnPhase == TurnPhase.PRODUCTIONPAYMENT) {
+        } else if (turnPhase == PRODUCTIONPAYMENT) {
 
             if (currentPlayer.getLeftInWaitingRoom() > 0) {
                 throw new WrongTurnPhaseException();
             }
             currentPlayer.releaseProductionOutput();
-            setTurnPhase(ACTIONSELECTION);
 
         }
+
+        //If in solo mode, Lorenzo takes His action
+        if (lorenzo != null) {
+            lorenzo.takeTurn();
+        }
+
+        //Activates a vatican report if necessary
+        checkVaticanReport();
     }
 
     /**
@@ -796,14 +815,20 @@ public class Game implements UserCommandsInterface, Observable {
     private void switchPlayer() {
         int size = playersTurnOrder.size();
 
-        if (size == 1)
+        if (size == 1) {
+            chooseTurnStartingPhase(currentPlayer);
             return;
+        }
 
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
 
+        PlayerBoard nextPlayer;
         for (int nextIndex = (currentIndex + 1) % size; nextIndex != currentIndex; nextIndex = (nextIndex + 1) % size) {
-            if (playersTurnOrder.get(nextIndex).isConnected()) {
-                currentPlayer = playersTurnOrder.get(nextIndex);
+            nextPlayer = playersTurnOrder.get(nextIndex);
+            if (nextPlayer.isConnected()) {
+
+                chooseTurnStartingPhase(nextPlayer);
+                currentPlayer = nextPlayer;
                 notifyObservers();
                 return;
             }
@@ -811,6 +836,19 @@ public class Game implements UserCommandsInterface, Observable {
 
         System.out.println("All players have disconnected, next player to reconnect will become current player.");
         currentPlayer = null;
+    }
+
+    /**
+     * Selects the starting phase for the next player's turn
+     *
+     * @param nextPlayer the next player in turn order
+     */
+    private void chooseTurnStartingPhase(PlayerBoard nextPlayer) {
+        if (nextPlayer.isFirstTurnTaken()) {
+            turnPhase = ACTIONSELECTION;
+        } else {
+            turnPhase = LEADERCHOICE;
+        }
     }
 
     /**

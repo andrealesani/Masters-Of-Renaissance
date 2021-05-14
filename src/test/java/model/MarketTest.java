@@ -162,7 +162,7 @@ class MarketTest {
         assertEquals(2, countRS);
         assertEquals(1, countRF);
         assertEquals(2, countRSe);
-        assertEquals(3, countRSh);
+        assertEquals(2, countRSh);
         assertEquals(2, countRSt);
         assertEquals(4, countRW);
 
