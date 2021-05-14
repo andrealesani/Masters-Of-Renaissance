@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
 public class ClientWriter implements Runnable {
@@ -46,14 +45,47 @@ public class ClientWriter implements Runnable {
                     System.out.println("Closing connection...");
                     break;
                 }
-                
+
                 switch (userInput) {
-                    case "show" -> System.out.println("\n\n" + clientView);
+                    case "show" -> {
+                        System.out.println("Specify what you want to see or press ENTER to show all:");
+                        System.out.println("(Supported commands: 'market', 'cardtable', 'lorenzo', 'playerboard', 'strongbox', 'waitingroom', 'warehouse')");
+                        String request = stdIn.readLine();
+                        switch (request) {
+                            case "" -> {
+                                System.out.println("\n" + clientView);
+                            }
+                            case "market" -> {
+                                System.out.println("\n" + clientView.getMarket());
+                            }
+                            case "cardtable" -> {
+                                System.out.println("\n" + clientView.getCardTable());
+                            }
+                            case "lorenzo" -> {
+                                if(clientView.getLorenzo() == null)
+                                    System.out.println("\nLorenzo is not present in this game");
+                                else
+                                    System.out.println("\n" + clientView.getLorenzo());
+                            }
+                            case "playerboard" -> {
+                                System.out.println("\n" + clientView.getPlayerBoards());
+                            }
+                            case "strongbox" -> {
+                                System.out.println("\n" + clientView.getStrongboxes());
+                            }
+                            case "waitingroom" -> {
+                                System.out.println("\n" + clientView.getWaitingRooms());
+                            }
+                            case "warehouse" -> {
+                                System.out.println("\n" + clientView.getWarehouses());
+                            }
+                        }
+                    }
                     case "card" -> {
-                        System.out.println("Which card do you want to see?");
+                        System.out.println("Specify the card you want to see: ");
                         int cardId = getInt();
                         try {
-                            System.out.println(clientView.getDevelopmentCardFromId(cardId));
+                            System.out.println(clientView.getCardTable().getDevelopmentCardFromId(cardId));
                         } catch (CardNotPresentException ex) {
                             System.out.println(ex.getMessage());
                         }

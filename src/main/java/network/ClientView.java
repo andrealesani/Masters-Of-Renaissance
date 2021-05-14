@@ -1,7 +1,6 @@
 package network;
 
 import Exceptions.CardNotPresentException;
-import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -63,7 +62,7 @@ public class ClientView {
         }
     };
 
-    Map<CardColor, List<List<DevelopmentCard>>> developmentCards = new HashMap<>();
+    private transient final Map<CardColor, List<List<DevelopmentCard>>> developmentCards = new HashMap<>();
 
     // CONSTRUCTOR
 
@@ -214,11 +213,17 @@ public class ClientView {
 
     @Override
     public String toString() {
+        String lorenzo;
+        if(getLorenzo() == null)
+            lorenzo = "";
+        else
+            lorenzo = "\n" + getLorenzo().toString();
+
         return "\u001B[34;1mView:\n" +
                 "\u001B[0m\n" + game + "\n" +
                 "\u001B[0m\n" + market + "\n" +
                 "\u001B[0m\n" + cardTable + "\n" +
-                "\u001B[0m\n" + lorenzo +
+                "\u001B[0m" + lorenzo +
                 "\u001B[0m\n" + playerBoards +
                 "\u001B[0m\n" + strongboxes +
                 "\u001B[0m\n" + waitingRooms +
