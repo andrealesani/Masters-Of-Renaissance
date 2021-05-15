@@ -172,13 +172,13 @@ public class CardTableBean implements Observer {
             for (int cell : row) {
                 try {
                     if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                        board += "  " + Color.BLUE_BG + cell + Color.DEFAULT + "   ";
+                        board += " " + Color.BLUE_BG + " " + cell + " " + Color.DEFAULT + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                        board += "  " + Color.GREEN_BG + cell + Color.DEFAULT + "   ";
+                        board += " " + Color.GREEN_BG + " " + cell + " " + Color.DEFAULT + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                        board += "  " + Color.PURPLE_BG + cell + Color.DEFAULT + "   ";
+                        board += " " + Color.PURPLE_BG + " " + cell + " " + Color.DEFAULT + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                        board += "  " + Color.YELLOW_BG + cell + Color.DEFAULT + "   ";
+                        board += " " + Color.YELLOW_BG + " " + cell + " " +  Color.DEFAULT + " ";
                 } catch (CardNotPresentException e) {
                     System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
                 }
