@@ -6,26 +6,24 @@ package model;
 public enum CardColor {
     GREEN {
         @Override
-        public String toString() {
-            return Color.GREEN_BG + "GREEN" + Color.DEFAULT;
-        }
+        public String toString() { return Color.GREEN_BG + "GREEN" + Color.DEFAULT; }
     },
     YELLOW {
         @Override
         public String toString() {
-            return Color.GREEN_BG + "YELLOW" + Color.DEFAULT;
+            return Color.YELLOW_BG + "YELLOW" + Color.DEFAULT;
         }
     },
     BLUE {
         @Override
         public String toString() {
-            return Color.GREEN_BG + "BLUE" + Color.DEFAULT;
+            return Color.BLUE_BG + "BLUE" + Color.DEFAULT;
         }
     },
     PURPLE{
         @Override
         public String toString() {
-            return Color.GREEN_BG + "PURPLE" + Color.DEFAULT;
+            return Color.PURPLE_BG + "PURPLE" + Color.DEFAULT;
         }
     }
 }
