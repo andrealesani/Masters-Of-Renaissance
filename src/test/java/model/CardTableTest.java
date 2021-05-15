@@ -7,6 +7,8 @@ import model.card.DevelopmentCard;
 import model.storage.UnlimitedStorage;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardTableTest {
@@ -103,10 +105,10 @@ class CardTableTest {
         CardTable cardTable = new CardTable(0);
         PlayerBoard playerBoard = new PlayerBoard();
         UnlimitedStorage strongbox = playerBoard.getStrongbox();
-        strongbox.addResource(ResourceType.SHIELD, 20);
-        strongbox.addResource(ResourceType.COIN, 20);
-        strongbox.addResource(ResourceType.STONE, 20);
-        strongbox.addResource(ResourceType.SERVANT, 20);
+        strongbox.addResources(Map.of(ResourceType.SHIELD, 20));
+        strongbox.addResources(Map.of(ResourceType.COIN, 20));
+        strongbox.addResources(Map.of(ResourceType.STONE, 20));
+        strongbox.addResources(Map.of(ResourceType.SERVANT, 20));
 
         cardTable.buyTopCard(CardColor.GREEN, 1, playerBoard, 1);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getColor() == CardColor.GREEN);

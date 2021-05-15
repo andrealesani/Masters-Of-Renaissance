@@ -4,6 +4,9 @@ import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class represents the game's servant resource and purple marble
  */
@@ -29,7 +32,7 @@ public class ResourceServant extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToWaitingRoom(ResourceType.SERVANT, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SERVANT, 1));
     }
 
     /**
@@ -42,6 +45,6 @@ public class ResourceServant extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SERVANT, 1));
     }
 }

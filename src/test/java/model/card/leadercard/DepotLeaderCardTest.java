@@ -7,6 +7,8 @@ import model.PlayerBoard;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepotLeaderCardTest {
@@ -37,13 +39,13 @@ class DepotLeaderCardTest {
 
         assertFalse(leaderCard.areRequirementsMet(playerBoard));
 
-        playerBoard.getStrongbox().addResource(ResourceType.COIN, 500);
+        playerBoard.getStrongbox().addResources(Map.of(ResourceType.COIN, 500));
         assertFalse(leaderCard.areRequirementsMet(playerBoard));
 
-        playerBoard.getStrongbox().addResource(ResourceType.STONE, 4);
+        playerBoard.getStrongbox().addResources(Map.of(ResourceType.STONE, 4));
         assertFalse(leaderCard.areRequirementsMet(playerBoard));
 
-        playerBoard.getStrongbox().addResource(ResourceType.STONE, 1);
+        playerBoard.getStrongbox().addResources(Map.of(ResourceType.STONE, 1));
         assertTrue(leaderCard.areRequirementsMet(playerBoard));
     }
 }

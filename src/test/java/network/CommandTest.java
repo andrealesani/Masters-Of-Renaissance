@@ -7,10 +7,6 @@ import model.Game;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.card.leadercard.LeaderCard;
-import model.resource.Resource;
-import model.resource.ResourceCoin;
-import model.resource.ResourceShield;
-import model.resource.ResourceStone;
 import model.storage.LeaderDepot;
 import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
@@ -101,9 +97,11 @@ class CommandTest {
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
         player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
-        player.addResourceToWaitingRoom(ResourceType.SHIELD, 3);
-        player.addResourceToWaitingRoom(ResourceType.COIN, 1);
-        player.addResourceToWaitingRoom(ResourceType.STONE, 1);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 3);
+        resources.put(ResourceType.COIN, 1);
+        resources.put(ResourceType.STONE, 1);
+        player.addResourcesToWaitingRoom(resources);
 
         //to change game phase to MARKETDISTRIBUTION
         game.selectMarketRow(1);
@@ -172,10 +170,12 @@ class CommandTest {
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
 
         // TEST STARTS HERE

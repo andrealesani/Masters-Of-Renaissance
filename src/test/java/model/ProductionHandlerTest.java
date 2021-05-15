@@ -5,7 +5,9 @@ import model.resource.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -177,13 +179,18 @@ class ProductionHandlerTest {
 
         // TEST
         assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
-
-        playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.COIN, 1);
+        playerBoard.addResourcesToStrongbox(resources);
         assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
 
         // Resources are divided into strongbox and depots and together they're enough to activated all the productions
-        playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
-        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 2);
+        resources.clear();
+        resources.put(ResourceType.SERVANT, 1);
+        playerBoard.addResourcesToStrongbox(resources);
+        resources.clear();
+        resources.put(ResourceType.SHIELD, 2);
+        playerBoard.addResourcesToWaitingRoom(resources);
         playerBoard.sendResourceToDepot(2, ResourceType.SHIELD, 2);
         assertTrue(productionHandler.arePlayerResourcesEnough(playerBoard));
     }
@@ -230,9 +237,15 @@ class ProductionHandlerTest {
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
-        playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
-        playerBoard.addResourceToStrongbox(ResourceType.SERVANT, 1);
-        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 2);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.COIN, 1);
+        playerBoard.addResourcesToStrongbox(resources);
+        resources.clear();
+        resources.put(ResourceType.SERVANT, 1);
+        playerBoard.addResourcesToStrongbox(resources);
+        resources.clear();
+        resources.put(ResourceType.SHIELD, 2);
+        playerBoard.addResourcesToWaitingRoom(resources);
     }
 
 

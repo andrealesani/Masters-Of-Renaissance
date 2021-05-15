@@ -199,9 +199,11 @@ class UserCommandsInterfaceTest {
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
         player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
-        player.addResourceToWaitingRoom(ResourceType.SHIELD, 3);
-        player.addResourceToWaitingRoom(ResourceType.COIN, 1);
-        player.addResourceToWaitingRoom(ResourceType.STONE, 1);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 3);
+        resources.put(ResourceType.COIN, 1);
+        resources.put(ResourceType.STONE, 1);
+        player.addResourcesToWaitingRoom(resources);
 
         //to change game phase to MARKETDISTRIBUTION
         game.selectMarketRow(1);
@@ -393,10 +395,12 @@ class UserCommandsInterfaceTest {
         //Manually adds resources to player's strongbox
         PlayerBoard player = game.getCurrentPlayer();
         UnlimitedStorage strongbox = player.getStrongbox();
-        strongbox.addResource(ResourceType.SHIELD, 20);
-        strongbox.addResource(ResourceType.STONE, 20);
-        strongbox.addResource(ResourceType.SERVANT, 20);
-        strongbox.addResource(ResourceType.COIN, 20);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 20);
+        resources.put(ResourceType.STONE, 20);
+        resources.put(ResourceType.SERVANT, 20);
+        resources.put(ResourceType.COIN, 20);
+        strongbox.addResources(resources);
 
 
         //Quantifies the resources the player has before the purchase
@@ -547,10 +551,12 @@ class UserCommandsInterfaceTest {
         //Adds manually resources to the strongbox
         PlayerBoard player = game.getCurrentPlayer();
         UnlimitedStorage strongbox = player.getStrongbox();
-        strongbox.addResource(ResourceType.SHIELD, 20);
-        strongbox.addResource(ResourceType.STONE, 20);
-        strongbox.addResource(ResourceType.SERVANT, 20);
-        strongbox.addResource(ResourceType.COIN, 20);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 20);
+        resources.put(ResourceType.STONE, 20);
+        resources.put(ResourceType.SERVANT, 20);
+        resources.put(ResourceType.COIN, 20);
+        strongbox.addResources(resources);
 
         //Loads two productions in current player's board
         List<Resource> input1 = new ArrayList<>();
@@ -615,10 +621,12 @@ class UserCommandsInterfaceTest {
         game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
 
         // TEST STARTS HERE
@@ -642,10 +650,12 @@ class UserCommandsInterfaceTest {
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
 
 
@@ -681,10 +691,12 @@ class UserCommandsInterfaceTest {
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
 
 
@@ -729,10 +741,12 @@ class UserCommandsInterfaceTest {
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
 
 
@@ -773,10 +787,12 @@ class UserCommandsInterfaceTest {
         game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
         // First player decides to activate the basic Production (WHICH INCLUDES UNKNOWN RESOURCES) so he has to choose Jolly for both input and output
         game.selectProduction(1);
@@ -1021,12 +1037,13 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
         // We gonna cheat again and add 6 cards to a player so that the next turn he will buy his 7th and end the game
         game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null, null));
@@ -1061,12 +1078,13 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        // We're gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
         for (PlayerBoard player : game.getPlayersTurnOrder()) {
-            player.addResourceToStrongbox(ResourceType.COIN, 100);
-            player.addResourceToStrongbox(ResourceType.SERVANT, 100);
-            player.addResourceToStrongbox(ResourceType.SHIELD, 100);
-            player.addResourceToStrongbox(ResourceType.STONE, 100);
+            Map<ResourceType, Integer> resources = new HashMap<>();
+            resources.put(ResourceType.COIN, 100);
+            resources.put(ResourceType.SERVANT, 100);
+            resources.put(ResourceType.SHIELD, 100);
+            resources.put(ResourceType.STONE, 100);
+            player.addResourcesToStrongbox(resources);
         }
         //We're gonna do what's called a 'pro-gamer-move' and add a bunch of faith to the first player
         game.getCurrentPlayer().addFaith(25);
@@ -1110,10 +1128,12 @@ class UserCommandsInterfaceTest {
 
         //Adds manually resources to the strongbox
         UnlimitedStorage strongbox = player.getStrongbox();
-        strongbox.addResource(ResourceType.SHIELD, 20);
-        strongbox.addResource(ResourceType.STONE, 20);
-        strongbox.addResource(ResourceType.SERVANT, 20);
-        strongbox.addResource(ResourceType.COIN, 20);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 20);
+        resources.put(ResourceType.STONE, 20);
+        resources.put(ResourceType.SERVANT, 20);
+        resources.put(ResourceType.COIN, 20);
+        strongbox.addResources(resources);
 
         //Loads a production in the current player's board
         List<Resource> input1 = new ArrayList<>();

@@ -2,9 +2,11 @@ package model.storage;
 
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ParametersNotValidException;
+import model.CardColor;
 import model.Observable;
 import model.Observer;
 import model.ResourceType;
+import model.card.DevelopmentCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      * @param resource the resource to be added
      * @param quantity the amount of resource to add to the amount stored
      */
-    public void addResource(ResourceType resource, int quantity) {
+    private void addResource(ResourceType resource, int quantity) {
         if (quantity < 0) {
             throw new ParametersNotValidException();
         }
@@ -44,6 +46,32 @@ public class UnlimitedStorage implements ResourceStash, Observable {
                 storageContent.put(resource, quantity);
             } else {
                 storageContent.put(resource, storageContent.get(resource) + quantity);
+            }
+        }
+
+        notifyObservers();
+    }
+
+    /**
+     * Adds the given resources to the storage
+     *
+     * @param resources the resources to be added
+     */
+    public void addResources(Map<ResourceType, Integer> resources) {
+        for (Map.Entry<ResourceType, Integer> resource : resources.entrySet()) {
+            if (resource.getValue() < 0) {
+                throw new ParametersNotValidException();
+            }
+
+            if (resource.getKey() != null && resource.getValue() > 0) {
+                if (!storageContent.containsKey(resource.getKey())) {
+                    storageContent.put(resource.getKey(), resource.getValue());
+                    System.out.println(resource.getKey() + " value was overwritten to " + storageContent.get(resource.getKey()));
+                } else {
+                    System.out.print("Storage content for " + resource.getKey() + " goes from " + storageContent.get(resource.getKey()));
+                    storageContent.put(resource.getKey(), storageContent.get(resource.getKey()) + resource.getValue());
+                    System.out.print(" to " + storageContent.get(resource.getKey()) + "\n");
+                }
             }
         }
 

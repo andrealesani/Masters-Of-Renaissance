@@ -4,6 +4,9 @@ import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class represents the game's stone resource and grey marble
  */
@@ -29,7 +32,7 @@ public class ResourceStone extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToWaitingRoom(ResourceType.STONE, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.STONE, 1));
     }
 
     /**
@@ -42,6 +45,6 @@ public class ResourceStone extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToStrongbox(ResourceType.STONE, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.STONE, 1));
     }
 }

@@ -186,25 +186,19 @@ public class PlayerBoard implements Observable {
     /**
      * Temporarily stores the given amount of the given resource in the waiting room
      *
-     * @param resource the resource to be added
-     * @param quantity the amount of resource to add
+     * @param resources the resources to be added
      */
-    public void addResourceToWaitingRoom(ResourceType resource, int quantity) {
-        waitingRoom.addResource(resource, quantity);
-
-        notifyObservers();
+    public void addResourcesToWaitingRoom(Map<ResourceType, Integer> resources) {
+        waitingRoom.addResources(resources);
     }
 
     /**
      * Adds the given amount of the given resource to the strongbox
      *
-     * @param resource the resource to be added
-     * @param quantity the amount of the resource to add
+     * @param resources the resource to be added
      */
-    public void addResourceToStrongbox(ResourceType resource, int quantity) {
-        strongbox.addResource(resource, quantity);
-
-        notifyObservers();
+    public void addResourcesToStrongbox(Map<ResourceType, Integer> resources) {
+        strongbox.addResources(resources);
     }
 
 
@@ -224,7 +218,7 @@ public class PlayerBoard implements Observable {
      */
     public void addWhiteMarble(int quantity) {
         if (marbleConversions.size() == 1) {
-            waitingRoom.addResource(marbleConversions.get(0), quantity);
+            waitingRoom.addResources(Map.of(marbleConversions.get(0), quantity));
         } else if (marbleConversions.size() > 1) {
             whiteMarbleNum += quantity;
         }
@@ -250,7 +244,7 @@ public class PlayerBoard implements Observable {
         if (newQuantity < 0) {
             throw new NotEnoughResourceException();
         }
-        waitingRoom.addResource(resource, quantity);
+        waitingRoom.addResources(Map.of(resource, quantity));
         whiteMarbleNum = newQuantity;
 
         notifyObservers();
@@ -280,8 +274,6 @@ public class PlayerBoard implements Observable {
             //This should never happen
             System.out.println("BUG! Player tried to move to depot more resources than there were in waiting room!");
         }
-
-        notifyObservers();
     }
 
     /**
@@ -294,8 +286,6 @@ public class PlayerBoard implements Observable {
      */
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, DepotNotPresentException {
         warehouse.swapDepotContent(depotNumber1, depotNumber2);
-
-        notifyObservers();
     }
 
     /**
@@ -314,8 +304,6 @@ public class PlayerBoard implements Observable {
      */
     public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
         warehouse.moveDepotContent(depotNumberTake, depotNumberGive, resource, quantity);
-
-        notifyObservers();
     }
 
     //Development card purchase methods
@@ -373,7 +361,7 @@ public class PlayerBoard implements Observable {
                 throw new NotEnoughResourceException();
             }
 
-            waitingRoom.addResource(resource, quantity);
+            waitingRoom.addResources(Map.of(resource, quantity));
         }
 
         //Adds the new production and card, deleting the old production if an old card is covered
@@ -411,7 +399,7 @@ public class PlayerBoard implements Observable {
      */
     public void selectProduction(int number) throws ProductionNotPresentException {
         productionHandler.selectProduction(number);
-        // notifyObservers(); Not needed as long as production selection is handled by the client
+        //notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**
@@ -419,7 +407,7 @@ public class PlayerBoard implements Observable {
      */
     public void resetProductionChoice() {
         productionHandler.resetProductionChoice();
-        // notifyObservers(); Not needed as long as production selection is handled by the client
+        //notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**
@@ -531,8 +519,6 @@ public class PlayerBoard implements Observable {
             //This should never happen
             System.out.println("BUG! Tried to pay for a resource that was not required from warehouse!");
         }
-
-        notifyObservers();
     }
 
     /**
@@ -555,20 +541,17 @@ public class PlayerBoard implements Observable {
             //This should never happen
             System.out.println("BUG! Tried to pay for a resource that was not required from strongbox!");
         }
-
-        notifyObservers();
     }
 
     //Leader card handling methods
 
     /**
-     * Adds the specified LeaderCard to the player's leaderCards list
+     * Adds the specified LeaderCards to the player's leaderCards list
      *
-     * @param leaderCard specifies the LeaderCard to add
+     * @param newLeaderCards specifies the LeaderCards to add
      */
-    public void addLeaderCard(LeaderCard leaderCard) {
-        leaderCards.add(leaderCard);
-
+    public void addLeaderCards(List<LeaderCard> newLeaderCards) {
+        this.leaderCards.addAll(newLeaderCards);
         notifyObservers();
     }
 
@@ -685,7 +668,7 @@ public class PlayerBoard implements Observable {
         if (newQuantity < 0) {
             throw new NotEnoughResourceException();
         }
-        waitingRoom.addResource(resource, quantity);
+        waitingRoom.addResources(Map.of(resource, quantity));
         whiteMarbleNum = newQuantity;
 
         notifyObservers();
@@ -783,8 +766,6 @@ public class PlayerBoard implements Observable {
     public void clearWaitingRoom() {
         waitingRoom.clear();
         whiteMarbleNum = 0;
-
-        notifyObservers();
     }
 
     /**

@@ -4,7 +4,9 @@ import Exceptions.NotEnoughResourceException;
 import model.ResourceType;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,19 +16,24 @@ class UnlimitedStorageTest {
      * This method tests the addition of resources to the storage
      */
     @Test
-    void addResource() {
+    void addResources() {
         UnlimitedStorage stash = new UnlimitedStorage();
-        stash.addResource(ResourceType.SHIELD, 4);
-        stash.addResource(ResourceType.COIN, 8);
-        stash.addResource(ResourceType.SERVANT, 15);
-        stash.addResource(ResourceType.STONE, 16);
-        stash.addResource(ResourceType.SHIELD, 23);
-        stash.addResource(ResourceType.SHIELD, 42);
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.COIN, 8);
+        resources.put(ResourceType.SERVANT, 15);
+        resources.put(ResourceType.STONE, 16);
+        resources.put(ResourceType.SHIELD, 42);
+        stash.addResources(resources);
 
-        assertEquals(69, stash.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(42, stash.getNumOfResource(ResourceType.SHIELD));
         assertEquals(8, stash.getNumOfResource(ResourceType.COIN));
         assertEquals(15, stash.getNumOfResource(ResourceType.SERVANT));
         assertEquals(16, stash.getNumOfResource(ResourceType.STONE));
+
+        resources.clear();
+        resources.put(ResourceType.SHIELD, 27);
+        stash.addResources(resources);
+        assertEquals(69, stash.getNumOfResource(ResourceType.SHIELD));
     }
 
     /**
@@ -35,7 +42,7 @@ class UnlimitedStorageTest {
     @Test
     void removeResource() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
-        stash.addResource(ResourceType.SHIELD, 3);
+        stash.addResources(Map.of(ResourceType.SHIELD, 3));
 
         stash.removeResource(ResourceType.SHIELD, 2);
 
@@ -48,7 +55,7 @@ class UnlimitedStorageTest {
     @Test
     void removeResourceNotEnough() {
         UnlimitedStorage stash = new UnlimitedStorage();
-        stash.addResource(ResourceType.SHIELD, 3);
+        stash.addResources(Map.of(ResourceType.SHIELD, 3));
 
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
@@ -61,7 +68,7 @@ class UnlimitedStorageTest {
     @Test
     void removeResourceNotInStash() {
         UnlimitedStorage stash = new UnlimitedStorage();
-        stash.addResource(ResourceType.COIN, 3);
+        stash.addResources(Map.of(ResourceType.COIN, 3));
 
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
@@ -78,11 +85,11 @@ class UnlimitedStorageTest {
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
         assertEquals(0, stash.getNumOfResource(ResourceType.COIN));
 
-        stash.addResource(ResourceType.SHIELD, 17);
+        stash.addResources(Map.of(ResourceType.SHIELD, 17));
 
         stash.removeResource(ResourceType.SHIELD, 16);
 
-        stash.addResource(ResourceType.SHIELD, 22);
+        stash.addResources(Map.of(ResourceType.SHIELD, 22));
 
         assertEquals(23, stash.getNumOfResource(ResourceType.SHIELD));
     }
@@ -94,7 +101,7 @@ class UnlimitedStorageTest {
     void getNumOfResourceRemoved() throws NotEnoughResourceException {
         UnlimitedStorage stash = new UnlimitedStorage();
 
-        stash.addResource(ResourceType.SHIELD, 17);
+        stash.addResources(Map.of(ResourceType.SHIELD, 17));
 
         stash.removeResource(ResourceType.SHIELD, 17);
 
@@ -110,10 +117,10 @@ class UnlimitedStorageTest {
 
         assertTrue(stash.getStoredResources().isEmpty());
 
-        stash.addResource(ResourceType.SHIELD, 4);
-        stash.addResource(ResourceType.COIN, 8);
-        stash.addResource(ResourceType.SERVANT, 15);
-        stash.addResource(ResourceType.SHIELD, 42);
+        stash.addResources(Map.of(ResourceType.SHIELD, 4));
+        stash.addResources(Map.of(ResourceType.COIN, 8));
+        stash.addResources(Map.of(ResourceType.SERVANT, 15));
+        stash.addResources(Map.of(ResourceType.SHIELD, 42));
 
         stash.removeResource(ResourceType.COIN, 8);
         stash.removeResource(ResourceType.SERVANT, 12);

@@ -367,6 +367,7 @@ public class Game implements UserCommandsInterface, Observable {
         cardTable.buyTopCard(cardColor, level, currentPlayer, slot);
         currentPlayer.resetProductionChoice();
         setTurnPhase(CARDPAYMENT);
+        notifyObservers();
     }
 
     //Production selection actions
@@ -449,6 +450,7 @@ public class Game implements UserCommandsInterface, Observable {
         }
         currentPlayer.confirmProductionChoice();
         setTurnPhase(PRODUCTIONPAYMENT);
+        notifyObservers();
     }
 
     //Debt payment actions
@@ -718,10 +720,12 @@ public class Game implements UserCommandsInterface, Observable {
         int j = 0;
 
         for (PlayerBoard playerBoard : playersTurnOrder) {
+            List<LeaderCard> leaderCards = new ArrayList<>();
             for (int i = 0; i < initialLeaderCardNumber; i++) {
-                playerBoard.addLeaderCard(leaderCards.get(j));
+                leaderCards.add(this.leaderCards.get(j));
                 j++;
             }
+            playerBoard.addLeaderCards(leaderCards);
         }
     }
 

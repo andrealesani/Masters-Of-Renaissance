@@ -4,6 +4,9 @@ import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class represents the game's shield resource and blue marble
  */
@@ -29,7 +32,7 @@ public class ResourceShield extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToWaitingRoom(ResourceType.SHIELD, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SHIELD, 1));
     }
 
     /**
@@ -42,6 +45,6 @@ public class ResourceShield extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToStrongbox(ResourceType.SHIELD, 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SHIELD, 1));
     }
 }

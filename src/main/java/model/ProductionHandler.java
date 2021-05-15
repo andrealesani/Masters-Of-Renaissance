@@ -3,10 +3,7 @@ package model;
 import Exceptions.*;
 import model.resource.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -162,9 +159,15 @@ public class ProductionHandler {
     public void releaseInput(PlayerBoard playerBoard) {
         if(playerBoard == null)
             throw new ParametersNotValidException();
+        Map<ResourceType, Integer> resources = new HashMap<>();
         for (Resource resource : currentInput) {
-            playerBoard.addResourceToWaitingRoom(resource.getType(), 1);
+            if (!resources.containsKey(resource.getType())) {
+                resources.put(resource.getType(), 1);
+            } else {
+                resources.put(resource.getType(), resources.get(resource.getType()) + 1);
+            }
         }
+        playerBoard.addResourcesToWaitingRoom(resources);
     }
 
     /**

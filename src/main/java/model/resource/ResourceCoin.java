@@ -4,6 +4,9 @@ import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
 import model.ResourceType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class represents the game's coin resource and yellow marble
  */
@@ -28,8 +31,7 @@ public class ResourceCoin extends Resource {
     public void addResourceFromMarket(PlayerBoard playerBoard) {
         if(playerBoard == null)
             throw new ParametersNotValidException();
-
-        playerBoard.addResourceToWaitingRoom(getType(), 1);
+        playerBoard.addResourcesToWaitingRoom(Map.of(getType(), 1));
     }
 
     /**
@@ -42,7 +44,7 @@ public class ResourceCoin extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourceToStrongbox(ResourceType.COIN, 1);
+        playerBoard.addResourcesToStrongbox(Map.of(getType(), 1));
     }
 
 
