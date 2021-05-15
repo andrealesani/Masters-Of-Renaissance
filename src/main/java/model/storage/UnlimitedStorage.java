@@ -66,11 +66,8 @@ public class UnlimitedStorage implements ResourceStash, Observable {
             if (resource.getKey() != null && resource.getValue() > 0) {
                 if (!storageContent.containsKey(resource.getKey())) {
                     storageContent.put(resource.getKey(), resource.getValue());
-                    System.out.println(resource.getKey() + " value was overwritten to " + storageContent.get(resource.getKey()));
                 } else {
-                    System.out.print("Storage content for " + resource.getKey() + " goes from " + storageContent.get(resource.getKey()));
                     storageContent.put(resource.getKey(), storageContent.get(resource.getKey()) + resource.getValue());
-                    System.out.print(" to " + storageContent.get(resource.getKey()) + "\n");
                 }
             }
         }

@@ -34,7 +34,6 @@ public class GameBean implements Observer {
 
     public GameBean(GameController controller) {
         this.controller = controller;
-        System.out.println("Game bean created");
     }
 
     // GETTERS
