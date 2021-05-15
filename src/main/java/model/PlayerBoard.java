@@ -585,8 +585,8 @@ public class PlayerBoard implements Observable {
         if (number > leaderCards.size())
             throw new LeaderNotPresentException();
 
-        if (leaderCards.get(number).areRequirementsMet(this)) {
-            leaderCards.get(number).doAction(this);
+        if (leaderCards.get(number-1).areRequirementsMet(this)) {
+            leaderCards.get(number-1).doAction(this);
         } else throw new LeaderRequirementsNotMetException();
 
         notifyObservers();
@@ -607,7 +607,7 @@ public class PlayerBoard implements Observable {
         if (leaderCards.get(number).isActive())
             throw new LeaderIsActiveException();
 
-        leaderCards.remove(number);
+        leaderCards.remove(number-1);
         addFaith(1);
 
         notifyObservers();

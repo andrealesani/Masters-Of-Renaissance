@@ -867,6 +867,8 @@ public class Game implements UserCommandsInterface, Observable {
         } else {
             chooseTurnStartingPhase(currentPlayer);
         }
+
+        notifyObservers();
     }
 
     /**
