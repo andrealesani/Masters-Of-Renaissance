@@ -847,11 +847,6 @@ public class Game implements UserCommandsInterface, Observable {
     private void switchPlayer() {
         int size = playersTurnOrder.size();
 
-        if (size == 1) {
-            chooseTurnStartingPhase(currentPlayer);
-            return;
-        }
-
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
 
         PlayerBoard nextPlayer;
@@ -866,8 +861,12 @@ public class Game implements UserCommandsInterface, Observable {
             }
         }
 
-        System.out.println("All players have disconnected, next player to reconnect will become current player.");
-        currentPlayer = null;
+        if (!currentPlayer.isConnected()) {
+            System.out.println("All players have disconnected, next player to reconnect will become current player.");
+            currentPlayer = null;
+        } else {
+            chooseTurnStartingPhase(currentPlayer);
+        }
     }
 
     /**

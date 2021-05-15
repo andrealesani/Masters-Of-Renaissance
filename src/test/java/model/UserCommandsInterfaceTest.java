@@ -533,7 +533,7 @@ class UserCommandsInterfaceTest {
 
     @Test
     void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
-// Game creation
+        // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
         nicknames.add("Tom");
@@ -1086,5 +1086,62 @@ class UserCommandsInterfaceTest {
             // Game should end after the last player's turn
             game.endTurn();
         }
+    }
+
+    @Test
+    public void automaticPaymentTest() throws LeaderNotPresentException, WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, ProductionNotPresentException, NotEnoughResourceException, UnknownResourceException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Adds manually resources to warehouse
+        PlayerBoard player = game.getCurrentPlayer();
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 3);
+
+        //Adds manually resources to the strongbox
+        UnlimitedStorage strongbox = player.getStrongbox();
+        strongbox.addResource(ResourceType.SHIELD, 20);
+        strongbox.addResource(ResourceType.STONE, 20);
+        strongbox.addResource(ResourceType.SERVANT, 20);
+        strongbox.addResource(ResourceType.COIN, 20);
+
+        //Loads a production in the current player's board
+        List<Resource> input1 = new ArrayList<>();
+        input1.add(new ResourceShield());
+        input1.add(new ResourceShield());
+        input1.add(new ResourceStone());
+        List<Resource> output1 = new ArrayList<>();
+        output1.add(new ResourceFaith());
+        player.addProduction(new Production(-1, input1, output1));
+
+
+        //Activates the production
+        game.selectProduction(2);
+
+        //Confirm choice
+        game.confirmProductionChoice();
+
+        //Actually tests the method
+        game.endTurn();
+
+        //Verifies quantities left
+        assertEquals(0, warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(2, warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
+        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
+        assertEquals(20, strongbox.getNumOfResource(ResourceType.STONE));
+        assertEquals(20, strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(20, strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals(19, strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(1, player.getFaith());
     }
 }

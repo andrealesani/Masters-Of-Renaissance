@@ -112,9 +112,9 @@ public class ClientWriter implements Runnable {
                         System.out.println("10. takeDevelopmentCard");
                         System.out.println("11. selectProduction");
                         System.out.println("12. resetProductionChoice");
-                        System.out.println("13. chooseJollyInput");
-                        System.out.println("14. chooseJollyOutput");
-                        System.out.println("15. confirmProductionChoice");
+                        System.out.println("13. confirmProductionChoice");
+                        System.out.println("14. chooseJollyInput");
+                        System.out.println("15. chooseJollyOutput");
                         System.out.println("16. payFromWarehouse");
                         System.out.println("17. payFromStrongbox");
                         System.out.println("18. endTurn");
@@ -187,7 +187,7 @@ public class ClientWriter implements Runnable {
                         System.out.println("Action selectMarketColumn selected");
                         Map<String, Object> map = new HashMap<>();
 
-                        System.out.println("Which row?");
+                        System.out.println("Which column?");
                         int columnSelected = getInt();
                         map.put("number", columnSelected);
 
@@ -282,7 +282,7 @@ public class ClientWriter implements Runnable {
                         int levelSelected = getInt();
                         map.put("level", levelSelected);
 
-                        System.out.println("Which number?");
+                        System.out.println("To put in which slot?");
                         int numberSelected = getInt();
                         map.put("number", numberSelected);
 
@@ -313,7 +313,7 @@ public class ClientWriter implements Runnable {
                     }
                     case "confirmProductionChoice", "13." -> {
                         System.out.println("Action confirmProductionChoice selected");
-                        System.out.println("Production Confirmed!");
+                        System.out.println("Confirming production...!");
 
                         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
                         out.println(gson.toJson(command));

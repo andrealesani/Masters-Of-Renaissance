@@ -126,14 +126,14 @@ public class CardTable implements Observable{
         List<List<DevelopmentCard>> deckColumn = cards.get(cardColor);
         int i;
 
-        for (i=2; i>=0; i--) {
+        for (i=0; i<=2; i++) {
             if (deckColumn.get(i).size() > 0) {
                 deckColumn.get(i).remove(0);
                 break;
             }
         }
 
-        if (i < 0) {
+        if (i > 2) {
             throw new EmptyDeckException();
         }
 
@@ -146,14 +146,16 @@ public class CardTable implements Observable{
      * @return true if there's at least one card of each color still available
      */
     public boolean checkAllColorsAvailable() {
-
         for (CardColor color : cards.keySet()) {
-            for (List<DevelopmentCard> deck : cards.get(color)) {
-                if (deck.size() >= 1)
-                    break;
-                else
-                    return false;
+            List<List<DevelopmentCard>> colorDeck = cards.get(color);
+            int i;
+            for (i=0; i<=2; i++) {
+                List<DevelopmentCard> levelDeck = colorDeck.get(i);
+                if (levelDeck.size() >= 1)
+                    break;ca
             }
+            if (i>2)
+                return false;
         }
 
         return true;

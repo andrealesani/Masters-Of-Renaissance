@@ -187,7 +187,7 @@ public class GameController {
      *
      * @param username the player's username
      */
-    public void setConnectedStatus(String username) {
+    public synchronized void setConnectedStatus(String username) {
         if (!players.containsKey(username)) {
             System.out.println("Connection status was attempted to be set for a player that does not belong to the game.");
             return;

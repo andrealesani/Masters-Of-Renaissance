@@ -269,8 +269,17 @@ public class PlayerBoard implements Observable {
      * @throws NotEnoughResourceException      if the waiting room contains less than the given amount of the given resource
      */
     public void sendResourceToDepot(int depot, ResourceType resource, int quantity) throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
-        waitingRoom.removeResource(resource, quantity);
+        int toPlace = waitingRoom.getNumOfResource(resource);
+        if (quantity > toPlace) {
+            quantity = toPlace;
+        }
         warehouse.addToDepot(depot, resource, quantity);
+        try {
+            waitingRoom.removeResource(resource, quantity);
+        } catch (NotEnoughResourceException ex) {
+            //This should never happen
+            System.out.println("BUG! Player tried to move to depot more resources than there were in waiting room!");
+        }
 
         notifyObservers();
     }
@@ -748,6 +757,7 @@ public class PlayerBoard implements Observable {
                 if (!found) {
                     try {
                         strongbox.removeResource(resource, 1);
+                        waitingRoom.removeResource(resource, 1);
                     } catch (NotEnoughResourceException ex) {
                         //This should never happen
                         System.out.println("BUG! Automatic payment failed because player does not have enough resources.");
