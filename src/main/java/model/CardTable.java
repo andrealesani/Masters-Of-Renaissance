@@ -152,7 +152,7 @@ public class CardTable implements Observable{
             for (i=0; i<=2; i++) {
                 List<DevelopmentCard> levelDeck = colorDeck.get(i);
                 if (levelDeck.size() >= 1)
-                    break;ca
+                    break;
             }
             if (i>2)
                 return false;
