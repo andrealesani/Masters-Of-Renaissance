@@ -24,12 +24,12 @@ class RemoveCardsTokenTest {
 
         token.doAction();
 
-        assertEquals(levelOneNumber-2, cardTable.getYellowCards().get(2).size());
+        assertEquals(levelOneNumber-2, cardTable.getYellowCards().get(0).size());
 
         token.doAction();
         token.doAction();
 
-        assertEquals(levelOneNumber-4, cardTable.getYellowCards().get(2).size());
+        assertEquals(levelOneNumber-4, cardTable.getYellowCards().get(0).size());
         assertEquals(levelTwoNumber-2, cardTable.getYellowCards().get(1).size());
 
         cardTable.discardTop(CardColor.YELLOW);
@@ -37,6 +37,6 @@ class RemoveCardsTokenTest {
         token.doAction();
 
         assertEquals(levelTwoNumber-4, cardTable.getYellowCards().get(1).size());
-        assertEquals(levelTwoNumber-1, cardTable.getYellowCards().get(0).size());
+        assertEquals(levelThreeNumber-1, cardTable.getYellowCards().get(2).size());
     }
 }

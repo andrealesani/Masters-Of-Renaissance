@@ -128,12 +128,12 @@ class UserCommandsInterfaceTest {
         game.chooseLeaderCard(2);
         game.endTurn();
 
-        List<LeaderCard> memoryList = new ArrayList(game.getCurrentPlayer().getLeaderCards());
+        List<LeaderCard> memoryList = new ArrayList<>(game.getCurrentPlayer().getLeaderCards());
         int preFaith = game.getCurrentPlayer().getFaith();
         game.discardLeaderCard(1);
 
         assertEquals(memoryList.size() - 1, game.getCurrentPlayer().getLeaderCards().size());
-        assertEquals(memoryList.get(0), game.getCurrentPlayer().getLeaderCards().get(0));
+        assertEquals(memoryList.get(1), game.getCurrentPlayer().getLeaderCards().get(0));
         assertEquals(preFaith + 1, game.getCurrentPlayer().getFaith());
 
     }
@@ -878,7 +878,7 @@ class UserCommandsInterfaceTest {
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
         List<ActionToken> activeTokens = lollo.getActiveDeck();
         List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue(lollo != null);
+        assertNotNull(lollo);
 
         //Player takes first turn
         assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
@@ -903,17 +903,18 @@ class UserCommandsInterfaceTest {
         } else {
             assertEquals(5, activeTokens.size());
             assertEquals(1, usedTokens.size());
+
             if (usedTokens.get(0) instanceof DoubleFaithToken) {
                 assertEquals(baseFaith + 2, lollo.getFaith());
             } else if (usedTokens.get(0) instanceof RemoveCardsToken) {
                 if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.GREEN) {
-                    assertEquals(2, game.getCardTable().getGreenCards().get(2).size());
+                    assertEquals(2, game.getCardTable().getGreenCards().get(0).size());
                 } else if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.BLUE) {
-                    assertEquals(2, game.getCardTable().getBlueCards().get(2).size());
+                    assertEquals(2, game.getCardTable().getBlueCards().get(0).size());
                 } else if (((RemoveCardsToken) usedTokens.get(0)).getColor() == CardColor.YELLOW) {
-                    assertEquals(2, game.getCardTable().getYellowCards().get(2).size());
+                    assertEquals(2, game.getCardTable().getYellowCards().get(0).size());
                 } else {
-                    assertEquals(2, game.getCardTable().getPurpleCards().get(2).size());
+                    assertEquals(2, game.getCardTable().getPurpleCards().get(0).size());
                 }
             }
         }

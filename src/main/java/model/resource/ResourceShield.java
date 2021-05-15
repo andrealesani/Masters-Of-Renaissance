@@ -45,6 +45,6 @@ public class ResourceShield extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SHIELD, 1));
+        playerBoard.addResourcesToStrongbox(Map.of(ResourceType.SHIELD, 1));
     }
 }

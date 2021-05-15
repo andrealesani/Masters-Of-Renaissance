@@ -45,6 +45,6 @@ public class ResourceServant extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.SERVANT, 1));
+        playerBoard.addResourcesToStrongbox(Map.of(ResourceType.SERVANT, 1));
     }
 }

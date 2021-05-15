@@ -45,6 +45,6 @@ public class ResourceStone extends Resource {
         if(playerBoard == null)
             throw new ParametersNotValidException();
 
-        playerBoard.addResourcesToWaitingRoom(Map.of(ResourceType.STONE, 1));
+        playerBoard.addResourcesToStrongbox(Map.of(ResourceType.STONE, 1));
     }
 }
