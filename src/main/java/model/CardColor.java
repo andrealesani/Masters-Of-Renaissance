@@ -6,7 +6,9 @@ package model;
 public enum CardColor {
     GREEN {
         @Override
-        public String toString() { return Color.GREEN_BG + "GREEN" + Color.DEFAULT; }
+        public String toString() {
+            return Color.GREEN_BG + "GREEN" + Color.DEFAULT;
+        }
     },
     YELLOW {
         @Override
@@ -20,7 +22,7 @@ public enum CardColor {
             return Color.BLUE_BG + "BLUE" + Color.DEFAULT;
         }
     },
-    PURPLE{
+    PURPLE {
         @Override
         public String toString() {
             return Color.PURPLE_BG + "PURPLE" + Color.DEFAULT;
