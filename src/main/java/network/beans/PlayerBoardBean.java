@@ -414,22 +414,22 @@ public class PlayerBoardBean implements Observer {
     public String toString() {
         String slots = "";
         for(SlotBean slotBean : cardSlots) {
-            slots += "      ";
+            slots += "  ";
             slots += slotBean.toString();
         }
         return "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.DEFAULT +
-                "   popeTileStates: " + Arrays.toString(popeTileStates) + "\n" +
-                "   popeTilePoints: " + Arrays.toString(popeTilePoints) + "\n" +
-                "   productions: " + Arrays.toString(productions) + "\n" +
-                "   whiteMarbles: " + whiteMarbles + "\n" +
-                "   faith: " + faith + "\n" +
-                "   marbleConversions: " + Arrays.toString(marbleConversions) + "\n" +
-                "   discountType: " + Arrays.toString(discountType) + "\n" +
-                "   discountQuantity: " + Arrays.toString(discountQuantity) + "\n" +
-                "   cardSlots:\n" + slots +
-                "   leaderCards: " + Arrays.toString(leaderCards) + "\n" +
-                "   activeLeaderCards: " + Arrays.toString(activeLeaderCards) + "\n" +
-                "   vpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                "   vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
+                " popeTileStates: " + Arrays.toString(popeTileStates) + "\n" +
+                " popeTilePoints: " + Arrays.toString(popeTilePoints) + "\n" +
+                " productions: " + Arrays.toString(productions) + "\n" +
+                " whiteMarbles: " + whiteMarbles + "\n" +
+                " faith: " + faith + "\n" +
+                " marbleConversions: " + Arrays.toString(marbleConversions) + "\n" +
+                " discountType: " + Arrays.toString(discountType) + "\n" +
+                " discountQuantity: " + Arrays.toString(discountQuantity) + "\n" +
+                " cardSlots:\n" + slots +
+                " leaderCards: " + Arrays.toString(leaderCards) + "\n" +
+                " activeLeaderCards: " + Arrays.toString(activeLeaderCards) + "\n" +
+                " vpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
+                " vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
     }
 }

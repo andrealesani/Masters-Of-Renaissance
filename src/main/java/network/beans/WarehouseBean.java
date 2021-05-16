@@ -76,9 +76,18 @@ public class WarehouseBean implements Observer {
 
     @Override
     public String toString() {
+        String content = "";
+        for (int i = 0; i < depotType.length; i++) {
+            if (depotType[i] != null)
+                content += " " + depotType[i] + " " + depotQuantity[i];
+            else
+                content += Color.ORANGE_FG + " EMPTY" + Color.DEFAULT;
+            if (i < basicDepotNum)
+                content += " [max: " + (i + 1) + "] ";
+            else
+                content += " [max: 2] ";
+        }
         return Color.HEADER + username + "'s Warehouse:\n" + Color.DEFAULT +
-                "   basicDepotNum: " + basicDepotNum + "\n" +
-                "   depotType: " + Arrays.toString(depotType) + "\n" +
-                "   depotQuantity: " + Arrays.toString(depotQuantity) + "\n";
+                " basicDepotNum: " + basicDepotNum + "\n" + content + "\n";
     }
 }

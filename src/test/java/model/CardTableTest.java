@@ -113,7 +113,6 @@ class CardTableTest {
         cardTable.buyTopCard(CardColor.GREEN, 1, playerBoard, 1);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getColor() == CardColor.GREEN);
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getLevel() == 1);
-        System.out.println(playerBoard.getCardSlots().get(0).get(0).getVictoryPoints());
     }
 
     @Test

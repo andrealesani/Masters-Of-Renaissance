@@ -3,7 +3,6 @@ package network.beans;
 import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import model.Color;
 import model.Game;
 import model.Observer;
@@ -11,9 +10,10 @@ import model.TurnPhase;
 import model.card.leadercard.*;
 import network.GameController;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,47 +71,31 @@ public class GameBean implements Observer {
         //TODO controllare valori in input dal JSON (typo nelle enum, valori <0, etc)
         leaderCards = new ArrayList<>();
         Gson gson = new Gson();
-        JsonReader reader = null;
+        Reader reader = null;
 
         // depot leader cards
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DepotLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/DepotLeaderCards.json"), StandardCharsets.UTF_8);
         Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
         }.getType();
         ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
         leaderCards.addAll(depotLeaderCards);
 
         // discount leader cards
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/DiscountLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/DiscountLeaderCards.json"), StandardCharsets.UTF_8);
         Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
         }.getType();
         ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         leaderCards.addAll(discountLeaderCards);
 
         // marble leader cards
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/MarbleLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/MarbleLeaderCards.json"), StandardCharsets.UTF_8);
         Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
         }.getType();
         ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
         leaderCards.addAll(marbleLeaderCards);
 
         // production leader cards
-        try {
-            reader = new JsonReader(new FileReader("./src/main/java/persistence/cards/leadercards/ProductionLeaderCards.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/ProductionLeaderCards.json"), StandardCharsets.UTF_8);
         Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
         }.getType();
         ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
@@ -141,8 +125,8 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        return Color.HEADER + "Game State:\n" + Color.DEFAULT +
-                "   Current player is " + currentPlayer +
+        return Color.HEADER + "\nGame State:\n" + Color.DEFAULT +
+                " Current player is " + currentPlayer +
                 " and we're in " + turnPhase + " phase\n";
     }
 }

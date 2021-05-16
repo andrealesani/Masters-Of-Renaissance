@@ -26,15 +26,15 @@ public class ServerMain {
 
         //Initialize portNumber
         int portNumber = 0;
-        if (args.length > 0) {
+        if (args != null && args.length > 0) {
             portNumber = Integer.parseInt(args[0]);
         } else {
             System.out.println("No parameters found on command line: reading them from Json.");
             Gson gson = new Gson();
 
-            Reader reader1 = new InputStreamReader(ServerMain.class.getResourceAsStream("/HostAndPort.json"), StandardCharsets.UTF_8);
+            Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream("/HostAndPort.json"), StandardCharsets.UTF_8);
             //reader = new JsonReader(new FileReader(ServerMain.class.getResource("/HostAndPort.json").getFile()));
-            Map map = gson.fromJson(reader1, Map.class);
+            Map map = gson.fromJson(reader, Map.class);
             portNumber = ((Double) map.get("portNumber")).intValue();
 
         }

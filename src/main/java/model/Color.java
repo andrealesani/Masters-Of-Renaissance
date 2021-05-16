@@ -72,5 +72,11 @@ public enum Color {
         public String toString() {
             return "\u001B[32;1m";
         }
+    },
+    VIEW {
+        @Override
+        public String toString() {
+            return "\u001B[34;1m";
+        }
     }
 }

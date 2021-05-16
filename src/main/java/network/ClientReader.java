@@ -51,32 +51,37 @@ public class ClientReader implements Runnable {
         Gson gson = new Gson();
         Map responseMap = gson.fromJson(response, Map.class);
         switch ((String) responseMap.get("type")) {
-            case "INFO":
-            case "ERROR":
+            case "INFO", "ERROR":
                 System.out.println(responseMap.get("jsonMessage"));
                 break;
             case "GAME":
                 try {
                     clientView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));
-                    System.out.println("Updated Game");
+                    StaticMethods.clearConsole();
+                    System.out.println(clientView);
                 } catch (Exception ignored) {
                     System.out.println("Warning: Game update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "MARKET":
                 try {
                     clientView.setMarket(gson.fromJson((String) responseMap.get("jsonMessage"), MarketBean.class));
-                    System.out.println("Updated Market");
+                    StaticMethods.clearConsole();
+                    System.out.println(clientView);
                 } catch (Exception ignored) {
                     System.out.println("Warning: Market update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "CARDTABLE":
                 try {
                     clientView.setCardTable(gson.fromJson((String) responseMap.get("jsonMessage"), CardTableBean.class));
-                    System.out.println("Updated CardTable");
+                    StaticMethods.clearConsole();
+                    System.out.println(clientView);
                 } catch (Exception ignored) {
                     System.out.println("Warning: CardTable update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "PLAYERBOARD":
@@ -88,17 +93,20 @@ public class ClientReader implements Runnable {
                         if (clientView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
                             clientView.getPlayerBoards().set(i, pbbUpdate);
                             found = true;
-                            System.out.println("Updated PlayerBoard");
+                            StaticMethods.clearConsole();
+                            System.out.println(clientView);
                             break;
                         }
 
                     if (!found) {
                         clientView.getPlayerBoards().add(pbbUpdate);
-                        System.out.println("Added new PlayerBoard");
+                        StaticMethods.clearConsole();
+                        System.out.println(clientView);
                     }
                     break;
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                     System.out.println("Warning: PlayerBoard update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "STRONGBOX":
@@ -110,16 +118,19 @@ public class ClientReader implements Runnable {
                         if (clientView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
                             clientView.getStrongboxes().set(i, strongboxUpdate);
                             found = true;
-                            System.out.println("Updated Strongbox");
+                            StaticMethods.clearConsole();
+                            System.out.println(clientView);
                             break;
                         }
 
                     if (!found) {
                         clientView.getStrongboxes().add(strongboxUpdate);
-                        System.out.println("Added new Strongbox");
+                        StaticMethods.clearConsole();
+                        System.out.println(clientView);
                     }
                 } catch (Exception ignored) {
                     System.out.println("Warning: Strongbox update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "WAITINGROOM":
@@ -131,16 +142,19 @@ public class ClientReader implements Runnable {
                         if (clientView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
                             clientView.getWaitingRooms().set(i, waitingRoomUpdate);
                             found = true;
-                            System.out.println("Updated WaitingRoom");
+                            StaticMethods.clearConsole();
+                            System.out.println(clientView);
                             break;
                         }
 
                     if (!found) {
                         clientView.getWaitingRooms().add(waitingRoomUpdate);
-                        System.out.println("Added new WaitingRoom");
+                        StaticMethods.clearConsole();
+                        System.out.println(clientView);
                     }
                 } catch (Exception ignored) {
                     System.out.println("Warning: WaitingRoom update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "WAREHOUSE":
@@ -152,24 +166,29 @@ public class ClientReader implements Runnable {
                         if (clientView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
                             clientView.getWarehouses().set(i, warehouseUpdate);
                             found = true;
-                            System.out.println("Updated Warehouse");
+                            StaticMethods.clearConsole();
+                            System.out.println(clientView);
                             break;
                         }
 
                     if (!found) {
                         clientView.getWarehouses().add(warehouseUpdate);
-                        System.out.println("Added new Warehouse");
+                        StaticMethods.clearConsole();
+                        System.out.println(clientView);
                     }
                 } catch (Exception ignored) {
                     System.out.println("Warning: Warehouse update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             case "LORENZO":
                 try {
                     clientView.setLorenzo(gson.fromJson((String) responseMap.get("jsonMessage"), LorenzoBean.class));
-                    System.out.println("Updated Lorenzo");
+                    StaticMethods.clearConsole();
+                    System.out.println(clientView);
                 } catch (Exception ignored) {
                     System.out.println("Warning: Lorenzo update failed");
+                    ignored.printStackTrace();
                 }
                 break;
             default:

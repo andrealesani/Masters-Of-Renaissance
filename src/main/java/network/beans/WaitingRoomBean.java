@@ -66,9 +66,11 @@ public class WaitingRoomBean implements Observer {
 
     @Override
     public String toString() {
-        return Color.HEADER + username + "'s WaitingRoom:\n" + Color.DEFAULT +
-                "   type: " + Arrays.toString(type) + "\n" +
-                "   quantity: " + Arrays.toString(quantity) + "\n";
+        String content = "";
+        for (int i = 0; i < type.length; i++) {
+            content += " " + type[i] + ": " + quantity[i] + "  ";
+        }
+        return Color.HEADER + username + "'s WaitingRoom:\n" + Color.DEFAULT + content + "\n";
     }
 }
 

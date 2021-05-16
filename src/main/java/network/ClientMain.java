@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -13,30 +14,21 @@ import java.util.concurrent.Executors;
 public class ClientMain {
     //MAIN
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         //Initialize hostName and portNumber
         String hostName = null;
         int portNumber = 0;
-        if (args.length > 0) {
+        if (args != null && args.length > 0) {
             hostName = args[0];
             portNumber = Integer.parseInt(args[1]);
         } else {
             System.out.println("No parameters on command line: reading from Json.");
             Gson gson = new Gson();
-            JsonReader reader;
-
-            try {
-
-                reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
-                Map map = gson.fromJson(reader, Map.class);
-                hostName = (String) map.get("hostName");
-                portNumber = ((Double) map.get("portNumber")).intValue();
-
-            } catch (FileNotFoundException ex) {
-                System.err.println(ex.getMessage());
-                System.exit(1);
-            }
+            Reader reader = new InputStreamReader(ClientMain.class.getResourceAsStream("/HostAndPort.json"), StandardCharsets.UTF_8);
+            Map map = gson.fromJson(reader, Map.class);
+            hostName = (String) map.get("hostName");
+            portNumber = ((Double) map.get("portNumber")).intValue();
         }
 
         System.out.println("Attempting connection...");

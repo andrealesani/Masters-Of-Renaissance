@@ -150,7 +150,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>network.ServerMain</mainClass>
+                            <mainClass>MastersOfRenaissance</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

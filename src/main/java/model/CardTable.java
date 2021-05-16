@@ -8,10 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.card.DevelopmentCard;
+import network.ServerMain;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,28 +65,28 @@ public class CardTable implements Observable{
         id++;
 
         // BLUE CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
+        createDecksFromJSON("/cards/developmentcards/BlueCards.json", blueCards);
         cards.put(CardColor.BLUE, blueCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
+        createDecksFromJSON("/cards/developmentcards/GreenCards.json", greenCards);
         cards.put(CardColor.GREEN, greenCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
+        createDecksFromJSON("/cards/developmentcards/PurpleCards.json", purpleCards);
         cards.put(CardColor.PURPLE, purpleCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
+        createDecksFromJSON("/cards/developmentcards/YellowCards.json", yellowCards);
         cards.put(CardColor.YELLOW, yellowCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)
@@ -176,20 +180,15 @@ public class CardTable implements Observable{
      */
     private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards) {
         Gson gson = new Gson();
-        JsonReader reader = null;
         Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
         }.getType();
 
-        try {
-            reader = new JsonReader(new FileReader(jsonPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
+        Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
+        List<DevelopmentCard> cards = gson.fromJson(reader, DevCardArray);
         for (int i = 0; i < 3; i++) {
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
-        for (DevelopmentCard developmentCard : allColorCards) {
+        for (DevelopmentCard developmentCard : cards) {
             if (developmentCard.getLevel() == 1)
                 colorCards.get(0).add(developmentCard);
             else if (developmentCard.getLevel() == 2)

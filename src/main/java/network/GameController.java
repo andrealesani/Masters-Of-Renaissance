@@ -244,8 +244,8 @@ public class GameController {
         game = new Game(players.keySet());
         game.createBeans(this);
 
-        broadcastMessage(MessageType.INFO, "All of the players have joined, the game will now begin.");
-        broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
+        //broadcastMessage(MessageType.INFO, "All of the players have joined, the game will now begin.");
+        //broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
         System.out.println("The game will now start.");
     }
 

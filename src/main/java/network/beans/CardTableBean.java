@@ -1,18 +1,18 @@
 package network.beans;
 
 import Exceptions.CardNotPresentException;
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
 import network.GameController;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
-import java.security.cert.CertificateParsingException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CardTableBean implements Observer {
@@ -41,22 +41,28 @@ public class CardTableBean implements Observer {
 
     // PRIVATE METHODS
 
+    /**
+     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
+     * then it reads the cards from the file and splits them into decks based on the cards level.
+     * Level 1 cards will be in the first lists of every column.
+     * Level 2 cards will be in the middle (second lists of every column).
+     * Level 3 cards will be in the third lists of every column.
+     * The method is hardcoded to receive cards with levels from 1 to 3.
+     *
+     * @param jsonPath   specifies the path where the JSON file is stored
+     * @param colorCards specifies which column of the deck is going to be instantiated
+     */
     private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards) {
         Gson gson = new Gson();
-        JsonReader reader = null;
         Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
         }.getType();
 
-        try {
-            reader = new JsonReader(new FileReader(jsonPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        List<DevelopmentCard> allColorCards = gson.fromJson(reader, DevCardArray);
+        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
+        List<DevelopmentCard> cards = gson.fromJson(reader, DevCardArray);
         for (int i = 0; i < 3; i++) {
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
-        for (DevelopmentCard developmentCard : allColorCards) {
+        for (DevelopmentCard developmentCard : cards) {
             if (developmentCard.getLevel() == 1)
                 colorCards.get(0).add(developmentCard);
             else if (developmentCard.getLevel() == 2)
@@ -77,7 +83,6 @@ public class CardTableBean implements Observer {
             setDevelopmentCardsFromJson();
             cardsInitialized = true;
         }
-        int j;
         for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : developmentCards.entrySet()) {
             for (List<DevelopmentCard> deck : color.getValue()) {
                 for (DevelopmentCard developmentCard : deck) {
@@ -113,28 +118,28 @@ public class CardTableBean implements Observer {
         List<List<DevelopmentCard>> purpleCards = new ArrayList<>();
 
         // BLUE CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/BlueCards.json", blueCards);
+        createDecksFromJSON("/cards/developmentcards/BlueCards.json", blueCards);
         developmentCards.put(CardColor.BLUE, blueCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.BLUE))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/GreenCards.json", greenCards);
+        createDecksFromJSON("/cards/developmentcards/GreenCards.json", greenCards);
         developmentCards.put(CardColor.GREEN, greenCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.GREEN))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/PurpleCards.json", purpleCards);
+        createDecksFromJSON("/cards/developmentcards/PurpleCards.json", purpleCards);
         developmentCards.put(CardColor.PURPLE, purpleCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.PURPLE))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("./src/main/java/persistence/cards/developmentcards/YellowCards.json", yellowCards);
+        createDecksFromJSON("/cards/developmentcards/YellowCards.json", yellowCards);
         developmentCards.put(CardColor.YELLOW, yellowCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.YELLOW))
             for (DevelopmentCard card : deck)
@@ -154,6 +159,34 @@ public class CardTableBean implements Observer {
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
         controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
+    }
+
+    public String printLine(int line) {
+        line--;
+        if(line < 0 || line >= cards.length)
+            throw new ParametersNotValidException();
+        String content = "";
+
+        try {
+            content += "Level " + getDevelopmentCardFromId(cards[line][0]).getLevel() + "   ";
+        } catch (CardNotPresentException ignored) {
+        }
+        for (int cell : cards[line]) {
+            try {
+                if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
+                    content += " " + Color.BLUE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
+                    content += " " + Color.GREEN_BG + " " + cell + " " + Color.DEFAULT + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
+                    content += " " + Color.PURPLE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
+                    content += " " + Color.YELLOW_BG + " " + cell + " " + Color.DEFAULT + " ";
+            } catch (CardNotPresentException e) {
+                System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
+            }
+        }
+
+        return content;
     }
 
     @Override
@@ -178,7 +211,7 @@ public class CardTableBean implements Observer {
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
                         board += " " + Color.PURPLE_BG + " " + cell + " " + Color.DEFAULT + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                        board += " " + Color.YELLOW_BG + " " + cell + " " +  Color.DEFAULT + " ";
+                        board += " " + Color.YELLOW_BG + " " + cell + " " + Color.DEFAULT + " ";
                 } catch (CardNotPresentException e) {
                     System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
                 }

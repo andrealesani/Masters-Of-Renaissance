@@ -1,5 +1,6 @@
 package network.beans;
 
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.Color;
 import model.Market;
@@ -70,14 +71,30 @@ public class MarketBean implements Observer {
         controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
     }
 
+    public String printLine(int line) {
+        line--;
+        if (line < 0 || line > marketBoard.length)
+            throw new ParametersNotValidException();
+        String content = "";
+
+        if (line == 3)
+            content += "Slide: " + slide.formattedString();
+        else
+            for (ResourceType cell : marketBoard[line]) {
+                content += " " + Color.DEFAULT + cell.formattedString() + Color.DEFAULT + " ";
+            }
+
+        return content;
+    }
+
     @Override
     public String toString() {
         String board = "";
-        for(ResourceType[] row : marketBoard) {
+        for (ResourceType[] row : marketBoard) {
             for (ResourceType cell : row) {
-                board += cell.formattedString() + "\u001B[0m ";
+                board += " " + Color.DEFAULT + cell.formattedString() + Color.DEFAULT + " ";
             }
-            board += "\n\n   ";
+            board += "\n\n ";
         }
         /* for (int i = 0; i < marketBoard.length; i++) {
             for (int j = 0; j < marketBoard[0].length; j++) {
@@ -85,7 +102,7 @@ public class MarketBean implements Observer {
             }
             board += "\n\n   ";
         } */
-        return Color.HEADER + "Market:\n   " + Color.DEFAULT +
+        return Color.HEADER + "Market:\n " + Color.DEFAULT +
                 board +
                 "Slide: " + slide.formattedString() + "\n";
     }

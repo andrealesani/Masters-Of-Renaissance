@@ -47,6 +47,9 @@ public class ClientWriter implements Runnable {
                 }
 
                 switch (userInput) {
+                    case "help" -> {
+                        System.out.println("Supported commands are: 'status', 'show', 'card'. If you're looking for action-specific commands, type 'actions'");
+                    }
                     case "status" -> {
                         System.out.println("\n" + clientView.getGame());
                     }
