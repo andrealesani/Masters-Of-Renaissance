@@ -78,7 +78,7 @@ public class MarketBean implements Observer {
         String content = "";
 
         if (line == 3)
-            content += "Slide: " + slide.formattedString();
+            content += " Slide: " + slide.formattedString();
         else
             for (ResourceType cell : marketBoard[line]) {
                 content += " " + Color.DEFAULT + cell.formattedString() + Color.DEFAULT + " ";

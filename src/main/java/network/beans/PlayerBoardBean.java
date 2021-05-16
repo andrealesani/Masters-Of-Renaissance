@@ -410,26 +410,83 @@ public class PlayerBoardBean implements Observer {
         controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
+    public String printLine(int line) {
+        line--;
+        String content = "";
+        if (line == 0) {
+            content += " PopeTiles: ";
+            for (int i = 0; i < popeTileStates.length; i++) {
+                content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
+            }
+        }
+        if (line == 1) {
+            return "\n Productions: " + Arrays.toString(productions);
+        }
+        if (line == 2) {
+            return " WhiteMarbles: " + whiteMarbles;
+        }
+        if (line == 3) {
+            return " Faith: " + faith;
+        }
+        if (line == 4) {
+            return " MarbleConversions: " + Arrays.toString(marbleConversions);
+        }
+        if (line == 5) {
+            if (discountType.length == 0)
+                content += " Player has not activated any discounts";
+            else
+                for (int i = 0; i < discountType.length; i++) {
+                    content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
+                }
+        }
+        if (line == 6) {
+            content += " LeaderCards: ";
+            for (int i = 0; i < leaderCards.length; i++) {
+                content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
+            }
+        }
+        else {
+            content += "\n VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
+                    " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
+            content += " CardSlots:\n";
+            for (SlotBean slotBean : cardSlots) {
+                content += "  ";
+                content += slotBean.toString();
+            }
+        }
+        return content;
+    }
+
     @Override
     public String toString() {
-        String slots = "";
-        for(SlotBean slotBean : cardSlots) {
-            slots += "  ";
-            slots += slotBean.toString();
+        String content = "";
+        content += "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.DEFAULT;
+        content += " PopeTiles: ";
+        for (int i = 0; i < popeTileStates.length; i++) {
+            content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
         }
-        return "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.DEFAULT +
-                " popeTileStates: " + Arrays.toString(popeTileStates) + "\n" +
-                " popeTilePoints: " + Arrays.toString(popeTilePoints) + "\n" +
-                " productions: " + Arrays.toString(productions) + "\n" +
-                " whiteMarbles: " + whiteMarbles + "\n" +
-                " faith: " + faith + "\n" +
-                " marbleConversions: " + Arrays.toString(marbleConversions) + "\n" +
-                " discountType: " + Arrays.toString(discountType) + "\n" +
-                " discountQuantity: " + Arrays.toString(discountQuantity) + "\n" +
-                " cardSlots:\n" + slots +
-                " leaderCards: " + Arrays.toString(leaderCards) + "\n" +
-                " activeLeaderCards: " + Arrays.toString(activeLeaderCards) + "\n" +
-                " vpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                " vpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
+        content += "\n Productions: " + Arrays.toString(productions) + "\n" +
+                " WhiteMarbles: " + whiteMarbles + "\n" +
+                " Faith: " + faith + "\n" +
+                " MarbleConversions: " + Arrays.toString(marbleConversions) + "\n";
+        if (discountType.length == 0)
+            content += " Player has not activated any discounts";
+        else
+            for (int i = 0; i < discountType.length; i++) {
+                content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
+            }
+        content += "\n LeaderCards: ";
+        for (int i = 0; i < leaderCards.length; i++) {
+            content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
+        }
+        content += "\n VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
+                " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
+        content += " CardSlots:\n";
+        for (SlotBean slotBean : cardSlots) {
+            content += "  ";
+            content += slotBean.toString();
+        }
+
+        return content;
     }
 }

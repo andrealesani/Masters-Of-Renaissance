@@ -64,6 +64,18 @@ public class WaitingRoomBean implements Observer {
         controller.playerMessage(username, MessageType.WAITINGROOM, gson.toJson(this));
     }
 
+    public String printLine(int line) {
+        line --;
+        String content = "";
+        if (line == 0) {
+            for (int i = 0; i < type.length; i++) {
+                content += " " + type[i] + ": " + quantity[i] + "  ";
+            }
+        }
+
+        return content;
+    }
+
     @Override
     public String toString() {
         String content = "";

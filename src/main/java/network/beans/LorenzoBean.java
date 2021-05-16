@@ -1,5 +1,6 @@
 package network.beans;
 
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.Color;
 import model.Observer;
@@ -84,9 +85,22 @@ public class LorenzoBean implements Observer {
         controller.playerMessage(username, MessageType.LORENZO, gson.toJson(this));
     }
 
+    public String printLine(int line) {
+        line--;
+        if(line < 0 || line > 2)
+            throw new ParametersNotValidException();
+
+        if(line == 0)
+            return " Faith: " + faith;
+        if (line == 1)
+            return " ActiveTokens: " + Arrays.toString(activeTokens);
+        else
+            return " DiscardedTokens: " + Arrays.toString(discardedTokens);
+    }
+
     @Override
     public String toString() {
-        return Color.HEADER + "Lorenzo:\u001B[0m\n" + Color.DEFAULT +
+        return Color.HEADER + "Lorenzo:\n" + Color.DEFAULT +
                 " faith: " + faith +
                 "\n activeTokens: " + Arrays.toString(activeTokens) +
                 "\n discardedTokens: " + Arrays.toString(discardedTokens) + "\n";

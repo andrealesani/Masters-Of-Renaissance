@@ -141,23 +141,61 @@ public class ClientView {
         return content;
     }
 
+    private String marketAndCardTableAndLorenzo() {
+        String content = "";
+        String SPACING = "";
+        for (int i = 0; i < 60; i++)
+            SPACING += " ";
+        content += Color.HEADER + "Market: " + Color.DEFAULT + SPACING + Color.HEADER + "CardTable: " + Color.DEFAULT + "                                             " + Color.HEADER + "Lorenzo: " + Color.DEFAULT;
+        content += "\n\n";
+        content += market.printLine(1) + "                     " + cardTable.printLine(1) + "                     " + lorenzo.printLine(1);
+        content += "\n\n";
+        content += market.printLine(2) + "                     " + cardTable.printLine(2) + "                     " + lorenzo.printLine(2);
+        content += "\n\n";
+        content += market.printLine(3) + "                     " + cardTable.printLine(3) + "                     " + lorenzo.printLine(3);
+        content += "\n\n";
+        content += market.printLine(4);
+
+        return content;
+    }
+
+    private String playerAndStrongAndWaitingAndWarehouse() {
+        String content = "";
+        String SPACING = "";
+        for (int i = 0; i < 60; i++)
+            SPACING += " ";
+        content += Color.HEADER + "PlayerBoard: " + Color.DEFAULT + SPACING + Color.HEADER + "Strongbox: " + Color.DEFAULT;
+        content += "\n";
+        content += playerBoards.get(0).printLine(0) + "                     " + strongboxes.get(0).printLine(0);
+        content += playerBoards.get(0).printLine(1) + "                     " + Color.HEADER + "WaitingRoom: " + Color.DEFAULT;
+        content += playerBoards.get(0).printLine(2) + "                     " + waitingRooms.get(0).printLine(0);
+        content += playerBoards.get(0).printLine(3);
+        content += playerBoards.get(0).printLine(4);
+        content += playerBoards.get(0).printLine(5);
+        content += playerBoards.get(0).printLine(6);
+        content += playerBoards.get(0).printLine(7);
+
+        return content;
+    }
+
     @Override
     public String toString() {
         String content = Color.VIEW + "View:" + Color.DEFAULT;
         if (game != null)
             content += Color.DEFAULT + "\n" + game + "\n";
         if (market != null && cardTable != null)
-            content += Color.DEFAULT + "\n" + marketAndCardTable() + "\n";
-        if (getLorenzo() != null)
-            content += Color.DEFAULT + "\n" + lorenzo + Color.DEFAULT;
-        if(playerBoards != null)
-            content +=  Color.DEFAULT + "\n" + playerBoards;
-        if(strongboxes != null)
-            content+= Color.DEFAULT + "\n" + strongboxes;
-        if(waitingRooms != null)
+            if (lorenzo != null)
+                content += Color.DEFAULT + "\n" + marketAndCardTableAndLorenzo() + "\n";
+            else
+                content += Color.DEFAULT + "\n" + marketAndCardTable() + "\n";
+        if (playerBoards != null)
+            content += Color.DEFAULT + "\n" + playerBoards;
+        if (strongboxes != null)
+            content += Color.DEFAULT + "\n" + strongboxes;
+        if (waitingRooms != null)
             content += Color.DEFAULT + "\n" + waitingRooms;
-        if(warehouses != null)
-            content +=  Color.DEFAULT + "\n" + warehouses;
+        if (warehouses != null)
+            content += Color.DEFAULT + "\n" + warehouses;
 
         return content + "\n";
     }

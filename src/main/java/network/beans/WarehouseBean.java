@@ -88,6 +88,6 @@ public class WarehouseBean implements Observer {
                 content += " [max: 2] ";
         }
         return Color.HEADER + username + "'s Warehouse:\n" + Color.DEFAULT +
-                " basicDepotNum: " + basicDepotNum + "\n" + content + "\n";
+                " First " + basicDepotNum + " depots are BasicDepots\n" + content + "\n";
     }
 }
