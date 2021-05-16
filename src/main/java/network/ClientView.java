@@ -1,24 +1,10 @@
 package network;
 
-import Exceptions.CardNotPresentException;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import model.CardColor;
 import model.Color;
-import model.card.DevelopmentCard;
 import network.beans.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClientView {
     private GameBean game;
@@ -123,12 +109,17 @@ public class ClientView {
         this.lorenzo = lorenzo;
     }
 
+    // PRIVATE METHODS
+
+    /**
+     * Creates a String that displays Market and CardTable in parallel
+     *
+     * @return the formatted String
+     */
     private String marketAndCardTable() {
         String content = "";
-        String SPACING = "";
-        for (int i = 0; i < 60; i++)
-            SPACING += " ";
-        content += Color.HEADER + "Market: " + Color.DEFAULT + SPACING + Color.HEADER + "CardTable: " + Color.DEFAULT;
+        content += Color.HEADER + "Market: " + Color.RESET;
+        content += fillBetweenColumns(content) + Color.HEADER + "CardTable: " + Color.RESET;
         content += "\n\n";
         content += market.printLine(1) + "                     " + cardTable.printLine(1);
         content += "\n\n";
@@ -141,12 +132,15 @@ public class ClientView {
         return content;
     }
 
+    /**
+     * Creates a String that displays Market, CardTable and Lorenzo in parallel
+     *
+     * @return the formatted String
+     */
     private String marketAndCardTableAndLorenzo() {
         String content = "";
-        String SPACING = "";
-        for (int i = 0; i < 60; i++)
-            SPACING += " ";
-        content += Color.HEADER + "Market: " + Color.DEFAULT + SPACING + Color.HEADER + "CardTable: " + Color.DEFAULT + "                                             " + Color.HEADER + "Lorenzo: " + Color.DEFAULT;
+        content += Color.HEADER + "Market: " + Color.RESET;
+        content += fillBetweenColumns(content) + Color.HEADER + "CardTable: " + Color.RESET + "                                             " + Color.HEADER + "Lorenzo: " + Color.RESET;
         content += "\n\n";
         content += market.printLine(1) + "                     " + cardTable.printLine(1) + "                     " + lorenzo.printLine(1);
         content += "\n\n";
@@ -159,43 +153,79 @@ public class ClientView {
         return content;
     }
 
-    private String playerAndStrongAndWaitingAndWarehouse() {
+    /**
+     * Creates a String that displays PlayerBoard, Strongbox, WaitingRoom and Warehouse in parallel
+     *
+     * @param i indicates the player that the String needs to be created for
+     * @return the formatted String
+     */
+    private String playerAndStrongAndWaitingAndWarehouse(int i) {
         String content = "";
-        String SPACING = "";
-        for (int i = 0; i < 60; i++)
-            SPACING += " ";
-        content += Color.HEADER + "PlayerBoard: " + Color.DEFAULT + SPACING + Color.HEADER + "Strongbox: " + Color.DEFAULT;
+        // first row
+        content += Color.HEADER + "PlayerBoard: ";
+        content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
+        // second row
+        content += playerBoards.get(i).printLine(1);
+        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
+        // third row
+        content += playerBoards.get(i).printLine(2);
         content += "\n";
-        content += playerBoards.get(0).printLine(0) + "                     " + strongboxes.get(0).printLine(0);
-        content += playerBoards.get(0).printLine(1) + "                     " + Color.HEADER + "WaitingRoom: " + Color.DEFAULT;
-        content += playerBoards.get(0).printLine(2) + "                     " + waitingRooms.get(0).printLine(0);
-        content += playerBoards.get(0).printLine(3);
-        content += playerBoards.get(0).printLine(4);
-        content += playerBoards.get(0).printLine(5);
-        content += playerBoards.get(0).printLine(6);
-        content += playerBoards.get(0).printLine(7);
+        // fourth row
+        content += playerBoards.get(i).printLine(3);
+        content += fillBetweenColumns(content) + Color.HEADER + "WaitingRoom: " + Color.RESET + "\n";
+        // fifth row
+        content += playerBoards.get(i).printLine(4);
+        content += fillBetweenColumns(content) + waitingRooms.get(i).printLine(1) + "\n";
+        // sixth row
+        content += playerBoards.get(i).printLine(5);
+        content += "\n";
+        // seventh row
+        content += playerBoards.get(i).printLine(6);
+        content += fillBetweenColumns(content) + Color.HEADER + "Warehouse: " + Color.RESET + "\n";
+        // eighth rows
+        content += playerBoards.get(i).printLine(7);
+        content += fillBetweenColumns(content) + warehouses.get(i).printLine(1) + "\n";
+        // ninth row
+        content += playerBoards.get(i).printLine(8);
+        content += fillBetweenColumns(content) + warehouses.get(i).printLine(2) + "\n";
 
         return content;
     }
 
+    /**
+     * Dear Tom, hello and welcome to this lil precious jewel I crafted. What it does is adding 'space'
+     * characters to the last row of a given text so that the every row of the second column of the view you're trying
+     * to build will have the right indentation. Enjoy :)
+     * P.S. I hope you'll appreciate the 69 constant that marks where the second column starts but you have the
+     * permission to change it for the sake of our baby's prettiness
+     *
+     * @param content is the view you built until now. It needs to have at least one new-line character for the method to work
+     * @return the right number of spaces :)
+     */
+    private String fillBetweenColumns(String content) {
+        String space = "";
+        //the regex is used to eliminate the special characters that would be counted in the string length
+        int lineLen = content.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").length() - content.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").lastIndexOf('\n');
+        for (int i = 0; i < 69 - lineLen; i++)
+            space += " ";
+        return space;
+    }
+
     @Override
     public String toString() {
-        String content = Color.VIEW + "View:" + Color.DEFAULT;
+        String content = Color.VIEW + "View:" + Color.RESET;
         if (game != null)
-            content += Color.DEFAULT + "\n" + game + "\n";
+            content += Color.RESET + "\n" + game + "\n";
         if (market != null && cardTable != null)
             if (lorenzo != null)
-                content += Color.DEFAULT + "\n" + marketAndCardTableAndLorenzo() + "\n";
+                content += Color.RESET + "\n" + marketAndCardTableAndLorenzo() + "\n";
             else
-                content += Color.DEFAULT + "\n" + marketAndCardTable() + "\n";
-        if (playerBoards != null)
-            content += Color.DEFAULT + "\n" + playerBoards;
-        if (strongboxes != null)
-            content += Color.DEFAULT + "\n" + strongboxes;
-        if (waitingRooms != null)
-            content += Color.DEFAULT + "\n" + waitingRooms;
-        if (warehouses != null)
-            content += Color.DEFAULT + "\n" + warehouses;
+                content += Color.RESET + "\n" + marketAndCardTable() + "\n";
+        if (playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0)
+            for (int i = 0; i < playerBoards.size(); i++) {
+                if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
+                    content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
+            }
 
         return content + "\n";
     }

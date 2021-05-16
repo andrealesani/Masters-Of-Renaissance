@@ -7,8 +7,6 @@ import model.ResourceType;
 import model.storage.UnlimitedStorage;
 import network.GameController;
 
-import java.util.Arrays;
-
 import static model.ResourceType.*;
 
 public class WaitingRoomBean implements Observer {
@@ -69,7 +67,7 @@ public class WaitingRoomBean implements Observer {
         String content = "";
         if (line == 0) {
             for (int i = 0; i < type.length; i++) {
-                content += " " + type[i] + ": " + quantity[i] + "  ";
+                content += " " + type[i].formattedString() + ": " + quantity[i] + "  ";
             }
         }
 
@@ -82,7 +80,7 @@ public class WaitingRoomBean implements Observer {
         for (int i = 0; i < type.length; i++) {
             content += " " + type[i] + ": " + quantity[i] + "  ";
         }
-        return Color.HEADER + username + "'s WaitingRoom:\n" + Color.DEFAULT + content + "\n";
+        return Color.HEADER + username + "'s WaitingRoom:\n" + Color.RESET + content + "\n";
     }
 }
 

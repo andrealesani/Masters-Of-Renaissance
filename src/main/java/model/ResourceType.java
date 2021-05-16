@@ -9,43 +9,43 @@ public enum ResourceType {
     SHIELD {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "SHIELD" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "SHIELD" + Color.RESET;
         }
     },
     STONE {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "STONE" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "STONE" + Color.RESET;
         }
     },
     SERVANT {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "SERVANT" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "SERVANT" + Color.RESET;
         }
     },
     COIN {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "COIN" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "COIN" + Color.RESET;
         }
     },
     FAITH {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "FAITH" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "FAITH" + Color.RESET;
         }
     },
     WHITEORB {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "WHITEORB" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "WHITEORB" + Color.RESET;
         }
     },
     UNKNOWN {
         @Override
         public String toString() {
-            return Color.ORANGE_FG + "UNKNOWN" + Color.DEFAULT;
+            return Color.RESOURCE_STD + "UNKNOWN" + Color.RESET;
         }
     };
 
@@ -74,25 +74,25 @@ public enum ResourceType {
 
     public String formattedString() {
         if (this == ResourceType.COIN) {
-            return Color.AQUA_GREEN_BG + "   COIN   " + Color.DEFAULT;
+            return Color.YELLOW_LIGHT_BG + "" + Color.GREY_DARK_FG + "   COIN   " + Color.RESET;
         }
         if (this == ResourceType.SERVANT) {
-            return Color.AQUA_GREEN_BG + " SERVANT  " + Color.DEFAULT;
+            return Color.PURPLE_BG + " SERVANT  " + Color.RESET;
         }
         if (this == ResourceType.SHIELD) {
-            return Color.AQUA_GREEN_BG + "  SHIELD  " + Color.DEFAULT;
+            return Color.LIGHT_BLUE_BG + "  SHIELD  " + Color.RESET;
         }
         if (this == ResourceType.STONE) {
-            return Color.AQUA_GREEN_BG + "  STONE   " + Color.DEFAULT;
+            return Color.GREY_LIGHT_BG + "  STONE   " + Color.RESET;
         }
         if (this == ResourceType.UNKNOWN) {
-            return Color.AQUA_GREEN_BG + " UNKNOWN  " + Color.DEFAULT;
+            return Color.RESOURCE_STD + " UNKNOWN  " + Color.RESET;
         }
         if (this == ResourceType.FAITH) {
-            return Color.AQUA_GREEN_BG + "  FAITH   " + Color.DEFAULT;
+            return Color.RED_DARK_BG + "  FAITH   " + Color.RESET;
         }
         if (this == ResourceType.WHITEORB) {
-            return Color.AQUA_GREEN_BG + " WHITEORB " + Color.DEFAULT;
+            return Color.WHITE_BG + "" + Color.GREY_DARK_FG + " WHITEORB " + Color.RESET;
         }
         // This should never happen
         return null;

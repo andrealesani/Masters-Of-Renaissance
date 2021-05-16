@@ -8,8 +8,6 @@ import model.Observer;
 import model.ResourceType;
 import network.GameController;
 
-import java.util.Arrays;
-
 public class MarketBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
@@ -81,7 +79,7 @@ public class MarketBean implements Observer {
             content += " Slide: " + slide.formattedString();
         else
             for (ResourceType cell : marketBoard[line]) {
-                content += " " + Color.DEFAULT + cell.formattedString() + Color.DEFAULT + " ";
+                content += " " + Color.RESET + cell.formattedString() + Color.RESET + " ";
             }
 
         return content;
@@ -92,7 +90,7 @@ public class MarketBean implements Observer {
         String board = "";
         for (ResourceType[] row : marketBoard) {
             for (ResourceType cell : row) {
-                board += " " + Color.DEFAULT + cell.formattedString() + Color.DEFAULT + " ";
+                board += " " + Color.RESET + cell.formattedString() + Color.RESET + " ";
             }
             board += "\n\n ";
         }
@@ -102,7 +100,7 @@ public class MarketBean implements Observer {
             }
             board += "\n\n   ";
         } */
-        return Color.HEADER + "Market:\n " + Color.DEFAULT +
+        return Color.HEADER + "Market:\n " + Color.RESET +
                 board +
                 "Slide: " + slide.formattedString() + "\n";
     }

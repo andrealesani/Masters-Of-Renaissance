@@ -1,13 +1,12 @@
 package network.beans;
 
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.Color;
 import model.Observer;
 import model.ResourceType;
 import model.storage.Warehouse;
 import network.GameController;
-
-import java.util.Arrays;
 
 
 public class WarehouseBean implements Observer {
@@ -19,6 +18,7 @@ public class WarehouseBean implements Observer {
     private final int basicDepotNum;
     private ResourceType[] depotType;
     private int[] depotQuantity;
+    // TODO aggiungere risorse massime nei Leader Depots
 
     // CONSTRUCTOR
 
@@ -74,6 +74,33 @@ public class WarehouseBean implements Observer {
         controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
     }
 
+    public String printLine(int line) {
+        line --;
+        if (line < 0 || line > 1)
+            throw new ParametersNotValidException();
+
+        String content = "";
+
+        switch (line) {
+            case 0 -> {
+                return " First " + basicDepotNum + " depots are BasicDepots";
+            }
+            case 1 -> {
+                for (int i = 0; i < depotType.length; i++) {
+                    if (depotType[i] != null)
+                        content += " " + depotType[i].formattedString() + " " + depotQuantity[i];
+                    else
+                        content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
+                    if (i < basicDepotNum)
+                        content += " [max: " + (i + 1) + "] ";
+                    else
+                        content += " [max: 2] ";
+                }
+            }
+        }
+        return content;
+    }
+
     @Override
     public String toString() {
         String content = "";
@@ -81,13 +108,13 @@ public class WarehouseBean implements Observer {
             if (depotType[i] != null)
                 content += " " + depotType[i] + " " + depotQuantity[i];
             else
-                content += Color.ORANGE_FG + " EMPTY" + Color.DEFAULT;
+                content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
             if (i < basicDepotNum)
                 content += " [max: " + (i + 1) + "] ";
             else
                 content += " [max: 2] ";
         }
-        return Color.HEADER + username + "'s Warehouse:\n" + Color.DEFAULT +
+        return Color.HEADER + username + "'s Warehouse:\n" + Color.RESET +
                 " First " + basicDepotNum + " depots are BasicDepots\n" + content + "\n";
     }
 }

@@ -7,8 +7,6 @@ import model.ResourceType;
 import model.storage.UnlimitedStorage;
 import network.GameController;
 
-import java.util.Arrays;
-
 import static model.ResourceType.*;
 
 public class StrongboxBean implements Observer {
@@ -69,7 +67,7 @@ public class StrongboxBean implements Observer {
         String content = "";
         if (line == 0) {
             for (int i = 0; i < type.length; i++) {
-                content += " " + type[i] + ": " + quantity[i] + "  ";
+                content += " " + type[i].formattedString() + ": " + quantity[i] + "  ";
             }
         }
 
@@ -82,6 +80,6 @@ public class StrongboxBean implements Observer {
         for (int i = 0; i < type.length; i++) {
             content += " " + type[i] + ": " + quantity[i] + "  ";
         }
-        return Color.HEADER + username + "'s Strongbox:\n" + Color.DEFAULT + content + "\n";
+        return Color.HEADER + username + "'s Strongbox:\n" + Color.RESET + content + "\n";
     }
 }

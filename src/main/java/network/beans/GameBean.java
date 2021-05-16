@@ -125,7 +125,7 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        return Color.HEADER + "\nGame State:\n" + Color.DEFAULT +
+        return Color.HEADER + "\nGame State:\n" + Color.RESET +
                 " Current player is " + currentPlayer +
                 " and we're in " + turnPhase + " phase\n";
     }

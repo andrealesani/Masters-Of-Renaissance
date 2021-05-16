@@ -174,13 +174,13 @@ public class CardTableBean implements Observer {
         for (int cell : cards[line]) {
             try {
                 if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                    content += " " + Color.BLUE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                    content += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
                 else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                    content += " " + Color.GREEN_BG + " " + cell + " " + Color.DEFAULT + " ";
+                    content += " " + Color.GREEN_BG + " " + cell + " " + Color.RESET + " ";
                 else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                    content += " " + Color.PURPLE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                    content += " " + Color.PURPLE_BG + " " + cell + " " + Color.RESET + " ";
                 else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                    content += " " + Color.YELLOW_BG + " " + cell + " " + Color.DEFAULT + " ";
+                    content += " " + Color.YELLOW_DARK_BG + " " + cell + " " + Color.RESET + " ";
             } catch (CardNotPresentException e) {
                 System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
             }
@@ -205,20 +205,20 @@ public class CardTableBean implements Observer {
             for (int cell : row) {
                 try {
                     if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                        board += " " + Color.BLUE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                        board += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                        board += " " + Color.GREEN_BG + " " + cell + " " + Color.DEFAULT + " ";
+                        board += " " + Color.GREEN_BG + " " + cell + " " + Color.RESET + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                        board += " " + Color.PURPLE_BG + " " + cell + " " + Color.DEFAULT + " ";
+                        board += " " + Color.PURPLE_BG + " " + cell + " " + Color.RESET + " ";
                     else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                        board += " " + Color.YELLOW_BG + " " + cell + " " + Color.DEFAULT + " ";
+                        board += " " + Color.YELLOW_DARK_BG + " " + cell + " " + Color.RESET + " ";
                 } catch (CardNotPresentException e) {
                     System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
                 }
             }
             board += "\n";
         }
-        return Color.HEADER + "CardTable:\n" + Color.DEFAULT +
+        return Color.HEADER + "CardTable:\n" + Color.RESET +
                 board;
     }
 }

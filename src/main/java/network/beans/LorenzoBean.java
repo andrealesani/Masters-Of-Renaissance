@@ -100,7 +100,7 @@ public class LorenzoBean implements Observer {
 
     @Override
     public String toString() {
-        return Color.HEADER + "Lorenzo:\n" + Color.DEFAULT +
+        return Color.HEADER + "Lorenzo:\n" + Color.RESET +
                 " faith: " + faith +
                 "\n activeTokens: " + Arrays.toString(activeTokens) +
                 "\n discardedTokens: " + Arrays.toString(discardedTokens) + "\n";

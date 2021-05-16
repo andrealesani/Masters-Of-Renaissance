@@ -413,45 +413,55 @@ public class PlayerBoardBean implements Observer {
     public String printLine(int line) {
         line--;
         String content = "";
-        if (line == 0) {
-            content += " PopeTiles: ";
-            for (int i = 0; i < popeTileStates.length; i++) {
-                content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
-            }
-        }
-        if (line == 1) {
-            return "\n Productions: " + Arrays.toString(productions);
-        }
-        if (line == 2) {
-            return " WhiteMarbles: " + whiteMarbles;
-        }
-        if (line == 3) {
-            return " Faith: " + faith;
-        }
-        if (line == 4) {
-            return " MarbleConversions: " + Arrays.toString(marbleConversions);
-        }
-        if (line == 5) {
-            if (discountType.length == 0)
-                content += " Player has not activated any discounts";
-            else
-                for (int i = 0; i < discountType.length; i++) {
-                    content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
+
+        switch (line) {
+            case 0 -> {
+                content += " PopeTiles: ";
+                for (int i = 0; i < popeTileStates.length; i++) {
+                    content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + " VPs ";
                 }
-        }
-        if (line == 6) {
-            content += " LeaderCards: ";
-            for (int i = 0; i < leaderCards.length; i++) {
-                content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
             }
-        }
-        else {
-            content += "\n VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                    " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
-            content += " CardSlots:\n";
-            for (SlotBean slotBean : cardSlots) {
-                content += "  ";
-                content += slotBean.toString();
+            case 1 -> {
+                if (productions.length == 1)
+                    return " Player has only default production";
+                return " Productions: " + Arrays.toString(productions);
+            }
+            case 2 -> {
+                return " WhiteMarbles: " + whiteMarbles;
+            }
+            case 3 -> {
+                return " Faith: " + faith;
+            }
+            case 4 -> {
+                if (marbleConversions.length == 0)
+                    return " Player doesn't have any marble conversions";
+                return " MarbleConversions: " + Arrays.toString(marbleConversions);
+            }
+            case 5 -> {
+                if (discountType.length == 0)
+                    content += " Player doesn't have any discounts";
+                else
+                    for (int i = 0; i < discountType.length; i++) {
+                        content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
+                    }
+            }
+            case 6 -> {
+                content += " LeaderCards: ";
+                for (int i = 0; i < leaderCards.length; i++) {
+                    content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
+                }
+            }
+            case 7 -> {
+                content += " VpFaithTiles: " + Arrays.toString(vpFaithTiles);
+            }
+            default -> {
+                content += " VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
+                        " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
+                content += " CardSlots:\n";
+                for (SlotBean slotBean : cardSlots) {
+                    content += "  ";
+                    content += slotBean.toString();
+                }
             }
         }
         return content;
@@ -460,7 +470,7 @@ public class PlayerBoardBean implements Observer {
     @Override
     public String toString() {
         String content = "";
-        content += "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.DEFAULT;
+        content += "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.RESET;
         content += " PopeTiles: ";
         for (int i = 0; i < popeTileStates.length; i++) {
             content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
