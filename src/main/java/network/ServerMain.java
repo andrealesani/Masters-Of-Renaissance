@@ -6,6 +6,8 @@ import com.google.gson.stream.JsonReader;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,23 +26,17 @@ public class ServerMain {
 
         //Initialize portNumber
         int portNumber = 0;
-        if (args.length > 0){
+        if (args.length > 0) {
             portNumber = Integer.parseInt(args[0]);
-        }else{
+        } else {
             System.out.println("No parameters found on command line: reading them from Json.");
             Gson gson = new Gson();
-            JsonReader reader;
 
-            try {
+            Reader reader1 = new InputStreamReader(ServerMain.class.getResourceAsStream("/HostAndPort.json"), StandardCharsets.UTF_8);
+            //reader = new JsonReader(new FileReader(ServerMain.class.getResource("/HostAndPort.json").getFile()));
+            Map map = gson.fromJson(reader1, Map.class);
+            portNumber = ((Double) map.get("portNumber")).intValue();
 
-                reader = new JsonReader(new FileReader("./src/main/java/network/HostAndPort.json"));
-                Map map = gson.fromJson(reader, Map.class);
-                portNumber = ((Double)map.get("portNumber")).intValue();
-
-            } catch (FileNotFoundException ex) {
-                System.err.println(ex.getMessage());
-                System.exit(1);
-            }
         }
 
         //Start the server
@@ -79,7 +75,7 @@ public class ServerMain {
                 Socket socket = serverSocket.accept();
                 System.out.println("Creating new connection...");
                 executor.submit(new ServerPlayerHandler(socket, lobby));
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 System.err.println(ex.getMessage());
                 break;
             }
