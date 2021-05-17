@@ -4,11 +4,7 @@ import network.ServerMain;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/**
- * Class Santorini is the main class of whole project.
- *
- * @author Alice Piemonti, Luca Pirovano, Nicolò Sonnino
- */
+
 public class MastersOfRenaissance {
 
     /**
