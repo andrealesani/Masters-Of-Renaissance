@@ -207,6 +207,7 @@ public class ProductionLeaderCard extends LeaderCard {
     @Override
     public String toString() {
         return "\n\u001B[32;1mProductionLeaderCard:\u001B[0m" +
+                super.toString() +
                 "\n requiredColor: " + requiredColor +
                 "\n requiredLevel: " + requiredLevel +
                 "\n requiredQuantity: " + requiredQuantity +

@@ -126,10 +126,11 @@ public class DiscountLeaderCard extends LeaderCard {
     @Override
     public String toString() {
         return "\n\u001B[32;1mDiscountLeaderCard:\u001B[0m" +
-                "\n discountType: " + discountType +
-                "\n discount: " + discount +
+                super.toString() +
                 "\n requiredColors: " + Arrays.toString(requiredColors) +
                 "\n requiredQuantities: " + Arrays.toString(requiredQuantities) +
+                "\n discountType: " + discountType +
+                "\n discount: " + discount +
                 '\n';
     }
 }

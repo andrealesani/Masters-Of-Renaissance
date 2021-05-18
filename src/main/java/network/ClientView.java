@@ -1,6 +1,7 @@
 package network;
 
 import model.Color;
+import model.ResourceType;
 import network.beans.*;
 
 import java.util.ArrayList;
@@ -230,6 +231,9 @@ public class ClientView {
                 if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
                     content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
             }
+
+        for (ResourceType resource : ResourceType.values())
+            content += resource.geometricPrint() + " ";
 
         return content + "\n";
     }

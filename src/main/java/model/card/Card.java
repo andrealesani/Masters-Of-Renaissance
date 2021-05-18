@@ -86,4 +86,17 @@ public abstract class Card {
     public void setId(int id) {
         this.id = id;
     }
+
+    //PRINTING METHODS
+
+    /**
+     * Returns a String version of the card's information
+     *
+     * @return the card as a string
+     */
+    @Override
+    public String toString() {
+        return  "\n id: " + getId() +
+                "\n victory points: " + getVictoryPoints();
+    }
 }

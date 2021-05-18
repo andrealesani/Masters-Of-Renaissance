@@ -124,7 +124,8 @@ public class DepotLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mDepotLeaderCard:\u001B[0m" +
+        return  "\n\u001B[32;1mDepotLeaderCard:\u001B[0m" +
+                super.toString() +
                 "\n requiredResource: " + requiredResource +
                 "\n requiredQuantity: " + requiredQuantity +
                 "\n storableResource: " + storableResource +
