@@ -88,14 +88,15 @@ public class ClientView {
      */
     private String marketAndCardTableAndLorenzo() {
         String content = "";
-        content += Color.HEADER + "Market: " + Color.RESET;
-        content += fillBetweenColumns(content) + Color.HEADER + "CardTable: " + Color.RESET + "                                             " + Color.HEADER + "Lorenzo: " + Color.RESET;
+        content += Color.HEADER + "Market: " + Color.RESET + "                          ";
+        content += Color.HEADER + "CardTable: " + Color.RESET + "                                             ";
+        content += Color.HEADER + "Lorenzo: " + Color.RESET;
         content += "\n\n";
         content += market.printLine(1) + "                     " + cardTable.printLine(1) + "                     " + lorenzo.printLine(1);
         content += "\n\n";
         content += market.printLine(2) + "                     " + cardTable.printLine(2) + "                     " + lorenzo.printLine(2);
         content += "\n\n";
-        content += market.printLine(3) + "                     " + cardTable.printLine(3);
+        content += market.printLine(3) + "                     " + cardTable.printLine(3) + "                     " + lorenzo.printLine(3);;
         content += "\n\n";
         content += market.printLine(4);
 
@@ -231,9 +232,6 @@ public class ClientView {
                 if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
                     content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
             }
-
-        for (ResourceType resource : ResourceType.values())
-            content += resource.geometricPrint() + " ";
 
         return content + "\n";
     }

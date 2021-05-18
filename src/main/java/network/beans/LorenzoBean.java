@@ -6,6 +6,7 @@ import model.Color;
 import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.LorenzoTokenType;
 import network.GameController;
 
 import java.util.Arrays;
@@ -91,9 +92,12 @@ public class LorenzoBean implements Observer {
             throw new ParametersNotValidException();
 
         if(line == 0)
-            return " Faith score: " + faith;
+            return " Faith Score: " + Color.RED_LIGHT_FG + faith + Color.RESET;
         if (line == 1)
-            return " DiscardedTokens: " + Arrays.toString(discardedTokens);
+            return " Active Tokens: " + Color.RESOURCE_STD + activeTokens.length + Color.RESET;
+        if (line == 2)
+            return " Discarded Tokens: " + Arrays.toString(
+                    Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray());
         else
             return "";
     }
@@ -102,6 +106,9 @@ public class LorenzoBean implements Observer {
     public String toString() {
         return Color.HEADER + "Lorenzo:\n" + Color.RESET +
                 " faith: " + faith +
-                "\n discardedTokens: " + Arrays.toString(discardedTokens) + "\n";
+                "\n discardedTokens: " +
+                Arrays.toString(
+                        Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray()) +
+                "\n";
     }
 }

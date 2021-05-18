@@ -2,7 +2,6 @@ package model.lorenzo.tokens;
 
 import Exceptions.ParametersNotValidException;
 import model.lorenzo.Lorenzo;
-import network.beans.LorenzoTokenType;
 
 /**
  * Represents the token that increases Lorenzo's faith by 2 points

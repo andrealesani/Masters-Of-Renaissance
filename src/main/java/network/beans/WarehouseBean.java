@@ -18,6 +18,7 @@ public class WarehouseBean implements Observer {
     private final int basicDepotNum;
     private ResourceType[] depotType;
     private int[] depotQuantity;
+    private int[] depotSizes;
     // TODO aggiungere risorse massime nei Leader Depots
 
     // CONSTRUCTOR
@@ -56,6 +57,7 @@ public class WarehouseBean implements Observer {
             if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
                 depotType[i] = warehouse.getDepot(i + 1).getStoredResources().get(0);
             depotQuantity[i] = warehouse.getDepot(i + 1).getNumOfResource(depotType[i]);
+            depotSizes[i] = warehouse.getDepot(i + 1).getSize();
         }
     }
 
@@ -88,13 +90,13 @@ public class WarehouseBean implements Observer {
             case 1 -> {
                 for (int i = 0; i < depotType.length; i++) {
                     if (depotType[i] != null)
-                        content += " " + depotType[i].formattedString() + " " + depotQuantity[i];
+                        content += " " + depotType[i].iconPrint() + " x " + depotQuantity[i];
                     else
-                        content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
+                        content += Color.RESOURCE_STD + " □ " + Color.RESET;
                     if (i < basicDepotNum)
-                        content += " [size: " + (i + 1) + "] ";
+                        content += " [size: " + (i + 1) + "], ";
                     else
-                        content += " [size: 2] ";
+                        content += " [size: 2], ";
                 }
             }
         }

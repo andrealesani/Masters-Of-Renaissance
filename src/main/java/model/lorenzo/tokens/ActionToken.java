@@ -1,7 +1,5 @@
 package model.lorenzo.tokens;
 
-import network.beans.LorenzoTokenType;
-
 /**
  * This abstract class represents an action token for the game's lorenzo a.i.
  */

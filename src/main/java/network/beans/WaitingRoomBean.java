@@ -67,7 +67,7 @@ public class WaitingRoomBean implements Observer {
         String content = "";
         if (line == 0) {
             for (int i = 0; i < type.length; i++) {
-                content += " " + type[i].formattedString() + ": " + quantity[i] + "  ";
+                content += " " + type[i].iconPrint() + " x " + quantity[i] + "  ";
             }
         }
 
