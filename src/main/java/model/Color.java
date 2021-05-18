@@ -103,6 +103,18 @@ public enum Color {
             return "\033[38;2;102;0;0m";
         }
     },
+    RED_LIGHT_BG {
+        @Override
+        public String toString() {
+            return "\033[48;2;180;0;0m";
+        }
+    },
+    RED_LIGHT_FG {
+        @Override
+        public String toString() {
+            return "\033[38;2;180;0;0m";
+        }
+    },
     YELLOW_DARK_BG {
         @Override
         public String toString() {
@@ -125,6 +137,18 @@ public enum Color {
         @Override
         public String toString() {
             return "\033[38;2;210;210;0m";
+        }
+    },
+    ORANGE_LIGHT_BG {
+        @Override
+        public String toString() {
+            return "\033[48;2;210;110;0m";
+        }
+    },
+    ORANGE_LIGHT_FG {
+        @Override
+        public String toString() {
+            return "\033[38;2;210;110;0m";
         }
     },
     WHITE_BG {

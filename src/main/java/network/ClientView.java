@@ -94,7 +94,7 @@ public class ClientView {
         content += "\n\n";
         content += market.printLine(2) + "                     " + cardTable.printLine(2) + "                     " + lorenzo.printLine(2);
         content += "\n\n";
-        content += market.printLine(3) + "                     " + cardTable.printLine(3) + "                     " + lorenzo.printLine(3);
+        content += market.printLine(3) + "                     " + cardTable.printLine(3);
         content += "\n\n";
         content += market.printLine(4);
 
@@ -136,6 +136,8 @@ public class ClientView {
         // ninth row
         content += playerBoards.get(i).printLine(8);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(2) + "\n";
+        // tenth row
+        content += playerBoards.get(i).printLine(9) + "\n";
 
         return content;
     }

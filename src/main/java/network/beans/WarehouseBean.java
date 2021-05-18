@@ -83,7 +83,7 @@ public class WarehouseBean implements Observer {
 
         switch (line) {
             case 0 -> {
-                return " First " + basicDepotNum + " depots are BasicDepots";
+                return " First " + basicDepotNum + " depots are Basic Depots";
             }
             case 1 -> {
                 for (int i = 0; i < depotType.length; i++) {
@@ -92,9 +92,9 @@ public class WarehouseBean implements Observer {
                     else
                         content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
                     if (i < basicDepotNum)
-                        content += " [max: " + (i + 1) + "] ";
+                        content += " [size: " + (i + 1) + "] ";
                     else
-                        content += " [max: 2] ";
+                        content += " [size: 2] ";
                 }
             }
         }
@@ -110,11 +110,11 @@ public class WarehouseBean implements Observer {
             else
                 content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
             if (i < basicDepotNum)
-                content += " [max: " + (i + 1) + "] ";
+                content += " [size: " + (i + 1) + "] ";
             else
-                content += " [max: 2] ";
+                content += " [size: 2] ";
         }
         return Color.HEADER + username + "'s Warehouse:\n" + Color.RESET +
-                " First " + basicDepotNum + " depots are BasicDepots\n" + content + "\n";
+                " First " + basicDepotNum + " depots are Basic Depots\n" + content + "\n";
     }
 }

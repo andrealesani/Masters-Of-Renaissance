@@ -93,16 +93,15 @@ public class LorenzoBean implements Observer {
         if(line == 0)
             return " Faith score: " + faith;
         if (line == 1)
-            return " ActiveTokens: " + Arrays.toString(activeTokens);
-        else
             return " DiscardedTokens: " + Arrays.toString(discardedTokens);
+        else
+            return "";
     }
 
     @Override
     public String toString() {
         return Color.HEADER + "Lorenzo:\n" + Color.RESET +
                 " faith: " + faith +
-                "\n activeTokens: " + Arrays.toString(activeTokens) +
                 "\n discardedTokens: " + Arrays.toString(discardedTokens) + "\n";
     }
 }

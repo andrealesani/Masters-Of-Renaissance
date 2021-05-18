@@ -8,6 +8,7 @@ import network.GameController;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.SplittableRandom;
 
 import static model.ResourceType.*;
 
@@ -429,6 +430,57 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    private String drawFaithTrack () {
+        String content = "";
+        int nextPopeTile = 0;
+        int nextFaithTile = 0;
+        content += " ";
+        for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
+            //The faith track tile
+            if (faith == pos) {
+                content += Color.RED_LIGHT_FG + "\uD83D\uDFA7" + Color.RESET;
+            } else {
+                content += "□";
+            }
+
+            //The modifiers
+            if (pos == popeTriggerValues[nextPopeTile]) {
+                content += Color.ORANGE_LIGHT_FG + "⛨" + Color.RESET;
+            }
+            if (pos == vpFaithTiles[nextFaithTile]) {
+                content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
+                nextFaithTile++;
+            }
+
+            //The space between tiles
+            if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
+                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                content += Color.ORANGE_LIGHT_FG + "[" + Color.RESET;
+            } else if (pos == popeTriggerValues[nextPopeTile]) {
+                content += Color.ORANGE_LIGHT_FG + "]" + Color.RESET;
+                if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
+                    content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                }
+                nextPopeTile++;
+            } else {
+                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+            }
+        }
+
+        return content;
+    }
+
+    private String drawCardSlots () {
+        String content = "";
+        content += " CardSlots:\n";
+        for (int i = 0; i < cardSlots.length; i++) {
+            content += "  ";
+            content += "Slot " + (i+1) + " : ";
+            content += cardSlots[i].toString();
+        }
+        return content;
+    }
+
     // OBSERVER METHODS
     private transient boolean isFirstUpdate = true;
 
@@ -475,40 +527,7 @@ public class PlayerBoardBean implements Observer {
                 content += username;
             }
             case 1 -> {
-                int nextPopeTile = 0;
-                int nextFaithTile = 0;
-                content += " ";
-                for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
-                    //The faith track tile
-                    if (faith == pos) {
-                        content += Color.LIGHT_BLUE_FG + "\uD83D\uDFA7" + Color.RESET;
-                    } else {
-                        content += "□";
-                    }
-
-                    //The modifiers
-                    if (pos == popeTriggerValues[nextPopeTile]) {
-                        content += Color.RESOURCE_STD + "⛨" + Color.RESET;
-                    }
-                    if (pos == vpFaithTiles[nextFaithTile]) {
-                        content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
-                        nextFaithTile++;
-                    }
-
-                    //The space between tiles
-                    if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
-                        content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
-                        content += Color.RESOURCE_STD + "[" + Color.RESET;
-                    } else if (pos == popeTriggerValues[nextPopeTile]) {
-                        content += Color.RESOURCE_STD + "]" + Color.RESET;
-                        if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
-                            content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
-                        }
-                        nextPopeTile++;
-                    } else {
-                        content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
-                    }
-                }
+                content += drawFaithTrack();
             }
             case 2 -> {
                 content += " PopeTiles: ";
@@ -543,14 +562,11 @@ public class PlayerBoardBean implements Observer {
                     content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
                 }
             }
+            case 8 -> {
+                content += drawCardSlots();
+            }
             default -> {
-                content += " VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                        " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
-                content += " CardSlots:\n";
-                for (SlotBean slotBean : cardSlots) {
-                    content += "  ";
-                    content += slotBean.toString();
-                }
+               content += "This row should not be printed!";
             }
         }
         return content;
@@ -560,31 +576,31 @@ public class PlayerBoardBean implements Observer {
     public String toString() {
         String content = "";
         content += "\n" + Color.HEADER + username + "'s PlayerBoard:\n" + Color.RESET;
+
+        content += drawFaithTrack();
+
         content += " PopeTiles: ";
         for (int i = 0; i < popeTileStates.length; i++) {
             content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
         }
+
         content += "\n Productions: " + Arrays.toString(productions) + "\n" +
                 " WhiteMarbles: " + whiteMarbles + "\n" +
-                " Faith: " + faith + "\n" +
                 " MarbleConversions: " + Arrays.toString(marbleConversions) + "\n";
+
         if (discountType.length == 0)
             content += " Player has not activated any discounts";
         else
             for (int i = 0; i < discountType.length; i++) {
                 content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
             }
+
         content += "\n LeaderCards: ";
         for (int i = 0; i < leaderCards.length; i++) {
             content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
         }
-        content += "\n VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +
-                " VpFaithValues: " + Arrays.toString(vpFaithValues) + "\n";
-        content += " CardSlots:\n";
-        for (SlotBean slotBean : cardSlots) {
-            content += "  ";
-            content += slotBean.toString();
-        }
+
+        drawCardSlots();
 
         return content;
     }
