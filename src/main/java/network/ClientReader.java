@@ -59,9 +59,9 @@ public class ClientReader implements Runnable {
                     clientView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));
                     StaticMethods.clearConsole();
                     System.out.println(clientView);
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: Game update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "MARKET":
@@ -69,9 +69,9 @@ public class ClientReader implements Runnable {
                     clientView.setMarket(gson.fromJson((String) responseMap.get("jsonMessage"), MarketBean.class));
                     StaticMethods.clearConsole();
                     System.out.println(clientView);
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: Market update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "CARDTABLE":
@@ -79,9 +79,9 @@ public class ClientReader implements Runnable {
                     clientView.setCardTable(gson.fromJson((String) responseMap.get("jsonMessage"), CardTableBean.class));
                     StaticMethods.clearConsole();
                     System.out.println(clientView);
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: CardTable update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "PLAYERBOARD":
@@ -104,9 +104,9 @@ public class ClientReader implements Runnable {
                         System.out.println(clientView);
                     }
                     break;
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: PlayerBoard update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "STRONGBOX":
@@ -128,9 +128,9 @@ public class ClientReader implements Runnable {
                         StaticMethods.clearConsole();
                         System.out.println(clientView);
                     }
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: Strongbox update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "WAITINGROOM":
@@ -152,9 +152,9 @@ public class ClientReader implements Runnable {
                         StaticMethods.clearConsole();
                         System.out.println(clientView);
                     }
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: WaitingRoom update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "WAREHOUSE":
@@ -176,9 +176,9 @@ public class ClientReader implements Runnable {
                         StaticMethods.clearConsole();
                         System.out.println(clientView);
                     }
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: Warehouse update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             case "LORENZO":
@@ -186,9 +186,9 @@ public class ClientReader implements Runnable {
                     clientView.setLorenzo(gson.fromJson((String) responseMap.get("jsonMessage"), LorenzoBean.class));
                     StaticMethods.clearConsole();
                     System.out.println(clientView);
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                     System.out.println("Warning: Lorenzo update failed");
-                    ignored.printStackTrace();
+                    ex.printStackTrace();
                 }
                 break;
             default:

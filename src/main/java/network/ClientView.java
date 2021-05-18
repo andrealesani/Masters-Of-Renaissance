@@ -57,58 +57,6 @@ public class ClientView {
     public ClientView() {
     }
 
-    // GETTERS
-
-    public GameBean getGame() {
-        return game;
-    }
-
-    public MarketBean getMarket() {
-        return market;
-    }
-
-    public CardTableBean getCardTable() {
-        return cardTable;
-    }
-
-    public LorenzoBean getLorenzo() {
-        return lorenzo;
-    }
-
-    public List<PlayerBoardBean> getPlayerBoards() {
-        return playerBoards;
-    }
-
-    public List<StrongboxBean> getStrongboxes() {
-        return strongboxes;
-    }
-
-    public List<WaitingRoomBean> getWaitingRooms() {
-        return waitingRooms;
-    }
-
-    public List<WarehouseBean> getWarehouses() {
-        return warehouses;
-    }
-
-    // SETTERS (other setters are not needed because the caller can use List<> setters)
-
-    public void setGame(GameBean game) {
-        this.game = game;
-    }
-
-    public void setMarket(MarketBean market) {
-        this.market = market;
-    }
-
-    public void setCardTable(CardTableBean cardTable) {
-        this.cardTable = cardTable;
-    }
-
-    public void setLorenzo(LorenzoBean lorenzo) {
-        this.lorenzo = lorenzo;
-    }
-
     // PRIVATE METHODS
 
     /**
@@ -210,6 +158,60 @@ public class ClientView {
             space += " ";
         return space;
     }
+
+    // GETTERS
+
+    public GameBean getGame() {
+        return game;
+    }
+
+    public MarketBean getMarket() {
+        return market;
+    }
+
+    public CardTableBean getCardTable() {
+        return cardTable;
+    }
+
+    public LorenzoBean getLorenzo() {
+        return lorenzo;
+    }
+
+    public List<PlayerBoardBean> getPlayerBoards() {
+        return playerBoards;
+    }
+
+    public List<StrongboxBean> getStrongboxes() {
+        return strongboxes;
+    }
+
+    public List<WaitingRoomBean> getWaitingRooms() {
+        return waitingRooms;
+    }
+
+    public List<WarehouseBean> getWarehouses() {
+        return warehouses;
+    }
+
+    // SETTERS (other setters are not needed because the caller can use List<> setters)
+
+    public void setGame(GameBean game) {
+        this.game = game;
+    }
+
+    public void setMarket(MarketBean market) {
+        this.market = market;
+    }
+
+    public void setCardTable(CardTableBean cardTable) {
+        this.cardTable = cardTable;
+    }
+
+    public void setLorenzo(LorenzoBean lorenzo) {
+        this.lorenzo = lorenzo;
+    }
+
+    //PRINTING METHODS
 
     @Override
     public String toString() {
