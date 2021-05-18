@@ -52,6 +52,7 @@ public class WarehouseBean implements Observer {
     public void setDepotsFromWarehouse(Warehouse warehouse) {
         depotType = new ResourceType[warehouse.getNumOfDepots()];
         depotQuantity = new int[depotType.length];
+        depotSizes = new int[depotType.length];
 
         for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
             if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
