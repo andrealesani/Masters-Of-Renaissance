@@ -91,7 +91,7 @@ public class LorenzoBean implements Observer {
             throw new ParametersNotValidException();
 
         if(line == 0)
-            return " Faith: " + faith;
+            return " Faith score: " + faith;
         if (line == 1)
             return " ActiveTokens: " + Arrays.toString(activeTokens);
         else

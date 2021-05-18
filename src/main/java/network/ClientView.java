@@ -104,7 +104,7 @@ public class ClientView {
     /**
      * Creates a String that displays PlayerBoard, Strongbox, WaitingRoom and Warehouse in parallel
      *
-     * @param i indicates the player that the String needs to be created for
+     * @param i indicates the number of the player that the String needs to be created for
      * @return the formatted String
      */
     private String playerAndStrongAndWaitingAndWarehouse(int i) {
@@ -154,7 +154,7 @@ public class ClientView {
         String space = "";
         //the regex is used to eliminate the special characters that would be counted in the string length
         int lineLen = content.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").length() - content.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").lastIndexOf('\n');
-        for (int i = 0; i < 69 - lineLen; i++)
+        for (int i = 0; i < 80 - lineLen; i++)
             space += " ";
         return space;
     }

@@ -807,7 +807,7 @@ public class PlayerBoard implements Observable {
         }
         //Pope's favor tiles
         for (PopeFavorTile tile : popeFavorTiles) {
-            vp += tile.getVictoryPoints();
+            vp += tile.getActiveVictoryPoints();
         }
         //Faith track
         for (int i = 0; i < vpFaithTiles.length; i++) {

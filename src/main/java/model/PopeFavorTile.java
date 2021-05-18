@@ -18,7 +18,7 @@ public class PopeFavorTile {
     /**
      * Attribute used to store the faith value that, once reached, will trigger the tile for all players
      */
-    private final int popeSpaceValue;
+    private final int tileTriggerValue;
     /**
      * Attribute used to store the size of the area, before and including the trigger spot, where players can still activate the tile once it's triggered
      */
@@ -30,16 +30,16 @@ public class PopeFavorTile {
      * The class constructor
      *
      * @param victoryPoints     the amount of victory points the tile gives the player after activation
-     * @param popeSpaceValue    the spot on the faith track that when reached will activate the tile for all players
-     * @param activeSectionSize the size of the area before and including the popeSpaceValue that constitutes the tile activation area
+     * @param tileTriggerValue    the spot on the faith track that when reached will activate the tile for all players
+     * @param activeSectionSize the size of the area before and including the tileTriggerValue that constitutes the tile activation area
      */
-    public PopeFavorTile(int victoryPoints, int popeSpaceValue, int activeSectionSize) {
-        if (victoryPoints < 0 || popeSpaceValue <= 0 || activeSectionSize <= 0) {
+    public PopeFavorTile(int victoryPoints, int tileTriggerValue, int activeSectionSize) {
+        if (victoryPoints < 0 || tileTriggerValue <= 0 || activeSectionSize <= 0) {
             throw new ParametersNotValidException();
         }
         this.victoryPoints = victoryPoints;
         this.activeSectionSize = activeSectionSize;
-        this.popeSpaceValue = popeSpaceValue;
+        this.tileTriggerValue = tileTriggerValue;
         state = PopeTileState.INACTIVE;
     }
 
@@ -52,7 +52,7 @@ public class PopeFavorTile {
      * @return true if the tile was still inactive and the player has reached or moved past its trigger spot
      */
     public boolean isTriggered(int playerFaith) {
-        if (state == PopeTileState.INACTIVE && playerFaith >= popeSpaceValue) {
+        if (state == PopeTileState.INACTIVE && playerFaith >= tileTriggerValue) {
             return true;
         }
         return false;
@@ -65,7 +65,7 @@ public class PopeFavorTile {
      */
     public void checkActivation(int playerFaith) {
         if (state == PopeTileState.INACTIVE) {
-            if (playerFaith >= popeSpaceValue - activeSectionSize + 1) {
+            if (playerFaith >= tileTriggerValue - activeSectionSize + 1) {
                 state = PopeTileState.ACTIVE;
             } else {
                 state = PopeTileState.DISCARDED;
@@ -80,11 +80,20 @@ public class PopeFavorTile {
      *
      * @return the tile's victory points if it is active, otherwise returns 0
      */
-    public int getVictoryPoints() {
+    public int getActiveVictoryPoints() {
         if (state == PopeTileState.ACTIVE) {
             return victoryPoints;
         }
         return 0;
+    }
+
+    /**
+     * Getter
+     *
+     * @return victoryPoints
+     */
+    public int getVictoryPoints() {
+        return victoryPoints;
     }
 
     /**
@@ -94,5 +103,23 @@ public class PopeFavorTile {
      */
     public PopeTileState getState() {
         return state;
+    }
+
+    /**
+     * Getter
+     *
+     * @return tileTriggerValue
+     */
+    public int getTriggerValue() {
+        return tileTriggerValue;
+    }
+
+    /**
+     * Getter
+     *
+     * @return activeSectionSize
+     */
+    public int getActiveSectionSize() {
+        return activeSectionSize;
     }
 }

@@ -34,6 +34,14 @@ public class PlayerBoardBean implements Observer {
      */
     private int[] popeTilePoints;
     /**
+     * Represent the faith score that, if reached by one of the players, triggers the corresponding pope's favor tile
+     */
+    private int[] popeTriggerValues;
+    /**
+     * Represent the size of the faith track area before (and including) the trigger value where players can still benefit from the tile's activation
+     */
+    private int[] popeSectionSizes;
+    /**
      * Represents the IDs of the productions available to the player
      */
     private int[] productions;
@@ -187,6 +195,24 @@ public class PlayerBoardBean implements Observer {
      */
     public int[] getPopeTilePoints() {
         return popeTilePoints;
+    }
+
+    /**
+     * Getter
+     *
+     * @return popeTriggerValues
+     */
+    public int[] getPopeTriggerValues() {
+        return popeTriggerValues;
+    }
+
+    /**
+     * Getter
+     *
+     * @return popeSectionSizes
+     */
+    public int[] getPopeSectionSizes() {
+        return popeSectionSizes;
     }
 
     /**
@@ -350,6 +376,33 @@ public class PlayerBoardBean implements Observer {
             popeTilePoints[i] = current.get(i).getVictoryPoints();
     }
 
+    /**
+     * Sets the value for the bean's PopeTriggerValues
+     *
+     * @param playerBoard from which information is retrieved
+     */
+    private void setPopeTriggerValuesFromPB(PlayerBoard playerBoard) {
+        int i;
+        List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
+        popeTriggerValues = new int[current.size()];
+        for (i = 0; i < popeTriggerValues.length; i++)
+            popeTriggerValues[i] = current.get(i).getTriggerValue();
+    }
+
+    /**
+     * Sets the value for the bean's PopeSectionSize
+     *
+     * @param playerBoard from which information is retrieved
+     */
+    private void setPopeSectionSizesFromPB(PlayerBoard playerBoard) {
+        int i;
+        List<PopeFavorTile> current = playerBoard.getPopeFavorTiles();
+        popeSectionSizes = new int[current.size()];
+        for (i = 0; i < popeSectionSizes.length; i++)
+            popeSectionSizes[i] = current.get(i).getActiveSectionSize();
+    }
+
+
     private void setProductionsFromPB(PlayerBoard playerBoard) {
         int i = 0;
         productions = new int[playerBoard.getProductionHandler().getProductions().size()];
@@ -388,6 +441,8 @@ public class PlayerBoardBean implements Observer {
             setVpFaithTilesFromPB(pb);
             setVpFaithValuesFromPB(pb);
             setPopeTilePointsFromPB(pb);
+            setPopeSectionSizesFromPB(pb);
+            setPopeTriggerValuesFromPB(pb);
 
             isFirstUpdate = false;
         }
@@ -416,28 +471,65 @@ public class PlayerBoardBean implements Observer {
 
         switch (line) {
             case 0 -> {
+                content += " Username: ";
+                content += username;
+            }
+            case 1 -> {
+                int nextPopeTile = 0;
+                int nextFaithTile = 0;
+                content += " ";
+                for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
+                    //The faith track tile
+                    if (faith == pos) {
+                        content += Color.LIGHT_BLUE_FG + "\uD83D\uDFA7" + Color.RESET;
+                    } else {
+                        content += "□";
+                    }
+
+                    //The modifiers
+                    if (pos == popeTriggerValues[nextPopeTile]) {
+                        content += Color.RESOURCE_STD + "⛨" + Color.RESET;
+                    }
+                    if (pos == vpFaithTiles[nextFaithTile]) {
+                        content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
+                        nextFaithTile++;
+                    }
+
+                    //The space between tiles
+                    if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
+                        content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                        content += Color.RESOURCE_STD + "[" + Color.RESET;
+                    } else if (pos == popeTriggerValues[nextPopeTile]) {
+                        content += Color.RESOURCE_STD + "]" + Color.RESET;
+                        if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
+                            content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                        }
+                        nextPopeTile++;
+                    } else {
+                        content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                    }
+                }
+            }
+            case 2 -> {
                 content += " PopeTiles: ";
                 for (int i = 0; i < popeTileStates.length; i++) {
                     content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + " VPs ";
                 }
             }
-            case 1 -> {
+            case 3 -> {
                 if (productions.length == 1)
                     return " Player has only default production";
                 return " Productions: " + Arrays.toString(productions);
             }
-            case 2 -> {
+            case 4 -> {
                 return " WhiteMarbles: " + whiteMarbles;
             }
-            case 3 -> {
-                return " Faith: " + faith;
-            }
-            case 4 -> {
+            case 5 -> {
                 if (marbleConversions.length == 0)
                     return " Player doesn't have any marble conversions";
                 return " MarbleConversions: " + Arrays.toString(marbleConversions);
             }
-            case 5 -> {
+            case 6 -> {
                 if (discountType.length == 0)
                     content += " Player doesn't have any discounts";
                 else
@@ -445,14 +537,11 @@ public class PlayerBoardBean implements Observer {
                         content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
                     }
             }
-            case 6 -> {
+            case 7 -> {
                 content += " LeaderCards: ";
                 for (int i = 0; i < leaderCards.length; i++) {
                     content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
                 }
-            }
-            case 7 -> {
-                content += " VpFaithTiles: " + Arrays.toString(vpFaithTiles);
             }
             default -> {
                 content += " VpFaithTiles: " + Arrays.toString(vpFaithTiles) + "\n" +

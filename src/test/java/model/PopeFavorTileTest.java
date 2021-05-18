@@ -110,7 +110,7 @@ class PopeFavorTileTest {
     void getVictoryPointsInactive() {
         PopeFavorTile tile = new PopeFavorTile(5, 15,5);
 
-        assertEquals (0, tile.getVictoryPoints());
+        assertEquals (0, tile.getActiveVictoryPoints());
     }
 
     /**
@@ -122,7 +122,7 @@ class PopeFavorTileTest {
 
         tile.checkActivation(11);
 
-        assertEquals (5, tile.getVictoryPoints());
+        assertEquals (5, tile.getActiveVictoryPoints());
     }
 
     /**
@@ -134,7 +134,7 @@ class PopeFavorTileTest {
 
         tile.checkActivation(10);
 
-        assertEquals (0, tile.getVictoryPoints());
+        assertEquals (0, tile.getActiveVictoryPoints());
     }
 }
 
