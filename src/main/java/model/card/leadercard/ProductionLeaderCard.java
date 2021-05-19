@@ -1,10 +1,7 @@
 package model.card.leadercard;
 
-import model.CardColor;
-import model.PlayerBoard;
-import model.ResourceType;
+import model.*;
 import model.card.DevelopmentCard;
-import model.Production;
 import model.resource.*;
 
 import java.util.ArrayList;
@@ -206,15 +203,24 @@ public class ProductionLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mProductionLeaderCard:\u001B[0m" +
-                super.toString() +
-                "\n requiredColor: " + requiredColor +
-                "\n requiredLevel: " + requiredLevel +
-                "\n requiredQuantity: " + requiredQuantity +
-                "\n inputType: " + Arrays.toString(inputType) +
-                "\n inputQuantities: " + Arrays.toString(inputQuantities) +
-                "\n outputType: " + Arrays.toString(outputType) +
-                "\n outputQuantities: " + Arrays.toString(outputQuantities) +
-                '\n';
+        String content = "";
+        content += Color.HEADER + "Production Leader Card:" + Color.RESET +
+                super.toString();
+
+        content += "\n Required card: ";
+        content += requiredQuantity + " x " + requiredColor.iconPrint() + " of level " + Color.RESOURCE_STD + requiredLevel + Color.RESET;
+
+
+        content += "\n Production Input: ";
+        for (int i = 0; i<inputType.length; i++) {
+            content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+        }
+
+        content += "\n Production Output: ";
+        for (int i = 0; i<outputType.length; i++) {
+            content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+        }
+
+        return content;
     }
 }

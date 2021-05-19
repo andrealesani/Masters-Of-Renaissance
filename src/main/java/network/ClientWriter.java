@@ -3,6 +3,7 @@ package network;
 import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
 import model.CardColor;
+import model.Color;
 import model.ResourceType;
 
 import java.io.BufferedReader;
@@ -69,7 +70,7 @@ public class ClientWriter implements Runnable {
                                 System.out.println("\n" + clientView.getCardTable());
                             }
                             case "lorenzo" -> {
-                                if(clientView.getLorenzo() == null)
+                                if (clientView.getLorenzo() == null)
                                     System.out.println("\nLorenzo is not present in this game");
                                 else
                                     System.out.println("\n" + clientView.getLorenzo());
@@ -88,16 +89,31 @@ public class ClientWriter implements Runnable {
                             }
                         }
                     }
-                    case "card" -> {
+                    case "card", "production" -> {
                         System.out.println("Specify the card you want to see: ");
                         int cardId = getInt();
-                        try {
-                            System.out.println(clientView.getCardTable().getDevelopmentCardFromId(cardId));
-                        } catch (CardNotPresentException ex) {
+
+                        //TODO do not hardcode base production power
+                        if (cardId == 0) {
+                            String content = "";
+                            content += Color.HEADER + "Base production:" + Color.RESET;
+
+                            content += "\n Production Input: ";
+                            content += " " + ResourceType.UNKNOWN.iconPrint() + " x " + 2 + "  ";
+
+                            content += "\n Production Output: ";
+                            content += " " + ResourceType.UNKNOWN.iconPrint() + " x " + 1 + "  ";
+
+                            System.out.println(content);
+                        } else {
                             try {
-                                System.out.println(clientView.getGame().getLeaderCardFromId(cardId));
-                            } catch (CardNotPresentException ex1) {
-                                System.out.println("The specified ID does not match any Development or Leader Cards");
+                                System.out.println(clientView.getCardTable().getDevelopmentCardFromId(cardId));
+                            } catch (CardNotPresentException ex) {
+                                try {
+                                    System.out.println(clientView.getGame().getLeaderCardFromId(cardId));
+                                } catch (CardNotPresentException ex1) {
+                                    System.out.println("The specified ID does not match any Development or Leader Cards");
+                                }
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import model.CardColor;
+import model.Color;
 import model.PlayerBoard;
 import model.ResourceType;
 
@@ -110,11 +111,18 @@ public class MarbleLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mMarbleLeaderCard:\u001B[0m" +
-                super.toString() +
-                "\n requiredColors: " + Arrays.toString(requiredColors) +
-                "\n requiredQuantities: " + Arrays.toString(requiredQuantities) +
-                "\n resourceType: " + resourceType +
-                "\n";
+        String content = "";
+        content += Color.HEADER + "Marble Leader Card:" + Color.RESET +
+                super.toString();
+
+        content += "\n Required cards: ";
+        for (int i = 0; i < requiredColors.length; i++) {
+            content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
+        }
+
+        content += "\n Conversion: ";
+        content += ResourceType.WHITEORB.iconPrint() + " -> " + resourceType.iconPrint();
+
+        return content;
     }
 }

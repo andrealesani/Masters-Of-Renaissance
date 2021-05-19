@@ -61,10 +61,9 @@ public class WarehouseBean implements Observer {
                     quantity--;
                 } else
                     content += Color.RESOURCE_STD + "□" + Color.RESET;
-
-                if (i >= basicDepotNum) {
-                    content += "(" + depotType[i].iconPrint() + ")";
-                }
+            }
+            if (i >= basicDepotNum) {
+                content += "(" + depotType[i].iconPrint() + ")";
             }
             content += "]";
 
@@ -129,6 +128,7 @@ public class WarehouseBean implements Observer {
     @Override
     public String toString() {
         String content = "";
+        content += " First " + basicDepotNum + " depots are Basic Depots";
         content += drawSlots();
         return Color.HEADER + username + "'s Warehouse:\n" + Color.RESET +
                 " First " + basicDepotNum + " depots are Basic Depots\n" + content + "\n";

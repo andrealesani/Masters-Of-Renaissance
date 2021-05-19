@@ -25,6 +25,14 @@ public class StrongboxBean implements Observer {
         this.username = username;
     }
 
+    // SETTERS
+
+    private void setQuantityFromStrongbox(UnlimitedStorage strongbox) {
+        for(int i = 0; i < type.length; i++) {
+            quantity[i] = strongbox.getNumOfResource(type[i]);
+        }
+    }
+
     // GETTERS
 
     public String getUsername() {
@@ -39,13 +47,6 @@ public class StrongboxBean implements Observer {
         return quantity;
     }
 
-    // SETTERS
-
-    private void setQuantityFromStrongbox(UnlimitedStorage strongbox) {
-        for(int i = 0; i < type.length; i++) {
-            quantity[i] = strongbox.getNumOfResource(type[i]);
-        }
-    }
 
     // OBSERVER METHODS
 
@@ -78,7 +79,7 @@ public class StrongboxBean implements Observer {
     public String toString() {
         String content = "";
         for (int i = 0; i < type.length; i++) {
-            content += " " + type[i] + ": " + quantity[i] + "  ";
+            content += " " + type[i].iconPrint() + " x " + quantity[i] + "  ";
         }
         return Color.HEADER + username + "'s Strongbox:\n" + Color.RESET + content + "\n";
     }

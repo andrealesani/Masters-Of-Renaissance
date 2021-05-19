@@ -434,39 +434,44 @@ public class PlayerBoardBean implements Observer {
         String content = " ";
         int nextPopeTile = 0;
         int nextFaithTile = 0;
-        content += Color.GREY_LIGHT_BG;
         for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
+
             //The faith track tile
             if (faith == pos) {
-                content += Color.RED_LIGHT_FG + "\uD83D\uDFA7" ;
+                content += Color.RED_LIGHT_FG + "\uD83D\uDFA7" + Color.RESET;
             } else {
-                content += Color.GREY_DARK_FG + "□";
+                content += Color.GREY_LIGHT_FG + "□" + Color.RESET;
             }
 
             //The modifiers
             if (pos == popeTriggerValues[nextPopeTile]) {
-                content += Color.ORANGE_LIGHT_FG + "⛨" ;
+                content += Color.ORANGE_LIGHT_FG + "⛨" + Color.RESET;
             }
             if (pos == vpFaithTiles[nextFaithTile]) {
-                content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" ;
+                content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
                 nextFaithTile++;
             }
 
             //The space between tiles
             if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
-                content += Color.GREY_DARK_FG + "═" ;
-                content += Color.ORANGE_LIGHT_FG + "[" ;
+
+                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                content += Color.ORANGE_LIGHT_FG + "[" + Color.RESET;
+
             } else if (pos == popeTriggerValues[nextPopeTile]) {
-                content += Color.ORANGE_LIGHT_FG + "]" ;
+
+                content += Color.ORANGE_LIGHT_FG + "]" + Color.RESET;
                 if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
-                    content += Color.GREY_DARK_FG + "═" ;
+                    content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
                 }
                 nextPopeTile++;
+
             } else {
-                content += Color.GREY_DARK_FG + "═" ;
+
+                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+
             }
         }
-        content += Color.RESET;
 
         return content;
     }
@@ -478,6 +483,20 @@ public class PlayerBoardBean implements Observer {
             content += "  ";
             content += "Slot " + (i+1) + " : ";
             content += cardSlots[i].toString();
+        }
+        return content;
+    }
+
+    private String drawLeaderCards () {
+        String content = " LeaderCards: ";
+        for (int i = 0; i < leaderCards.length; i++) {
+            if (activeLeaderCards[i]) {
+                content += Color.RESOURCE_STD;
+            } else {
+                content += Color.RESET;
+            }
+            content += "[" + leaderCards[i] + "] ";
+            content += Color.RESET;
         }
         return content;
     }
@@ -548,8 +567,8 @@ public class PlayerBoardBean implements Observer {
                 if (marbleConversions.length == 0)
                     return " Player doesn't have any marble conversions";
                 content += " White Marble Conversions: ";
-                for (int i = 0; i < marbleConversions.length; i++) {
-                    content += marbleConversions[i].iconPrint() + ",  ";
+                for (ResourceType marbleConversion : marbleConversions) {
+                    content += marbleConversion.iconPrint() + ",  ";
                 }
             }
             case 6 -> {
@@ -561,16 +580,7 @@ public class PlayerBoardBean implements Observer {
                     }
             }
             case 7 -> {
-                content += " LeaderCards: ";
-                for (int i = 0; i < leaderCards.length; i++) {
-                    if (activeLeaderCards[i]) {
-                        content += Color.RESOURCE_STD;
-                    } else {
-                        content += Color.RESET;
-                    }
-                    content += "[" + leaderCards[i] + "] ";
-                    content += Color.RESET;
-                }
+                content += drawLeaderCards();
             }
             case 8 -> {
                 content += drawCardSlots();
@@ -593,10 +603,20 @@ public class PlayerBoardBean implements Observer {
         for (int i = 0; i < popeTileStates.length; i++) {
             content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
         }
+        content += "\n";
 
-        content += "\n Productions: " + Arrays.toString(productions) + "\n" +
-                " Resources left to convert: " + whiteMarbles + "\n" +
-                " White Marble Conversions: " + Arrays.toString(marbleConversions) + "\n";
+        content += " Productions: " + Arrays.toString(productions) + "\n" +
+                " Resources left to convert: " + whiteMarbles + "\n";
+
+        if (marbleConversions.length == 0)
+            content+= " Player doesn't have any marble conversions";
+        else {
+            content += " White Marble Conversions: ";
+            for (ResourceType marbleConversion : marbleConversions) {
+                content += marbleConversion.iconPrint() + ",  ";
+            }
+        }
+        content += "\n";
 
         if (discountType.length == 0)
             content += " Player has not activated any discounts";
@@ -604,13 +624,13 @@ public class PlayerBoardBean implements Observer {
             for (int i = 0; i < discountType.length; i++) {
                 content += " " + discountType[i] + ": " + discountQuantity[i] + "  ";
             }
+        content += "\n";
 
-        content += "\n LeaderCards: ";
-        for (int i = 0; i < leaderCards.length; i++) {
-            content += "[" + leaderCards[i] + ": " + activeLeaderCards[i] + "] ";
-        }
+        content += drawLeaderCards();
+        content += "\n";
 
         drawCardSlots();
+        content += "\n";
 
         return content;
     }

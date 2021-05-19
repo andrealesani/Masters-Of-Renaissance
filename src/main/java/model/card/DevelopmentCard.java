@@ -129,14 +129,26 @@ public class DevelopmentCard extends Card {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mDevelopmentCard:\u001B[0m" +
+        String content = "";
+        content += Color.HEADER + "Development Card:" + Color.RESET +
                 super.toString() +
-                "\n level: " + level +
-                "\n costType: " + Arrays.toString(costType) +
-                "\n costQuantity: " + Arrays.toString(costQuantity) +
-                "\n inputType: " + Arrays.toString(inputType) +
-                "\n inputQuantities: " + Arrays.toString(inputQuantities) +
-                "\n outputType: " + Arrays.toString(outputType) +
-                "\n outputQuantities: " + Arrays.toString(outputQuantities) + "\n";
+                "\n Level: " + level;
+
+        content += "\n Cost: ";
+        for (int i = 0; i<costType.length; i++) {
+            content += " " + costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
+        }
+
+        content += "\n Production Input: ";
+        for (int i = 0; i<inputType.length; i++) {
+            content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+        }
+
+        content += "\n Production Output: ";
+        for (int i = 0; i<outputType.length; i++) {
+            content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+        }
+
+        return content;
     }
 }

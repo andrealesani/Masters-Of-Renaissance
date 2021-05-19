@@ -1,5 +1,7 @@
 package model.card;
 
+import model.Color;
+
 /**
  * This class represents a generic card in the game. It has methods for activating and deactivating it, and stores its victory points
  */
@@ -96,7 +98,7 @@ public abstract class Card {
      */
     @Override
     public String toString() {
-        return  "\n id: " + getId() +
-                "\n victory points: " + getVictoryPoints();
+        return  "\n Id: " + getId() +
+                "\n Victory Points: " + Color.YELLOW_LIGHT_FG + getVictoryPoints() + Color.RESET;
     }
 }
