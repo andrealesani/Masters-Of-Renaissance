@@ -105,8 +105,9 @@ public class LorenzoBean implements Observer {
     @Override
     public String toString() {
         return Color.HEADER + "Lorenzo:\n" + Color.RESET +
-                " faith: " + faith +
-                "\n discardedTokens: " +
+                " faith: " + faith + "\n" +
+                " Active Tokens: " + Color.RESOURCE_STD + activeTokens.length + Color.RESET + "\n" +
+                " discardedTokens: " +
                 Arrays.toString(
                         Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray()) +
                 "\n";

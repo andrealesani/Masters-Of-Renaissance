@@ -29,6 +29,49 @@ public class WarehouseBean implements Observer {
         this.basicDepotNum = basicDepotNum;
     }
 
+    // SETTERS
+
+    public void setDepotsFromWarehouse(Warehouse warehouse) {
+        depotType = new ResourceType[warehouse.getNumOfDepots()];
+        depotQuantity = new int[depotType.length];
+        depotSizes = new int[depotType.length];
+
+        for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
+            if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
+                depotType[i] = warehouse.getDepot(i + 1).getStoredResources().get(0);
+            depotQuantity[i] = warehouse.getDepot(i + 1).getNumOfResource(depotType[i]);
+            depotSizes[i] = warehouse.getDepot(i + 1).getSize();
+        }
+    }
+
+    //PRIVATE METHODS
+
+    private String drawSlots() {
+        String content = "";
+
+        for (int i = 0; i < depotType.length; i++) {
+            content += " " + (i+1);
+            content += ".[";
+            int quantity = depotQuantity[i];
+
+            for (int j = 0; j < depotSizes[i]; j++) {
+
+                if (quantity > 0) {
+                    content += depotType[i].iconPrint();
+                    quantity--;
+                } else
+                    content += Color.RESOURCE_STD + "□" + Color.RESET;
+
+                if (i >= basicDepotNum) {
+                    content += "(" + depotType[i].iconPrint() + ")";
+                }
+            }
+            content += "]";
+
+        }
+        return content;
+    }
+
     // GETTERS
 
     public String getUsername() {
@@ -47,20 +90,6 @@ public class WarehouseBean implements Observer {
         return basicDepotNum;
     }
 
-    // SETTERS
-
-    public void setDepotsFromWarehouse(Warehouse warehouse) {
-        depotType = new ResourceType[warehouse.getNumOfDepots()];
-        depotQuantity = new int[depotType.length];
-        depotSizes = new int[depotType.length];
-
-        for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
-            if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
-                depotType[i] = warehouse.getDepot(i + 1).getStoredResources().get(0);
-            depotQuantity[i] = warehouse.getDepot(i + 1).getNumOfResource(depotType[i]);
-            depotSizes[i] = warehouse.getDepot(i + 1).getSize();
-        }
-    }
 
     // OBSERVER METHODS
 
@@ -77,6 +106,8 @@ public class WarehouseBean implements Observer {
         controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
     }
 
+    //PRINTING METHODS
+
     public String printLine(int line) {
         line --;
         if (line < 0 || line > 1)
@@ -89,16 +120,7 @@ public class WarehouseBean implements Observer {
                 return " First " + basicDepotNum + " depots are Basic Depots";
             }
             case 1 -> {
-                for (int i = 0; i < depotType.length; i++) {
-                    if (depotType[i] != null)
-                        content += " " + depotType[i].iconPrint() + " x " + depotQuantity[i];
-                    else
-                        content += Color.RESOURCE_STD + " □ " + Color.RESET;
-                    if (i < basicDepotNum)
-                        content += " [size: " + (i + 1) + "], ";
-                    else
-                        content += " [size: 2], ";
-                }
+                content += drawSlots();
             }
         }
         return content;
@@ -107,16 +129,7 @@ public class WarehouseBean implements Observer {
     @Override
     public String toString() {
         String content = "";
-        for (int i = 0; i < depotType.length; i++) {
-            if (depotType[i] != null)
-                content += " " + depotType[i] + " " + depotQuantity[i];
-            else
-                content += Color.RESOURCE_STD + " EMPTY" + Color.RESET;
-            if (i < basicDepotNum)
-                content += " [size: " + (i + 1) + "] ";
-            else
-                content += " [size: 2] ";
-        }
+        content += drawSlots();
         return Color.HEADER + username + "'s Warehouse:\n" + Color.RESET +
                 " First " + basicDepotNum + " depots are Basic Depots\n" + content + "\n";
     }

@@ -2,6 +2,7 @@ package network;
 
 import model.Color;
 import model.ResourceType;
+import model.TurnPhase;
 import network.beans.*;
 
 import java.util.ArrayList;
@@ -113,19 +114,29 @@ public class ClientView {
         String content = "";
         // first row
         content += Color.HEADER + "PlayerBoard: ";
-        content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
+        content += fillBetweenColumns(content) + Color.HEADER;
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT) {
+            content += "Resources left to pay: ";
+        } else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
+            content += "Resources left to distribute: ";
+        }
+        content += Color.RESET + "\n";
         // second row
         content += playerBoards.get(i).printLine(1);
-        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
+        content += fillBetweenColumns(content);
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT || game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
+            content += waitingRooms.get(i).printLine(1);
+        }
+        content += "\n";
         // third row
         content += playerBoards.get(i).printLine(2);
         content += "\n";
         // fourth row
         content += playerBoards.get(i).printLine(3);
-        content += fillBetweenColumns(content) + Color.HEADER + "WaitingRoom: " + Color.RESET + "\n";
+        content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
         // fifth row
         content += playerBoards.get(i).printLine(4);
-        content += fillBetweenColumns(content) + waitingRooms.get(i).printLine(1) + "\n";
+        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
         // sixth row
         content += playerBoards.get(i).printLine(5);
         content += "\n";
