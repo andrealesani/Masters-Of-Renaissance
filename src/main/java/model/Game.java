@@ -224,7 +224,7 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase == LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
-        //TODO leadercard does not exist
+
         currentPlayer.discardLeaderCard(number);
     }
 

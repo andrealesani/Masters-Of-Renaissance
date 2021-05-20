@@ -588,7 +588,7 @@ public class PlayerBoard implements Observable {
             throw new ParametersNotValidException();
         if (number > leaderCards.size())
             throw new LeaderNotPresentException();
-        if (leaderCards.get(number).isActive())
+        if (leaderCards.get(number-1).isActive())
             throw new LeaderIsActiveException();
 
         leaderCards.remove(number-1);

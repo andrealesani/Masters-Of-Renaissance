@@ -48,7 +48,7 @@ public class ClientWriter implements Runnable {
 
                 }
 
-                if (clientView.getGame()==null) {
+                if (clientView.getGame() == null) {
                     out.println(userInput);
 
                 } else switch (userInput) {
@@ -137,44 +137,42 @@ public class ClientWriter implements Runnable {
 
                         TurnPhase phase = clientView.getGame().getTurnPhase();
                         switch (phase) {
-                            case LEADERCHOICE:
-                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.LEADERCHOICE + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                            case LEADERCHOICE -> {
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
                                 System.out.println("'0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)");
                                 System.out.println("'1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game)");
                                 System.out.println("'18' OR 'endTurn' - Confirm your choices and start your first turn");
-
-                            case ACTIONSELECTION:
-                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.ACTIONSELECTION + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                            }
+                            case ACTIONSELECTION -> {
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
                                 System.out.println("'2'  OR 'playLeaderCard' - Activate a LeaderCard");
                                 System.out.println("'3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point");
                                 System.out.println("'4'  OR 'selectMarketRow' - Choose the Market row that you want to get the Resources from");
                                 System.out.println("'5'  OR 'selectMarketColumn' - Choose the Market column that you want to get the Resources from");
                                 System.out.println("'10' OR 'takeDevelopmentCard' - Take a DevelopmentCard from the CardTable (you can later specify where to pay from or you can end the turn and activate auto-payment)");
                                 System.out.println("'11' OR 'selectProduction' - Select a Production you want to activate");
-                                System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again do make a different move");
+                                System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again to make a different move");
                                 System.out.println("'13' OR 'confirmProductionChoice' - When you're finished choosing your Productions and you've defined all of your jolly input/output you can confirm your choice");
-                                System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have UNKNOWN resources in your input list)");
-                                System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have UNKKNOWN resources in your output list)");
-
-                            case MARKETDISTRIBUTION:
-                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.MARKETDISTRIBUTION + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have JOLLY resources in your input list)");
+                                System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have JOLLY resources in your output list)");
+                            }
+                            case MARKETDISTRIBUTION -> {
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'2'  OR 'playLeaderCard' - Activate a LeaderCard");
+                                System.out.println("'3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point");
                                 System.out.println("'6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot");
                                 System.out.println("'7'  OR 'chooseMarbleConversion' - Choose which marble conversion to apply to the White Orb you picked from the Market");
                                 System.out.println("'8'  OR 'swapDepotContent' - Swap the content of 2 depots");
                                 System.out.println("'9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
-
-                            case CARDPAYMENT:
-                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.CARDPAYMENT + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                            }
+                            case CARDPAYMENT, PRODUCTIONPAYMENT -> {
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'2'  OR 'playLeaderCard' - Activate a LeaderCard");
+                                System.out.println("'3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point");
                                 System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
                                 System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
                                 System.out.println("'18' OR 'endTurn' - Enable auto-payment and end your turn");
-
-                            case PRODUCTIONPAYMENT:
-                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.PRODUCTIONPAYMENT + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
-                                System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
-                                System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
-                                System.out.println("'18' OR 'endTurn' - Enable auto-payment and end your turn");
-
+                            }
                         }
 
                     }
@@ -191,10 +189,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("'9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
                         System.out.println("'10' OR 'takeDevelopmentCard' - Take a DevelopmentCard from the CardTable (you can later specify where to pay from or you can end the turn and activate auto-payment)");
                         System.out.println("'11' OR 'selectProduction' - Select a Production you want to activate");
-                        System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again do make a different move");
+                        System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again to make a different move");
                         System.out.println("'13' OR 'confirmProductionChoice' - When you're finished choosing your Productions and you've defined all of your jolly input/output you can confirm your choice");
-                        System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have UNKNOWN resources in your input list)");
-                        System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have UNKKNOWN resources in your output list)");
+                        System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have JOLLY resources in your input list)");
+                        System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have JOLLY resources in your output list)");
                         System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
                         System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
                         System.out.println("'18' OR 'endTurn' - end your turn");
