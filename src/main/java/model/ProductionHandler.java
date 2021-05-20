@@ -27,6 +27,7 @@ public class ProductionHandler {
     private final List<Resource> currentOutput;
 
     //CONSTRUCTORS
+    //TODO make a productionhandler bean with current input and output
 
     /**
      * Constructor

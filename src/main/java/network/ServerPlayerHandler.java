@@ -44,6 +44,7 @@ public class ServerPlayerHandler implements Runnable {
     private final Gson gson;
 
     //CONSTRUCTORS
+    //TODO wrap login messages
 
     /**
      * The class constructor
