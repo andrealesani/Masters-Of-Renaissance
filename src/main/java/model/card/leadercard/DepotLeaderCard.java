@@ -123,6 +123,16 @@ public class DepotLeaderCard extends LeaderCard {
         return storableQuantity;
     }
 
+    public String gigi(){
+        String content = "";
+        content += "\n\u001B[32;1mDepotLeaderCard:\u001B[0m";
+        content += super.toString();
+        content += "\n\n required resources: ";
+
+
+        return content;
+    }
+
     @Override
     public String toString() {
         String content = "";

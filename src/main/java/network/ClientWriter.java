@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import model.CardColor;
 import model.Color;
 import model.ResourceType;
+import model.TurnPhase;
+
+import static model.TurnPhase.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,10 +52,12 @@ public class ClientWriter implements Runnable {
 
                 switch (userInput) {
                     case "help" -> {
-                        System.out.println("Supported commands are: 'status', 'show', 'card'. If you're looking for action-specific commands, type 'actions'");
+                        System.out.println("Supported commands are: 'status', 'show', 'card'.\nIf you're looking for action-specific commands, type 'actions'");
+                        break;
                     }
                     case "status" -> {
                         System.out.println("\n" + clientView.getGame());
+                        break;
                     }
                     case "show" -> {
                         System.out.println("Specify what you want to see or press ENTER to show all:");
@@ -62,30 +67,38 @@ public class ClientWriter implements Runnable {
                         switch (request) {
                             case "" -> {
                                 System.out.println("\n" + clientView);
+                                break;
                             }
                             case "market" -> {
                                 System.out.println("\n" + clientView.getMarket());
+                                break;
                             }
                             case "cardtable" -> {
                                 System.out.println("\n" + clientView.getCardTable());
+                                break;
                             }
                             case "lorenzo" -> {
                                 if (clientView.getLorenzo() == null)
                                     System.out.println("\nLorenzo is not present in this game");
                                 else
                                     System.out.println("\n" + clientView.getLorenzo());
+                                break;
                             }
                             case "playerboard" -> {
                                 System.out.println("\n" + clientView.getPlayerBoards());
+                                break;
                             }
                             case "strongbox" -> {
                                 System.out.println("\n" + clientView.getStrongboxes());
+                                break;
                             }
                             case "waitingroom" -> {
                                 System.out.println("\n" + clientView.getWaitingRooms());
+                                break;
                             }
                             case "warehouse" -> {
                                 System.out.println("\n" + clientView.getWarehouses());
+                                break;
                             }
                         }
                     }
@@ -116,29 +129,78 @@ public class ClientWriter implements Runnable {
                                 }
                             }
                         }
+                        break;
                     }
                     case "actions" -> {
-                        System.out.println("0. chooseBonusResourceType");
-                        System.out.println("1. chooseLeaderCard");
-                        System.out.println("2. playLeaderCard");
-                        System.out.println("3. discardLeaderCard");
-                        System.out.println("4. selectMarketRow");
-                        System.out.println("5. selectMarketColumn");
-                        System.out.println("6. sendResourceToDepot");
-                        System.out.println("7. chooseMarbleConversion");
-                        System.out.println("8. swapDepotContent");
-                        System.out.println("9. moveDepotContent");
-                        System.out.println("10. takeDevelopmentCard");
-                        System.out.println("11. selectProduction");
-                        System.out.println("12. resetProductionChoice");
-                        System.out.println("13. confirmProductionChoice");
-                        System.out.println("14. chooseJollyInput");
-                        System.out.println("15. chooseJollyOutput");
-                        System.out.println("16. payFromWarehouse");
-                        System.out.println("17. payFromStrongbox");
-                        System.out.println("18. endTurn");
+                        System.out.println("If you want to see all the possible actions in the game, type 'actions -all'");
+
+                        TurnPhase phase = clientView.getGame().getTurnPhase();
+                        switch (phase) {
+                            case LEADERCHOICE:
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.LEADERCHOICE + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)");
+                                System.out.println("'1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game)");
+                                System.out.println("'18' OR 'endTurn' - Confirm your choices and start your first turn");
+                                break;
+                            case ACTIONSELECTION:
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.ACTIONSELECTION + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'2'  OR 'playLeaderCard' - Activate a LeaderCard");
+                                System.out.println("'3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point");
+                                System.out.println("'4'  OR 'selectMarketRow' - Choose the Market row that you want to get the Resources from");
+                                System.out.println("'5'  OR 'selectMarketColumn' - Choose the Market column that you want to get the Resources from");
+                                System.out.println("'10' OR 'takeDevelopmentCard' - Take a DevelopmentCard from the CardTable (you can later specify where to pay from or you can end the turn and activate auto-payment)");
+                                System.out.println("'11' OR 'selectProduction' - Select a Production you want to activate");
+                                System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again do make a different move");
+                                System.out.println("'13' OR 'confirmProductionChoice' - When you're finished choosing your Productions and you've defined all of your jolly input/output you can confirm your choice");
+                                System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have UNKNOWN resources in your input list)");
+                                System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have UNKKNOWN resources in your output list)");
+                                break;
+                            case MARKETDISTRIBUTION:
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.MARKETDISTRIBUTION + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot");
+                                System.out.println("'7'  OR 'chooseMarbleConversion' - Choose which marble conversion to apply to the White Orb you picked from the Market");
+                                System.out.println("'8'  OR 'swapDepotContent' - Swap the content of 2 depots");
+                                System.out.println("'9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
+                                break;
+                            case CARDPAYMENT:
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.CARDPAYMENT + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
+                                System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
+                                System.out.println("'18' OR 'endTurn' - Enable auto-payment and end your turn");
+                                break;
+                            case PRODUCTIONPAYMENT:
+                                System.out.println(Color.AQUA_GREEN_FG + "We're in " + TurnPhase.PRODUCTIONPAYMENT + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
+                                System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
+                                System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
+                                System.out.println("'18' OR 'endTurn' - Enable auto-payment and end your turn");
+                                break;
+                        }
+                        break;
                     }
-                    case "chooseBonusResourceType", "0." -> {
+                    case "actions -all" -> {
+                        System.out.println("'0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)");
+                        System.out.println("'1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game)");
+                        System.out.println("'2'  OR 'playLeaderCard' - Activate a LeaderCard");
+                        System.out.println("'3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point");
+                        System.out.println("'4'  OR 'selectMarketRow' - Choose the Market row that you want to get the Resources from");
+                        System.out.println("'5'  OR 'selectMarketColumn' - Choose the Market column that you want to get the Resources from");
+                        System.out.println("'6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot");
+                        System.out.println("'7'  OR 'chooseMarbleConversion' - Choose which marble conversion to apply to the White Orb you picked from the Market");
+                        System.out.println("'8'  OR 'swapDepotContent' - Swap the content of 2 depots");
+                        System.out.println("'9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
+                        System.out.println("'10' OR 'takeDevelopmentCard' - Take a DevelopmentCard from the CardTable (you can later specify where to pay from or you can end the turn and activate auto-payment)");
+                        System.out.println("'11' OR 'selectProduction' - Select a Production you want to activate");
+                        System.out.println("'12' OR 'resetProductionChoice' - Unselects all the Productions so that you can choose again do make a different move");
+                        System.out.println("'13' OR 'confirmProductionChoice' - When you're finished choosing your Productions and you've defined all of your jolly input/output you can confirm your choice");
+                        System.out.println("'14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have UNKNOWN resources in your input list)");
+                        System.out.println("'15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have UNKKNOWN resources in your output list)");
+                        System.out.println("'16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)");
+                        System.out.println("'17' OR 'payFromStrongbox' - Choose which Resource to pay from the Strongbox (if you don't want to activate auto-payment)");
+                        System.out.println("'18' OR 'endTurn' - end your turn");
+
+                        break;
+                    }
+                    case "chooseBonusResourceType", "0" -> {
                         System.out.println("Action chooseBonusResourceType selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -153,8 +215,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Resource: " + resourceSelected + "\nBonus: " + num);
                         Command command = new Command(UserCommandsType.chooseBonusResourceType, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "chooseLeaderCard", "1." -> {
+                    case "chooseLeaderCard", "1" -> {
                         System.out.println("Action chooseLeaderCard selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -165,8 +229,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("LeaderCard selected: " + leaderCardSelected);
                         Command command = new Command(UserCommandsType.chooseLeaderCard, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "playLeaderCard", "2." -> {
+                    case "playLeaderCard", "2" -> {
                         System.out.println("Action playLeaderCard selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -177,8 +243,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("LeaderCard selected: " + leaderCardSelected);
                         Command command = new Command(UserCommandsType.playLeaderCard, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "discardLeaderCard", "3." -> {
+                    case "discardLeaderCard", "3" -> {
                         System.out.println("Action discardLeaderCard selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -189,8 +257,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("LeaderCard selected: " + leaderCardSelected);
                         Command command = new Command(UserCommandsType.discardLeaderCard, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "selectMarketRow", "4." -> {
+                    case "selectMarketRow", "4" -> {
                         System.out.println("Action selectMarketRow selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -201,8 +271,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Market's row selected: " + rowSelected);
                         Command command = new Command(UserCommandsType.selectMarketRow, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "selectMarketColumn", "5." -> {
+                    case "selectMarketColumn", "5" -> {
                         System.out.println("Action selectMarketColumn selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -213,8 +285,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Market's column selected: " + columnSelected);
                         Command command = new Command(UserCommandsType.selectMarketColumn, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "sendResourceToDepot", "6." -> {
+                    case "sendResourceToDepot", "6" -> {
                         System.out.println("Action sendResourceToDepot selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -233,8 +307,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Sending " + num + " " + resourceSelected + " to the " + depotSelected + " depot");
                         Command command = new Command(UserCommandsType.sendResourceToDepot, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "chooseMarbleConversion", "7." -> {
+                    case "chooseMarbleConversion", "7" -> {
                         System.out.println("Action chooseMarbleConversion selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -249,8 +325,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Resource: " + resourceSelected + "\nQuantity: " + num);
                         Command command = new Command(UserCommandsType.chooseMarbleConversion, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "swapDepotContent", "8." -> {
+                    case "swapDepotContent", "8" -> {
                         System.out.println("Action swapDepotContent selected");
                         Map<String, Object> map = new HashMap<>();
                         int[] depots = new int[2];
@@ -264,8 +342,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("The depot " + depots[0] + " was swapped with the depot " + depots[1]);
                         Command command = new Command(UserCommandsType.swapDepotContent, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "moveDepotContent", "9." -> {
+                    case "moveDepotContent", "9" -> {
                         System.out.println("Action moveDepotContent selected");
                         Map<String, Object> map = new HashMap<>();
                         int[] depots = new int[2];
@@ -288,8 +368,10 @@ public class ClientWriter implements Runnable {
                         System.out.println(num + " " + resourceSelected + " were moved from depot " + depots[0] + " to depot " + depots[1]);
                         Command command = new Command(UserCommandsType.moveDepotContent, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "takeDevelopmentCard", "10." -> {
+                    case "takeDevelopmentCard", "10" -> {
                         System.out.println("Action takeDevelopmentCard selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -310,8 +392,10 @@ public class ClientWriter implements Runnable {
                         System.out.println("Color: " + numberSelected);
                         Command command = new Command(UserCommandsType.takeDevelopmentCard, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "selectProduction", "11." -> {
+                    case "selectProduction", "11" -> {
                         System.out.println("Action selectProduction selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -322,23 +406,28 @@ public class ClientWriter implements Runnable {
                         System.out.println("Production selected: " + productionSelected);
                         Command command = new Command(UserCommandsType.selectProduction, map);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "resetProductionChoice", "12." -> {
+                    case "resetProductionChoice", "12" -> {
                         System.out.println("Action resetProductionChoice selected");
                         System.out.println("Resetting production...");
 
                         Command command = new Command(UserCommandsType.resetProductionChoice, null);
                         out.println(gson.toJson(command));
+
+                        break;
                     }
-                    case "confirmProductionChoice", "13." -> {
+                    case "confirmProductionChoice", "13" -> {
                         System.out.println("Action confirmProductionChoice selected");
                         System.out.println("Confirming production...!");
 
                         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
                         out.println(gson.toJson(command));
 
+                        break;
                     }
-                    case "chooseJollyInput", "14." -> {
+                    case "chooseJollyInput", "14" -> {
                         System.out.println("Action chooseJollyInput selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -351,7 +440,7 @@ public class ClientWriter implements Runnable {
                         out.println(gson.toJson(command));
 
                     }
-                    case "chooseJollyOutput", "15." -> {
+                    case "chooseJollyOutput", "15" -> {
                         System.out.println("Action chooseJollyOutput selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -364,7 +453,7 @@ public class ClientWriter implements Runnable {
                         out.println(gson.toJson(command));
 
                     }
-                    case "payFromWarehouse", "16." -> {
+                    case "payFromWarehouse", "16" -> {
                         System.out.println("Action payFromWarehouse selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -385,7 +474,7 @@ public class ClientWriter implements Runnable {
                         out.println(gson.toJson(command));
 
                     }
-                    case "payFromStrongbox", "17." -> {
+                    case "payFromStrongbox", "17" -> {
                         System.out.println("Action payFromStrongbox selected");
                         Map<String, Object> map = new HashMap<>();
 
@@ -402,7 +491,7 @@ public class ClientWriter implements Runnable {
                         out.println(gson.toJson(command));
 
                     }
-                    case "endTurn", "18." -> {
+                    case "endTurn", "18" -> {
                         System.out.println("Action endTurn selected");
 
                         Command command = new Command(UserCommandsType.endTurn, null);

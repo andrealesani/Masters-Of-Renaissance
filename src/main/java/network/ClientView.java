@@ -54,11 +54,6 @@ public class ClientView {
         }
     };
 
-    // CONSTRUCTOR
-
-    public ClientView() {
-    }
-
     // PRIVATE METHODS
 
     /**
@@ -121,6 +116,7 @@ public class ClientView {
             content += "Resources left to distribute: ";
         }
         content += Color.RESET + "\n";
+
         // second row
         content += playerBoards.get(i).printLine(1);
         content += fillBetweenColumns(content);
@@ -133,7 +129,9 @@ public class ClientView {
         content += "\n";
         // fourth row
         content += playerBoards.get(i).printLine(3);
+
         content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
+
         // fifth row
         content += playerBoards.get(i).printLine(4);
         content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
@@ -142,7 +140,7 @@ public class ClientView {
         content += "\n";
         // seventh row
         content += playerBoards.get(i).printLine(6);
-        content += fillBetweenColumns(content) + Color.HEADER + "Warehouse: " + Color.RESET + "\n";
+        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() +  "'s warehouse: " + Color.RESET + "\n";
         // eighth rows
         content += playerBoards.get(i).printLine(7);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(1) + "\n";
