@@ -9,6 +9,7 @@ public class StaticMethods {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else {
                 Runtime.getRuntime().exec("clear");
+                System.out.println("\033c");
             }
             System.out.println("Hint: type 'help' for a list of commands you can do ;)");
         } catch (final Exception e) {
