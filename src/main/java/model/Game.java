@@ -80,6 +80,14 @@ public class Game implements UserCommandsInterface, Observable {
      * This attribute stores the phase of the turn in which the current player is in
      */
     private TurnPhase turnPhase;
+    /**
+     * This attribute is set when the endTheGame() method finds the winner
+     */
+    private String winner;
+    /**
+     * This attribute is set when the endTheGame() method has calculated the winner's victory points
+     */
+    private int winnerVp = -1;
 
     //CONSTRUCTORS
 
@@ -887,8 +895,12 @@ public class Game implements UserCommandsInterface, Observable {
         if (lorenzo != null) {
             if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
                 System.out.println("FATALITY: Lorenzo wins!");
+                winner = "Lorenzo";
+                winnerVp = lorenzo.getFaith();
             } else {
                 System.out.println("FATALITY: " + currentPlayer.getUsername() + " wins with " + currentPlayer.calculateVictoryPoints() + " victory points!");
+                winner = currentPlayer.getUsername();
+                winnerVp = currentPlayer.calculateVictoryPoints();
             }
         } else {
             //TODO maybe change with stream implementation?
@@ -902,7 +914,10 @@ public class Game implements UserCommandsInterface, Observable {
                 }
             }
             System.out.println("FATALITY: " + playersTurnOrder.get(winner).getUsername() + " wins with " + playersTurnOrder.get(winner).calculateVictoryPoints() + " victory points!");
+            this.winner = playersTurnOrder.get(winner).getUsername();
+            this.winnerVp = playersTurnOrder.get(winner).calculateVictoryPoints();
         }
+        notifyObservers();
     }
 
     /**
@@ -986,6 +1001,24 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public TurnPhase getTurnPhase() {
         return turnPhase;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the winner is the game has ended. Returns null if the game is still running
+     */
+    public String getWinner() {
+        return winner;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the winner's victory points if the game has ended. Returns -1 if the game is still running
+     */
+    public int getWinnerVp() {
+        return winnerVp;
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

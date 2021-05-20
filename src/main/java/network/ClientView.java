@@ -107,7 +107,7 @@ public class ClientView {
     private String playerAndStrongAndWaitingAndWarehouse(int i) {
         String content = "";
         // first row
-        content += Color.HEADER + "PlayerBoard: ";
+        content += Color.HEADER + playerBoards.get(i).getUsername() + "'s playerBoard: " + Color.RESET;
         content += fillBetweenColumns(content) + Color.HEADER;
         if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT) {
             content += "Resources left to pay: ";
@@ -129,7 +129,7 @@ public class ClientView {
         // fourth row
         content += playerBoards.get(i).printLine(3);
 
-        content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
+        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() +  "'s strongbox: " + Color.RESET + "\n";
 
         // fifth row
         content += playerBoards.get(i).printLine(4);
@@ -228,8 +228,6 @@ public class ClientView {
     @Override
     public String toString() {
         String content = Color.VIEW + "View:" + Color.RESET;
-        if (game != null)
-            content += Color.RESET + "\n" + game + "\n";
         if (market != null && cardTable != null)
             if (lorenzo != null)
                 content += Color.RESET + "\n" + marketAndCardTableAndLorenzo() + "\n";
@@ -240,6 +238,8 @@ public class ClientView {
                 if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
                     content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
             }
+        if (game != null)
+            content += Color.RESET + "\n" + game + "\n";
 
         return content + "\n";
     }

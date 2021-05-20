@@ -22,9 +22,26 @@ public class GameBean implements Observer {
      * The Controller that will have to send the bean when it changes
      */
     private transient final GameController controller;
+    /**
+     * The player that has to make a move
+     */
     private String currentPlayer;
+    /**
+     * The turn phase that the current player is in
+     */
     private TurnPhase turnPhase;
+    /**
+     * All the LeaderCards IDs. These are used to match the IDs sent by the server to the actual images stored in the client
+     */
     private transient List<LeaderCard> leaderCards;
+    /**
+     * The winner of the game. Null if game is still running
+     */
+    private String winner;
+    /**
+     * The victory points of the winner. -1 if game is still running
+     */
+    private int winnerVp;
     /**
      * Boolean parameters that is used by methods that need cards data to check if the cards have already been initialized
      */
@@ -57,6 +74,14 @@ public class GameBean implements Observer {
         throw new CardNotPresentException();
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public int getWinnerVp() {
+        return winnerVp;
+    }
+
     // SETTERS
 
     public void setCurrentPlayerFromGame(Game game) {
@@ -65,6 +90,14 @@ public class GameBean implements Observer {
 
     public void setTurnPhaseFromGame(Game game) {
         turnPhase = game.getTurnPhase();
+    }
+
+    public void setWinner(Game game) {
+        winner = game.getWinner();
+    }
+
+    public void setWinnerVp(Game game) {
+        winnerVp = game.getWinnerVp();
     }
 
     private void setLeaderCardsFromJson() {
@@ -114,6 +147,8 @@ public class GameBean implements Observer {
         Game game = (Game) observable;
         setCurrentPlayerFromGame(game);
         setTurnPhaseFromGame(game);
+        setWinner(game);
+        setWinnerVp(game);
 
         controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
     }
@@ -125,8 +160,11 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        return Color.HEADER + "\nGame State:\n" + Color.RESET +
-                " Current player is " + currentPlayer +
-                " and we're in " + turnPhase + " phase\n";
+        if (winner == null)
+            return Color.HEADER + "\nGame State:\n" + Color.RESET +
+                    " Current player is " + currentPlayer +
+                    " and we're in " + turnPhase + " phase\n";
+        else
+            return Color.HEADER + winner + " wins the game with " + winnerVp + " points!\nThe game has ended, type 'ESC + :q' to close the game";
     }
 }
