@@ -1,7 +1,6 @@
 package network;
 
 import model.Color;
-import model.ResourceType;
 import model.TurnPhase;
 import network.beans.*;
 

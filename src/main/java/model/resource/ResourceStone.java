@@ -2,9 +2,7 @@ package model.resource;
 
 import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
-import model.ResourceType;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

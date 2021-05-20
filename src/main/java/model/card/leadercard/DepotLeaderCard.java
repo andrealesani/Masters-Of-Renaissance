@@ -2,14 +2,8 @@ package model.card.leadercard;
 
 import model.Color;
 import model.PlayerBoard;
-import model.ResourceType;
-import model.resource.Resource;
-import model.resource.ResourceShield;
+import model.resource.ResourceType;
 import model.storage.LeaderDepot;
-import model.storage.ResourceDepot;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This LeaderCard awards the user with a new Leader Depot in his warehouse upon activation
@@ -146,7 +140,7 @@ public class DepotLeaderCard extends LeaderCard {
         content += "[";
 
         for (int j = 0; j < storableQuantity; j++) {
-                content += Color.RESOURCE_STD + "□" + Color.RESET;
+                content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
         }
 
         content += "(" + storableResource.iconPrint() + ")";

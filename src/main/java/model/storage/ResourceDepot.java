@@ -3,7 +3,7 @@ package model.storage;
 import Exceptions.BlockedResourceException;
 import Exceptions.NotEnoughSpaceException;
 import Exceptions.WrongResourceInsertionException;
-import model.ResourceType;
+import model.resource.ResourceType;
 
 /**
  * This interface indicates that the implementing class can be used as a depot in the player board warehouse.

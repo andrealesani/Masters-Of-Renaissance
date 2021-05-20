@@ -3,10 +3,7 @@ package model.card.leadercard;
 import model.CardColor;
 import model.Color;
 import model.PlayerBoard;
-import model.ResourceType;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import model.resource.ResourceType;
 
 /**
  * This LeaderCard awards the user with a discount when buying DevelopmentCards upon activation

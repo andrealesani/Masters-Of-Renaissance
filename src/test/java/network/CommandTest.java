@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import model.CardColor;
 import model.Game;
 import model.PlayerBoard;
-import model.ResourceType;
+import model.resource.ResourceType;
 import model.card.leadercard.LeaderCard;
 import model.storage.LeaderDepot;
 import model.storage.Warehouse;

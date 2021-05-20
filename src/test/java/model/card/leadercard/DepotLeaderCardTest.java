@@ -4,7 +4,7 @@ import Exceptions.BlockedResourceException;
 import Exceptions.NotEnoughSpaceException;
 import Exceptions.WrongResourceInsertionException;
 import model.PlayerBoard;
-import model.ResourceType;
+import model.resource.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

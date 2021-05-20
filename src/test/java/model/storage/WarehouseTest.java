@@ -1,7 +1,7 @@
 package model.storage;
 
 import Exceptions.*;
-import model.ResourceType;
+import model.resource.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

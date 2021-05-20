@@ -3,7 +3,7 @@ package model.storage;
 import Exceptions.*;
 import model.Observable;
 import model.Observer;
-import model.ResourceType;
+import model.resource.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;

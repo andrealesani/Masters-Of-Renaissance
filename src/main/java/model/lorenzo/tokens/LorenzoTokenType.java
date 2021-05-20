@@ -1,7 +1,6 @@
 package model.lorenzo.tokens;
 
 import model.Color;
-import model.ResourceType;
 
 /**
  * Enum used to indicate the type of a Lorenzo single player action token
@@ -16,22 +15,22 @@ public enum LorenzoTokenType {
 
     public String iconPrint() {
         if (this == LorenzoTokenType.DoubleFaith) {
-            return "+2" + Color.RED_LIGHT_FG + "\uD83D\uDD47" + Color.RESET;
+            return "+2" + Color.RED_LIGHT_FG + "┼" + Color.RESET;
         }
         if (this == LorenzoTokenType.SingleFaith) {
-            return "+1" + Color.RED_LIGHT_FG + "\uD83D\uDD47" + Color.RESET + "⟲";
+            return "+1" + Color.RED_LIGHT_FG + "┼" + Color.RESET + "««";
         }
         if (this == LorenzoTokenType.RemoveBlue) {
-            return "-2" + Color.LIGHT_BLUE_FG + "▮" + Color.RESET;
+            return "-2" + Color.LIGHT_BLUE_FG + "█" + Color.RESET;
         }
         if (this == LorenzoTokenType.RemoveGreen) {
-            return "-2" + Color.GREEN_FG + "▮" + Color.RESET;
+            return "-2" + Color.GREEN_FG + "█" + Color.RESET;
         }
         if (this == LorenzoTokenType.RemoveYellow) {
-            return "-2" + Color.YELLOW_LIGHT_FG + "▮" + Color.RESET;
+            return "-2" + Color.YELLOW_LIGHT_FG + "█" + Color.RESET;
         }
         if (this == LorenzoTokenType.RemovePurple) {
-            return "-2" + Color.PURPLE_FG + "▮" + Color.RESET;
+            return "-2" + Color.PURPLE_FG + "█" + Color.RESET;
         }
         // This should never happen
         return null;

@@ -3,11 +3,11 @@ package network.beans;
 import com.google.gson.Gson;
 import model.Color;
 import model.Observer;
-import model.ResourceType;
+import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
 import network.GameController;
 
-import static model.ResourceType.*;
+import static model.resource.ResourceType.*;
 
 public class StrongboxBean implements Observer {
     /**

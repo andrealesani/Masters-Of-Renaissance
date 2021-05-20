@@ -1,8 +1,5 @@
 package model.resource;
 
-import model.PlayerBoard;
-import model.ResourceType;
-
 /**
  * This class represents the game's jolly resource
  */

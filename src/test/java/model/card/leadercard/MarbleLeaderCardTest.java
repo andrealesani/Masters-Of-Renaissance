@@ -2,7 +2,7 @@ package model.card.leadercard;
 
 import model.CardColor;
 import model.PlayerBoard;
-import model.ResourceType;
+import model.resource.ResourceType;
 import model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 

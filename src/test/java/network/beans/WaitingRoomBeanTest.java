@@ -1,15 +1,13 @@
 package network.beans;
 
 import model.Game;
-import model.ResourceType;
+import model.resource.ResourceType;
 import network.GameController;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

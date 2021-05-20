@@ -1,7 +1,6 @@
 package model.resource;
 
 import model.PlayerBoard;
-import model.ResourceType;
 
 /**
  * This class represents the game's generic resource and marbles, used for the market and productions.

@@ -1,9 +1,8 @@
 package model;
 
 import model.resource.Resource;
+import model.resource.ResourceType;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTypeTest {
 

@@ -3,14 +3,14 @@ package network.beans;
 import com.google.gson.Gson;
 import model.*;
 import model.card.leadercard.LeaderCard;
+import model.resource.ResourceType;
 import network.GameController;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.SplittableRandom;
 
-import static model.ResourceType.*;
+import static model.resource.ResourceType.*;
 
 
 /**
@@ -438,14 +438,14 @@ public class PlayerBoardBean implements Observer {
 
             //The faith track tile
             if (faith == pos) {
-                content += Color.RED_LIGHT_FG + "\uD83D\uDFA7" + Color.RESET;
+                content += Color.RED_LIGHT_FG + "+" + Color.RESET;
             } else {
-                content += Color.GREY_LIGHT_FG + "□" + Color.RESET;
+                content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
             }
 
             //The modifiers
             if (pos == popeTriggerValues[nextPopeTile]) {
-                content += Color.ORANGE_LIGHT_FG + "⛨" + Color.RESET;
+                content += Color.ORANGE_LIGHT_FG + "±" + Color.RESET;
             }
             if (pos == vpFaithTiles[nextFaithTile]) {
                 content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
@@ -455,20 +455,20 @@ public class PlayerBoardBean implements Observer {
             //The space between tiles
             if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
 
-                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                content += Color.GREY_LIGHT_FG + "─" + Color.RESET;
                 content += Color.ORANGE_LIGHT_FG + "[" + Color.RESET;
 
             } else if (pos == popeTriggerValues[nextPopeTile]) {
 
                 content += Color.ORANGE_LIGHT_FG + "]" + Color.RESET;
                 if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
-                    content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                    content += Color.GREY_LIGHT_FG + "─" + Color.RESET;
                 }
                 nextPopeTile++;
 
             } else {
 
-                content += Color.GREY_LIGHT_FG + "═" + Color.RESET;
+                content += Color.GREY_LIGHT_FG + "─" + Color.RESET;
 
             }
         }

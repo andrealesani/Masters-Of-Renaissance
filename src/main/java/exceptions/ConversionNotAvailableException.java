@@ -1,6 +1,6 @@
 package Exceptions;
 
-import model.ResourceType;
+import model.resource.ResourceType;
 
 /**
  * This Exception is thrown when a white orb is asked to be converted into a resource for which a conversion is not available

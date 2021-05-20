@@ -2,11 +2,9 @@ package model.storage;
 
 import Exceptions.NotEnoughResourceException;
 import Exceptions.ParametersNotValidException;
-import model.CardColor;
 import model.Observable;
 import model.Observer;
-import model.ResourceType;
-import model.card.DevelopmentCard;
+import model.resource.ResourceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

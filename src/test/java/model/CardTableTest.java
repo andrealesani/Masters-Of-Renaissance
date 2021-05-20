@@ -4,6 +4,7 @@ import Exceptions.EmptyDeckException;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import model.card.DevelopmentCard;
+import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
 import org.junit.jupiter.api.Test;
 

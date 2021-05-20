@@ -1,13 +1,9 @@
 package model.card.leadercard;
 
 import model.*;
-import model.card.DevelopmentCard;
 import model.resource.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This LeaderCard awards the user with the permanent addition of a specific Production in their PlayerBoard upon activation

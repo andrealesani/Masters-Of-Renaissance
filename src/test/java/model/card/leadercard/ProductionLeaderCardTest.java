@@ -3,7 +3,7 @@ package model.card.leadercard;
 import model.CardColor;
 import model.PlayerBoard;
 import model.Production;
-import model.ResourceType;
+import model.resource.ResourceType;
 import model.resource.Resource;
 import model.resource.ResourceFaith;
 import model.resource.ResourceServant;

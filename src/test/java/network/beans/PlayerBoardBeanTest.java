@@ -2,6 +2,7 @@ package network.beans;
 
 import model.*;
 import model.card.leadercard.LeaderCard;
+import model.resource.ResourceType;
 import network.GameController;
 import org.junit.jupiter.api.Test;
 

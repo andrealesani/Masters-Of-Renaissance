@@ -4,7 +4,7 @@ import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.Color;
 import model.Observer;
-import model.ResourceType;
+import model.resource.ResourceType;
 import model.storage.Warehouse;
 import network.GameController;
 
@@ -60,7 +60,7 @@ public class WarehouseBean implements Observer {
                     content += depotType[i].iconPrint();
                     quantity--;
                 } else
-                    content += Color.RESOURCE_STD + "□" + Color.RESET;
+                    content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
             }
             if (i >= basicDepotNum) {
                 content += "(" + depotType[i].iconPrint() + ")";

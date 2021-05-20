@@ -1,6 +1,6 @@
-package model;
+package model.resource;
 
-import model.resource.*;
+import model.Color;
 
 /**
  * This enum contains all possible types for the game's resources and marbles
@@ -100,25 +100,25 @@ public enum ResourceType {
 
     public String iconPrint() {
         if (this == ResourceType.COIN) {
-            return Color.YELLOW_LIGHT_FG + "◉" + Color.RESET;
+            return Color.YELLOW_LIGHT_FG + "©" + Color.RESET;
         }
         if (this == ResourceType.SERVANT) {
-            return Color.PURPLE_FG + "\uD83D\uDDE3" + Color.RESET;
+            return Color.PURPLE_FG + "A" + Color.RESET;
         }
         if (this == ResourceType.SHIELD) {
-            return Color.LIGHT_BLUE_FG + "▼" + Color.RESET;
+            return Color.LIGHT_BLUE_FG + "V" + Color.RESET;
         }
         if (this == ResourceType.STONE) {
-            return Color.GREY_LIGHT_FG + "⭓" + Color.RESET;
+            return Color.GREY_LIGHT_FG + "#" + Color.RESET;
         }
         if (this == ResourceType.UNKNOWN) {
-            return Color.RESOURCE_STD + "❓" + Color.RESET;
+            return Color.RESOURCE_STD + "?" + Color.RESET;
         }
         if (this == ResourceType.FAITH) {
-            return Color.RED_LIGHT_FG + "\uD83D\uDD47" + Color.RESET;
+            return Color.RED_LIGHT_FG + "+" + Color.RESET;
         }
         if (this == ResourceType.WHITEORB) {
-            return Color.WHITE_FG + "●" + Color.RESET;
+            return Color.WHITE_FG + "o" + Color.RESET;
         }
         // This should never happen
         return null;
@@ -126,25 +126,25 @@ public enum ResourceType {
 
     public String orbPrint() {
         if (this == ResourceType.COIN) {
-            return Color.YELLOW_LIGHT_FG + "⬤" + Color.RESET;
+            return Color.YELLOW_LIGHT_FG + "@" + Color.RESET;
         }
         if (this == ResourceType.SERVANT) {
-            return Color.PURPLE_FG + "⬤" + Color.RESET;
+            return Color.PURPLE_FG + "@" + Color.RESET;
         }
         if (this == ResourceType.SHIELD) {
-            return Color.LIGHT_BLUE_FG + "⬤" + Color.RESET;
+            return Color.LIGHT_BLUE_FG + "@" + Color.RESET;
         }
         if (this == ResourceType.STONE) {
-            return Color.GREY_LIGHT_FG + "⬤" + Color.RESET;
+            return Color.GREY_LIGHT_FG + "@" + Color.RESET;
         }
         if (this == ResourceType.UNKNOWN) {
-            return Color.RESOURCE_STD + "⬤" + Color.RESET;
+            return Color.RESOURCE_STD + "@" + Color.RESET;
         }
         if (this == ResourceType.FAITH) {
-            return Color.RED_LIGHT_FG + "⬤" + Color.RESET;
+            return Color.RED_LIGHT_FG + "@" + Color.RESET;
         }
         if (this == ResourceType.WHITEORB) {
-            return Color.WHITE_FG + "⬤" + Color.RESET;
+            return Color.WHITE_FG + "@" + Color.RESET;
         }
         // This should never happen
         return null;

@@ -5,6 +5,7 @@ import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
+import model.resource.ResourceType;
 import model.resource.ResourceUnknown;
 import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;

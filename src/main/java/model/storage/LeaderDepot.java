@@ -1,7 +1,7 @@
 package model.storage;
 
 import Exceptions.*;
-import model.ResourceType;
+import model.resource.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;

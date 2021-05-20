@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import model.Color;
 import model.Market;
 import model.Observer;
-import model.ResourceType;
+import model.resource.ResourceType;
 import network.GameController;
 
 public class MarketBean implements Observer {

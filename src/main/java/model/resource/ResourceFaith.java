@@ -2,7 +2,6 @@ package model.resource;
 
 import Exceptions.ParametersNotValidException;
 import model.PlayerBoard;
-import model.ResourceType;
 
 /**
  * This class represents the game's faith resource and red marble
