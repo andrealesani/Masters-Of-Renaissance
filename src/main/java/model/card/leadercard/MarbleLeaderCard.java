@@ -110,11 +110,18 @@ public class MarbleLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mMarbleLeaderCard:\u001B[0m" +
-                super.toString() +
-                "\n requiredColors: " + Arrays.toString(requiredColors) +
-                "\n requiredQuantities: " + Arrays.toString(requiredQuantities) +
-                "\n resourceType: " + resourceType +
-                "\n";
+        String content = "";
+
+        content += "\n\u001B[32;1mMarbleLeaderCard:\u001B[0m";
+        content += super.toString();
+        content += "\n required colors: ";
+        for (int i = 0; i < requiredColors.length; i++) {
+            if (requiredQuantities[i] > 0)
+                content += requiredQuantities[i] + " " + requiredColors[i] + " ";
+        }
+        content += "\n converts white orbs into " + resourceType.formattedString();
+        content += "\n";
+
+        return content;
     }
 }

@@ -122,14 +122,22 @@ public class DepotLeaderCard extends LeaderCard {
         return storableQuantity;
     }
 
+    public String gigi(){
+        String content = "";
+        content += "\n\u001B[32;1mDepotLeaderCard:\u001B[0m";
+        content += super.toString();
+        content += "\n\n required resources: ";
+
+
+        return content;
+    }
+
     @Override
     public String toString() {
         return  "\n\u001B[32;1mDepotLeaderCard:\u001B[0m" +
                 super.toString() +
-                "\n requiredResource: " + requiredResource +
-                "\n requiredQuantity: " + requiredQuantity +
-                "\n storableResource: " + storableResource +
-                "\n storableQuantity: " + storableQuantity +
+                "\n\n required resource: " + requiredQuantity + " " + requiredResource.formattedString() +
+                "\n\n storableResource: " + storableQuantity + " " + storableResource.formattedString() +
                 '\n';
     }
 }

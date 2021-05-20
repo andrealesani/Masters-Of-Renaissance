@@ -129,14 +129,26 @@ public class DevelopmentCard extends Card {
 
     @Override
     public String toString() {
-        return "\n\u001B[32;1mDevelopmentCard:\u001B[0m" +
-                super.toString() +
-                "\n level: " + level +
-                "\n costType: " + Arrays.toString(costType) +
-                "\n costQuantity: " + Arrays.toString(costQuantity) +
-                "\n inputType: " + Arrays.toString(inputType) +
-                "\n inputQuantities: " + Arrays.toString(inputQuantities) +
-                "\n outputType: " + Arrays.toString(outputType) +
-                "\n outputQuantities: " + Arrays.toString(outputQuantities) + "\n";
+        String content ="";
+        content += "\n\u001B[32;1mDevelopmentCard:\u001B[0m";
+        content += super.toString();
+        content +=  "\n level: " + level;
+        content +=  "\n\n cost:   ";
+        for (int i = 0; i < costType.length; i++) {
+            if(costQuantity[i] > 0)
+                content += costType[i].formattedString() + " " + costQuantity[i] + "  ";
+        }
+        content +=  "\n\n input:  ";
+        for (int i = 0; i < inputType.length; i++) {
+            if(inputQuantities[i] > 0)
+                content += inputType[i].formattedString() + " " + inputQuantities[i] + "  ";
+        }
+        content +=  "\n\n output: ";
+        for (int i = 0; i < outputType.length; i++) {
+            if(outputQuantities[i] > 0)
+                content += outputType[i].formattedString() + " " + outputQuantities[i] + "  ";
+        }
+
+        return content;
     }
 }
