@@ -100,25 +100,25 @@ public enum ResourceType {
 
     public String iconPrint() {
         if (this == ResourceType.COIN) {
-            return Color.YELLOW_LIGHT_FG + "©" + Color.RESET;
+            return Color.YELLOW_LIGHT_FG + "coin" + Color.RESET;
         }
         if (this == ResourceType.SERVANT) {
-            return Color.PURPLE_FG + "A" + Color.RESET;
+            return Color.PURPLE_FG + "servant" + Color.RESET;
         }
         if (this == ResourceType.SHIELD) {
-            return Color.LIGHT_BLUE_FG + "V" + Color.RESET;
+            return Color.LIGHT_BLUE_FG + "shield" + Color.RESET;
         }
         if (this == ResourceType.STONE) {
-            return Color.GREY_LIGHT_FG + "#" + Color.RESET;
+            return Color.GREY_LIGHT_FG + "stone" + Color.RESET;
         }
         if (this == ResourceType.UNKNOWN) {
-            return Color.RESOURCE_STD + "?" + Color.RESET;
+            return Color.RESOURCE_STD + "jolly" + Color.RESET;
         }
         if (this == ResourceType.FAITH) {
-            return Color.RED_LIGHT_FG + "+" + Color.RESET;
+            return Color.RED_LIGHT_FG + "faith" + Color.RESET;
         }
         if (this == ResourceType.WHITEORB) {
-            return Color.WHITE_FG + "o" + Color.RESET;
+            return Color.WHITE_FG + "white" + Color.RESET;
         }
         // This should never happen
         return null;

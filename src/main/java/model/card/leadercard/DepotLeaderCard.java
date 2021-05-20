@@ -137,10 +137,10 @@ public class DepotLeaderCard extends LeaderCard {
         content += " " + requiredResource.iconPrint() + " x " + requiredQuantity + "  ";
 
         content += "\n Depot: ";
-        content += "[";
+        content += "[ ";
 
         for (int j = 0; j < storableQuantity; j++) {
-                content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
+                content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
         }
 
         content += "(" + storableResource.iconPrint() + ")";

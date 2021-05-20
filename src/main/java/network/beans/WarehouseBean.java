@@ -51,7 +51,7 @@ public class WarehouseBean implements Observer {
 
         for (int i = 0; i < depotType.length; i++) {
             content += " " + (i+1);
-            content += ".[";
+            content += ".[ ";
             int quantity = depotQuantity[i];
 
             for (int j = 0; j < depotSizes[i]; j++) {
@@ -60,7 +60,7 @@ public class WarehouseBean implements Observer {
                     content += depotType[i].iconPrint();
                     quantity--;
                 } else
-                    content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
+                    content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
             }
             if (i >= basicDepotNum) {
                 content += "(" + depotType[i].iconPrint() + ")";
