@@ -2,6 +2,7 @@ package network;
 
 import model.Color;
 import model.ResourceType;
+import model.TurnPhase;
 import network.beans.*;
 
 import java.util.ArrayList;
@@ -83,14 +84,15 @@ public class ClientView {
      */
     private String marketAndCardTableAndLorenzo() {
         String content = "";
-        content += Color.HEADER + "Market: " + Color.RESET;
-        content += fillBetweenColumns(content) + Color.HEADER + "CardTable: " + Color.RESET + "                                             " + Color.HEADER + "Lorenzo: " + Color.RESET;
+        content += Color.HEADER + "Market: " + Color.RESET + "                          ";
+        content += Color.HEADER + "CardTable: " + Color.RESET + "                                             ";
+        content += Color.HEADER + "Lorenzo: " + Color.RESET;
         content += "\n\n";
         content += market.printLine(1) + "                     " + cardTable.printLine(1) + "                     " + lorenzo.printLine(1);
         content += "\n\n";
         content += market.printLine(2) + "                     " + cardTable.printLine(2) + "                     " + lorenzo.printLine(2);
         content += "\n\n";
-        content += market.printLine(3) + "                     " + cardTable.printLine(3);
+        content += market.printLine(3) + "                     " + cardTable.printLine(3) + "                     " + lorenzo.printLine(3);;
         content += "\n\n";
         content += market.printLine(4);
 
@@ -106,20 +108,33 @@ public class ClientView {
     private String playerAndStrongAndWaitingAndWarehouse(int i) {
         String content = "";
         // first row
-        content += Color.HEADER + playerBoards.get(i).getUsername() + "'s playerBoard: ";
-        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() + "'s strongbox: " + Color.RESET + "\n";
+        content += Color.HEADER + "PlayerBoard: ";
+        content += fillBetweenColumns(content) + Color.HEADER;
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT) {
+            content += "Resources left to pay: ";
+        } else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
+            content += "Resources left to distribute: ";
+        }
+        content += Color.RESET + "\n";
+
         // second row
         content += playerBoards.get(i).printLine(1);
-        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
+        content += fillBetweenColumns(content);
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT || game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
+            content += waitingRooms.get(i).printLine(1);
+        }
+        content += "\n";
         // third row
         content += playerBoards.get(i).printLine(2);
         content += "\n";
         // fourth row
         content += playerBoards.get(i).printLine(3);
-        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() + "'s waitingRoom: " + Color.RESET + "\n";
+
+        content += fillBetweenColumns(content) + Color.HEADER + "Strongbox: " + Color.RESET + "\n";
+
         // fifth row
         content += playerBoards.get(i).printLine(4);
-        content += fillBetweenColumns(content) + waitingRooms.get(i).printLine(1) + "\n";
+        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
         // sixth row
         content += playerBoards.get(i).printLine(5);
         content += "\n";
@@ -226,9 +241,6 @@ public class ClientView {
                 if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
                     content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
             }
-
-        for (ResourceType resource : ResourceType.values())
-            content += resource.geometricPrint() + " ";
 
         return content + "\n";
     }

@@ -51,8 +51,11 @@ public class ClientReader implements Runnable {
         Gson gson = new Gson();
         Map responseMap = gson.fromJson(response, Map.class);
         switch ((String) responseMap.get("type")) {
-            case "INFO", "ERROR":
+            case "INFO":
                 System.out.println(responseMap.get("jsonMessage"));
+                break;
+            case "ERROR":
+                System.err.println(responseMap.get("jsonMessage"));
                 break;
             case "GAME":
                 try {

@@ -98,7 +98,7 @@ public enum ResourceType {
         return null;
     }
 
-    public String geometricPrint() {
+    public String iconPrint() {
         if (this == ResourceType.COIN) {
             return Color.YELLOW_LIGHT_FG + "◉" + Color.RESET;
         }
@@ -115,7 +115,7 @@ public enum ResourceType {
             return Color.RESOURCE_STD + "❓" + Color.RESET;
         }
         if (this == ResourceType.FAITH) {
-            return Color.RED_LIGHT_FG + "\uD83D\uDD47\n" + Color.RESET;
+            return Color.RED_LIGHT_FG + "\uD83D\uDD47" + Color.RESET;
         }
         if (this == ResourceType.WHITEORB) {
             return Color.WHITE_FG + "●" + Color.RESET;

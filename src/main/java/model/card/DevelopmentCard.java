@@ -129,24 +129,25 @@ public class DevelopmentCard extends Card {
 
     @Override
     public String toString() {
-        String content ="";
-        content += "\n\u001B[32;1mDevelopmentCard:\u001B[0m";
-        content += super.toString();
-        content +=  "\n level: " + level;
-        content +=  "\n\n cost:   ";
-        for (int i = 0; i < costType.length; i++) {
-            if(costQuantity[i] > 0)
-                content += costType[i].formattedString() + " " + costQuantity[i] + "  ";
+        String content = "";
+        content += Color.HEADER + "Development Card:" + Color.RESET +
+                super.toString() +
+                "\n Level: " + level;
+
+        content += "\n Cost: ";
+        for (int i = 0; i<costType.length; i++) {
+            content += " " + costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
         }
-        content +=  "\n\n input:  ";
-        for (int i = 0; i < inputType.length; i++) {
-            if(inputQuantities[i] > 0)
-                content += inputType[i].formattedString() + " " + inputQuantities[i] + "  ";
+
+        content += "\n Production Input: ";
+        for (int i = 0; i<inputType.length; i++) {
+            content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
         }
-        content +=  "\n\n output: ";
-        for (int i = 0; i < outputType.length; i++) {
-            if(outputQuantities[i] > 0)
-                content += outputType[i].formattedString() + " " + outputQuantities[i] + "  ";
+
+        content += "\n Production Output: ";
+        for (int i = 0; i<outputType.length; i++) {
+            content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+
         }
 
         return content;

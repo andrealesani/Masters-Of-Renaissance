@@ -4,7 +4,6 @@ import Exceptions.EmptyDeckException;
 import Exceptions.ParametersNotValidException;
 import model.CardColor;
 import model.CardTable;
-import network.beans.LorenzoTokenType;
 
 /**
  * Represents the token that removes 2 DevelopmentCards of the specified color from the grid

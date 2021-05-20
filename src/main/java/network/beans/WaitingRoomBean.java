@@ -67,7 +67,7 @@ public class WaitingRoomBean implements Observer {
         String content = "";
         if (line == 0) {
             for (int i = 0; i < type.length; i++) {
-                content += " " + type[i].formattedString() + ": " + quantity[i] + "  ";
+                content += " " + type[i].iconPrint() + " x " + quantity[i] + "  ";
             }
         }
 
@@ -78,7 +78,7 @@ public class WaitingRoomBean implements Observer {
     public String toString() {
         String content = "";
         for (int i = 0; i < type.length; i++) {
-            content += " " + type[i] + ": " + quantity[i] + "  ";
+            content += " " + type[i].iconPrint() + " x " + quantity[i] + "  ";
         }
         return Color.HEADER + username + "'s WaitingRoom:\n" + Color.RESET + content + "\n";
     }

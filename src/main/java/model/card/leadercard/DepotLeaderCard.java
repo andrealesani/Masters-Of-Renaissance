@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import model.Color;
 import model.PlayerBoard;
 import model.ResourceType;
 import model.resource.Resource;
@@ -134,11 +135,24 @@ public class DepotLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return  "\n\u001B[32;1mDepotLeaderCard:\u001B[0m" +
-                super.toString() +
-                "\n\n required resource: " + requiredQuantity + " " + requiredResource.formattedString() +
-                "\n\n storableResource: " + storableQuantity + " " + storableResource.formattedString() +
-                '\n';
+        String content = "";
+        content += Color.HEADER + "Depot Leader Card:" + Color.RESET +
+                super.toString();
+
+        content += "\n Required resources: ";
+        content += " " + requiredResource.iconPrint() + " x " + requiredQuantity + "  ";
+
+        content += "\n Depot: ";
+        content += "[";
+
+        for (int j = 0; j < storableQuantity; j++) {
+                content += Color.RESOURCE_STD + "□" + Color.RESET;
+        }
+
+        content += "(" + storableResource.iconPrint() + ")";
+        content += "]";
+
+        return content;
     }
 }
 

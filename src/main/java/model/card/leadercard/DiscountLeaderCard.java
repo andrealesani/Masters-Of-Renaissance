@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import model.CardColor;
+import model.Color;
 import model.PlayerBoard;
 import model.ResourceType;
 
@@ -126,15 +127,16 @@ public class DiscountLeaderCard extends LeaderCard {
     @Override
     public String toString() {
         String content = "";
-        content += "\n\u001B[32;1mDiscountLeaderCard:\u001B[0m";
-        content += super.toString();
-        content += "\n\n required colors: ";
-        for (int i = 0; i< requiredColors.length; i++) {
-            if (requiredQuantities[i] > 0)
-                content += requiredQuantities[i] + " " + requiredColors[i] + " ";
+        content += Color.HEADER + "Discount Leader Card:" + Color.RESET +
+                super.toString();
+
+        content += "\n Required cards: ";
+        for (int i = 0; i < requiredColors.length; i++) {
+            content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
         }
-        content += "\n discount type: " + discount + " " + discountType;
-        content += "\n";
+
+        content += "\n Discount: ";
+        content += "-" + discount + discountType.iconPrint();
 
         return content;
     }
