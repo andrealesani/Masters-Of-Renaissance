@@ -173,8 +173,17 @@ public class CardTableBean implements Observer {
         try {
             content += "Level " + getDevelopmentCardFromId(cards[line][0]).getLevel() + "   ";
         } catch (CardNotPresentException ignored) {
+            try {
+                content += "Level " + getDevelopmentCardFromId(cards[line][1]).getLevel() + "   ";
+            } catch (CardNotPresentException ignored1) {
+                try {
+                    content += "Level " + getDevelopmentCardFromId(cards[line][2]).getLevel() + "   ";
+                } catch (CardNotPresentException ignored2) {
+            }
         }
         for (int cell : cards[line]) {
+            if (cell == -1)
+                content += " " + " " + "xx" + " " + " ";
             try {
                 if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
                     content += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
