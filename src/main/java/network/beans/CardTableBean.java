@@ -103,7 +103,10 @@ public class CardTableBean implements Observer {
         for (i = 0; i < cards.length; i++) {
             j = 0;
             for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cardTable.getCards().entrySet()) {
-                cards[i][j] = color.getValue().get(i).get(0).getId();
+                if (color.getValue().get(i).size() == 0)
+                    cards[i][j] = 0;
+                else
+                    cards[i][j] = color.getValue().get(i).get(0).getId();
                 j++;
             }
         }
@@ -163,7 +166,7 @@ public class CardTableBean implements Observer {
 
     public String printLine(int line) {
         line--;
-        if(line < 0 || line >= cards.length)
+        if (line < 0 || line >= cards.length)
             throw new ParametersNotValidException();
         String content = "";
 
