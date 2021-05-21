@@ -179,6 +179,7 @@ public class CardTableBean implements Observer {
                 try {
                     content += "Level " + getDevelopmentCardFromId(cards[line][2]).getLevel() + "   ";
                 } catch (CardNotPresentException ignored2) {
+                }
             }
         }
         for (int cell : cards[line]) {
