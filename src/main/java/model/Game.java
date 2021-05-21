@@ -534,6 +534,7 @@ public class Game implements UserCommandsInterface, Observable {
         //Checks if the final phase of the game should be triggered
         if (isGameEnding() && !weReInTheEndGameNow) {
             weReInTheEndGameNow = true;
+            notifyObservers(); // It needs to be put here because if the currentPlayer is the last one of the list switchPlayer() won't be called and observers wouldn't be notified
         }
 
         //Checks if the game is in its final phase and the next turn is the first player's, and if so ends the game
@@ -1019,6 +1020,10 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public int getWinnerVp() {
         return winnerVp;
+    }
+
+    public boolean isEndGame() {
+        return weReInTheEndGameNow;
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

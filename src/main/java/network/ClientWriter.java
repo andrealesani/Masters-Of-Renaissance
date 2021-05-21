@@ -141,6 +141,7 @@ public class ClientWriter implements Runnable {
                                 System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
                                 System.out.println("'0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)");
                                 System.out.println("'1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game)");
+                                System.out.println("'6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot");
                                 System.out.println("'18' OR 'endTurn' - Confirm your choices and start your first turn");
                             }
                             case ACTIONSELECTION -> {
@@ -497,7 +498,12 @@ public class ClientWriter implements Runnable {
                         out.println(gson.toJson(command));
 
                     }
-                    default -> out.println(userInput);
+                    default -> {
+                        if (clientView.getGame() == null)
+                            out.println(userInput);
+                        else
+                            System.out.println("Uh oh, I couldn't catch your command. Type 'actions' for a list of possible commands");
+                    }
                 }
 
             } catch (IOException ex) {

@@ -43,6 +43,10 @@ public class GameBean implements Observer {
      */
     private int winnerVp;
     /**
+     * Boolean that tells if we're in the last turn of the game
+     */
+    private boolean isEndGame;
+    /**
      * Boolean parameters that is used by methods that need cards data to check if the cards have already been initialized
      */
     private transient boolean cardsInitialized = false;
@@ -74,14 +78,6 @@ public class GameBean implements Observer {
         throw new CardNotPresentException();
     }
 
-    public String getWinner() {
-        return winner;
-    }
-
-    public int getWinnerVp() {
-        return winnerVp;
-    }
-
     // SETTERS
 
     public void setCurrentPlayerFromGame(Game game) {
@@ -98,6 +94,10 @@ public class GameBean implements Observer {
 
     public void setWinnerVp(Game game) {
         winnerVp = game.getWinnerVp();
+    }
+
+    public void setEndGame(Game game) {
+        isEndGame = game.isEndGame();
     }
 
     private void setLeaderCardsFromJson() {
@@ -147,6 +147,7 @@ public class GameBean implements Observer {
         Game game = (Game) observable;
         setCurrentPlayerFromGame(game);
         setTurnPhaseFromGame(game);
+        setEndGame(game);
         setWinner(game);
         setWinnerVp(game);
 
@@ -160,8 +161,13 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        if (winner == null)
+        if (winner == null && !isEndGame)
             return Color.HEADER + "\nGame State:\n" + Color.RESET +
+                    " Current player is " + currentPlayer +
+                    " and we're in " + turnPhase + " phase\n";
+        else if (winner == null && isEndGame)
+            return Color.HEADER + "\nGame State:\n" + Color.RESET +
+                    " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET +
                     " Current player is " + currentPlayer +
                     " and we're in " + turnPhase + " phase\n";
         else
