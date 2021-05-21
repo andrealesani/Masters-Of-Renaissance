@@ -147,7 +147,7 @@ public class DevelopmentCard extends Card {
 
         content += "\n Production Output: ";
         for (int i = 0; i < outputType.length; i++) {
-            if (inputQuantities[i] > 0)
+            if (outputQuantities[i] > 0)
                 content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
 
         }
