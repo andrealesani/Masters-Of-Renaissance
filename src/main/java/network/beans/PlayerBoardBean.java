@@ -552,7 +552,9 @@ public class PlayerBoardBean implements Observer {
             case 2 -> {
                 content += " Pope Tiles: ";
                 for (int i = 0; i < popeTileStates.length; i++) {
-                    content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + " VPs ";
+                    content += " " + (i+1) + ".[";
+                    content +=  popeTileStates[i];
+                    content +=  " - " + Color.YELLOW_LIGHT_FG + "" + popeTilePoints[i] + "VPs" + Color.RESET + "] ";
                 }
             }
             case 3 -> {
@@ -599,9 +601,11 @@ public class PlayerBoardBean implements Observer {
 
         content += drawFaithTrack() + "\n";
 
-        content += " PopeTiles: ";
+        content += " Pope Tiles: ";
         for (int i = 0; i < popeTileStates.length; i++) {
-            content += " " + popeTileStates[i] + ": " + popeTilePoints[i] + "  ";
+            content += " " + (i+1) + ".[";
+            content +=  popeTileStates[i];
+            content +=  " - " + Color.YELLOW_LIGHT_FG + "" + popeTilePoints[i] + "VPs" + Color.RESET + "] ";
         }
         content += "\n";
 
