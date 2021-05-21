@@ -104,7 +104,7 @@ public class CardTableBean implements Observer {
             j = 0;
             for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cardTable.getCards().entrySet()) {
                 if (color.getValue().get(i).size() == 0)
-                    cards[i][j] = 0;
+                    cards[i][j] = -1;
                 else
                     cards[i][j] = color.getValue().get(i).get(0).getId();
                 j++;
