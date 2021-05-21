@@ -27,8 +27,8 @@ public class MarbleLeaderCard extends LeaderCard {
     /**
      * Constructor
      *
-     * @param resourceType     Resource that the WhiteOrb can be transformed into by this card
-     * @param requiredColors    CardColor of the DevelopmentCards required to activate this card
+     * @param resourceType       Resource that the WhiteOrb can be transformed into by this card
+     * @param requiredColors     CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
      */
     public MarbleLeaderCard(int victoryPoints, ResourceType resourceType, CardColor[] requiredColors, int[] requiredQuantities) {
@@ -114,7 +114,8 @@ public class MarbleLeaderCard extends LeaderCard {
 
         content += "\n Required cards: ";
         for (int i = 0; i < requiredColors.length; i++) {
-            content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
+            if (requiredQuantities[i] > 0)
+                content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
         }
 
         content += "\n Conversion: ";

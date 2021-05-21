@@ -208,13 +208,15 @@ public class ProductionLeaderCard extends LeaderCard {
 
 
         content += "\n Production Input: ";
-        for (int i = 0; i<inputType.length; i++) {
-            content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+        for (int i = 0; i < inputType.length; i++) {
+            if (inputQuantities[i] > 0)
+                content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
         }
 
         content += "\n Production Output: ";
-        for (int i = 0; i<outputType.length; i++) {
-            content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+        for (int i = 0; i < outputType.length; i++) {
+            if (outputQuantities[i] > 0)
+                content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
         }
 
         return content;

@@ -37,7 +37,7 @@ public class DevelopmentCard extends Card {
     /**
      * This array stores the types of the resources in the card's production's output
      */
-    private final  ResourceType[] outputType;
+    private final ResourceType[] outputType;
     /**
      * This array stores the amounts of each type of resource in the card's production's input
      */
@@ -112,13 +112,13 @@ public class DevelopmentCard extends Card {
         List<Resource> output = new ArrayList<>();
 
         for (int i = 0; i < inputType.length; i++) {
-            for(int j = 0; j < inputQuantities[i]; j++) {
+            for (int j = 0; j < inputQuantities[i]; j++) {
                 input.add(inputType[i].toResource());
             }
         }
 
         for (int i = 0; i < inputType.length; i++) {
-            for(int j = 0; j < outputQuantities[i]; j++) {
+            for (int j = 0; j < outputQuantities[i]; j++) {
                 output.add(outputType[i].toResource());
             }
         }
@@ -134,18 +134,21 @@ public class DevelopmentCard extends Card {
                 "\n Level: " + level;
 
         content += "\n Cost: ";
-        for (int i = 0; i<costType.length; i++) {
-            content += " " + costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
+        for (int i = 0; i < costType.length; i++) {
+            if (costQuantity[i] > 0)
+                content += " " + costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
         }
 
         content += "\n Production Input: ";
-        for (int i = 0; i<inputType.length; i++) {
-            content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+        for (int i = 0; i < inputType.length; i++) {
+            if (inputQuantities[i] > 0)
+                content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
         }
 
         content += "\n Production Output: ";
-        for (int i = 0; i<outputType.length; i++) {
-            content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+        for (int i = 0; i < outputType.length; i++) {
+            if (inputQuantities[i] > 0)
+                content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
 
         }
 

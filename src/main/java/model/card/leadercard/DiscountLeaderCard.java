@@ -129,7 +129,8 @@ public class DiscountLeaderCard extends LeaderCard {
 
         content += "\n Required cards: ";
         for (int i = 0; i < requiredColors.length; i++) {
-            content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
+            if (requiredQuantities[i] > 0)
+                content += " " + requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + "  ";
         }
 
         content += "\n Discount: ";
