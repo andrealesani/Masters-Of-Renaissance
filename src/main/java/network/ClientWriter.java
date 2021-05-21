@@ -6,6 +6,7 @@ import model.CardColor;
 import model.Color;
 import model.resource.ResourceType;
 import model.TurnPhase;
+import network.beans.PlayerBoardBean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class ClientWriter implements Runnable {
 
                 } else switch (userInput) {
                     case "help" -> {
-                        System.out.println("Supported commands are: 'status', 'show', 'card'.\nIf you're looking for action-specific commands, type 'actions'");
+                        System.out.println("Supported commands are: 'status', 'show', 'card', 'leadercards'.\nIf you're looking for action-specific commands, type 'actions'");
 
                     }
                     case "status" -> {
@@ -131,6 +132,25 @@ public class ClientWriter implements Runnable {
                             }
                         }
 
+                    }
+                    case "leadercards" -> {
+                        PlayerBoardBean currentPlayer = null;
+                        for (PlayerBoardBean playerBoardBean : clientView.getPlayerBoards())
+                            if (playerBoardBean.getUsername().equals(clientView.getGame().getCurrentPlayer())) {
+                                currentPlayer = playerBoardBean;
+                                break;
+                            }
+                        if (currentPlayer == null) {
+                            System.out.println("Something went wrong displaying LeaderCards (couldn't find player)");
+                            break;
+                        }
+                        for (int id : currentPlayer.getLeaderCards()) {
+                            try {
+                                System.out.println(clientView.getGame().getLeaderCardFromId(id));
+                            } catch (Exception ignored) {
+                                System.out.println("Something went wrong displaying LeaderCards (couldn't find)");
+                            }
+                        }
                     }
                     case "actions" -> {
                         System.out.println("If you want to see all the possible actions in the game, type 'actions -all'");
