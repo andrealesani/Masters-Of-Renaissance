@@ -1,5 +1,5 @@
 import client.ClientMain;
-import client.GUI;
+import client.GUI.GUI;
 import server.ServerMain;
 
 import java.util.InputMismatchException;

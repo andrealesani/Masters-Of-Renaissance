@@ -1,5 +1,6 @@
-package client;
+package client.GUI;
 
+import client.GUI.BoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,13 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.print.PrinterAbortException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
