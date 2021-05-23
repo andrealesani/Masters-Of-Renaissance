@@ -1,5 +1,6 @@
-import network.ClientMain;
-import network.ServerMain;
+import client.ClientMain;
+import client.GUI;
+import server.ServerMain;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class MastersOfRenaissance {
      */
     public static void main(String[] args){
         System.out.println("Hi! Welcome to Masters Of Renaissance!\nWhat do you want to launch?");
-        System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)\n");
+        System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)\n2. CLIENT (GUI)\n");
         System.out.print("> ");
         Scanner scanner = new Scanner(System.in);
         int input = 0;
@@ -27,6 +28,10 @@ public class MastersOfRenaissance {
         switch (input) {
             case 0 -> ServerMain.main(null);
             case 1 -> ClientMain.main(null);
+            case 2 -> {
+                System.out.println("You selected the GUI interface, have fun!\nStarting...");
+                GUI.main(null);
+            }
             default -> System.err.println("Invalid argument, please run the executable again with one of these options:\n1.server\n2.client");
         }
     }

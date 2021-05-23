@@ -2,7 +2,7 @@ package network.beans;
 
 import model.Game;
 import model.resource.ResourceType;
-import network.GameController;
+import server.GameController;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;

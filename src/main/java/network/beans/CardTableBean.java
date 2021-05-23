@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
-import network.GameController;
+import server.GameController;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -121,28 +121,28 @@ public class CardTableBean implements Observer {
         List<List<DevelopmentCard>> purpleCards = new ArrayList<>();
 
         // BLUE CARDS
-        createDecksFromJSON("/cards/developmentcards/BlueCards.json", blueCards);
+        createDecksFromJSON("/json/cards/developmentcards/BlueCards.json", blueCards);
         developmentCards.put(CardColor.BLUE, blueCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.BLUE))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("/cards/developmentcards/GreenCards.json", greenCards);
+        createDecksFromJSON("/json/cards/developmentcards/GreenCards.json", greenCards);
         developmentCards.put(CardColor.GREEN, greenCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.GREEN))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("/cards/developmentcards/PurpleCards.json", purpleCards);
+        createDecksFromJSON("/json/cards/developmentcards/PurpleCards.json", purpleCards);
         developmentCards.put(CardColor.PURPLE, purpleCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.PURPLE))
             for (DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("/cards/developmentcards/YellowCards.json", yellowCards);
+        createDecksFromJSON("/json/cards/developmentcards/YellowCards.json", yellowCards);
         developmentCards.put(CardColor.YELLOW, yellowCards);
         for (List<DevelopmentCard> deck : developmentCards.get(CardColor.YELLOW))
             for (DevelopmentCard card : deck)

@@ -3,18 +3,13 @@ package network.beans;
 import model.CardColor;
 import model.Game;
 import model.card.DevelopmentCard;
-import network.GameController;
+import server.GameController;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CardTableBeanTest {
     @Test

@@ -25,7 +25,7 @@ class DevelopmentCardTest {
         JsonReader reader = null;
 
         try {
-            reader = new JsonReader(new FileReader("./src/main/resources/cards/developmentcards/BlueCards.json"));
+            reader = new JsonReader(new FileReader("./src/main/resources/json/cards/developmentcards/BlueCards.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,7 @@ class DevelopmentCardTest {
         JsonReader reader = null;
 
         try {
-            reader = new JsonReader(new FileReader("./src/main/resources/cards/developmentcards/YellowCards.json"));
+            reader = new JsonReader(new FileReader("./src/main/resources/json/cards/developmentcards/YellowCards.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

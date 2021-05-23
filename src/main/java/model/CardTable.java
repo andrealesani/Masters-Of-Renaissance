@@ -6,12 +6,9 @@ import Exceptions.ParametersNotValidException;
 import Exceptions.SlotNotValidException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import model.card.DevelopmentCard;
-import network.ServerMain;
+import server.ServerMain;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -65,28 +62,28 @@ public class CardTable implements Observable{
         id++;
 
         // BLUE CARDS
-        createDecksFromJSON("/cards/developmentcards/BlueCards.json", blueCards);
+        createDecksFromJSON("/json/cards/developmentcards/BlueCards.json", blueCards);
         cards.put(CardColor.BLUE, blueCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("/cards/developmentcards/GreenCards.json", greenCards);
+        createDecksFromJSON("/json/cards/developmentcards/GreenCards.json", greenCards);
         cards.put(CardColor.GREEN, greenCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("/cards/developmentcards/PurpleCards.json", purpleCards);
+        createDecksFromJSON("/json/cards/developmentcards/PurpleCards.json", purpleCards);
         cards.put(CardColor.PURPLE, purpleCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("/cards/developmentcards/YellowCards.json", yellowCards);
+        createDecksFromJSON("/json/cards/developmentcards/YellowCards.json", yellowCards);
         cards.put(CardColor.YELLOW, yellowCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)

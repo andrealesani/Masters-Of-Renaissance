@@ -6,7 +6,7 @@ import model.Color;
 import model.Market;
 import model.Observer;
 import model.resource.ResourceType;
-import network.GameController;
+import server.GameController;
 
 public class MarketBean implements Observer {
     /**

@@ -1,7 +1,7 @@
 package network.beans;
 
 import model.Market;
-import network.GameController;
+import server.GameController;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane2" prefHeight="401.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controller">
+   <children>
+      <ImageView fx:id="settingsBackground" fitHeight="401.0" fitWidth="608.0" layoutY="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@lorenzo.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="gameSettingsLabel" layoutX="86.0" layoutY="14.0" prefHeight="54.0" prefWidth="210.0" text="GAME SETTINGS" textFill="#f20000">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="playersList" layoutX="34.0" layoutY="232.0" prefHeight="138.0" prefWidth="261.0" textFill="#ff0202">
+         <font>
+            <Font name="Bodoni MT" size="18.0" />
+         </font></Label>
+      <Label fx:id="numPlayersLabel" layoutX="34.0" layoutY="155.0" prefHeight="38.0" prefWidth="210.0" text="Number of players:" textFill="RED" AnchorPane.bottomAnchor="207.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="356.0" AnchorPane.topAnchor="155.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="ipServerLabel" layoutX="34.0" layoutY="56.0" prefHeight="31.0" prefWidth="210.0" text="Ip Server: " textFill="RED" AnchorPane.bottomAnchor="306.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="356.0" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="singleplayerButton" layoutX="34.0" layoutY="101.0" mnemonicParsing="false" onAction="#setSingleplayerGame" prefHeight="38.0" prefWidth="93.0" text="Singleplayer" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="101.0" />
+      <Button fx:id="multiplayerButton" layoutX="206.0" layoutY="101.0" mnemonicParsing="false" onAction="#setMultiplayerGame" prefHeight="38.0" prefWidth="93.0" text="Multiplayer" AnchorPane.leftAnchor="206.0" AnchorPane.topAnchor="101.0" />
+      <TextField fx:id="serverField" layoutX="117.0" layoutY="63.0" />
+      <Button fx:id="okButton" layoutX="284.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="41.0" text="OK" />
+      <Button fx:id="readyButton" layoutX="478.0" layoutY="332.0" mnemonicParsing="false" onAction="#setGame" prefHeight="38.0" prefWidth="93.0" text="I'M READY!" />
+      <Button fx:id="twoPlayersButton" layoutX="34.0" layoutY="194.0" mnemonicParsing="false" onAction="#setTwoPlayers" prefHeight="38.0" prefWidth="52.0" text="2" />
+      <Button fx:id="threePlayersButton" layoutX="125.0" layoutY="194.0" mnemonicParsing="false" onAction="#setThreePlayers" prefHeight="38.0" prefWidth="52.0" text="3" />
+      <Button fx:id="fourPlayersButton" layoutX="210.0" layoutY="194.0" mnemonicParsing="false" onAction="#setFourPlayers" prefHeight="38.0" prefWidth="52.0" text="4" />
+   </children>
+</AnchorPane>

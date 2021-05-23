@@ -1,11 +1,9 @@
 package network.beans;
 
-import model.CardTable;
 import model.Game;
-import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
-import network.GameController;
+import server.GameController;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;

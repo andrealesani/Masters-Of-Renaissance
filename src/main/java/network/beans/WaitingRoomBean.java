@@ -5,7 +5,7 @@ import model.Color;
 import model.Observer;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
-import network.GameController;
+import server.GameController;
 
 import static model.resource.ResourceType.*;
 

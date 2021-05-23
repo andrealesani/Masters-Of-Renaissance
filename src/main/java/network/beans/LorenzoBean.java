@@ -7,7 +7,7 @@ import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.LorenzoTokenType;
-import network.GameController;
+import server.GameController;
 
 import java.util.Arrays;
 

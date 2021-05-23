@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.BoardController">
+   <children>
+      <ImageView fitHeight="491.0" fitWidth="694.0" layoutX="-7.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="addResourceFromMarketButton" layoutX="7.0" layoutY="498.0" mnemonicParsing="false" onAction="#addResourceFromMarket" prefHeight="25.0" prefWidth="162.0" text="AddResourceFromMarket" />
+      <ImageView fx:id="firstDepot" fitHeight="20.0" fitWidth="24.0" layoutX="81.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="firstResourceSecondDepot" fitHeight="20.0" fitWidth="24.0" layoutX="64.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="secondResourceSecondDepot" fitHeight="20.0" fitWidth="24.0" layoutX="90.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="firstResourceThirdDepot" fitHeight="20.0" fitWidth="24.0" layoutX="52.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="secondResourceThirdDepot" fitHeight="20.0" fitWidth="24.0" layoutX="78.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="thirdResourceThirdDepot" fitHeight="20.0" fitWidth="24.0" layoutX="102.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="coinButton" layoutX="7.0" layoutY="529.0" mnemonicParsing="false" onAction="#addCoin" text="COIN" />
+      <Button fx:id="servantButton" layoutX="93.0" layoutY="529.0" mnemonicParsing="false" onAction="#addServant" prefHeight="25.0" prefWidth="75.0" text="SERVANT" />
+      <Button fx:id="stoneButton" layoutX="4.0" layoutY="561.0" mnemonicParsing="false" onAction="#addStone" text="STONE" />
+      <Button fx:id="shieldButton" layoutX="93.0" layoutY="561.0" mnemonicParsing="false" onAction="#addShield" prefHeight="25.0" prefWidth="75.0" text="SHIELD" />
+      <Label fx:id="currentPlayerLabel" layoutX="3.0" prefHeight="88.0" prefWidth="143.0" />
+      <ImageView fx:id="secondPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="334.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@punchboard/quadrato arancione.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="firstPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="167.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@punchboard/quadrato giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="thirdPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="537.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@punchboard/quadrato rosso.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="firstActivateButton" layoutX="158.0" layoutY="135.0" mnemonicParsing="false" onAction="#activateFirstPopeFT" prefHeight="20.0" prefWidth="69.0" text="Activate" />
+      <Button fx:id="firstDiscardButton" layoutX="158.0" layoutY="166.0" mnemonicParsing="false" onAction="#discardFirstPopeFT" prefHeight="20.0" prefWidth="69.0" text="Discard" />
+      <Button fx:id="secondActivateButton" layoutX="326.0" layoutY="135.0" mnemonicParsing="false" onAction="#activateSecondPopeFT" prefHeight="20.0" prefWidth="69.0" text="Activate" />
+      <Button fx:id="thirdActivateButton" layoutX="529.0" layoutY="135.0" mnemonicParsing="false" onAction="#activateThirdPopeFT" prefHeight="20.0" prefWidth="69.0" text="Activate" />
+      <Button fx:id="secondDiscardButton" layoutX="326.0" layoutY="166.0" mnemonicParsing="false" onAction="#discardSecondPopeFT" prefHeight="20.0" prefWidth="69.0" text="Discard" />
+      <Button fx:id="thirdDiscardButton" layoutX="529.0" layoutY="166.0" mnemonicParsing="false" onAction="#discardThirdPopeFT" prefHeight="20.0" prefWidth="69.0" text="Discard" />
+      <Button fx:id="secondDepotButton" layoutX="297.0" layoutY="529.0" mnemonicParsing="false" onAction="#removeResourcesSD" text="Second Depot" />
+      <Button fx:id="RemoveResourceFromWarehouseButton" layoutX="193.0" layoutY="498.0" mnemonicParsing="false" onAction="#removeResourceFromWarehouse" text="RemoveResourceFromWarehouse" />
+      <Button fx:id="firstDepotButton" layoutX="193.0" layoutY="529.0" mnemonicParsing="false" onAction="#removeResourcesFD" prefHeight="25.0" prefWidth="92.0" text="First Depot" />
+      <Button fx:id="thirdDepotButton" layoutX="245.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeResourcesTD" prefHeight="25.0" prefWidth="92.0" text="Third Depot" />
+      <Button fx:id="firstSlotDevCard" layoutX="245.0" layoutY="466.0" mnemonicParsing="false" onAction="#addDevelopmentCard1" prefHeight="20.0" prefWidth="141.0" text="Add Development Card" />
+      <Button fx:id="secondSlotDevCard" layoutX="389.0" layoutY="466.0" mnemonicParsing="false" onAction="#addDevelopmentCard2" text="Add Development Card" />
+      <Button fx:id="thirdSlotDevCard" layoutX="537.0" layoutY="466.0" mnemonicParsing="false" onAction="#addDevelopmentCard3" text="Add Development Card" />
+      <ImageView fx:id="firsLevel1Card" fitHeight="167.0" fitWidth="103.0" layoutX="275.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="secondLevel1Card" fitHeight="167.0" fitWidth="103.0" layoutX="408.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="thirdLevel1Card" fitHeight="167.0" fitWidth="103.0" layoutX="539.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

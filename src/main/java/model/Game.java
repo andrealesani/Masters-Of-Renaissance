@@ -3,18 +3,13 @@ package model;
 import Exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
-import network.GameController;
-import network.ServerMain;
+import server.GameController;
 import network.beans.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -677,28 +672,28 @@ public class Game implements UserCommandsInterface, Observable {
         }.getType();
 
         // depot leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/DepotLeaderCards.json"), StandardCharsets.UTF_8);
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DepotLeaderCards.json"), StandardCharsets.UTF_8);
         Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
         }.getType();
         ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
         leaderCards.addAll(depotLeaderCards);
 
         // discount leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/DiscountLeaderCards.json"), StandardCharsets.UTF_8);
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DiscountLeaderCards.json"), StandardCharsets.UTF_8);
         Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
         }.getType();
         ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
         leaderCards.addAll(discountLeaderCards);
 
         // marble leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/MarbleLeaderCards.json"), StandardCharsets.UTF_8);
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/MarbleLeaderCards.json"), StandardCharsets.UTF_8);
         Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
         }.getType();
         ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
         leaderCards.addAll(marbleLeaderCards);
 
         // production leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/cards/leadercards/ProductionLeaderCards.json"), StandardCharsets.UTF_8);
+        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/ProductionLeaderCards.json"), StandardCharsets.UTF_8);
         Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
         }.getType();
         ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);

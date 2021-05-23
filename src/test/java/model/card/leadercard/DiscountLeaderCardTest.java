@@ -65,7 +65,7 @@ class DiscountLeaderCardTest {
         JsonReader reader = null;
 
         try {
-            reader = new JsonReader(new FileReader("./src/main/resources/cards/leadercards/DiscountLeaderCards.json"));
+            reader = new JsonReader(new FileReader("./src/main/resources/json/cards/leadercards/DiscountLeaderCards.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

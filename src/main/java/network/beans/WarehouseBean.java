@@ -6,7 +6,7 @@ import model.Color;
 import model.Observer;
 import model.resource.ResourceType;
 import model.storage.Warehouse;
-import network.GameController;
+import server.GameController;
 
 
 public class WarehouseBean implements Observer {
