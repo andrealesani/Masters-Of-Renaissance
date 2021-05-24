@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * select all the Productions he wants to activate and then all the selected Productions can be activated at the same
  * time at the end of the turn
  */
-public class ProductionHandler {
+public class ProductionHandler implements Observable{
     /**
      * This list contains all of the player's currently available productions
      */
@@ -161,13 +161,8 @@ public class ProductionHandler {
         if(playerBoard == null)
             throw new ParametersNotValidException();
         Map<ResourceType, Integer> resources = new HashMap<>();
-        for (Resource resource : currentInput) {
-            if (!resources.containsKey(resource.getType())) {
-                resources.put(resource.getType(), 1);
-            } else {
-                resources.put(resource.getType(), resources.get(resource.getType()) + 1);
-            }
-        }
+        for (Resource resource : currentInput)
+            resources.merge(resource.getType(), 1, Integer::sum);
         playerBoard.addResourcesToWaitingRoom(resources);
     }
 
@@ -196,6 +191,8 @@ public class ProductionHandler {
                 currentInput.addAll(production.getInput());
             }
         }
+
+        notifyObservers();
     }
 
     /**
@@ -208,6 +205,8 @@ public class ProductionHandler {
                 currentOutput.addAll(production.getOutput());
             }
         }
+
+        notifyObservers();
     }
 
     //GETTERS
@@ -261,5 +260,28 @@ public class ProductionHandler {
             }
         }
         return sum;
+    }
+
+    // OBSERVABLE ATTRIBUTES AND METHODS
+
+    /**
+     * List of observers that need to get updated when the object state changes
+     */
+    private final List<Observer> observers = new ArrayList<>();
+
+    /**
+     * This method calls the update() on every object observing this object
+     */
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+        notifyObservers();
+    }
+
+    public List<Observer> getObservers() {
+        return observers;
     }
 }

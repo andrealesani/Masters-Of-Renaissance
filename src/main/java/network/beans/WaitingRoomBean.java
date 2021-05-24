@@ -14,8 +14,17 @@ public class WaitingRoomBean implements Observer {
      * The Controller that will have to send the bean when it changes
      */
     private transient final GameController controller;
+    /**
+     * Represents the player's username
+     */
     private final String username;
+    /**
+     * Hardcoded array of all the storable ResourceTypes
+     */
     private final ResourceType[] type = {COIN, SERVANT, SHIELD, STONE};
+    /**
+     * Represents the quantity of each ResourceType present in the WaitingRoom
+     */
     private final int[] quantity = new int[type.length];
 
     // CONSTRUCTOR

@@ -14,10 +14,25 @@ public class WarehouseBean implements Observer {
      * The Controller that will have to send the bean when it changes
      */
     private transient final GameController controller;
+    /**
+     * Represents the player's username
+     */
     private final String username;
+    /**
+     * Represents the number of basic depots in the Warehouse
+     */
     private final int basicDepotNum;
+    /**
+     * Represents the storable ResourceType for each depot
+     */
     private ResourceType[] depotType;
+    /**
+     * Represents the quantity of Resources in every depot
+     */
     private int[] depotQuantity;
+    /**
+     * Represents the maximum capacity of each depot
+     */
     private int[] depotSizes;
     // TODO aggiungere risorse massime nei Leader Depots
 

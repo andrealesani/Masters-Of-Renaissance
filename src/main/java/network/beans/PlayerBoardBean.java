@@ -537,6 +537,8 @@ public class PlayerBoardBean implements Observer {
         controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
+    // PRINTING METHODS
+
     public String printLine(int line) {
         line--;
         String content = "";
