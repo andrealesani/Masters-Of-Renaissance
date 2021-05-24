@@ -68,25 +68,6 @@ public class BoardController {
 
     public void setGameTable(URL location, ResourceBundle resources) {
 
-        /*
-        String username = null;
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("loginV.fxml"));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Game Settings");
-
-            SampleController controller = loader.getController();
-            username = controller.getUsername();
-            currentPlayerLabel.setText("CURRENT PLAYER:\n" + username);
-
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        */
-
         coinButton.setOpacity(0);
         servantButton.setOpacity(0);
         stoneButton.setOpacity(0);

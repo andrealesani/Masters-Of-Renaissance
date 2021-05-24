@@ -39,7 +39,7 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label fx:id="usernameLabel" layoutX="39.0" layoutY="72.0" prefHeight="40.0" prefWidth="133.0" text="USERNAME" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="72.0">
+      <Label fx:id="usernameLabel" layoutX="39.0" layoutY="43.0" prefHeight="40.0" prefWidth="133.0" text="USERNAME" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="43.0">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -61,11 +61,34 @@
          </textFill>
       </Label>
       <Button fx:id="loginButton" layoutX="634.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="174.0" />
-      <TextField fx:id="usernameField" layoutX="39.0" layoutY="123.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="123.0" />
+      <TextField fx:id="usernameField" layoutX="39.0" layoutY="83.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="83.0" />
       <Label fx:id="statusLabel" layoutX="512.0" layoutY="390.0" prefHeight="32.0" prefWidth="375.0" text="LOGIN STATUS: NOT LOGGED IN YET " textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="13.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Label>
+      <Label fx:id="usernameLabel1" layoutX="39.0" layoutY="117.0" prefHeight="40.0" prefWidth="232.0" text="CONFIRM USERNAME">
+         <font>
+            <Font name="Verdana Bold Italic" size="14.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color green="0.12274368107318878" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Button fx:id="confirmButton" layoutX="39.0" layoutY="154.0" mnemonicParsing="false" onAction="#confirmUsername" prefHeight="32.0" prefWidth="61.0" text="Confirm" />
+      <Button fx:id="changeButton" layoutX="125.0" layoutY="154.0" mnemonicParsing="false" onAction="#changeUsername" prefHeight="32.0" prefWidth="61.0" text="Change" />
    </children>
 </AnchorPane>

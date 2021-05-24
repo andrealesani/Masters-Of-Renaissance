@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane2" prefHeight="401.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.Controller">
+<AnchorPane fx:id="pane2" maxHeight="100" maxWidth="100" prefHeight="100" prefWidth="100" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
-      <ImageView fx:id="settingsBackground" fitHeight="401.0" fitWidth="608.0" layoutY="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="settingsBackground" fitHeight="100" fitWidth="100" layoutY="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@lorenzo.jpg" />
+            <Image url="@lorenzo.png" />
          </image>
       </ImageView>
       <Label fx:id="gameSettingsLabel" layoutX="86.0" layoutY="14.0" prefHeight="54.0" prefWidth="210.0" text="GAME SETTINGS" textFill="#f20000">

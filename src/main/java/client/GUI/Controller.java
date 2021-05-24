@@ -4,19 +4,22 @@ import client.GUI.BoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable {
     @FXML
     public TextField serverField;
     @FXML
@@ -37,8 +40,19 @@ public class Controller {
     public Button threePlayersButton;
     @FXML
     public Button fourPlayersButton;
+    @FXML
+    public ImageView settingsBackground;
+    @FXML
+    public AnchorPane pane2;
 
     int numPlayers = 0;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        settingsBackground.setPreserveRatio(false);
+        settingsBackground.fitWidthProperty().bind(pane2.widthProperty());
+        settingsBackground.fitHeightProperty().bind(pane2.heightProperty());
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -126,19 +140,19 @@ public class Controller {
         button.setDisable(false);
 
         // close a window after you press a button
-        //((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
+        // ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
         try {
             FXMLLoader loader = new FXMLLoader();
             Stage stage = new Stage(StageStyle.DECORATED);
-            loader.setLocation(getClass().getClassLoader().getResource("graphics/boardGame.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("graphics/loginV.fxml"));
             Parent parent = loader.load();
             Scene scene = new Scene(parent);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-            stage.setTitle("PlayerBoard");
+            stage.setTitle("Login");
 
-            BoardController controller = loader.getController();
-            controller.setGameTable(loader.getLocation(), loader.getResources());
+            SampleController controller = loader.getController();
+            controller.setUsername(loader.getLocation(), loader.getResources());
 
             stage.show();
         } catch (IllegalStateException e) {
