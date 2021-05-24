@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 //TODO possibilità di togliere risorse nei depot
-public class BoardController {
+public class PlayerBoardController {
     @FXML
     public Button addResourceFromMarketButton;
     @FXML

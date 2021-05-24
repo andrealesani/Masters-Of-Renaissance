@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="397.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.SampleController">
+<AnchorPane fx:id="pane" prefHeight="397.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.LoginController">
    <children>
       <ImageView fx:id="backgroundImage" layoutX="241.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -90,5 +90,28 @@
       </Label>
       <Button fx:id="confirmButton" layoutX="39.0" layoutY="154.0" mnemonicParsing="false" onAction="#confirmUsername" prefHeight="32.0" prefWidth="61.0" text="Confirm" />
       <Button fx:id="changeButton" layoutX="125.0" layoutY="154.0" mnemonicParsing="false" onAction="#changeUsername" prefHeight="32.0" prefWidth="61.0" text="Change" />
+      <Label fx:id="ipServerLabel" layoutX="217.0" layoutY="43.0" prefHeight="40.0" prefWidth="133.0" text="SERVER IP">
+         <font>
+            <Font name="Verdana Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color green="0.12274368107318878" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <TextField fx:id="serverField" layoutX="217.0" layoutY="83.0" />
+      <Button fx:id="okButton" layoutX="374.0" layoutY="83.0" mnemonicParsing="false" onAction="#handleButtonAction" text="OK" />
    </children>
 </AnchorPane>

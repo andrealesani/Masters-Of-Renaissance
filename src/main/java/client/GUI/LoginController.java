@@ -1,6 +1,5 @@
 package client.GUI;
 
-import client.GUI.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +18,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SampleController {
+public class LoginController {
 
     @FXML
     public AnchorPane pane;
@@ -29,10 +28,14 @@ public class SampleController {
     public TextField usernameField;
     @FXML
     public Label statusLabel;
+    @FXML
+    public TextField serverField;
 
     public String getUsername() {
         return usernameField.getText();
     }
+
+    public String getServer() { return serverField.getText(); }
 
 
     //TODO mettere condizione username già usato (controllo in risposta dal server)
@@ -48,22 +51,22 @@ public class SampleController {
 
     //TODO Mettere i metodi della playerboard in ClientWriter
     public void loggingIn(ActionEvent event) throws Exception {
-        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
         try {
             FXMLLoader loader = new FXMLLoader();
             Stage stage = new Stage(StageStyle.DECORATED);
-            loader.setLocation(getClass().getResource("/graphics/boardGame.fxml"));
+            loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
             Parent parent = loader.load();
             Scene scene = new Scene(parent);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
             stage.setTitle("Game Settings");
 
-            BoardController controller = loader.getController();
-            controller.setGameTable(loader.getLocation(), loader.getResources());
-
+            SettingsController controller = loader.getController();
+            controller.setIpServerLabel(loader.getLocation(), loader.getResources());
+            stage.setFullScreen(true);
             stage.showAndWait();
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             System.out.println("pressButton failed");
         }
 
@@ -72,11 +75,32 @@ public class SampleController {
 
 
     public void confirmUsername(ActionEvent actionEvent) {
-        loginButton.setDisable(getUsername().isBlank());
+        loginButton.setDisable((getUsername().isBlank()) && (getServer().isBlank()));
     }
 
     public void changeUsername(ActionEvent actionEvent) {
         usernameField.clear();
+    }
+
+    public void handleButtonAction(ActionEvent event) {
+
+        serverField.setDisable(true);
+        Button button = (Button) event.getSource();
+        button.setDisable(true);
+        String address = serverField.getText();
+
+        try {
+            if (address == null || !address.equals("localhost")) {
+                statusLabel.setText("Server Unavailable at: " + address + "(Try: localhost)");
+                throw new IllegalStateException("Server Unavailable at: " + address + "\n");
+            }
+
+        } catch (Exception exception) {
+            System.out.println("handleButtonAction failed");
+            serverField.setDisable(false);
+            button.setDisable(false);
+        }
+
     }
 }
 

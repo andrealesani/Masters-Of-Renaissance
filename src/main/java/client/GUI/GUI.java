@@ -16,17 +16,11 @@ public class GUI extends Application {
 
     @Override
     public void start (Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        primaryStage = new Stage(StageStyle.DECORATED);
-        loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
-        Parent parent = loader.load();
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/graphics/loginV.fxml")));
         primaryStage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-        primaryStage.setTitle("Game Settings");
-        primaryStage.setScene(new Scene(parent));
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
-
-        Controller controller = loader.getController();
-        controller.setIpServerLabel(loader.getLocation(), loader.getResources());
     }
 
 

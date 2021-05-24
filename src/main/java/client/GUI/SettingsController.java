@@ -1,6 +1,5 @@
 package client.GUI;
 
-import client.GUI.BoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +18,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class SettingsController implements Initializable {
     @FXML
     public TextField serverField;
     @FXML
@@ -54,26 +53,6 @@ public class Controller implements Initializable {
         settingsBackground.fitHeightProperty().bind(pane2.heightProperty());
     }
 
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        serverField.setDisable(true);
-        Button button = (Button) event.getSource();
-        button.setDisable(true);
-        String address = serverField.getText();
-
-        try {
-            if (address == null || !address.equals("localhost")) {
-                playersList.setText("Server Unavailable at: " + address + "\n(Try: localhost)");
-                throw new IllegalStateException("Server Unavailable at: " + address + "\n");
-            }
-
-        } catch (Exception exception) {
-            System.out.println("handleButtonAction failed");
-            serverField.setDisable(false);
-            button.setDisable(false);
-        }
-
-    }
 
     public void setIpServerLabel(URL location, ResourceBundle resources) {
         numPlayersLabel.setOpacity(0);
@@ -144,15 +123,15 @@ public class Controller implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader();
             Stage stage = new Stage(StageStyle.DECORATED);
-            loader.setLocation(getClass().getClassLoader().getResource("graphics/loginV.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("graphics/GameBoard.fxml"));
             Parent parent = loader.load();
             Scene scene = new Scene(parent);
             stage.setScene(scene);
             stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-            stage.setTitle("Login");
+            stage.setTitle("Game Board");
 
-            SampleController controller = loader.getController();
-            controller.setUsername(loader.getLocation(), loader.getResources());
+            GameBoardController controller = loader.getController();
+            controller.setGameBoard(loader.getLocation(), loader.getResources());
 
             stage.show();
         } catch (IllegalStateException e) {
