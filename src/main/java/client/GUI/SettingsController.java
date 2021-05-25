@@ -132,7 +132,7 @@ public class SettingsController implements Initializable {
 
             GameBoardController controller = loader.getController();
             controller.setGameBoard(loader.getLocation(), loader.getResources());
-
+            stage.setFullScreen(true);
             stage.show();
         } catch (IllegalStateException e) {
             System.out.println("setGame failed");

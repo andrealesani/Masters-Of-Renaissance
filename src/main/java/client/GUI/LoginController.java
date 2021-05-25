@@ -35,74 +35,59 @@ public class LoginController {
         return usernameField.getText();
     }
 
-    public String getServer() { return serverField.getText(); }
+    public String getServer() {
+        return serverField.getText();
+    }
 
 
     //TODO mettere condizione username già usato (controllo in risposta dal server)
-    public void setUsername(URL location, ResourceBundle resources) {
-        loginButton.setDisable(true);
-
-        if (getUsername().isBlank())
-            statusLabel.setText("LOGIN STATUS: SET A VALID USERNAME!");
-        else {
-            statusLabel.setText("LOGIN STATUS: SUCCESSFULLY LOGGED IN");
-        }
-    }
 
     //TODO Mettere i metodi della playerboard in ClientWriter
     public void loggingIn(ActionEvent event) throws Exception {
-        ((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            Stage stage = new Stage(StageStyle.DECORATED);
-            loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
-            Parent parent = loader.load();
-            Scene scene = new Scene(parent);
-            stage.setScene(scene);
-            stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-            stage.setTitle("Game Settings");
 
-            SettingsController controller = loader.getController();
-            controller.setIpServerLabel(loader.getLocation(), loader.getResources());
-            stage.setFullScreen(true);
-            stage.showAndWait();
-        } catch (IllegalStateException e) {
-            System.out.println("pressButton failed");
+
+        if (getServer().isBlank() || !getServer().equals("localhost")) {
+            statusLabel.setText("Server Unavailable at: " + getServer() + " (Try: localhost)");
+
+            throw new IllegalStateException("Server Unavailable at: " + getServer() + "\n");
         }
+        else if (getUsername().isBlank())
+            statusLabel.setText("LOGIN STATUS: SET A VALID USERNAME!");
 
+        else {
+            System.out.println(getUsername());
+            System.out.println(getServer());
+            statusLabel.setText("LOGIN STATUS: SUCCESSFULLY LOGGED IN");
 
-    }
+            //((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                Stage stage = new Stage(StageStyle.DECORATED);
+                loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
+                Parent parent = loader.load();
+                Scene scene = new Scene(parent);
+                stage.setScene(scene);
+                stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
+                stage.setTitle("Game Settings");
 
+                SettingsController controller = loader.getController();
+                controller.setIpServerLabel(loader.getLocation(), loader.getResources());
 
-    public void confirmUsername(ActionEvent actionEvent) {
-        loginButton.setDisable((getUsername().isBlank()) && (getServer().isBlank()));
-    }
-
-    public void changeUsername(ActionEvent actionEvent) {
-        usernameField.clear();
-    }
-
-    public void handleButtonAction(ActionEvent event) {
-
-        serverField.setDisable(true);
-        Button button = (Button) event.getSource();
-        button.setDisable(true);
-        String address = serverField.getText();
-
-        try {
-            if (address == null || !address.equals("localhost")) {
-                statusLabel.setText("Server Unavailable at: " + address + "(Try: localhost)");
-                throw new IllegalStateException("Server Unavailable at: " + address + "\n");
+                stage.setFullScreen(true);
+                stage.showAndWait();
+            } catch (IllegalStateException e) {
+                System.out.println("pressButton failed");
             }
 
-        } catch (Exception exception) {
-            System.out.println("handleButtonAction failed");
-            serverField.setDisable(false);
-            button.setDisable(false);
         }
 
+
     }
+
+
 }
+
+
 
 
 

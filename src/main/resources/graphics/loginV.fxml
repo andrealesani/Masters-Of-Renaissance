@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="pane" prefHeight="397.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.LoginController">
    <children>
-      <ImageView fx:id="backgroundImage" layoutX="241.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="backgroundImage" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-6.0">
          <image>
             <Image url="@Copertina-Maestri-del-Rinascimento.jpg" />
          </image>
@@ -60,37 +60,14 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Button fx:id="loginButton" layoutX="634.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="174.0" />
-      <TextField fx:id="usernameField" layoutX="39.0" layoutY="83.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="83.0" />
-      <Label fx:id="statusLabel" layoutX="512.0" layoutY="390.0" prefHeight="32.0" prefWidth="375.0" text="LOGIN STATUS: NOT LOGGED IN YET " textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="13.0">
+      <Button fx:id="loginButton" layoutX="608.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="200.0" />
+      <TextField fx:id="usernameField" layoutX="39.0" layoutY="83.0" onAction="#getUsername" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="83.0" />
+      <Label fx:id="statusLabel" layoutX="486.0" layoutY="390.0" prefHeight="32.0" prefWidth="437.0" text="LOGIN STATUS: NOT LOGGED IN YET " textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="usernameLabel1" layoutX="39.0" layoutY="117.0" prefHeight="40.0" prefWidth="232.0" text="CONFIRM USERNAME">
-         <font>
-            <Font name="Verdana Bold Italic" size="14.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color green="0.12274368107318878" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <Button fx:id="confirmButton" layoutX="39.0" layoutY="154.0" mnemonicParsing="false" onAction="#confirmUsername" prefHeight="32.0" prefWidth="61.0" text="Confirm" />
-      <Button fx:id="changeButton" layoutX="125.0" layoutY="154.0" mnemonicParsing="false" onAction="#changeUsername" prefHeight="32.0" prefWidth="61.0" text="Change" />
-      <Label fx:id="ipServerLabel" layoutX="217.0" layoutY="43.0" prefHeight="40.0" prefWidth="133.0" text="SERVER IP">
+      <Label fx:id="ipServerLabel" layoutX="39.0" layoutY="117.0" prefHeight="40.0" prefWidth="133.0" text="SERVER IP">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -111,7 +88,6 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <TextField fx:id="serverField" layoutX="217.0" layoutY="83.0" />
-      <Button fx:id="okButton" layoutX="374.0" layoutY="83.0" mnemonicParsing="false" onAction="#handleButtonAction" text="OK" />
+      <TextField fx:id="serverField" layoutX="39.0" layoutY="157.0" onAction="#getServer" />
    </children>
 </AnchorPane>
