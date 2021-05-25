@@ -1,4 +1,4 @@
-import client.ClientMain;
+import client.CLI.CLI;
 import client.GUI.GUI;
 import server.ServerMain;
 
@@ -27,7 +27,7 @@ public class MastersOfRenaissance {
         }
         switch (input) {
             case 0 -> ServerMain.main(null);
-            case 1 -> ClientMain.main(null);
+            case 1 -> CLI.main(null);
             case 2 -> {
                 System.out.println("You selected the GUI interface, have fun!\nStarting...");
                 GUI.main(null);

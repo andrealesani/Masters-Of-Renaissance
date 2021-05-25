@@ -1,5 +1,6 @@
-package client.GUI;
+package client.GUI.controllers;
 
+import client.GUI.controllers.GameBoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

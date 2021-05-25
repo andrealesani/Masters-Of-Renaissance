@@ -1,20 +1,20 @@
-package client.GUI;
+package client.GUI.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,6 +31,8 @@ public class LoginController {
     @FXML
     public TextField serverField;
 
+    // GETTERS
+
     public String getUsername() {
         return usernameField.getText();
     }
@@ -39,28 +41,27 @@ public class LoginController {
         return serverField.getText();
     }
 
+    // PUBLIC METHODS
 
     //TODO mettere condizione username già usato (controllo in risposta dal server)
+    //TODO Mettere i metodi della playerboard in CLIWriter
 
-    //TODO Mettere i metodi della playerboard in ClientWriter
     public void loggingIn(ActionEvent event) throws Exception {
+        loginButton.setDisable(true);
+        statusLabel.setText("Wait...");
 
-
-        if (getServer().isBlank() || !getServer().equals("localhost")) {
-            statusLabel.setText("Server Unavailable at: " + getServer() + " (Try: localhost)");
-
-            throw new IllegalStateException("Server Unavailable at: " + getServer() + "\n");
-        }
-        else if (getUsername().isBlank())
-            statusLabel.setText("LOGIN STATUS: SET A VALID USERNAME!");
-
+        if (getServer().isBlank()) {
+            statusLabel.setText("Please specify a server address");
+        } else if (getUsername().isBlank())
+            statusLabel.setText("Please specify a username");
         else {
-            System.out.println(getUsername());
-            System.out.println(getServer());
-            statusLabel.setText("LOGIN STATUS: SUCCESSFULLY LOGGED IN");
-
+            statusLabel.setText("SUCCESSFULLY LOGGED IN");
             //((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
             try {
+                //Attempts connection to server
+                Socket clientSocket = new Socket(getServer(), 1234);
+                statusLabel.setText("Connected to the server");
+
                 FXMLLoader loader = new FXMLLoader();
                 Stage stage = new Stage(StageStyle.DECORATED);
                 loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
@@ -75,13 +76,11 @@ public class LoginController {
 
                 stage.setFullScreen(true);
                 stage.showAndWait();
-            } catch (IllegalStateException e) {
-                System.out.println("pressButton failed");
+            } catch (IOException e) {
+                statusLabel.setText("Couldn't connect to the specified server address");
+                loginButton.setDisable(false);
             }
-
         }
-
-
     }
 
 

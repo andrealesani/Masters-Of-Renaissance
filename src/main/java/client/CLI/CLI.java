@@ -1,4 +1,4 @@
-package client;
+package client.CLI;
 
 import com.google.gson.Gson;
 
@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-public class ClientMain {
+public class CLI {
     //MAIN
 
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class ClientMain {
         } else {
             System.out.println("No parameters on command line: reading from Json.");
             Gson gson = new Gson();
-            Reader reader = new InputStreamReader(ClientMain.class.getResourceAsStream("/json/HostAndPort.json"), StandardCharsets.UTF_8);
+            Reader reader = new InputStreamReader(CLI.class.getResourceAsStream("/json/HostAndPort.json"), StandardCharsets.UTF_8);
             Map map = gson.fromJson(reader, Map.class);
             hostName = (String) map.get("hostName");
             portNumber = ((Double) map.get("portNumber")).intValue();
@@ -41,12 +41,12 @@ public class ClientMain {
 
         System.out.println("Client connected!");
 
-        startClient(clientSocket);
+        startCLI(clientSocket);
     }
 
     //PRIVATE METHODS
 
-    private static void startClient(Socket clientSocket) {
+    private static void startCLI(Socket clientSocket) {
         //ExecutorService executor = Executors.newCachedThreadPool();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -61,17 +61,17 @@ public class ClientMain {
                     new BufferedReader(
                             new InputStreamReader(System.in));
 
-            ClientView clientView = new ClientView();
+            CLIView CLIView = new CLIView();
 
-            ClientReader clientReader = new ClientReader(in, clientView, latch);
-            Thread readerThread = new Thread(clientReader);
+            CLIReader CLIReader = new CLIReader(in, CLIView, latch);
+            Thread readerThread = new Thread(CLIReader);
             readerThread.start();
-            //executor.submit(clientReader);
+            //executor.submit(CLIReader);
 
-            ClientWriter clientWriter = new ClientWriter(stdIn, out, clientView, latch);
-            Thread writerThread = new Thread(clientWriter);
+            CLIWriter CLIWriter = new CLIWriter(stdIn, out, CLIView, latch);
+            Thread writerThread = new Thread(CLIWriter);
             writerThread.start();
-            //executor.submit(clientWriter);
+            //executor.submit(CLIWriter);
 
             try {
                 latch.await();
@@ -79,7 +79,7 @@ public class ClientMain {
                 System.err.println("Latch was interrupted.");
             }
 
-            clientWriter.doClose();
+            CLIWriter.doClose();
 
         } catch (IOException ex) {
             System.out.println("Uh-oh, there's been an IO problem!");

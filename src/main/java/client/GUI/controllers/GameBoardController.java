@@ -1,4 +1,4 @@
-package client.GUI;
+package client.GUI.controllers;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;

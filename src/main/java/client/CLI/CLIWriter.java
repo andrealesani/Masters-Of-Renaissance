@@ -1,7 +1,6 @@
-package client;
+package client.CLI;
 
 import Exceptions.CardNotPresentException;
-import client.ClientView;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.Color;
@@ -18,20 +17,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-public class ClientWriter implements Runnable {
+public class CLIWriter implements Runnable {
 
     private final BufferedReader stdIn;
     private final PrintWriter out;
-    private final ClientView clientView;
+    private final CLIView CLIView;
     private final CountDownLatch latch;
     private boolean doClose;
 
     //CONSTRUCTORS
 
-    public ClientWriter(BufferedReader stdIn, PrintWriter out, ClientView clientView, CountDownLatch latch) {
+    public CLIWriter(BufferedReader stdIn, PrintWriter out, CLIView CLIView, CountDownLatch latch) {
         this.stdIn = stdIn;
         this.out = out;
-        this.clientView = clientView;
+        this.CLIView = CLIView;
         this.latch = latch;
         this.doClose = false;
     }
@@ -52,7 +51,7 @@ public class ClientWriter implements Runnable {
 
                 }
 
-                if (clientView.getGame() == null) {
+                if (CLIView.getGame() == null) {
                     out.println(userInput);
 
                 } else switch (userInput) {
@@ -61,7 +60,7 @@ public class ClientWriter implements Runnable {
 
                     }
                     case "status" -> {
-                        System.out.println("\n" + clientView.getGame());
+                        System.out.println("\n" + CLIView.getGame());
 
                     }
                     case "show" -> {
@@ -71,38 +70,38 @@ public class ClientWriter implements Runnable {
 
                         switch (request) {
                             case "" -> {
-                                System.out.println("\n" + clientView);
+                                System.out.println("\n" + CLIView);
 
                             }
                             case "market" -> {
-                                System.out.println("\n" + clientView.getMarket());
+                                System.out.println("\n" + CLIView.getMarket());
 
                             }
                             case "cardtable" -> {
-                                System.out.println("\n" + clientView.getCardTable());
+                                System.out.println("\n" + CLIView.getCardTable());
 
                             }
                             case "lorenzo" -> {
-                                if (clientView.getLorenzo() == null)
+                                if (CLIView.getLorenzo() == null)
                                     System.out.println("\nLorenzo is not present in this game");
                                 else
-                                    System.out.println("\n" + clientView.getLorenzo());
+                                    System.out.println("\n" + CLIView.getLorenzo());
 
                             }
                             case "playerboard" -> {
-                                System.out.println("\n" + clientView.getPlayerBoards());
+                                System.out.println("\n" + CLIView.getPlayerBoards());
 
                             }
                             case "strongbox" -> {
-                                System.out.println("\n" + clientView.getStrongboxes());
+                                System.out.println("\n" + CLIView.getStrongboxes());
 
                             }
                             case "waitingroom" -> {
-                                System.out.println("\n" + clientView.getWaitingRooms());
+                                System.out.println("\n" + CLIView.getWaitingRooms());
 
                             }
                             case "warehouse" -> {
-                                System.out.println("\n" + clientView.getWarehouses());
+                                System.out.println("\n" + CLIView.getWarehouses());
 
                             }
                         }
@@ -125,10 +124,10 @@ public class ClientWriter implements Runnable {
                             System.out.println(content);
                         } else {
                             try {
-                                System.out.println(clientView.getCardTable().getDevelopmentCardFromId(cardId));
+                                System.out.println(CLIView.getCardTable().getDevelopmentCardFromId(cardId));
                             } catch (CardNotPresentException ex) {
                                 try {
-                                    System.out.println(clientView.getGame().getLeaderCardFromId(cardId));
+                                    System.out.println(CLIView.getGame().getLeaderCardFromId(cardId));
                                 } catch (CardNotPresentException ex1) {
                                     System.out.println("The specified ID does not match any Development or Leader Cards");
                                 }
@@ -138,8 +137,8 @@ public class ClientWriter implements Runnable {
                     }
                     case "leadercards" -> {
                         PlayerBoardBean currentPlayer = null;
-                        for (PlayerBoardBean playerBoardBean : clientView.getPlayerBoards())
-                            if (playerBoardBean.getUsername().equals(clientView.getGame().getCurrentPlayer())) {
+                        for (PlayerBoardBean playerBoardBean : CLIView.getPlayerBoards())
+                            if (playerBoardBean.getUsername().equals(CLIView.getGame().getCurrentPlayer())) {
                                 currentPlayer = playerBoardBean;
                                 break;
                             }
@@ -149,7 +148,7 @@ public class ClientWriter implements Runnable {
                         }
                         for (int id : currentPlayer.getLeaderCards()) {
                             try {
-                                System.out.println(clientView.getGame().getLeaderCardFromId(id));
+                                System.out.println(CLIView.getGame().getLeaderCardFromId(id));
                             } catch (Exception ignored) {
                                 System.out.println("Something went wrong displaying LeaderCards (couldn't find)");
                             }
@@ -158,7 +157,7 @@ public class ClientWriter implements Runnable {
                     case "actions" -> {
                         System.out.println("If you want to see all the possible actions in the game, type 'actions -all'");
 
-                        TurnPhase phase = clientView.getGame().getTurnPhase();
+                        TurnPhase phase = CLIView.getGame().getTurnPhase();
                         switch (phase) {
                             case LEADERCHOICE -> {
                                 System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
@@ -522,7 +521,7 @@ public class ClientWriter implements Runnable {
 
                     }
                     default -> {
-                        if (clientView.getGame() == null)
+                        if (CLIView.getGame() == null)
                             out.println(userInput);
                         else
                             System.out.println("Uh oh, I couldn't catch your command. Type 'actions' for a list of possible commands");
