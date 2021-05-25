@@ -1,4 +1,4 @@
-package client.CLI;
+package client;
 
 import model.Color;
 import model.TurnPhase;
@@ -7,7 +7,7 @@ import network.beans.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLIView {
+public class ClientView {
     private GameBean game;
     private MarketBean market;
     private CardTableBean cardTable;

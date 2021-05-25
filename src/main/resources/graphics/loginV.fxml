@@ -39,35 +39,13 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label fx:id="usernameLabel" layoutX="39.0" layoutY="43.0" prefHeight="40.0" prefWidth="133.0" text="USERNAME" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="43.0">
-         <font>
-            <Font name="Verdana Bold Italic" size="18.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color green="0.12274368107318878" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
       <Button fx:id="loginButton" layoutX="608.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="200.0" />
-      <TextField fx:id="usernameField" layoutX="39.0" layoutY="83.0" onAction="#getUsername" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="83.0" />
       <Label fx:id="statusLabel" layoutX="486.0" layoutY="390.0" prefHeight="32.0" prefWidth="437.0" text="LOGIN STATUS: NOT LOGGED IN YET " textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="ipServerLabel" layoutX="39.0" layoutY="117.0" prefHeight="40.0" prefWidth="133.0" text="SERVER IP">
+      <Label fx:id="serverAddressLabel" layoutX="39.0" layoutY="20.0" prefHeight="40.0" prefWidth="187.0" text="SERVER ADDRESS">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -88,6 +66,50 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <TextField fx:id="serverField" layoutX="39.0" layoutY="157.0" onAction="#getServer" />
+      <TextField fx:id="serverAddressField" layoutX="39.0" layoutY="60.0" onAction="#getServer" prefHeight="26.0" prefWidth="134.0" text="localhost" />
+      <Label fx:id="serverPortLabel" layoutX="39.0" layoutY="96.0" prefHeight="40.0" prefWidth="133.0" text="PORT">
+         <font>
+            <Font name="Verdana Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color green="0.12274368107318878" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <TextField fx:id="serverPortField" layoutX="39.0" layoutY="136.0" prefHeight="26.0" prefWidth="134.0" text="1234" />
+      <Label fx:id="usernameLabel" layoutX="38.0" layoutY="172.0" prefHeight="40.0" prefWidth="134.0" text="USERNAME" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="172.0">
+         <font>
+            <Font name="Verdana Bold Italic" size="18.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color green="0.12274368107318878" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <TextField fx:id="usernameField" layoutX="38.0" layoutY="212.0" onAction="#getUsername" prefHeight="26.0" prefWidth="134.0" promptText="insert a username" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="212.0" />
    </children>
 </AnchorPane>

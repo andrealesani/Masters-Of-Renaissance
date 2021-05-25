@@ -1,6 +1,7 @@
 package client.CLI;
 
 import Exceptions.CardNotPresentException;
+import client.ClientView;
 import com.google.gson.Gson;
 import model.CardColor;
 import model.Color;
@@ -21,16 +22,16 @@ public class CLIWriter implements Runnable {
 
     private final BufferedReader stdIn;
     private final PrintWriter out;
-    private final CLIView CLIView;
+    private final client.ClientView ClientView;
     private final CountDownLatch latch;
     private boolean doClose;
 
     //CONSTRUCTORS
 
-    public CLIWriter(BufferedReader stdIn, PrintWriter out, CLIView CLIView, CountDownLatch latch) {
+    public CLIWriter(BufferedReader stdIn, PrintWriter out, ClientView ClientView, CountDownLatch latch) {
         this.stdIn = stdIn;
         this.out = out;
-        this.CLIView = CLIView;
+        this.ClientView = ClientView;
         this.latch = latch;
         this.doClose = false;
     }
@@ -51,7 +52,7 @@ public class CLIWriter implements Runnable {
 
                 }
 
-                if (CLIView.getGame() == null) {
+                if (ClientView.getGame() == null) {
                     out.println(userInput);
 
                 } else switch (userInput) {
@@ -60,7 +61,7 @@ public class CLIWriter implements Runnable {
 
                     }
                     case "status" -> {
-                        System.out.println("\n" + CLIView.getGame());
+                        System.out.println("\n" + ClientView.getGame());
 
                     }
                     case "show" -> {
@@ -70,38 +71,38 @@ public class CLIWriter implements Runnable {
 
                         switch (request) {
                             case "" -> {
-                                System.out.println("\n" + CLIView);
+                                System.out.println("\n" + ClientView);
 
                             }
                             case "market" -> {
-                                System.out.println("\n" + CLIView.getMarket());
+                                System.out.println("\n" + ClientView.getMarket());
 
                             }
                             case "cardtable" -> {
-                                System.out.println("\n" + CLIView.getCardTable());
+                                System.out.println("\n" + ClientView.getCardTable());
 
                             }
                             case "lorenzo" -> {
-                                if (CLIView.getLorenzo() == null)
+                                if (ClientView.getLorenzo() == null)
                                     System.out.println("\nLorenzo is not present in this game");
                                 else
-                                    System.out.println("\n" + CLIView.getLorenzo());
+                                    System.out.println("\n" + ClientView.getLorenzo());
 
                             }
                             case "playerboard" -> {
-                                System.out.println("\n" + CLIView.getPlayerBoards());
+                                System.out.println("\n" + ClientView.getPlayerBoards());
 
                             }
                             case "strongbox" -> {
-                                System.out.println("\n" + CLIView.getStrongboxes());
+                                System.out.println("\n" + ClientView.getStrongboxes());
 
                             }
                             case "waitingroom" -> {
-                                System.out.println("\n" + CLIView.getWaitingRooms());
+                                System.out.println("\n" + ClientView.getWaitingRooms());
 
                             }
                             case "warehouse" -> {
-                                System.out.println("\n" + CLIView.getWarehouses());
+                                System.out.println("\n" + ClientView.getWarehouses());
 
                             }
                         }
@@ -124,10 +125,10 @@ public class CLIWriter implements Runnable {
                             System.out.println(content);
                         } else {
                             try {
-                                System.out.println(CLIView.getCardTable().getDevelopmentCardFromId(cardId));
+                                System.out.println(ClientView.getCardTable().getDevelopmentCardFromId(cardId));
                             } catch (CardNotPresentException ex) {
                                 try {
-                                    System.out.println(CLIView.getGame().getLeaderCardFromId(cardId));
+                                    System.out.println(ClientView.getGame().getLeaderCardFromId(cardId));
                                 } catch (CardNotPresentException ex1) {
                                     System.out.println("The specified ID does not match any Development or Leader Cards");
                                 }
@@ -137,8 +138,8 @@ public class CLIWriter implements Runnable {
                     }
                     case "leadercards" -> {
                         PlayerBoardBean currentPlayer = null;
-                        for (PlayerBoardBean playerBoardBean : CLIView.getPlayerBoards())
-                            if (playerBoardBean.getUsername().equals(CLIView.getGame().getCurrentPlayer())) {
+                        for (PlayerBoardBean playerBoardBean : ClientView.getPlayerBoards())
+                            if (playerBoardBean.getUsername().equals(ClientView.getGame().getCurrentPlayer())) {
                                 currentPlayer = playerBoardBean;
                                 break;
                             }
@@ -148,7 +149,7 @@ public class CLIWriter implements Runnable {
                         }
                         for (int id : currentPlayer.getLeaderCards()) {
                             try {
-                                System.out.println(CLIView.getGame().getLeaderCardFromId(id));
+                                System.out.println(ClientView.getGame().getLeaderCardFromId(id));
                             } catch (Exception ignored) {
                                 System.out.println("Something went wrong displaying LeaderCards (couldn't find)");
                             }
@@ -157,7 +158,7 @@ public class CLIWriter implements Runnable {
                     case "actions" -> {
                         System.out.println("If you want to see all the possible actions in the game, type 'actions -all'");
 
-                        TurnPhase phase = CLIView.getGame().getTurnPhase();
+                        TurnPhase phase = ClientView.getGame().getTurnPhase();
                         switch (phase) {
                             case LEADERCHOICE -> {
                                 System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET);
@@ -521,7 +522,7 @@ public class CLIWriter implements Runnable {
 
                     }
                     default -> {
-                        if (CLIView.getGame() == null)
+                        if (ClientView.getGame() == null)
                             out.println(userInput);
                         else
                             System.out.println("Uh oh, I couldn't catch your command. Type 'actions' for a list of possible commands");

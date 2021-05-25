@@ -1,5 +1,6 @@
 package client.CLI;
 
+import client.ClientView;
 import com.google.gson.Gson;
 import network.StaticMethods;
 import network.beans.*;
@@ -12,14 +13,14 @@ import java.util.concurrent.CountDownLatch;
 public class CLIReader implements Runnable {
 
     private final BufferedReader in;
-    private final CLIView CLIView;
+    private final client.ClientView ClientView;
     private final CountDownLatch latch;
 
     //CONSTRUCTORS
 
-    public CLIReader(BufferedReader in, CLIView CLIView, CountDownLatch latch) {
+    public CLIReader(BufferedReader in, ClientView ClientView, CountDownLatch latch) {
         this.in = in;
-        this.CLIView = CLIView;
+        this.ClientView = ClientView;
         this.latch = latch;
     }
 
@@ -60,9 +61,9 @@ public class CLIReader implements Runnable {
                 break;
             case "GAME":
                 try {
-                    CLIView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));
+                    ClientView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));
                     StaticMethods.clearConsole();
-                    System.out.println(CLIView);
+                    System.out.println(ClientView);
                 } catch (Exception ex) {
                     System.out.println("Warning: Game update failed");
                     ex.printStackTrace();
@@ -70,9 +71,9 @@ public class CLIReader implements Runnable {
                 break;
             case "MARKET":
                 try {
-                    CLIView.setMarket(gson.fromJson((String) responseMap.get("jsonMessage"), MarketBean.class));
+                    ClientView.setMarket(gson.fromJson((String) responseMap.get("jsonMessage"), MarketBean.class));
                     StaticMethods.clearConsole();
-                    System.out.println(CLIView);
+                    System.out.println(ClientView);
                 } catch (Exception ex) {
                     System.out.println("Warning: Market update failed");
                     ex.printStackTrace();
@@ -80,9 +81,9 @@ public class CLIReader implements Runnable {
                 break;
             case "CARDTABLE":
                 try {
-                    CLIView.setCardTable(gson.fromJson((String) responseMap.get("jsonMessage"), CardTableBean.class));
+                    ClientView.setCardTable(gson.fromJson((String) responseMap.get("jsonMessage"), CardTableBean.class));
                     StaticMethods.clearConsole();
-                    System.out.println(CLIView);
+                    System.out.println(ClientView);
                 } catch (Exception ex) {
                     System.out.println("Warning: CardTable update failed");
                     ex.printStackTrace();
@@ -93,19 +94,19 @@ public class CLIReader implements Runnable {
                     PlayerBoardBean pbbUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), PlayerBoardBean.class);
                     boolean found = false;
 
-                    for (int i = 0; i < CLIView.getPlayerBoards().size(); i++)
-                        if (CLIView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
-                            CLIView.getPlayerBoards().set(i, pbbUpdate);
+                    for (int i = 0; i < ClientView.getPlayerBoards().size(); i++)
+                        if (ClientView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
+                            ClientView.getPlayerBoards().set(i, pbbUpdate);
                             found = true;
                             StaticMethods.clearConsole();
-                            System.out.println(CLIView);
+                            System.out.println(ClientView);
                             break;
                         }
 
                     if (!found) {
-                        CLIView.getPlayerBoards().add(pbbUpdate);
+                        ClientView.getPlayerBoards().add(pbbUpdate);
                         StaticMethods.clearConsole();
-                        System.out.println(CLIView);
+                        System.out.println(ClientView);
                     }
                     break;
                 } catch (Exception ex) {
@@ -118,19 +119,19 @@ public class CLIReader implements Runnable {
                     StrongboxBean strongboxUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), StrongboxBean.class);
                     boolean found = false;
 
-                    for (int i = 0; i < CLIView.getStrongboxes().size(); i++)
-                        if (CLIView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
-                            CLIView.getStrongboxes().set(i, strongboxUpdate);
+                    for (int i = 0; i < ClientView.getStrongboxes().size(); i++)
+                        if (ClientView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
+                            ClientView.getStrongboxes().set(i, strongboxUpdate);
                             found = true;
                             StaticMethods.clearConsole();
-                            System.out.println(CLIView);
+                            System.out.println(ClientView);
                             break;
                         }
 
                     if (!found) {
-                        CLIView.getStrongboxes().add(strongboxUpdate);
+                        ClientView.getStrongboxes().add(strongboxUpdate);
                         StaticMethods.clearConsole();
-                        System.out.println(CLIView);
+                        System.out.println(ClientView);
                     }
                 } catch (Exception ex) {
                     System.out.println("Warning: Strongbox update failed");
@@ -142,19 +143,19 @@ public class CLIReader implements Runnable {
                     WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WaitingRoomBean.class);
                     boolean found = false;
 
-                    for (int i = 0; i < CLIView.getWaitingRooms().size(); i++)
-                        if (CLIView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
-                            CLIView.getWaitingRooms().set(i, waitingRoomUpdate);
+                    for (int i = 0; i < ClientView.getWaitingRooms().size(); i++)
+                        if (ClientView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
+                            ClientView.getWaitingRooms().set(i, waitingRoomUpdate);
                             found = true;
                             StaticMethods.clearConsole();
-                            System.out.println(CLIView);
+                            System.out.println(ClientView);
                             break;
                         }
 
                     if (!found) {
-                        CLIView.getWaitingRooms().add(waitingRoomUpdate);
+                        ClientView.getWaitingRooms().add(waitingRoomUpdate);
                         StaticMethods.clearConsole();
-                        System.out.println(CLIView);
+                        System.out.println(ClientView);
                     }
                 } catch (Exception ex) {
                     System.out.println("Warning: WaitingRoom update failed");
@@ -166,19 +167,19 @@ public class CLIReader implements Runnable {
                     WarehouseBean warehouseUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WarehouseBean.class);
                     boolean found = false;
 
-                    for (int i = 0; i < CLIView.getWarehouses().size(); i++)
-                        if (CLIView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
-                            CLIView.getWarehouses().set(i, warehouseUpdate);
+                    for (int i = 0; i < ClientView.getWarehouses().size(); i++)
+                        if (ClientView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
+                            ClientView.getWarehouses().set(i, warehouseUpdate);
                             found = true;
                             StaticMethods.clearConsole();
-                            System.out.println(CLIView);
+                            System.out.println(ClientView);
                             break;
                         }
 
                     if (!found) {
-                        CLIView.getWarehouses().add(warehouseUpdate);
+                        ClientView.getWarehouses().add(warehouseUpdate);
                         StaticMethods.clearConsole();
-                        System.out.println(CLIView);
+                        System.out.println(ClientView);
                     }
                 } catch (Exception ex) {
                     System.out.println("Warning: Warehouse update failed");
@@ -187,9 +188,9 @@ public class CLIReader implements Runnable {
                 break;
             case "LORENZO":
                 try {
-                    CLIView.setLorenzo(gson.fromJson((String) responseMap.get("jsonMessage"), LorenzoBean.class));
+                    ClientView.setLorenzo(gson.fromJson((String) responseMap.get("jsonMessage"), LorenzoBean.class));
                     StaticMethods.clearConsole();
-                    System.out.println(CLIView);
+                    System.out.println(ClientView);
                 } catch (Exception ex) {
                     System.out.println("Warning: Lorenzo update failed");
                     ex.printStackTrace();

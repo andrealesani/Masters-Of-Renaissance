@@ -1,5 +1,6 @@
 package client.GUI.controllers;
 
+import client.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 //TODO possibilità di togliere risorse nei depot
-public class PlayerBoardController {
+public class PlayerBoardController implements GUIController {
+    private GUI gui;
     @FXML
     public Button addResourceFromMarketButton;
     @FXML
@@ -258,6 +260,11 @@ public class PlayerBoardController {
 
         Image image = new Image("/graphics/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-3-1.png");
         thirdLevel1Card.setImage(image);
+    }
+
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 }
 

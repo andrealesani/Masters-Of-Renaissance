@@ -1,5 +1,6 @@
 package client.GUI.controllers;
 
+import client.GUI.GUI;
 import client.GUI.controllers.GameBoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,8 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SettingsController implements Initializable {
+public class SettingsController implements Initializable, GUIController {
+    private GUI gui;
     @FXML
     public TextField serverField;
     @FXML
@@ -109,35 +111,18 @@ public class SettingsController implements Initializable {
 
     public void setGame(ActionEvent actionEvent) throws Exception {
         Button button = (Button) actionEvent.getSource();
-        String address = serverField.getText();
 
-        if (numPlayers == 0 || address == null || !address.equals("localhost")) {
-            playersList.setText("Parameters are missing \nto start a new game!");
-            throw new IllegalStateException("Finish to set your game first");
-        }
-
-        serverField.setDisable(false);
         button.setDisable(false);
 
         // close a window after you press a button
         // ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            Stage stage = new Stage(StageStyle.DECORATED);
-            loader.setLocation(getClass().getClassLoader().getResource("graphics/GameBoard.fxml"));
-            Parent parent = loader.load();
-            Scene scene = new Scene(parent);
-            stage.setScene(scene);
-            stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-            stage.setTitle("Game Board");
 
-            GameBoardController controller = loader.getController();
-            controller.setGameBoard(loader.getLocation(), loader.getResources());
-            stage.setFullScreen(true);
-            stage.show();
-        } catch (IllegalStateException e) {
-            System.out.println("setGame failed");
-        }
+        gui.changeScene("gameBoard.fxml");
+    }
+
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 }
 

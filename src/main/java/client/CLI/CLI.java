@@ -1,5 +1,6 @@
 package client.CLI;
 
+import client.ClientView;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -61,14 +62,14 @@ public class CLI {
                     new BufferedReader(
                             new InputStreamReader(System.in));
 
-            CLIView CLIView = new CLIView();
+            ClientView ClientView = new ClientView();
 
-            CLIReader CLIReader = new CLIReader(in, CLIView, latch);
+            CLIReader CLIReader = new CLIReader(in, ClientView, latch);
             Thread readerThread = new Thread(CLIReader);
             readerThread.start();
             //executor.submit(CLIReader);
 
-            CLIWriter CLIWriter = new CLIWriter(stdIn, out, CLIView, latch);
+            CLIWriter CLIWriter = new CLIWriter(stdIn, out, ClientView, latch);
             Thread writerThread = new Thread(CLIWriter);
             writerThread.start();
             //executor.submit(CLIWriter);

@@ -1,5 +1,6 @@
 package client.GUI.controllers;
 
+import client.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,21 +16,20 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements GUIController {
+    private GUI gui;
 
     @FXML
-    public AnchorPane pane;
+    private Button loginButton;
     @FXML
-    public Button loginButton;
+    private TextField usernameField;
     @FXML
-    public TextField usernameField;
+    private Label statusLabel;
     @FXML
-    public Label statusLabel;
+    private TextField serverAddressField;
     @FXML
-    public TextField serverField;
+    private TextField serverPortField;
 
     // GETTERS
 
@@ -38,8 +38,10 @@ public class LoginController {
     }
 
     public String getServer() {
-        return serverField.getText();
+        return serverAddressField.getText();
     }
+
+    public String getServerPort() { return serverPortField.getText(); }
 
     // PUBLIC METHODS
 
@@ -52,38 +54,36 @@ public class LoginController {
 
         if (getServer().isBlank()) {
             statusLabel.setText("Please specify a server address");
-        } else if (getUsername().isBlank())
+            loginButton.setDisable(false);
+        } else if (getServerPort().isBlank()) {
+            statusLabel.setText("Please specify a server port");
+            loginButton.setDisable(false);
+        } else if (getUsername().isBlank()) {
             statusLabel.setText("Please specify a username");
+            loginButton.setDisable(false);
+        }
         else {
             statusLabel.setText("SUCCESSFULLY LOGGED IN");
-            //((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
             try {
+                int port = Integer.parseInt(getServerPort());
                 //Attempts connection to server
-                Socket clientSocket = new Socket(getServer(), 1234);
-                statusLabel.setText("Connected to the server");
-
-                FXMLLoader loader = new FXMLLoader();
-                Stage stage = new Stage(StageStyle.DECORATED);
-                loader.setLocation(getClass().getResource("/graphics/gameSettings.fxml"));
-                Parent parent = loader.load();
-                Scene scene = new Scene(parent);
-                stage.setScene(scene);
-                stage.getIcons().add(new Image("/graphics/punchboard/calamaio.png"));
-                stage.setTitle("Game Settings");
-
-                SettingsController controller = loader.getController();
-                controller.setIpServerLabel(loader.getLocation(), loader.getResources());
-
-                stage.setFullScreen(true);
-                stage.showAndWait();
+                gui.setClientSocket(new Socket(getServer(), port));
+                //TODO maybe make a Constants static class to store all paths in one single place
+                gui.changeScene("gameSettings.fxml");
             } catch (IOException e) {
                 statusLabel.setText("Couldn't connect to the specified server address");
+                loginButton.setDisable(false);
+            } catch (NumberFormatException e1) {
+                statusLabel.setText("The specified port is not a number");
                 loginButton.setDisable(false);
             }
         }
     }
 
-
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
 }
 
 
