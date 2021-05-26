@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="503.0" prefWidth="716.0" styleClass="mainBackground" stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.WaitingPlayersController">
-    <children>
-        <ProgressBar layoutX="201.0" layoutY="500.0" prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;">
-        </ProgressBar>
+<BorderPane fx:id="mainPane" prefHeight="503.0" prefWidth="716.0" styleClass="mainBackground" stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.WaitingPlayersController">
+    <center>
+        <VBox alignment="CENTER" spacing="20">
         <ImageView fx:id="title" fitHeight="315.0" fitWidth="347.0" layoutX="221.0" layoutY="87.0" pickOnBounds="true">
             <image>
                 <Image url="@../graphics/punchboard/calamaio.png" />
@@ -23,5 +22,8 @@
                 <DropShadow />
             </effect>
         </Label>
-    </children>
-</AnchorPane>
+        <ProgressBar layoutX="201.0" layoutY="500.0" prefHeight="50.0" prefWidth="400.0" style="-fx-padding: 8;">
+        </ProgressBar>
+        </VBox>
+    </center>
+</BorderPane>
