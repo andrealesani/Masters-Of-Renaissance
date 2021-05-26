@@ -28,4 +28,9 @@ public class GameBoardController implements GUIController{
     public void setGui(GUI gui) {
         this.gui = gui;
     }
+
+    @Override
+    public void updateFromServer(String jsonMessage){
+        //TODO
+    }
 }

@@ -3,6 +3,7 @@ package client.GUI.controllers;
 import client.GUI.GUI;
 import client.GUI.controllers.GameBoardController;
 import com.google.gson.Gson;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import network.MessageType;
 
 import java.net.URL;
 import java.util.Map;
@@ -55,8 +57,9 @@ public class SettingsController implements GUIController {
     private String message;
     private Map responseMap;
 
-
-    //used to resize the background image dimension when the window gets resized
+    /**
+     * @see Application#init()
+     */
     public void initialize() {
         settingsBackground.setPreserveRatio(false);
         settingsBackground.fitWidthProperty().bind(pane2.widthProperty());
@@ -73,61 +76,18 @@ public class SettingsController implements GUIController {
 
     // PUBLIC METHODS
 
-    // TODO handle the 'username already taken' message
     public void checkValidUsername() {
         System.out.println("Checking username...");
-        Gson gson = new Gson();
 
         if (usernameField.getText().isBlank()) {
             invalidUsername.setVisible(true);
             return;
         }
 
-        message = gui.readMessage();
-        responseMap = gson.fromJson(message, Map.class);
+        invalidUsername.setVisible(true);
+        invalidUsername.setText("Checking username availability...");
 
-        // if server is ready to receive a username
-        if (responseMap.get("type").equals("INFO") && responseMap.get("jsonMessage").equals("Please, set your username.")) {
-            System.out.println("Sending username to the server...");
-            gui.sendCommand(usernameField.getText());
-            message = gui.readMessage();
-            responseMap = gson.fromJson(message, Map.class);
-
-            // if this GUI is first player (server is asking for more information)
-            if (responseMap.get("type").equals("INFO") && ((String) responseMap.get("jsonMessage")).contains("Username was correctly set to:")) {
-                System.out.println("Username was correctly set");
-                invalidUsername.setVisible(true);
-                invalidUsername.setText("Username was correctly set");
-                usernameField.setDisable(true);
-                confirmUsername.setDisable(true);
-                message = gui.readMessage();
-                responseMap = gson.fromJson(message, Map.class);
-
-                // (maybe useless) if server is asking the number of players for the game
-                if (responseMap.get("type").equals("INFO")) {
-                    System.out.println("First player, requested additional information");
-                    singleplayerButton.setVisible(true);
-                    multiplayerButton.setVisible(true);
-                    readyButton.setVisible(true);
-                    readyButton.setDisable(true);
-                }
-
-            // if this GUI is not the first player (server doesn't request any more information)
-            // it will be gameBoard to handle the wait until the game starts
-            } else {
-                gui.changeScene("waitingPlayers.fxml");
-            }
-        } else {
-            System.out.println("Warning: received unexpected message from server");
-            System.out.println("Server: " + message);
-        }
-        System.out.println("End of checkValidUsername");
-    }
-
-    // GETTERS
-
-    public String getUsernameField() {
-        return usernameField.getText();
+        gui.sendCommand(usernameField.getText());
     }
 
     // SETTERS
@@ -182,28 +142,44 @@ public class SettingsController implements GUIController {
         numPlayers = 4;
     }
 
-    public void setGame(ActionEvent actionEvent) throws Exception {
-        Gson gson = new Gson();
-        //Button button = (Button) actionEvent.getSource();
-
-        responseMap = gson.fromJson(message, Map.class);
-
-        if (responseMap.get("type").equals("INFO") && responseMap.get("jsonMessage").equals("Please, choose the game's number of players.") && numPlayers > 0) {
+    public void setGame() {
+        if (numPlayers > 0) {
             gui.sendCommand(Integer.toString(numPlayers));
-            System.out.println("Sent number of players");
             gui.changeScene("waitingPlayers.fxml");
-        } else {
-            System.out.println("Warning: player clicked 'Ready' button when he wasn't supposed to");
-        }
-
+        } else throw new RuntimeException("Player clicked 'Ready' button when he wasn't supposed to");
         // close a window after you press a button
         // ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
-
     }
 
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
+    }
+
+    @Override
+    public void updateFromServer(String jsonMessage) {
+        Gson gson = new Gson();
+        Map responseMap = gson.fromJson(jsonMessage, Map.class);
+        if (responseMap.get("type").equals("INFO")) {
+            if (responseMap.get("jsonMessage").equals("Please, choose the game's number of players.")) {
+                invalidUsername.setVisible(true);
+                invalidUsername.setText("Username was correctly set");
+                usernameField.setDisable(true);
+                confirmUsername.setDisable(true);
+                singleplayerButton.setVisible(true);
+                multiplayerButton.setVisible(true);
+                readyButton.setVisible(true);
+                readyButton.setDisable(true);
+            } else if (responseMap.get("jsonMessage").equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
+                invalidUsername.setVisible(true);
+                invalidUsername.setText("Please try again in a moment");
+            } else if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
+                // do nothing
+            } else
+                System.out.println("Unexpected message to Login scene: " + jsonMessage);
+        }
+        else if (responseMap.get("type").equals("WAIT_PLAYERS"))
+            gui.changeScene("waitingPlayers.fxml");
     }
 }
 

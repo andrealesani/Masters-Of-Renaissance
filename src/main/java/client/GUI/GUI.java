@@ -1,5 +1,6 @@
 package client.GUI;
 
+import client.ClientReader;
 import client.ClientView;
 import client.GUI.controllers.GUIController;
 import com.sun.prism.shader.Solid_TextureRGB_AlphaTest_Loader;
@@ -10,12 +11,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 public class GUI extends Application {
     private static final String LOGIN = "loginV.fxml";
@@ -26,7 +26,8 @@ public class GUI extends Application {
 
     private Scene currentScene;
     private Stage window;
-    //private Socket clientSocket;
+    private Socket clientSocket;
+    private ClientReader clientReader;
     private BufferedReader in;
     private PrintWriter out;
 
@@ -68,6 +69,7 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         setup();
         this.window = stage;
+        window.setResizable(false);
         // If we wanna add special fonts we should do it here
         run();
     }
@@ -89,8 +91,11 @@ public class GUI extends Application {
      * @param newScene represents the name of the scene to be shown
      */
     public void changeScene(String newScene) {
-        if (nameMapScene.get(newScene) == null)
+        System.out.println("Changing scene to: " + newScene);
+        if (nameMapScene.get(newScene) == null) {
             System.out.println("Warning: couldn't find the specified scene");
+            return;
+        }
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
         window.show();
@@ -106,7 +111,36 @@ public class GUI extends Application {
         out.println(command);
     }
 
-    public String readMessage() {
+    public void setupConnection(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        try {
+            setClientReader(new BufferedReader(new InputStreamReader(clientSocket.getInputStream())));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException e) {
+            System.out.println("Warning: couldn't complete connection setup");
+        }
+    }
+
+    public void notifyCurrentScene(String jsonMessage) {
+        Set<String> currentController = nameMapScene.entrySet()
+                .stream()
+                .filter(entry -> Objects.equals(entry.getValue(), currentScene))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+
+        Iterator<String> iterator = currentController.iterator();
+        if (!iterator.hasNext()) {
+            throw new RuntimeException("Couldn't find the current scene controller");
+        }
+        GUIController controller = nameMapController.get(iterator.next());
+        if (iterator.hasNext()) {
+            throw new RuntimeException("There are more than 1 scene with the same name, this shouldn't be possible");
+        }
+
+        controller.updateFromServer(jsonMessage);
+    }
+
+    private String readMessage() {
         String message = "";
         try {
             message = in.readLine();
@@ -160,13 +194,9 @@ public class GUI extends Application {
 
     //SETTERS
 
-    public void setClientSocket(Socket clientSocket) {
-        //this.clientSocket = clientSocket;
-        try {
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            System.out.println("Warning: failed to setup server connection");
-        }
+    private void setClientReader(BufferedReader in) {
+        clientReader = new ClientReader(in, clientView, new CountDownLatch(1), this);
+        Thread readerThread = new Thread(clientReader);
+        readerThread.start();
     }
 }
