@@ -2,6 +2,7 @@ package client.GUI;
 
 import client.ClientView;
 import client.GUI.controllers.GUIController;
+import com.sun.prism.shader.Solid_TextureRGB_AlphaTest_Loader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ public class GUI extends Application {
     private static final String GAME_BOARD = "gameBoard.fxml";
     private static final String SETTINGS = "gameSettings.fxml";
     private static final String PLAYERBOARD = "playerBoard.fxml";
+    private static final String LOADING = "waitingPlayers.fxml";
 
     private Scene currentScene;
     private Stage window;
@@ -121,7 +123,7 @@ public class GUI extends Application {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     private void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, PLAYERBOARD));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, PLAYERBOARD, LOADING));
         try {
             for (String path : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/graphics/" + path));

@@ -3,18 +3,10 @@ package client.GUI.controllers;
 import client.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -155,7 +147,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato giallo.png");
+        Image image = new Image("/graphics/punchboard/quadrato_giallo.png");
         firstPopeFT.setImage(image);
     }
 
@@ -171,7 +163,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato arancione.png");
+        Image image = new Image("/graphics/punchboard/quadrato_arancione.png");
         secondPopeFT.setImage(image);
     }
 
@@ -188,7 +180,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato rosso.png");
+        Image image = new Image("/graphics/punchboard/quadrato_rosso.png");
         thirdPopeFT.setImage(image);
     }
 

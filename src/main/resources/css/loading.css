@@ -1,0 +1,8 @@
+.loadingText {
+    -fx-font-family: "Dalek Pinpoint";
+    -fx-font-size: 25;
+}
+
+.mainBackground {
+    -fx-background-color: #999999;
+}

@@ -37,7 +37,7 @@
          <children>
             <ImageView fx:id="cardTable" fitHeight="214.0" fitWidth="171.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@punchboard/plancia%20portabiglie.png" />
+                  <Image url="@/graphics/punchboard/plancia_portabiglie.png" />
                </image>
             </ImageView>
             <ImageView fx:id="market" fitHeight="202.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
