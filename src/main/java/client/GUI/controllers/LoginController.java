@@ -23,8 +23,6 @@ public class LoginController implements GUIController {
     @FXML
     private Button loginButton;
     @FXML
-    private TextField usernameField;
-    @FXML
     private Label statusLabel;
     @FXML
     private TextField serverAddressField;
@@ -32,10 +30,6 @@ public class LoginController implements GUIController {
     private TextField serverPortField;
 
     // GETTERS
-
-    public String getUsername() {
-        return usernameField.getText();
-    }
 
     public String getServer() {
         return serverAddressField.getText();
@@ -58,11 +52,7 @@ public class LoginController implements GUIController {
         } else if (getServerPort().isBlank()) {
             statusLabel.setText("Please specify a server port");
             loginButton.setDisable(false);
-        } else if (getUsername().isBlank()) {
-            statusLabel.setText("Please specify a username");
-            loginButton.setDisable(false);
-        }
-        else {
+        } else {
             statusLabel.setText("SUCCESSFULLY LOGGED IN");
             try {
                 int port = Integer.parseInt(getServerPort());

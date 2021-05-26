@@ -9,7 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
@@ -19,9 +22,11 @@ public class GUI extends Application {
     private static final String SETTINGS = "gameSettings.fxml";
     private static final String PLAYERBOARD = "playerBoard.fxml";
 
-    private Socket clientSocket;
     private Scene currentScene;
     private Stage window;
+    //private Socket clientSocket;
+    private BufferedReader in;
+    private PrintWriter out;
 
     /**
      * This object holds all the information about the game state
@@ -89,6 +94,26 @@ public class GUI extends Application {
         window.show();
     }
 
+    /**
+     * This method sends a message to the server.
+     * It is supposed to be called from the scenes controllers
+     *
+     * @param command the message to be sent
+     */
+    public void sendCommand(String command) {
+        out.println(command);
+    }
+
+    public String readMessage() {
+        String message = "";
+        try {
+            message = in.readLine();
+        } catch (IOException e) {
+            System.out.println("Warning: couldn't read message from server");
+        }
+        return message;
+    }
+
     // PRIVATE METHODS
 
     /**
@@ -125,9 +150,21 @@ public class GUI extends Application {
         currentScene.heightProperty().addListener(resize.getHeightListener());*/
     }
 
+    // GETTERS
+
+    public ClientView getClientView() {
+        return clientView;
+    }
+
     //SETTERS
 
     public void setClientSocket(Socket clientSocket) {
-        this.clientSocket = clientSocket;
+        //this.clientSocket = clientSocket;
+        try {
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException e) {
+            System.out.println("Warning: failed to setup server connection");
+        }
     }
 }

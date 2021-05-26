@@ -2,6 +2,7 @@ package client.GUI.controllers;
 
 import client.GUI.GUI;
 import client.GUI.controllers.GameBoardController;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,56 +19,122 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable, GUIController {
     private GUI gui;
     @FXML
-    public TextField serverField;
+    private AnchorPane pane2;
     @FXML
-    public Label playersList;
+    private ImageView settingsBackground;
     @FXML
-    public Button singleplayerButton;
+    private TextField usernameField;
     @FXML
-    public Button multiplayerButton;
+    private Button confirmUsername;
     @FXML
-    public Label numPlayersLabel;
+    private Label invalidUsername;
     @FXML
-    public Button okButton;
+    private Label playersList;
     @FXML
-    public Button readyButton;
+    private Button singleplayerButton;
     @FXML
-    public Button twoPlayersButton;
+    private Button multiplayerButton;
     @FXML
-    public Button threePlayersButton;
+    private Label numPlayersLabel;
     @FXML
-    public Button fourPlayersButton;
+    private Button readyButton;
     @FXML
-    public ImageView settingsBackground;
+    private Button twoPlayersButton;
     @FXML
-    public AnchorPane pane2;
+    private Button threePlayersButton;
+    @FXML
+    private Button fourPlayersButton;
 
     int numPlayers = 0;
 
+    //used to resize the background image dimension when the window gets resized
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         settingsBackground.setPreserveRatio(false);
         settingsBackground.fitWidthProperty().bind(pane2.widthProperty());
         settingsBackground.fitHeightProperty().bind(pane2.heightProperty());
+        invalidUsername.setVisible(false);
+        singleplayerButton.setVisible(false);
+        multiplayerButton.setVisible(false);
+        numPlayersLabel.setVisible(false);
+        twoPlayersButton.setVisible(false);
+        threePlayersButton.setVisible(false);
+        fourPlayersButton.setVisible(false);
+        readyButton.setVisible(false);
     }
 
+    // PUBLIC METHODS
 
-    public void setIpServerLabel(URL location, ResourceBundle resources) {
-        numPlayersLabel.setOpacity(0);
-        twoPlayersButton.setOpacity(0);
-        threePlayersButton.setOpacity(0);
-        fourPlayersButton.setOpacity(0);
+    // TODO wait if more players need to join the game
+    // TODO handle the 'username already taken' message
+    public void checkValidUsername() {
+        System.out.println("Checking username...");
+        Gson gson = new Gson();
+        String message;
+        Map responseMap;
+
+        if (usernameField.getText().isBlank()) {
+            invalidUsername.setVisible(true);
+            return;
+        }
+
+        message = gui.readMessage();
+        responseMap = gson.fromJson(message, Map.class);
+
+        if (responseMap.get("type").equals("INFO") && responseMap.get("jsonMessage").equals("Please, set your username.")) {
+            System.out.println("Sending username to the server...");
+            gui.sendCommand(usernameField.getText());
+            message = gui.readMessage();
+            responseMap = gson.fromJson(message, Map.class);
+            if (responseMap.get("type").equals("INFO") && ((String) responseMap.get("jsonMessage")).contains("Username was correctly set to:")) {
+                System.out.println("Username was correctly set");
+                invalidUsername.setVisible(true);
+                invalidUsername.setText("Username was correctly set");
+                message = gui.readMessage();
+                responseMap = gson.fromJson(message, Map.class);
+                if (responseMap.get("type").equals("INFO")) {
+                    System.out.println("First player, requested additional information");
+                    singleplayerButton.setVisible(true);
+                    multiplayerButton.setVisible(true);
+                    numPlayersLabel.setVisible(true);
+                    twoPlayersButton.setVisible(true);
+                    threePlayersButton.setVisible(true);
+                    fourPlayersButton.setVisible(true);
+                    readyButton.setVisible(true);
+                }
+            } else {
+                System.out.println("Changing scene...");
+                gui.changeScene("gameBoard.fxml");
+            }
+        } else {
+            System.out.println("Warning: received unexpected message from server");
+            System.out.println("Server: " + message);
+        }
+        System.out.println("END checkValidUsername");
     }
+
+    // GETTERS
+
+    public String getUsernameField() {
+        return usernameField.getText();
+    }
+
+    // SETTERS
 
     public void setSingleplayerGame(ActionEvent event) {
         Button button = (Button) event.getSource();
         button.setDisable(true);
-        multiplayerButton.setOpacity(0);
+        multiplayerButton.setVisible(false);
+        numPlayersLabel.setVisible(false);
+        twoPlayersButton.setVisible(false);
+        threePlayersButton.setVisible(false);
+        fourPlayersButton.setVisible(false);
         numPlayers = 1;
         playersList.setText("You choose to challenge\nLORENZO IL MAGNIFICO\nprepare yourself and\ndo your best!");
 
@@ -76,36 +143,30 @@ public class SettingsController implements Initializable, GUIController {
     public void setMultiplayerGame(ActionEvent event) {
         Button button = (Button) event.getSource();
         button.setDisable(true);
-        singleplayerButton.setOpacity(0);
-        numPlayersLabel.setOpacity(100);
-        twoPlayersButton.setOpacity(100);
-        threePlayersButton.setOpacity(100);
-        fourPlayersButton.setOpacity(100);
-
-
+        singleplayerButton.setVisible(false);
     }
 
     public void setTwoPlayers(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
-        threePlayersButton.setOpacity(0);
-        fourPlayersButton.setOpacity(0);
+        threePlayersButton.setVisible(false);
+        fourPlayersButton.setVisible(false);
         numPlayers = 2;
     }
 
     public void setThreePlayers(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
-        twoPlayersButton.setOpacity(0);
-        fourPlayersButton.setOpacity(0);
+        twoPlayersButton.setVisible(false);
+        fourPlayersButton.setVisible(false);
         numPlayers = 3;
     }
 
     public void setFourPlayers(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
-        twoPlayersButton.setOpacity(0);
-        threePlayersButton.setOpacity(0);
+        twoPlayersButton.setVisible(false);
+        threePlayersButton.setVisible(false);
         numPlayers = 4;
     }
 

@@ -45,7 +45,7 @@
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="serverAddressLabel" layoutX="39.0" layoutY="20.0" prefHeight="40.0" prefWidth="187.0" text="SERVER ADDRESS">
+      <Label fx:id="serverAddressLabel" layoutX="38.0" layoutY="52.0" prefHeight="40.0" prefWidth="187.0" text="SERVER ADDRESS">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -66,8 +66,8 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <TextField fx:id="serverAddressField" layoutX="39.0" layoutY="60.0" onAction="#getServer" prefHeight="26.0" prefWidth="134.0" text="localhost" />
-      <Label fx:id="serverPortLabel" layoutX="39.0" layoutY="96.0" prefHeight="40.0" prefWidth="133.0" text="PORT">
+      <TextField fx:id="serverAddressField" layoutX="38.0" layoutY="92.0" onAction="#getServer" prefHeight="26.0" prefWidth="134.0" text="localhost" />
+      <Label fx:id="serverPortLabel" layoutX="38.0" layoutY="127.0" prefHeight="40.0" prefWidth="133.0" text="PORT">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -88,28 +88,6 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <TextField fx:id="serverPortField" layoutX="39.0" layoutY="136.0" prefHeight="26.0" prefWidth="134.0" text="1234" />
-      <Label fx:id="usernameLabel" layoutX="38.0" layoutY="172.0" prefHeight="40.0" prefWidth="134.0" text="USERNAME" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="172.0">
-         <font>
-            <Font name="Verdana Bold Italic" size="18.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color green="0.12274368107318878" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <TextField fx:id="usernameField" layoutX="38.0" layoutY="212.0" onAction="#getUsername" prefHeight="26.0" prefWidth="134.0" promptText="insert a username" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="212.0" />
+      <TextField fx:id="serverPortField" layoutX="38.0" layoutY="167.0" prefHeight="26.0" prefWidth="134.0" text="1234" />
    </children>
 </AnchorPane>
