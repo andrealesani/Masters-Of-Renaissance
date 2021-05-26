@@ -8,7 +8,7 @@ import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import network.Command;
-import network.beans.MessageType;
+import network.MessageType;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
@@ -128,6 +128,10 @@ public class GameController {
 
         players.put(username, userOut);
         System.out.println("Added player: " + username + " to current game.");
+
+        //Tells the players to wait for other players to join the game
+        broadcastMessage(MessageType.WAIT_PLAYERS, "");
+
         checkGameStart();
     }
 
@@ -242,10 +246,11 @@ public class GameController {
         if (players.size() != size || game != null)
             return;
 
+
         game = new Game(players.keySet());
         game.createBeans(this);
 
-        //broadcastMessage(MessageType.INFO, "All of the players have joined, the game will now begin.");
+        broadcastMessage(MessageType.GAME_START, "");
         //broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
         System.out.println("The game will now start.");
     }
