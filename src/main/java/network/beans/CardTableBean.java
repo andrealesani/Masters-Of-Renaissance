@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
+import network.MessageType;
 import server.GameController;
 
 import java.io.InputStreamReader;

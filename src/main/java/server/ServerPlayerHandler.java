@@ -1,7 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
-import network.beans.MessageType;
+import network.MessageType;
 import network.beans.MessageWrapper;
 
 import java.io.IOException;

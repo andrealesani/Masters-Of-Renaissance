@@ -1,5 +1,7 @@
 package network.beans;
 
+import network.MessageType;
+
 /**
  * This class is supposed to be created and used by the Controller. It wraps a message that the server needs to send
  * to a client and adds a String that specifies the type of message wrapped. In this way, when a client receives the message
