@@ -1,5 +1,6 @@
 package client.CLI;
 
+import client.ClientReader;
 import client.ClientView;
 import com.google.gson.Gson;
 
@@ -64,10 +65,10 @@ public class CLI {
 
             ClientView ClientView = new ClientView();
 
-            CLIReader CLIReader = new CLIReader(in, ClientView, latch);
-            Thread readerThread = new Thread(CLIReader);
+            ClientReader ClientReader = new ClientReader(in, ClientView, latch);
+            Thread readerThread = new Thread(ClientReader);
             readerThread.start();
-            //executor.submit(CLIReader);
+            //executor.submit(ClientReader);
 
             CLIWriter CLIWriter = new CLIWriter(stdIn, out, ClientView, latch);
             Thread writerThread = new Thread(CLIWriter);
