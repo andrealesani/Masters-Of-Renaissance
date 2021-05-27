@@ -26,4 +26,7 @@
         </ProgressBar>
         </VBox>
     </center>
+   <top>
+      <Label fx:id="newPlayerLabel" alignment="TOP_LEFT" text=" " BorderPane.alignment="CENTER_LEFT" />
+   </top>
 </BorderPane>

@@ -38,6 +38,6 @@ public class GameBoardController implements GUIController{
 
     @Override
     public void updateFromServer(String jsonMessage){
-        //TODO
+        System.out.println("Message to GameBoard scene: " + jsonMessage);
     }
 }

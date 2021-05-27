@@ -246,11 +246,10 @@ public class GameController {
         if (players.size() != size || game != null)
             return;
 
+        broadcastMessage(MessageType.GAME_START, "");
 
         game = new Game(players.keySet());
         game.createBeans(this);
-
-        broadcastMessage(MessageType.GAME_START, "");
         //broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
         System.out.println("The game will now start.");
     }

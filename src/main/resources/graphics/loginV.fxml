@@ -40,7 +40,7 @@
          </textFill>
       </Label>
       <Button fx:id="loginButton" layoutX="608.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="200.0" />
-      <Label fx:id="statusLabel" layoutX="486.0" layoutY="390.0" prefHeight="32.0" prefWidth="437.0" text="LOGIN STATUS: NOT LOGGED IN YET " textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="0.0">
+      <Label fx:id="statusLabel" layoutX="486.0" layoutY="390.0" prefHeight="32.0" prefWidth="437.0" text="LOGIN STATUS: NOT LOGGED IN YET" textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
