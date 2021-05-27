@@ -31,7 +31,6 @@ public class ServerMain {
             Gson gson = new Gson();
 
             Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream("/json/HostAndPort.json"), StandardCharsets.UTF_8);
-            //reader = new JsonReader(new FileReader(ServerMain.class.getResource("/HostAndPort.json").getFile()));
             Map map = gson.fromJson(reader, Map.class);
             portNumber = ((Double) map.get("portNumber")).intValue();
 
