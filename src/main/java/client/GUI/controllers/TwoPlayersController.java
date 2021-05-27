@@ -4,6 +4,7 @@ import client.GUI.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -13,7 +14,7 @@ public class TwoPlayersController implements GUIController{
     private GUI gui;
 
     @FXML
-    private AnchorPane paneBoard;
+    private BorderPane paneBoard;
     @FXML
     private ImageView market;
     @FXML
