@@ -182,6 +182,8 @@ public class SettingsController implements GUIController {
         }
         else if (responseMap.get("type").equals("WAIT_PLAYERS"))
             gui.changeScene("waitingPlayers.fxml");
+        else if (responseMap.get("type").equals("GAME_START"))
+            gui.changeScene("gameBoard4Players.fxml");
     }
 }
 

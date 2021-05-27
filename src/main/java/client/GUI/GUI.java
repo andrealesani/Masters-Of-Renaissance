@@ -74,7 +74,8 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         setup();
         this.window = stage;
-        window.setResizable(false);
+        window.setResizable(true);
+        window.sizeToScene();
         // If we wanna add special fonts we should do it here
         run();
     }
