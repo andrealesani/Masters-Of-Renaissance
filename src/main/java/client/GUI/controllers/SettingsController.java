@@ -175,8 +175,10 @@ public class SettingsController implements GUIController {
                 invalidUsername.setText("Please try again in a moment");
             } else if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
                 // do nothing
+            } else if (jsonMessage.contains("Username was correctly set to:")) {
+                // do nothing
             } else
-                System.out.println("Unexpected message to Login scene: " + jsonMessage);
+                System.out.println("Unexpected message to Settings scene: " + jsonMessage);
         }
         else if (responseMap.get("type").equals("WAIT_PLAYERS"))
             gui.changeScene("waitingPlayers.fxml");

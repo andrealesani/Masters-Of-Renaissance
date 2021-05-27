@@ -99,6 +99,9 @@ public class GUI extends Application {
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
         window.show();
+        if (newScene.equals("gameBoard.fxml")) {
+            window.setFullScreen(true);
+        }
     }
 
     /**

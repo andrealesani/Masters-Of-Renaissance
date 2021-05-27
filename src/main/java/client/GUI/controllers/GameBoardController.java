@@ -18,7 +18,14 @@ public class GameBoardController implements GUIController{
     private GUI gui;
 
     @FXML
-    public AnchorPane paneBoard;
+    private AnchorPane paneBoard;
+    @FXML
+    private ImageView market;
+
+    public void initialize() {
+        market.fitWidthProperty().bind(paneBoard.widthProperty().divide(2));
+        market.fitHeightProperty().bind(paneBoard.heightProperty().divide(2));
+    }
 
     public void setGameBoard(URL location, ResourceBundle resources) {
         GridPane gridPane = new GridPane();
