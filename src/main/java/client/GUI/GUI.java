@@ -74,8 +74,7 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         setup();
         this.window = stage;
-        window.setResizable(true);
-        window.sizeToScene();
+        window.setResizable(false);
         // If we wanna add special fonts we should do it here
         run();
     }
@@ -105,7 +104,8 @@ public class GUI extends Application {
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
         window.show();
-        if (newScene.equals("gameBoard.fxml")) {
+        if (newScene.equals("gameBoard.fxml") || newScene.equals("gameBoard4Players.fxml")) {
+            window.sizeToScene();
             window.setFullScreen(true);
         }
     }
@@ -149,14 +149,8 @@ public class GUI extends Application {
         controller.updateFromServer(jsonMessage);
     }
 
-    private String readMessage() {
-        String message = "";
-        try {
-            message = in.readLine();
-        } catch (IOException e) {
-            System.out.println("Warning: couldn't read message from server");
-        }
-        return message;
+    public void setFullScreen() {
+        window.setFullScreen(true);
     }
 
     // PRIVATE METHODS
