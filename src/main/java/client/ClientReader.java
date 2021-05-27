@@ -87,6 +87,8 @@ public class ClientReader implements Runnable {
 
         switch ((String) responseMap.get("type")) {
             case "INFO":
+            case "WAIT_PLAYERS":
+            case "GAME_START":
                 System.out.println(responseMap.get("jsonMessage"));
                 if (gui != null) {
                     Platform.runLater(new Runnable() {
@@ -108,27 +110,9 @@ public class ClientReader implements Runnable {
                     });
                 }
                 break;
-            case "WAIT_PLAYERS":
-                System.out.println("One player has joined, waiting for more players...");
-                if (gui != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            gui.notifyCurrentScene(response);
-                        }
-                    });
-                }
-                break;
-            case "GAME_START":
-                System.out.println("One player has joined, the game will now commence...");
-                if (gui != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            gui.notifyCurrentScene(response);
-                        }
-                    });
-                }
+            case "SET_USERNAME":
+                clientView.setUsername((String) responseMap.get("jsonMessage"));
+                System.out.println("Username was correctly set to: " + responseMap.get("jsonMessage") + ".");
                 break;
             case "GAME":
                 try {

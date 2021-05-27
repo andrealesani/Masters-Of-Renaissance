@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientView {
+    private String username;
     private GameBean game;
     private MarketBean market;
     private CardTableBean cardTable;
@@ -205,6 +206,10 @@ public class ClientView {
         return warehouses;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     // SETTERS (other setters are not needed because the caller can use List<> setters)
 
     public void setGame(GameBean game) {
@@ -221,6 +226,10 @@ public class ClientView {
 
     public void setLorenzo(LorenzoBean lorenzo) {
         this.lorenzo = lorenzo;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     //PRINTING METHODS

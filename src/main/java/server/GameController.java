@@ -122,8 +122,7 @@ public class GameController {
                 } else {
                     setConnectedStatus(username);
                     players.put(username, userOut);
-                    playerMessage(username, MessageType.INFO, "You have been reconnected to the game.");
-                    playerMessage(username, MessageType.GAME_START, "");
+                    playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateSinglePlayer(username);
                     return;
@@ -255,11 +254,11 @@ public class GameController {
         }
 
         if (players.size() != size) {
-            broadcastMessage(MessageType.WAIT_PLAYERS, "");
+            broadcastMessage(MessageType.WAIT_PLAYERS, "One player has joined, waiting for more players...");
             return;
         }
 
-        broadcastMessage(MessageType.GAME_START, "");
+        broadcastMessage(MessageType.GAME_START, "The last player has joined, the game will now commence...");
 
         game = new Game(players.keySet());
         game.createBeans(this);

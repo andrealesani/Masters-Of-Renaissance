@@ -134,7 +134,7 @@ public class ServerPlayerHandler implements Runnable {
 
                 controller = lobby.login(username, out);
                 this.username = username;
-                sendMessage(MessageType.INFO, "Username was correctly set to: " + username + ".");
+                sendMessage(MessageType.SET_USERNAME, username);
 
             } catch (Exception ex) {
 
