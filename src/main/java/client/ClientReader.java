@@ -84,6 +84,7 @@ public class ClientReader implements Runnable {
     private void elaborateResponse(String response) {
         Gson gson = new Gson();
         Map responseMap = gson.fromJson(response, Map.class);
+
         switch ((String) responseMap.get("type")) {
             case "INFO":
                 System.out.println(responseMap.get("jsonMessage"));
@@ -108,7 +109,7 @@ public class ClientReader implements Runnable {
                 }
                 break;
             case "WAIT_PLAYERS":
-                System.out.println("Please wait for other players to join...");
+                System.out.println("One player has joined, waiting for more players...");
                 if (gui != null) {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -117,8 +118,9 @@ public class ClientReader implements Runnable {
                         }
                     });
                 }
+                break;
             case "GAME_START":
-                // Atm there's no need to notify CLI
+                System.out.println("One player has joined, the game will now commence...");
                 if (gui != null) {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -127,6 +129,7 @@ public class ClientReader implements Runnable {
                         }
                     });
                 }
+                break;
             case "GAME":
                 try {
                     clientView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));

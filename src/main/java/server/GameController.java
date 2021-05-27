@@ -25,6 +25,10 @@ public class GameController {
      */
     private final Gson gson;
     /**
+     * The server lobby
+     */
+    //private final ServerLobby lobby;
+    /**
      * This controller's game class
      */
     private Game game;
@@ -49,6 +53,7 @@ public class GameController {
         this.gson = new Gson();
         this.size = 0;
 
+        //this.lobby = lobby;
         this.players = new HashMap<>();
         players.put(username, userOut);
     }
@@ -128,9 +133,6 @@ public class GameController {
 
         players.put(username, userOut);
         System.out.println("Added player: " + username + " to current game.");
-
-        //Tells the players to wait for other players to join the game
-        broadcastMessage(MessageType.WAIT_PLAYERS, "");
 
         checkGameStart();
     }
@@ -225,7 +227,11 @@ public class GameController {
         if (game == null) {
             System.out.println("Player " + username + " will now be removed from the game's players.");
             players.remove(username);
-            //TODO forse eliminare il game se tutti i giocatori si disconnettono prima dell'inizio della partita?
+            /*
+            if (players.size() == 0) {
+                lobby.abortGame();
+            }
+             */
         } else {
             try {
                 game.setDisconnectedStatus(username);
@@ -243,8 +249,14 @@ public class GameController {
      * If so, creates the game class and alerts the clients
      */
     private void checkGameStart() {
-        if (players.size() != size || game != null)
+        if (game != null) {
             return;
+        }
+
+        if (players.size() != size) {
+            broadcastMessage(MessageType.WAIT_PLAYERS, "");
+            return;
+        }
 
         broadcastMessage(MessageType.GAME_START, "");
 
