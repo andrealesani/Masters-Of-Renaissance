@@ -260,8 +260,7 @@ public class ClientReader implements Runnable {
     private void notifyViewUpdate(String jsonMessage) {
         if (clientMode == 0) {
             StaticMethods.clearConsole();
-            if (clientView.getGame() != null)
-                System.out.println(clientView);
+            System.out.println(clientView);
         } else if (clientMode == 1) {
             Platform.runLater(new Runnable() {
                 @Override

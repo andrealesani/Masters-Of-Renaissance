@@ -233,8 +233,8 @@ public class ClientView {
                 content += Color.RESET + "\n" + marketAndCardTableAndLorenzo() + "\n";
             else
                 content += Color.RESET + "\n" + marketAndCardTable() + "\n";
-        if (playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0)
-            for (int i = 0; i < playerBoards.size(); i++) {
+        if (game != null && playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0)
+            for (int i = 0; i < playerBoards.size() && i < strongboxes.size() && i < waitingRooms.size() && i < warehouses.size(); i++) {
                 if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
                     content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
             }
