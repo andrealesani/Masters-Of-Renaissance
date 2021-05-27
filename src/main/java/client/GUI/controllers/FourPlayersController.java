@@ -16,7 +16,11 @@ public class FourPlayersController implements GUIController{
     @FXML
     private BorderPane paneBoard;
     @FXML
+    private GridPane leftGrid;
+    @FXML
     private ImageView market;
+    @FXML
+    private GridPane playerBoardsGrid;
     @FXML
     public ImageView firstPB;
     @FXML
@@ -75,8 +79,22 @@ public class FourPlayersController implements GUIController{
     private ImageView marble23;
 
     public void initialize() {
-        market.fitWidthProperty().bind(paneBoard.widthProperty().divide(2));
-        market.fitHeightProperty().bind(paneBoard.heightProperty().divide(2));
+
+        market.fitWidthProperty().bind(leftGrid.widthProperty());
+        market.fitHeightProperty().bind(leftGrid.heightProperty().divide(2));
+
+        firstPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
+        firstPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+
+        secondPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
+        secondPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+
+        thirdPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
+        thirdPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+
+        fourthPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
+        fourthPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+
     }
 
     public void setGameBoard(URL location, ResourceBundle resources) {

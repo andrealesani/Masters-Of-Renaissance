@@ -23,7 +23,7 @@ public class WaitingPlayersController implements GUIController {
         Gson gson = new Gson();
         Map responseMap = gson.fromJson(jsonMessage, Map.class);
         if (responseMap.get("type").equals("GAME_START")) {
-            gui.changeScene("gameBoard.fxml");
+            gui.changeScene("gameBoard4Players.fxml");
         } else if (responseMap.get("type").equals("WAIT_PLAYERS")) {
             newPlayerLabel.setText(newPlayerLabel.getText() + "A new player joined the match!\n ");
         } else {
