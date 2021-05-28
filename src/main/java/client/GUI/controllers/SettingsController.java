@@ -167,7 +167,7 @@ public class SettingsController implements GUIController {
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();
         Map responseMap = gson.fromJson(jsonMessage, Map.class);
-        if (responseMap.get("type").equals("INFO")) {
+        if (responseMap.get("type").equals("INFO") || responseMap.get("type").equals("ERROR")) {
             if (responseMap.get("jsonMessage").equals("Please, choose the game's number of players.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Username was correctly set");
