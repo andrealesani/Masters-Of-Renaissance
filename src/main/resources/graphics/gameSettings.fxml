@@ -48,5 +48,6 @@
             <Font size="11.0" />
          </font>
       </Label>
+      <Button fx:id="changeSettingsButton" layoutX="261.0" layoutY="115.0" mnemonicParsing="false" onAction="#changeSettings" prefHeight="25.0" prefWidth="130.0" text="CHANGE SETTINGS" />
    </children>
 </AnchorPane>

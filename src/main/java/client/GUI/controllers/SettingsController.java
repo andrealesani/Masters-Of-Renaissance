@@ -52,6 +52,8 @@ public class SettingsController implements GUIController {
     private Button threePlayersButton;
     @FXML
     private Button fourPlayersButton;
+    @FXML
+    private Button changeSettingsButton;
 
     private int numPlayers = 0;
     private String message;
@@ -72,6 +74,7 @@ public class SettingsController implements GUIController {
         threePlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setVisible(false);
+        changeSettingsButton.setVisible(false);
     }
 
     // PUBLIC METHODS
@@ -101,6 +104,7 @@ public class SettingsController implements GUIController {
         threePlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setDisable(false);
+        changeSettingsButton.setVisible(true);
         numPlayers = 1;
         playersList.setText("You choose to challenge\nLORENZO IL MAGNIFICO\nprepare yourself and\ndo your best!");
     }
@@ -121,6 +125,7 @@ public class SettingsController implements GUIController {
         threePlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setDisable(false);
+        changeSettingsButton.setVisible(true);
         numPlayers = 2;
     }
 
@@ -130,6 +135,7 @@ public class SettingsController implements GUIController {
         twoPlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setDisable(false);
+        changeSettingsButton.setVisible(true);
         numPlayers = 3;
     }
 
@@ -139,6 +145,7 @@ public class SettingsController implements GUIController {
         twoPlayersButton.setVisible(false);
         threePlayersButton.setVisible(false);
         readyButton.setDisable(false);
+        changeSettingsButton.setVisible(true);
         numPlayers = 4;
     }
 
@@ -184,6 +191,22 @@ public class SettingsController implements GUIController {
             gui.changeScene("waitingPlayers.fxml");
         else if (responseMap.get("type").equals("GAME_START"))
             gui.changeScene("gameBoard4Players.fxml");
+    }
+
+    public void changeSettings(ActionEvent actionEvent) {
+        singleplayerButton.setVisible(true);
+        singleplayerButton.setDisable(false);
+        multiplayerButton.setVisible(true);
+        multiplayerButton.setDisable(false);
+        numPlayersLabel.setVisible(false);
+        twoPlayersButton.setVisible(false);
+        twoPlayersButton.setDisable(false);
+        threePlayersButton.setVisible(false);
+        threePlayersButton.setDisable(false);
+        fourPlayersButton.setVisible(false);
+        fourPlayersButton.setDisable(false);
+        readyButton.setDisable(true);
+        playersList.setText("");
     }
 }
 
