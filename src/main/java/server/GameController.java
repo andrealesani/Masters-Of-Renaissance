@@ -56,6 +56,7 @@ public class GameController {
         //this.lobby = lobby;
         this.players = new HashMap<>();
         players.put(username, userOut);
+        playerMessage(username, MessageType.SET_USERNAME, username);
     }
 
     //PUBLIC METHODS
@@ -123,6 +124,7 @@ public class GameController {
                     setConnectedStatus(username);
                     players.put(username, userOut);
                     playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
+                    playerMessage(username, MessageType.SET_USERNAME, username);
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateSinglePlayer(username);
                     return;
@@ -133,6 +135,7 @@ public class GameController {
         }
 
         players.put(username, userOut);
+        playerMessage(username, MessageType.SET_USERNAME, username);
         System.out.println("Added player: " + username + " to current game.");
 
         checkGameStart();

@@ -112,7 +112,7 @@ public class ClientReader implements Runnable {
                 break;
             case "SET_USERNAME":
                 clientView.setUsername((String) responseMap.get("jsonMessage"));
-                System.out.println("Username was correctly set to: " + responseMap.get("jsonMessage") + ".");
+                System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
                 break;
             case "GAME":
                 try {

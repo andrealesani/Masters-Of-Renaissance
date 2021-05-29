@@ -145,7 +145,8 @@ public class ClientView {
         content += playerBoards.get(i).printLine(7);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(1) + "\n";
         // ninth row
-        content += playerBoards.get(i).printLine(8);
+        if (playerBoards.get(i).getUsername().equals(username))
+            content += playerBoards.get(i).printLine(8);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(2) + "\n";
         // tenth row
         content += playerBoards.get(i).printLine(9) + "\n";
