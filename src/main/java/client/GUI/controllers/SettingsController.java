@@ -93,6 +93,22 @@ public class SettingsController implements GUIController {
         gui.sendCommand(usernameField.getText());
     }
 
+    public void changeSettings(ActionEvent actionEvent) {
+        singleplayerButton.setVisible(true);
+        singleplayerButton.setDisable(false);
+        multiplayerButton.setVisible(true);
+        multiplayerButton.setDisable(false);
+        numPlayersLabel.setVisible(false);
+        twoPlayersButton.setVisible(false);
+        twoPlayersButton.setDisable(false);
+        threePlayersButton.setVisible(false);
+        threePlayersButton.setDisable(false);
+        fourPlayersButton.setVisible(false);
+        fourPlayersButton.setDisable(false);
+        readyButton.setDisable(true);
+        playersList.setText("");
+    }
+
     // SETTERS
 
     public void setSingleplayerGame(ActionEvent event) {
@@ -191,22 +207,6 @@ public class SettingsController implements GUIController {
             gui.changeScene("waitingPlayers.fxml");
         else if (responseMap.get("type").equals("GAME_START"))
             gui.changeScene("gameBoard4Players.fxml");
-    }
-
-    public void changeSettings(ActionEvent actionEvent) {
-        singleplayerButton.setVisible(true);
-        singleplayerButton.setDisable(false);
-        multiplayerButton.setVisible(true);
-        multiplayerButton.setDisable(false);
-        numPlayersLabel.setVisible(false);
-        twoPlayersButton.setVisible(false);
-        twoPlayersButton.setDisable(false);
-        threePlayersButton.setVisible(false);
-        threePlayersButton.setDisable(false);
-        fourPlayersButton.setVisible(false);
-        fourPlayersButton.setDisable(false);
-        readyButton.setDisable(true);
-        playersList.setText("");
     }
 }
 

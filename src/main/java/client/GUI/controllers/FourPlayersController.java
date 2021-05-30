@@ -83,17 +83,17 @@ public class FourPlayersController implements GUIController{
         market.fitWidthProperty().bind(leftGrid.widthProperty());
         market.fitHeightProperty().bind(leftGrid.heightProperty().divide(2));
 
-        firstPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
-        firstPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+        firstPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
+        firstPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
 
-        secondPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
-        secondPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+        secondPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
+        secondPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
 
-        thirdPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
-        thirdPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+        thirdPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
+        thirdPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
 
-        fourthPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2));
-        fourthPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2));
+        fourthPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
+        fourthPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
 
     }
 

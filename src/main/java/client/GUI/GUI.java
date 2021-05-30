@@ -183,10 +183,6 @@ public class GUI extends Application {
         window.setScene(currentScene);
         window.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/punchboard/calamaio.png")));
         window.show();
-        /*ResizeHandler resize = new ResizeHandler((Pane) currentScene.lookup("#mainPane"));
-        System.out.println("Resizing...");
-        currentScene.widthProperty().addListener(resize.getWidthListener());
-        currentScene.heightProperty().addListener(resize.getHeightListener());*/
     }
 
     // GETTERS
