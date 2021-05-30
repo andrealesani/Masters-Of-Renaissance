@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainPane" prefHeight="503.0" prefWidth="716.0" styleClass="mainBackground" stylesheets="@../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.WaitingPlayersController">
+<BorderPane fx:id="mainPane" prefHeight="503.0" prefWidth="716.0" styleClass="mainBackground" stylesheets="@../../css/loading.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.WaitingPlayersController">
     <center>
         <VBox alignment="CENTER" spacing="20">
         <ImageView fx:id="title" fitHeight="315.0" fitWidth="347.0" layoutX="221.0" layoutY="87.0" pickOnBounds="true">
             <image>
-                <Image url="@../graphics/punchboard/calamaio.png" />
+                <Image url="@../punchboard/calamaio.png" />
             </image>
         </ImageView>
-        <Label fx:id="displayStatus" alignment="CENTER" layoutX="1.0" layoutY="443.0" prefHeight="65.0" prefWidth="774.0" styleClass="loadingText" stylesheets="@../css/loading.css" text="WAITING FOR PLAYERS..." textAlignment="CENTER" textFill="#132061">
+        <Label fx:id="displayStatus" alignment="CENTER" layoutX="1.0" layoutY="443.0" prefHeight="65.0" prefWidth="774.0" styleClass="loadingText" stylesheets="@../../css/loading.css" text="WAITING FOR PLAYERS..." textAlignment="CENTER" textFill="#132061">
             <font>
                 <Font name="Bell MT" size="48.0" />
             </font>
