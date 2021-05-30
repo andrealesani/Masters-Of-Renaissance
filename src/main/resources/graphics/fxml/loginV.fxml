@@ -15,7 +15,7 @@
    <children>
       <ImageView fx:id="backgroundImage" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-6.0">
          <image>
-            <Image url="@Copertina-Maestri-del-Rinascimento.jpg" />
+            <Image url="@../Copertina-Maestri-del-Rinascimento.jpg" />
          </image>
       </ImageView>
       <Label fx:id="loginLabel" layoutX="541.0" layoutY="20.0" prefHeight="63.0" prefWidth="109.0" text="LOGIN" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="20.0">
