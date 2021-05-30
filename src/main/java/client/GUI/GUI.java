@@ -163,7 +163,7 @@ public class GUI extends Application {
         List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, PLAYERBOARD, LOADING, GAME_BOARD_1, GAME_BOARD_2, GAME_BOARD_3, GAME_BOARD_4));
         try {
             for (String path : fxmList) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/graphics/" + path));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/graphics/fxml/" + path));
                 nameMapScene.put(path, new Scene(loader.load()));
                 GUIController controller = loader.getController();
                 controller.setGui(this);
