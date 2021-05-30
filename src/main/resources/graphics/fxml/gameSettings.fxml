@@ -12,7 +12,7 @@
    <children>
       <ImageView fx:id="settingsBackground" fitHeight="500.0" fitWidth="689.0" layoutY="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@lorenzo.png" />
+            <Image url="@../lorenzo.png" />
          </image>
       </ImageView>
       <Label fx:id="gameSettingsLabel" layoutX="86.0" layoutY="14.0" prefHeight="54.0" prefWidth="210.0" text="GAME SETTINGS" textFill="#f20000">

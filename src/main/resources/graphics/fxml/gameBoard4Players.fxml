@@ -3,7 +3,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1041.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
+<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1041.0" styleClass="mainBackground" stylesheets="@../../css/gameBoard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
    <center>
       <GridPane fx:id="playerBoardsGrid" prefHeight="400.0" prefWidth="384.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -17,21 +17,21 @@
          <children>
             <ImageView fx:id="firstPB" fitHeight="123.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image></ImageView>
             <ImageView fx:id="secondPB" fitHeight="125.0" fitWidth="186.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="thirdPB" fitHeight="124.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="fourthPB" fitHeight="125.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
          </children>
@@ -49,7 +49,7 @@
          <children>
             <ImageView fx:id="market" fitHeight="247.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                <image>
-                  <Image url="@punchboard/market.png" />
+                  <Image url="@../punchboard/market.png" />
                </image>
             </ImageView>
             <GridPane prefHeight="194.0" prefWidth="187.0" GridPane.rowIndex="1">
