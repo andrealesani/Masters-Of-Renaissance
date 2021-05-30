@@ -478,7 +478,8 @@ public class PlayerBoardBean implements Observer {
     }
 
     private String drawCardSlots () {
-        String content = " CardSlots:\n";
+        String content = "";
+        content += " CardSlots:\n";
         for (int i = 0; i < cardSlots.length; i++) {
             content += "  ";
             content += "Slot " + (i+1) + " : ";
@@ -487,41 +488,16 @@ public class PlayerBoardBean implements Observer {
         return content;
     }
 
-    private String drawLeaderCards (String clientUsername) {
-        if (clientUsername == null) {
-            return "";
-        }
-
+    private String drawLeaderCards () {
         String content = " LeaderCards: ";
         for (int i = 0; i < leaderCards.length; i++) {
-            if (activeLeaderCards[i] || clientUsername.equals(username)) {
-                if (activeLeaderCards[i]) {
-                    content += Color.RESOURCE_STD;
-                } else {
-                    content += Color.RESET;
-                }
-                content += "[" + leaderCards[i] + "] ";
+            if (activeLeaderCards[i]) {
+                content += Color.RESOURCE_STD;
+            } else {
                 content += Color.RESET;
             }
-        }
-        return content;
-    }
-
-    private String drawWhiteMarbles () {
-        String content = " Resources left to convert: ";
-        if (whiteMarbles > 0)
-            content += Color.RESOURCE_STD;
-        content += whiteMarbles;
-        content += Color.RESET;
-        return content;
-    }
-
-    private String drawPopeTiles () {
-        String content = " Pope Tiles: ";
-        for (int i = 0; i < popeTileStates.length; i++) {
-            content += " " + (i+1) + ".[";
-            content +=  popeTileStates[i];
-            content +=  " - " + Color.YELLOW_LIGHT_FG + "" + popeTilePoints[i] + "VPs" + Color.RESET + "] ";
+            content += "[" + leaderCards[i] + "] ";
+            content += Color.RESET;
         }
         return content;
     }
@@ -565,10 +541,6 @@ public class PlayerBoardBean implements Observer {
     // PRINTING METHODS
 
     public String printLine(int line) {
-        return printLine(line, null);
-    }
-
-    public String printLine(int line, String clientUsername) {
         line--;
         String content = "";
 
@@ -581,10 +553,15 @@ public class PlayerBoardBean implements Observer {
                 content += drawFaithTrack();
             }
             case 2 -> {
-                content += drawPopeTiles();
+                content += " Pope Tiles: ";
+                for (int i = 0; i < popeTileStates.length; i++) {
+                    content += " " + (i+1) + ".[";
+                    content +=  popeTileStates[i];
+                    content +=  " - " + Color.YELLOW_LIGHT_FG + "" + popeTilePoints[i] + "VPs" + Color.RESET + "] ";
+                }
             }
             case 3 -> {
-                content += drawWhiteMarbles();
+                return " Resources left to convert: " + whiteMarbles;
             }
             case 4 -> {
                 if (productions.length == 1)
@@ -608,7 +585,7 @@ public class PlayerBoardBean implements Observer {
                     }
             }
             case 7 -> {
-                content += drawLeaderCards(clientUsername);
+                content += drawLeaderCards();
             }
             case 8 -> {
                 content += drawCardSlots();
@@ -627,9 +604,13 @@ public class PlayerBoardBean implements Observer {
 
         content += drawFaithTrack() + "\n";
 
-        content += drawPopeTiles() + "\n";
-
-        content += drawWhiteMarbles() + "\n";
+        content += " Pope Tiles: ";
+        for (int i = 0; i < popeTileStates.length; i++) {
+            content += " " + (i+1) + ".[";
+            content +=  popeTileStates[i];
+            content +=  " - " + Color.YELLOW_LIGHT_FG + "" + popeTilePoints[i] + "VPs" + Color.RESET + "] ";
+        }
+        content += "\n";
 
         content += " Productions: " + Arrays.toString(productions) + "\n" +
                 " Resources left to convert: " + whiteMarbles + "\n";
@@ -652,7 +633,7 @@ public class PlayerBoardBean implements Observer {
             }
         content += "\n";
 
-        content += drawLeaderCards(null);
+        content += drawLeaderCards();
         content += "\n";
 
         drawCardSlots();

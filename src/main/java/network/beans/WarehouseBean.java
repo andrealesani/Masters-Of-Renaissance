@@ -73,7 +73,7 @@ public class WarehouseBean implements Observer {
             for (int j = 0; j < depotSizes[i]; j++) {
 
                 if (quantity > 0) {
-                    content += depotType[i].iconPrint() + " ";
+                    content += depotType[i].iconPrint();
                     quantity--;
                 } else
                     content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;

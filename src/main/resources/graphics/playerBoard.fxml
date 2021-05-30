@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="491.0" fitWidth="694.0" layoutX="-7.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+            <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
          </image>
       </ImageView>
       <Button fx:id="addResourceFromMarketButton" layoutX="7.0" layoutY="498.0" mnemonicParsing="false" onAction="#addResourceFromMarket" prefHeight="25.0" prefWidth="162.0" text="AddResourceFromMarket" />
@@ -27,17 +27,17 @@
       <Label fx:id="currentPlayerLabel" layoutX="3.0" prefHeight="88.0" prefWidth="143.0" />
       <ImageView fx:id="secondPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="334.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_arancione.png" />
+            <Image url="@punchboard/quadrato_arancione.png" />
          </image>
       </ImageView>
       <ImageView fx:id="firstPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="167.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_giallo.png" />
+            <Image url="@punchboard/quadrato_giallo.png" />
          </image>
       </ImageView>
       <ImageView fx:id="thirdPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="537.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_rosso.png" />
+            <Image url="@punchboard/quadrato_rosso.png" />
          </image>
       </ImageView>
       <Button fx:id="firstActivateButton" layoutX="158.0" layoutY="135.0" mnemonicParsing="false" onAction="#activateFirstPopeFT" prefHeight="20.0" prefWidth="69.0" text="Activate" />
