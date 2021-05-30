@@ -12,7 +12,7 @@
         <ImageView fx:id="market" fitHeight="261.0" fitWidth="199.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true"
                    AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
-                <Image url="@../punchboard/market.png"/>
+                <Image url="@punchboard/market.png"/>
             </image>
         </ImageView>
         <GridPane layoutX="5.0" layoutY="272.0" prefHeight="187.0" prefWidth="199.0">
@@ -56,25 +56,25 @@
         <ImageView fitHeight="179.0" fitWidth="241.0" layoutX="204.0" layoutY="39.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png"/>
+                <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png"/>
             </image>
         </ImageView>
         <ImageView fitHeight="179.0" fitWidth="241.0" layoutX="204.0" layoutY="257.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png"/>
+                <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png"/>
             </image>
         </ImageView>
         <ImageView fitHeight="179.0" fitWidth="241.0" layoutX="452.0" layoutY="39.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png"/>
+                <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png"/>
             </image>
         </ImageView>
         <ImageView fitHeight="179.0" fitWidth="241.0" layoutX="452.0" layoutY="257.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png"/>
+                <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png"/>
             </image>
         </ImageView>
         <ImageView fitHeight="18.0" fitWidth="17.0" layoutX="62.0" layoutY="65.0" pickOnBounds="true"

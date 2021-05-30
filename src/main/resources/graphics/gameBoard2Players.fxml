@@ -21,11 +21,11 @@
          <children>
             <ImageView fx:id="firstPB" fitHeight="199.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image></ImageView>
             <ImageView fx:id="secondPB" fitHeight="199.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
             <Label text="1" />
@@ -45,7 +45,7 @@
          <children>
             <ImageView fx:id="market" fitHeight="210.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                <image>
-                  <Image url="@../punchboard/market.png" />
+                  <Image url="@punchboard/market.png" />
                </image>
             </ImageView>
             <GridPane prefHeight="194.0" prefWidth="187.0" GridPane.rowIndex="1">

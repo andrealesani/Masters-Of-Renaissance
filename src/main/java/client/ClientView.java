@@ -114,15 +114,13 @@ public class ClientView {
             content += "Resources left to pay: ";
         } else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
             content += "Resources left to distribute: ";
-        } else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE) {
-            content += "Bonus resources left to allocate: ";
         }
         content += Color.RESET + "\n";
 
         // second row
         content += playerBoards.get(i).printLine(1);
         content += fillBetweenColumns(content);
-        if (game.getTurnPhase() != TurnPhase.ACTIONSELECTION) {
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT || game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
             content += waitingRooms.get(i).printLine(1);
         }
         content += "\n";
@@ -147,8 +145,8 @@ public class ClientView {
         content += playerBoards.get(i).printLine(7);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(1) + "\n";
         // ninth row
-        if (playerBoards.get(i).getUsername().equals(username) || game.getTurnPhase() != TurnPhase.LEADERCHOICE)
-            content += playerBoards.get(i).printLine(8, username);
+        if (playerBoards.get(i).getUsername().equals(username))
+            content += playerBoards.get(i).printLine(8);
         content += fillBetweenColumns(content) + warehouses.get(i).printLine(2) + "\n";
         // tenth row
         content += playerBoards.get(i).printLine(9) + "\n";
