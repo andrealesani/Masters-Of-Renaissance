@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1041.0" styleClass="mainBackground" stylesheets="@../../css/gameBoard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
+<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1041.0" styleClass="mainBackground" stylesheets="@../../css/gameBoard.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
    <center>
       <GridPane fx:id="playerBoardsGrid" prefHeight="400.0" prefWidth="384.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -79,7 +83,7 @@
                   <ImageView fx:id="card23" fitHeight="69.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <GridPane alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="87.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <GridPane fx:id="marketGrid" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="87.0" translateX="2.0" translateY="-33.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
