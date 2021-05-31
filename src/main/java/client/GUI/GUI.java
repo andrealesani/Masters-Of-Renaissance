@@ -143,7 +143,7 @@ public class GUI extends Application {
         }
         GUIController controller = nameMapController.get(iterator.next());
         if (iterator.hasNext()) {
-            throw new RuntimeException("There are more than 1 scene with the same name, this shouldn't be possible");
+            throw new RuntimeException("There is more than 1 scene with the same name, this shouldn't be possible");
         }
 
         controller.updateFromServer(jsonMessage);

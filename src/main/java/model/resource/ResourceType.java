@@ -124,7 +124,7 @@ public enum ResourceType {
         return null;
     }
 
-    public String orbPrint() {
+    public String marblePrint() {
         if (this == ResourceType.COIN) {
             return Color.YELLOW_LIGHT_FG + "@" + Color.RESET;
         }
@@ -145,6 +145,32 @@ public enum ResourceType {
         }
         if (this == ResourceType.WHITEORB) {
             return Color.WHITE_FG + "@" + Color.RESET;
+        }
+        // This should never happen
+        return null;
+    }
+
+    public String getMarbleImage() {
+        if (this == ResourceType.COIN) {
+            return "coin_marble.png";
+        }
+        if (this == ResourceType.SERVANT) {
+            return "servant_marble.png";
+        }
+        if (this == ResourceType.SHIELD) {
+            return "shield_marble.png";
+        }
+        if (this == ResourceType.STONE) {
+            return "stone_marble.png";
+        }
+        if (this == ResourceType.UNKNOWN) {
+            return "";
+        }
+        if (this == ResourceType.FAITH) {
+            return "faith_marble.png";
+        }
+        if (this == ResourceType.WHITEORB) {
+            return "white_marble.png";
         }
         // This should never happen
         return null;

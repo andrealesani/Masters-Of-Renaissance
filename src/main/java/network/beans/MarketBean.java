@@ -77,10 +77,10 @@ public class MarketBean implements Observer {
         String content = "";
 
         if (line == 3)
-            content += " Slide: " + slide.orbPrint();
+            content += " Slide: " + slide.marblePrint();
         else
             for (ResourceType cell : marketBoard[line]) {
-                content += " " + Color.RESET + cell.orbPrint() + Color.RESET + " ";
+                content += " " + Color.RESET + cell.marblePrint() + Color.RESET + " ";
             }
 
         return content;
@@ -91,7 +91,7 @@ public class MarketBean implements Observer {
         String board = "";
         for (ResourceType[] row : marketBoard) {
             for (ResourceType cell : row) {
-                board += " " + Color.RESET + cell.orbPrint() + Color.RESET + " ";
+                board += " " + Color.RESET + cell.marblePrint() + Color.RESET + " ";
             }
             board += "\n\n ";
         }
@@ -103,6 +103,6 @@ public class MarketBean implements Observer {
         } */
         return Color.HEADER + "Market:\n " + Color.RESET +
                 board +
-                "Slide: " + slide.orbPrint() + "\n";
+                "Slide: " + slide.marblePrint() + "\n";
     }
 }

@@ -1,18 +1,29 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
+import com.google.gson.Gson;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import model.resource.ResourceType;
+import network.MessageType;
+import network.beans.MarketBean;
+import network.beans.MessageWrapper;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class FourPlayersController implements GUIController{
+public class FourPlayersController implements GUIController {
     private GUI gui;
 
+    @FXML
+    private GridPane marketGrid;
     @FXML
     private BorderPane paneBoard;
     @FXML
@@ -95,6 +106,7 @@ public class FourPlayersController implements GUIController{
         fourthPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
         fourthPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
 
+
     }
 
     public void setGameBoard(URL location, ResourceBundle resources) {
@@ -107,7 +119,37 @@ public class FourPlayersController implements GUIController{
     }
 
     @Override
-    public void updateFromServer(String jsonMessage){
-        //TODO
+    public void updateFromServer(String jsonMessage) {
+        Gson gson = new Gson();
+        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+        switch (response.getType().toString()) {
+            case "GAME":
+                break;
+            case "MARKET":
+                MarketBean bean = gson.fromJson(response.getJsonMessage(), MarketBean.class);
+                ResourceType[][] marketBoard = bean.getMarketBoard();
+                ObservableList<Node> children = marketGrid.getChildren();
+                int k = 0;
+                for (int i = 0; i < marketBoard.length; i++) {
+                    for (int j = 0; j < marketBoard[0].length; j++ ,k++) {
+                        ResourceType resource = marketBoard[i][j];
+                        Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
+                        ((ImageView) children.get(k)).setImage(marble);
+                    }
+                }
+                break;
+            case "CARDTABLE":
+                break;
+            case "PLAYERBOARD":
+                break;
+            case "STRONGBOX":
+                break;
+            case "WAITINGROOM":
+                break;
+            case "WAREHOUSE":
+                break;
+            case "LORENZO":
+                break;
+        }
     }
 }
