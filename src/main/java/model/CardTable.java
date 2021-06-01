@@ -13,15 +13,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents what in the physical game is the grid that holds all the development cards still available for players to buy
  */
-public class CardTable implements Observable{
+public class CardTable implements Observable {
     /**
      * Represents the table column with all green cards
      */
@@ -65,30 +62,38 @@ public class CardTable implements Observable{
         // BLUE CARDS
         createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", blueCards, CardColor.BLUE);
         cards.put(CardColor.BLUE, blueCards);
-        for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
-            for(DevelopmentCard card : deck)
+        for (List<DevelopmentCard> deck : cards.get(CardColor.BLUE)) {
+            for (DevelopmentCard card : deck)
                 card.setId(id++);
+            Collections.shuffle(deck);
+        }
 
         // GREEN CARDS
         createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", greenCards, CardColor.GREEN);
         cards.put(CardColor.GREEN, greenCards);
-        for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
-            for(DevelopmentCard card : deck)
+        for (List<DevelopmentCard> deck : cards.get(CardColor.GREEN)) {
+            for (DevelopmentCard card : deck)
                 card.setId(id++);
+            Collections.shuffle(deck);
+        }
 
         // PURPLE CARDS
         createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", purpleCards, CardColor.PURPLE);
         cards.put(CardColor.PURPLE, purpleCards);
-        for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
-            for(DevelopmentCard card : deck)
+        for (List<DevelopmentCard> deck : cards.get(CardColor.PURPLE)) {
+            for (DevelopmentCard card : deck)
                 card.setId(id++);
+            Collections.shuffle(deck);
+        }
 
         // YELLOW CARDS
         createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", yellowCards, CardColor.YELLOW);
         cards.put(CardColor.YELLOW, yellowCards);
-        for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
-            for(DevelopmentCard card : deck)
+        for (List<DevelopmentCard> deck : cards.get(CardColor.YELLOW)) {
+            for (DevelopmentCard card : deck)
                 card.setId(id++);
+            Collections.shuffle(deck);
+        }
 
         notifyObservers();
     }
@@ -107,7 +112,7 @@ public class CardTable implements Observable{
         if (cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
             throw new ParametersNotValidException();
 
-        int row = level -1;
+        int row = level - 1;
 
         // Checks that the deck is not empty before trying to access it
         if (cards.get(cardColor).get(row).isEmpty())
@@ -128,7 +133,7 @@ public class CardTable implements Observable{
         List<List<DevelopmentCard>> deckColumn = cards.get(cardColor);
         int i;
 
-        for (i=0; i<=2; i++) {
+        for (i = 0; i <= 2; i++) {
             if (deckColumn.get(i).size() > 0) {
                 deckColumn.get(i).remove(0);
                 break;
@@ -151,12 +156,12 @@ public class CardTable implements Observable{
         for (CardColor color : cards.keySet()) {
             List<List<DevelopmentCard>> colorDeck = cards.get(color);
             int i;
-            for (i=0; i<=2; i++) {
+            for (i = 0; i <= 2; i++) {
                 List<DevelopmentCard> levelDeck = colorDeck.get(i);
                 if (levelDeck.size() >= 1)
                     break;
             }
-            if (i>2)
+            if (i > 2)
                 return false;
         }
 

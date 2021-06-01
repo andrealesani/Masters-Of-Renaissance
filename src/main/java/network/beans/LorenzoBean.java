@@ -72,15 +72,13 @@ public class LorenzoBean implements Observer {
 
     private String drawFaithTrack () {
         //TODO NON HARDCODARE
-        int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
-        int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
         int[] popeTriggerValues = {8, 16, 24};
         int[] popeSectionSizes = {4, 5, 6};
 
         String content = " ";
         int nextPopeTile = 0;
         int nextFaithTile = 0;
-        for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
+        for (int pos = 0; pos <= 24; pos++) {
 
             //The faith track tile
             if (faith == pos) {
@@ -93,10 +91,6 @@ public class LorenzoBean implements Observer {
             if (pos == popeTriggerValues[nextPopeTile]) {
                 content += Color.ORANGE_LIGHT_FG + "±" + Color.RESET;
             }
-            if (pos == vpFaithTiles[nextFaithTile]) {
-                content += Color.YELLOW_LIGHT_FG + "" + vpFaithValues[nextFaithTile] + "" + Color.RESET;
-                nextFaithTile++;
-            }
 
             //The space between tiles
             if (pos == popeTriggerValues[nextPopeTile] - popeSectionSizes[nextPopeTile]) {
@@ -107,7 +101,7 @@ public class LorenzoBean implements Observer {
             } else if (pos == popeTriggerValues[nextPopeTile]) {
 
                 content += Color.ORANGE_LIGHT_FG + "]" + Color.RESET;
-                if (pos != vpFaithTiles[vpFaithTiles.length - 1]) {
+                if (pos != 24) {
                     content += Color.GREY_LIGHT_FG + "─" + Color.RESET;
                 }
                 nextPopeTile++;

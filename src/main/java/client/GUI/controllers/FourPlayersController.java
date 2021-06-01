@@ -12,7 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import model.PopeTileState;
+import model.TurnPhase;
 import model.resource.ResourceType;
 import network.MessageType;
 import network.beans.*;
@@ -36,6 +38,12 @@ public class FourPlayersController implements GUIController {
     @FXML
     public GridPane faithGrid;
 
+    @FXML
+    private GridPane depot1Grid;
+    @FXML
+    private GridPane depot2Grid;
+    @FXML
+    private GridPane depot3Grid;
 
     @FXML
     public AnchorPane cardSlotPane1;
@@ -54,6 +62,8 @@ public class FourPlayersController implements GUIController {
     public Label strongboxStoneLabel;
 
     @FXML
+    public Label waitingRoomTitleLabel;
+    @FXML
     public Label waitingRoomWhiteLabel;
     @FXML
     public Label waitingRoomCoinLabel;
@@ -70,6 +80,13 @@ public class FourPlayersController implements GUIController {
     public ImageView tile2Image;
     @FXML
     public ImageView tile3Image;
+
+    @FXML
+    public Label currentPlayerLabel;
+    @FXML
+    public Label turnPhaseLabel;
+    @FXML
+    public Text descriptionText;
 
 
     //CONSTRUCTORS
@@ -97,13 +114,14 @@ public class FourPlayersController implements GUIController {
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         switch (response.getType().toString()) {
             case "GAME":
+                drawGameState(clientView.getGame());
                 break;
             case "MARKET":
                 MarketBean marketBean = clientView.getMarket();
                 ResourceType[][] marketBoard = marketBean.getMarketBoard();
                 ObservableList<Node> marketChildren = marketGrid.getChildren();
                 for (int i = 0, k = 0; i < marketBoard.length; i++) {
-                    for (int j = 0; j < marketBoard[0].length; j++ ,k++) {
+                    for (int j = 0; j < marketBoard[0].length; j++, k++) {
                         ResourceType resource = marketBoard[i][j];
                         Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
                         ((ImageView) marketChildren.get(k)).setImage(marble);
@@ -111,7 +129,7 @@ public class FourPlayersController implements GUIController {
                 }
                 ResourceType resource = marketBean.getSlide();
                 Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
-                ((ImageView) marketChildren.get(marketChildren.size()-1)).setImage(marble);
+                ((ImageView) marketChildren.get(marketChildren.size() - 1)).setImage(marble);
                 break;
             case "CARDTABLE":
                 CardTableBean cardTableBean = clientView.getCardTable();
@@ -119,7 +137,7 @@ public class FourPlayersController implements GUIController {
                 ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
 
                 for (int i = 0, k = 0; i < cardTable.length; i++) {
-                    for (int j = 0; j < cardTable[0].length; j++ ,k++) {
+                    for (int j = 0; j < cardTable[0].length; j++, k++) {
                         int cardId = cardTable[i][j];
                         Image card;
                         if (cardId != -1) {
@@ -150,7 +168,7 @@ public class FourPlayersController implements GUIController {
                 ObservableList<Node> faithTrackChildren = faithGrid.getChildren();
                 for (int i = 0; i < faithTrackChildren.size(); i++) {
                     if (faith == i) {
-                        Image token = new Image("/graphics/punchboard/faith_marble.png");
+                        Image token = new Image("/graphics/punchboard/faithMarker.png");
                         ((ImageView) faithTrackChildren.get(i)).setImage(token);
                         break;
                     } else {
@@ -232,6 +250,26 @@ public class FourPlayersController implements GUIController {
 
                 break;
             case "WAREHOUSE":
+                List<WarehouseBean> warehouses = clientView.getWarehouses();
+                WarehouseBean warehouseBean = null;
+                for (WarehouseBean warehouse : warehouses) {
+                    if (warehouse.getUsername().equals(clientView.getUsername())) {
+                        warehouseBean = warehouse;
+                        break;
+                    }
+                }
+                if (warehouseBean == null) {
+                    System.out.println("Error, player has no warehouse in client view.");
+                    return;
+                }
+
+                //TODO usare MAPPE DAIII
+                int[] depotQuantities = warehouseBean.getDepotQuantity();
+                ResourceType[] depotTypes = warehouseBean.getDepotType();
+                drawDepot(depotQuantities[0], depotTypes[0], depot1Grid);
+                drawDepot(depotQuantities[1], depotTypes[1], depot2Grid);
+                drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
+
                 break;
             case "LORENZO":
                 break;
@@ -239,6 +277,37 @@ public class FourPlayersController implements GUIController {
     }
 
     //PRIVATE METHODS
+
+    private void drawGameState(GameBean gameBean) {
+        String currPlayer = gameBean.getCurrentPlayer();
+        String currPhase = gameBean.getTurnPhase().vanillaToString();
+
+        currentPlayerLabel.setText(currPlayer);
+        turnPhaseLabel.setText(currPhase);
+
+        if (!currPlayer.equals(clientView.getUsername()))
+            descriptionText.setText("You are not the current player.");
+        else {
+            switch (currPhase) {
+                case "LEADERCHOICE":
+                    waitingRoomTitleLabel.setText("Resources left to distribute:");
+                    descriptionText.setText("Choose two leadercards to keep and, if necessary, which bonus resources to obtain and where to store them. Then end your turn.");
+                    break;
+                case "ACTIONSELECTION":
+                    waitingRoomTitleLabel.setText("Waiting room:");
+                    descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
+                    break;
+                case "MARKETDISTRIBUTION":
+                    waitingRoomTitleLabel.setText("Resources left to distribute:");
+                    descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
+                    break;
+                case "CARDPAYMENT", "PRODUCTIONPAYMENT":
+                    waitingRoomTitleLabel.setText("Resources left to pay:");
+                    descriptionText.setText("Choose from where to pay your resources, or end your turn to have it chosen automatically.");
+                    break;
+            }
+        }
+    }
 
     private void drawCardSlot(SlotBean cardSlotBean, AnchorPane slotPane) {
         ObservableList<Node> slotChildren = slotPane.getChildren();
@@ -263,5 +332,17 @@ public class FourPlayersController implements GUIController {
             return;
         }
         imageView.setImage(tile);
+    }
+
+    private void drawDepot(int quantity, ResourceType type, GridPane depotGrid) {
+        List<Node> depotChildren = depotGrid.getChildren();
+        for (int j = 0; j < depotChildren.size() ; j++) {
+            if (j < quantity) {
+                Image resource = new Image("/graphics/punchboard/" + type.getResourceImage());
+                ((ImageView) depotChildren.get(j)).setImage(resource);
+            } else {
+                ((ImageView) depotChildren.get(j)).setImage(null);
+            }
+        }
     }
 }

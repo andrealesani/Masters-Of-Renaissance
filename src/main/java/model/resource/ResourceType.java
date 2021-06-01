@@ -175,4 +175,34 @@ public enum ResourceType {
         // This should never happen
         return null;
     }
+
+    public String getResourceImage() {
+        if (this == ResourceType.COIN) {
+            return "coin.png";
+        }
+        if (this == ResourceType.SERVANT) {
+            return "servant.png";
+        }
+        if (this == ResourceType.SHIELD) {
+            return "shield.png";
+        }
+        if (this == ResourceType.STONE) {
+            return "stone.png";
+        }
+        if (this == ResourceType.UNKNOWN) {
+            return "";
+        }
+        if (this == ResourceType.FAITH) {
+            return "faith_marble.png";
+        }
+        if (this == ResourceType.WHITEORB) {
+            return "white_marble.png";
+        }
+        // This should never happen
+        return null;
+    }
+
+    public String vanillaToString() {
+        return super.toString();
+    }
 }

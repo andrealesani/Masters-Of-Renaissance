@@ -33,5 +33,9 @@ public enum TurnPhase {
         public String toString() {
             return "\u001B[36mPRODUCTIONPAYMENT\u001B[0m";
         }
+    };
+
+    public String vanillaToString() {
+        return super.toString();
     }
 }
