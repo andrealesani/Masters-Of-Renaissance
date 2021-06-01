@@ -175,6 +175,9 @@ public class Game implements UserCommandsInterface, Observable {
         if (currentPlayer == null)
             throw new ParametersNotValidException();
         currentPlayer.chooseStartingResource(resource.getType(), quantity);
+
+        //TODO check that the requested resource is of admissible type (coin, shield, servant or stone)
+        // same has to be done for jolly conversions and when inserting resources into storage
     }
 
     /**

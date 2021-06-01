@@ -38,11 +38,11 @@ public class CLIWriter implements Runnable {
 
     //MULTITHREADING METHODS
 
+    //TODO divide in sub methods, and for multi-stage commands insert a strng like 'cancel' that can be used to interrupt
     public void run() {
         Gson gson = new Gson();
         String userInput;
         while (!doClose) {
-
             try {
                 userInput = stdIn.readLine();
 

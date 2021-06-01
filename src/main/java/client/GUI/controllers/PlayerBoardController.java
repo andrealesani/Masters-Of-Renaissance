@@ -139,7 +139,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/firstPopeFT.png");
+        Image image = new Image("/graphics/punchboard/tile1Front.png");
         firstPopeFT.setImage(image);
     }
 
@@ -147,7 +147,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato_giallo.png");
+        Image image = new Image("/graphics/punchboard/tile1Back.png");
         firstPopeFT.setImage(image);
     }
 
@@ -155,7 +155,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/secondPopeFT.png");
+        Image image = new Image("/graphics/punchboard/tile2Front.png");
         secondPopeFT.setImage(image);
     }
 
@@ -163,7 +163,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato_arancione.png");
+        Image image = new Image("/graphics/punchboard/tile2Back.png");
         secondPopeFT.setImage(image);
     }
 
@@ -171,7 +171,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/thirdPopeFT.png");
+        Image image = new Image("/graphics/punchboard/tile3Front.png");
         thirdPopeFT.setImage(image);
     }
 
@@ -180,7 +180,7 @@ public class PlayerBoardController implements GUIController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        Image image = new Image("/graphics/punchboard/quadrato_rosso.png");
+        Image image = new Image("/graphics/punchboard/tile3Back.png");
         thirdPopeFT.setImage(image);
     }
 

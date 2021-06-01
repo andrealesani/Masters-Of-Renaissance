@@ -131,7 +131,8 @@ public class DevelopmentCard extends Card {
         String content = "";
         content += Color.HEADER + "Development Card:" + Color.RESET +
                 super.toString() +
-                "\n Level: " + level;
+                "\n Level: " + level +
+                "\n Color: " + color;
 
         content += "\n Cost: ";
         for (int i = 0; i < costType.length; i++) {

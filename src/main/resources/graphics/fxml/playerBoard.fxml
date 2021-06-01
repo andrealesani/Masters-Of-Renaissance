@@ -27,17 +27,17 @@
       <Label fx:id="currentPlayerLabel" layoutX="3.0" prefHeight="88.0" prefWidth="143.0" />
       <ImageView fx:id="secondPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="334.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_arancione.png" />
+            <Image url="@../punchboard/tile2Back.png" />
          </image>
       </ImageView>
       <ImageView fx:id="firstPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="167.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_giallo.png" />
+            <Image url="@../punchboard/tile1Back.png" />
          </image>
       </ImageView>
       <ImageView fx:id="thirdPopeFT" fitHeight="60.0" fitWidth="53.0" layoutX="537.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../punchboard/quadrato_rosso.png" />
+            <Image url="@../punchboard/tile3Back.png" />
          </image>
       </ImageView>
       <Button fx:id="firstActivateButton" layoutX="158.0" layoutY="135.0" mnemonicParsing="false" onAction="#activateFirstPopeFT" prefHeight="20.0" prefWidth="69.0" text="Activate" />
