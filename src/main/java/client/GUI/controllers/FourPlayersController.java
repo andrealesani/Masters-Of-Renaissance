@@ -1,5 +1,6 @@
 package client.GUI.controllers;
 
+import client.ClientView;
 import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
@@ -12,101 +13,36 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.resource.ResourceType;
 import network.MessageType;
+import network.beans.CardTableBean;
 import network.beans.MarketBean;
 import network.beans.MessageWrapper;
+import network.beans.PlayerBoardBean;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class FourPlayersController implements GUIController {
     private GUI gui;
+    private ClientView clientView;
+    private Gson gson;
 
     @FXML
     private GridPane marketGrid;
     @FXML
-    private BorderPane paneBoard;
+    private GridPane cardsGrid;
     @FXML
-    private GridPane leftGrid;
+    private GridPane leaderGrid;
+    @FXML
+    public GridPane faithGrid;
     @FXML
     private ImageView market;
     @FXML
-    private GridPane playerBoardsGrid;
-    @FXML
     public ImageView firstPB;
-    @FXML
-    public ImageView secondPB;
-    @FXML
-    public ImageView thirdPB;
-    @FXML
-    public ImageView fourthPB;
-    @FXML
-    private ImageView card00;
-    @FXML
-    private ImageView card01;
-    @FXML
-    private ImageView card02;
-    @FXML
-    private ImageView card03;
-    @FXML
-    private ImageView card10;
-    @FXML
-    private ImageView card11;
-    @FXML
-    private ImageView card12;
-    @FXML
-    private ImageView card13;
-    @FXML
-    private ImageView card20;
-    @FXML
-    private ImageView card21;
-    @FXML
-    private ImageView card22;
-    @FXML
-    private ImageView card23;
-    @FXML
-    private ImageView marble00;
-    @FXML
-    private ImageView marble01;
-    @FXML
-    private ImageView marble02;
-    @FXML
-    private ImageView marble03;
-    @FXML
-    private ImageView marble10;
-    @FXML
-    private ImageView marble11;
-    @FXML
-    private ImageView marble12;
-    @FXML
-    private ImageView marble13;
-    @FXML
-    private ImageView marble20;
-    @FXML
-    private ImageView marble21;
-    @FXML
-    private ImageView marble22;
-    @FXML
-    private ImageView marble23;
 
     public void initialize() {
-
-        market.fitWidthProperty().bind(leftGrid.widthProperty());
-        market.fitHeightProperty().bind(leftGrid.heightProperty().divide(2));
-
-        firstPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
-        firstPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
-
-        secondPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
-        secondPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
-
-        thirdPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
-        thirdPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
-
-        fourthPB.fitWidthProperty().bind(playerBoardsGrid.widthProperty().divide(2).subtract(15));
-        fourthPB.fitHeightProperty().bind(playerBoardsGrid.heightProperty().divide(2).subtract(15));
-
-
+        this.gson = new Gson();
     }
 
     public void setGameBoard(URL location, ResourceBundle resources) {
@@ -116,31 +52,74 @@ public class FourPlayersController implements GUIController {
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
+        this.clientView = gui.getClientView();
     }
 
     @Override
     public void updateFromServer(String jsonMessage) {
-        Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         switch (response.getType().toString()) {
             case "GAME":
                 break;
             case "MARKET":
-                MarketBean bean = gson.fromJson(response.getJsonMessage(), MarketBean.class);
-                ResourceType[][] marketBoard = bean.getMarketBoard();
-                ObservableList<Node> children = marketGrid.getChildren();
-                int k = 0;
-                for (int i = 0; i < marketBoard.length; i++) {
+                MarketBean marketBean = clientView.getMarket();
+                ResourceType[][] marketBoard = marketBean.getMarketBoard();
+                ObservableList<Node> marketChildren = marketGrid.getChildren();
+                for (int i = 0, k = 0; i < marketBoard.length; i++) {
                     for (int j = 0; j < marketBoard[0].length; j++ ,k++) {
                         ResourceType resource = marketBoard[i][j];
                         Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
-                        ((ImageView) children.get(k)).setImage(marble);
+                        ((ImageView) marketChildren.get(k)).setImage(marble);
+                    }
+                }
+                ResourceType resource = marketBean.getSlide();
+                Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
+                ((ImageView) marketChildren.get(marketChildren.size()-1)).setImage(marble);
+                break;
+            case "CARDTABLE":
+                CardTableBean cardTableBean = clientView.getCardTable();
+                int[][] cardTable = cardTableBean.getCards();
+                ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
+
+                for (int i = 0, k = 0; i < cardTable.length; i++) {
+                    for (int j = 0; j < cardTable[0].length; j++ ,k++) {
+                        int cardId = cardTable[i][j];
+                        Image card = new Image("/graphics/front/" + cardId + ".png");
+                        ((ImageView) cardTableChildren.get(k)).setImage(card);
                     }
                 }
                 break;
-            case "CARDTABLE":
-                break;
             case "PLAYERBOARD":
+                List<PlayerBoardBean> playerBoards = clientView.getPlayerBoards();
+                PlayerBoardBean playerBoardBean = null;
+                for (PlayerBoardBean playerBoard : playerBoards) {
+                    if (playerBoard.getUsername().equals(clientView.getUsername())) {
+                        playerBoardBean = playerBoard;
+                        break;
+                    }
+                }
+                if (playerBoardBean == null) {
+                    System.out.println("Error, player has no player board in client view.");
+                    return;
+                }
+
+                //Faith track
+                int faith = playerBoardBean.getFaith();
+                ObservableList<Node> faithTrackChildren = faithGrid.getChildren();
+                for (int i = 0; i < faithTrackChildren.size(); i++) {
+                    if (faith == i) {
+                        Image token = new Image("/graphics/punchboard/faith_marble.png");
+                        ((ImageView) faithTrackChildren.get(i)).setImage(token);
+                        break;
+                    } else {
+                        ((ImageView) faithTrackChildren.get(i)).setImage(null);
+                    }
+                }
+
+                //Leader cards
+                int[] leaderCards = playerBoardBean.getLeaderCards();
+                ObservableList<Node> leaderChildren = leaderGrid.getChildren();
+
                 break;
             case "STRONGBOX":
                 break;

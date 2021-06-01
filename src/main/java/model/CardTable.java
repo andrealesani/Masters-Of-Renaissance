@@ -49,9 +49,10 @@ public class CardTable implements Observable{
     /**
      * Constructor
      */
-    //TODO forse sostituire i 4 deck con l'usare l'unico json per tutte le carte
     //TODO shufflare tutti i mazzetti
+    //TODO ti prego alesani fixa sta roba
     public CardTable(int id) {
+
         greenCards = new ArrayList<>();
         blueCards = new ArrayList<>();
         yellowCards = new ArrayList<>();
@@ -62,28 +63,28 @@ public class CardTable implements Observable{
         id++;
 
         // BLUE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/BlueCards.json", blueCards);
+        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", blueCards, CardColor.BLUE);
         cards.put(CardColor.BLUE, blueCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("/json/cards/developmentcards/GreenCards.json", greenCards);
+        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", greenCards, CardColor.GREEN);
         cards.put(CardColor.GREEN, greenCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/PurpleCards.json", purpleCards);
+        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", purpleCards, CardColor.PURPLE);
         cards.put(CardColor.PURPLE, purpleCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("/json/cards/developmentcards/YellowCards.json", yellowCards);
+        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", yellowCards, CardColor.YELLOW);
         cards.put(CardColor.YELLOW, yellowCards);
         for(List<DevelopmentCard> deck : cards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)
@@ -175,7 +176,7 @@ public class CardTable implements Observable{
      * @param jsonPath   specifies the path where the JSON file is stored
      * @param colorCards specifies which column of the deck is going to be instantiated
      */
-    private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards) {
+    private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards, CardColor color) {
         Gson gson = new Gson();
         Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
         }.getType();
@@ -186,13 +187,16 @@ public class CardTable implements Observable{
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
         for (DevelopmentCard developmentCard : cards) {
-            if (developmentCard.getLevel() == 1)
-                colorCards.get(0).add(developmentCard);
-            else if (developmentCard.getLevel() == 2)
-                colorCards.get(1).add(developmentCard);
-            else if (developmentCard.getLevel() == 3)
-                colorCards.get(2).add(developmentCard);
+            if (developmentCard.getColor() == color) {
+                if (developmentCard.getLevel() == 1)
+                    colorCards.get(0).add(developmentCard);
+                else if (developmentCard.getLevel() == 2)
+                    colorCards.get(1).add(developmentCard);
+                else if (developmentCard.getLevel() == 3)
+                    colorCards.get(2).add(developmentCard);
+            }
         }
+
     }
 
     //GETTERS
