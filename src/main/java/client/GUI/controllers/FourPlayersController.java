@@ -1,6 +1,7 @@
 package client.GUI.controllers;
 
 import client.ClientView;
+import client.GUI.SimplePopup;
 import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
@@ -10,18 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import model.PopeTileState;
-import model.TurnPhase;
 import model.resource.ResourceType;
-import network.MessageType;
 import network.beans.*;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class FourPlayersController implements GUIController {
@@ -273,6 +270,10 @@ public class FourPlayersController implements GUIController {
                 break;
             case "LORENZO":
                 break;
+            case "ERROR":
+                SimplePopup.display(response.getType().toString(), response.getJsonMessage());
+            default:
+                System.out.println("Warning: received unexpected message " + jsonMessage);
         }
     }
 

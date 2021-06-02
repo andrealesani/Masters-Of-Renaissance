@@ -6,6 +6,8 @@ import client.GUI.controllers.GUIController;
 import com.sun.prism.shader.Solid_TextureRGB_AlphaTest_Loader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -104,10 +106,10 @@ public class GUI extends Application {
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
         window.show();
-        if (newScene.equals("gameBoard.fxml") || newScene.equals("gameBoard4Players.fxml")) {
+        /*if (newScene.equals("gameBoard.fxml") || newScene.equals("gameBoard4Players.fxml")) {
             window.sizeToScene();
             window.setFullScreen(true);
-        }
+        }*/
     }
 
     /**
@@ -165,6 +167,7 @@ public class GUI extends Application {
             for (String path : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/graphics/fxml/" + path));
                 nameMapScene.put(path, new Scene(loader.load()));
+                nameMapScene.get(path).setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
                 GUIController controller = loader.getController();
                 controller.setGui(this);
                 nameMapController.put(path, controller);
@@ -182,6 +185,7 @@ public class GUI extends Application {
         window.setTitle("Masters Of Renaissance");
         window.setScene(currentScene);
         window.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/punchboard/calamaio.png")));
+        currentScene.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
         window.show();
     }
 
