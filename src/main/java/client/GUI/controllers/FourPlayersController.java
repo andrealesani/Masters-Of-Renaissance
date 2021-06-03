@@ -293,6 +293,31 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    public void selectMarketRow(int number) {
+        System.out.println("SelectMarketRow: number - " + number);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", number);
+        Command command = new Command(UserCommandsType.selectMarketRow, parameters);
+        gui.sendCommand(gson.toJson(command));
+    }
+
+    public void selectMarketColumn(int number) {
+        System.out.println("SelectMarketColumn: number - " + number);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", number);
+        Command command = new Command(UserCommandsType.selectMarketColumn, parameters);
+        gui.sendCommand(gson.toJson(command));
+    }
+
+    void chooseMarbleConversion(ResourceType resource, int quantity) {
+        System.out.println("ChooseMarbleConversion: resource - " + resource + ", quantity - 1");
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("resource", resource);
+        parameters.put("quantity", 1);
+        Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
+        gui.sendCommand(gson.toJson(command));
+    }
+
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
