@@ -107,7 +107,7 @@ public class FourPlayersController implements GUIController {
     @FXML
     public GridPane marketRowButtonsGrid;
     @FXML
-    public GridPane marketRowColumnsGrid;
+    public GridPane marketColumnButtonsGrid;
 
 
     //CONSTRUCTORS
@@ -277,6 +277,22 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    void playLeaderCard(int number) {
+        System.out.println("PlayLeaderCard: number - " + number);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", number);
+        Command command = new Command(UserCommandsType.playLeaderCard, parameters);
+        gui.sendCommand(gson.toJson(command));
+    }
+
+    void discardLeaderCard(int number) {
+        System.out.println("DiscardLeaderCard: number - " + number);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", number);
+        Command command = new Command(UserCommandsType.discardLeaderCard, parameters);
+        gui.sendCommand(gson.toJson(command));
+    }
+
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
@@ -296,10 +312,33 @@ public class FourPlayersController implements GUIController {
         for (Node button : leaderButtonGrid.getChildren()) {
             button.setVisible(false);
         }
-
+        for (Node button : marketRowButtonsGrid.getChildren()) {
+            button.setVisible(false);
+        }
+        for (Node button : marketColumnButtonsGrid.getChildren()) {
+            button.setVisible(false);
+        }
         endTurnButton.setDisable(true);
     }
 
+    private void enableCommonButtons() {
+        //For playLeaderCard
+        ObservableList<Node> leaderChildren = leaderGrid.getChildren();
+        for (int i = 0; i < leaderChildren.size(); i++) {
+            int finalI = i + 1;
+            leaderChildren.get(i).setOnMouseClicked(e -> playLeaderCard(finalI));
+        }
+        //For discardLeaderCard
+        ObservableList<Node> leaderButtons = leaderButtonGrid.getChildren();
+        for (int i = 0; i < leaderButtons.size(); i++) {
+            leaderButtons.get(i).setVisible(true);
+            int finalI = i + 1;
+            leaderButtons.get(i).setOnMouseClicked(e -> discardLeaderCard(finalI));
+        }
+        //For endTurn
+        endTurnButton.setDisable(false);
+        endTurnButton.setOnAction(e -> endTurn());
+    }
 
     private void setupLeaderChoice() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
