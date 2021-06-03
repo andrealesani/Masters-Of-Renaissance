@@ -40,6 +40,8 @@ public class FourPlayersController implements GUIController {
     private GridPane leaderGrid;
     @FXML
     public GridPane faithGrid;
+    @FXML
+    public GridPane leaderButtonGrid;
 
     @FXML
     private GridPane depot1Grid;
@@ -101,6 +103,11 @@ public class FourPlayersController implements GUIController {
     public Label turnPhaseLabel;
     @FXML
     public Text descriptionText;
+
+    @FXML
+    public GridPane marketRowButtonsGrid;
+    @FXML
+    public GridPane marketRowColumnsGrid;
 
 
     //CONSTRUCTORS
@@ -283,12 +290,16 @@ public class FourPlayersController implements GUIController {
         waitingRoomServant.setOnMouseClicked(null);
         waitingRoomShield.setOnMouseClicked(null);
         waitingRoomStone.setOnMouseClicked(null);
-        ObservableList<Node> leaderChildren = leaderGrid.getChildren();
-        for (Node leaderChild : leaderChildren) {
-            leaderChild.setOnMouseClicked(null);
+        for (Node image : leaderGrid.getChildren()) {
+            image.setOnMouseClicked(null);
         }
+        for (Node button : leaderButtonGrid.getChildren()) {
+            button.setVisible(false);
+        }
+
         endTurnButton.setDisable(true);
     }
+
 
     private void setupLeaderChoice() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
