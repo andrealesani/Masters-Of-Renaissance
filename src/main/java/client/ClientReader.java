@@ -83,13 +83,13 @@ public class ClientReader implements Runnable {
     //TODO wrappare in Command anche INFO, ERROR e GAME_START
     private void elaborateResponse(String response) {
         Gson gson = new Gson();
-        Map responseMap = gson.fromJson(response, Map.class);
+        MessageWrapper message = gson.fromJson(response, MessageWrapper.class);
 
-        switch ((String) responseMap.get("type")) {
+        switch ((String) message.getType().toString()) {
             case "INFO":
             case "WAIT_PLAYERS":
             case "GAME_START":
-                System.out.println(responseMap.get("jsonMessage"));
+                System.out.println(message.getJsonMessage());
                 if (gui != null) {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -100,7 +100,7 @@ public class ClientReader implements Runnable {
                 }
                 break;
             case "ERROR":
-                System.err.println(responseMap.get("jsonMessage"));
+                System.err.println(message.getJsonMessage());
                 if (gui != null) {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -111,12 +111,12 @@ public class ClientReader implements Runnable {
                 }
                 break;
             case "SET_USERNAME":
-                clientView.setUsername((String) responseMap.get("jsonMessage"));
+                clientView.setUsername((String) message.getJsonMessage());
                 System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
                 break;
             case "GAME":
                 try {
-                    clientView.setGame(gson.fromJson((String) responseMap.get("jsonMessage"), GameBean.class));
+                    clientView.setGame(gson.fromJson((String) message.getJsonMessage(), GameBean.class));
                     notifyViewUpdate(response);
                 } catch (Exception ex) {
                     System.out.println("Warning: Game update failed");
@@ -125,7 +125,7 @@ public class ClientReader implements Runnable {
                 break;
             case "MARKET":
                 try {
-                    clientView.setMarket(gson.fromJson((String) responseMap.get("jsonMessage"), MarketBean.class));
+                    clientView.setMarket(gson.fromJson((String) message.getJsonMessage(), MarketBean.class));
                     notifyViewUpdate(response);
                 } catch (Exception ex) {
                     System.out.println("Warning: Market update failed");
@@ -134,7 +134,7 @@ public class ClientReader implements Runnable {
                 break;
             case "CARDTABLE":
                 try {
-                    clientView.setCardTable(gson.fromJson((String) responseMap.get("jsonMessage"), CardTableBean.class));
+                    clientView.setCardTable(gson.fromJson((String) message.getJsonMessage(), CardTableBean.class));
                     notifyViewUpdate(response);
                 } catch (Exception ex) {
                     System.out.println("Warning: CardTable update failed");
@@ -143,7 +143,7 @@ public class ClientReader implements Runnable {
                 break;
             case "PLAYERBOARD":
                 try {
-                    PlayerBoardBean pbbUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), PlayerBoardBean.class);
+                    PlayerBoardBean pbbUpdate = gson.fromJson((String) message.getJsonMessage(), PlayerBoardBean.class);
                     boolean found = false;
 
                     for (int i = 0; i < clientView.getPlayerBoards().size(); i++)
@@ -166,7 +166,7 @@ public class ClientReader implements Runnable {
                 break;
             case "STRONGBOX":
                 try {
-                    StrongboxBean strongboxUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), StrongboxBean.class);
+                    StrongboxBean strongboxUpdate = gson.fromJson((String) message.getJsonMessage(), StrongboxBean.class);
                     boolean found = false;
 
                     for (int i = 0; i < clientView.getStrongboxes().size(); i++)
@@ -188,7 +188,7 @@ public class ClientReader implements Runnable {
                 break;
             case "WAITINGROOM":
                 try {
-                    WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WaitingRoomBean.class);
+                    WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) message.getJsonMessage(), WaitingRoomBean.class);
                     boolean found = false;
 
                     for (int i = 0; i < clientView.getWaitingRooms().size(); i++)
@@ -210,7 +210,7 @@ public class ClientReader implements Runnable {
                 break;
             case "WAREHOUSE":
                 try {
-                    WarehouseBean warehouseUpdate = gson.fromJson((String) responseMap.get("jsonMessage"), WarehouseBean.class);
+                    WarehouseBean warehouseUpdate = gson.fromJson((String) message.getJsonMessage(), WarehouseBean.class);
                     boolean found = false;
 
                     for (int i = 0; i < clientView.getWarehouses().size(); i++)
@@ -232,7 +232,7 @@ public class ClientReader implements Runnable {
                 break;
             case "LORENZO":
                 try {
-                    clientView.setLorenzo(gson.fromJson((String) responseMap.get("jsonMessage"), LorenzoBean.class));
+                    clientView.setLorenzo(gson.fromJson((String) message.getJsonMessage(), LorenzoBean.class));
                     notifyViewUpdate(response);
                 } catch (Exception ex) {
                     System.out.println("Warning: Lorenzo update failed");
