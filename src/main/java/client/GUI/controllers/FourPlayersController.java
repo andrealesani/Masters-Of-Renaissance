@@ -358,6 +358,37 @@ public class FourPlayersController implements GUIController {
         endTurnButton.setOnAction(e -> endTurn());
     }
 
+    private void setupActionSelection() {
+        waitingRoomTitleLabel.setText("Waiting room:");
+        descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
+
+        disableButtons();
+
+
+        //For playLeaderCard, discardLeaderCard, endTurn
+        enableCommonButtons();
+    }
+
+    private void setupMarketDistribution() {
+        waitingRoomTitleLabel.setText("Resources left to distribute:");
+        descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
+
+        disableButtons();
+
+        //For playLeaderCard, discardLeaderCard, endTurn
+        enableCommonButtons();
+    }
+
+    private void setupPayment() {
+        waitingRoomTitleLabel.setText("Resources left to pay:");
+        descriptionText.setText("Choose from where to pay your resources, or end your turn to have it chosen automatically.");
+
+        disableButtons();
+        //For playLeaderCard, discardLeaderCard, endTurn
+        enableCommonButtons();
+    }
+
+
     //PRIVATE DRAWING METHODS
 
     private void drawGameState(GameBean gameBean) {
@@ -376,16 +407,13 @@ public class FourPlayersController implements GUIController {
                     setupLeaderChoice();
                     break;
                 case "ACTIONSELECTION":
-                    waitingRoomTitleLabel.setText("Waiting room:");
-                    descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
+                    setupActionSelection();
                     break;
                 case "MARKETDISTRIBUTION":
-                    waitingRoomTitleLabel.setText("Resources left to distribute:");
-                    descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
+                    setupMarketDistribution();
                     break;
                 case "CARDPAYMENT", "PRODUCTIONPAYMENT":
-                    waitingRoomTitleLabel.setText("Resources left to pay:");
-                    descriptionText.setText("Choose from where to pay your resources, or end your turn to have it chosen automatically.");
+                    setupPayment();
                     break;
             }
         }
