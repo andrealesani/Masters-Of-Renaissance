@@ -5,12 +5,14 @@ import client.GUI.SimplePopup;
 import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -33,82 +35,22 @@ public class FourPlayersController implements GUIController {
     private Gson gson;
 
     @FXML
-    private GridPane marketGrid;
-    @FXML
-    private GridPane cardsGrid;
-    @FXML
-    private GridPane leaderGrid;
-    @FXML
-    public GridPane faithGrid;
-    @FXML
-    public GridPane leaderButtonGrid;
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid;
 
     @FXML
-    private GridPane depot1Grid;
-    @FXML
-    private GridPane depot2Grid;
-    @FXML
-    private GridPane depot3Grid;
+    public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3;
 
     @FXML
-    public AnchorPane cardSlotPane1;
-    @FXML
-    public AnchorPane cardSlotPane2;
-    @FXML
-    public AnchorPane cardSlotPane3;
+    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel;
 
     @FXML
-    public Label strongboxCoinLabel;
-    @FXML
-    public Label strongboxServantLabel;
-    @FXML
-    public Label strongboxShieldLabel;
-    @FXML
-    public Label strongboxStoneLabel;
+    public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image;
 
-    @FXML
-    public Label waitingRoomTitleLabel;
-    @FXML
-    public Label waitingRoomWhiteLabel;
-    @FXML
-    public Label waitingRoomCoinLabel;
-    @FXML
-    public Label waitingRoomServantLabel;
-    @FXML
-    public Label waitingRoomShieldLabel;
-    @FXML
-    public Label waitingRoomStoneLabel;
-
-    @FXML
-    public ImageView waitingRoomCoin;
-    @FXML
-    public ImageView waitingRoomServant;
-    @FXML
-    public ImageView waitingRoomShield;
-    @FXML
-    public ImageView waitingRoomStone;
     @FXML
     public Button endTurnButton;
 
     @FXML
-    public ImageView tile1Image;
-    @FXML
-    public ImageView tile2Image;
-    @FXML
-    public ImageView tile3Image;
-
-    @FXML
-    public Label currentPlayerLabel;
-    @FXML
-    public Label turnPhaseLabel;
-    @FXML
     public Text descriptionText;
-
-    @FXML
-    public GridPane marketRowButtonsGrid;
-    @FXML
-    public GridPane marketColumnButtonsGrid;
-
 
     //CONSTRUCTORS
 
@@ -409,6 +351,8 @@ public class FourPlayersController implements GUIController {
         endTurnButton.setDisable(false);
         endTurnButton.setOnAction(e -> endTurn());
     }
+
+    //PRIVATE SETUP METHODS
 
     private void setupLeaderChoice() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
