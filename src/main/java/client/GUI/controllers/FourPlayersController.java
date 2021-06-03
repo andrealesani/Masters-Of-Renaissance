@@ -318,6 +318,51 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    void sendResourceToDepot(int depotNumber, ResourceType resource, int quantity) {
+
+    }
+
+
+    void swapDepotContent(int depotNumber1, int depotNumber2) {
+
+    }
+
+    void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
+
+    }
+
+    public void takeDevelopmentCard() {
+
+    }
+
+    void selectProduction(int number) {
+
+    }
+
+    void resetProductionChoice() {
+
+    }
+
+    void chooseJollyInput(ResourceType resource) {
+
+    }
+
+    void chooseJollyOutput(ResourceType resource) {
+
+    }
+
+    void confirmProductionChoice() {
+
+    }
+
+    void payFromWarehouse(int depotNumber, ResourceType resource, int quantity) {
+
+    }
+
+    void payFromStrongbox(ResourceType resource, int quantity) {
+
+    }
+
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
