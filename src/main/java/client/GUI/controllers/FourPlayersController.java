@@ -388,8 +388,22 @@ public class FourPlayersController implements GUIController {
         descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
 
         disableButtons();
-
-
+        //For selectMarketRow
+        List<Node> rowButtons = marketRowButtonsGrid.getChildren();
+        for (int i = 0; i < rowButtons.size(); i++) {
+            Button button = (Button) rowButtons.get(i);
+            button.setVisible(true);
+            int finalI = i + 1;
+            button.setOnAction(e -> selectMarketRow(finalI));
+        }
+        //For selectMarketColumn
+        List<Node> columnButtons = marketColumnButtonsGrid.getChildren();
+        for (int i = 0; i < columnButtons.size(); i++) {
+            Button button = (Button) columnButtons.get(i);
+            button.setVisible(true);
+            int finalI = i + 1;
+            button.setOnAction(e -> selectMarketColumn(finalI));
+        }
         //For playLeaderCard, discardLeaderCard, endTurn
         enableCommonButtons();
     }
@@ -399,7 +413,11 @@ public class FourPlayersController implements GUIController {
         descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
 
         disableButtons();
-
+        //For chooseMarbleConversion
+        waitingRoomCoin.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.COIN, 1));
+        waitingRoomServant.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.SERVANT, 1));
+        waitingRoomShield.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.SHIELD, 1));
+        waitingRoomStone.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.STONE, 1));
         //For playLeaderCard, discardLeaderCard, endTurn
         enableCommonButtons();
     }
@@ -428,18 +446,10 @@ public class FourPlayersController implements GUIController {
             disableButtons();
         } else {
             switch (currPhase) {
-                case "LEADERCHOICE":
-                    setupLeaderChoice();
-                    break;
-                case "ACTIONSELECTION":
-                    setupActionSelection();
-                    break;
-                case "MARKETDISTRIBUTION":
-                    setupMarketDistribution();
-                    break;
-                case "CARDPAYMENT", "PRODUCTIONPAYMENT":
-                    setupPayment();
-                    break;
+                case "LEADERCHOICE" -> setupLeaderChoice();
+                case "ACTIONSELECTION" -> setupActionSelection();
+                case "MARKETDISTRIBUTION" -> setupMarketDistribution();
+                case "CARDPAYMENT", "PRODUCTIONPAYMENT" -> setupPayment();
             }
         }
     }
