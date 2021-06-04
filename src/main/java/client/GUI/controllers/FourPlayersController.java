@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.CardColor;
 import model.PopeTileState;
@@ -116,7 +119,7 @@ public class FourPlayersController implements GUIController {
                 drawPopeTile(popeTileStates[2], 3, tile3Image);
 
                 //Leader cards
-                drawLeaderCards(playerBoardBean.getLeaderCards());
+                drawLeaderCards(playerBoardBean);
 
                 //Card slots
                 SlotBean[] cardSlotBeans = playerBoardBean.getCardSlots();
@@ -699,12 +702,18 @@ public class FourPlayersController implements GUIController {
         }
     }
 
-    private void drawLeaderCards(int[] leaderCards) {
+    private void drawLeaderCards(PlayerBoardBean playerBoardBean) {
+        int[] leaderCards = playerBoardBean.getLeaderCards();
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
             Image card;
             if (i < leaderCards.length) {
                 card = new Image("/graphics/front/" + leaderCards[i] + ".png");
+                if (playerBoardBean.getActiveLeaderCards()[i])
+                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgba(37, 255, 220, 18), 30, 0, 0, 0);");
+                else {
+                    leaderChildren.get(i).setStyle(" -fx-effect: null");
+                }
             } else {
                 card = new Image("/graphics/back/leadercardBack.png");
             }
