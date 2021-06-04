@@ -349,6 +349,7 @@
                             </Label>
                         </children>
                     </GridPane>
+               <Button fx:id="strongboxButton" layoutX="39.0" layoutY="116.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Strongbox" />
                 </children>
             </AnchorPane>
             <AnchorPane fx:id="warehousePane" layoutX="14.0" layoutY="198.0" prefHeight="203.0" prefWidth="190.0">
@@ -404,17 +405,17 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button fx:id="depot1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Depot 1" GridPane.halignment="CENTER">
+                     <Button fx:id="depot1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 1" GridPane.halignment="CENTER">
                         <font>
                            <Font size="10.0" />
                         </font>
                      </Button>
-                     <Button fx:id="depot2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Depot 2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <Button fx:id="depot2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <font>
                            <Font size="10.0" />
                         </font>
                      </Button>
-                     <Button fx:id="depot3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Depot 3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <Button fx:id="depot3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                         <font>
                            <Font size="10.0" />
                         </font>
@@ -456,21 +457,9 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button fx:id="cardSlot1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Slot 1" GridPane.halignment="CENTER">
-                        <font>
-                           <Font size="10.0" />
-                        </font>
-                     </Button>
-                     <Button fx:id="cardSlot2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Slot 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                        <font>
-                           <Font size="10.0" />
-                        </font>
-                     </Button>
-                     <Button fx:id="cardSlot3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text="Slot 3" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-                        <font>
-                           <Font size="10.0" />
-                        </font>
-                     </Button>
+                     <Button fx:id="cardSlot1Button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Slot 1" GridPane.halignment="CENTER" />
+                     <Button fx:id="cardSlot2Button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Slot 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                     <Button fx:id="cardSlot3Button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Slot 3" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                   </children>
                </GridPane>
                 </children>
@@ -641,7 +630,7 @@
                <Button fx:id="waitingRoomStoneButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="100.0" text="Stone Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 </children>
             </GridPane>
-         <ImageView fx:id="waitingRoomHider" fitHeight="224.0" fitWidth="372.0" layoutX="3.0" pickOnBounds="true" visible="false">
+         <ImageView fx:id="waitingRoomHider" fitHeight="224.0" fitWidth="372.0" pickOnBounds="true" visible="false">
             <image>
                <Image url="@../wood_texture.png" />
             </image>
@@ -688,17 +677,18 @@
    </AnchorPane>
    <AnchorPane fx:id="buttonsPane" layoutX="1403.0" layoutY="3.0" prefHeight="768.0" prefWidth="130.0">
       <children>
-         <GridPane layoutX="6.0" prefHeight="90.0" prefWidth="124.0">
+         <GridPane layoutX="6.0" prefHeight="86.0" prefWidth="124.0">
            <columnConstraints>
              <ColumnConstraints fx:id="buttonsGrid" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
            </columnConstraints>
            <rowConstraints>
              <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="45.599996948242186" minHeight="-Infinity" prefHeight="35.199990844726564" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="26.400009155273438" minHeight="-Infinity" prefHeight="26.400009155273438" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
                <Button fx:id="endTurnButton" mnemonicParsing="false" prefHeight="43.0" prefWidth="124.0" text="End Turn" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+               <Button fx:id="cancelOperationButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="124.0" text="Cancel Operation" GridPane.rowIndex="1" />
             </children>
          </GridPane>
       </children>

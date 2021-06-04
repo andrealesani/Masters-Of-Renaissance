@@ -326,9 +326,6 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void swapDepotContent(int depotNumber1, int depotNumber2) throws SwapNotValidException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase == LEADERCHOICE) {
-            throw new WrongTurnPhaseException();
-        }
         currentPlayer.swapDepotContent(depotNumber1, depotNumber2);
     }
 
@@ -349,9 +346,6 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, Resource resource, int quantity) throws WrongTurnPhaseException, DepotNotPresentException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, NotEnoughResourceException {
-        if (turnPhase == LEADERCHOICE) {
-            throw new WrongTurnPhaseException();
-        }
         currentPlayer.moveDepotContent(providingDepotNumber, receivingDepotNumber, resource.getType(), quantity);
     }
 

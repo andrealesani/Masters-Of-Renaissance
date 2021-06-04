@@ -48,7 +48,7 @@ public class FourPlayersController implements GUIController {
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image, waitingRoomHider;
 
     @FXML
-    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton;
+    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton;
 
     @FXML
     public Text descriptionText;
@@ -203,11 +203,11 @@ public class FourPlayersController implements GUIController {
         }
     }
 
-    public void chooseBonusResourceType(ResourceType resource) {
-        System.out.println("ChooseBonusResourceType: resource - " + resource + ", quantity - 1");
+    public void chooseBonusResourceType(ResourceType resource, int quantity) {
+        System.out.println("ChooseBonusResourceType: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
-        parameters.put("quantity", 1);
+        parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
         gui.sendCommand(gson.toJson(command));
     }
@@ -262,11 +262,11 @@ public class FourPlayersController implements GUIController {
     }
 
     void sendResourceToDepot(int depotNumber, ResourceType resource, int quantity) {
-        System.out.println("SendResourceToDepot: depot number - " + depotNumber + ", resource - " + resource + ", quantity - 1");
+        System.out.println("SendResourceToDepot: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", depotNumber);
         parameters.put("resource", resource);
-        parameters.put("quantity", 1);
+        parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.sendResourceToDepot, parameters);
         gui.sendCommand(gson.toJson(command));
         //Restore normal buttons
@@ -275,7 +275,16 @@ public class FourPlayersController implements GUIController {
 
 
     void swapDepotContent(int depotNumber1, int depotNumber2) {
-
+        System.out.println("SwapDepotContent: first depot - " + depotNumber1 + ", second depot - " + depotNumber2);
+        Map<String, Object> parameters = new HashMap<>();
+        int[] depots = new int[2];
+        depots[0] = depotNumber1;
+        depots[1] = depotNumber2;
+        parameters.put("depots", depots);
+        Command command = new Command(UserCommandsType.swapDepotContent, parameters);
+        gui.sendCommand(gson.toJson(command));
+        //Restore normal buttons
+        drawGameState(clientView.getGame());
     }
 
     void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
@@ -315,11 +324,26 @@ public class FourPlayersController implements GUIController {
     }
 
     void payFromWarehouse(int depotNumber, ResourceType resource, int quantity) {
-
+        System.out.println("PayFromWarehouse: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", depotNumber);
+        parameters.put("resource", resource);
+        parameters.put("quantity", quantity);
+        Command command = new Command(UserCommandsType.payFromWarehouse, parameters);
+        gui.sendCommand(gson.toJson(command));
+        //Restore normal buttons
+        drawGameState(clientView.getGame());
     }
 
     void payFromStrongbox(ResourceType resource, int quantity) {
-
+        System.out.println("PayFromWarehouse: resource - " + resource + ", quantity - " + quantity);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("resource", resource);
+        parameters.put("quantity", quantity);
+        Command command = new Command(UserCommandsType.payFromStrongbox, parameters);
+        gui.sendCommand(gson.toJson(command));
+        //Restore normal buttons
+        drawGameState(clientView.getGame());
     }
 
     public void endTurn() {
@@ -340,6 +364,8 @@ public class FourPlayersController implements GUIController {
         waitingRoomServantButton.setVisible(false);
         waitingRoomShieldButton.setVisible(false);
         waitingRoomStoneButton.setVisible(false);
+        strongboxButton.setVisible(false);
+        cancelOperationButton.setVisible(false);
         for (Node card : leaderGrid.getChildren()) {
             card.setOnMouseClicked(null);
         }
@@ -378,9 +404,6 @@ public class FourPlayersController implements GUIController {
             int finalI = i + 1;
             leaderButtons.get(i).setOnMouseClicked(e -> discardLeaderCard(finalI));
         }
-        //For endTurn
-        endTurnButton.setDisable(false);
-        endTurnButton.setOnAction(e -> endTurn());
     }
 
     private void enableSendResourceToDepotButtons() {
@@ -392,10 +415,25 @@ public class FourPlayersController implements GUIController {
         waitingRoomServantButton.setText("Send to depot");
         waitingRoomShieldButton.setText("Send to depot");
         waitingRoomStoneButton.setText("Send to depot");
-        waitingRoomCoinButton.setOnAction(e -> setupDepotChoice(ResourceType.COIN));
-        waitingRoomServantButton.setOnAction(e -> setupDepotChoice(ResourceType.SERVANT));
-        waitingRoomShieldButton.setOnAction(e -> setupDepotChoice(ResourceType.SHIELD));
-        waitingRoomStoneButton.setOnAction(e -> setupDepotChoice(ResourceType.STONE));
+        waitingRoomCoinButton.setOnAction(e -> setupSendToDepotChoice(ResourceType.COIN));
+        waitingRoomServantButton.setOnAction(e -> setupSendToDepotChoice(ResourceType.SERVANT));
+        waitingRoomShieldButton.setOnAction(e -> setupSendToDepotChoice(ResourceType.SHIELD));
+        waitingRoomStoneButton.setOnAction(e -> setupSendToDepotChoice(ResourceType.STONE));
+    }
+
+    private void enablePaymentButtons() {
+        waitingRoomCoinButton.setVisible(true);
+        waitingRoomServantButton.setVisible(true);
+        waitingRoomShieldButton.setVisible(true);
+        waitingRoomStoneButton.setVisible(true);
+        waitingRoomCoinButton.setText("Pay");
+        waitingRoomServantButton.setText("Pay");
+        waitingRoomShieldButton.setText("Pay");
+        waitingRoomStoneButton.setText("Pay");
+        waitingRoomCoinButton.setOnAction(e -> setupPaymentChoice(ResourceType.COIN));
+        waitingRoomServantButton.setOnAction(e -> setupPaymentChoice(ResourceType.SERVANT));
+        waitingRoomShieldButton.setOnAction(e -> setupPaymentChoice(ResourceType.SHIELD));
+        waitingRoomStoneButton.setOnAction(e -> setupPaymentChoice(ResourceType.STONE));
     }
 
     //TODO un modo migliore di capire il colore
@@ -416,6 +454,17 @@ public class FourPlayersController implements GUIController {
         }
     }
 
+    public void enableSwapDepotButtons() {
+        List<Node> depotButtons = warehouseButtonsGrid.getChildren();
+        for (int i = 0; i < depotButtons.size(); i++) {
+            Button button = (Button) depotButtons.get(i);
+            button.setVisible(true);
+            button.setText("Swap");
+            int finalI = i + 1;
+            button.setOnAction(e -> setupDepotSwap(finalI));
+        }
+    }
+
     //PRIVATE SETUP METHODS
 
     private void setupLeaderChoice() {
@@ -425,10 +474,10 @@ public class FourPlayersController implements GUIController {
         disableButtons();
         waitingRoomHider.setVisible(false);
         //For chooseBonusResourceType
-        waitingRoomCoin.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.COIN));
-        waitingRoomServant.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.SERVANT));
-        waitingRoomShield.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.SHIELD));
-        waitingRoomStone.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.STONE));
+        waitingRoomCoin.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.COIN, 1));
+        waitingRoomServant.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.SERVANT, 1));
+        waitingRoomShield.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.SHIELD, 1));
+        waitingRoomStone.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.STONE, 1));
         //For chooseLeaderCard
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
@@ -437,6 +486,8 @@ public class FourPlayersController implements GUIController {
         }
         //For sendResourceToDepot
         enableSendResourceToDepotButtons();
+        //For swapDepotContent
+        enableSwapDepotButtons();
         //For endTurn
         endTurnButton.setDisable(false);
         endTurnButton.setOnAction(e -> endTurn());
@@ -466,7 +517,9 @@ public class FourPlayersController implements GUIController {
         }
         //For takeDevelopmentCard
         enableTakeDevelopmentCardButtons();
-        //For playLeaderCard, discardLeaderCard, endTurn
+        //For swapDepotContent
+        enableSwapDepotButtons();
+        //For playLeaderCard, discardLeaderCard
         enableCommonButtons();
     }
 
@@ -483,8 +536,13 @@ public class FourPlayersController implements GUIController {
         waitingRoomStone.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.STONE, 1));
         //For sendResourceToDepot
         enableSendResourceToDepotButtons();
-        //For playLeaderCard, discardLeaderCard, endTurn
+        //For swapDepotContent
+        enableSwapDepotButtons();
+        //For playLeaderCard, discardLeaderCard
         enableCommonButtons();
+        //For endTurn
+        endTurnButton.setDisable(false);
+        endTurnButton.setOnAction(e -> endTurn());
     }
 
     private void setupPayment() {
@@ -493,11 +551,18 @@ public class FourPlayersController implements GUIController {
 
         disableButtons();
         waitingRoomHider.setVisible(false);
-        //For playLeaderCard, discardLeaderCard, endTurn
+        //For payFromWarehouse, payFromStrongbox
+        enablePaymentButtons();
+        //For swapDepotContent
+        enableSwapDepotButtons();
+        //For playLeaderCard, discardLeaderCard
         enableCommonButtons();
+        //For endTurn
+        endTurnButton.setDisable(false);
+        endTurnButton.setOnAction(e -> endTurn());
     }
 
-    private void setupDepotChoice(ResourceType resource) {
+    private void setupSendToDepotChoice(ResourceType resource) {
         descriptionText.setText("Choose which depot to send the resource to.");
 
         disableButtons();
@@ -506,8 +571,12 @@ public class FourPlayersController implements GUIController {
             Button button = (Button) depotButtons.get(i);
             button.setVisible(true);
             int finalI = i + 1;
+            button.setText("Depot " + finalI);
             button.setOnAction(e -> sendResourceToDepot(finalI, resource, 1));
         }
+        //For resetting halfway through
+        cancelOperationButton.setVisible(true);
+        cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
     }
 
     private void setupCardSlotChoice(CardColor color, int level) {
@@ -519,8 +588,47 @@ public class FourPlayersController implements GUIController {
             Button button = (Button) cardSlotsButtons.get(i);
             button.setVisible(true);
             int finalI = i + 1;
+            button.setText("Slot " + finalI);
             button.setOnAction(e -> takeDevelopmentCard(color, level, finalI));
         }
+        //For resetting halfway through
+        cancelOperationButton.setVisible(true);
+        cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
+    }
+
+    private void setupPaymentChoice(ResourceType resource) {
+        descriptionText.setText("Choose whether to take the resource from a depot or the strongbox.");
+
+        disableButtons();
+        List<Node> depotButtons = warehouseButtonsGrid.getChildren();
+        for (int i = 0; i < depotButtons.size(); i++) {
+            Button button = (Button) depotButtons.get(i);
+            button.setVisible(true);
+            int finalI = i + 1;
+            button.setText("Depot " + finalI);
+            button.setOnAction(e -> payFromWarehouse(finalI, resource, 1));
+        }
+        strongboxButton.setOnAction(e -> payFromStrongbox(resource, 1));
+        //For resetting halfway through
+        cancelOperationButton.setVisible(true);
+        cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
+    }
+
+    private void setupDepotSwap(int depot1) {
+        descriptionText.setText("Choose which depot to swap the selected one with.");
+
+        disableButtons();
+        List<Node> depotButtons = warehouseButtonsGrid.getChildren();
+        for (int i = 0; i < depotButtons.size(); i++) {
+            Button button = (Button) depotButtons.get(i);
+            button.setVisible(true);
+            int finalI = i + 1;
+            button.setText("Depot " + finalI);
+            button.setOnAction(e -> swapDepotContent(depot1, finalI));
+        }
+        //For resetting halfway through
+        cancelOperationButton.setVisible(true);
+        cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
     }
 
     //PRIVATE DRAWING METHODS
