@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backgroundPane" stylesheets="@../../css/gameBoard.css" styleClass="mainBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" styleClass="mainBackground" stylesheets="@../../css/gameBoard.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
     <AnchorPane fx:id="marketPane" prefHeight="108.0" prefWidth="29.0">
         <children>
             <ImageView fx:id="market" fitHeight="237.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true">
@@ -59,17 +59,17 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <Button fx:id="marketRow1Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" text="Row 1">
+                    <Button fx:id="marketRow1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" styleClass="market-arrow" text="Row 1">
                         <font>
                             <Font size="10.0" />
                         </font>
                     </Button>
-                    <Button fx:id="marketRow2Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" text="Row 2" GridPane.rowIndex="1">
+                    <Button fx:id="marketRow2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" styleClass="market-arrow" text="Row 2" GridPane.rowIndex="1">
                         <font>
                             <Font size="10.0" />
                         </font>
                     </Button>
-                    <Button fx:id="marketRow3Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" text="Row 3" GridPane.rowIndex="2">
+                    <Button fx:id="marketRow3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" styleClass="market-arrow" text="Row 3" GridPane.rowIndex="2">
                         <font>
                             <Font size="10.0" />
                         </font>
@@ -87,22 +87,22 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <Button fx:id="marketColumn1Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" text="Column 1" GridPane.halignment="CENTER">
+                    <Button fx:id="marketColumn1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" styleClass="market-arrow" text="Column 1" GridPane.halignment="CENTER">
                         <font>
                             <Font size="10.0" />
                         </font>
                     </Button>
-                    <Button fx:id="marketColumn2Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" text="Column 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <Button fx:id="marketColumn2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" styleClass="market-arrow" text="Column 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <font>
                             <Font size="10.0" />
                         </font>
                     </Button>
-                    <Button fx:id="marketColumn3Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" text="Column 3" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                    <Button fx:id="marketColumn3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" styleClass="market-arrow" text="Column 3" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <font>
                             <Font size="10.0" />
                         </font>
                     </Button>
-                    <Button fx:id="marketColumn4Button" styleClass="market-arrow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" text="Column 4" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                    <Button fx:id="marketColumn4Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0" rotate="-90.0" styleClass="market-arrow" text="Column 4" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <font>
                             <Font size="10.0" />
                         </font>
@@ -131,62 +131,62 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../back/green1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../back/blue1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../back/purple1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../back/yellow1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../back/green2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../back/blue2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../back/purple2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../back/yellow2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../back/green3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../back/blue3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../back/purple3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="market-arrow" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../back/yellow3back.png" />
                         </image>
@@ -405,17 +405,17 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button fx:id="depot1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 1" GridPane.halignment="CENTER">
+                     <Button fx:id="depot1Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0" text="Depot 1" GridPane.halignment="CENTER">
                         <font>
                            <Font size="10.0" />
                         </font>
                      </Button>
-                     <Button fx:id="depot2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <Button fx:id="depot2Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Depot 2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <font>
                            <Font size="10.0" />
                         </font>
                      </Button>
-                     <Button fx:id="depot3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Depot 3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                     <Button fx:id="depot3Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Depot 3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                         <font>
                            <Font size="10.0" />
                         </font>
@@ -517,12 +517,12 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="25.0" text="X" GridPane.halignment="RIGHT">
+                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="x" text="X" GridPane.halignment="RIGHT">
                         <font>
                             <Font name="System Bold" size="12.0" />
                         </font>
                     </Button>
-                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="25.0" text="X" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="x" text="X" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                         <font>
                             <Font name="System Bold" size="12.0" />
                         </font>
@@ -574,7 +574,7 @@
                </GridPane>
             </children>
          </GridPane>
-         <GridPane fx:id="leaderDepotButtonGrid" layoutY="56.0" prefHeight="28.0" prefWidth="548.0">
+         <GridPane fx:id="leaderDepotButtonGrid" layoutY="158.0" prefHeight="13.0" prefWidth="548.0">
            <columnConstraints>
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -631,27 +631,27 @@
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                    <ImageView styleClass="waiting-room-resource" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource">
                         <image>
                             <Image url="@../punchboard/jolly.png" />
                         </image>
                     </ImageView>
-                    <ImageView fx:id="waitingRoomCoin" styleClass="waiting-room-resource" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                    <ImageView fx:id="waitingRoomCoin" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../punchboard/coin.png" />
                         </image>
                     </ImageView>
-                    <ImageView fx:id="waitingRoomServant" styleClass="waiting-room-resource" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                    <ImageView fx:id="waitingRoomServant" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../punchboard/servant.png" />
                         </image>
                     </ImageView>
-                    <ImageView fx:id="waitingRoomShield" styleClass="waiting-room-resource" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                    <ImageView fx:id="waitingRoomShield" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="3">
                         <image>
                             <Image url="@../punchboard/shield.png" />
                         </image>
                     </ImageView>
-                    <ImageView fx:id="waitingRoomStone" styleClass="waiting-room-resource" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                    <ImageView fx:id="waitingRoomStone" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="4">
                         <image>
                             <Image url="@../punchboard/stone.png" />
                         </image>
@@ -681,10 +681,10 @@
                             <Font size="18.0" />
                         </font>
                     </Label>
-               <Button fx:id="waitingRoomCoinButton" styleClass="button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Coin Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-               <Button fx:id="waitingRoomServantButton" styleClass="button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Servant Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-               <Button fx:id="waitingRoomShieldButton" styleClass="button" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text=" Shield Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-               <Button fx:id="waitingRoomStoneButton" styleClass="button" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="100.0" text="Stone Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+               <Button fx:id="waitingRoomCoinButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" styleClass="button" text="Coin Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+               <Button fx:id="waitingRoomServantButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" styleClass="button" text="Servant Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+               <Button fx:id="waitingRoomShieldButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" styleClass="button" text=" Shield Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+               <Button fx:id="waitingRoomStoneButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="100.0" styleClass="button" text="Stone Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 </children>
             </GridPane>
          <ImageView fx:id="waitingRoomHider" fitHeight="224.0" fitWidth="372.0" pickOnBounds="true" visible="false">

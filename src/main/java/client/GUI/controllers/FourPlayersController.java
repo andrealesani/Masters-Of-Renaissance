@@ -221,7 +221,7 @@ public class FourPlayersController implements GUIController {
     }
 
     public void chooseLeaderCard(int number) {
-
+        System.out.println("ChooseLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
@@ -727,6 +727,7 @@ public class FourPlayersController implements GUIController {
                 }
             } else {
                 card = new Image("/graphics/back/leadercardBack.png");
+                leaderChildren.get(i).setStyle(" -fx-effect: null");
             }
             ((ImageView) leaderChildren.get(i)).setImage(card);
         }
