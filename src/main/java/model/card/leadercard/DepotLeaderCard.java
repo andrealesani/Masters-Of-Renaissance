@@ -76,7 +76,7 @@ public class DepotLeaderCard extends LeaderCard {
      * @param playerBoard specifies to which PlayerBoard the SpecialDepot has to be added
      */
     private void activateSpecialDepot(PlayerBoard playerBoard) {
-        playerBoard.addNewDepot(new LeaderDepot(storableQuantity, storableResource));
+        playerBoard.addNewDepot(new LeaderDepot(storableQuantity, storableResource, getId()));
     }
 
     //GETTERS

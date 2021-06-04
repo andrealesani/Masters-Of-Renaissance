@@ -34,9 +34,11 @@ public class FourPlayersController implements GUIController {
     private GUI gui;
     private ClientView clientView;
     private Gson gson;
+    private Map<Integer, Integer> leaderDepotCards = new HashMap<>();
+
 
     @FXML
-    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid;
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, LeaderDepotGrid;
 
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane;
@@ -73,6 +75,7 @@ public class FourPlayersController implements GUIController {
 
     //PUBLIC METHODS
 
+    //TODO find out which playerboard is yours at the beginning of the game and not at every update
     @Override
     public void updateFromServer(String jsonMessage) {
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
@@ -203,6 +206,8 @@ public class FourPlayersController implements GUIController {
         }
     }
 
+    //PUBLIC COMMAND METHODS
+
     public void chooseBonusResourceType(ResourceType resource, int quantity) {
         System.out.println("ChooseBonusResourceType: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -213,7 +218,7 @@ public class FourPlayersController implements GUIController {
     }
 
     public void chooseLeaderCard(int number) {
-        System.out.println("ChooseLeaderCard: number - " + number);
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
@@ -272,7 +277,6 @@ public class FourPlayersController implements GUIController {
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
-
 
     void swapDepotContent(int depotNumber1, int depotNumber2) {
         System.out.println("SwapDepotContent: first depot - " + depotNumber1 + ", second depot - " + depotNumber2);
@@ -385,6 +389,9 @@ public class FourPlayersController implements GUIController {
             card.setOnMouseClicked(null);
         }
         for (Node button : cardSlotsButtonGrid.getChildren()) {
+            button.setVisible(false);
+        }
+        for (Node button : leaderDepotButtonGrid.getChildren()) {
             button.setVisible(false);
         }
         endTurnButton.setDisable(true);
@@ -574,6 +581,10 @@ public class FourPlayersController implements GUIController {
             button.setText("Depot " + finalI);
             button.setOnAction(e -> sendResourceToDepot(finalI, resource, 1));
         }
+        List<Node> leaderDepotButtons = warehouseButtonsGrid.getChildren();
+        for(int i = 0; i < leaderDepotButtons.size(); i++) {
+
+        }
         //For resetting halfway through
         cancelOperationButton.setVisible(true);
         cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
@@ -711,6 +722,7 @@ public class FourPlayersController implements GUIController {
             ((ImageView) leaderChildren.get(i)).setImage(card);
         }
     }
+
 
     private void drawCardSlot(SlotBean cardSlotBean, AnchorPane slotPane) {
         ObservableList<Node> slotChildren = slotPane.getChildren();

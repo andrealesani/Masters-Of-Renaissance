@@ -47,4 +47,11 @@ public interface ResourceDepot extends ResourceStash {
      * @return the size of the depot
      */
     int getSize();
+
+    /**
+     * Returns the id of the card that activated this depot
+     *
+     * @return the leader card id, if the depot is not a leader depot, returns 0
+     */
+    int getCardId();
 }

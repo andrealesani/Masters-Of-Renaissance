@@ -96,7 +96,7 @@ class CommandTest {
 
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
         Map<ResourceType, Integer> resources = new HashMap<>();
         resources.put(ResourceType.SHIELD, 3);
         resources.put(ResourceType.COIN, 1);
@@ -214,7 +214,7 @@ class CommandTest {
 
         //Adds manually resources to the depots
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
         Warehouse warehouse = player.getWarehouse();
         warehouse.addToDepot(1, ResourceType.SHIELD, 1);
         warehouse.addToDepot(2, ResourceType.COIN, 2);

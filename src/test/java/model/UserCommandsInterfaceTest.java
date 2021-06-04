@@ -198,7 +198,7 @@ class UserCommandsInterfaceTest {
 
         //Adds manually a leader depot and some resources to waiting room
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
         Map<ResourceType, Integer> resources = new HashMap<>();
         resources.put(ResourceType.SHIELD, 3);
         resources.put(ResourceType.COIN, 1);
@@ -282,7 +282,7 @@ class UserCommandsInterfaceTest {
 
         //Adds manually resources to the depots
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD));
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
         Warehouse warehouse = player.getWarehouse();
         warehouse.addToDepot(1, ResourceType.SHIELD, 1);
         warehouse.addToDepot(2, ResourceType.COIN, 2);
@@ -317,10 +317,10 @@ class UserCommandsInterfaceTest {
 
         //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
 
         //Adds manually resources to the depots
         Warehouse warehouse = player.getWarehouse();
@@ -453,10 +453,10 @@ class UserCommandsInterfaceTest {
 
         //Manually adds large depots to the player to ensure they can pay the cost
         PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
 
         //Adds manually resources to the depots
         Warehouse warehouse = player.getWarehouse();

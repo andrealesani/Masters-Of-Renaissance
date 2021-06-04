@@ -527,18 +527,76 @@
                             <Font name="System Bold" size="12.0" />
                         </font>
                     </Button>
-                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="25.0" text="X" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                        <font>
-                            <Font name="System Bold" size="12.0" />
-                        </font>
-                    </Button>
-                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="25.0" text="X" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
-                        <font>
-                            <Font name="System Bold" size="12.0" />
-                        </font>
-                    </Button>
                 </children>
             </GridPane>
+         <GridPane fx:id="LeaderDepotGrid" layoutY="128.0" prefHeight="33.0" prefWidth="555.0">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+                 <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="10.0" prefWidth="20.3333740234375" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="34.800048828125" minWidth="10.0" prefWidth="31.2666259765625" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="21.333370208740234" minWidth="8.866727447509767" prefWidth="11.733358001708986" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="71.19998397827149" minWidth="10.0" prefWidth="31.46665039062499" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="63.26666259765625" minWidth="6.200016021728516" prefWidth="18.933349609375" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints maxHeight="32.5332763671875" minHeight="10.0" prefHeight="31.4666259765625" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                  </children>
+               </GridPane>
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="10.0" prefWidth="20.3333740234375" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="34.800048828125" minWidth="10.0" prefWidth="31.2666259765625" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="21.333370208740234" minWidth="8.866727447509767" prefWidth="11.733358001708986" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="71.19998397827149" minWidth="10.0" prefWidth="31.46665039062499" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="63.26666259765625" minWidth="6.200016021728516" prefWidth="18.933349609375" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints maxHeight="32.5332763671875" minHeight="10.0" prefHeight="31.4666259765625" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                  <children>
+                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                  </children>
+               </GridPane>
+            </children>
+         </GridPane>
+         <GridPane fx:id="leaderDepotButtonGrid" layoutY="56.0" prefHeight="28.0" prefWidth="548.0">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Leader Depot 1" GridPane.halignment="CENTER">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </Button>
+               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Leader Depot 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <font>
+                     <Font size="10.0" />
+                  </font>
+               </Button>
+            </children>
+         </GridPane>
         </children>
     </AnchorPane>
     <AnchorPane fx:id="waitingRoomPane" layoutX="190.0" layoutY="6.0" prefHeight="224.0" prefWidth="371.0">
@@ -553,13 +611,12 @@
                     <Font name="Arial Bold" size="14.0" />
                 </font>
             </Label>
-            <GridPane fx:id="waitingRoomGrid" layoutX="14.0" layoutY="39.0" prefHeight="170.0" prefWidth="261.0">
+            <GridPane fx:id="waitingRoomGrid" layoutX="14.0" layoutY="39.0" prefHeight="170.0" prefWidth="173.0">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="24.40003356933594" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.00001525878906" minWidth="10.0" prefWidth="17.999960327148443" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.59995117187503" minWidth="0.0" prefWidth="20.40000000000002" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.59995117187503" minWidth="10.0" prefWidth="114.39997558593751" />
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.59995117187503" minWidth="0.0" prefWidth="74.4000244140625" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="42.4" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.00001525878906" minWidth="5.600000000000001" prefWidth="5.600000000000001" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.59995117187503" minWidth="0.0" prefWidth="23.400006103515622" />
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.59995117187503" minWidth="10.0" prefWidth="105.79999389648437" />
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -661,7 +718,7 @@
          </Label>
          <Label fx:id="turnPhaseLabel" layoutX="89.0" layoutY="44.0" prefHeight="30.0" prefWidth="166.0" textFill="#a9e2f7">
             <font>
-               <Font name="Arial Bold" size="16.0" />
+               <Font name="Arial Bold" size="14.0" />
             </font>
          </Label>
          <AnchorPane fx:id="descriptionPane" layoutX="-7.0" layoutY="74.0" prefHeight="103.0" prefWidth="261.0">
