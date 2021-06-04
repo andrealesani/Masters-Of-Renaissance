@@ -1,5 +1,6 @@
 .mainBackground {
     -fx-background-image: url("../graphics/wood_texture_darker.png");
+    -fx-background-size: stretch;
 }
 
 .text-field {

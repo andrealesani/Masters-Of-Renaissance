@@ -3,14 +3,11 @@ package client.GUI;
 import client.ClientReader;
 import client.ClientView;
 import client.GUI.controllers.GUIController;
-import com.sun.prism.shader.Solid_TextureRGB_AlphaTest_Loader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -20,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 public class GUI extends Application {
-    private static final String LOGIN = "loginV.fxml";
+    private static final String LOGIN = "hostAndPort.fxml";
     private static final String GAME_BOARD = "gameBoard.fxml";
     private static final String SETTINGS = "gameSettings.fxml";
     private static final String PLAYERBOARD = "playerBoard.fxml";
@@ -165,7 +162,7 @@ public class GUI extends Application {
         List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, PLAYERBOARD, LOADING, GAME_BOARD_1, GAME_BOARD_2, GAME_BOARD_3, GAME_BOARD_4));
         try {
             for (String path : fxmList) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/graphics/fxml/" + path));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
                 nameMapScene.put(path, new Scene(loader.load()));
                 nameMapScene.get(path).setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
                 GUIController controller = loader.getController();

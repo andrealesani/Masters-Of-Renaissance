@@ -1,20 +1,32 @@
 .mainBackground {
-    -fx-background-image: url("../graphics/Copertina-Maestri-del-Rinascimento.jpg");
+    -fx-background-image: url("../graphics/medieval_town_darker_blur_10.png");
+    -fx-background-size: stretch;
 }
 
 .button {
-    -fx-background-color: #143e5e;
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #092e43;
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-weight: bold;
+    -fx-font-size: 8;
 }
 
 .button:hover {
-    -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 30, 0, 0, 0);
+    -fx-effect: dropshadow(one-pass-box, rgba(37, 180, 220, 0.7), 10, 0, 0, 0);
 }
 
 .button:pressed {
     -fx-background-color: #0c1e42;
 }
 
-.loginLabel {
-    -fx-effect: dropshadow(one-pass-box, rgba(255, 255, 255, 1), 7, 0.6, 0, 0);
+.input-label {
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(one-pass-box, rgb(9, 46, 67), 50, 1, 0, 0);
+}
+
+.text-field {
+    -fx-max-width: 150px;
 }

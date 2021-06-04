@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.OnePlayerController">
+<BorderPane fx:id="paneBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.TwoPlayersController">
    <center>
       <GridPane prefHeight="400.0" prefWidth="384.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -19,17 +19,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="playerPB" fitHeight="199.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <ImageView fx:id="firstPB" fitHeight="199.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image></ImageView>
-            <ImageView fx:id="lorenzoPB" fitHeight="199.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <ImageView fx:id="secondPB" fitHeight="199.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
-            <Label text="YOU" />
-            <Label text="LORE" GridPane.rowIndex="1" />
+            <Label text="1" />
+            <Label text="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </center>
@@ -45,7 +45,7 @@
          <children>
             <ImageView fx:id="market" fitHeight="210.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                <image>
-                  <Image url="@../punchboard/market.png" />
+                  <Image url="@../graphics/punchboard/market.png" />
                </image>
             </ImageView>
             <GridPane prefHeight="194.0" prefWidth="187.0" GridPane.rowIndex="1">

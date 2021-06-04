@@ -11,12 +11,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" styleClass="mainBackground" stylesheets="@../../css/gameBoard.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
     <AnchorPane fx:id="marketPane" prefHeight="108.0" prefWidth="29.0">
         <children>
             <ImageView fx:id="market" fitHeight="237.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@../punchboard/market.png" />
+                    <Image url="@../graphics/punchboard/market.png" />
                 </image>
             </ImageView>
             <GridPane fx:id="marketGrid" alignment="TOP_CENTER" layoutX="55.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="94.0">
@@ -115,7 +115,7 @@
         <children>
             <ImageView fx:id="cardTable" fitHeight="533.0" fitWidth="555.0" layoutY="-1.0" pickOnBounds="true">
                 <image>
-                    <Image url="@../wood_texture.png" />
+                    <Image url="@../graphics/wood_texture.png" />
                 </image>
             </ImageView>
             <GridPane fx:id="cardsGrid" layoutX="4.0" layoutY="-3.0" prefHeight="531.0" prefWidth="548.0">
@@ -133,62 +133,62 @@
                 <children>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/green1back.png" />
+                            <Image url="@../graphics/back/green1back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/blue1back.png" />
+                            <Image url="@../graphics/back/blue1back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/purple1back.png" />
+                            <Image url="@../graphics/back/purple1back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/yellow1back.png" />
+                            <Image url="@../graphics/back/yellow1back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
-                            <Image url="@../back/green2back.png" />
+                            <Image url="@../graphics/back/green2back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
-                            <Image url="@../back/blue2back.png" />
+                            <Image url="@../graphics/back/blue2back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
-                            <Image url="@../back/purple2back.png" />
+                            <Image url="@../graphics/back/purple2back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
-                            <Image url="@../back/yellow2back.png" />
+                            <Image url="@../graphics/back/yellow2back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
-                            <Image url="@../back/green3back.png" />
+                            <Image url="@../graphics/back/green3back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
-                            <Image url="@../back/blue3back.png" />
+                            <Image url="@../graphics/back/blue3back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
-                            <Image url="@../back/purple3back.png" />
+                            <Image url="@../graphics/back/purple3back.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
-                            <Image url="@../back/yellow3back.png" />
+                            <Image url="@../graphics/back/yellow3back.png" />
                         </image>
                     </ImageView>
                 </children>
@@ -198,7 +198,7 @@
     <AnchorPane fx:id="playerBoardPane" layoutX="573.0" prefHeight="584.0" prefWidth="821.0">
         <children>
             <ImageView fx:id="firstPB" fitHeight="591.0" fitWidth="830.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
             </ImageView>
             <AnchorPane fx:id="faithTrackPane" layoutX="1.0" layoutY="-1.0" prefHeight="186.0" prefWidth="827.0">
                 <children>
@@ -261,7 +261,7 @@
                         <children>
                             <ImageView fx:id="tile1Image" fitHeight="59.0" fitWidth="59.0" layoutX="2.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../punchboard/tile1Back.png" />
+                                    <Image url="@../graphics/punchboard/tile1Back.png" />
                                 </image>
                             </ImageView>
                         </children>
@@ -270,7 +270,7 @@
                         <children>
                             <ImageView fx:id="tile2Image" fitHeight="59.0" fitWidth="61.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../punchboard/tile2Back.png" />
+                                    <Image url="@../graphics/punchboard/tile2Back.png" />
                                 </image>
                             </ImageView>
                         </children>
@@ -279,7 +279,7 @@
                         <children>
                             <ImageView fx:id="tile3Image" fitHeight="59.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../punchboard/tile3Back.png" />
+                                    <Image url="@../graphics/punchboard/tile3Back.png" />
                                 </image>
                             </ImageView>
                         </children>
@@ -317,22 +317,22 @@
                             </Label>
                             <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../punchboard/coin.png" />
+                                    <Image url="@../graphics/punchboard/coin.png" />
                                 </image>
                             </ImageView>
                             <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                 <image>
-                                    <Image url="@../punchboard/servant.png" />
+                                    <Image url="@../graphics/punchboard/servant.png" />
                                 </image>
                             </ImageView>
                             <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                                 <image>
-                                    <Image url="@../punchboard/shield.png" />
+                                    <Image url="@../graphics/punchboard/shield.png" />
                                 </image>
                             </ImageView>
                             <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                 <image>
-                                    <Image url="@../punchboard/stone.png" />
+                                    <Image url="@../graphics/punchboard/stone.png" />
                                 </image>
                             </ImageView>
                             <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
@@ -470,7 +470,7 @@
         <children>
             <ImageView fitHeight="170.0" fitWidth="555.0" pickOnBounds="true">
                 <image>
-                    <Image url="@../wood_texture.png" />
+                    <Image url="@../graphics/wood_texture.png" />
                 </image>
             </ImageView>
             <GridPane fx:id="leaderGrid" prefHeight="169.0" prefWidth="548.0">
@@ -486,22 +486,22 @@
                 <children>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/leadercardBack.png" />
+                            <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/leadercardBack.png" />
+                            <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/leadercardBack.png" />
+                            <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
                     <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
-                            <Image url="@../back/leadercardBack.png" />
+                            <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
                 </children>
@@ -603,7 +603,7 @@
         <children>
             <ImageView fitHeight="224.0" fitWidth="372.0" pickOnBounds="true">
                 <image>
-                    <Image url="@../wood_texture.png" />
+                    <Image url="@../graphics/wood_texture.png" />
                 </image>
             </ImageView>
             <Label fx:id="waitingRoomTitleLabel" layoutX="14.0" layoutY="3.0" prefHeight="30.0" prefWidth="341.0" text="Waiting Room" textFill="#fcfcfc">
@@ -633,27 +633,27 @@
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource">
                         <image>
-                            <Image url="@../punchboard/jolly.png" />
+                            <Image url="@../graphics/punchboard/jolly.png" />
                         </image>
                     </ImageView>
                     <ImageView fx:id="waitingRoomCoin" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="1">
                         <image>
-                            <Image url="@../punchboard/coin.png" />
+                            <Image url="@../graphics/punchboard/coin.png" />
                         </image>
                     </ImageView>
                     <ImageView fx:id="waitingRoomServant" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="2">
                         <image>
-                            <Image url="@../punchboard/servant.png" />
+                            <Image url="@../graphics/punchboard/servant.png" />
                         </image>
                     </ImageView>
                     <ImageView fx:id="waitingRoomShield" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="3">
                         <image>
-                            <Image url="@../punchboard/shield.png" />
+                            <Image url="@../graphics/punchboard/shield.png" />
                         </image>
                     </ImageView>
                     <ImageView fx:id="waitingRoomStone" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource" GridPane.rowIndex="4">
                         <image>
-                            <Image url="@../punchboard/stone.png" />
+                            <Image url="@../graphics/punchboard/stone.png" />
                         </image>
                     </ImageView>
                     <Label fx:id="waitingRoomWhiteLabel" alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="0" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
@@ -689,7 +689,7 @@
             </GridPane>
          <ImageView fx:id="waitingRoomHider" fitHeight="224.0" fitWidth="372.0" pickOnBounds="true" visible="false">
             <image>
-               <Image url="@../wood_texture.png" />
+               <Image url="@../graphics/wood_texture.png" />
             </image>
          </ImageView>
         </children>
@@ -698,7 +698,7 @@
       <children>
          <ImageView fitHeight="169.0" fitWidth="261.0" layoutX="-7.0" layoutY="9.0" pickOnBounds="true">
             <image>
-               <Image url="@../wood_texture.png" />
+               <Image url="@../graphics/wood_texture.png" />
             </image>
          </ImageView>
          <Label layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Current player:" textFill="#fcfcfc">

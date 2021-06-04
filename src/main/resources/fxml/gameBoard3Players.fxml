@@ -23,21 +23,21 @@
          <children>
             <ImageView fx:id="firstPB" fitHeight="202.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image></ImageView>
             <ImageView fx:id="secondPB" fitHeight="202.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="thirdPB" fitHeight="202.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-1.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-1.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="139.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../board/Masters_of_Renaissance_PlayerBoard-2.png" />
+                  <Image url="@../graphics/board/Masters_of_Renaissance_PlayerBoard-2.png" />
                </image>
             </ImageView>
          </children>
@@ -55,7 +55,7 @@
          <children>
             <ImageView fx:id="market" fitHeight="210.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                <image>
-                  <Image url="@../punchboard/market.png" />
+                  <Image url="@../graphics/punchboard/market.png" />
                </image>
             </ImageView>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="22.0" />

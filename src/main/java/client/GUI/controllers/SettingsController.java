@@ -27,10 +27,6 @@ import java.util.ResourceBundle;
 public class SettingsController implements GUIController {
     private GUI gui;
     @FXML
-    private AnchorPane pane2;
-    @FXML
-    private ImageView settingsBackground;
-    @FXML
     private TextField usernameField;
     @FXML
     private Button confirmUsername;
@@ -63,9 +59,6 @@ public class SettingsController implements GUIController {
      * @see Application#init()
      */
     public void initialize() {
-        settingsBackground.setPreserveRatio(false);
-        settingsBackground.fitWidthProperty().bind(pane2.widthProperty());
-        settingsBackground.fitHeightProperty().bind(pane2.heightProperty());
         invalidUsername.setVisible(false);
         singleplayerButton.setVisible(false);
         multiplayerButton.setVisible(false);
