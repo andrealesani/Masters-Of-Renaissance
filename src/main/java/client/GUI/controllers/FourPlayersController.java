@@ -16,6 +16,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import model.CardColor;
 import model.PopeTileState;
 import model.card.Card;
 import model.resource.ResourceType;
@@ -35,7 +36,7 @@ public class FourPlayersController implements GUIController {
     private Gson gson;
 
     @FXML
-    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid;
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid;
 
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane;
@@ -281,8 +282,16 @@ public class FourPlayersController implements GUIController {
 
     }
 
-    public void takeDevelopmentCard() {
-
+    public void takeDevelopmentCard(CardColor cardColor, int level, int slot) {
+        System.out.println("TakeDevelopmentCard: color - " + cardColor + ", level - " + level + ", slot - " + slot);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("number", slot);
+        parameters.put("color", cardColor);
+        parameters.put("level", level);
+        Command command = new Command(UserCommandsType.takeDevelopmentCard, parameters);
+        gui.sendCommand(gson.toJson(command));
+        //Restore normal buttons
+        drawGameState(clientView.getGame());
     }
 
     void selectProduction(int number) {
@@ -331,8 +340,8 @@ public class FourPlayersController implements GUIController {
         waitingRoomServantButton.setVisible(false);
         waitingRoomShieldButton.setVisible(false);
         waitingRoomStoneButton.setVisible(false);
-        for (Node image : leaderGrid.getChildren()) {
-            image.setOnMouseClicked(null);
+        for (Node card : leaderGrid.getChildren()) {
+            card.setOnMouseClicked(null);
         }
         for (Node button : leaderButtonGrid.getChildren()) {
             button.setVisible(false);
@@ -344,6 +353,12 @@ public class FourPlayersController implements GUIController {
             button.setVisible(false);
         }
         for (Node button : warehouseButtonsGrid.getChildren()) {
+            button.setVisible(false);
+        }
+        for (Node card : cardsGrid.getChildren()) {
+            card.setOnMouseClicked(null);
+        }
+        for (Node button : cardSlotsButtonGrid.getChildren()) {
             button.setVisible(false);
         }
         endTurnButton.setDisable(true);
@@ -381,6 +396,24 @@ public class FourPlayersController implements GUIController {
         waitingRoomServantButton.setOnAction(e -> setupDepotChoice(ResourceType.SERVANT));
         waitingRoomShieldButton.setOnAction(e -> setupDepotChoice(ResourceType.SHIELD));
         waitingRoomStoneButton.setOnAction(e -> setupDepotChoice(ResourceType.STONE));
+    }
+
+    //TODO un modo migliore di capire il colore
+    private void enableTakeDevelopmentCardButtons() {
+        ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
+        int[][] cardTable = clientView.getCardTable().getCards();
+        for (int i = 0, k = 0; i < cardTable.length; i++) {
+            for (int j = 0; j < cardTable[0].length; j++, k++) {
+                int cardId = cardTable[i][j];
+                int finalI = i + 1;
+                switch((cardId-17)/12) {
+                    case 0  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.BLUE, finalI));
+                    case 1  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.GREEN, finalI));
+                    case 2  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.PURPLE, finalI));
+                    case 3  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.YELLOW, finalI));
+                }
+            }
+        }
     }
 
     //PRIVATE SETUP METHODS
@@ -431,6 +464,8 @@ public class FourPlayersController implements GUIController {
             int finalI = i + 1;
             button.setOnAction(e -> selectMarketColumn(finalI));
         }
+        //For takeDevelopmentCard
+        enableTakeDevelopmentCardButtons();
         //For playLeaderCard, discardLeaderCard, endTurn
         enableCommonButtons();
     }
@@ -464,7 +499,7 @@ public class FourPlayersController implements GUIController {
 
     private void setupDepotChoice(ResourceType resource) {
         descriptionText.setText("Choose which depot to send the resource to.");
-        
+
         disableButtons();
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
         for (int i = 0; i < depotButtons.size(); i++) {
@@ -472,6 +507,19 @@ public class FourPlayersController implements GUIController {
             button.setVisible(true);
             int finalI = i + 1;
             button.setOnAction(e -> sendResourceToDepot(finalI, resource, 1));
+        }
+    }
+
+    private void setupCardSlotChoice(CardColor color, int level) {
+        descriptionText.setText("Choose which slot to put the card in.");
+
+        disableButtons();
+        List<Node> cardSlotsButtons = cardSlotsButtonGrid.getChildren();
+        for (int i = 0; i < cardSlotsButtons.size(); i++) {
+            Button button = (Button) cardSlotsButtons.get(i);
+            button.setVisible(true);
+            int finalI = i + 1;
+            button.setOnAction(e -> takeDevelopmentCard(color, level, finalI));
         }
     }
 
@@ -516,8 +564,8 @@ public class FourPlayersController implements GUIController {
         int[][] cardTable = cardTableBean.getCards();
         ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
 
-        for (int j = 0, k = 0; j < cardTable.length; j++) {
-            for (int i = 0; i < cardTable[0].length; i++, k++) {
+        for (int i = 0, k = 0; i < cardTable.length; i++) {
+            for (int j = 0; j < cardTable[0].length; j++, k++) {
                 int cardId = cardTable[i][j];
                 Image card;
                 if (cardId != -1) {
