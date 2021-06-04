@@ -1,0 +1,17 @@
+.mainBackground {
+    -fx-background-image: url("../graphics/lorenzo.png");
+}
+
+.button {
+    -fx-border-color: #1f0205;
+    -fx-background-color: #850816;
+    -fx-text-fill: #ffffff;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(one-pass-box, rgba(43, 3, 7, 1), 30, 0, 0, 0);
+}
+
+.button:pressed {
+    -fx-background-color: #47040b;
+}
