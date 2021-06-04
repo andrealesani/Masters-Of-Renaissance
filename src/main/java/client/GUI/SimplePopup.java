@@ -21,7 +21,7 @@ public class SimplePopup {
         window.getIcons().add(new Image(SimplePopup.class.getResourceAsStream("/graphics/punchboard/calamaio.png")));
         window.setTitle(messageType);
         window.setMinWidth(250);
-        window.setMinHeight(100);
+        window.setMinHeight(120);
         window.setResizable(false);
 
         Label label = new Label();

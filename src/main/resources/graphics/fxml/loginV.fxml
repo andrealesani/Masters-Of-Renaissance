@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="pane" prefHeight="397.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.LoginController">
+<AnchorPane fx:id="pane" prefHeight="397.0" prefWidth="682.0" styleClass="mainBackground" stylesheets="@../../css/HostAndPort.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.LoginController">
    <children>
       <ImageView fx:id="backgroundImage" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-6.0">
          <image>
@@ -40,7 +35,7 @@
          </textFill>
       </Label>
       <Button fx:id="loginButton" layoutX="608.0" layoutY="422.0" mnemonicParsing="false" onAction="#loggingIn" prefHeight="46.0" prefWidth="92.0" text="LOGIN" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="200.0" />
-      <Label fx:id="statusLabel" layoutX="486.0" layoutY="390.0" prefHeight="32.0" prefWidth="437.0" text="LOGIN STATUS: NOT LOGGED IN YET" textFill="#b21908" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="0.0">
+      <Label fx:id="statusLabel" layoutX="495.0" layoutY="384.0" prefHeight="32.0" prefWidth="437.0" styleClass="loginLabel" text="LOGIN STATUS: NOT LOGGED IN YET" textFill="#143e5e" AnchorPane.bottomAnchor="84.39999999999998" AnchorPane.rightAnchor="-32.60000000000002">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
