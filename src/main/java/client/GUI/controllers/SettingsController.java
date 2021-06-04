@@ -189,7 +189,10 @@ public class SettingsController implements GUIController {
             } else if (responseMap.get("jsonMessage").equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Please try again in a moment");
-            } else if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
+            } else if (responseMap.get("jsonMessage").equals("The selected username already exists.")) {
+                invalidUsername.setVisible(true);
+                invalidUsername.setText("Username not available");
+            }else if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
                 // do nothing
             } else if (jsonMessage.contains("Username was correctly set to:")) {
                 // do nothing

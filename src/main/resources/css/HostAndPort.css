@@ -28,5 +28,10 @@
 }
 
 .text-field {
-    -fx-max-width: 150px;
+    -fx-max-width: 110px;
+    -fx-background-color: rgba(219, 143, 74, 0.62);
+    -fx-text-fill: #092e43;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
 }

@@ -66,6 +66,10 @@ public class LoginController implements GUIController {
         }
     }
 
+    public void quitGame() {
+        gui.stop();
+    }
+
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
