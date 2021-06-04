@@ -36,7 +36,6 @@ public class LoginController implements GUIController {
 
     // PUBLIC METHODS
 
-    //TODO mettere condizione username già usato (controllo in risposta dal server)
     //TODO Mettere i metodi della playerboard in CLIWriter
 
     public void loggingIn(ActionEvent event) throws Exception {
