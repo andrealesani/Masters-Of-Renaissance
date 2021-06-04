@@ -18,7 +18,7 @@ class BasicDepotTest {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash = new BasicDepot(warehouse, 4);
         ResourceDepot stashBlock = new BasicDepot(warehouse, 4);
-        ResourceDepot stashLeader = new LeaderDepot(2, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(2, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stash);
         warehouse.addNewDepot(stashBlock);
         warehouse.addNewDepot(stashLeader);
@@ -103,7 +103,7 @@ class BasicDepotTest {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new BasicDepot(warehouse, 3);
-        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN, 0);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
         warehouse.addNewDepot(stashLeader);
@@ -124,7 +124,7 @@ class BasicDepotTest {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new BasicDepot(warehouse, 3);
-        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stashLeader = new LeaderDepot(5, ResourceType.COIN, 0);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
         warehouse.addNewDepot(stashLeader);
@@ -169,7 +169,7 @@ class BasicDepotTest {
     void canHoldContentOfFalseBlocking() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
-        ResourceDepot stash2 = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stash2 = new LeaderDepot(3, ResourceType.SHIELD, 0);
         ResourceDepot stash3 = new BasicDepot(warehouse, 3);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);

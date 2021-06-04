@@ -17,6 +17,10 @@ public class Warehouse implements Observable {
      * List used to store and index the various depots available to the player
      */
     private final List<ResourceDepot> depots = new ArrayList<>();
+    /**
+     * Attribute used to store the number of basic depots
+     */
+    private final int numOfBasicDepots;
 
     //CONSTRUCTORS
 
@@ -29,6 +33,7 @@ public class Warehouse implements Observable {
         if (numOfDepots < 0) {
             throw new ParametersNotValidException();
         }
+        this.numOfBasicDepots = numOfDepots;
         for (int i = 1; i <= numOfDepots; i++) {
             depots.add(new BasicDepot(this, i));
         }
@@ -272,6 +277,19 @@ public class Warehouse implements Observable {
             resourceList.addAll(depot.getStoredResources());
         }
         return resourceList.stream().distinct().collect(Collectors.toList());
+    }
+
+    /**
+     * Returns an array of the depot's card id, or 0 if they are not leader depots
+     *
+     * @return an array of the id of the cards that activated the depots.
+     */
+    public int[] getDepotCardId() {
+        int[] cardIds = new int[depots.size()];
+        for (int i = 0; i < depots.size(); i++) {
+            cardIds[i] = depots.get(i).getCardId();
+        }
+        return cardIds;
     }
 
 

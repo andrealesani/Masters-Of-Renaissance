@@ -16,9 +16,9 @@ class LeaderDepotTest {
     @Test
     void addResource() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
         ResourceDepot stashBlock = new BasicDepot(warehouse, 4);
-        ResourceDepot stashLeader = new LeaderDepot(2, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(2, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stash);
         warehouse.addNewDepot(stashBlock);
         warehouse.addNewDepot(stashLeader);
@@ -41,7 +41,7 @@ class LeaderDepotTest {
      */
     @Test
     void addResourceNotEnoughSpaceNewResource() {
-        ResourceDepot stash = new LeaderDepot(4, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(4, ResourceType.SHIELD, 0);
 
         Exception ex = assertThrows(NotEnoughSpaceException.class, () -> {
             stash.addResource(ResourceType.SHIELD, 5);
@@ -53,7 +53,7 @@ class LeaderDepotTest {
      */
     @Test
     void addResourceNotEnoughSpaceOldResource() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         stash.addResource(ResourceType.SHIELD, 1);
 
@@ -67,7 +67,7 @@ class LeaderDepotTest {
      */
     @Test
     void addResourceWrongResourceType() {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         Exception ex = assertThrows(WrongResourceInsertionException.class, () -> {
             stash.addResource(ResourceType.COIN, 1);
@@ -82,8 +82,8 @@ class LeaderDepotTest {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 3);
         ResourceDepot stash2 = new BasicDepot(warehouse, 3);
-        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stash2);
         warehouse.addNewDepot(stashLeader1);
@@ -105,8 +105,8 @@ class LeaderDepotTest {
     void canHoldContentOfTrueEmpty() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash = new BasicDepot(warehouse, 3);
-        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stash);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
@@ -136,8 +136,8 @@ class LeaderDepotTest {
     void canHoldContentOfFalseSize() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 5);
-        ResourceDepot stashLeader1 = new LeaderDepot(2, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stashLeader1 = new LeaderDepot(2, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
@@ -156,8 +156,8 @@ class LeaderDepotTest {
     void canHoldContentOfFalseResourceType() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse(0);
         ResourceDepot stash1 = new BasicDepot(warehouse, 5);
-        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN, 0);
         warehouse.addNewDepot(stash1);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
@@ -174,7 +174,7 @@ class LeaderDepotTest {
      */
     @Test
     void isBlocking() {
-        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD, 0);
         assertFalse(stash.isBlocking(ResourceType.SHIELD));
     }
 
@@ -183,7 +183,7 @@ class LeaderDepotTest {
      */
     @Test
     void getSize() {
-        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD, 0);
         assertEquals(2, stash.getSize());
     }
 
@@ -192,7 +192,7 @@ class LeaderDepotTest {
      */
     @Test
     void empty() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(2, ResourceType.SHIELD, 0);
 
         stash.addResource(ResourceType.SHIELD, 2);
 
@@ -205,7 +205,7 @@ class LeaderDepotTest {
      */
     @Test
     void removeResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         stash.addResource(ResourceType.SHIELD, 4);
         stash.removeResource(ResourceType.SHIELD, 1);
@@ -219,7 +219,7 @@ class LeaderDepotTest {
      */
     @Test
     void removeResourceNotEnough() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         stash.addResource(ResourceType.SHIELD, 3);
 
@@ -233,7 +233,7 @@ class LeaderDepotTest {
      */
     @Test
     void removeResourceEmptyDepot() {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             stash.removeResource(ResourceType.SHIELD, 4);
@@ -245,7 +245,7 @@ class LeaderDepotTest {
      */
     @Test
     void removeResourceNotInStash() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.COIN, 0);
 
         stash.addResource(ResourceType.COIN, 3);
 
@@ -259,7 +259,7 @@ class LeaderDepotTest {
      */
     @Test
     void getNumOfResource() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD, 0);
 
         assertEquals(0, stash.getNumOfResource(ResourceType.SHIELD));
         assertEquals(0, stash.getNumOfResource(ResourceType.COIN));
@@ -276,7 +276,7 @@ class LeaderDepotTest {
      */
     @Test
     void getNumOfResourceRemoved() throws NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(25, ResourceType.SHIELD, 0);
 
         stash.addResource(ResourceType.SHIELD, 17);
         stash.removeResource(ResourceType.SHIELD, 17);
@@ -290,7 +290,7 @@ class LeaderDepotTest {
      */
     @Test
     void getStoredResources() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
-        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD);
+        ResourceDepot stash = new LeaderDepot(5, ResourceType.SHIELD, 0);
 
         assertTrue(stash.getStoredResources().isEmpty());
 

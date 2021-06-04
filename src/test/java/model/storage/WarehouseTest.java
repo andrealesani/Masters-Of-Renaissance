@@ -20,8 +20,8 @@ class WarehouseTest {
 
         assertEquals (3, warehouse.getNumOfDepots());
 
-        ResourceDepot stashLeader1 = new LeaderDepot(3, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(3, ResourceType.COIN);
+        ResourceDepot stashLeader1 = new LeaderDepot(3, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(3, ResourceType.COIN, 0);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
 
@@ -39,7 +39,7 @@ class WarehouseTest {
         Warehouse warehouse = new Warehouse (2);
         ResourceDepot stash1 = warehouse.getDepot(1);
         ResourceDepot stash2 = warehouse.getDepot(2);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
         warehouse.addToDepot (1, ResourceType.SHIELD, 1);
@@ -58,7 +58,7 @@ class WarehouseTest {
     @Test
     void addToDepotDepotNotPresent() {
         Warehouse warehouse = new Warehouse (2);
-        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
+        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD, 0));
 
         Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.addToDepot(0, ResourceType.SHIELD, 1);
@@ -77,7 +77,7 @@ class WarehouseTest {
         Warehouse warehouse = new Warehouse (2);
         ResourceDepot stash1 = warehouse.getDepot(1);
         ResourceDepot stash2 = warehouse.getDepot(2);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
 
@@ -102,8 +102,8 @@ class WarehouseTest {
     @Test
     void removeFromDepotDepotNotPresent() {
         Warehouse warehouse = new Warehouse(3);
-        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
-        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD));
+        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD, 0));
+        warehouse.addNewDepot(new LeaderDepot(3, ResourceType.SHIELD, 0));
 
         Exception ex = assertThrows(ParametersNotValidException.class, () -> {
             warehouse.removeFromDepot(0, ResourceType.SHIELD, 1);
@@ -122,7 +122,7 @@ class WarehouseTest {
     void swapDepotContentBothEmpty() throws SwapNotValidException, DepotNotPresentException, ParametersNotValidException {
         Warehouse warehouse = new Warehouse (1);
         ResourceDepot stash = warehouse.getDepot(1);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
 
@@ -141,7 +141,7 @@ class WarehouseTest {
     void swapDepotContentOneEmpty() throws SwapNotValidException, DepotNotPresentException, ParametersNotValidException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse (1);
         ResourceDepot stash = warehouse.getDepot(1);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
         warehouse.addToDepot (1, ResourceType.SHIELD, 1);
@@ -168,7 +168,7 @@ class WarehouseTest {
         Warehouse warehouse = new Warehouse (2);
         ResourceDepot stash1 = warehouse.getDepot(1);
         ResourceDepot stash2 = warehouse.getDepot(2);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
 
@@ -228,8 +228,8 @@ class WarehouseTest {
     @Test
     void swapDepotSwapNotValid() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException {
         Warehouse warehouse = new Warehouse (3);
-        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.COIN));
-        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.SERVANT));
+        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.COIN, 0));
+        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.SERVANT, 0));
 
 
 
@@ -264,7 +264,7 @@ class WarehouseTest {
         Warehouse warehouse = new Warehouse (2);
         ResourceDepot stash1 = warehouse.getDepot(1);
         ResourceDepot stash2 = warehouse.getDepot(2);
-        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD);
+        ResourceDepot stashLeader = new LeaderDepot(3, ResourceType.SHIELD, 0);
         warehouse.addNewDepot(stashLeader);
 
         warehouse.addToDepot (1, ResourceType.COIN, 1);
@@ -305,7 +305,7 @@ class WarehouseTest {
     void isResourceFalse() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException {
         Warehouse warehouse = new Warehouse (2);
         ResourceDepot stash2 = warehouse.getDepot(2);
-        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.SHIELD));
+        warehouse.addNewDepot(new LeaderDepot(5, ResourceType.SHIELD, 0));
 
 
         warehouse.addToDepot (2, ResourceType.COIN, 2);
@@ -325,8 +325,8 @@ class WarehouseTest {
     @Test
     void getNumOfResource() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
         Warehouse warehouse = new Warehouse (3);
-        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN, 0);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
 
@@ -357,8 +357,8 @@ class WarehouseTest {
     @Test
     void getStoredResources() throws BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, NotEnoughResourceException {
         Warehouse warehouse = new Warehouse (3);
-        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD);
-        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN);
+        ResourceDepot stashLeader1 = new LeaderDepot(5, ResourceType.SHIELD, 0);
+        ResourceDepot stashLeader2 = new LeaderDepot(5, ResourceType.COIN, 0);
         warehouse.addNewDepot(stashLeader1);
         warehouse.addNewDepot(stashLeader2);
 

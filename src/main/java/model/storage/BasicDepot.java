@@ -198,4 +198,13 @@ public class BasicDepot implements ResourceDepot {
         if (amount > 0) resourceList.add(storedResource);
         return resourceList;
     }
+
+    /**
+     * Returns the id of the card that activated this depot
+     *
+     * @return the leader card id
+     */
+    public int getCardId() {
+        return 0;
+    }
 }

@@ -23,6 +23,10 @@ public class LeaderDepot implements ResourceDepot {
      * Attribute used to memorize the amount of resource stored
      */
     private int amount = 0;
+    /**
+     * Attribute used to memorize the depot's leader card id
+     */
+    private final int cardId;
 
     //CONSTRUCTORS
 
@@ -32,12 +36,13 @@ public class LeaderDepot implements ResourceDepot {
      * @param size     the maximum number of resources the depot can contain
      * @param resource the only type of resource the depot can contain
      */
-    public LeaderDepot(int size, ResourceType resource) {
+    public LeaderDepot(int size, ResourceType resource, int cardId) {
         if (size <= 0 || resource == null) {
             throw new ParametersNotValidException();
         }
         this.size = size;
         this.acceptedResource = resource;
+        this.cardId = cardId;
     }
 
     //PUBLIC METHODS
@@ -165,5 +170,14 @@ public class LeaderDepot implements ResourceDepot {
         List<ResourceType> resourceList = new ArrayList<>();
         if (amount > 0) resourceList.add(acceptedResource);
         return resourceList;
+    }
+
+    /**
+     * Returns the id of the card that activated this depot
+     *
+     * @return the leader card id
+     */
+    public int getCardId() {
+        return cardId;
     }
 }
