@@ -58,6 +58,8 @@ public class ProductionHandlerBean implements Observer {
         return output;
     }
 
+    public String getUsername() { return username; }
+
     // SETTERS
 
     public void setInputFromPH(ProductionHandler productionHandler) {

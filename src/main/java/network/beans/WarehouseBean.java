@@ -35,10 +35,7 @@ public class WarehouseBean implements Observer {
      * Represents the maximum capacity of each depot
      */
     private int[] depotSizes;
-    /**
-     * Represents the ids for the cards that activated each depot
-     */
-    private int[] depotCardId;
+
     // TODO aggiungere risorse massime nei Leader Depots
 
     // CONSTRUCTOR
@@ -62,10 +59,6 @@ public class WarehouseBean implements Observer {
             depotQuantity[i] = warehouse.getDepot(i + 1).getNumOfResource(depotType[i]);
             depotSizes[i] = warehouse.getDepot(i + 1).getSize();
         }
-    }
-
-    public void setDepotCardIdFromWarehouse(Warehouse warehouse) {
-        depotCardId = warehouse.getDepotCardId().clone();
     }
 
     //PRIVATE METHODS
@@ -109,10 +102,6 @@ public class WarehouseBean implements Observer {
         return depotQuantity;
     }
 
-    public int[] getDepotCardId() {
-        return depotCardId;
-    }
-
     public int getBasicDepotNum() {
         return basicDepotNum;
     }
@@ -124,7 +113,6 @@ public class WarehouseBean implements Observer {
         Gson gson = new Gson();
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
-        setDepotCardIdFromWarehouse(warehouse);
 
         controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
     }

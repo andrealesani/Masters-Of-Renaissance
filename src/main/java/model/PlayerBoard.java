@@ -72,6 +72,10 @@ public class PlayerBoard implements Observable {
      */
     private final List<LeaderCard> leaderCards;
     /**
+     * Map used to signal the correspondence between a leader depot numbers and their leader card
+     */
+    private final Map<Integer, Integer> leaderDepotCards;
+    /**
      * Array used to store the faith values of the victory points faith tiles
      */
     private final int[] vpFaithTiles;
@@ -134,14 +138,15 @@ public class PlayerBoard implements Observable {
         strongbox = new UnlimitedStorage();
         marbleConversions = new ArrayList<>();
         discounts = new HashMap<>();
-        cardSlots = new ArrayList<List<DevelopmentCard>>();
+        cardSlots = new ArrayList<>();
         this.finalFaith = finalFaith;
         this.devCardMax = devCardMax;
         this.vpFaithTiles = vpFaithTiles;
         this.vpFaithValues = vpFaithValues;
         for (int i = 0; i < devCardSlots; i++)
-            cardSlots.add(new ArrayList<DevelopmentCard>());
-        leaderCards = new ArrayList<LeaderCard>();
+            cardSlots.add(new ArrayList<>());
+        leaderCards = new ArrayList<>();
+        leaderDepotCards = new HashMap<>();
         productionHandler = new ProductionHandler();
         productionHandler.addProduction(baseProduction);
 
@@ -172,6 +177,7 @@ public class PlayerBoard implements Observable {
         for (int i = 0; i < 3; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
+        leaderDepotCards = new HashMap<>();
         productionHandler = new ProductionHandler();
 
         isConnected = true;
@@ -571,6 +577,7 @@ public class PlayerBoard implements Observable {
 
         if (leaderCards.get(number-1).areRequirementsMet(this)) {
             leaderCards.get(number-1).doAction(this);
+            setLeaderDepotCards();
         } else throw new LeaderRequirementsNotMetException();
 
         notifyObservers();
@@ -851,6 +858,28 @@ public class PlayerBoard implements Observable {
         hasTakenFirstTurn = true;
     }
 
+    //PRIVATE METHODS
+
+    /**
+     * Sets the correspondence between leader depots and their cards
+     */
+    private void setLeaderDepotCards() {
+
+        int[] depotId = warehouse.getDepotCardId();
+        int[] leaderDepot = new int[leaderCards.size()];
+
+        for (int i = 0; i < depotId.length; i++) {
+            if (depotId[i] != 0) {
+                for (int j = 0; j < leaderCards.size(); j++) {
+                    if (depotId[i] == leaderCards.get(j).getId()) {
+                        leaderDepotCards.put(i + 1, j + 1);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     //GETTERS
 
     //Composite getters
@@ -1059,7 +1088,7 @@ public class PlayerBoard implements Observable {
      * @return vpFaithTiles
      */
     public int[] getVpFaithTiles() {
-        return vpFaithTiles;
+        return vpFaithTiles.clone();
     }
 
     /**
@@ -1068,7 +1097,20 @@ public class PlayerBoard implements Observable {
      * @return vpFaithValues
      */
     public int[] getVpFaithValues() {
-        return vpFaithValues;
+        return vpFaithValues.clone();
+    }
+
+    /**
+     * Getetr
+     *
+     * @return leaderDepotCards
+     */
+    public Map<Integer, Integer> getLeaderDepotCards() {
+        Map<Integer, Integer> result = new HashMap<>();
+        for (Integer depotNumber : leaderDepotCards.keySet()) {
+            result.put(depotNumber, leaderDepotCards.get(depotNumber));
+        }
+        return result;
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

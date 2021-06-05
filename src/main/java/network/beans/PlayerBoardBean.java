@@ -81,6 +81,10 @@ public class PlayerBoardBean implements Observer {
      */
     private boolean[] activeLeaderCards;
     /**
+     * Represents the association between a warehouse leader depot and its leadercard
+     */
+    private Map<Integer, Integer> leaderDepotCards;
+    /**
      * Represents the faith value reached by the player to earns victory points
      */
     private int[] vpFaithTiles;
@@ -251,6 +255,15 @@ public class PlayerBoardBean implements Observer {
      */
     public int[] getDiscountQuantity() {
         return discountQuantity;
+    }
+
+    /**
+     * Getter
+     *
+     * @return leaderDepotCards
+     */
+    public Map<Integer, Integer> getLeaderDepotCards() {
+        return leaderDepotCards;
     }
 
     // SETTERS
@@ -431,6 +444,10 @@ public class PlayerBoardBean implements Observer {
         }
     }
 
+    private void setLeaderDepotCardsFromPB(PlayerBoard playerBoard) {
+        leaderDepotCards = playerBoard.getLeaderDepotCards();
+    }
+
     private String drawFaithTrack () {
         String content = " ";
         int nextPopeTile = 0;
@@ -553,6 +570,7 @@ public class PlayerBoardBean implements Observer {
         setProductionsFromPB(pb);
         setMarbleConversionsFromPB(pb);
         setDiscountFromPB(pb);
+        setLeaderDepotCardsFromPB(pb);
 
         controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
     }

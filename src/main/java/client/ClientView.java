@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ClientView {
     private String username;
+    private int turnOrderSpot = -1;
     private GameBean game;
     private MarketBean market;
     private CardTableBean cardTable;
@@ -197,20 +198,56 @@ public class ClientView {
         return playerBoards;
     }
 
+    public PlayerBoardBean getPlayerBoard(String username) {
+        for (PlayerBoardBean playerBoard : playerBoards) {
+            if (playerBoard.getUsername().equals(username))
+                return playerBoard;
+        }
+        return null;
+    }
+
     public List<StrongboxBean> getStrongboxes() {
         return strongboxes;
+    }
+
+    public StrongboxBean getStrongbox(String username) {
+        for (StrongboxBean strongbox : strongboxes) {
+            if (strongbox.getUsername().equals(username))
+                return strongbox;
+        }
+        return null;
     }
 
     public List<WaitingRoomBean> getWaitingRooms() {
         return waitingRooms;
     }
 
+    public WaitingRoomBean getWaitingRoom(String username) {
+        for (WaitingRoomBean waitingRoom : waitingRooms) {
+            if (waitingRoom.getUsername().equals(username))
+                return waitingRoom;
+        }
+        return null;
+    }
+
     public List<WarehouseBean> getWarehouses() {
         return warehouses;
     }
 
+    public WarehouseBean getWarehouse(String username) {
+        for (WarehouseBean warehouse : warehouses) {
+            if (warehouse.getUsername().equals(username))
+                return warehouse;
+        }
+        return null;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public int getTurnOrderSpot() {
+        return turnOrderSpot;
     }
 
     // SETTERS (other setters are not needed because the caller can use List<> setters)
@@ -233,6 +270,10 @@ public class ClientView {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setTurnOrderSpot(int spot) {
+        this.turnOrderSpot = spot;
     }
 
     //PRINTING METHODS

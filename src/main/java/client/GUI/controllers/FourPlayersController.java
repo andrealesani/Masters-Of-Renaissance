@@ -24,6 +24,7 @@ import model.CardColor;
 import model.PopeTileState;
 import model.card.Card;
 import model.resource.ResourceType;
+import model.storage.Warehouse;
 import network.Command;
 import network.UserCommandsType;
 import network.beans.*;
@@ -38,24 +39,17 @@ public class FourPlayersController implements GUIController {
     private GUI gui;
     private ClientView clientView;
     private Gson gson;
-    private Map<Integer, Integer> leaderDepotCards = new HashMap<>();
-
 
     @FXML
-    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, LeaderDepotGrid;
-
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid;
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane;
-
     @FXML
     public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel;
-
     @FXML
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image, waitingRoomHider;
-
     @FXML
     public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton;
-
     @FXML
     public Text descriptionText;
 
@@ -86,7 +80,8 @@ public class FourPlayersController implements GUIController {
         switch (response.getType().toString()) {
 
             case "GAME":
-                drawGameState(clientView.getGame());
+                GameBean gameBean = clientView.getGame();
+                drawGameState(gameBean);
                 break;
 
             case "MARKET":
@@ -100,18 +95,7 @@ public class FourPlayersController implements GUIController {
                 break;
 
             case "PLAYERBOARD":
-                List<PlayerBoardBean> playerBoards = clientView.getPlayerBoards();
-                PlayerBoardBean playerBoardBean = null;
-                for (PlayerBoardBean playerBoard : playerBoards) {
-                    if (playerBoard.getUsername().equals(clientView.getUsername())) {
-                        playerBoardBean = playerBoard;
-                        break;
-                    }
-                }
-                if (playerBoardBean == null) {
-                    System.out.println("Error, player has no player board in client view.");
-                    return;
-                }
+                PlayerBoardBean playerBoardBean = clientView.getPlayerBoard(clientView.getUsername());
 
                 //Faith track
                 drawFaithTrack(playerBoardBean.getFaith());
@@ -136,40 +120,19 @@ public class FourPlayersController implements GUIController {
 
                 break;
             case "STRONGBOX":
-                List<StrongboxBean> strongboxes = clientView.getStrongboxes();
-                StrongboxBean strongboxBean = null;
-                for (StrongboxBean strongbox : strongboxes) {
-                    if (strongbox.getUsername().equals(clientView.getUsername())) {
-                        strongboxBean = strongbox;
-                        break;
-                    }
-                }
-                if (strongboxBean == null) {
-                    System.out.println("Error, player has no strongbox in client view.");
-                    return;
-                }
+                StrongboxBean strongboxBean = clientView.getStrongbox(clientView.getUsername());
 
                 //TODO usare mappe per inviare le risorse pls
-                int[] stronboxContents = strongboxBean.getQuantity();
-                strongboxCoinLabel.setText(Integer.toString(stronboxContents[0]));
-                strongboxServantLabel.setText(Integer.toString(stronboxContents[1]));
-                strongboxShieldLabel.setText(Integer.toString(stronboxContents[2]));
-                strongboxStoneLabel.setText(Integer.toString(stronboxContents[3]));
+                int[] strongboxContents = strongboxBean.getQuantity();
+                strongboxCoinLabel.setText(Integer.toString(strongboxContents[0]));
+                strongboxServantLabel.setText(Integer.toString(strongboxContents[1]));
+                strongboxShieldLabel.setText(Integer.toString(strongboxContents[2]));
+                strongboxStoneLabel.setText(Integer.toString(strongboxContents[3]));
 
                 break;
             case "WAITINGROOM":
-                List<WaitingRoomBean> waitingRooms = clientView.getWaitingRooms();
-                WaitingRoomBean waitingRoomBean = null;
-                for (WaitingRoomBean waitingRoom : waitingRooms) {
-                    if (waitingRoom.getUsername().equals(clientView.getUsername())) {
-                        waitingRoomBean = waitingRoom;
-                        break;
-                    }
-                }
-                if (waitingRoomBean == null) {
-                    System.out.println("Error, player has no waiting room in client view.");
-                    return;
-                }
+
+                WaitingRoomBean waitingRoomBean = clientView.getWaitingRoom(clientView.getUsername());
 
                 int[] waitingRoomContents = waitingRoomBean.getQuantity();
                 waitingRoomCoinLabel.setText(Integer.toString(waitingRoomContents[0]));
@@ -179,19 +142,7 @@ public class FourPlayersController implements GUIController {
 
                 break;
             case "WAREHOUSE":
-                //TODO leader depots
-                List<WarehouseBean> warehouses = clientView.getWarehouses();
-                WarehouseBean warehouseBean = null;
-                for (WarehouseBean warehouse : warehouses) {
-                    if (warehouse.getUsername().equals(clientView.getUsername())) {
-                        warehouseBean = warehouse;
-                        break;
-                    }
-                }
-                if (warehouseBean == null) {
-                    System.out.println("Error, player has no warehouse in client view.");
-                    return;
-                }
+                WarehouseBean warehouseBean = clientView.getWarehouse(clientView.getUsername());
 
                 int[] depotQuantities = warehouseBean.getDepotQuantity();
                 ResourceType[] depotTypes = warehouseBean.getDepotType();
@@ -199,6 +150,15 @@ public class FourPlayersController implements GUIController {
                 drawDepot(depotQuantities[1], depotTypes[1], depot2Grid);
                 drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
 
+                if (depotQuantities.length > 3 && clientView.getPlayerBoard(clientView.getUsername()) != null) {
+                    int i = 3;
+                    List<Node> leaderDepots = leaderDepotGrid.getChildren();
+                    Map<Integer, Integer> leaderDepotCards = clientView.getPlayerBoard(clientView.getUsername()).getLeaderDepotCards();
+                    for(int depot : leaderDepotCards.keySet()) {
+                        drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCards.get(depot) - 1));
+                        i++;
+                    }
+                }
                 break;
             case "LORENZO":
                 //TODO?
@@ -378,30 +338,22 @@ public class FourPlayersController implements GUIController {
         waitingRoomStoneButton.setVisible(false);
         strongboxButton.setVisible(false);
         cancelOperationButton.setVisible(false);
-        for (Node card : leaderGrid.getChildren()) {
+        for (Node card : leaderGrid.getChildren())
             card.setOnMouseClicked(null);
-        }
-        for (Node button : leaderButtonGrid.getChildren()) {
+        for (Node button : leaderButtonGrid.getChildren())
             button.setVisible(false);
-        }
-        for (Node button : marketRowButtonsGrid.getChildren()) {
+        for (Node button : marketRowButtonsGrid.getChildren())
             button.setVisible(false);
-        }
-        for (Node button : marketColumnButtonsGrid.getChildren()) {
+        for (Node button : marketColumnButtonsGrid.getChildren())
             button.setVisible(false);
-        }
-        for (Node button : warehouseButtonsGrid.getChildren()) {
+        for (Node button : warehouseButtonsGrid.getChildren())
             button.setVisible(false);
-        }
-        for (Node card : cardsGrid.getChildren()) {
+        for (Node card : cardsGrid.getChildren())
             card.setOnMouseClicked(null);
-        }
-        for (Node button : cardSlotsButtonGrid.getChildren()) {
+        for (Node button : cardSlotsButtonGrid.getChildren())
             button.setVisible(false);
-        }
-        for (Node button : leaderDepotButtonGrid.getChildren()) {
+        for (Node button : leaderDepotButtonGrid.getChildren())
             button.setVisible(false);
-        }
         endTurnButton.setDisable(true);
     }
 
@@ -470,6 +422,7 @@ public class FourPlayersController implements GUIController {
     }
 
     public void enableSwapDepotButtons() {
+        //Warehouse depots
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
         for (int i = 0; i < depotButtons.size(); i++) {
             Button button = (Button) depotButtons.get(i);
@@ -477,6 +430,16 @@ public class FourPlayersController implements GUIController {
             button.setText("Swap");
             int finalI = i + 1;
             button.setOnAction(e -> setupDepotSwap(finalI));
+        }
+        //Leader Depots
+        PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
+        if (playerBoard != null) {
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
+            for (int depot : leaderDepotCards.keySet()) {
+                int card = leaderDepotCards.get(depot);
+                ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> setupDepotSwap(depot));
+            }
         }
     }
 
@@ -581,6 +544,7 @@ public class FourPlayersController implements GUIController {
         descriptionText.setText("Choose which depot to send the resource to.");
 
         disableButtons();
+        //Warehouse depots
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
         for (int i = 0; i < depotButtons.size(); i++) {
             Button button = (Button) depotButtons.get(i);
@@ -589,9 +553,15 @@ public class FourPlayersController implements GUIController {
             button.setText("Depot " + finalI);
             button.setOnAction(e -> sendResourceToDepot(finalI, resource, 1));
         }
-        List<Node> leaderDepotButtons = warehouseButtonsGrid.getChildren();
-        for(int i = 0; i < leaderDepotButtons.size(); i++) {
-
+        //Leader Depots
+        PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
+        if (playerBoard != null) {
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
+            for (int depot : leaderDepotCards.keySet()) {
+                int card = leaderDepotCards.get(depot);
+                ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> sendResourceToDepot(depot, resource, 1));
+            }
         }
         //For resetting halfway through
         cancelOperationButton.setVisible(true);
@@ -619,6 +589,7 @@ public class FourPlayersController implements GUIController {
         descriptionText.setText("Choose whether to take the resource from a depot or the strongbox.");
 
         disableButtons();
+        //Basic depots
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
         for (int i = 0; i < depotButtons.size(); i++) {
             Button button = (Button) depotButtons.get(i);
@@ -627,6 +598,17 @@ public class FourPlayersController implements GUIController {
             button.setText("Depot " + finalI);
             button.setOnAction(e -> payFromWarehouse(finalI, resource, 1));
         }
+        //Leader Depots
+        PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
+        if (playerBoard != null) {
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
+            for (int depot : leaderDepotCards.keySet()) {
+                int card = leaderDepotCards.get(depot);
+                ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> payFromWarehouse(depot, resource, 1));
+            }
+        }
+        //Strongbox
         strongboxButton.setOnAction(e -> payFromStrongbox(resource, 1));
         //For resetting halfway through
         cancelOperationButton.setVisible(true);
@@ -638,12 +620,23 @@ public class FourPlayersController implements GUIController {
 
         disableButtons();
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
+        //Warehouse depots
         for (int i = 0; i < depotButtons.size(); i++) {
             Button button = (Button) depotButtons.get(i);
             button.setVisible(true);
             int finalI = i + 1;
             button.setText("Depot " + finalI);
             button.setOnAction(e -> swapDepotContent(depot1, finalI));
+        }
+        //Leader Depots
+        PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
+        if (playerBoard != null) {
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
+            for (int depot : leaderDepotCards.keySet()) {
+                int card = leaderDepotCards.get(depot);
+                ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> swapDepotContent(depot1, depot));
+            }
         }
         //For resetting halfway through
         cancelOperationButton.setVisible(true);
@@ -726,7 +719,7 @@ public class FourPlayersController implements GUIController {
             if (i < leaderCards.length) {
                 card = new Image("/graphics/front/" + leaderCards[i] + ".png");
                 if (playerBoardBean.getActiveLeaderCards()[i])
-                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgba(33, 148, 38, 18), 30, 0.9, 0, 0)");
+                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgb(100,160,100), 30, 0.9, 0, 0)");
                 else {
                     leaderChildren.get(i).setStyle(" -fx-effect: null");
                 }
