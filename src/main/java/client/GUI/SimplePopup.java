@@ -15,17 +15,21 @@ public class SimplePopup {
     public static void display(String messageType, String jsonMessage) {
         Gson gson = new Gson();
         Stage window = new Stage();
+        //the regex is used to eliminate the special characters that would be counted in the string length
+        String title = messageType.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+        String message = jsonMessage.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+
 
         //Block events to main game window
         window.initModality(Modality.APPLICATION_MODAL);
         window.getIcons().add(new Image(SimplePopup.class.getResourceAsStream("/graphics/punchboard/calamaio.png")));
-        window.setTitle(messageType);
+        window.setTitle(title);
         window.setMinWidth(250);
         window.setMinHeight(120);
         window.setResizable(false);
 
         Label label = new Label();
-        label.setText(jsonMessage);
+        label.setText(message);
         label.getStyleClass().add("text-field");
         Button closeButton = new Button("Ok");
         closeButton.setOnAction(e -> window.close());

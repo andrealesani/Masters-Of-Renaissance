@@ -73,7 +73,7 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         setup();
         this.window = stage;
-        window.setResizable(false);
+        window.setResizable(true);
         // If we wanna add special fonts we should do it here
         run();
     }
@@ -103,10 +103,11 @@ public class GUI extends Application {
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
         window.show();
-        /*if (newScene.equals("gameBoard.fxml") || newScene.equals("gameBoard4Players.fxml")) {
-            window.sizeToScene();
-            window.setFullScreen(true);
-        }*/
+        if (newScene.equals("gameBoard4Players.fxml") || newScene.equals("gameSettings.fxml")) {
+            window.setResizable(false);
+        } else {
+            window.setResizable(true);
+        }
     }
 
     /**
