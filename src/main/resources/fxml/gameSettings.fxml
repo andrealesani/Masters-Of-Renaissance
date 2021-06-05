@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="pane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="689.0" styleClass="mainBackground" stylesheets="@../css/gameSettings.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.SettingsController">
+<AnchorPane fx:id="pane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="689.0" styleClass="mainBackground" stylesheets="@../css/gameSettings.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.GUI.controllers.SettingsController">
    <children>
       <Label fx:id="gameSettingsLabel" layoutX="86.0" layoutY="14.0" prefHeight="54.0" prefWidth="210.0" text="GAME SETTINGS" textFill="#f20000">
          <font>
