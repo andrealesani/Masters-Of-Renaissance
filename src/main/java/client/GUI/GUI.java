@@ -193,6 +193,10 @@ public class GUI extends Application {
         return clientView;
     }
 
+    public Scene getSceneByFileName(String fileName) {
+        return nameMapScene.get(fileName);
+    }
+
     //SETTERS
 
     private void setClientReader(BufferedReader in) {

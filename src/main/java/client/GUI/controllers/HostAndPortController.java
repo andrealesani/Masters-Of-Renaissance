@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
-public class LoginController implements GUIController {
+public class HostAndPortController implements GUIController {
     private GUI gui;
 
     @FXML
