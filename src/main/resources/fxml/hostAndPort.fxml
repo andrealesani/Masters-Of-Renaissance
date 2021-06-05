@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="852.0" styleClass="mainBackground" stylesheets="@../css/hostAndPort.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.GUI.controllers.HostAndPortController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="568.0" prefWidth="852.0" styleClass="mainBackground" stylesheets="@../css/hostAndPort.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.HostAndPortController">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="378.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="510.0" prefWidth="652.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="148.0" fitWidth="307.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -18,20 +18,20 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </ImageView>
-            <Label fx:id="serverAddressLabel" styleClass="input-label" alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="153.0" text="Server Address" textFill="WHITE">
+            <Label fx:id="serverAddressLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="153.0" styleClass="input-label" text="Server Address" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="serverAddressField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#getServer" prefHeight="26.0" prefWidth="457.0" text="localhost" />
-            <Label fx:id="serverPortLabel" styleClass="input-label" alignment="CENTER" prefHeight="40.0" prefWidth="133.0" text="Port" textFill="WHITE">
+            <Label fx:id="serverPortLabel" alignment="CENTER" prefHeight="40.0" prefWidth="133.0" styleClass="input-label" text="Port" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="serverPortField" alignment="CENTER" prefHeight="26.0" prefWidth="110.0" text="1234" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loggingIn" prefHeight="26.0" prefWidth="72.0" text="CONNECT" />
-            <Label fx:id="statusLabel" prefHeight="32.0" prefWidth="214.0" styleClass="input-label" textFill="#143e5e">
+            <Button fx:id="loginButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loggingIn" prefHeight="38.0" prefWidth="86.0" text="CONNECT" />
+            <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="405.0" styleClass="input-label" textFill="#143e5e">
                <font>
                   <Font name="Arial Rounded MT Bold" size="16.0" />
                </font>
@@ -46,7 +46,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="19.0" prefWidth="68.0" text="QUIT" onAction="#quitGame" BorderPane.alignment="CENTER">
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#quitGame" prefHeight="19.0" prefWidth="68.0" text="QUIT" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" />
          </BorderPane.margin>

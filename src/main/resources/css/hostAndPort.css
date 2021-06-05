@@ -16,7 +16,7 @@
 }
 
 .button:pressed {
-    -fx-background-color: #0c1e42;
+    -fx-background-color: #051C26FF;
 }
 
 .input-label {
