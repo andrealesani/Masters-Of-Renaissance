@@ -16,15 +16,6 @@
     -fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
 }
 
-.market-arrow {
-    /*-fx-text-fill: transparent;*/
-    /*-fx-background-color: transparent;*/
-}
-
-.market-arrow:hover {
-    -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 30, 0, 0, 0);
-}
-
 .card:hover {
     -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 30, 0, 0, 0);
 }
@@ -45,4 +36,15 @@
 
 .button:pressed {
     -fx-background-color: #66361e;
+}
+
+/* market-arrow has to stay BELOW button declaration */
+.market-arrow {
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-text-fill: transparent;
+    -fx-background-color: transparent;
+}
+
+.market-arrow:hover {
+    -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 10, 1, 0, 0);
 }

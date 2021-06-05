@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="852.0" styleClass="mainBackground" stylesheets="@../css/HostAndPort.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.GUI.controllers.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="852.0" styleClass="mainBackground" stylesheets="@../css/hostAndPort.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.GUI.controllers.LoginController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="378.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>

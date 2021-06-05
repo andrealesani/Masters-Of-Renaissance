@@ -131,62 +131,62 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/green1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/blue1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/purple1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/yellow1back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../graphics/back/green2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../graphics/back/blue2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../graphics/back/purple2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                         <image>
                             <Image url="@../graphics/back/yellow2back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../graphics/back/green3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../graphics/back/blue3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../graphics/back/purple3back.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="market-arrow" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                         <image>
                             <Image url="@../graphics/back/yellow3back.png" />
                         </image>
@@ -484,22 +484,22 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
@@ -631,7 +631,7 @@
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                    <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource">
+                    <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../graphics/punchboard/jolly.png" />
                         </image>

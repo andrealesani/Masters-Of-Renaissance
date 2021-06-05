@@ -721,7 +721,7 @@ public class FourPlayersController implements GUIController {
             if (i < leaderCards.length) {
                 card = new Image("/graphics/front/" + leaderCards[i] + ".png");
                 if (playerBoardBean.getActiveLeaderCards()[i])
-                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgba(37, 255, 220, 18), 30, 0, 0, 0);");
+                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgba(33, 148, 38, 18), 30, 0.9, 0, 0)");
                 else {
                     leaderChildren.get(i).setStyle(" -fx-effect: null");
                 }
