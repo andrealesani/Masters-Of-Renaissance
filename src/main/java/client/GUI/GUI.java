@@ -20,12 +20,9 @@ public class GUI extends Application {
     private static final String LOGIN = "hostAndPort.fxml";
     private static final String GAME_BOARD = "gameBoard.fxml";
     private static final String SETTINGS = "gameSettings.fxml";
-    private static final String PLAYERBOARD = "playerBoard.fxml";
     private static final String LOADING = "waitingPlayers.fxml";
-    private static final String GAME_BOARD_1 = "gameBoard1Player.fxml";
-    private static final String GAME_BOARD_2 = "gameBoard2Players.fxml";
-    private static final String GAME_BOARD_3 = "gameBoard3Players.fxml";
     private static final String GAME_BOARD_4 = "gameBoard4Players.fxml";
+    private static final String PRODUCTIONS = "productions.fxml";
 
 
     private Scene currentScene;
@@ -160,7 +157,7 @@ public class GUI extends Application {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     private void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, LOADING, GAME_BOARD_4));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, LOADING, GAME_BOARD_4, PRODUCTIONS));
         try {
             for (String path : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));

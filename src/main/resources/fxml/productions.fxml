@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.ProductionsController">
+   <children>
+      <Label layoutX="131.0" layoutY="108.0" prefHeight="144.0" prefWidth="414.0" text="CIAO TOM">
+         <font>
+            <Font name="Papyrus" size="48.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

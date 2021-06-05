@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.GUI.controllers.FourPlayersController">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1540.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUI.controllers.FourPlayersController">
     <AnchorPane fx:id="marketPane" prefHeight="108.0" prefWidth="29.0">
         <children>
             <ImageView fx:id="market" fitHeight="237.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true">
@@ -484,22 +478,22 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
-                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
                     </ImageView>
-                    <ImageView styleClass="card" fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                    <ImageView fitHeight="169.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="card" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                         <image>
                             <Image url="@../graphics/back/leadercardBack.png" />
                         </image>
@@ -740,12 +734,13 @@
            </columnConstraints>
            <rowConstraints>
              <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="45.599996948242186" minHeight="-Infinity" prefHeight="35.199990844726564" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="26.400009155273438" minHeight="-Infinity" prefHeight="26.400009155273438" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="45.599996948242186" minHeight="-Infinity" prefHeight="35.199999999999996" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="27.200000000000003" minHeight="-Infinity" prefHeight="27.200000000000003" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
                <Button fx:id="endTurnButton" mnemonicParsing="false" prefHeight="43.0" prefWidth="124.0" text="End Turn" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                <Button fx:id="cancelOperationButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="124.0" text="Cancel Operation" GridPane.rowIndex="1" />
+               <Button fx:id="productionsButton" mnemonicParsing="false" onAction="#viewProductions" prefHeight="68.0" prefWidth="130.0" text="View Productions" GridPane.rowIndex="2" />
             </children>
          </GridPane>
       </children>

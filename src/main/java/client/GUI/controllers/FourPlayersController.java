@@ -3,6 +3,7 @@ package client.GUI.controllers;
 import client.ClientView;
 import client.GUI.SimplePopup;
 import client.GUI.GUI;
+import client.GUI.ThiccPopup;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -357,6 +358,10 @@ public class FourPlayersController implements GUIController {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
         gui.sendCommand(gson.toJson(command));
+    }
+
+    public void viewProductions() {
+        ThiccPopup.display(gui, "productions.fxml");
     }
 
     //PRIVATE BUTTON HANDLING METHODS

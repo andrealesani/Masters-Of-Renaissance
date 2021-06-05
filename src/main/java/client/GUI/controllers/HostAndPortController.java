@@ -82,7 +82,7 @@ public class HostAndPortController implements GUIController {
             gui.changeScene("gameSettings.fxml");
         }
         else
-            throw new RuntimeException("Unexpected message to Login scene: " + jsonMessage);
+            System.out.println("Unexpected message to Login scene: " + jsonMessage);
     }
 }
 
