@@ -267,6 +267,12 @@ public class ClientReader implements Runnable {
         }
     }
 
+    /**
+     * This method notifies either the CLI or the GUI that something in the ClientView has changed and forwards the
+     * update message to the one that is currently being used as View
+     *
+     * @param jsonMessage the message received from the server
+     */
     private void notifyViewUpdate(String jsonMessage) {
         if (clientMode == 0) {
             StaticMethods.clearConsole();
