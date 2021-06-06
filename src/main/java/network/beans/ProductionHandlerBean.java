@@ -2,12 +2,14 @@ package network.beans;
 
 import com.google.gson.Gson;
 import model.Observer;
+import model.Production;
 import model.ProductionHandler;
 import model.resource.Resource;
 import model.resource.ResourceType;
 import network.MessageType;
 import server.GameController;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +23,14 @@ public class ProductionHandlerBean implements Observer {
      * Represents the player's username
      */
     private String username;
+    /**
+     * Holds the IDs of the Productions available to the player
+     */
+    private int[] productions;
+    /**
+     * Holds booleans that tell if the Production is that position of the array has been chosen for activation
+     */
+    private boolean[] activeProductions;
     /**
      * Map that represents the input resources (the ones the player will have to pay if he activates the selected productions)
      */
@@ -67,6 +77,14 @@ public class ProductionHandlerBean implements Observer {
 
     public String getUsername() { return username; }
 
+    public int[] getProductions() {
+        return productions;
+    }
+
+    public boolean[] getActiveProductions() {
+        return activeProductions;
+    }
+
     // SETTERS
 
     public void setInputFromPH(ProductionHandler productionHandler) {
@@ -81,6 +99,18 @@ public class ProductionHandlerBean implements Observer {
             output.merge(resourceType, 1, Integer::sum);
     }
 
+    public void setProductionsFromPH(ProductionHandler productionHandler) {
+        productions = new int[productionHandler.getProductions().size()];
+        activeProductions = new boolean[productions.length];
+        for (int i = 0; i < productions.length; i++) {
+            productions[i] = productionHandler.getProductions().get(i).getId();
+            if (productionHandler.getProductions().get(i).isSelectedByHandler())
+                activeProductions[i] = true;
+            else
+                activeProductions[i] = false;
+        }
+    }
+
     // OBSERVER METHODS
 
     public void update(Object observable) {
@@ -89,14 +119,9 @@ public class ProductionHandlerBean implements Observer {
 
         setInputFromPH(pH);
         setOutputFromPH(pH);
+        setProductionsFromPH(pH);
 
         controller.broadcastMessage(MessageType.PRODUCTIONHANDLER, gson.toJson(this));
-
-        System.out.println("PHbean updated");
-        StringBuilder stb = new StringBuilder();
-        for (Map.Entry<ResourceType, Integer> entry : getInput().entrySet()) {
-            System.out.println("Resource: " + entry.getKey() + " " + entry.getValue());
-        }
     }
 
     public void updateSinglePlayer(String username) {

@@ -406,7 +406,6 @@ public class PlayerBoard implements Observable {
      */
     public void selectProduction(int number) throws ProductionNotPresentException {
         productionHandler.selectProduction(number);
-        //notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**
@@ -414,7 +413,6 @@ public class PlayerBoard implements Observable {
      */
     public void resetProductionChoice() {
         productionHandler.resetProductionChoice();
-        //notifyObservers(); Not needed as long as production selection is handled by the client
     }
 
     /**

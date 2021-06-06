@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * select all the Productions he wants to activate and then all the selected Productions can be activated at the same
  * time at the end of the turn
  */
-public class ProductionHandler implements Observable{
+public class ProductionHandler implements Observable {
     /**
      * This list contains all of the player's currently available productions
      */
@@ -27,7 +27,6 @@ public class ProductionHandler implements Observable{
     private final List<Resource> currentOutput;
 
     //CONSTRUCTORS
-    //TODO make a productionhandler bean with current input and output
 
     /**
      * Constructor
@@ -49,6 +48,8 @@ public class ProductionHandler implements Observable{
         if (production == null)
             throw new ParametersNotValidException();
         productions.add(production);
+
+        notifyObservers();
     }
 
     /**
@@ -64,6 +65,8 @@ public class ProductionHandler implements Observable{
         if (production.isSelectedByHandler())
             throw new ProductionIsSelectedException();
         productions.remove(production);
+
+        notifyObservers();
     }
 
     /**
@@ -96,7 +99,7 @@ public class ProductionHandler implements Observable{
      * Marks the specified Production as selected and updates currentInput and currentOutput lists.
      * At the end of the turn, only selected Productions will be activated
      *
-     * @param productionNumber indicates the number of the required production
+     * @param productionNumber indicates the position of the required production  inside the list
      */
     public void selectProduction(int productionNumber) throws ProductionNotPresentException {
         if (productionNumber < 1)
@@ -104,9 +107,26 @@ public class ProductionHandler implements Observable{
         if (productions.size() < productionNumber)
             throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
+    }
+
+    /**
+     * Marks the specified Production as selected and updates currentInput and currentOutput lists.
+     * At the end of the turn, only selected Productions will be activated
+     *
+     * @param productionID indicates the ID of the required production
+     */
+    public void selectProductionByID(int productionID) throws ProductionNotPresentException {
+        for (Production production : productions) {
+            if (production.getId() == productionID) {
+                production.select();
+                break;
+            }
+        }
 
         updateCurrentInput();
         updateCurrentOutput();
+
+        notifyObservers();
     }
 
     /**
@@ -119,6 +139,8 @@ public class ProductionHandler implements Observable{
 
         updateCurrentInput();
         updateCurrentOutput();
+
+        notifyObservers();
     }
 
     /**
@@ -158,7 +180,7 @@ public class ProductionHandler implements Observable{
      * @param playerBoard the player's board
      */
     public void releaseInput(PlayerBoard playerBoard) {
-        if(playerBoard == null)
+        if (playerBoard == null)
             throw new ParametersNotValidException();
         Map<ResourceType, Integer> resources = new HashMap<>();
         for (Resource resource : currentInput)
@@ -172,7 +194,7 @@ public class ProductionHandler implements Observable{
      * @param playerBoard the player's board
      */
     public void releaseOutput(PlayerBoard playerBoard) {
-        if(playerBoard == null)
+        if (playerBoard == null)
             throw new ParametersNotValidException();
         for (Resource resource : currentOutput) {
             resource.addResourceFromProduction(playerBoard);
