@@ -54,6 +54,17 @@ public class ClientView {
             return string;
         }
     };
+    // TODO stampa a CLI dei ProductionHandlers
+    private List<ProductionHandlerBean> productionHandlers = new ArrayList<>() {
+        @Override
+        public String toString() {
+            String string = "";
+            for (ProductionHandlerBean productionHandlerBean : productionHandlers) {
+                string += productionHandlerBean.toString() + "\n";
+            }
+            return string;
+        }
+    };
 
     // PRIVATE METHODS
 
@@ -248,6 +259,10 @@ public class ClientView {
 
     public int getTurnOrderSpot() {
         return turnOrderSpot;
+    }
+
+    public List<ProductionHandlerBean> getProductionHandlers() {
+        return productionHandlers;
     }
 
     // SETTERS (other setters are not needed because the caller can use List<> setters)

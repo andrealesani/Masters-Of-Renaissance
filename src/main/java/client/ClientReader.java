@@ -230,6 +230,29 @@ public class ClientReader implements Runnable {
                     ex.printStackTrace();
                 }
                 break;
+            case "PRODUCTIONHANDLER":
+                try {
+                    ProductionHandlerBean productionHandlerUpdate = gson.fromJson((String) message.getJsonMessage(), ProductionHandlerBean.class);
+                    boolean found = false;
+
+                    for (int i = 0; i < clientView.getProductionHandlers().size(); i++)
+                        if (clientView.getProductionHandlers().get(i).getUsername().equals(productionHandlerUpdate.getUsername())) {
+                            clientView.getProductionHandlers().set(i, productionHandlerUpdate);
+                            found = true;
+                            notifyViewUpdate(response);
+                            break;
+                        }
+
+                    if (!found) {
+                        clientView.getProductionHandlers().add(productionHandlerUpdate);
+                        notifyViewUpdate(response);
+                    }
+                    System.out.println("ProductionHandler received and managed");
+                } catch (Exception ex) {
+                    System.out.println("Warning: ProductionHandler update failed");
+                    ex.printStackTrace();
+                }
+                break;
             case "LORENZO":
                 try {
                     clientView.setLorenzo(gson.fromJson((String) message.getJsonMessage(), LorenzoBean.class));
