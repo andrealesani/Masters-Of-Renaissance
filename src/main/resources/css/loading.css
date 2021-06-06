@@ -1,8 +1,10 @@
 .loadingText {
-    -fx-font-family: "Dalek Pinpoint";
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Papyrus";
     -fx-font-size: 25;
 }
 
 .mainBackground {
-    -fx-background-color: #999999;
+    -fx-background-image: url("../graphics/tavern_darker_blur_5_zoom.png");
+    -fx-background-size: stretch;
 }
