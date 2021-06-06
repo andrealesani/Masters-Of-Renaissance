@@ -56,7 +56,7 @@ public class HostAndPortController implements GUIController {
                 Socket clientSocket = new Socket(getServer(), port);
                 gui.setupConnection(clientSocket);
             } catch (IOException e) {
-                statusLabel.setText("Couldn't connect to the specified server address");
+                statusLabel.setText("Couldn't connect to the specified server");
                 loginButton.setDisable(false);
             } catch (NumberFormatException e1) {
                 statusLabel.setText("The specified port is not a number");

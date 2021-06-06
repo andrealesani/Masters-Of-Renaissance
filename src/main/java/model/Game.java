@@ -627,6 +627,7 @@ public class Game implements UserCommandsInterface, Observable {
             playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
             playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
             playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
+            playerBoard.getProductionHandler().addObserver(new ProductionHandlerBean(controller, playerBoard.getUsername()));
         }
 
         if (getPlayersTurnOrder().size() == 1) {

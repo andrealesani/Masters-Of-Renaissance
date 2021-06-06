@@ -8,6 +8,7 @@ import model.resource.ResourceType;
 import network.MessageType;
 import server.GameController;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,9 @@ public class ProductionHandlerBean implements Observer {
     public ProductionHandlerBean(GameController controller, String username) {
         this.controller = controller;
         this.username = username;
+
+        input = new HashMap<>();
+        output = new HashMap<>();
     }
 
     /**
@@ -46,6 +50,9 @@ public class ProductionHandlerBean implements Observer {
      */
     public ProductionHandlerBean() {
         this.controller = null;
+
+        input = new HashMap<>();
+        output = new HashMap<>();
     }
 
     // GETTERS
@@ -63,11 +70,13 @@ public class ProductionHandlerBean implements Observer {
     // SETTERS
 
     public void setInputFromPH(ProductionHandler productionHandler) {
+        input.clear();
         for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
             input.merge(resourceType, 1, Integer::sum);
     }
 
     public void setOutputFromPH(ProductionHandler productionHandler) {
+        output.clear();
         for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
             output.merge(resourceType, 1, Integer::sum);
     }
@@ -82,6 +91,12 @@ public class ProductionHandlerBean implements Observer {
         setOutputFromPH(pH);
 
         controller.broadcastMessage(MessageType.PRODUCTIONHANDLER, gson.toJson(this));
+
+        System.out.println("PHbean updated");
+        StringBuilder stb = new StringBuilder();
+        for (Map.Entry<ResourceType, Integer> entry : getInput().entrySet()) {
+            System.out.println("Resource: " + entry.getKey() + " " + entry.getValue());
+        }
     }
 
     public void updateSinglePlayer(String username) {

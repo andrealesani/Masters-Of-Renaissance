@@ -17,10 +17,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 public class GUI extends Application {
-    private static final String LOGIN = "hostAndPort.fxml";
-    private static final String GAME_BOARD = "gameBoard.fxml";
+    private static final String HOST_AND_PORT = "hostAndPort.fxml";
     private static final String SETTINGS = "gameSettings.fxml";
-    private static final String LOADING = "waitingPlayers.fxml";
+    private static final String WAITING = "waitingPlayers.fxml";
     private static final String GAME_BOARD_4 = "gameBoard4Players.fxml";
     private static final String PRODUCTIONS = "productions.fxml";
 
@@ -70,6 +69,8 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         setup();
         this.window = stage;
+        window.setMinWidth(400);
+        window.setMinHeight(600);
         window.setResizable(true);
         // If we wanna add special fonts we should do it here
         run();
@@ -99,11 +100,25 @@ public class GUI extends Application {
         }
         currentScene = nameMapScene.get(newScene);
         window.setScene(currentScene);
+        window.sizeToScene();
         window.show();
-        if (newScene.equals("gameBoard4Players.fxml") || newScene.equals("gameSettings.fxml")) {
-            window.setResizable(false);
-        } else {
-            window.setResizable(true);
+        switch (newScene) {
+            case HOST_AND_PORT -> {
+                window.setResizable(true);
+                window.setMinWidth(400);
+                window.setMinHeight(600);
+            }
+            case SETTINGS -> {
+                window.setResizable(true);
+                window.setMinWidth(700);
+                window.setMinHeight(480);
+            }
+            case WAITING -> {
+                window.setResizable(true);
+                window.setMinWidth(600);
+                window.setMinHeight(550);
+            }
+            case GAME_BOARD_4 -> window.setResizable(false);
         }
     }
 
@@ -157,7 +172,7 @@ public class GUI extends Application {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     private void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(LOGIN, GAME_BOARD, SETTINGS, LOADING, GAME_BOARD_4, PRODUCTIONS));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(HOST_AND_PORT, SETTINGS, WAITING, GAME_BOARD_4, PRODUCTIONS));
         try {
             for (String path : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
@@ -170,7 +185,7 @@ public class GUI extends Application {
         } catch (IOException e) {
             System.out.println("Warning: scenes setup failed");
         }
-        currentScene = nameMapScene.get(LOGIN);
+        currentScene = nameMapScene.get(HOST_AND_PORT);
     }
 
     /**

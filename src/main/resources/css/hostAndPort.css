@@ -7,7 +7,6 @@
     -fx-background-color: #092e43;
     -fx-text-fill: #cb6c00;
     -fx-font-family: "Papyrus";
-    -fx-font-weight: bold;
     -fx-font-size: 8;
 }
 
@@ -16,7 +15,7 @@
 }
 
 .button:pressed {
-    -fx-background-color: #0c1e42;
+    -fx-background-color: #051C26FF;
 }
 
 .input-label {

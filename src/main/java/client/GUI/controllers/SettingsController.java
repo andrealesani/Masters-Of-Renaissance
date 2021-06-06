@@ -115,7 +115,7 @@ public class SettingsController implements GUIController {
         readyButton.setDisable(false);
         changeSettingsButton.setVisible(true);
         numPlayers = 1;
-        playersList.setText("You choose to challenge\nLORENZO IL MAGNIFICO\nprepare yourself and\ndo your best!");
+        playersList.setText("You choose to challenge\nLorenzo Il Magnifico\nprepare yourself and\ndo your best!");
     }
 
     public void setMultiplayerGame(ActionEvent event) {

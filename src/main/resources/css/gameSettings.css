@@ -1,18 +1,48 @@
 .mainBackground {
-    -fx-background-image: url("../graphics/lorenzo.png");
+    -fx-background-image: url("../graphics/tavern_darker_blur_lorenzo.png");
     -fx-background-size: stretch;
 }
 
+.title {
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-size: 25;
+    -fx-effect: dropshadow(one-pass-box, rgb(9, 46, 67), 50, 0.95, 0, 0);
+}
+
+.header {
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-size: 18;
+    -fx-effect: dropshadow(one-pass-box, rgb(9, 46, 67), 50, 0.95, 0, 0);
+}
+
 .button {
-    -fx-border-color: #1f0205;
-    -fx-background-color: #850816;
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #092e43;
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Roboto Light";
+    -fx-font-weight: normal;
+    -fx-font-size: 10;
 }
 
 .button:hover {
-    -fx-effect: dropshadow(one-pass-box, rgba(43, 3, 7, 1), 30, 0, 0, 0);
+    -fx-effect: dropshadow(one-pass-box, rgba(37, 180, 220, 0.7), 10, 0, 0, 0);
 }
 
 .button:pressed {
-    -fx-background-color: #47040b;
+    -fx-background-color: #051C26FF;
+}
+
+.number-button {
+    -fx-background-color: #092e43;
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-size: 16;
+}
+
+.challenge-lorenzo-text {
+    -fx-text-fill: #cb6c00;
+    -fx-font-family: "Papyrus";
+    -fx-font-size: 16;
+    -fx-effect: dropshadow(one-pass-box, rgb(9, 46, 67), 50, 0.96, 0, 0);
 }
