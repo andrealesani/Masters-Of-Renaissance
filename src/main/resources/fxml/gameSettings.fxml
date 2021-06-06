@@ -11,7 +11,7 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <Label fx:id="playersList" layoutX="40.0" layoutY="281.0" prefHeight="138.0" prefWidth="299.0" styleClass="challenge-lorenzo" textFill="#ff0202">
+      <Label fx:id="playersList" layoutX="40.0" layoutY="281.0" prefHeight="138.0" prefWidth="299.0" styleClass="challenge-lorenzo-text" textFill="#ff0202">
          <font>
             <Font name="Bodoni MT" size="18.0" />
          </font>
@@ -24,9 +24,9 @@
       <Button fx:id="singleplayerButton" layoutX="27.0" layoutY="223.0" mnemonicParsing="false" onAction="#setSingleplayerGame" prefHeight="38.0" prefWidth="93.0" text="SinglePlayer" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="223.0" />
       <Button fx:id="multiplayerButton" layoutX="136.0" layoutY="223.0" mnemonicParsing="false" onAction="#setMultiplayerGame" prefHeight="38.0" prefWidth="93.0" text="MultiPlayer" AnchorPane.leftAnchor="136.0" AnchorPane.topAnchor="223.0" />
       <Button fx:id="readyButton" layoutX="502.0" layoutY="369.0" mnemonicParsing="false" onAction="#setGame" prefHeight="38.0" prefWidth="93.0" text="I'M READY!" />
-      <Button fx:id="twoPlayersButton" layoutX="23.0" layoutY="352.0" mnemonicParsing="false" onAction="#setTwoPlayers" prefHeight="38.0" prefWidth="52.0" text="2" />
-      <Button fx:id="threePlayersButton" layoutX="101.0" layoutY="351.0" mnemonicParsing="false" onAction="#setThreePlayers" prefHeight="38.0" prefWidth="52.0" text="3" />
-      <Button fx:id="fourPlayersButton" layoutX="181.0" layoutY="350.0" mnemonicParsing="false" onAction="#setFourPlayers" prefHeight="38.0" prefWidth="52.0" text="4" />
+      <Button fx:id="twoPlayersButton" layoutX="23.0" layoutY="352.0" mnemonicParsing="false" onAction="#setTwoPlayers" prefHeight="38.0" prefWidth="52.0" styleClass="number-button" text="2" />
+      <Button fx:id="threePlayersButton" layoutX="101.0" layoutY="351.0" mnemonicParsing="false" onAction="#setThreePlayers" prefHeight="38.0" prefWidth="52.0" styleClass="number-button" text="3" />
+      <Button fx:id="fourPlayersButton" layoutX="181.0" layoutY="350.0" mnemonicParsing="false" onAction="#setFourPlayers" prefHeight="38.0" prefWidth="52.0" styleClass="number-button" text="4" />
       <Label fx:id="usernameLabel" layoutX="29.0" layoutY="76.0" prefHeight="38.0" prefWidth="210.0" styleClass="header" text="Choose a nickname:" textFill="RED">
          <font>
             <Font size="18.0" />
@@ -39,7 +39,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <Button fx:id="changeSettingsButton" layoutX="248.0" layoutY="223.0" mnemonicParsing="false" onAction="#changeSettings" prefHeight="38.0" prefWidth="137.0" text="Change Settings">
+      <Button fx:id="changeSettingsButton" layoutX="248.0" layoutY="223.0" mnemonicParsing="false" onAction="#changeSettings" prefHeight="38.0" prefWidth="102.0" text="Change Settings">
          <font>
             <Font size="14.0" />
          </font></Button>

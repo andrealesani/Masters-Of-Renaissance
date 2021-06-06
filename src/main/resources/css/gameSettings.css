@@ -37,12 +37,12 @@
     -fx-background-color: #092e43;
     -fx-text-fill: #cb6c00;
     -fx-font-family: "Papyrus";
-    -fx-font-size: 14;
+    -fx-font-size: 16;
 }
 
-.challenge-lorenzo {
+.challenge-lorenzo-text {
     -fx-text-fill: #cb6c00;
     -fx-font-family: "Papyrus";
-    -fx-font-size: 15;
+    -fx-font-size: 16;
     -fx-effect: dropshadow(one-pass-box, rgb(9, 46, 67), 50, 0.96, 0, 0);
 }
