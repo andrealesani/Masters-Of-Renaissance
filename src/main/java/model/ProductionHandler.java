@@ -108,7 +108,8 @@ public class ProductionHandler implements Observable {
             throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
 
-        notifyObservers();
+        updateCurrentInput();
+        updateCurrentOutput();
     }
 
     /**
