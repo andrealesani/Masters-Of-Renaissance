@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import model.PlayerBoard;
 import model.card.Card;
 
@@ -29,7 +30,7 @@ public class LeaderCard extends Card {
      *
      * @param playerBoard the player for whom to activate the ability
      */
-    public void doAction(PlayerBoard playerBoard){}
+    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {}
 
     /**
      * Returns whether or not the given player meets the requirements for activating the card

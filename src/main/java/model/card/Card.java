@@ -38,7 +38,7 @@ public abstract class Card {
     //PUBLIC METHODS
 
     /**
-     * Activates the card
+     * Sets the card 'isActive' attribute to true
      */
     public void activate() {
         isActive = true;

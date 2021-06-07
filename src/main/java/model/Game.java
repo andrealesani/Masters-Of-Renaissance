@@ -208,7 +208,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
     @Override
-    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
         if (turnPhase == LEADERCHOICE) {
             throw new WrongTurnPhaseException();
         }
