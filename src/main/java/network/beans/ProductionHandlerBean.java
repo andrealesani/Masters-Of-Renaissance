@@ -53,6 +53,18 @@ public class ProductionHandlerBean implements Observer {
 
         input = new HashMap<>();
         output = new HashMap<>();
+
+        input.put(ResourceType.COIN, 0);
+        input.put(ResourceType.SERVANT, 0);
+        input.put(ResourceType.SHIELD, 0);
+        input.put(ResourceType.STONE, 0);
+        input.put(ResourceType.UNKNOWN, 0);
+        output.put(ResourceType.COIN, 0);
+        output.put(ResourceType.SERVANT, 0);
+        output.put(ResourceType.SHIELD, 0);
+        output.put(ResourceType.STONE, 0);
+        output.put(ResourceType.FAITH, 0);
+        output.put(ResourceType.UNKNOWN, 0);
     }
 
     /**
