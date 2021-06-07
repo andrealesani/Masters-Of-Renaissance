@@ -128,8 +128,6 @@ public class ProductionHandler implements Observable {
 
         updateCurrentInput();
         updateCurrentOutput();
-
-        notifyObservers();
     }
 
     /**
