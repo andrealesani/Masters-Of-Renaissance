@@ -7,44 +7,37 @@ import model.Color;
  */
 public enum ResourceType {
     SHIELD {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "SHIELD" + Color.RESET;
         }
     },
     STONE {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "STONE" + Color.RESET;
         }
     },
     SERVANT {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "SERVANT" + Color.RESET;
         }
     },
     COIN {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "COIN" + Color.RESET;
         }
     },
     FAITH {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "FAITH" + Color.RESET;
         }
     },
     WHITEORB {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "WHITEORB" + Color.RESET;
         }
     },
     UNKNOWN {
-        @Override
-        public String toString() {
+        public String toStringColored() {
             return Color.RESOURCE_STD + "UNKNOWN" + Color.RESET;
         }
     };

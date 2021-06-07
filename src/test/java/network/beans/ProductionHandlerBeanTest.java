@@ -1,6 +1,7 @@
 package network.beans;
 
 import Exceptions.ProductionNotPresentException;
+import com.google.gson.Gson;
 import model.Game;
 import model.Production;
 import model.resource.Resource;
@@ -37,6 +38,10 @@ class ProductionHandlerBeanTest {
         game.getCurrentPlayer().getProductionHandler().notifyObservers();
         game.getCurrentPlayer().getProductionHandler().getCurrentInput().add(new ResourceServant());
         game.getCurrentPlayer().getProductionHandler().notifyObservers();
+
+        Gson gson = new Gson();
+        String beanJson = gson.toJson(productionHandlerBean, ProductionHandlerBean.class);
+        productionHandlerBean = gson.fromJson(beanJson, ProductionHandlerBean.class);
 
         assertEquals(1, productionHandlerBean.getInput().get(ResourceType.COIN));
         assertEquals(1, productionHandlerBean.getInput().get(ResourceType.SERVANT));
