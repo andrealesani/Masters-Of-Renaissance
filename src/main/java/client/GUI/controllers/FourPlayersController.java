@@ -43,13 +43,13 @@ public class FourPlayersController implements GUIController {
     @FXML
     private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid;
     @FXML
-    public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane;
+    public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3;
     @FXML
     public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel;
     @FXML
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image, waitingRoomHider;
     @FXML
-    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton;
+    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton, productionsButton;
     @FXML
     public Text descriptionText;
 
@@ -61,10 +61,6 @@ public class FourPlayersController implements GUIController {
 
     //SETTERS
 
-    public void setGameBoard(URL location, ResourceBundle resources) {
-        GridPane gridPane = new GridPane();
-    }
-
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -72,7 +68,8 @@ public class FourPlayersController implements GUIController {
     }
 
     //PUBLIC METHODS
-    
+
+    //TODO don't send the entire wrapper but only the type (must save info/error in clientView)
     @Override
     public void updateFromServer(String jsonMessage) {
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
@@ -159,6 +156,9 @@ public class FourPlayersController implements GUIController {
                     }
                 }
                 break;
+            case "PRODUCTIONHANDLER":
+                gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
+                break;
             case "LORENZO":
                 //TODO?
                 break;
@@ -192,7 +192,7 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
-    void playLeaderCard(int number) {
+    public void playLeaderCard(int number) {
         System.out.println("PlayLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
@@ -200,7 +200,7 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
-    void discardLeaderCard(int number) {
+    public void discardLeaderCard(int number) {
         System.out.println("DiscardLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
@@ -224,7 +224,7 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
-    void chooseMarbleConversion(ResourceType resource, int quantity) {
+    public void chooseMarbleConversion(ResourceType resource, int quantity) {
         System.out.println("ChooseMarbleConversion: resource - " + resource + ", quantity - 1");
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
@@ -233,7 +233,7 @@ public class FourPlayersController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
-    void sendResourceToDepot(int depotNumber, ResourceType resource, int quantity) {
+    public void sendResourceToDepot(int depotNumber, ResourceType resource, int quantity) {
         System.out.println("SendResourceToDepot: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", depotNumber);
@@ -245,7 +245,7 @@ public class FourPlayersController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
-    void swapDepotContent(int depotNumber1, int depotNumber2) {
+    public void swapDepotContent(int depotNumber1, int depotNumber2) {
         System.out.println("SwapDepotContent: first depot - " + depotNumber1 + ", second depot - " + depotNumber2);
         Map<String, Object> parameters = new HashMap<>();
         int[] depots = new int[2];
@@ -258,7 +258,7 @@ public class FourPlayersController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
-    void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
+    public void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
 
     }
 
@@ -274,27 +274,7 @@ public class FourPlayersController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
-    void selectProduction(int number) {
-
-    }
-
-    void resetProductionChoice() {
-
-    }
-
-    void chooseJollyInput(ResourceType resource) {
-
-    }
-
-    void chooseJollyOutput(ResourceType resource) {
-
-    }
-
-    void confirmProductionChoice() {
-
-    }
-
-    void payFromWarehouse(int depotNumber, ResourceType resource, int quantity) {
+    public void payFromWarehouse(int depotNumber, ResourceType resource, int quantity) {
         System.out.println("PayFromWarehouse: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", depotNumber);
@@ -306,7 +286,7 @@ public class FourPlayersController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
-    void payFromStrongbox(ResourceType resource, int quantity) {
+    public void payFromStrongbox(ResourceType resource, int quantity) {
         System.out.println("PayFromWarehouse: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
@@ -353,6 +333,7 @@ public class FourPlayersController implements GUIController {
             button.setVisible(false);
         for (Node button : leaderDepotButtonGrid.getChildren())
             button.setVisible(false);
+        productionsButton.setVisible(false);
         endTurnButton.setDisable(true);
     }
 
@@ -410,6 +391,7 @@ public class FourPlayersController implements GUIController {
             for (int j = 0; j < cardTable[0].length; j++, k++) {
                 int cardId = cardTable[i][j];
                 int finalI = i + 1;
+                //switch by card color (first 12 cards starting from id 17 are blue, the following 12 are green and so on)
                 switch((cardId-17)/12) {
                     case 0  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.BLUE, finalI));
                     case 1  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.GREEN, finalI));
@@ -438,6 +420,8 @@ public class FourPlayersController implements GUIController {
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
                 ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> setupDepotSwap(depot));
+                ((Button) leaderDepotButtons.get(card - 1)).setText("Swap");
+                leaderDepotButtons.get(card - 1).setVisible(true);
             }
         }
     }
@@ -498,6 +482,8 @@ public class FourPlayersController implements GUIController {
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
         enableCommonButtons();
+        //For productions stuff
+        productionsButton.setVisible(true);
     }
 
     private void setupMarketDistribution() {
@@ -560,6 +546,8 @@ public class FourPlayersController implements GUIController {
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
                 ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> sendResourceToDepot(depot, resource, 1));
+                ((Button) leaderDepotButtons.get(card - 1)).setText("Leader depot " + card);
+                leaderDepotButtons.get(card - 1).setVisible(true);
             }
         }
         //For resetting halfway through
@@ -605,10 +593,13 @@ public class FourPlayersController implements GUIController {
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
                 ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> payFromWarehouse(depot, resource, 1));
+                ((Button) leaderDepotButtons.get(card - 1)).setText("Leader depot " + card);
+                leaderDepotButtons.get(card - 1).setVisible(true);
             }
         }
         //Strongbox
         strongboxButton.setOnAction(e -> payFromStrongbox(resource, 1));
+        strongboxButton.setVisible(true);
         //For resetting halfway through
         cancelOperationButton.setVisible(true);
         cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
@@ -635,6 +626,8 @@ public class FourPlayersController implements GUIController {
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
                 ((Button) leaderDepotButtons.get(card - 1)).setOnAction(e -> swapDepotContent(depot1, depot));
+                ((Button) leaderDepotButtons.get(card - 1)).setText("Leader depot " + card);
+                leaderDepotButtons.get(card - 1).setVisible(true);
             }
         }
         //For resetting halfway through
@@ -712,19 +705,21 @@ public class FourPlayersController implements GUIController {
 
     private void drawLeaderCards(PlayerBoardBean playerBoardBean) {
         int[] leaderCards = playerBoardBean.getLeaderCards();
+        boolean[] activeLeaderCards = playerBoardBean.getActiveLeaderCards();
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
             Image card;
             if (i < leaderCards.length) {
                 card = new Image("/graphics/front/" + leaderCards[i] + ".png");
-                if (playerBoardBean.getActiveLeaderCards()[i])
-                    leaderChildren.get(i).setStyle(" -fx-effect: dropshadow(one-pass-box, rgb(100,160,100), 30, 0.9, 0, 0)");
+                if (activeLeaderCards[i])
+                    leaderChildren.get(i).getStyleClass().add("selectedCard");
                 else {
-                    leaderChildren.get(i).setStyle(" -fx-effect: null");
+                    leaderChildren.get(i).getStyleClass().clear();
+                    leaderChildren.get(i).getStyleClass().add("card");
                 }
             } else {
                 card = new Image("/graphics/back/leadercardBack.png");
-                leaderChildren.get(i).setStyle(" -fx-effect: null");
+                leaderChildren.get(i).getStyleClass().clear();
             }
             ((ImageView) leaderChildren.get(i)).setImage(card);
         }

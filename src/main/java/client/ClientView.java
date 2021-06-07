@@ -265,6 +265,14 @@ public class ClientView {
         return productionHandlers;
     }
 
+    public ProductionHandlerBean getProductionHandler(String username) {
+        for (ProductionHandlerBean handler : productionHandlers) {
+            if (handler.getUsername().equals(username))
+                return handler;
+        }
+        return null;
+    }
+
     // SETTERS (other setters are not needed because the caller can use List<> setters)
 
     public void setGame(GameBean game) {

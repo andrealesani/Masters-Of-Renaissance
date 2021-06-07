@@ -256,7 +256,6 @@ public class ClientReader implements Runnable {
                         clientView.getProductionHandlers().add(productionHandlerUpdate);
                         notifyViewUpdate(response);
                     }
-                    System.out.println("ProductionHandler received and managed");
                 } catch (Exception ex) {
                     System.out.println("Warning: ProductionHandler update failed");
                     ex.printStackTrace();

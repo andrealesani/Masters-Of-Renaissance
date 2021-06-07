@@ -20,6 +20,10 @@
     -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 30, 0, 0, 0);
 }
 
+.selectedCard {
+    -fx-effect: dropshadow(one-pass-box, rgb(100,160,100), 30, 0.9, 0, 0);
+}
+
 .waiting-room-resource:hover {
     -fx-effect: dropshadow(one-pass-box, rgba(37, 242, 255, 1), 30, 0, 0, 0);
 }

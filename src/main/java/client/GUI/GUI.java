@@ -209,6 +209,8 @@ public class GUI extends Application {
         return nameMapScene.get(fileName);
     }
 
+    public GUIController getControllerByFileName(String fileName) { return nameMapController.get(fileName); }
+
     //SETTERS
 
     private void setClientReader(BufferedReader in) {
