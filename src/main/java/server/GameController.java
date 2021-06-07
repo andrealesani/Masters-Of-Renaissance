@@ -126,7 +126,7 @@ public class GameController {
                     playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
                     playerMessage(username, MessageType.SET_USERNAME, username);
                     System.out.println("Added player: " + username + " to current game.");
-                    game.updateSinglePlayer(username);
+                    game.updateReconnectedPlayer(username);
                     return;
                 }
             } else {

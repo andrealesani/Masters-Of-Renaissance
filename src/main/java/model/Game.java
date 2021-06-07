@@ -635,7 +635,12 @@ public class Game implements UserCommandsInterface, Observable {
         }
     }
 
-    public void updateSinglePlayer(String username) {
+    /**
+     * Sends all the Beans to the client with the specified username after it reconnects to the server
+     *
+     * @param username of the player to send the information to
+     */
+    public void updateReconnectedPlayer(String username) {
         for (Observer observer : cardTable.getObservers())
             observer.updateSinglePlayer(username);
         for (Observer observer : getObservers())
@@ -653,6 +658,8 @@ public class Game implements UserCommandsInterface, Observable {
             for (Observer observer : playerBoard.getWaitingRoom().getObservers())
                 observer.updateSinglePlayer(username);
             for (Observer observer : playerBoard.getWarehouse().getObservers())
+                observer.updateSinglePlayer(username);
+            for (Observer observer : playerBoard.getProductionHandler().getObservers())
                 observer.updateSinglePlayer(username);
         }
     }
