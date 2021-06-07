@@ -107,6 +107,8 @@ public class ProductionHandler implements Observable {
         if (productions.size() < productionNumber)
             throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
+
+        notifyObservers();
     }
 
     /**
