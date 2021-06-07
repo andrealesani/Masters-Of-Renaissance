@@ -80,6 +80,8 @@ public class ProductionHandler implements Observable {
         if (currentInput.remove(new ResourceUnknown()))
             currentInput.add(resource);
         else throw new ResourceNotPresentException();
+
+        notifyObservers();
     }
 
     /**
@@ -93,6 +95,8 @@ public class ProductionHandler implements Observable {
         if (currentOutput.remove(new ResourceUnknown()))
             currentOutput.add(resource);
         else throw new ResourceNotPresentException();
+
+        notifyObservers();
     }
 
     /**
