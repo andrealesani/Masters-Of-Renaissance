@@ -1111,6 +1111,10 @@ public class PlayerBoard implements Observable {
         return result;
     }
 
+    public int getFinalFaith() { return finalFaith; }
+
+    public int getDevCardMax() { return devCardMax; }
+
     // OBSERVABLE ATTRIBUTES AND METHODS
 
     /**

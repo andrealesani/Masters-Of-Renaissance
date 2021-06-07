@@ -54,7 +54,7 @@ public class WaitingRoomBean implements Observer {
 
     // SETTERS
 
-    private void setQuantityFromStrongbox(UnlimitedStorage waitingRoom) {
+    private void setQuantityFromWaitingRoom(UnlimitedStorage waitingRoom) {
         for(int i = 0; i < type.length; i++) {
             quantity[i] = waitingRoom.getNumOfResource(type[i]);
         }
@@ -65,7 +65,7 @@ public class WaitingRoomBean implements Observer {
     public void update(Object observable) {
         Gson gson = new Gson();
         UnlimitedStorage waitingRoom = (UnlimitedStorage) observable;
-        setQuantityFromStrongbox(waitingRoom);
+        setQuantityFromWaitingRoom(waitingRoom);
 
         controller.broadcastMessage(MessageType.WAITINGROOM, gson.toJson(this));
     }

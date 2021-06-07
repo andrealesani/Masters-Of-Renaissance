@@ -135,6 +135,7 @@ public class Game implements UserCommandsInterface, Observable {
         currentPlayer = playersTurnOrder.get(0);
     }
 
+
     /**
      * Testing Constructor
      */
@@ -1022,9 +1023,17 @@ public class Game implements UserCommandsInterface, Observable {
         return winnerVp;
     }
 
+    public int getLastTriggeredTile() { return lastTriggeredTile; }
+
+    public int getFinalFaith() { return finalFaith; }
+
     public boolean isEndGame() {
         return weReInTheEndGameNow;
     }
+
+    public int getInitialLeaderCardNumber() { return initialLeaderCardNumber; }
+
+    public int getFinalLeaderCardNumber() { return finalLeaderCardNumber; }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 
