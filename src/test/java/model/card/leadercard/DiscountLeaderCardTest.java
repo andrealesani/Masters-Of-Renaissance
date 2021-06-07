@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiscountLeaderCardTest {
 
     @Test
-    void doAction() {
+    void doAction() throws CardAlreadyActiveException {
         CardColor[] requiredColors = {CardColor.GREEN, CardColor.BLUE};
         int[] requiredQuantities = {1,2};
 

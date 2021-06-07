@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import model.CardColor;
 import model.PlayerBoard;
 import model.Production;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductionLeaderCardTest {
 
     @Test
-    void doAction() {
+    void doAction() throws CardAlreadyActiveException {
         // Creates Leader Card
         ResourceType[] inputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.UNKNOWN};
         int[] inputQuantities = {0, 2, 0, 0, 0};

@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import model.CardColor;
 import model.PlayerBoard;
 import model.resource.ResourceType;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MarbleLeaderCardTest {
 
     @Test
-    void doAction() {
+    void doAction() throws CardAlreadyActiveException {
         CardColor[] requiredColors = {CardColor.GREEN, CardColor.BLUE};
         int[] requiredQuantities = {1,2};
 

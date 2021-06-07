@@ -96,7 +96,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException {
+    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
         int number = extractInt(parameters.get("number"));
         game.playLeaderCard(number);
     }
