@@ -54,17 +54,8 @@ public class ProductionHandlerBean implements Observer {
         input = new HashMap<>();
         output = new HashMap<>();
 
-        input.put(ResourceType.COIN, 0);
-        input.put(ResourceType.SERVANT, 0);
-        input.put(ResourceType.SHIELD, 0);
-        input.put(ResourceType.STONE, 0);
-        input.put(ResourceType.UNKNOWN, 0);
-        output.put(ResourceType.COIN, 0);
-        output.put(ResourceType.SERVANT, 0);
-        output.put(ResourceType.SHIELD, 0);
-        output.put(ResourceType.STONE, 0);
-        output.put(ResourceType.FAITH, 0);
-        output.put(ResourceType.UNKNOWN, 0);
+        emptyInput();
+        emptyOutput();
     }
 
     /**
@@ -76,17 +67,8 @@ public class ProductionHandlerBean implements Observer {
         input = new HashMap<>();
         output = new HashMap<>();
 
-        input.put(ResourceType.COIN, 0);
-        input.put(ResourceType.SERVANT, 0);
-        input.put(ResourceType.SHIELD, 0);
-        input.put(ResourceType.STONE, 0);
-        input.put(ResourceType.UNKNOWN, 0);
-        output.put(ResourceType.COIN, 0);
-        output.put(ResourceType.SERVANT, 0);
-        output.put(ResourceType.SHIELD, 0);
-        output.put(ResourceType.STONE, 0);
-        output.put(ResourceType.FAITH, 0);
-        output.put(ResourceType.UNKNOWN, 0);
+        emptyInput();
+        emptyOutput();
     }
 
     // GETTERS
@@ -112,13 +94,13 @@ public class ProductionHandlerBean implements Observer {
     // SETTERS
 
     public void setInputFromPH(ProductionHandler productionHandler) {
-        input.clear();
+        emptyInput();
         for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
             input.merge(resourceType, 1, Integer::sum);
     }
 
     public void setOutputFromPH(ProductionHandler productionHandler) {
-        output.clear();
+        emptyOutput();
         for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
             output.merge(resourceType, 1, Integer::sum);
     }
@@ -133,6 +115,26 @@ public class ProductionHandlerBean implements Observer {
             else
                 activeProductions[i] = false;
         }
+    }
+
+    // PRIVATE METHODS
+
+    private void emptyInput() {
+        input.put(ResourceType.COIN, 0);
+        input.put(ResourceType.SERVANT, 0);
+        input.put(ResourceType.SHIELD, 0);
+        input.put(ResourceType.STONE, 0);
+        input.put(ResourceType.UNKNOWN, 0);
+
+    }
+
+    private void emptyOutput() {
+        output.put(ResourceType.COIN, 0);
+        output.put(ResourceType.SERVANT, 0);
+        output.put(ResourceType.SHIELD, 0);
+        output.put(ResourceType.STONE, 0);
+        output.put(ResourceType.FAITH, 0);
+        output.put(ResourceType.UNKNOWN, 0);
     }
 
     // OBSERVER METHODS
