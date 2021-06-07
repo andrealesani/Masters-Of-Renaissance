@@ -636,7 +636,7 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     /**
-     * Sends all the Beans to the client with the specified username after it reconnects to the server
+     * Sends all the game Beans to the client associated to the given username when it reconnects to the server
      *
      * @param username of the player to send the information to
      */

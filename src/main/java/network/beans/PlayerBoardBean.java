@@ -585,6 +585,13 @@ public class PlayerBoardBean implements Observer {
         return printLine(line, null);
     }
 
+    /**
+     * This method is used to print only one line of the PlayerBoard so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
     public String printLine(int line, String clientUsername) {
         line--;
         String content = "";

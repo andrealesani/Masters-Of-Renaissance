@@ -73,6 +73,13 @@ public class MarketBean implements Observer {
         controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
     }
 
+    /**
+     * This method is used to print only one line of the Market so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
     public String printLine(int line) {
         line--;
         if (line < 0 || line > marketBoard.length)

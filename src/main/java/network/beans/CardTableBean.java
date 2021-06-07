@@ -81,10 +81,22 @@ public class CardTableBean implements Observer {
 
     // GETTERS
 
+    /**
+     * Getter
+     *
+     * @return a 2D matrix with the IDs of the cards on top of the CardTable
+     */
     public int[][] getCards() {
         return cards;
     }
 
+    /**
+     * Getter
+     *
+     * @param id of the card to be returned
+     * @return the DevelopmentCard associated to the specified ID
+     * @throws CardNotPresentException when the given ID is not associated with any of the cards in the CardTable
+     */
     public DevelopmentCard getDevelopmentCardFromId(int id) throws CardNotPresentException {
         if (!cardsInitialized) {
             setDevelopmentCardsFromJson();
@@ -104,6 +116,11 @@ public class CardTableBean implements Observer {
 
     // SETTERS
 
+    /**
+     * Sets the cards 2D matrix reading data from the given CardTable
+     *
+     * @param cardTable object to take the information from
+     */
     private void setCardTableFromGame(CardTable cardTable) {
         cards = new int[3][cardTable.getCards().entrySet().size()];
         int i = 0, j;
@@ -119,6 +136,9 @@ public class CardTableBean implements Observer {
         }
     }
 
+    /**
+     * Sets the developmentCards list reading them from DevelopmentCards.json file
+     */
     private void setDevelopmentCardsFromJson() {
         developmentCards = new HashMap<>();
         int id = 17;
@@ -172,6 +192,13 @@ public class CardTableBean implements Observer {
         controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
     }
 
+    /**
+     * This method is used to print only one line of the CardTable so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
     public String printLine(int line) {
         line--;
         if (line < 0 || line >= cards.length)
