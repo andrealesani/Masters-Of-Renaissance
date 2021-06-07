@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import Exceptions.BlockedResourceException;
+import Exceptions.CardAlreadyActiveException;
 import Exceptions.NotEnoughSpaceException;
 import Exceptions.WrongResourceInsertionException;
 import model.PlayerBoard;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DepotLeaderCardTest {
 
     @Test
-    void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
+    void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, CardAlreadyActiveException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
         PlayerBoard playerBoard = new PlayerBoard();
 

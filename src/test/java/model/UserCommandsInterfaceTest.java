@@ -48,7 +48,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void playLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException {
+    void playLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
