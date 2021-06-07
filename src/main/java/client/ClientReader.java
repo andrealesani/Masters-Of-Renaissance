@@ -8,9 +8,12 @@ import network.beans.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * This class is run on a thread on the client and is executed in parallel with the View. It manages all the
+ * messages received from the server, updates the ClientView and notifies the view (CLI or GUI) about the changes
+ */
 public class ClientReader implements Runnable {
 
     private final BufferedReader in;
@@ -80,6 +83,12 @@ public class ClientReader implements Runnable {
         latch.countDown();
     }
 
+    /**
+     * This method parses the commands received from the server. If the message contains a view update, it then updates
+     * the ClientView and calls notifyViewUpdate() to notify whichever view is being used so that they can update themselves
+     *
+     * @param response is the message received from the server
+     */
     //TODO wrappare in Command anche INFO, ERROR e GAME_START
     private void elaborateResponse(String response) {
         Gson gson = new Gson();

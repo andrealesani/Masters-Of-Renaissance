@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class used to serialize a ProductionHandler object
+ */
 public class ProductionHandlerBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
@@ -93,18 +96,34 @@ public class ProductionHandlerBean implements Observer {
 
     // SETTERS
 
+    /**
+     * Sets current input reading data from the given ProductionHandler
+     *
+     * @param productionHandler object to take the information from
+     */
     public void setInputFromPH(ProductionHandler productionHandler) {
         emptyInput();
         for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
             input.merge(resourceType, 1, Integer::sum);
     }
 
+    /**
+     * Sets current output reading data from the given ProductionHandler
+     *
+     * @param productionHandler object to take the information from
+     */
     public void setOutputFromPH(ProductionHandler productionHandler) {
         emptyOutput();
         for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
             output.merge(resourceType, 1, Integer::sum);
     }
 
+    /**
+     * Sets player's Productions and selected ones into 'productions' and 'activeProductions' arrays reading data
+     * from the given ProductionHandler
+     *
+     * @param productionHandler object to take the information from
+     */
     public void setProductionsFromPH(ProductionHandler productionHandler) {
         productions = new int[productionHandler.getProductions().size()];
         activeProductions = new boolean[productions.length];
@@ -119,15 +138,20 @@ public class ProductionHandlerBean implements Observer {
 
     // PRIVATE METHODS
 
+    /**
+     * Sets all the input resources to 0
+     */
     private void emptyInput() {
         input.put(ResourceType.COIN, 0);
         input.put(ResourceType.SERVANT, 0);
         input.put(ResourceType.SHIELD, 0);
         input.put(ResourceType.STONE, 0);
         input.put(ResourceType.UNKNOWN, 0);
-
     }
 
+    /**
+     * Sets all the output resources to 0
+     */
     private void emptyOutput() {
         output.put(ResourceType.COIN, 0);
         output.put(ResourceType.SERVANT, 0);

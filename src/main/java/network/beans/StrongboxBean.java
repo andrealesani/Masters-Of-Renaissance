@@ -10,6 +10,9 @@ import server.GameController;
 
 import static model.resource.ResourceType.*;
 
+/**
+ * Class used to serialize a UnlimitedStorage object (in particular a Strongbox), send it over the network and store its information in the client
+ */
 public class StrongboxBean implements Observer{
     /**
      * The Controller that will have to send the bean when it changes

@@ -15,8 +15,7 @@ import static model.resource.ResourceType.*;
 
 
 /**
- * The purpose of this class is to simplify the information contained in the PlayerBoard in order to
- * transcribe it into a json file that will be passed to the Server object for the communication with the client
+ * Class used to serialize a PlayerBoard object, send it over the network and store its information in the client
  */
 public class PlayerBoardBean implements Observer {
     /**

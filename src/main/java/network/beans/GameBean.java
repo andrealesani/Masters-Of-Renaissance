@@ -18,6 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to serialize a Game object, send it over the network and store its information in the client
+ */
 public class GameBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes

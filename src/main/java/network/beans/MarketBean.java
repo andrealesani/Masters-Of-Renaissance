@@ -9,6 +9,9 @@ import model.resource.ResourceType;
 import network.MessageType;
 import server.GameController;
 
+/**
+ * Class used to serialize a Market object, send it over the network and store its information in the client
+ */
 public class MarketBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes

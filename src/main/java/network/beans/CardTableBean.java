@@ -17,6 +17,9 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+/**
+ * Class used to serialize a CardTable object, send it over the network and store its information in the client
+ */
 public class CardTableBean implements Observer {
     /**
      * The Controller that will have to send the bean when it changes
