@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import model.CardColor;
 import model.Color;
 import model.PlayerBoard;
@@ -46,7 +47,9 @@ public class MarbleLeaderCard extends LeaderCard {
      * @param playerBoard specifies to which PlayerBoard the discount has to be added
      */
     @Override
-    public void doAction(PlayerBoard playerBoard) {
+    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {
+        if (isActive())
+            throw new CardAlreadyActiveException();
         activate();
         activateMarbleEffect(playerBoard);
     }

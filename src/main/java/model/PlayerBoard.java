@@ -567,7 +567,7 @@ public class PlayerBoard implements Observable {
      * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
-    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException, CardAlreadyActiveException {
         if (number <= 0)
             throw new ParametersNotValidException();
         if (number > leaderCards.size())

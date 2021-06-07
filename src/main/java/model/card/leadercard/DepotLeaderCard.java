@@ -1,5 +1,6 @@
 package model.card.leadercard;
 
+import Exceptions.CardAlreadyActiveException;
 import model.Color;
 import model.PlayerBoard;
 import model.resource.ResourceType;
@@ -50,7 +51,9 @@ public class DepotLeaderCard extends LeaderCard {
      * @param playerBoard specifies to which PlayerBoard the discount has to be added
      */
     @Override
-    public void doAction(PlayerBoard playerBoard) { /* this method should either be boolean or throw an exception */
+    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException { /* this method should either be boolean or throw an exception */
+        if (isActive())
+            throw new CardAlreadyActiveException();
         activate();
         activateSpecialDepot(playerBoard);
     }
