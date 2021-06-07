@@ -530,7 +530,7 @@
                     </Button>
                 </children>
             </GridPane>
-         <GridPane fx:id="leaderDepotGrid" layoutY="128.0" prefHeight="33.0" prefWidth="555.0">
+         <GridPane fx:id="leaderDepotGrid" layoutY="128.0" prefHeight="34.0" prefWidth="548.0">
            <columnConstraints>
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -541,7 +541,7 @@
              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
-               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                  <columnConstraints>
                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="10.0" prefWidth="20.3333740234375" />
                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="34.800048828125" minWidth="10.0" prefWidth="31.2666259765625" />
@@ -553,11 +553,11 @@
                    <RowConstraints maxHeight="32.5332763671875" minHeight="10.0" prefHeight="31.4666259765625" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
                   </children>
                </GridPane>
-               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                   <columnConstraints>
                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="10.0" prefWidth="20.3333740234375" />
                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="34.800048828125" minWidth="10.0" prefWidth="31.2666259765625" />
@@ -569,13 +569,13 @@
                      <RowConstraints maxHeight="32.5332763671875" minHeight="10.0" prefHeight="31.4666259765625" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                     <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
                   </children>
                </GridPane>
             </children>
          </GridPane>
-         <GridPane fx:id="leaderDepotButtonGrid" layoutY="158.0" prefHeight="13.0" prefWidth="548.0">
+         <GridPane fx:id="leaderDepotButtonGrid" layoutY="158.0" prefHeight="20.0" prefWidth="548.0">
            <columnConstraints>
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -586,12 +586,12 @@
              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
-               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Leader Depot 1" GridPane.halignment="CENTER">
+               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="89.0" text="Leader Depot 1" GridPane.halignment="CENTER">
                   <font>
                      <Font size="10.0" />
                   </font>
                </Button>
-               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Leader Depot 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="89.0" text="Leader Depot 2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                   <font>
                      <Font size="10.0" />
                   </font>
