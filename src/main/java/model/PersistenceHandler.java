@@ -5,6 +5,7 @@ import model.card.leadercard.*;
 import model.resource.Resource;
 import model.resource.ResourceType;
 import network.beans.SlotBean;
+import server.GameController;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,13 @@ import static model.resource.ResourceType.STONE;
 
 public class PersistenceHandler {
 
-    private final Map<CardColor, List<List<DevelopmentCard>>> cards;
+    private transient final GameController controller;
 
-    private final List<PlayerBoard> playersTurnOrder;
+    private Map<CardColor, List<List<DevelopmentCard>>> cards;
+
+    private int[][] cardTable;
+
+    private List<PlayerBoard> playersTurnOrder;
 
     private String[] username;
 
@@ -103,9 +108,8 @@ public class PersistenceHandler {
 
     // CONSTRUCTORS
 
-    private PersistenceHandler(Map<CardColor, List<List<DevelopmentCard>>> cards, List<PlayerBoard> playersTurnOrder, List<PopeFavorTile> popeFavorTiles) {
-        this.cards = cards;
-        this.playersTurnOrder = playersTurnOrder;
+    private PersistenceHandler(GameController controller) {
+        this.controller = controller;
     }
 
     // GETTERS
@@ -113,6 +117,8 @@ public class PersistenceHandler {
     private Map<CardColor, List<List<DevelopmentCard>>> getCards() {
         return cards;
     }
+
+    public int[][] getCardTable() { return cardTable; }
 
     private List<PlayerBoard> getPlayersTurnOrder() {
         return playersTurnOrder;
@@ -281,10 +287,25 @@ public class PersistenceHandler {
     // PUBLIC METHODS
 
     public void saveGame(Game game) {
-        int i, j;
+        int i, j, k;
 
+        /* CARD TABLE */
         // da salvare in una int[][][] gli id di tutte le carte
-        game.getCardTable().getCards();
+        // cardTable array
+        cardTable = new int[3][game.getCardTable().getCards().entrySet().size()];
+        cards = game.getCardTable().getCards();
+
+        for (i = 0; i < cardTable.length; i++) {
+            for(j = 0; j < 3; j++) {
+                for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cards.entrySet()) {
+                    if (color.getValue().get(i).size() == 0)
+                        cardTable[i][j] = -1;
+                    else
+                        cardTable[i][j] = color.getValue().get(i).get(j).getId();
+                    j++;
+                }
+            }
+        }
 
         /* GAME CLASS */
 
@@ -358,7 +379,6 @@ public class PersistenceHandler {
                 vpFaithValues[j][i] = present2[i];
 
             devCardMax[j] = game.getPlayersTurnOrder().get(j).getDevCardMax();
-
 
             /* POPE FAVOR TILE CLASS */
 
