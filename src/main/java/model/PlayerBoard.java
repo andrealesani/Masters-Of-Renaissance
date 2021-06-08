@@ -1099,7 +1099,7 @@ public class PlayerBoard implements Observable {
     }
 
     /**
-     * Getetr
+     * Getter
      *
      * @return leaderDepotCards
      */
