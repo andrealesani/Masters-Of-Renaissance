@@ -119,6 +119,7 @@ public class GUI extends Application {
                 window.setMinHeight(550);
             }
             case GAME_BOARD_4 -> window.setResizable(false);
+
         }
     }
 
