@@ -20,7 +20,7 @@ public class GUI extends Application {
     private static final String HOST_AND_PORT = "hostAndPort.fxml";
     private static final String SETTINGS = "gameSettings.fxml";
     private static final String WAITING = "waitingPlayers.fxml";
-    private static final String GAME_BOARD_4 = "gameBoard4Players.fxml";
+    private static final String GAME_BOARD_4 = "gameBoard.fxml";
     private static final String PRODUCTIONS = "productions.fxml";
 
 

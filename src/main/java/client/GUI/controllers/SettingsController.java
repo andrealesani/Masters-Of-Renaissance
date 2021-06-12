@@ -1,28 +1,15 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
-import client.GUI.controllers.GameBoardController;
 import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import network.MessageType;
 
-import java.net.URL;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class SettingsController implements GUIController {
     private GUI gui;
@@ -202,7 +189,7 @@ public class SettingsController implements GUIController {
         else if (responseMap.get("type").equals("WAIT_PLAYERS"))
             gui.changeScene("waitingPlayers.fxml");
         else if (responseMap.get("type").equals("GAME_START"))
-            gui.changeScene("gameBoard4Players.fxml");
+            gui.changeScene("gameBoard.fxml");
     }
 }
 
