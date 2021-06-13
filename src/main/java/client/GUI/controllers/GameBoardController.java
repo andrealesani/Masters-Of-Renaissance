@@ -6,50 +6,44 @@ import client.GUI.GUI;
 import client.GUI.ThiccPopup;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.CardColor;
 import model.PopeTileState;
-import model.card.Card;
+import model.TurnPhase;
 import model.resource.ResourceType;
-import model.storage.Warehouse;
 import network.Command;
 import network.UserCommandsType;
 import network.beans.*;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class GameBoardController implements GUIController {
     private GUI gui;
     private ClientView clientView;
     private Gson gson;
 
+    private String visualizedPlayer;
+
     @FXML
-    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid;
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid, turnOrderGrid, viewBoardButtonsGrid;
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3;
     @FXML
-    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel;
+    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel;
     @FXML
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image, waitingRoomHider;
     @FXML
-    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton, productionsButton;
+    public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton, productionsButton, viewBoard1Button, viewBoard2Button, viewBoard3Button;
     @FXML
     public Text descriptionText;
 
@@ -72,6 +66,9 @@ public class GameBoardController implements GUIController {
     //TODO don't send the entire wrapper but only the type (must save info/error in clientView)
     @Override
     public void updateFromServer(String jsonMessage) {
+        if (visualizedPlayer == null)
+            visualizedPlayer = clientView.getUsername();
+
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         switch (response.getType().toString()) {
 
@@ -91,86 +88,59 @@ public class GameBoardController implements GUIController {
                 break;
 
             case "PLAYERBOARD":
-                PlayerBoardBean playerBoardBean = clientView.getPlayerBoard(clientView.getUsername());
-
-                //Faith track
-                drawFaithTrack(playerBoardBean.getFaith());
-
-                //Pope tiles
-                PopeTileState[] popeTileStates = playerBoardBean.getPopeTileStates();
-                drawPopeTile(popeTileStates[0], 1, tile1Image);
-                drawPopeTile(popeTileStates[1], 2, tile2Image);
-                drawPopeTile(popeTileStates[2], 3, tile3Image);
-
-                //Leader cards
-                drawLeaderCards(playerBoardBean);
-
-                //Card slots
-                SlotBean[] cardSlotBeans = playerBoardBean.getCardSlots();
-                drawCardSlot(cardSlotBeans[0], cardSlotPane1);
-                drawCardSlot(cardSlotBeans[1], cardSlotPane2);
-                drawCardSlot(cardSlotBeans[2], cardSlotPane3);
-
-                //White marbles
-                waitingRoomWhiteLabel.setText(Integer.toString(playerBoardBean.getWhiteMarbles()));
-
+                PlayerBoardBean playerBoardBean = clientView.getPlayerBoard(visualizedPlayer);
+                drawPlayerBoard(playerBoardBean);
                 break;
+
             case "STRONGBOX":
-                StrongboxBean strongboxBean = clientView.getStrongbox(clientView.getUsername());
-
                 //TODO usare mappe per inviare le risorse pls
-                int[] strongboxContents = strongboxBean.getQuantity();
-                strongboxCoinLabel.setText(Integer.toString(strongboxContents[0]));
-                strongboxServantLabel.setText(Integer.toString(strongboxContents[1]));
-                strongboxShieldLabel.setText(Integer.toString(strongboxContents[2]));
-                strongboxStoneLabel.setText(Integer.toString(strongboxContents[3]));
-
+                StrongboxBean strongboxBean = clientView.getStrongbox(visualizedPlayer);
+                drawStrongbox(strongboxBean);
                 break;
+
             case "WAITINGROOM":
-
-                WaitingRoomBean waitingRoomBean = clientView.getWaitingRoom(clientView.getUsername());
-
-                int[] waitingRoomContents = waitingRoomBean.getQuantity();
-                waitingRoomCoinLabel.setText(Integer.toString(waitingRoomContents[0]));
-                waitingRoomServantLabel.setText(Integer.toString(waitingRoomContents[1]));
-                waitingRoomShieldLabel.setText(Integer.toString(waitingRoomContents[2]));
-                waitingRoomStoneLabel.setText(Integer.toString(waitingRoomContents[3]));
-
+                WaitingRoomBean waitingRoomBean = clientView.getWaitingRoom(visualizedPlayer);
+                drawWaitingRoom(waitingRoomBean);
                 break;
+
             case "WAREHOUSE":
-                WarehouseBean warehouseBean = clientView.getWarehouse(clientView.getUsername());
-
-                int[] depotQuantities = warehouseBean.getDepotQuantity();
-                ResourceType[] depotTypes = warehouseBean.getDepotType();
-                drawDepot(depotQuantities[0], depotTypes[0], depot1Grid);
-                drawDepot(depotQuantities[1], depotTypes[1], depot2Grid);
-                drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
-
-                if (depotQuantities.length > 3 && clientView.getPlayerBoard(clientView.getUsername()) != null) {
-                    int i = 3;
-                    List<Node> leaderDepots = leaderDepotGrid.getChildren();
-                    Map<Integer, Integer> leaderDepotCards = clientView.getPlayerBoard(clientView.getUsername()).getLeaderDepotCards();
-                    for(int depot : leaderDepotCards.keySet()) {
-                        drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCards.get(depot) - 1));
-                        i++;
-                    }
-                }
+                WarehouseBean warehouseBean = clientView.getWarehouse(visualizedPlayer);
+                drawWarehouse(warehouseBean);
                 break;
+
             case "PRODUCTIONHANDLER":
                 gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
                 break;
+
             case "LORENZO":
                 //TODO?
                 break;
+
             case "ERROR":
                 SimplePopup.display(response.getType().toString(), response.getJsonMessage());
+                break;
+
             default:
                 System.out.println("Warning: received unexpected message " + jsonMessage);
         }
     }
 
+    //PUBLIC VISUALIZATION METHODS
+
     public void viewProductions() {
         ThiccPopup.display(gui, "productions.fxml");
+    }
+
+    public void viewPlayerBoard(String username) {
+        visualizedPlayer = username;
+        //Drawing the player's board contents
+        drawGameState(clientView.getGame());
+        drawPlayerBoard(clientView.getPlayerBoard(username));
+        drawStrongbox(clientView.getStrongbox(username));
+        drawWaitingRoom(clientView.getWaitingRoom(username));
+        drawWarehouse(clientView.getWarehouse(username));
+        //Buttons for switching view
+        enableVisualizedPlayerButtons();
     }
 
     //PUBLIC COMMAND METHODS
@@ -225,10 +195,10 @@ public class GameBoardController implements GUIController {
     }
 
     public void chooseMarbleConversion(ResourceType resource, int quantity) {
-        System.out.println("ChooseMarbleConversion: resource - " + resource + ", quantity - 1");
+        System.out.println("ChooseMarbleConversion: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
-        parameters.put("quantity", 1);
+        parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
         gui.sendCommand(gson.toJson(command));
     }
@@ -333,11 +303,37 @@ public class GameBoardController implements GUIController {
             button.setVisible(false);
         for (Node button : leaderDepotButtonGrid.getChildren())
             button.setVisible(false);
+        for (Node button : viewBoardButtonsGrid.getChildren())
+            button.setVisible(false);
         productionsButton.setVisible(false);
         endTurnButton.setDisable(true);
     }
 
-    private void enableCommonButtons() {
+    private void enableVisualizedPlayerButtons() {
+        //For viewing other player's boards
+        String[] turnOrder = clientView.getGame().getTurnOrder();
+        List<Node> viewBoardChildren = viewBoardButtonsGrid.getChildren();
+        for (int i = turnOrder.length - 1, j = viewBoardChildren.size() - 1; i >= 0; i--, j--) {
+            Button viewBoardButton = (Button) viewBoardChildren.get(j);
+            viewBoardButton.setText("View " + turnOrder[i] + "'s board");
+            int finalI = i;
+            viewBoardButton.setOnAction(e -> viewPlayerBoard(turnOrder[finalI]));
+            //Disable button for currently visualized player
+            if (turnOrder[i].equals(visualizedPlayer))
+                viewBoardButton.setDisable(true);
+            else
+                viewBoardButton.setDisable(false);
+            //Change text for your personal button
+            if (turnOrder[i].equals(clientView.getUsername()))
+                viewBoardButton.setText("View your board");
+            else
+                viewBoardButton.setText("View " + turnOrder[i] + "'s board");
+            //Make buttons visible for all players
+            viewBoardButton.setVisible(true);
+        }
+    }
+
+    private void enableAfterLeaderChoiceButtons() {
         //For playLeaderCard
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
@@ -392,11 +388,11 @@ public class GameBoardController implements GUIController {
                 int cardId = cardTable[i][j];
                 int finalI = i + 1;
                 //switch by card color (first 12 cards starting from id 17 are blue, the following 12 are green and so on)
-                switch((cardId-17)/12) {
-                    case 0  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.BLUE, finalI));
-                    case 1  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.GREEN, finalI));
-                    case 2  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.PURPLE, finalI));
-                    case 3  -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.YELLOW, finalI));
+                switch ((cardId - 17) / 12) {
+                    case 0 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.BLUE, finalI));
+                    case 1 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.GREEN, finalI));
+                    case 2 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.PURPLE, finalI));
+                    case 3 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.YELLOW, finalI));
                 }
             }
         }
@@ -443,7 +439,7 @@ public class GameBoardController implements GUIController {
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
             int finalI = i;
-            leaderChildren.get(i).setOnMouseClicked(e -> chooseLeaderCard(finalI+1));
+            leaderChildren.get(i).setOnMouseClicked(e -> chooseLeaderCard(finalI + 1));
         }
         //For sendResourceToDepot
         enableSendResourceToDepotButtons();
@@ -481,7 +477,9 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableCommonButtons();
+        enableAfterLeaderChoiceButtons();
+        //For switching view
+        enableVisualizedPlayerButtons();
         //For productions stuff
         productionsButton.setVisible(true);
     }
@@ -502,7 +500,9 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableCommonButtons();
+        enableAfterLeaderChoiceButtons();
+        //For switching view
+        enableVisualizedPlayerButtons();
         //For endTurn
         endTurnButton.setDisable(false);
         endTurnButton.setOnAction(e -> endTurn());
@@ -519,7 +519,9 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableCommonButtons();
+        enableAfterLeaderChoiceButtons();
+        //For switching view
+        enableVisualizedPlayerButtons();
         //For endTurn
         endTurnButton.setDisable(false);
         endTurnButton.setOnAction(e -> endTurn());
@@ -637,16 +639,42 @@ public class GameBoardController implements GUIController {
 
     //PRIVATE DRAWING METHODS
 
+    //TODO turnOrder è sufficiente aggiornarlo a inizio partita
     private void drawGameState(GameBean gameBean) {
         String currPlayer = gameBean.getCurrentPlayer();
         String currPhase = gameBean.getTurnPhase().vanillaToString();
 
+        //Turn phase information
         currentPlayerLabel.setText(currPlayer);
         turnPhaseLabel.setText(currPhase);
+        viewedPlayerLabel.setText(visualizedPlayer);
 
-        if (!currPlayer.equals(clientView.getUsername())) {
+        //Turn order
+        String[] turnOrder = gameBean.getTurnOrder();
+        List<Node> turnOrderChildren = turnOrderGrid.getChildren();
+        int i = 0;
+        for (; i < turnOrder.length; i++) {
+            String userName = "";
+            userName += turnOrder[i];
+            if (turnOrder[i].equals(clientView.getUsername()))
+                userName += " (you)";
+            ((Label) turnOrderChildren.get(i)).setText(userName);
+        }
+        for (; i < turnOrderChildren.size(); i++) {
+            ((Label) turnOrderChildren.get(i)).setText(null);
+        }
+
+        //Activate buttons
+        if (!visualizedPlayer.equals(clientView.getUsername())) {
+            descriptionText.setText("You are viewing another player's board.");
+            disableButtons();
+            if (!currPhase.equals("LEADERCHOICE"))
+                enableVisualizedPlayerButtons();
+        } else if (!currPlayer.equals(clientView.getUsername())) {
             descriptionText.setText("You are not the current player.");
             disableButtons();
+            if (!currPhase.equals("LEADERCHOICE"))
+                enableVisualizedPlayerButtons();
         } else {
             switch (currPhase) {
                 case "LEADERCHOICE" -> setupLeaderChoice();
@@ -690,13 +718,69 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    private void drawPlayerBoard(PlayerBoardBean playerBoardBean) {
+        //Faith track
+        drawFaithTrack(playerBoardBean.getFaith());
+
+        //Pope tiles
+        PopeTileState[] popeTileStates = playerBoardBean.getPopeTileStates();
+        drawPopeTile(popeTileStates[0], 1, tile1Image);
+        drawPopeTile(popeTileStates[1], 2, tile2Image);
+        drawPopeTile(popeTileStates[2], 3, tile3Image);
+
+        //Leader cards
+        drawLeaderCards(playerBoardBean);
+
+        //Card slots
+        SlotBean[] cardSlotBeans = playerBoardBean.getCardSlots();
+        drawCardSlot(cardSlotBeans[0], cardSlotPane1);
+        drawCardSlot(cardSlotBeans[1], cardSlotPane2);
+        drawCardSlot(cardSlotBeans[2], cardSlotPane3);
+
+        //White marbles
+        waitingRoomWhiteLabel.setText(Integer.toString(playerBoardBean.getWhiteMarbles()));
+    }
+
+    private void drawStrongbox(StrongboxBean strongboxBean) {
+        int[] strongboxContents = strongboxBean.getQuantity();
+        strongboxCoinLabel.setText(Integer.toString(strongboxContents[0]));
+        strongboxServantLabel.setText(Integer.toString(strongboxContents[1]));
+        strongboxShieldLabel.setText(Integer.toString(strongboxContents[2]));
+        strongboxStoneLabel.setText(Integer.toString(strongboxContents[3]));
+    }
+
+    private void drawWaitingRoom(WaitingRoomBean waitingRoomBean) {
+        int[] waitingRoomContents = waitingRoomBean.getQuantity();
+        waitingRoomCoinLabel.setText(Integer.toString(waitingRoomContents[0]));
+        waitingRoomServantLabel.setText(Integer.toString(waitingRoomContents[1]));
+        waitingRoomShieldLabel.setText(Integer.toString(waitingRoomContents[2]));
+        waitingRoomStoneLabel.setText(Integer.toString(waitingRoomContents[3]));
+    }
+
+    private void drawWarehouse(WarehouseBean warehouseBean) {
+        int[] depotQuantities = warehouseBean.getDepotQuantity();
+        ResourceType[] depotTypes = warehouseBean.getDepotType();
+        drawDepot(depotQuantities[0], depotTypes[0], depot1Grid);
+        drawDepot(depotQuantities[1], depotTypes[1], depot2Grid);
+        drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
+
+        if (depotQuantities.length > 3 && clientView.getPlayerBoard(clientView.getUsername()) != null) {
+            int i = 3;
+            List<Node> leaderDepots = leaderDepotGrid.getChildren();
+            Map<Integer, Integer> leaderDepotCards = clientView.getPlayerBoard(clientView.getUsername()).getLeaderDepotCards();
+            for (int depot : leaderDepotCards.keySet()) {
+                drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCards.get(depot) - 1));
+                i++;
+            }
+        }
+    }
+
     private void drawFaithTrack(int faith) {
         ObservableList<Node> faithTrackChildren = faithGrid.getChildren();
         for (int i = 0; i < faithTrackChildren.size(); i++) {
             if (faith == i) {
                 Image token = new Image("/graphics/punchboard/faithMarker.png");
                 ((ImageView) faithTrackChildren.get(i)).setImage(token);
-                break;
             } else {
                 ((ImageView) faithTrackChildren.get(i)).setImage(null);
             }
@@ -710,15 +794,21 @@ public class GameBoardController implements GUIController {
         for (int i = 0; i < leaderChildren.size(); i++) {
             Image card;
             if (i < leaderCards.length) {
-                card = new Image("/graphics/front/" + leaderCards[i] + ".png");
-                if (activeLeaderCards[i])
+                //Handles effects and viewing
+                if (activeLeaderCards[i]) {
                     leaderChildren.get(i).getStyleClass().add("selectedCard");
-                else {
+                    card = new Image("/graphics/front/" + leaderCards[i] + ".png");
+                } else {
+                    //If viewing other players, only shows active cards
+                    if (visualizedPlayer.equals(clientView.getUsername()))
+                        card = new Image("/graphics/front/" + leaderCards[i] + ".png");
+                    else
+                        card = new Image("/graphics/back/leadercardBack.png");
                     leaderChildren.get(i).getStyleClass().clear();
                     leaderChildren.get(i).getStyleClass().add("card");
                 }
             } else {
-                card = new Image("/graphics/back/leadercardBack.png");
+                card = null;
                 leaderChildren.get(i).getStyleClass().clear();
             }
             ((ImageView) leaderChildren.get(i)).setImage(card);
@@ -753,7 +843,7 @@ public class GameBoardController implements GUIController {
 
     private void drawDepot(int quantity, ResourceType type, GridPane depotGrid) {
         List<Node> depotChildren = depotGrid.getChildren();
-        for (int j = 0; j < depotChildren.size() ; j++) {
+        for (int j = 0; j < depotChildren.size(); j++) {
             if (j < quantity) {
                 Image resource = new Image("/graphics/punchboard/" + type.getResourceImage());
                 ((ImageView) depotChildren.get(j)).setImage(resource);

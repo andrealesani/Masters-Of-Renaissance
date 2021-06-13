@@ -3,10 +3,7 @@ package network.beans;
 import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.Color;
-import model.Game;
-import model.Observer;
-import model.TurnPhase;
+import model.*;
 import model.card.leadercard.*;
 import network.MessageType;
 import server.GameController;
@@ -30,6 +27,10 @@ public class GameBean implements Observer {
      * The player that has to make a move
      */
     private String currentPlayer;
+    /**
+     * The turn order
+     */
+    private String[] turnOrder;
     /**
      * The turn phase that the current player is in
      */
@@ -67,6 +68,10 @@ public class GameBean implements Observer {
         return currentPlayer;
     }
 
+    public String[] getTurnOrder() {
+        return turnOrder.clone();
+    }
+
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
@@ -90,6 +95,14 @@ public class GameBean implements Observer {
 
     public void setTurnPhaseFromGame(Game game) {
         turnPhase = game.getTurnPhase();
+    }
+
+    public void setTurnOrderFromGame(Game game) {
+        turnOrder = new String[game.getPlayersTurnOrder().size()];
+        List<PlayerBoard> playerBoards = game.getPlayersTurnOrder();
+        for (int i = 0; i < turnOrder.length; i++) {
+            turnOrder[i] = playerBoards.get(i).getUsername();
+        }
     }
 
     public void setWinner(Game game) {
@@ -150,6 +163,7 @@ public class GameBean implements Observer {
         Gson gson = new Gson();
         Game game = (Game) observable;
         setCurrentPlayerFromGame(game);
+        setTurnOrderFromGame(game);
         setTurnPhaseFromGame(game);
         setEndGame(game);
         setWinner(game);
