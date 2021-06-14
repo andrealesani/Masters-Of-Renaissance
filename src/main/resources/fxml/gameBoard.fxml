@@ -257,6 +257,61 @@
                             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="18" />
                         </children>
                     </GridPane>
+               <GridPane fx:id="lorenzoFaithGrid" layoutX="42.0" layoutY="42.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.5999755859375" minWidth="10.0" prefWidth="42.39996337890625" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.20001220703125" minWidth="10.0" prefWidth="38.4" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.79998779296875" minWidth="10.0" prefWidth="39.99997558593749" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="39.2000244140625" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="40.79997558593749" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="39.19998779296873" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="43.199951171875" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.40003662109376" minWidth="10.0" prefWidth="39.19998779296873" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.60003662109375" minWidth="10.0" prefWidth="40.00000000000006" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="3.199951171875" prefWidth="39.99993896484375" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="41.600048828124955" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="38.4000244140625" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="40.000024414062466" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="9.600000000000023" prefWidth="37.60000000000002" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="41.5999755859375" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="39.199951171875" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="6.400048828125023" prefWidth="43.19997558593752" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="40.79997558593743" />
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.800048828125" minWidth="10.0" prefWidth="41.60002441406243" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints maxHeight="54.4" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="54.4" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="44.799993896484374" minHeight="10.0" prefHeight="42.4" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                  <children>
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="1" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="13" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="14" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="15" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="16" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="17" />
+                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="18" />
+                  </children>
+               </GridPane>
                     <AnchorPane fx:id="tile1Pane" layoutX="203.0" layoutY="86.0" prefHeight="61.0" prefWidth="61.0">
                         <children>
                             <ImageView fx:id="tile1Image" fitHeight="59.0" fitWidth="59.0" layoutX="2.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
@@ -688,11 +743,6 @@
                     <Button fx:id="waitingRoomStoneButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="100.0" styleClass="button" text="Stone Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 </children>
             </GridPane>
-            <ImageView fx:id="waitingRoomHider" fitHeight="224.0" fitWidth="372.0" pickOnBounds="true" visible="false">
-                <image>
-                    <Image url="@../graphics/wood_texture.png" />
-                </image>
-            </ImageView>
         </children>
     </AnchorPane>
     <AnchorPane fx:id="gameInfoPane" layoutX="1148.0" layoutY="593.0" prefHeight="158.0" prefWidth="255.0">
@@ -748,7 +798,7 @@
                     <Button fx:id="cancelOperationButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="124.0" text="Cancel Operation" GridPane.rowIndex="1" />
                 </children>
             </GridPane>
-         <GridPane fx:id="viewBoardButtonsGrid" layoutX="6.0" layoutY="453.0" prefHeight="130.0" prefWidth="124.0">
+         <GridPane fx:id="viewBoardButtonsGrid" layoutX="6.0" layoutY="393.0" prefHeight="130.0" prefWidth="124.0">
             <columnConstraints>
                <ColumnConstraints fx:id="buttonsGrid1" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
@@ -765,21 +815,76 @@
                <Button fx:id="viewPersonalBoardButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="124.0" text="Your Board" GridPane.rowIndex="3" />
             </children>
          </GridPane>
-         <ImageView fitHeight="59.0" fitWidth="130.0" layoutX="3.0" layoutY="381.0" pickOnBounds="true">
-            <image>
-               <Image url="@../graphics/wood_texture.png" />
-            </image>
-         </ImageView>
-         <Label layoutX="6.0" layoutY="381.0" prefHeight="30.0" prefWidth="105.0" text="Now viewing:" textFill="#fcfcfc">
-            <font>
-               <Font name="Arial Bold" size="14.0" />
-            </font>
-         </Label>
-         <Label fx:id="viewedPlayerLabel" layoutX="14.0" layoutY="410.0" prefWidth="94.0" text="Player's Board" textFill="#e1d892">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-         </Label>
+         <AnchorPane layoutX="-2.0" layoutY="531.0" prefHeight="59.0" prefWidth="140.0">
+            <children>
+               <ImageView fitHeight="59.0" fitWidth="124.0" layoutX="8.0" layoutY="1.0" pickOnBounds="true">
+                  <image>
+                     <Image url="@../graphics/wood_texture.png" />
+                  </image>
+               </ImageView>
+               <Label layoutX="10.0" prefHeight="30.0" prefWidth="105.0" text="Now viewing:" textFill="#fcfcfc">
+                  <font>
+                     <Font name="Arial Bold" size="14.0" />
+                  </font>
+               </Label>
+               <Label fx:id="viewedPlayerLabel" layoutX="16.0" layoutY="29.0" prefWidth="94.0" text="Player's Board" textFill="#e1d892">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+         <AnchorPane fx:id="lorenzoTokenPane" layoutX="-2.0" layoutY="258.0" prefHeight="265.0" prefWidth="142.0" visible="false">
+            <children>
+               <ImageView fitHeight="266.0" fitWidth="124.0" layoutX="9.0" pickOnBounds="true">
+                  <image>
+                     <Image url="@../graphics/wood_texture.png" />
+                  </image>
+               </ImageView>
+               <Label layoutX="10.0" layoutY="-1.0" prefHeight="30.0" prefWidth="124.0" text="Lorenzo's tokens:" textFill="#fcfcfc">
+                  <font>
+                     <Font name="Arial Bold" size="14.0" />
+                  </font>
+               </Label>
+               <Label layoutX="13.0" layoutY="23.0" prefHeight="30.0" prefWidth="33.0" text="Left:" textFill="#fcfcfc">
+                  <font>
+                     <Font name="Arial Bold" size="13.0" />
+                  </font>
+               </Label>
+               <Label layoutX="13.0" layoutY="45.0" prefHeight="30.0" prefWidth="46.0" text="Used:" textFill="#fcfcfc">
+                  <font>
+                     <Font name="Arial Bold" size="13.0" />
+                  </font>
+               </Label>
+               <Label fx:id="lorenzoTokenLeftLabel" layoutX="53.0" layoutY="28.0" text="0" textFill="#e1d892">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Label>
+               <GridPane fx:id="lorenzoUsedTokenGrid" layoutX="13.0" layoutY="78.0" prefHeight="170.0" prefWidth="110.0">
+                 <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="24.799993896484374" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  </children>
+               </GridPane>
+            </children>
+         </AnchorPane>
         </children>
     </AnchorPane>
     <AnchorPane fx:id="turnOrderPane" layoutX="1403.0" layoutY="594.0" prefHeight="178.0" prefWidth="130.0">
@@ -789,7 +894,7 @@
                     <Image url="@../graphics/wood_texture.png" />
                 </image>
             </ImageView>
-            <Label layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" text="Turn order:" textFill="#fcfcfc">
+            <Label layoutX="13.0" layoutY="9.0" prefHeight="30.0" prefWidth="90.0" text="Turn order:" textFill="#fcfcfc">
                 <font>
                     <Font name="Arial Bold" size="16.0" />
                 </font>

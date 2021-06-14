@@ -1,6 +1,7 @@
 package model.lorenzo.tokens;
 
 import model.Color;
+import model.resource.ResourceType;
 
 /**
  * Enum used to indicate the type of a Lorenzo single player action token
@@ -31,6 +32,29 @@ public enum LorenzoTokenType {
         }
         if (this == LorenzoTokenType.RemovePurple) {
             return "-2" + Color.PURPLE_FG + "█" + Color.RESET;
+        }
+        // This should never happen
+        return null;
+    }
+
+    public String getTokenImage() {
+        if (this == LorenzoTokenType.DoubleFaith) {
+            return "token_2faith.png";
+        }
+        if (this == LorenzoTokenType.SingleFaith) {
+            return "token_1faith_reset.png";
+        }
+        if (this == LorenzoTokenType.RemoveBlue) {
+            return "token_blue.png";
+        }
+        if (this == LorenzoTokenType.RemoveGreen) {
+            return "token_green.png";
+        }
+        if (this == LorenzoTokenType.RemoveYellow) {
+            return "token_yellow.png";
+        }
+        if (this == LorenzoTokenType.RemovePurple) {
+            return "token_purple.png";
         }
         // This should never happen
         return null;

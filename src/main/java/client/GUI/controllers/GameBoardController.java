@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import model.CardColor;
 import model.PopeTileState;
 import model.TurnPhase;
+import model.lorenzo.Lorenzo;
+import model.lorenzo.tokens.LorenzoTokenType;
 import model.resource.ResourceType;
 import network.Command;
 import network.UserCommandsType;
@@ -33,15 +35,16 @@ public class GameBoardController implements GUIController {
     private Gson gson;
 
     private String visualizedPlayer;
+    private String previousPlayer;
 
     @FXML
-    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid, turnOrderGrid, viewBoardButtonsGrid;
+    private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid, turnOrderGrid, viewBoardButtonsGrid, lorenzoFaithGrid, lorenzoUsedTokenGrid;
     @FXML
-    public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3;
+    public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane, lorenzoTokenPane;
     @FXML
-    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel;
+    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel, lorenzoTokenLeftLabel;
     @FXML
-    public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image, waitingRoomHider;
+    public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image;
     @FXML
     public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton, productionsButton, viewBoard1Button, viewBoard2Button, viewBoard3Button;
     @FXML
@@ -108,12 +111,13 @@ public class GameBoardController implements GUIController {
                 drawWarehouse(warehouseBean);
                 break;
 
-            case "PRODUCTIONHANDLER":
-                gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
+            case "LORENZO":
+                LorenzoBean lorenzoBean = clientView.getLorenzo();
+                drawLorenzo(lorenzoBean);
                 break;
 
-            case "LORENZO":
-                //TODO?
+            case "PRODUCTIONHANDLER":
+                gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
                 break;
 
             case "ERROR":
@@ -276,7 +280,7 @@ public class GameBoardController implements GUIController {
     //PRIVATE BUTTON HANDLING METHODS
 
     private void disableButtons() {
-        waitingRoomHider.setVisible(true);
+        waitingRoomPane.setVisible(false);
         waitingRoomCoin.setOnMouseClicked(null);
         waitingRoomServant.setOnMouseClicked(null);
         waitingRoomShield.setOnMouseClicked(null);
@@ -429,7 +433,7 @@ public class GameBoardController implements GUIController {
         descriptionText.setText("Choose two leadercards to keep and, if necessary, which bonus resources to obtain (by clicking on the corresponding resource) and where to store them. Then end your turn.");
 
         disableButtons();
-        waitingRoomHider.setVisible(false);
+        waitingRoomPane.setVisible(true);
         //For chooseBonusResourceType
         waitingRoomCoin.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.COIN, 1));
         waitingRoomServant.setOnMouseClicked(e -> chooseBonusResourceType(ResourceType.SERVANT, 1));
@@ -455,7 +459,7 @@ public class GameBoardController implements GUIController {
         descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
 
         disableButtons();
-        waitingRoomHider.setVisible(true);
+        waitingRoomPane.setVisible(false);
         //For selectMarketRow
         List<Node> rowButtons = marketRowButtonsGrid.getChildren();
         for (int i = 0; i < rowButtons.size(); i++) {
@@ -489,7 +493,7 @@ public class GameBoardController implements GUIController {
         descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
 
         disableButtons();
-        waitingRoomHider.setVisible(false);
+        waitingRoomPane.setVisible(true);
         //For chooseMarbleConversion
         waitingRoomCoin.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.COIN, 1));
         waitingRoomServant.setOnMouseClicked(e -> chooseMarbleConversion(ResourceType.SERVANT, 1));
@@ -513,7 +517,7 @@ public class GameBoardController implements GUIController {
         descriptionText.setText("Choose from where to pay your resources, or end your turn to have it chosen automatically.");
 
         disableButtons();
-        waitingRoomHider.setVisible(false);
+        waitingRoomPane.setVisible(true);
         //For payFromWarehouse, payFromStrongbox
         enablePaymentButtons();
         //For swapDepotContent
@@ -646,6 +650,9 @@ public class GameBoardController implements GUIController {
 
         //Turn phase information
         currentPlayerLabel.setText(currPlayer);
+        if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
+            SimplePopup.display("INFO", "It's your turn to act!");
+        previousPlayer = (currPlayer);
         turnPhaseLabel.setText(currPhase);
         viewedPlayerLabel.setText(visualizedPlayer);
 
@@ -663,6 +670,8 @@ public class GameBoardController implements GUIController {
         for (; i < turnOrderChildren.size(); i++) {
             ((Label) turnOrderChildren.get(i)).setText(null);
         }
+        if (turnOrder.length== 1)
+            ((Label) turnOrderChildren.get(1)).setText("LORENZO");
 
         //Activate buttons
         if (!visualizedPlayer.equals(clientView.getUsername())) {
@@ -720,7 +729,7 @@ public class GameBoardController implements GUIController {
 
     private void drawPlayerBoard(PlayerBoardBean playerBoardBean) {
         //Faith track
-        drawFaithTrack(playerBoardBean.getFaith());
+        drawFaithTrack(faithGrid, "/graphics/punchboard/faithMarker.png", playerBoardBean.getFaith());
 
         //Pope tiles
         PopeTileState[] popeTileStates = playerBoardBean.getPopeTileStates();
@@ -775,11 +784,11 @@ public class GameBoardController implements GUIController {
         }
     }
 
-    private void drawFaithTrack(int faith) {
-        ObservableList<Node> faithTrackChildren = faithGrid.getChildren();
+    private void drawFaithTrack(GridPane grid, String imageUrl, int faith) {
+        ObservableList<Node> faithTrackChildren = grid.getChildren();
         for (int i = 0; i < faithTrackChildren.size(); i++) {
             if (faith == i) {
-                Image token = new Image("/graphics/punchboard/faithMarker.png");
+                Image token = new Image(imageUrl);
                 ((ImageView) faithTrackChildren.get(i)).setImage(token);
             } else {
                 ((ImageView) faithTrackChildren.get(i)).setImage(null);
@@ -835,21 +844,40 @@ public class GameBoardController implements GUIController {
         } else if (state == PopeTileState.ACTIVE) {
             tile = new Image("/graphics/punchboard/tile" + tileNumber + "Front.png");
         } else {
-            imageView.setImage(null);
-            return;
+            tile = null;
         }
         imageView.setImage(tile);
     }
 
     private void drawDepot(int quantity, ResourceType type, GridPane depotGrid) {
         List<Node> depotChildren = depotGrid.getChildren();
-        for (int j = 0; j < depotChildren.size(); j++) {
-            if (j < quantity) {
-                Image resource = new Image("/graphics/punchboard/" + type.getResourceImage());
-                ((ImageView) depotChildren.get(j)).setImage(resource);
-            } else {
-                ((ImageView) depotChildren.get(j)).setImage(null);
-            }
+        int i = 0;
+        for (; i < quantity; i++) {
+            Image resource = new Image("/graphics/punchboard/" + type.getResourceImage());
+            ((ImageView) depotChildren.get(i)).setImage(resource);
         }
+        for (; i < depotChildren.size(); i++) {
+            ((ImageView) depotChildren.get(i)).setImage(null);
+        }
+    }
+
+    private void drawLorenzo(LorenzoBean lorenzoBean) {
+        //Faith marker
+        drawFaithTrack(lorenzoFaithGrid, "/graphics/punchboard/lorenzoFaithMarker.png", lorenzoBean.getFaith());
+        //Number of active tokens
+        lorenzoTokenLeftLabel.setText(Integer.toString(lorenzoBean.getActiveTokens().length));
+        //Discarded tokens
+        LorenzoTokenType[] discardedTokens = lorenzoBean.getDiscardedTokens();
+        List<Node> lorenzoTokenChildren = lorenzoUsedTokenGrid.getChildren();
+        int i = 0;
+        for (; i < discardedTokens.length; i++) {
+            Image token = new Image("/graphics/punchboard/" + discardedTokens[i].getTokenImage());
+            ((ImageView) lorenzoTokenChildren.get(i)).setImage(token);
+        }
+        for (; i < lorenzoTokenChildren.size(); i++) {
+            ((ImageView) lorenzoTokenChildren.get(i)).setImage(null);
+        }
+        //Making lorenzo visible
+        lorenzoTokenPane.setVisible(true);
     }
 }
