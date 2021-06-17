@@ -14,39 +14,34 @@ import network.beans.MessageWrapper;
 
 import java.util.Map;
 
+/**
+ * This class is the GUIController which handles the choice of the player's username and, if necessary, of the game's number of players
+ */
 public class SettingsController implements GUIController {
+    /**
+     * The client's GUI object
+     */
     private GUI gui;
+
+    /**
+     * The graphical elements of this controller's scene
+     */
     @FXML
     private TextField usernameField;
     @FXML
-    private Button confirmUsername;
+    private Label invalidUsername, playersList, numPlayersLabel;
     @FXML
-    private Label invalidUsername;
-    @FXML
-    private Label playersList;
-    @FXML
-    private Button singleplayerButton;
-    @FXML
-    private Button multiplayerButton;
-    @FXML
-    private Label numPlayersLabel;
-    @FXML
-    private Button readyButton;
-    @FXML
-    private Button twoPlayersButton;
-    @FXML
-    private Button threePlayersButton;
-    @FXML
-    private Button fourPlayersButton;
-    @FXML
-    private Button changeSettingsButton;
-
-    private int numPlayers = 0;
-    private String message;
-    private Map responseMap;
+    private Button confirmUsername, singleplayerButton, multiplayerButton, readyButton, twoPlayersButton, threePlayersButton, fourPlayersButton, changeSettingsButton;
 
     /**
-     * @see Application#init()
+     * The number of players for the game being created
+     */
+    private int numPlayers = 0;
+
+    //CONSTRUCTORS
+
+    /**
+     * Handles initialization for this class
      */
     public void initialize() {
         invalidUsername.setVisible(false);
@@ -62,6 +57,9 @@ public class SettingsController implements GUIController {
 
     // PUBLIC METHODS
 
+    /**
+     * Checks if the chosen username is valid, then send it to the server for confirmation
+     */
     public void checkValidUsername() {
         System.out.println("Checking username...");
 
@@ -76,7 +74,10 @@ public class SettingsController implements GUIController {
         gui.sendCommand(usernameField.getText());
     }
 
-    public void changeSettings(ActionEvent actionEvent) {
+    /**
+     * Resets the choice for the number of players of the game
+     */
+    public void changeSettings() {
         singleplayerButton.setVisible(true);
         singleplayerButton.setDisable(false);
         multiplayerButton.setVisible(true);
@@ -95,9 +96,21 @@ public class SettingsController implements GUIController {
 
     // SETTERS
 
-    public void setSingleplayerGame(ActionEvent event) {
-        Button button = (Button) event.getSource();
-        button.setDisable(true);
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
+
+    /**
+     * Selects the single player options for the scene
+     */
+    public void setSingleplayerGame() {
+        singleplayerButton.setDisable(true);
         multiplayerButton.setVisible(false);
         numPlayersLabel.setVisible(false);
         twoPlayersButton.setVisible(false);
@@ -109,9 +122,11 @@ public class SettingsController implements GUIController {
         playersList.setText("You choose to challenge\nLorenzo Il Magnifico\nprepare yourself and\ndo your best!");
     }
 
-    public void setMultiplayerGame(ActionEvent event) {
-        Button button = (Button) event.getSource();
-        button.setDisable(true);
+    /**
+     * Selects the multiplayer options for the scene
+     */
+    public void setMultiplayerGame() {
+        multiplayerButton.setDisable(true);
         singleplayerButton.setVisible(false);
         numPlayersLabel.setVisible(true);
         twoPlayersButton.setVisible(true);
@@ -119,9 +134,11 @@ public class SettingsController implements GUIController {
         fourPlayersButton.setVisible(true);
     }
 
-    public void setTwoPlayers(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-        button.setDisable(true);
+    /**
+     * Selects the two players options for the scene
+     */
+    public void setTwoPlayers() {
+        twoPlayersButton.setDisable(true);
         threePlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setDisable(false);
@@ -129,9 +146,11 @@ public class SettingsController implements GUIController {
         numPlayers = 2;
     }
 
-    public void setThreePlayers(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-        button.setDisable(true);
+    /**
+     * Selects the three players options for the scene
+     */
+    public void setThreePlayers() {
+        threePlayersButton.setDisable(true);
         twoPlayersButton.setVisible(false);
         fourPlayersButton.setVisible(false);
         readyButton.setDisable(false);
@@ -139,9 +158,11 @@ public class SettingsController implements GUIController {
         numPlayers = 3;
     }
 
+    /**
+     * Selects the four players options for the scene
+     */
     public void setFourPlayers(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-        button.setDisable(true);
+        fourPlayersButton.setDisable(true);
         twoPlayersButton.setVisible(false);
         threePlayersButton.setVisible(false);
         readyButton.setDisable(false);
@@ -149,21 +170,27 @@ public class SettingsController implements GUIController {
         numPlayers = 4;
     }
 
+    //TODO switchare solo se il server conferma
+    /**
+     * Attempts to send the number of players to the server, then switches to the next scene
+     */
     public void setGame() {
         if (numPlayers > 0) {
             gui.sendCommand(Integer.toString(numPlayers));
             gui.changeScene(SceneName.WAITING);
-        } else throw new RuntimeException("Player clicked 'Ready' button when he wasn't supposed to");
-        // close a window after you press a button
-        // ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
-    }
-
-    @Override
-    public void setGui(GUI gui) {
-        this.gui = gui;
+        } else {
+            System.err.println("Warning: Player pressed 'ready' button before they were supposed to.");
+            gui.stop();
+        }
     }
 
     //TODO fixare questo orrendo if/else basato sulle stringhe wtf
+
+    /**
+     * Updates the necessary parts of the scene based on what message was received from the server
+     *
+     * @param jsonMessage the message received from the server
+     */
     @Override
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();

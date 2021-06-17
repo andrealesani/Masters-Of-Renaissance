@@ -21,7 +21,7 @@ public enum SceneName {
     public String getFileName() {
         String result = null;
 
-        switch(this) {
+        switch (this) {
             case HOST_AND_PORT -> result = "hostAndPort.fxml";
             case SETTINGS -> result = "gameSettings.fxml";
             case WAITING -> result = "waitingPlayers.fxml";

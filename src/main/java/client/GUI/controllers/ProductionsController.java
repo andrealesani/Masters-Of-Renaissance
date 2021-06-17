@@ -23,11 +23,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is the GUIController which handles the selection of productions to activate
+ */
 public class ProductionsController implements GUIController {
+    /**
+     * The client's GUI object
+     */
     private GUI gui;
+    /**
+     * The object used to store all of the client's information
+     */
     private ClientView clientView;
+    /**
+     * The object used to deserialize json messages
+     */
     private Gson gson;
 
+    /**
+     * The graphical elements of this controller's scene
+     */
     @FXML
     public ImageView inputCoin, inputServant, inputShield, inputStone, outputCoin, outputServant, outputShield, outputStone;
     @FXML
@@ -41,12 +56,33 @@ public class ProductionsController implements GUIController {
 
     //CONSTRUCTORS
 
+    /**
+     * Handles initialization for this class by creating the deserializer
+     */
     public void initialize() {
         this.gson = new Gson();
     }
 
+    //SETTERS
+
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+        this.clientView = gui.getClientView();
+    }
+
     //PUBLIC METHODS
 
+    /**
+     * Updates the necessary parts of the scene based on what message was received from the server
+     *
+     * @param jsonMessage the message received from the server
+     */
     @Override
     public void updateFromServer(String jsonMessage) {
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
@@ -56,12 +92,14 @@ public class ProductionsController implements GUIController {
 
                 ProductionHandlerBean productionHandlerBean = clientView.getProductionHandler(clientView.getUsername());
 
+                //Update the interface
                 drawProductions(productionHandlerBean);
                 drawCurrentInput(productionHandlerBean);
                 drawCurrentOutput(productionHandlerBean);
 
-                setupProductionChoice(productionHandlerBean);
-                setupJollyConversion();
+                //Set up interactibles
+                enableSetupProductionChoiceButtons(productionHandlerBean);
+                enableSetupJollyConversionButtons();
 
                 descriptionText.setText("Please, select the productions you wish to activate. Before confirming, all jollies in input and output must be converted by clicking on the chosen resource.");
 
@@ -71,18 +109,20 @@ public class ProductionsController implements GUIController {
         }
     }
 
-    @Override
-    public void setGui(GUI gui) {
-        this.gui = gui;
-        this.clientView = gui.getClientView();
-    }
-
+    /**
+     * Closes the popup
+     */
     public void closeWindow() {
         gui.getSceneBySceneName(SceneName.PRODUCTIONS).getWindow().hide();
     }
 
     //PUBLIC COMMAND METHODS
 
+    /**
+     * Sends the selectProduction command to the server with the given parameters
+     *
+     * @param number the number of the production to choose
+     */
     public void selectProduction(int number) {
         System.out.println("SelectProduction: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -91,12 +131,20 @@ public class ProductionsController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the resetProductionChoice command to the server
+     */
     public void resetProductionChoice() {
         System.out.println("ResetProductionChoice");
         Command command = new Command(UserCommandsType.resetProductionChoice, null);
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the chooseJollyInput command to the server with the given parameters
+     *
+     * @param resource the resource to convert the jolly into
+     */
     public void chooseJollyInput(ResourceType resource) {
         System.out.println("ChooseJollyInput: resource - " + resource);
         Map<String, Object> parameters = new HashMap<>();
@@ -105,6 +153,11 @@ public class ProductionsController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the chooseJollyOutput command to the server with the given parameters
+     *
+     * @param resource the resource to convert the jolly into
+     */
     public void chooseJollyOutput(ResourceType resource) {
         System.out.println("ChooseJollyOutput: resource - " + resource);
         Map<String, Object> parameters = new HashMap<>();
@@ -113,6 +166,9 @@ public class ProductionsController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the confirmProductionChoice command to the server
+     */
     public void confirmProductionChoice() {
         System.out.println("ConfirmProductionChoice");
         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
@@ -122,7 +178,12 @@ public class ProductionsController implements GUIController {
 
     //PRIVATE SETUP METHODS
 
-    private void setupProductionChoice(ProductionHandlerBean productionHandlerBean) {
+    /**
+     * Handles enabling for the interactive elements necessary for choosing productions
+     *
+     * @param productionHandlerBean the object containing the production handler information
+     */
+    private void enableSetupProductionChoiceButtons(ProductionHandlerBean productionHandlerBean) {
         ObservableList<Node> productionsChildren = productionsGrid.getChildren();
         int[] productions = productionHandlerBean.getProductions();
 
@@ -143,7 +204,10 @@ public class ProductionsController implements GUIController {
         confirmButton.setDisable(input.get(ResourceType.UNKNOWN) != 0 || output.get(ResourceType.UNKNOWN) != 0);
     }
 
-    private void setupJollyConversion() {
+    /**
+     * Handles enabling for the interactive elements necessary for choosing which resource to convert jollies into
+     */
+    private void enableSetupJollyConversionButtons() {
         //Sets input buttons
         inputCoin.setOnMouseClicked(e -> chooseJollyInput(ResourceType.COIN));
         inputServant.setOnMouseClicked(e -> chooseJollyInput(ResourceType.SERVANT));
@@ -159,6 +223,11 @@ public class ProductionsController implements GUIController {
 
     //PRIVATE DRAWING METHODS
 
+    /**
+     * Updates the sections of the scene pertaining to the available productions
+     *
+     * @param productionHandlerBean the object containing the production handler information
+     */
     private void drawProductions(ProductionHandlerBean productionHandlerBean) {
         int[] productions = productionHandlerBean.getProductions();
         boolean[] activeProductions = productionHandlerBean.getActiveProductions();
@@ -192,6 +261,11 @@ public class ProductionsController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the current total productions input
+     *
+     * @param productionHandlerBean the object containing the production handler information
+     */
     private void drawCurrentInput(ProductionHandlerBean productionHandlerBean) {
         Map<ResourceType, Integer> input = productionHandlerBean.getInput();
 
@@ -202,6 +276,11 @@ public class ProductionsController implements GUIController {
         inputStoneLabel.setText(input.get(ResourceType.STONE).toString());
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the current total productions output
+     *
+     * @param productionHandlerBean the object containing the production handler information
+     */
     private void drawCurrentOutput(ProductionHandlerBean productionHandlerBean) {
         Map<ResourceType, Integer> output = productionHandlerBean.getOutput();
 

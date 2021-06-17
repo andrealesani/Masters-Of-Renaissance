@@ -10,9 +10,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * This class represents the executable for the game's Command Line Interface on the client machine
+ */
 public class CLI {
+
     //MAIN
 
+    /**
+     * Main method of the CLI, which is called from the launcher in case user chooses CLI from the options.
+     *
+     * @param args of type String[] - parsed arguments.
+     */
     public static void main(String[] args) {
 
         //Initialize hostName and portNumber
@@ -48,6 +57,11 @@ public class CLI {
 
     //PRIVATE METHODS
 
+    /**
+     * Start the Command Line Interface
+     *
+     * @param clientSocket the socket for the connection with the server
+     */
     private static void startCLI(Socket clientSocket) {
         //ExecutorService executor = Executors.newCachedThreadPool();
         CountDownLatch latch = new CountDownLatch(1);

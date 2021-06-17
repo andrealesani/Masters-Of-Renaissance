@@ -6,14 +6,26 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.PopupWindow;
+import javafx.scene.paint.Color;
 import network.beans.GameBean;
 import network.beans.MessageWrapper;
 
+/**
+ * This class is the GUIController which handles the game over screen
+ */
 public class GameOverController implements GUIController {
+    /**
+     * The client's GUI object
+     */
     private GUI gui;
+    /**
+     * The object used to deserialize json messages
+     */
     private Gson gson;
 
+    /**
+     * The graphical elements of this controller's scene
+     */
     @FXML
     private Label victoryLabel, lossLabel, winnerNameLabel, victoryPointsLabel, loserVictoryPointsLabel;
     @FXML
@@ -21,8 +33,22 @@ public class GameOverController implements GUIController {
     @FXML
     private AnchorPane winnerScorePane;
 
+    //CONSTRUCTORS
+
+    /**
+     * Handles initialization for this class by creating the deserializer
+     */
+    public void initialize() {
+        this.gson = new Gson();
+    }
+
     //SETTERS
 
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -31,6 +57,11 @@ public class GameOverController implements GUIController {
 
     //PUBLIC METHODS
 
+    /**
+     * Updates the necessary parts of the scene based on what message was received from the server
+     *
+     * @param jsonMessage the message received from the server
+     */
     @Override
     public void updateFromServer(String jsonMessage) {
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
@@ -42,6 +73,9 @@ public class GameOverController implements GUIController {
 
     //PRIVATE METHODS
 
+    /**
+     * Fills in the scene with the necessary information and activates its interactibles
+     */
     private void setupGameOver() {
         GameBean gameBean = gui.getClientView().getGame();
 
@@ -65,6 +99,7 @@ public class GameOverController implements GUIController {
             lossLabel.setVisible(true);
         }
 
+        //The button for closing the game
         closeGameButton.setOnAction(e -> gui.stop());
     }
 }

@@ -16,14 +16,34 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents the executable for the game's Graphical User Interface on the client machine
+ */
 public class GUI extends Application {
+    /**
+     * The Scene being currently displayed
+     */
     private Scene currentScene;
+    /**
+     * The window that displays the scenes to screen
+     */
     private Stage window;
+    /**
+     * The socket for the connection with the server
+     */
     private Socket clientSocket;
+    /**
+     * This object handles the reception of messages from the server
+     */
     private ClientReader clientReader;
+    /**
+     * The buffer for the messages received from the server
+     */
     private BufferedReader in;
+    /**
+     * The printer for sending messages to the server
+     */
     private PrintWriter out;
-
     /**
      * This object holds all the information about the game state
      */
@@ -39,6 +59,9 @@ public class GUI extends Application {
 
     // CONSTRUCTOR
 
+    /**
+     * The class constructor
+     */
     public GUI() {
         clientView = new ClientView();
     }
@@ -55,6 +78,10 @@ public class GUI extends Application {
     }
 
     /**
+     * Starts the GUI
+     *
+     * @param stage the Stage class
+     * @throws IOException if an I/O error occurs
      * @see Application#start(Stage)
      */
     @Override
@@ -64,11 +91,13 @@ public class GUI extends Application {
         window.setMinWidth(400);
         window.setMinHeight(600);
         window.setResizable(true);
-        // If we wanna add special fonts we should do it here
+        // If we want to add special fonts we should do it here
         run();
     }
 
     /**
+     * Stops the GUI from running
+     *
      * @see Application#stop()
      */
     @Override
@@ -88,8 +117,8 @@ public class GUI extends Application {
         System.out.println("Changing scene to: " + newSceneName.getFileName());
         //
         if (nameMapScene.get(newSceneName) == null) {
-            System.out.println("Warning: couldn't find the specified scene");
-            return;
+            System.err.println("Warning: couldn't find the specified scene");
+            stop();
         }
         currentScene = nameMapScene.get(newSceneName);
         window.setScene(currentScene);
@@ -123,7 +152,7 @@ public class GUI extends Application {
 
     /**
      * This method sends a message to the server.
-     * It is supposed to be called from the scenes controllers
+     * It is supposed to be called from the scenes' controllers
      *
      * @param command the message to be sent
      */
@@ -137,10 +166,16 @@ public class GUI extends Application {
             setClientReader(new BufferedReader(new InputStreamReader(clientSocket.getInputStream())));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (IOException e) {
-            System.out.println("Warning: couldn't complete connection setup");
+            System.err.println("Warning: couldn't complete connection setup");
+            stop();
         }
     }
 
+    /**
+     * Forwards the given string (json received from the server) to the currently active scene
+     *
+     * @param jsonMessage the json message sent by the server
+     */
     public void notifyCurrentScene(String jsonMessage) {
         Set<SceneName> currentController = nameMapScene.entrySet()
                 .stream()
@@ -150,16 +185,26 @@ public class GUI extends Application {
 
         Iterator<SceneName> iterator = currentController.iterator();
         if (!iterator.hasNext()) {
-            throw new RuntimeException("Couldn't find the current scene controller");
+            System.err.println("Warning: Couldn't find the current scene controller");
+            stop();
         }
         GUIController controller = nameMapController.get(iterator.next());
         if (iterator.hasNext()) {
-            throw new RuntimeException("There is more than 1 scene with the same name, this shouldn't be possible");
+            System.err.println("Warning: There is more than 1 scene with the same name, this shouldn't be possible");
+            stop();
         }
 
-        controller.updateFromServer(jsonMessage);
+        try {
+            controller.updateFromServer(jsonMessage);
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            stop();
+        }
     }
 
+    /**
+     * Sets the window to full screen mode
+     */
     public void setFullScreen() {
         window.setFullScreen(true);
     }
@@ -168,7 +213,7 @@ public class GUI extends Application {
 
     /**
      * This method creates all the scenes of the App.
-     * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     * Each stage scene is put inside two hashmaps, which link their name to their scene object and controller respectively.
      */
     private void setup() {
         SceneName[] fxmList = SceneName.values();
@@ -186,12 +231,13 @@ public class GUI extends Application {
             }
         } catch (IOException e) {
             System.out.println("Warning: scenes setup failed");
+            stop();
         }
         currentScene = nameMapScene.get(SceneName.HOST_AND_PORT);
     }
 
     /**
-     * Method run sets the title of the main stage and launches the window.
+     * Sets the title of the main stage and launches the window.
      */
     private void run() {
         window.setTitle("Masters Of Renaissance");
@@ -203,18 +249,42 @@ public class GUI extends Application {
 
     // GETTERS
 
+    /**
+     * Getter for the client's ClientView object
+     *
+     * @return the client's ClientView
+     */
     public ClientView getClientView() {
         return clientView;
     }
 
+    /**
+     * Getter for a Scene object corresponding to a given SceneName
+     *
+     * @param sceneName the name of the Scene
+     * @return the Scene object
+     */
     public Scene getSceneBySceneName(SceneName sceneName) {
         return nameMapScene.get(sceneName);
     }
 
-    public GUIController getControllerBySceneName(SceneName sceneName) { return nameMapController.get(sceneName); }
+    /**
+     * Getter for a GUIController object corresponding to a given SceneName
+     *
+     * @param sceneName the name of the Scene
+     * @return the corresponding GUIController object
+     */
+    public GUIController getControllerBySceneName(SceneName sceneName) {
+        return nameMapController.get(sceneName);
+    }
 
     //SETTERS
 
+    /**
+     * Creates a new ClientReader class with the given input buffer
+     *
+     * @param in the buffer for messages received from the server
+     */
     private void setClientReader(BufferedReader in) {
         clientReader = new ClientReader(in, clientView, new CountDownLatch(1), this);
         Thread readerThread = new Thread(clientReader);

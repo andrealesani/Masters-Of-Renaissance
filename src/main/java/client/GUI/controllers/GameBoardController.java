@@ -31,17 +31,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is the GUIController which handles updating and interaction for the GAME_BOARD scene, the main scene of the game
+ */
 public class GameBoardController implements GUIController {
+    /**
+     * The client's GUI object
+     */
     private GUI gui;
+    /**
+     * The object used to store all of the client's information
+     */
     private ClientView clientView;
+    /**
+     * The object used to deserialize json messages
+     */
     private Gson gson;
 
+    /**
+     * The color used for connected players in the turn order display
+     */
     private Color turnOrderConnectedColor;
+    /**
+     * The color used for not connected players in the turn order display
+     */
     private Color turnOrderDisconnectedColor;
 
+    /**
+     * The username of the player whose board is currently being visualized
+     */
     private String visualizedPlayer;
+    /**
+     * The player who was executing their turn before the last update
+     */
     private String previousPlayer;
 
+    /**
+     * The graphical elements of this controller's scene
+     */
     @FXML
     private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid, turnOrderGrid, viewBoardButtonsGrid, lorenzoFaithGrid, lorenzoUsedTokenGrid;
     @FXML
@@ -57,6 +84,9 @@ public class GameBoardController implements GUIController {
 
     //CONSTRUCTORS
 
+    /**
+     * Handles initialization for this class, by creating the deserializer and setting the used colors
+     */
     public void initialize() {
         this.gson = new Gson();
         this.turnOrderConnectedColor = Color.web("0xE1D892");
@@ -65,6 +95,11 @@ public class GameBoardController implements GUIController {
 
     //SETTERS
 
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -74,12 +109,21 @@ public class GameBoardController implements GUIController {
     //PUBLIC METHODS
 
     //TODO don't send the entire wrapper but only the type (must save info/error in clientView)
+
+    /**
+     * Updates the necessary parts of the scene based on what message was received from the server
+     *
+     * @param jsonMessage the message received from the server
+     */
     @Override
     public void updateFromServer(String jsonMessage) {
+        //If there is no visualized player, set it to this client's
         if (visualizedPlayer == null)
             visualizedPlayer = clientView.getUsername();
 
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+
+        //Updates only the part of the scene corresponding to the message received
         switch (response.getType()) {
             case GAME -> drawGameState(clientView.getGame());
             case MARKET -> drawMarket(clientView.getMarket());
@@ -93,24 +137,26 @@ public class GameBoardController implements GUIController {
             case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(jsonMessage);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(jsonMessage);
-            case PLAYER_CONNECTED -> {
-                SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
-                System.out.println ("Player connected");
-            }
-            case PLAYER_DISCONNECTED -> {
-                SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
-                System.out.println("Player disconnected");
-            }
+            case PLAYER_CONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
+            case PLAYER_DISCONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
             default -> System.out.println("Warning: received unexpected message " + jsonMessage);
         }
     }
 
     //PUBLIC VISUALIZATION METHODS
 
+    /**
+     * Displays the production selection screen as a popup
+     */
     public void viewProductions() {
-        ThiccPopup.display(gui, SceneName.PRODUCTIONS);
+        ThiccPopup.display(gui.getSceneBySceneName(SceneName.PRODUCTIONS));
     }
 
+    /**
+     * Displays the player board corresponding to the given player and enables only the necessary buttons
+     *
+     * @param username the username of the player whose board is to be displayed
+     */
     public void viewPlayerBoard(String username) {
         visualizedPlayer = username;
         //Drawing the player's board contents
@@ -125,6 +171,12 @@ public class GameBoardController implements GUIController {
 
     //PUBLIC COMMAND METHODS
 
+    /**
+     * Sends the chooseBonusResourceType command to the server with the given parameters
+     *
+     * @param resource the type of resource to obtain
+     * @param quantity the quantity of resource of the given type to obtain
+     */
     public void chooseBonusResourceType(ResourceType resource, int quantity) {
         System.out.println("ChooseBonusResourceType: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -134,6 +186,11 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the chooseLeaderCard command to the server with the given parameters
+     *
+     * @param number the number of the leader card to choose
+     */
     public void chooseLeaderCard(int number) {
         System.out.println("ChooseLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -142,6 +199,11 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the playLeaderCard command to the server with the given parameters
+     *
+     * @param number the number of the leader card to play
+     */
     public void playLeaderCard(int number) {
         System.out.println("PlayLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -150,6 +212,11 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the discardLeaderCard command to the server with the given parameters
+     *
+     * @param number the number of the player card to discard
+     */
     public void discardLeaderCard(int number) {
         System.out.println("DiscardLeaderCard: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -158,6 +225,11 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the selectMarketRow command to the server with the given parameters
+     *
+     * @param number the number of the selected row
+     */
     public void selectMarketRow(int number) {
         System.out.println("SelectMarketRow: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -166,6 +238,11 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the selectMarketColumn command to the server with the given parameters
+     *
+     * @param number the number of the selected column
+     */
     public void selectMarketColumn(int number) {
         System.out.println("SelectMarketColumn: number - " + number);
         Map<String, Object> parameters = new HashMap<>();
@@ -174,6 +251,12 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the chooseMarbleConversion command to the server with the given parameters
+     *
+     * @param resource the resource to convert the white marble into
+     * @param quantity the number of white marbles to convert
+     */
     public void chooseMarbleConversion(ResourceType resource, int quantity) {
         System.out.println("ChooseMarbleConversion: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -183,6 +266,13 @@ public class GameBoardController implements GUIController {
         gui.sendCommand(gson.toJson(command));
     }
 
+    /**
+     * Sends the sendResourceToDepot command to the server with the given parameters
+     *
+     * @param depotNumber the number of the depot to which to send the resources
+     * @param resource    the resource to send
+     * @param quantity    the amount of resource to send
+     */
     public void sendResourceToDepot(int depotNumber, ResourceType resource, int quantity) {
         System.out.println("SendResourceToDepot: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -195,6 +285,12 @@ public class GameBoardController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
+    /**
+     * Sends the swapDepotContent command to the server with the given parameters
+     *
+     * @param depotNumber1 the first of the depots to be swapped
+     * @param depotNumber2 the second of the depots to be swapped
+     */
     public void swapDepotContent(int depotNumber1, int depotNumber2) {
         System.out.println("SwapDepotContent: first depot - " + depotNumber1 + ", second depot - " + depotNumber2);
         Map<String, Object> parameters = new HashMap<>();
@@ -208,10 +304,25 @@ public class GameBoardController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
+    /**
+     * Sends the sendResourceToDepot command to the server with the given parameters
+     *
+     * @param providingDepotNumber the number of the depot from which to take the resource
+     * @param receivingDepotNumber the number of the depot to which to send the resource
+     * @param resource             the resource to be transferred
+     * @param quantity             the amount of resource to transfer
+     */
     public void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
 
     }
 
+    /**
+     * Sends the takeDevelopmentCard command to the server with the given parameters
+     *
+     * @param cardColor the color of the card to take
+     * @param level     the level of the card to take
+     * @param slot      the card slot in which to put the card
+     */
     public void takeDevelopmentCard(CardColor cardColor, int level, int slot) {
         System.out.println("TakeDevelopmentCard: color - " + cardColor + ", level - " + level + ", slot - " + slot);
         Map<String, Object> parameters = new HashMap<>();
@@ -224,6 +335,13 @@ public class GameBoardController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
+    /**
+     * Sends the payFromWarehouse command to the server with the given parameters
+     *
+     * @param depotNumber the number of the depot from which to take the resource
+     * @param resource    the resource to take
+     * @param quantity    the amount of resource to take
+     */
     public void payFromWarehouse(int depotNumber, ResourceType resource, int quantity) {
         System.out.println("PayFromWarehouse: depot number - " + depotNumber + ", resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -236,6 +354,12 @@ public class GameBoardController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
+    /**
+     * Sends the payFromStrongbox command to the server with the given parameters
+     *
+     * @param resource the resource to take
+     * @param quantity the amount of resource to take
+     */
     public void payFromStrongbox(ResourceType resource, int quantity) {
         System.out.println("PayFromWarehouse: resource - " + resource + ", quantity - " + quantity);
         Map<String, Object> parameters = new HashMap<>();
@@ -247,6 +371,9 @@ public class GameBoardController implements GUIController {
         drawGameState(clientView.getGame());
     }
 
+    /**
+     * Sends the endTurn command to the server
+     */
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
@@ -255,6 +382,9 @@ public class GameBoardController implements GUIController {
 
     //PRIVATE BUTTON HANDLING METHODS
 
+    /**
+     * Disables all of the board's buttons and interactive elements
+     */
     private void disableButtons() {
         waitingRoomPane.setVisible(false);
         waitingRoomCoin.setOnMouseClicked(null);
@@ -289,6 +419,9 @@ public class GameBoardController implements GUIController {
         endTurnButton.setDisable(true);
     }
 
+    /**
+     * Handles enabling the interactive elements necessary for switching between different players' boards
+     */
     private void enableVisualizedPlayerButtons() {
         //For viewing other player's boards
         String[] turnOrder = clientView.getGame().getTurnOrder();
@@ -313,7 +446,10 @@ public class GameBoardController implements GUIController {
         }
     }
 
-    private void enableAfterLeaderChoiceButtons() {
+    /**
+     * Handles enabling for the interactive elements that have to always be active when the player is acting after the preliminary game phase
+     */
+    private void enableAfterBeginningButtons() {
         //For playLeaderCard
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
         for (int i = 0; i < leaderChildren.size(); i++) {
@@ -329,6 +465,9 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Handles enabling for the interactive elements necessary for the first phase of sending resources to a depot
+     */
     private void enableSendResourceToDepotButtons() {
         waitingRoomCoinButton.setVisible(true);
         waitingRoomServantButton.setVisible(true);
@@ -344,6 +483,9 @@ public class GameBoardController implements GUIController {
         waitingRoomStoneButton.setOnAction(e -> setupSendToDepotChoice(ResourceType.STONE));
     }
 
+    /**
+     * Handles enabling for the interactive elements necessary for the first phase of paying resources after taking a card or activating productions
+     */
     private void enablePaymentButtons() {
         waitingRoomCoinButton.setVisible(true);
         waitingRoomServantButton.setVisible(true);
@@ -360,6 +502,10 @@ public class GameBoardController implements GUIController {
     }
 
     //TODO un modo migliore di capire il colore
+
+    /**
+     * Handles enabling for the interactive elements necessary for the first phase of taking a development card
+     */
     private void enableTakeDevelopmentCardButtons() {
         ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
         int[][] cardTable = clientView.getCardTable().getCards();
@@ -378,7 +524,10 @@ public class GameBoardController implements GUIController {
         }
     }
 
-    public void enableSwapDepotButtons() {
+    /**
+     * Handles enabling for the interactive elements necessary for the first phase of swapping two depots
+     */
+    private void enableSwapDepotButtons() {
         //Warehouse depots
         List<Node> depotButtons = warehouseButtonsGrid.getChildren();
         for (int i = 0; i < depotButtons.size(); i++) {
@@ -404,6 +553,9 @@ public class GameBoardController implements GUIController {
 
     //PRIVATE SETUP METHODS
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the preliminary phase of the game
+     */
     private void setupLeaderChoice() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
         descriptionText.setText("Choose two leadercards to keep and, if necessary, which bonus resources to obtain (by clicking on the corresponding resource) and where to store them. Then end your turn.");
@@ -430,6 +582,9 @@ public class GameBoardController implements GUIController {
         endTurnButton.setOnAction(e -> endTurn());
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the choice of an action
+     */
     private void setupActionSelection() {
         waitingRoomTitleLabel.setText("Waiting room:");
         descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
@@ -457,13 +612,16 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableAfterLeaderChoiceButtons();
+        enableAfterBeginningButtons();
         //For switching view
         enableVisualizedPlayerButtons();
         //For productions stuff
         productionsButton.setVisible(true);
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the choice of where to send resources taken from the market
+     */
     private void setupMarketDistribution() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
         descriptionText.setText("Choose where to store the obtained resources, or discard those left by ending your turn.");
@@ -480,7 +638,7 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableAfterLeaderChoiceButtons();
+        enableAfterBeginningButtons();
         //For switching view
         enableVisualizedPlayerButtons();
         //For endTurn
@@ -488,6 +646,9 @@ public class GameBoardController implements GUIController {
         endTurnButton.setOnAction(e -> endTurn());
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the choice of where to take the resources used in payments
+     */
     private void setupPayment() {
         waitingRoomTitleLabel.setText("Resources left to pay:");
         descriptionText.setText("Choose from where to pay your resources, or end your turn to have it chosen automatically.");
@@ -499,7 +660,7 @@ public class GameBoardController implements GUIController {
         //For swapDepotContent
         enableSwapDepotButtons();
         //For playLeaderCard, discardLeaderCard
-        enableAfterLeaderChoiceButtons();
+        enableAfterBeginningButtons();
         //For switching view
         enableVisualizedPlayerButtons();
         //For endTurn
@@ -507,6 +668,12 @@ public class GameBoardController implements GUIController {
         endTurnButton.setOnAction(e -> endTurn());
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the second phase of sending a resource to a depot.
+     * Specifically, allows the player to select the destination depot
+     *
+     * @param resource the resource chosen to be sent
+     */
     private void setupSendToDepotChoice(ResourceType resource) {
         descriptionText.setText("Choose which depot to send the resource to.");
 
@@ -537,6 +704,13 @@ public class GameBoardController implements GUIController {
         cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the second phase of taking a development card.
+     * Specifically, allows the player to choose in which slot to send the selected card
+     *
+     * @param color the color of the chosen card
+     * @param level the level of the chosen card
+     */
     private void setupCardSlotChoice(CardColor color, int level) {
         descriptionText.setText("Choose which slot to put the card in.");
 
@@ -554,6 +728,12 @@ public class GameBoardController implements GUIController {
         cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the second phase of paying for a development card or production.
+     * Specifically, allows the player to choose from which storage to take the resource
+     *
+     * @param resource the resource chosen to be payed
+     */
     private void setupPaymentChoice(ResourceType resource) {
         descriptionText.setText("Choose whether to take the resource from a depot or the strongbox.");
 
@@ -587,6 +767,12 @@ public class GameBoardController implements GUIController {
         cancelOperationButton.setOnAction(e -> drawGameState(clientView.getGame()));
     }
 
+    /**
+     * Sets up the interface in accordance to what the player can do during the second phase of swapping two depots.
+     * Specifically, allows the player to choose which depot to swap the one they have already selected with
+     *
+     * @param depot1 the chosen depot to be swapped
+     */
     private void setupDepotSwap(int depot1) {
         descriptionText.setText("Choose which depot to swap the selected one with.");
 
@@ -619,7 +805,11 @@ public class GameBoardController implements GUIController {
 
     //PRIVATE DRAWING METHODS
 
-    //TODO turnOrder è sufficiente aggiornarlo a inizio partita
+    /**
+     * Updates the sections of the scene pertaining to the game state, and activates the buttons corresponding to the current game phase
+     *
+     * @param gameBean the object containing the game state information
+     */
     private void drawGameState(GameBean gameBean) {
         String currPlayer = gameBean.getCurrentPlayer();
         TurnPhase currPhase = gameBean.getTurnPhase();
@@ -630,18 +820,21 @@ public class GameBoardController implements GUIController {
         //Turn order
         drawTurnOrder(gameBean.getTurnOrder(), gameBean.getConnectedPlayers());
 
-        //Activate buttons
+        //Activates buttons and interactibles
         if (!visualizedPlayer.equals(clientView.getUsername())) {
+            //If viewing another player's board
             descriptionText.setText("You are viewing another player's board.");
             disableButtons();
             if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
         } else if (!currPlayer.equals(clientView.getUsername())) {
+            //If not currently the client's turn
             descriptionText.setText("You are not the current player.");
             disableButtons();
             if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
         } else {
+            //Activates specific interactibles depending on the current turn phase
             switch (currPhase) {
                 case LEADERCHOICE -> setupLeaderChoice();
                 case ACTIONSELECTION -> setupActionSelection();
@@ -651,8 +844,15 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the current game phase
+     *
+     * @param currPlayer the username of the current player
+     * @param currPhase  the current turn phase
+     */
     private void drawTurnPhaseInfo(String currPlayer, TurnPhase currPhase) {
         currentPlayerLabel.setText(currPlayer);
+        //Alerts the player if it is now their turn and previously was not
         if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
             SimplePopup.display(MessageType.INFO, "It's your turn to act!");
         previousPlayer = (currPlayer);
@@ -660,6 +860,12 @@ public class GameBoardController implements GUIController {
         viewedPlayerLabel.setText(visualizedPlayer);
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the game's turn order
+     *
+     * @param turnOrder        the game's players' usernames, arranged following the turn order
+     * @param connectedPlayers an array detailing which players are still connected
+     */
     private void drawTurnOrder(String[] turnOrder, boolean[] connectedPlayers) {
         List<Node> turnOrderChildren = turnOrderGrid.getChildren();
         int i = 0;
@@ -688,9 +894,15 @@ public class GameBoardController implements GUIController {
             ((Label) turnOrderChildren.get(1)).setText("LORENZO");
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the market
+     *
+     * @param marketBean the object containing the market information
+     */
     private void drawMarket(MarketBean marketBean) {
         ResourceType[][] marketBoard = marketBean.getMarketBoard();
         ObservableList<Node> marketChildren = marketGrid.getChildren();
+        //Draws the market board
         for (int i = 0, k = 0; i < marketBoard.length; i++) {
             for (int j = 0; j < marketBoard[0].length; j++, k++) {
                 ResourceType resource = marketBoard[i][j];
@@ -698,15 +910,22 @@ public class GameBoardController implements GUIController {
                 ((ImageView) marketChildren.get(k)).setImage(marble);
             }
         }
+        //Draws the marble on the slider
         ResourceType resource = marketBean.getSlide();
         Image marble = new Image("/graphics/punchboard/" + resource.getMarbleImage());
         ((ImageView) marketChildren.get(marketChildren.size() - 1)).setImage(marble);
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the card table
+     *
+     * @param cardTableBean the object containing the card table information
+     */
     private void drawCardTable(CardTableBean cardTableBean) {
         int[][] cardTable = cardTableBean.getCards();
         ObservableList<Node> cardTableChildren = cardsGrid.getChildren();
 
+        //Draws the card table
         for (int i = 0, k = 0; i < cardTable.length; i++) {
             for (int j = 0; j < cardTable[0].length; j++, k++) {
                 int cardId = cardTable[i][j];
@@ -721,6 +940,11 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the player board
+     *
+     * @param playerBoardBean the object containing the visualized player's player board information
+     */
     private void drawPlayerBoard(PlayerBoardBean playerBoardBean) {
         //Faith track
         drawFaithTrack(faithGrid, "/graphics/punchboard/faithMarker.png", playerBoardBean.getFaith());
@@ -744,29 +968,49 @@ public class GameBoardController implements GUIController {
         waitingRoomWhiteLabel.setText(Integer.toString(playerBoardBean.getWhiteMarbles()));
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the strongbox
+     *
+     * @param strongboxBean the object containing the visualized player's strongbox information
+     */
     private void drawStrongbox(StrongboxBean strongboxBean) {
         int[] strongboxContents = strongboxBean.getQuantity();
+        //The amount of each resource in strongbox
         strongboxCoinLabel.setText(Integer.toString(strongboxContents[0]));
         strongboxServantLabel.setText(Integer.toString(strongboxContents[1]));
         strongboxShieldLabel.setText(Integer.toString(strongboxContents[2]));
         strongboxStoneLabel.setText(Integer.toString(strongboxContents[3]));
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the waiting room for resources
+     *
+     * @param waitingRoomBean the object containing the visualized player's waiting room information
+     */
     private void drawWaitingRoom(WaitingRoomBean waitingRoomBean) {
         int[] waitingRoomContents = waitingRoomBean.getQuantity();
+        //The amount of each resource in waiting room
         waitingRoomCoinLabel.setText(Integer.toString(waitingRoomContents[0]));
         waitingRoomServantLabel.setText(Integer.toString(waitingRoomContents[1]));
         waitingRoomShieldLabel.setText(Integer.toString(waitingRoomContents[2]));
         waitingRoomStoneLabel.setText(Integer.toString(waitingRoomContents[3]));
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the warehouse and leader depots
+     *
+     * @param warehouseBean the object containing the visualized player's warehouse and leader depot information
+     */
     private void drawWarehouse(WarehouseBean warehouseBean) {
         int[] depotQuantities = warehouseBean.getDepotQuantity();
         ResourceType[] depotTypes = warehouseBean.getDepotType();
+
+        //The resources in each depot
         drawDepot(depotQuantities[0], depotTypes[0], depot1Grid);
         drawDepot(depotQuantities[1], depotTypes[1], depot2Grid);
         drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
 
+        //The resources in each leader depot
         if (depotQuantities.length > 3 && clientView.getPlayerBoard(clientView.getUsername()) != null) {
             int i = 3;
             List<Node> leaderDepots = leaderDepotGrid.getChildren();
@@ -778,6 +1022,13 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the faith track
+     *
+     * @param grid     the scene element used to represent the track, either the visualized player's or lorenzo's
+     * @param imageUrl the image used to represent the faith marker
+     * @param faith    the faith score being represented
+     */
     private void drawFaithTrack(GridPane grid, String imageUrl, int faith) {
         Image token = new Image(imageUrl);
         ObservableList<Node> faithTrackChildren = grid.getChildren();
@@ -790,10 +1041,16 @@ public class GameBoardController implements GUIController {
 
     }
 
+    /**
+     * Updates the sections of the scene pertaining to the leader cards (excluding depots)
+     *
+     * @param playerBoardBean the object containing the visualized player's player board information
+     */
     private void drawLeaderCards(PlayerBoardBean playerBoardBean) {
         int[] leaderCards = playerBoardBean.getLeaderCards();
         boolean[] activeLeaderCards = playerBoardBean.getActiveLeaderCards();
         ObservableList<Node> leaderChildren = leaderGrid.getChildren();
+
         for (int i = 0; i < leaderChildren.size(); i++) {
             Image card;
             if (i < leaderCards.length) {
@@ -818,7 +1075,12 @@ public class GameBoardController implements GUIController {
         }
     }
 
-
+    /**
+     * Updates the sections of the scene pertaining to a card slot
+     *
+     * @param cardSlotBean the object containing the visualized player's card slots information
+     * @param slotPane     the scene element representing the visualized player's specific card slot
+     */
     private void drawCardSlot(SlotBean cardSlotBean, AnchorPane slotPane) {
         ObservableList<Node> slotChildren = slotPane.getChildren();
         int[] slot = cardSlotBean.getDevelopmentCards();
@@ -831,6 +1093,13 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to a pope's favor tile
+     *
+     * @param state      the state of the tile
+     * @param tileNumber the number of the tile
+     * @param imageView  the scene element representing the visualized player's specific pope's favor tile
+     */
     private void drawPopeTile(PopeTileState state, int tileNumber, ImageView imageView) {
         Image tile;
         if (state == PopeTileState.INACTIVE) {
@@ -843,6 +1112,13 @@ public class GameBoardController implements GUIController {
         imageView.setImage(tile);
     }
 
+    /**
+     * Updates the sections of the scene pertaining to a warehouse depot
+     *
+     * @param quantity  the amount of resource do be represented
+     * @param type      the type of resource to be represented
+     * @param depotGrid the scene element representing the visualized player's specific warehouse depot
+     */
     private void drawDepot(int quantity, ResourceType type, GridPane depotGrid) {
         List<Node> depotChildren = depotGrid.getChildren();
         int i = 0;
@@ -855,6 +1131,11 @@ public class GameBoardController implements GUIController {
         }
     }
 
+    /**
+     * Updates the sections of the scene pertaining to lorenzo, for single player mode
+     *
+     * @param lorenzoBean the object containing the artificial intelligence's information
+     */
     private void drawLorenzo(LorenzoBean lorenzoBean) {
         //Faith marker
         drawFaithTrack(lorenzoFaithGrid, "/graphics/punchboard/lorenzoFaithMarker.png", lorenzoBean.getFaith());
@@ -877,6 +1158,11 @@ public class GameBoardController implements GUIController {
 
     //PRIVATE SWITCHING METHODS
 
+    /**
+     * Switches the current scene to the game over screen
+     *
+     * @param jsonMessage the contents of the message received from the server
+     */
     private void switchToGameOverScreen(String jsonMessage) {
         gui.getControllerBySceneName(SceneName.GAME_OVER).updateFromServer(jsonMessage);
         gui.changeScene(SceneName.GAME_OVER);

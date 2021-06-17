@@ -13,9 +13,18 @@ import network.beans.MessageWrapper;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * This class is the GUIController which handles choosing which host IP and port to connect to
+ */
 public class HostAndPortController implements GUIController {
+    /**
+     * The client's GUI object
+     */
     private GUI gui;
 
+    /**
+     * The graphical elements of this controller's scene
+     */
     @FXML
     private Button loginButton;
     @FXML
@@ -27,19 +36,30 @@ public class HostAndPortController implements GUIController {
 
     // GETTERS
 
+    /**
+     * Getter for the server IP written in the corresponding text box
+     *
+     * @return the selected server IP
+     */
     public String getServer() {
         return serverAddressField.getText();
     }
 
+    /**
+     * Getter for the server port written in the corresponding text box
+     *
+     * @return the selected server port
+     */
     public String getServerPort() {
         return serverPortField.getText();
     }
 
     // PUBLIC METHODS
 
-    //TODO Mettere i metodi della playerboard in CLIWriter
-
-    public void loggingIn(ActionEvent event) throws Exception {
+    /**
+     * Attempts to connect the client to the selected host IP and port
+     */
+    public void connect() {
         loginButton.setDisable(true);
         statusLabel.setText("Wait...");
 
@@ -50,7 +70,8 @@ public class HostAndPortController implements GUIController {
             statusLabel.setText("Please specify a server port");
             loginButton.setDisable(false);
         } else {
-            statusLabel.setText("SUCCESSFULLY LOGGED IN");
+            statusLabel.setText("SUCCESSFULLY CONNECTED");
+
             try {
                 //Attempts connection to server and creates the Reader
                 int port = Integer.parseInt(getServerPort());
@@ -66,23 +87,28 @@ public class HostAndPortController implements GUIController {
         }
     }
 
-    public void quitGame() {
-        gui.stop();
-    }
-
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
     }
 
+    /**
+     * Updates the necessary parts of the scene based on what message was received from the server
+     *
+     * @param jsonMessage the message received from the server
+     */
     @Override
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         if (response.getMessage().equals("Please, set your username.")) {
             gui.changeScene(SceneName.SETTINGS);
-        }
-        else
+        } else
             System.out.println("Unexpected message to Login scene: " + jsonMessage);
     }
 }
