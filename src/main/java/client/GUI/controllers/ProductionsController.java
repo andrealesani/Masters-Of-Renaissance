@@ -2,6 +2,7 @@ package client.GUI.controllers;
 
 import client.ClientView;
 import client.GUI.GUI;
+import client.GUI.SceneName;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import model.CardColor;
 import model.resource.ResourceType;
 import network.Command;
 import network.UserCommandsType;
@@ -78,7 +78,7 @@ public class ProductionsController implements GUIController {
     }
 
     public void closeWindow() {
-        gui.getSceneByFileName("productions.fxml").getWindow().hide();
+        gui.getSceneBySceneName(SceneName.PRODUCTIONS).getWindow().hide();
     }
 
     //PUBLIC COMMAND METHODS

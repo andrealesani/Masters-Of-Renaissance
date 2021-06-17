@@ -1,6 +1,7 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
+import client.GUI.SceneName;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -79,7 +80,7 @@ public class HostAndPortController implements GUIController {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         if (response.getMessage().equals("Please, set your username.")) {
-            gui.changeScene("gameSettings.fxml");
+            gui.changeScene(SceneName.SETTINGS);
         }
         else
             System.out.println("Unexpected message to Login scene: " + jsonMessage);

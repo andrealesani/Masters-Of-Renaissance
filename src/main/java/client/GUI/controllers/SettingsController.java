@@ -1,6 +1,7 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
+import client.GUI.SceneName;
 import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -151,7 +152,7 @@ public class SettingsController implements GUIController {
     public void setGame() {
         if (numPlayers > 0) {
             gui.sendCommand(Integer.toString(numPlayers));
-            gui.changeScene("waitingPlayers.fxml");
+            gui.changeScene(SceneName.WAITING);
         } else throw new RuntimeException("Player clicked 'Ready' button when he wasn't supposed to");
         // close a window after you press a button
         // ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
@@ -191,9 +192,9 @@ public class SettingsController implements GUIController {
                 System.out.println("Unexpected message to Settings scene: " + jsonMessage);
         }
         else if (response.getType() == MessageType.WAIT_PLAYERS)
-            gui.changeScene("waitingPlayers.fxml");
+            gui.changeScene(SceneName.WAITING);
         else if (response.getType() == MessageType.GAME_START)
-            gui.changeScene("gameBoard.fxml");
+            gui.changeScene(SceneName.GAME_BOARD);
     }
 }
 

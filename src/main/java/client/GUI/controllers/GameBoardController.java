@@ -1,6 +1,7 @@
 package client.GUI.controllers;
 
 import client.ClientView;
+import client.GUI.SceneName;
 import client.GUI.SimplePopup;
 import client.GUI.GUI;
 import client.GUI.ThiccPopup;
@@ -89,7 +90,7 @@ public class GameBoardController implements GUIController {
             case WAITINGROOM -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
             case WAREHOUSE -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
             case LORENZO -> drawLorenzo(clientView.getLorenzo());
-            case PRODUCTIONHANDLER -> gui.getControllerByFileName("productions.fxml").updateFromServer(jsonMessage);
+            case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(jsonMessage);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(jsonMessage);
             case PLAYER_CONNECTED -> {
@@ -107,7 +108,7 @@ public class GameBoardController implements GUIController {
     //PUBLIC VISUALIZATION METHODS
 
     public void viewProductions() {
-        ThiccPopup.display(gui, "productions.fxml");
+        ThiccPopup.display(gui, SceneName.PRODUCTIONS);
     }
 
     public void viewPlayerBoard(String username) {
@@ -877,7 +878,7 @@ public class GameBoardController implements GUIController {
     //PRIVATE SWITCHING METHODS
 
     private void switchToGameOverScreen(String jsonMessage) {
-        gui.getControllerByFileName("gameOver.fxml").updateFromServer(jsonMessage);
-        gui.changeScene("gameOver.fxml");
+        gui.getControllerBySceneName(SceneName.GAME_OVER).updateFromServer(jsonMessage);
+        gui.changeScene(SceneName.GAME_OVER);
     }
 }

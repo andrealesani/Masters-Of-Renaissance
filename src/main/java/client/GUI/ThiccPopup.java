@@ -1,12 +1,11 @@
 package client.GUI;
 
-import com.google.gson.Gson;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ThiccPopup {
-    public static void display(GUI gui, String fileName) {
+    public static void display(GUI gui, SceneName sceneName) {
         Stage window = new Stage();
         String title = "t h i c c  popup";
 
@@ -20,7 +19,7 @@ public class ThiccPopup {
         window.setResizable(false);
 
         //Display window and wait for it to be closed before returning
-        window.setScene(gui.getSceneByFileName(fileName));
+        window.setScene(gui.getSceneBySceneName(sceneName));
 
         window.showAndWait(); // call showAndWait() if you want the game board to stop updating until this window is dismissed
 

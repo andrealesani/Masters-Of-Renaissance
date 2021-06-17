@@ -1,6 +1,7 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
+import client.GUI.SceneName;
 import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,7 +24,7 @@ public class WaitingPlayersController implements GUIController {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         if (response.getType() == MessageType.GAME_START) {
-            gui.changeScene("gameBoard.fxml");
+            gui.changeScene(SceneName.GAME_BOARD);
         } else if (response.getType() == MessageType.PLAYER_CONNECTED) {
             newPlayerLabel.setText("Player " + response.getMessage() + " has joined the game.");
         } else if (response.getType() == MessageType.PLAYER_DISCONNECTED) {

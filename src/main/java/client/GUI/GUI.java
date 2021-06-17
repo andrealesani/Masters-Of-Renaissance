@@ -17,14 +17,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 public class GUI extends Application {
-    private static final String HOST_AND_PORT = "hostAndPort.fxml";
-    private static final String SETTINGS = "gameSettings.fxml";
-    private static final String WAITING = "waitingPlayers.fxml";
-    private static final String GAME_BOARD = "gameBoard.fxml";
-    private static final String PRODUCTIONS = "productions.fxml";
-    private static final String GAME_OVER_SCREEN = "gameOver.fxml";
-
-
     private Scene currentScene;
     private Stage window;
     private Socket clientSocket;
@@ -37,14 +29,13 @@ public class GUI extends Application {
      */
     private final ClientView clientView;
     /**
-     * Maps each scene name to the effective scene object, in order to easily find it during scene changing operations.
+     * Maps each SceneName to the effective scene object, in order to easily find it during scene changing operations.
      */
-    private final HashMap<String, Scene> nameMapScene = new HashMap<>();
+    private final HashMap<SceneName, Scene> nameMapScene = new HashMap<>();
     /**
-     * Maps each scene controller's name to the effective controller object, in order to get the correct controller
-     * for modifying operations.
+     * Maps each SceneName to the effective controller object for that scene, in order to get the correct controller for modifying operations.
      */
-    private final HashMap<String, GUIController> nameMapController = new HashMap<>();
+    private final HashMap<SceneName, GUIController> nameMapController = new HashMap<>();
 
     // CONSTRUCTOR
 
@@ -91,20 +82,20 @@ public class GUI extends Application {
      * This method changes the scene displayed by the game window.
      * It is supposed to be called from the scenes controllers
      *
-     * @param newScene represents the name of the scene to be shown
+     * @param newSceneName represents the name of the scene to be shown
      */
-    //TODO make scenes0 enums
-    public void changeScene(String newScene) {
-        System.out.println("Changing scene to: " + newScene);
-        if (nameMapScene.get(newScene) == null) {
+    public void changeScene(SceneName newSceneName) {
+        System.out.println("Changing scene to: " + newSceneName.getFileName());
+        //
+        if (nameMapScene.get(newSceneName) == null) {
             System.out.println("Warning: couldn't find the specified scene");
             return;
         }
-        currentScene = nameMapScene.get(newScene);
+        currentScene = nameMapScene.get(newSceneName);
         window.setScene(currentScene);
         window.sizeToScene();
         window.show();
-        switch (newScene) {
+        switch (newSceneName) {
             case HOST_AND_PORT -> {
                 window.setResizable(true);
                 window.setMinWidth(400);
@@ -120,7 +111,7 @@ public class GUI extends Application {
                 window.setMinWidth(600);
                 window.setMinHeight(550);
             }
-            case GAME_OVER_SCREEN -> {
+            case GAME_OVER -> {
                 window.setResizable(false);
                 window.setMinWidth(689);
                 window.setMinHeight(382);
@@ -151,13 +142,13 @@ public class GUI extends Application {
     }
 
     public void notifyCurrentScene(String jsonMessage) {
-        Set<String> currentController = nameMapScene.entrySet()
+        Set<SceneName> currentController = nameMapScene.entrySet()
                 .stream()
                 .filter(entry -> Objects.equals(entry.getValue(), currentScene))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toSet());
 
-        Iterator<String> iterator = currentController.iterator();
+        Iterator<SceneName> iterator = currentController.iterator();
         if (!iterator.hasNext()) {
             throw new RuntimeException("Couldn't find the current scene controller");
         }
@@ -180,20 +171,23 @@ public class GUI extends Application {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     private void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(HOST_AND_PORT, SETTINGS, WAITING, GAME_BOARD, PRODUCTIONS, GAME_OVER_SCREEN));
+        SceneName[] fxmList = SceneName.values();
         try {
-            for (String path : fxmList) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
-                nameMapScene.put(path, new Scene(loader.load()));
-                nameMapScene.get(path).setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
+            for (SceneName sceneName : SceneName.values()) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName.getFilePath()));
+                //Creates actual scene for this scene name
+                Scene scene = new Scene(loader.load());
+                scene.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
+                nameMapScene.put(sceneName, scene);
                 GUIController controller = loader.getController();
+                //Sets the scene's controller
                 controller.setGui(this);
-                nameMapController.put(path, controller);
+                nameMapController.put(sceneName, controller);
             }
         } catch (IOException e) {
             System.out.println("Warning: scenes setup failed");
         }
-        currentScene = nameMapScene.get(HOST_AND_PORT);
+        currentScene = nameMapScene.get(SceneName.HOST_AND_PORT);
     }
 
     /**
@@ -213,11 +207,11 @@ public class GUI extends Application {
         return clientView;
     }
 
-    public Scene getSceneByFileName(String fileName) {
-        return nameMapScene.get(fileName);
+    public Scene getSceneBySceneName(SceneName sceneName) {
+        return nameMapScene.get(sceneName);
     }
 
-    public GUIController getControllerByFileName(String fileName) { return nameMapController.get(fileName); }
+    public GUIController getControllerBySceneName(SceneName sceneName) { return nameMapController.get(sceneName); }
 
     //SETTERS
 
