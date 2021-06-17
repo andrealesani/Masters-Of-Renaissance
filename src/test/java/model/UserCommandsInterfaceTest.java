@@ -920,7 +920,7 @@ class UserCommandsInterfaceTest {
         }
 
         //Check that action tokens do not accumulate in following turns
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             game.selectMarketRow(1);
             game.endTurn();
             assertEquals(6, activeTokens.size() + usedTokens.size());

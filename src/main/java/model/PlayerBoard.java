@@ -566,6 +566,7 @@ public class PlayerBoard implements Observable {
      * @param number specifies the position of the LeaderCard in the leaderCards list
      * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
+     * @throws CardAlreadyActiveException        if the selected card is already active
      */
     public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException, CardAlreadyActiveException {
         if (number <= 0)
@@ -573,8 +574,8 @@ public class PlayerBoard implements Observable {
         if (number > leaderCards.size())
             throw new LeaderNotPresentException();
 
-        if (leaderCards.get(number-1).areRequirementsMet(this)) {
-            leaderCards.get(number-1).doAction(this);
+        if (leaderCards.get(number - 1).areRequirementsMet(this)) {
+            leaderCards.get(number - 1).doAction(this);
             setLeaderDepotCards();
         } else throw new LeaderRequirementsNotMetException();
 
@@ -593,10 +594,10 @@ public class PlayerBoard implements Observable {
             throw new ParametersNotValidException();
         if (number > leaderCards.size())
             throw new LeaderNotPresentException();
-        if (leaderCards.get(number-1).isActive())
+        if (leaderCards.get(number - 1).isActive())
             throw new LeaderIsActiveException();
 
-        leaderCards.remove(number-1);
+        leaderCards.remove(number - 1);
         addFaith(1);
 
         notifyObservers();
@@ -741,7 +742,8 @@ public class PlayerBoard implements Observable {
                     } catch (DepotNotPresentException ex) {
                         //This should never happen
                         System.out.println("BUG! Automatic payment from non existent depot.");
-                    } catch (NotEnoughResourceException ignored) {}
+                    } catch (NotEnoughResourceException ignored) {
+                    }
                 }
                 if (!found) {
                     try {
@@ -1111,9 +1113,13 @@ public class PlayerBoard implements Observable {
         return result;
     }
 
-    public int getFinalFaith() { return finalFaith; }
+    public int getFinalFaith() {
+        return finalFaith;
+    }
 
-    public int getDevCardMax() { return devCardMax; }
+    public int getDevCardMax() {
+        return devCardMax;
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 

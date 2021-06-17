@@ -62,7 +62,7 @@ public class Game implements UserCommandsInterface, Observable {
     /**
      * This attribute stores the flag that determines if the ending phase of the game has been triggered
      */
-    private boolean weReInTheEndGameNow;
+    private boolean isLastTurn;
     /**
      * This attribute stores the number of leader cards each player is given at the beginning of the game
      */
@@ -76,13 +76,13 @@ public class Game implements UserCommandsInterface, Observable {
      */
     private TurnPhase turnPhase;
     /**
-     * This attribute is set when the endTheGame() method finds the winner
+     * This attribute is set when the endTheGame() method finds the winner. Is null before then
      */
     private String winner;
     /**
-     * This attribute is set when the endTheGame() method has calculated the winner's victory points
+     * This attribute is set when the endTheGame() method has calculated the winner's victory points. Is null before then
      */
-    private int winnerVp = -1;
+    private int winnerVp;
 
     //CONSTRUCTORS
 
@@ -95,7 +95,7 @@ public class Game implements UserCommandsInterface, Observable {
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         lastTriggeredTile = 0;
-        weReInTheEndGameNow = false;
+        isLastTurn = false;
         setTurnPhase(LEADERCHOICE);
         initializeLeaderCards();
         cardTable = new CardTable(leaderCards.size()); // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
@@ -153,7 +153,7 @@ public class Game implements UserCommandsInterface, Observable {
         cardTable = new CardTable(leaderCards.size());  // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
         distributeLeaderCards();
         lastTriggeredTile = 0;
-        weReInTheEndGameNow = false;
+        isLastTurn = false;
     }
 
     //PLAYER ACTIONS
@@ -205,6 +205,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @param number the number of the leaderCard to activate
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
+     * @throws CardAlreadyActiveException        if the selected card is already active
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
@@ -525,17 +526,18 @@ public class Game implements UserCommandsInterface, Observable {
         endTurnChecks();
 
         //Checks if the final phase of the game should be triggered
-        if (isGameEnding() && !weReInTheEndGameNow) {
-            weReInTheEndGameNow = true;
+        if (isGameEnding() && !isLastTurn) {
+            isLastTurn = true;
             notifyObservers(); // It needs to be put here because if the currentPlayer is the last one of the list switchPlayer() won't be called and observers wouldn't be notified
         }
 
         //Checks if the game is in its final phase and the next turn is the first player's, and if so ends the game
-        if (weReInTheEndGameNow && currentPlayer == playersTurnOrder.get(playersTurnOrder.size() - 1)) {
+        if (isLastTurn && currentPlayer == playersTurnOrder.get(playersTurnOrder.size() - 1)) {
             endTheGame();
+            return;
         }
 
-        //Switches current player to the next one
+        //Switches current player to the next one, or ends the game
         switchPlayer();
     }
 
@@ -552,7 +554,6 @@ public class Game implements UserCommandsInterface, Observable {
             if (player.getUsername().equals(username)) {
 
                 player.setConnectedStatus();
-                System.out.println("Player updated after reconnection");
 
                 if (currentPlayer == null) {
                     chooseTurnStartingPhase(player);
@@ -642,9 +643,11 @@ public class Game implements UserCommandsInterface, Observable {
      * @param username of the player to send the information to
      */
     public void updateReconnectedPlayer(String username) {
-        for (Observer observer : cardTable.getObservers())
-            observer.updateSinglePlayer(username);
         for (Observer observer : getObservers())
+            observer.updateSinglePlayer(username);
+        if (winner != null)
+            return;
+        for (Observer observer : cardTable.getObservers())
             observer.updateSinglePlayer(username);
         if (lorenzo != null)
             for (Observer observer : ((Lorenzo) lorenzo).getObservers())
@@ -854,8 +857,15 @@ public class Game implements UserCommandsInterface, Observable {
 
         int currentIndex = playersTurnOrder.indexOf(currentPlayer);
 
+        //Cycle through the other players until you find one that is connected, or go back to the current one
         PlayerBoard nextPlayer;
         for (int nextIndex = (currentIndex + 1) % size; nextIndex != currentIndex; nextIndex = (nextIndex + 1) % size) {
+            //Checks if the game is in its final phase and the final turn has finished
+            if (isLastTurn && nextIndex  == 0) {
+                endTheGame();
+                return;
+            }
+
             nextPlayer = playersTurnOrder.get(nextIndex);
             if (nextPlayer.isConnected()) {
 
@@ -866,6 +876,12 @@ public class Game implements UserCommandsInterface, Observable {
             }
         }
 
+        //Checks if the game is in its final phase and the final turn has finished
+        if (isLastTurn && currentIndex  == 0) {
+            endTheGame();
+            return;
+        }
+        //If no other players were connected, give the turn back to the current player. If they have disconnected, wait for someone to connect
         if (!currentPlayer.isConnected()) {
             System.out.println("All players have disconnected, next player to reconnect will become current player.");
             currentPlayer = null;
@@ -898,7 +914,7 @@ public class Game implements UserCommandsInterface, Observable {
             if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
                 System.out.println("FATALITY: Lorenzo wins!");
                 winner = "Lorenzo";
-                winnerVp = lorenzo.getFaith();
+                winnerVp = 0;
             } else {
                 System.out.println("FATALITY: " + currentPlayer.getUsername() + " wins with " + currentPlayer.calculateVictoryPoints() + " victory points!");
                 winner = currentPlayer.getUsername();
@@ -1017,7 +1033,7 @@ public class Game implements UserCommandsInterface, Observable {
     /**
      * Getter
      *
-     * @return the winner's victory points if the game has ended. Returns -1 if the game is still running
+     * @return the winner's victory points if the game has ended.
      */
     public int getWinnerVp() {
         return winnerVp;
@@ -1028,7 +1044,7 @@ public class Game implements UserCommandsInterface, Observable {
     public int getFinalFaith() { return finalFaith; }
 
     public boolean isEndGame() {
-        return weReInTheEndGameNow;
+        return isLastTurn;
     }
 
     public int getInitialLeaderCardNumber() { return initialLeaderCardNumber; }

@@ -123,6 +123,10 @@ public class ClientReader implements Runnable {
                 clientView.setUsername((String) message.getJsonMessage());
                 System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
                 break;
+            case "GAME_END":
+                System.out.println(message.getJsonMessage());
+                notifyViewUpdate(response);
+                break;
             case "GAME":
                 try {
                     clientView.setGame(gson.fromJson((String) message.getJsonMessage(), GameBean.class));

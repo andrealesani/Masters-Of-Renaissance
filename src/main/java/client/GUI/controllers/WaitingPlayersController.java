@@ -4,6 +4,8 @@ import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import network.MessageType;
+import network.beans.MessageWrapper;
 
 import java.util.Map;
 
@@ -21,11 +23,11 @@ public class WaitingPlayersController implements GUIController {
     @Override
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();
-        Map responseMap = gson.fromJson(jsonMessage, Map.class);
-        if (responseMap.get("type").equals("GAME_START")) {
+        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+        if (response.getType() == MessageType.GAME_START) {
             gui.changeScene("gameBoard.fxml");
-        } else if (responseMap.get("type").equals("WAIT_PLAYERS")) {
-            newPlayerLabel.setText(newPlayerLabel.getText() + "A new player joined the match!\n ");
+        } else if (response.getType() == MessageType.PLAYER_CONNECTED) {
+            newPlayerLabel.setText("Player " + response.getJsonMessage() + " has joined the game.");
         } else {
             System.out.println("Unexpected message to WaitingPlayers scene: " + jsonMessage);
         }

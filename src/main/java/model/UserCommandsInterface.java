@@ -42,6 +42,7 @@ public interface UserCommandsInterface {
      * @param number the number of the leaderCard to activate
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
+     * @throws CardAlreadyActiveException        if the selected card is already active
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
      */

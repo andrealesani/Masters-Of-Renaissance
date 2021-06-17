@@ -44,13 +44,13 @@ public class GameBean implements Observer {
      */
     private String winner;
     /**
-     * The victory points of the winner. -1 if game is still running
+     * The victory points of the winner.
      */
     private int winnerVp;
     /**
      * Boolean that tells if we're in the last turn of the game
      */
-    private boolean isEndGame;
+    private boolean isLastTurn;
     /**
      * Boolean parameters that is used by methods that need cards data to check if the cards have already been initialized
      */
@@ -87,6 +87,18 @@ public class GameBean implements Observer {
         throw new CardNotPresentException();
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public int getWinnerVp() {
+        return winnerVp;
+    }
+
+    public boolean isLastTurn() {
+        return isLastTurn;
+    }
+
     // SETTERS
 
     public void setCurrentPlayerFromGame(Game game) {
@@ -113,8 +125,8 @@ public class GameBean implements Observer {
         winnerVp = game.getWinnerVp();
     }
 
-    public void setEndGame(Game game) {
-        isEndGame = game.isEndGame();
+    public void setLastTurn(Game game) {
+        isLastTurn = game.isEndGame();
     }
 
     private void setLeaderCardsFromJson() {
@@ -165,11 +177,14 @@ public class GameBean implements Observer {
         setCurrentPlayerFromGame(game);
         setTurnOrderFromGame(game);
         setTurnPhaseFromGame(game);
-        setEndGame(game);
+        setLastTurn(game);
         setWinner(game);
         setWinnerVp(game);
 
         controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
+
+        if (winner != null)
+            controller.setGameOver();
     }
 
     public void updateSinglePlayer(String username) {
@@ -179,11 +194,11 @@ public class GameBean implements Observer {
 
     @Override
     public String toString() {
-        if (winner == null && !isEndGame)
+        if (winner == null && !isLastTurn)
             return Color.HEADER + "\nGame State:\n" + Color.RESET +
                     " Current player is " + currentPlayer +
                     " and we're in " + turnPhase + " phase\n";
-        else if (winner == null && isEndGame)
+        else if (winner == null && isLastTurn)
             return Color.HEADER + "\nGame State:\n" + Color.RESET +
                     " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET +
                     " Current player is " + currentPlayer +

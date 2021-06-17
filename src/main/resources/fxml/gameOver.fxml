@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="689.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="client.GUI.controllers.GameOverController">
+   <children>
+      <BorderPane prefHeight="382.0" prefWidth="689.0">
+         <center>
+            <AnchorPane prefHeight="276.0" prefWidth="690.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="26.0" layoutY="14.0" text="Winner is:" textFill="WHITE">
+                     <font>
+                        <Font name="Papyrus" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="winnerNameLabel" layoutX="73.0" layoutY="74.0" prefHeight="94.0" prefWidth="381.0" text="A name" textFill="#aabdfa">
+                     <font>
+                        <Font name="Berlin Sans FB" size="64.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane fx:id="winnerScorePane" layoutX="374.0" layoutY="1.0" prefHeight="274.0" prefWidth="316.0">
+                     <children>
+                        <ImageView fitHeight="252.0" fitWidth="212.0" layoutX="97.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/victory_points_crest.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="138.0" layoutY="144.0" prefHeight="30.0" prefWidth="130.0" text="Victory Points">
+                           <font>
+                              <Font name="Papyrus" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="victoryPointsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="138.0" layoutY="37.0" prefHeight="130.0" prefWidth="129.0" text="0" textFill="#000103" AnchorPane.topAnchor="37.0">
+                           <font>
+                              <Font name="Papyrus" size="60.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="14.0" text="With:" textFill="WHITE">
+                           <font>
+                              <Font name="Papyrus" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <Button fx:id="closeGameButton" layoutX="291.0" layoutY="221.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="106.0" text="CLOSE GAME" />
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="106.0" prefWidth="690.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="victoryLabel" layoutX="175.0" layoutY="6.0" prefHeight="94.0" prefWidth="340.0" text="YOU WON" textFill="#b3ec81">
+                     <font>
+                        <Font name="System Bold" size="64.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lossLabel" layoutX="175.0" layoutY="7.0" prefHeight="94.0" prefWidth="340.0" text="YOU LOST" textFill="#f78649">
+                     <font>
+                        <Font name="System Bold" size="64.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

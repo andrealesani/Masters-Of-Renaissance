@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import network.MessageType;
+import network.beans.MessageWrapper;
 
 import java.util.Map;
 
@@ -85,6 +87,7 @@ public class SettingsController implements GUIController {
         threePlayersButton.setDisable(false);
         fourPlayersButton.setVisible(false);
         fourPlayersButton.setDisable(false);
+        changeSettingsButton.setVisible(false);
         readyButton.setDisable(true);
         playersList.setText("");
     }
@@ -159,12 +162,13 @@ public class SettingsController implements GUIController {
         this.gui = gui;
     }
 
+    //TODO fixare questo orrendo if/else basato sulle stringhe wtf
     @Override
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();
-        Map responseMap = gson.fromJson(jsonMessage, Map.class);
-        if (responseMap.get("type").equals("INFO") || responseMap.get("type").equals("ERROR")) {
-            if (responseMap.get("jsonMessage").equals("Please, choose the game's number of players.")) {
+        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+        if (response.getType() == MessageType.INFO || response.getType() == MessageType.ERROR) {
+            if (response.getJsonMessage().equals("Please, choose the game's number of players.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Username was correctly set");
                 usernameField.setDisable(true);
@@ -173,22 +177,22 @@ public class SettingsController implements GUIController {
                 multiplayerButton.setVisible(true);
                 readyButton.setVisible(true);
                 readyButton.setDisable(true);
-            } else if (responseMap.get("jsonMessage").equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
+            } else if (response.getJsonMessage().equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Please try again in a moment");
-            } else if (responseMap.get("jsonMessage").equals("The selected username already exists.")) {
+            } else if (response.getJsonMessage().equals("The selected username already exists.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Username not available");
-            }else if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
+            }else if (response.getJsonMessage().equals("Please, set your username.")) {
                 // do nothing
             } else if (jsonMessage.contains("Username was correctly set to:")) {
                 // do nothing
             } else
                 System.out.println("Unexpected message to Settings scene: " + jsonMessage);
         }
-        else if (responseMap.get("type").equals("WAIT_PLAYERS"))
+        else if (response.getType() == MessageType.WAIT_PLAYERS)
             gui.changeScene("waitingPlayers.fxml");
-        else if (responseMap.get("type").equals("GAME_START"))
+        else if (response.getType() == MessageType.GAME_START)
             gui.changeScene("gameBoard.fxml");
     }
 }

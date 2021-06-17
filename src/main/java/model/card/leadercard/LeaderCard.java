@@ -12,6 +12,7 @@ public class LeaderCard extends Card {
 
     /**
      * Constructor
+     *
      * @param victoryPoints the card's victory points
      */
     public LeaderCard(int victoryPoints) {
@@ -21,7 +22,8 @@ public class LeaderCard extends Card {
     /**
      * Fast constructor used for testing
      */
-    public LeaderCard(){}
+    public LeaderCard() {
+    }
 
     //PUBLIC METHODS
 
@@ -29,13 +31,18 @@ public class LeaderCard extends Card {
      * Activates the leader's specific ability
      *
      * @param playerBoard the player for whom to activate the ability
+     * @throws CardAlreadyActiveException if the card is already active
      */
-    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {}
+    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {
+    }
 
     /**
      * Returns whether or not the given player meets the requirements for activating the card
+     *
      * @param playerBoard the player board to check
      * @return true if the player meets the card's requirements
      */
-    public boolean areRequirementsMet(PlayerBoard playerBoard) {return false;}
+    public boolean areRequirementsMet(PlayerBoard playerBoard) {
+        return false;
+    }
 }

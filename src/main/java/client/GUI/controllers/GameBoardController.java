@@ -73,59 +73,20 @@ public class GameBoardController implements GUIController {
             visualizedPlayer = clientView.getUsername();
 
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
-        switch (response.getType().toString()) {
-
-            case "GAME":
-                GameBean gameBean = clientView.getGame();
-                drawGameState(gameBean);
-                break;
-
-            case "MARKET":
-                MarketBean marketBean = clientView.getMarket();
-                drawMarket(marketBean);
-                break;
-
-            case "CARDTABLE":
-                CardTableBean cardTableBean = clientView.getCardTable();
-                drawCardTable(cardTableBean);
-                break;
-
-            case "PLAYERBOARD":
-                PlayerBoardBean playerBoardBean = clientView.getPlayerBoard(visualizedPlayer);
-                drawPlayerBoard(playerBoardBean);
-                break;
-
-            case "STRONGBOX":
-                //TODO usare mappe per inviare le risorse pls
-                StrongboxBean strongboxBean = clientView.getStrongbox(visualizedPlayer);
-                drawStrongbox(strongboxBean);
-                break;
-
-            case "WAITINGROOM":
-                WaitingRoomBean waitingRoomBean = clientView.getWaitingRoom(visualizedPlayer);
-                drawWaitingRoom(waitingRoomBean);
-                break;
-
-            case "WAREHOUSE":
-                WarehouseBean warehouseBean = clientView.getWarehouse(visualizedPlayer);
-                drawWarehouse(warehouseBean);
-                break;
-
-            case "LORENZO":
-                LorenzoBean lorenzoBean = clientView.getLorenzo();
-                drawLorenzo(lorenzoBean);
-                break;
-
-            case "PRODUCTIONHANDLER":
-                gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
-                break;
-
-            case "ERROR":
-                SimplePopup.display(response.getType().toString(), response.getJsonMessage());
-                break;
-
-            default:
-                System.out.println("Warning: received unexpected message " + jsonMessage);
+        switch (response.getType()) {
+            case GAME -> drawGameState(clientView.getGame());
+            case MARKET -> drawMarket(clientView.getMarket());
+            case CARDTABLE -> drawCardTable(clientView.getCardTable());
+            case PLAYERBOARD -> drawPlayerBoard(clientView.getPlayerBoard(visualizedPlayer));
+            //TODO usare mappe per inviare le risorse pls
+            case STRONGBOX -> drawStrongbox(clientView.getStrongbox(visualizedPlayer));
+            case WAITINGROOM -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
+            case WAREHOUSE -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
+            case LORENZO -> drawLorenzo(clientView.getLorenzo());
+            case PRODUCTIONHANDLER -> gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
+            case ERROR -> SimplePopup.display(response.getType().toString(), response.getJsonMessage());
+            case GAME_END -> switchToGameOverScreen(jsonMessage);
+            default -> System.out.println("Warning: received unexpected message " + jsonMessage);
         }
     }
 
@@ -646,14 +607,14 @@ public class GameBoardController implements GUIController {
     //TODO turnOrder è sufficiente aggiornarlo a inizio partita
     private void drawGameState(GameBean gameBean) {
         String currPlayer = gameBean.getCurrentPlayer();
-        String currPhase = gameBean.getTurnPhase().vanillaToString();
+        TurnPhase currPhase = gameBean.getTurnPhase();
 
         //Turn phase information
         currentPlayerLabel.setText(currPlayer);
         if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
             SimplePopup.display("INFO", "It's your turn to act!");
         previousPlayer = (currPlayer);
-        turnPhaseLabel.setText(currPhase);
+        turnPhaseLabel.setText(currPhase.vanillaToString());
         viewedPlayerLabel.setText(visualizedPlayer);
 
         //Turn order
@@ -670,26 +631,26 @@ public class GameBoardController implements GUIController {
         for (; i < turnOrderChildren.size(); i++) {
             ((Label) turnOrderChildren.get(i)).setText(null);
         }
-        if (turnOrder.length== 1)
+        if (turnOrder.length == 1)
             ((Label) turnOrderChildren.get(1)).setText("LORENZO");
 
         //Activate buttons
         if (!visualizedPlayer.equals(clientView.getUsername())) {
             descriptionText.setText("You are viewing another player's board.");
             disableButtons();
-            if (!currPhase.equals("LEADERCHOICE"))
+            if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
         } else if (!currPlayer.equals(clientView.getUsername())) {
             descriptionText.setText("You are not the current player.");
             disableButtons();
-            if (!currPhase.equals("LEADERCHOICE"))
+            if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
         } else {
             switch (currPhase) {
-                case "LEADERCHOICE" -> setupLeaderChoice();
-                case "ACTIONSELECTION" -> setupActionSelection();
-                case "MARKETDISTRIBUTION" -> setupMarketDistribution();
-                case "CARDPAYMENT", "PRODUCTIONPAYMENT" -> setupPayment();
+                case LEADERCHOICE -> setupLeaderChoice();
+                case ACTIONSELECTION -> setupActionSelection();
+                case MARKETDISTRIBUTION -> setupMarketDistribution();
+                case CARDPAYMENT, PRODUCTIONPAYMENT -> setupPayment();
             }
         }
     }
@@ -785,15 +746,15 @@ public class GameBoardController implements GUIController {
     }
 
     private void drawFaithTrack(GridPane grid, String imageUrl, int faith) {
+        Image token = new Image(imageUrl);
         ObservableList<Node> faithTrackChildren = grid.getChildren();
-        for (int i = 0; i < faithTrackChildren.size(); i++) {
-            if (faith == i) {
-                Image token = new Image(imageUrl);
-                ((ImageView) faithTrackChildren.get(i)).setImage(token);
-            } else {
-                ((ImageView) faithTrackChildren.get(i)).setImage(null);
-            }
+        for (Node faithTrackChild : faithTrackChildren) {
+            ((ImageView) faithTrackChild).setImage(null);
         }
+        if (faith > 24)
+            faith = 24;
+        ((ImageView) faithTrackChildren.get(faith)).setImage(token);
+
     }
 
     private void drawLeaderCards(PlayerBoardBean playerBoardBean) {
@@ -879,5 +840,12 @@ public class GameBoardController implements GUIController {
         }
         //Making lorenzo visible
         lorenzoTokenPane.setVisible(true);
+    }
+
+    //PRIVATE SWITCHING METHODS
+
+    private void switchToGameOverScreen(String jsonMessage) {
+        gui.getControllerByFileName("gameOver.fxml").updateFromServer(jsonMessage);
+        gui.changeScene("gameOver.fxml");
     }
 }

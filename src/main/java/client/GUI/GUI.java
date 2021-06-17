@@ -22,6 +22,7 @@ public class GUI extends Application {
     private static final String WAITING = "waitingPlayers.fxml";
     private static final String GAME_BOARD = "gameBoard.fxml";
     private static final String PRODUCTIONS = "productions.fxml";
+    private static final String GAME_OVER_SCREEN = "gameOver.fxml";
 
 
     private Scene currentScene;
@@ -92,6 +93,7 @@ public class GUI extends Application {
      *
      * @param newScene represents the name of the scene to be shown
      */
+    //TODO make scenes0 enums
     public void changeScene(String newScene) {
         System.out.println("Changing scene to: " + newScene);
         if (nameMapScene.get(newScene) == null) {
@@ -117,6 +119,11 @@ public class GUI extends Application {
                 window.setResizable(true);
                 window.setMinWidth(600);
                 window.setMinHeight(550);
+            }
+            case GAME_OVER_SCREEN -> {
+                window.setResizable(false);
+                window.setMinWidth(689);
+                window.setMinHeight(382);
             }
             case GAME_BOARD -> window.setResizable(false);
 
@@ -173,7 +180,7 @@ public class GUI extends Application {
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     private void setup() {
-        List<String> fxmList = new ArrayList<>(Arrays.asList(HOST_AND_PORT, SETTINGS, WAITING, GAME_BOARD, PRODUCTIONS));
+        List<String> fxmList = new ArrayList<>(Arrays.asList(HOST_AND_PORT, SETTINGS, WAITING, GAME_BOARD, PRODUCTIONS, GAME_OVER_SCREEN));
         try {
             for (String path : fxmList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));

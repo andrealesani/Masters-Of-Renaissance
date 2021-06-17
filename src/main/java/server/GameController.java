@@ -25,10 +25,6 @@ public class GameController {
      */
     private final Gson gson;
     /**
-     * The server lobby
-     */
-    //private final ServerLobby lobby;
-    /**
      * This controller's game class
      */
     private Game game;
@@ -40,6 +36,10 @@ public class GameController {
      * The game's number of players
      */
     int size;
+    /**
+     * Determines if the game is over or not
+     */
+    boolean isGameOver;
 
     //CONSTRUCTORS
 
@@ -52,8 +52,7 @@ public class GameController {
     public GameController(String username, PrintWriter userOut) {
         this.gson = new Gson();
         this.size = 0;
-
-        //this.lobby = lobby;
+        this.isGameOver = false;
         this.players = new HashMap<>();
         players.put(username, userOut);
         playerMessage(username, MessageType.SET_USERNAME, username);
@@ -78,6 +77,11 @@ public class GameController {
             playerMessage(username, MessageType.ERROR, "It is not your turn to act.");
             System.out.println("Wrong player tried to send a command.");
 
+        } else if (isGameOver) {
+
+            playerMessage(username, MessageType.ERROR, "The game has already ended");
+            System.out.println("Player tried to send a command after the end of the game.");
+
         } else {
             try {
 
@@ -99,6 +103,7 @@ public class GameController {
         }
     }
 
+
     /**
      * Adds a player to the controller's game
      *
@@ -117,16 +122,21 @@ public class GameController {
                 throw new GameFullException();
             }
         } else {
-            if (game!=null) {
+            if (game != null) {
                 if (game.isConnected(username)) {
                     throw new UsernameAlreadyExistsException();
                 } else {
+                    //If the player is reconnecting
                     setConnectedStatus(username);
                     players.put(username, userOut);
                     playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
                     playerMessage(username, MessageType.SET_USERNAME, username);
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateReconnectedPlayer(username);
+
+                    //If the game has already ended
+                    if (isGameOver)
+                        playerMessage(username, MessageType.GAME_END, "The game has ended.");
                     return;
                 }
             } else {
@@ -134,6 +144,8 @@ public class GameController {
             }
         }
 
+        //If the player is connecting for the first time
+        broadcastMessage(MessageType.PLAYER_CONNECTED, username);
         players.put(username, userOut);
         playerMessage(username, MessageType.SET_USERNAME, username);
         System.out.println("Added player: " + username + " to current game.");
@@ -209,6 +221,7 @@ public class GameController {
         } else {
             try {
                 game.setConnectedStatus(username);
+                broadcastMessage(MessageType.PLAYER_CONNECTED, username);
                 System.out.println("Player " + username + " is now connected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
@@ -230,19 +243,20 @@ public class GameController {
         if (game == null) {
             System.out.println("Player " + username + " will now be removed from the game's players.");
             players.remove(username);
-            /*
-            if (players.size() == 0) {
-                lobby.abortGame();
-            }
-             */
         } else {
             try {
                 game.setDisconnectedStatus(username);
+                broadcastMessage(MessageType.PLAYER_DISCONNECTED, username);
                 System.out.println("Player " + username + " is now disconnected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
             }
         }
+    }
+
+    public void setGameOver() {
+        isGameOver = true;
+        broadcastMessage(MessageType.GAME_END, "The game has ended.");
     }
 
     //PRIVATE METHODS
@@ -265,7 +279,6 @@ public class GameController {
 
         game = new Game(players.keySet());
         game.createBeans(this);
-        //broadcastMessage(MessageType.INFO, "The first player in turn order is: " + getCurrentPlayerUsername() + ".");
         System.out.println("The game will now start.");
     }
 
@@ -296,5 +309,14 @@ public class GameController {
         }
 
         return playersSet;
+    }
+
+    /**
+     * Getter
+     *
+     * @return whether the controller's game has ended or not
+     */
+    public Boolean isGameOver() {
+        return isGameOver;
     }
 }
