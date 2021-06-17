@@ -685,7 +685,7 @@
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                     <Label alignment="CENTER" prefHeight="30.0" prefWidth="35.0" text="X" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                    <ImageView fx:id="waitingRoomCoin" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fx:id="waitingRoomCoin" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="waiting-room-resource">
                         <image>
                             <Image url="@../graphics/punchboard/coin.png" />
                         </image>

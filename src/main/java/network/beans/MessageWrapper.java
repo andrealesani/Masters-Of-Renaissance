@@ -16,17 +16,17 @@ public class MessageWrapper {
     /**
      * The message to be sent
      */
-    private final String jsonMessage;
+    private final String message;
 
     /**
      * Constructor
      *
      * @param type of the message being wrapped
-     * @param jsonMessage the actual message being sent
+     * @param message the actual message being sent
      */
-    public MessageWrapper(MessageType type, String jsonMessage) {
+    public MessageWrapper(MessageType type, String message) {
         this.type = type;
-        this.jsonMessage = jsonMessage;
+        this.message = message;
     }
 
     // GETTERS
@@ -35,7 +35,7 @@ public class MessageWrapper {
         return type;
     }
 
-    public String getJsonMessage() {
-        return jsonMessage;
+    public String getMessage() {
+        return message;
     }
 }

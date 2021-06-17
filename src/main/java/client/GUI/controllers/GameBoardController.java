@@ -14,14 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.CardColor;
 import model.PopeTileState;
 import model.TurnPhase;
-import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.LorenzoTokenType;
 import model.resource.ResourceType;
 import network.Command;
+import network.MessageType;
 import network.UserCommandsType;
 import network.beans.*;
 
@@ -33,6 +34,9 @@ public class GameBoardController implements GUIController {
     private GUI gui;
     private ClientView clientView;
     private Gson gson;
+
+    private Color turnOrderConnectedColor;
+    private Color turnOrderDisconnectedColor;
 
     private String visualizedPlayer;
     private String previousPlayer;
@@ -54,6 +58,8 @@ public class GameBoardController implements GUIController {
 
     public void initialize() {
         this.gson = new Gson();
+        this.turnOrderConnectedColor = Color.web("0xE1D892");
+        this.turnOrderDisconnectedColor = Color.web("0xDFDCDC");
     }
 
     //SETTERS
@@ -83,9 +89,17 @@ public class GameBoardController implements GUIController {
             case WAITINGROOM -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
             case WAREHOUSE -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
             case LORENZO -> drawLorenzo(clientView.getLorenzo());
-            case PRODUCTIONHANDLER -> gui.getControllerByFileName("productions.fxml").updateFromServer(response.getType().toString());
-            case ERROR -> SimplePopup.display(response.getType().toString(), response.getJsonMessage());
+            case PRODUCTIONHANDLER -> gui.getControllerByFileName("productions.fxml").updateFromServer(jsonMessage);
+            case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(jsonMessage);
+            case PLAYER_CONNECTED -> {
+                SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
+                System.out.println ("Player connected");
+            }
+            case PLAYER_DISCONNECTED -> {
+                SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
+                System.out.println("Player disconnected");
+            }
             default -> System.out.println("Warning: received unexpected message " + jsonMessage);
         }
     }
@@ -610,29 +624,10 @@ public class GameBoardController implements GUIController {
         TurnPhase currPhase = gameBean.getTurnPhase();
 
         //Turn phase information
-        currentPlayerLabel.setText(currPlayer);
-        if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
-            SimplePopup.display("INFO", "It's your turn to act!");
-        previousPlayer = (currPlayer);
-        turnPhaseLabel.setText(currPhase.vanillaToString());
-        viewedPlayerLabel.setText(visualizedPlayer);
+        drawTurnPhaseInfo(currPlayer, currPhase);
 
         //Turn order
-        String[] turnOrder = gameBean.getTurnOrder();
-        List<Node> turnOrderChildren = turnOrderGrid.getChildren();
-        int i = 0;
-        for (; i < turnOrder.length; i++) {
-            String userName = "";
-            userName += turnOrder[i];
-            if (turnOrder[i].equals(clientView.getUsername()))
-                userName += " (you)";
-            ((Label) turnOrderChildren.get(i)).setText(userName);
-        }
-        for (; i < turnOrderChildren.size(); i++) {
-            ((Label) turnOrderChildren.get(i)).setText(null);
-        }
-        if (turnOrder.length == 1)
-            ((Label) turnOrderChildren.get(1)).setText("LORENZO");
+        drawTurnOrder(gameBean.getTurnOrder(), gameBean.getConnectedPlayers());
 
         //Activate buttons
         if (!visualizedPlayer.equals(clientView.getUsername())) {
@@ -653,6 +648,43 @@ public class GameBoardController implements GUIController {
                 case CARDPAYMENT, PRODUCTIONPAYMENT -> setupPayment();
             }
         }
+    }
+
+    private void drawTurnPhaseInfo(String currPlayer, TurnPhase currPhase) {
+        currentPlayerLabel.setText(currPlayer);
+        if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
+            SimplePopup.display(MessageType.INFO, "It's your turn to act!");
+        previousPlayer = (currPlayer);
+        turnPhaseLabel.setText(currPhase.vanillaToString());
+        viewedPlayerLabel.setText(visualizedPlayer);
+    }
+
+    private void drawTurnOrder(String[] turnOrder, boolean[] connectedPlayers) {
+        List<Node> turnOrderChildren = turnOrderGrid.getChildren();
+        int i = 0;
+        //Draw the players' usernames on the list
+        for (; i < turnOrder.length; i++) {
+            String userName = turnOrder[i];
+            //If drawing your username add "(you)"
+            if (turnOrder[i].equals(clientView.getUsername())) {
+                userName += " (you)";
+            }
+            //If player is disconnected change color
+            if (connectedPlayers[i]) {
+                ((Label) turnOrderChildren.get(i)).setTextFill(turnOrderConnectedColor);
+            } else {
+                ((Label) turnOrderChildren.get(i)).setTextFill(turnOrderDisconnectedColor);
+                userName += " (x)";
+            }
+            ((Label) turnOrderChildren.get(i)).setText(userName);
+        }
+        //Empty the rest of the list
+        for (; i < turnOrderChildren.size(); i++) {
+            ((Label) turnOrderChildren.get(i)).setText(null);
+        }
+        //Add lorenzo on the list if in single player game
+        if (turnOrder.length == 1)
+            ((Label) turnOrderChildren.get(1)).setText("LORENZO");
     }
 
     private void drawMarket(MarketBean marketBean) {

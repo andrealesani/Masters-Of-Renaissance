@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import network.MessageType;
 import network.beans.MessageWrapper;
 
-import java.util.Map;
-
 public class WaitingPlayersController implements GUIController {
     private GUI gui;
 
@@ -27,7 +25,11 @@ public class WaitingPlayersController implements GUIController {
         if (response.getType() == MessageType.GAME_START) {
             gui.changeScene("gameBoard.fxml");
         } else if (response.getType() == MessageType.PLAYER_CONNECTED) {
-            newPlayerLabel.setText("Player " + response.getJsonMessage() + " has joined the game.");
+            newPlayerLabel.setText("Player " + response.getMessage() + " has joined the game.");
+        } else if (response.getType() == MessageType.PLAYER_DISCONNECTED) {
+            newPlayerLabel.setText("Player " + response.getMessage() + " has left the game.");
+        } else if (response.getType() == MessageType.WAIT_PLAYERS) {
+            //do nothing
         } else {
             System.out.println("Unexpected message to WaitingPlayers scene: " + jsonMessage);
         }

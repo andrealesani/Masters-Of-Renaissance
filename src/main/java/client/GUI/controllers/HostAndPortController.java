@@ -7,10 +7,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import network.beans.MessageWrapper;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Map;
 
 public class HostAndPortController implements GUIController {
     private GUI gui;
@@ -77,8 +77,8 @@ public class HostAndPortController implements GUIController {
     @Override
     public void updateFromServer(String jsonMessage) {
         Gson gson = new Gson();
-        Map responseMap = gson.fromJson(jsonMessage, Map.class);
-        if (responseMap.get("jsonMessage").equals("Please, set your username.")) {
+        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+        if (response.getMessage().equals("Please, set your username.")) {
             gui.changeScene("gameSettings.fxml");
         }
         else

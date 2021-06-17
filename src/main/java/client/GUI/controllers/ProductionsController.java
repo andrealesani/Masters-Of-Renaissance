@@ -16,6 +16,7 @@ import model.CardColor;
 import model.resource.ResourceType;
 import network.Command;
 import network.UserCommandsType;
+import network.beans.MessageWrapper;
 import network.beans.ProductionHandlerBean;
 
 import java.util.HashMap;
@@ -48,8 +49,10 @@ public class ProductionsController implements GUIController {
 
     @Override
     public void updateFromServer(String jsonMessage) {
-        switch (jsonMessage) {
-            case "PRODUCTIONHANDLER":
+        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+
+        switch (response.getType()) {
+            case PRODUCTIONHANDLER:
 
                 ProductionHandlerBean productionHandlerBean = clientView.getProductionHandler(clientView.getUsername());
 

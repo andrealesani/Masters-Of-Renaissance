@@ -168,7 +168,7 @@ public class SettingsController implements GUIController {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
         if (response.getType() == MessageType.INFO || response.getType() == MessageType.ERROR) {
-            if (response.getJsonMessage().equals("Please, choose the game's number of players.")) {
+            if (response.getMessage().equals("Please, choose the game's number of players.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Username was correctly set");
                 usernameField.setDisable(true);
@@ -177,13 +177,13 @@ public class SettingsController implements GUIController {
                 multiplayerButton.setVisible(true);
                 readyButton.setVisible(true);
                 readyButton.setDisable(true);
-            } else if (response.getJsonMessage().equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
+            } else if (response.getMessage().equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Please try again in a moment");
-            } else if (response.getJsonMessage().equals("The selected username already exists.")) {
+            } else if (response.getMessage().equals("The selected username already exists.")) {
                 invalidUsername.setVisible(true);
                 invalidUsername.setText("Username not available");
-            }else if (response.getJsonMessage().equals("Please, set your username.")) {
+            }else if (response.getMessage().equals("Please, set your username.")) {
                 // do nothing
             } else if (jsonMessage.contains("Username was correctly set to:")) {
                 // do nothing

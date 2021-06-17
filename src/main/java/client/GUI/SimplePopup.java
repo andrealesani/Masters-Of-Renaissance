@@ -10,14 +10,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import network.MessageType;
 
 
 public class SimplePopup {
-    public static void display(String messageType, String jsonMessage) {
+    public static void display(MessageType messageType, String jsonMessage) {
         Gson gson = new Gson();
         Stage window = new Stage();
         //the regex is used to eliminate the special characters that would be counted in the string length
-        String title = messageType.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+        String title = messageType.toString().replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
         String message = jsonMessage.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
 
 

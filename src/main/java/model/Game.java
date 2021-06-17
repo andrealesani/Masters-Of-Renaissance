@@ -558,8 +558,9 @@ public class Game implements UserCommandsInterface, Observable {
                 if (currentPlayer == null) {
                     chooseTurnStartingPhase(player);
                     currentPlayer = player;
-                    notifyObservers();
                 }
+
+                notifyObservers();
 
                 return;
             }
@@ -591,6 +592,8 @@ public class Game implements UserCommandsInterface, Observable {
                         }
                     }
                 }
+
+                notifyObservers();
 
                 return;
             }

@@ -32,6 +32,10 @@ public class GameBean implements Observer {
      */
     private String[] turnOrder;
     /**
+     * The players currently connected
+     */
+    private boolean[] connectedPlayers;
+    /**
      * The turn phase that the current player is in
      */
     private TurnPhase turnPhase;
@@ -72,6 +76,10 @@ public class GameBean implements Observer {
         return turnOrder.clone();
     }
 
+    public boolean[] getConnectedPlayers() {
+        return connectedPlayers.clone();
+    }
+
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
@@ -109,11 +117,14 @@ public class GameBean implements Observer {
         turnPhase = game.getTurnPhase();
     }
 
-    public void setTurnOrderFromGame(Game game) {
-        turnOrder = new String[game.getPlayersTurnOrder().size()];
+    public void setTurnOrderAndConnectedFromGame(Game game) {
         List<PlayerBoard> playerBoards = game.getPlayersTurnOrder();
+        turnOrder = new String[playerBoards.size()];
+        connectedPlayers = new boolean[playerBoards.size()];
         for (int i = 0; i < turnOrder.length; i++) {
-            turnOrder[i] = playerBoards.get(i).getUsername();
+            PlayerBoard playerBoard = playerBoards.get(i);
+            turnOrder[i] = playerBoard.getUsername();
+            connectedPlayers[i] = playerBoard.isConnected();
         }
     }
 
@@ -175,7 +186,7 @@ public class GameBean implements Observer {
         Gson gson = new Gson();
         Game game = (Game) observable;
         setCurrentPlayerFromGame(game);
-        setTurnOrderFromGame(game);
+        setTurnOrderAndConnectedFromGame(game);
         setTurnPhaseFromGame(game);
         setLastTurn(game);
         setWinner(game);
