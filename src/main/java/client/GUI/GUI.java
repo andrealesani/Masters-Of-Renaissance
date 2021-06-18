@@ -197,7 +197,7 @@ public class GUI extends Application {
         try {
             controller.updateFromServer(jsonMessage);
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("Warning: Exception thrown when updating current scene: " + ex.getMessage());
             stop();
         }
     }

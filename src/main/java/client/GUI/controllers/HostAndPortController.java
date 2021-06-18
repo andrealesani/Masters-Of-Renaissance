@@ -3,7 +3,6 @@ package client.GUI.controllers;
 import client.GUI.GUI;
 import client.GUI.SceneName;
 import com.google.gson.Gson;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,7 +25,7 @@ public class HostAndPortController implements GUIController {
      * The graphical elements of this controller's scene
      */
     @FXML
-    private Button loginButton;
+    private Button connectButton;
     @FXML
     private Label statusLabel;
     @FXML
@@ -60,15 +59,15 @@ public class HostAndPortController implements GUIController {
      * Attempts to connect the client to the selected host IP and port
      */
     public void connect() {
-        loginButton.setDisable(true);
+        connectButton.setDisable(true);
         statusLabel.setText("Wait...");
 
         if (getServer().isBlank()) {
             statusLabel.setText("Please specify a server address");
-            loginButton.setDisable(false);
+            connectButton.setDisable(false);
         } else if (getServerPort().isBlank()) {
             statusLabel.setText("Please specify a server port");
-            loginButton.setDisable(false);
+            connectButton.setDisable(false);
         } else {
             statusLabel.setText("SUCCESSFULLY CONNECTED");
 
@@ -79,22 +78,19 @@ public class HostAndPortController implements GUIController {
                 gui.setupConnection(clientSocket);
             } catch (IOException e) {
                 statusLabel.setText("Couldn't connect to the specified server");
-                loginButton.setDisable(false);
+                connectButton.setDisable(false);
             } catch (NumberFormatException e1) {
                 statusLabel.setText("The specified port is not a number");
-                loginButton.setDisable(false);
+                connectButton.setDisable(false);
             }
         }
     }
 
     /**
-     * Sets the GUI object for the controller
-     *
-     * @param gui of type GUI - the main GUI class.
+     * Closes the game
      */
-    @Override
-    public void setGui(GUI gui) {
-        this.gui = gui;
+    public void quitGame() {
+        gui.stop();
     }
 
     /**
@@ -110,6 +106,18 @@ public class HostAndPortController implements GUIController {
             gui.changeScene(SceneName.SETTINGS);
         } else
             System.out.println("Unexpected message to Login scene: " + jsonMessage);
+    }
+
+    //SETTERS
+
+    /**
+     * Sets the GUI object for the controller
+     *
+     * @param gui of type GUI - the main GUI class.
+     */
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 }
 
