@@ -4,10 +4,7 @@ import Exceptions.*;
 import model.resource.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,12 +34,12 @@ class ProductionHandlerTest {
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();
         input.add(new ResourceServant());
-        output.add(new ResourceCoin());
+        output.add(new ResourceFaith());
         Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
 
-        assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceCoin);
+        assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceFaith);
     }
 
 
@@ -172,7 +169,7 @@ class ProductionHandlerTest {
         input.add(new ResourceServant());
         input.add(new ResourceShield());
         input.add(new ResourceShield());
-        output.add(new ResourceCoin());
+        output.add(new ResourceFaith());
         Production production = new Production(-1, input, output);
         productionHandler.addProduction(production);
         productionHandler.selectProduction(1);
@@ -248,5 +245,25 @@ class ProductionHandlerTest {
         playerBoard.addResourcesToWaitingRoom(resources);
     }
 
+    @Test
+    void releaseOutputTest() throws ProductionNotPresentException {
+        PlayerBoard playerBoard = new PlayerBoard();
+        assertEquals(0, playerBoard.getFaith());
 
+        ProductionHandler productionHandler = playerBoard.getProductionHandler();
+
+        List<Resource> input = new ArrayList<>();
+        List<Resource> output = new ArrayList<>();
+        input.add(new ResourceServant());
+        output.add(new ResourceFaith());
+        output.add(new ResourceFaith());
+        output.add(new ResourceCoin());
+        Production production = new Production(-1, input, output);
+        productionHandler.addProduction(production);
+        productionHandler.selectProduction(1);
+
+        productionHandler.releaseOutput(playerBoard);
+
+        assertEquals(2, playerBoard.getFaith());
+    }
 }

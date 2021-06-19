@@ -11,6 +11,6 @@ public class LeaderIsActiveException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Player does not fulfill all card requirements.");
+        return ("This leader card has already been activated.");
     }
 }

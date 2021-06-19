@@ -109,6 +109,7 @@ public class PlayerBoard implements Observable {
      * @param username       nickname that the player chose in the lobby
      * @param popeFavorTiles a List of the player's pope's favor tiles
      * @param finalFaith     the faith amount that, once reached by the player, ends the game
+     * @throws ParametersNotValidException if the parameters for the constructor are not valid
      */
     public PlayerBoard(Game game, String username, int finalFaith, List<PopeFavorTile> popeFavorTiles) {
         if (game == null || username == null || finalFaith <= 0 || popeFavorTiles == null) {
@@ -456,6 +457,7 @@ public class PlayerBoard implements Observable {
      */
     public void releaseProductionOutput() {
         productionHandler.releaseOutput(this);
+        productionHandler.resetProductionChoice();
 
         notifyObservers();
     }

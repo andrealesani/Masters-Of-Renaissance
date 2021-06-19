@@ -407,8 +407,10 @@ public class GameBoardController implements GUIController {
             button.setVisible(false);
         for (Node button : warehouseButtonsGrid.getChildren())
             button.setVisible(false);
-        for (Node card : cardsGrid.getChildren())
+        for (Node card : cardsGrid.getChildren()) {
             card.setOnMouseClicked(null);
+            card.getStyleClass().clear();
+        }
         for (Node button : cardSlotsButtonGrid.getChildren())
             button.setVisible(false);
         for (Node button : leaderDepotButtonGrid.getChildren())
@@ -520,6 +522,8 @@ public class GameBoardController implements GUIController {
                     case 2 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.PURPLE, finalI));
                     case 3 -> cardTableChildren.get(k).setOnMouseClicked(e -> setupCardSlotChoice(CardColor.YELLOW, finalI));
                 }
+                //Makes the card graphically responsive to hovering
+                cardTableChildren.get(k).getStyleClass().add("card");
             }
         }
     }
@@ -558,7 +562,7 @@ public class GameBoardController implements GUIController {
      */
     private void setupLeaderChoice() {
         waitingRoomTitleLabel.setText("Resources left to distribute:");
-        descriptionText.setText("Choose two leadercards to keep and, if necessary, which bonus resources to obtain (by clicking on the corresponding resource) and where to store them. Then end your turn.");
+        descriptionText.setText("Choose two leadercards to keep and, if necessary, which bonus resources to obtain (by clicking on the corresponding resource) and where to store them. Then confirm.");
 
         disableButtons();
         waitingRoomPane.setVisible(true);
@@ -579,6 +583,7 @@ public class GameBoardController implements GUIController {
         enableSwapDepotButtons();
         //For endTurn
         endTurnButton.setDisable(false);
+        endTurnButton.setText("Confirm");
         endTurnButton.setOnAction(e -> endTurn());
     }
 
@@ -617,6 +622,8 @@ public class GameBoardController implements GUIController {
         enableVisualizedPlayerButtons();
         //For productions stuff
         productionsButton.setVisible(true);
+        //For the end turn button
+        endTurnButton.setText("End Turn");
     }
 
     /**
@@ -643,6 +650,7 @@ public class GameBoardController implements GUIController {
         enableVisualizedPlayerButtons();
         //For endTurn
         endTurnButton.setDisable(false);
+        endTurnButton.setText("End Turn");
         endTurnButton.setOnAction(e -> endTurn());
     }
 
@@ -665,6 +673,7 @@ public class GameBoardController implements GUIController {
         enableVisualizedPlayerButtons();
         //For endTurn
         endTurnButton.setDisable(false);
+        endTurnButton.setText("End Turn");
         endTurnButton.setOnAction(e -> endTurn());
     }
 
@@ -930,6 +939,7 @@ public class GameBoardController implements GUIController {
             for (int j = 0; j < cardTable[0].length; j++, k++) {
                 int cardId = cardTable[i][j];
                 Image card;
+                //If the deck is empty, display a placeholder
                 if (cardId != -1) {
                     card = new Image("/graphics/front/" + cardId + ".png");
                 } else {
