@@ -245,7 +245,7 @@ public class Warehouse implements Observable {
     /**
      * Returns the depot corresponding to the given number
      *
-     * @param depotNumber the number of the depot to get
+     * @param depotNumber the number of the depot to get (STARTS FROM 1)
      * @return the requested depot
      */
     public ResourceDepot getDepot(int depotNumber) {
@@ -292,6 +292,17 @@ public class Warehouse implements Observable {
         return cardIds;
     }
 
+    // PERSISTENCE METHODS
+
+    public void restoreDepots(ResourceType[] depotType, int[] depotQuantity) {
+        for (int i = 0; i < depotType.length; i++) {
+            try {
+                getDepot(i + 1).addResource(depotType[i], depotQuantity[i]);
+            } catch (Exception e) {
+                System.out.println("Something went wrong restoring a warehouse");
+            }
+        }
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 

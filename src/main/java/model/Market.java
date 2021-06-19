@@ -110,6 +110,16 @@ public class Market implements Observable {
         notifyObservers();
     }
 
+    public void restoreBoard(ResourceType[][] board) {
+        for (int i = 0; i < this.board.length; i++)
+            for (int j = 0; j < this.board[0].length; j++)
+                this.board[i][j] = board[i][j].toResource();
+    }
+
+    public void restoreSlideMarble(ResourceType slideMarble) {
+        this.slideMarble = slideMarble.toResource();
+    }
+
     //PRIVATE METHODS
 
     /**

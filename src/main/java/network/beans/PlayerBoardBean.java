@@ -80,7 +80,7 @@ public class PlayerBoardBean implements Observer {
      */
     private boolean[] activeLeaderCards;
     /**
-     * Represents the association between a warehouse leader depot and its leadercard
+     * Represents the association between a warehouse leader depot and its LeaderCard
      */
     private Map<Integer, Integer> leaderDepotCards;
     /**

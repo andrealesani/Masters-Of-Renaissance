@@ -10,6 +10,7 @@ import model.resource.ResourceUnknown;
 import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
+import network.beans.SlotBean;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -835,7 +836,60 @@ public class PlayerBoard implements Observable {
         return vp;
     }
 
-    //CONNECTION METHODS
+    // PERSISTENCE METHODS
+
+    public void restoreFaith(int faith) {
+        this.faith = faith;
+    }
+
+    public void restoreWhiteMarbleNum(int whiteMarbleNum) {
+        this.whiteMarbleNum = whiteMarbleNum;
+    }
+
+    public void restoreMarbleConversions(ResourceType[] marbleConversions) {
+        this.marbleConversions.addAll(Arrays.asList(marbleConversions));
+    }
+
+    public void restoreDiscounts(ResourceType[] discountType, int[] discountQuantity) {
+        for (int i = 0; i < discountType.length; i++)
+            if (discountQuantity[i] != 0)
+                discounts.put(discountType[i], discountQuantity[i]);
+    }
+
+    public void restoreCardSlots(SlotBean[] developmentCardsIDs) {
+        for (int i = 0; i < developmentCardsIDs.length; i++)
+            for (int j = 0 ; j < developmentCardsIDs[i].getDevelopmentCards().length; i++)
+                try {
+                    this.cardSlots.get(i).add(game.getCardTable().getDevelopmentCardFromId(developmentCardsIDs[i].getDevelopmentCards()[j]));
+                } catch (CardNotPresentException e) {
+                    System.out.println("Warning: couldn't find one of the DevelopmentCards during the game restore: ID " + developmentCardsIDs[i].getDevelopmentCards()[j]);
+                }
+    }
+
+    public void restoreLeaderCards(int[] leaderCardIDs, int [] leaderDepotCardsWarehouse, int[]  leaderDepotCardsLeaderCard) {
+        for (int leaderCardID : leaderCardIDs)
+            try {
+                this.leaderCards.add(game.getLeaderCardFromId(leaderCardID));
+            } catch (CardNotPresentException e) {
+                System.out.println("Warning: couldn't find one of the LeaderCards during the game restore: ID " + leaderCardID);
+            }
+
+        for (int i = 0 ; i < leaderDepotCardsWarehouse.length; i++) {
+            this.leaderDepotCards.put(leaderDepotCardsWarehouse[i], leaderDepotCardsLeaderCard[i]);
+        }
+    }
+
+    public void restoreTilesVictoryPoints(int[] vpFaithTiles, int[] vpFaithValues) {
+        System.arraycopy(vpFaithTiles, 0, this.vpFaithTiles, 0, vpFaithTiles.length);
+        System.arraycopy(vpFaithValues, 0, this.vpFaithValues, 0, vpFaithValues.length);
+    }
+
+    public void restorePopeTileState(PopeTileState[] popeTileState) {
+        for (int i = 0; i < popeTileState.length; i++)
+            this.popeFavorTiles.get(i).restoreState(popeTileState[i]);
+    }
+
+    // CONNECTION METHODS
 
     /**
      * Sets the player's connection status to connected

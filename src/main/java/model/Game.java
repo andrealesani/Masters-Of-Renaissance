@@ -3,6 +3,7 @@ package model;
 import Exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static model.TurnPhase.*;
 
@@ -1042,17 +1044,58 @@ public class Game implements UserCommandsInterface, Observable {
         return winnerVp;
     }
 
-    public int getLastTriggeredTile() { return lastTriggeredTile; }
-
-    public int getFinalFaith() { return finalFaith; }
+    public int getLastTriggeredTile() {
+        return lastTriggeredTile;
+    }
 
     public boolean isEndGame() {
         return isLastTurn;
     }
 
-    public int getInitialLeaderCardNumber() { return initialLeaderCardNumber; }
+    /**
+     * Getter
+     *
+     * @param id of the card to be returned
+     * @return the DevelopmentCard associated to the specified ID
+     * @throws CardNotPresentException when the given ID is not associated with any of the cards in the CardTable
+     */
+    public LeaderCard getLeaderCardFromId(int id) throws CardNotPresentException {
+        for (LeaderCard leaderCard : this.leaderCards) {
+            if (leaderCard.getId() == id) {
+                return leaderCard;
+            }
+        }
+        throw new CardNotPresentException();
+    }
 
-    public int getFinalLeaderCardNumber() { return finalLeaderCardNumber; }
+    // SETTERS
+
+    public void restoreCurrentPlayer(String username) {
+        currentPlayer = playersTurnOrder.stream()
+                .filter(e -> e.getUsername().equals(username))
+                .collect(Collectors.toList())
+                .get(0);
+    }
+
+    public void restoreLastTriggeredTile(int lastTriggeredTile) {
+        this.lastTriggeredTile = lastTriggeredTile;
+    }
+
+    public void restoreTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
+    }
+
+    public void restoreIsLastTurn(boolean isLastTurn) {
+        this.isLastTurn = isLastTurn;
+    }
+
+    public void restoreWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public void restoreWinnerVp(int winnerVp) {
+        this.winnerVp = winnerVp;
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 

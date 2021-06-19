@@ -73,6 +73,15 @@ public class PopeFavorTile {
         }
     }
 
+    /**
+     * This method is supposed to be called only when a game is restored from a save file
+     *
+     * @param state the State of the Tile at the moment of game save
+     */
+    public void restoreState(PopeTileState state) {
+        this.state = state;
+    }
+
     //GETTERS
 
     /**

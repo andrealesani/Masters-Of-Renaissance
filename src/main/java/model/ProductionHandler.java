@@ -1,7 +1,9 @@
 package model;
 
 import Exceptions.*;
+import model.card.DevelopmentCard;
 import model.resource.*;
+import network.StaticMethods;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -287,6 +289,31 @@ public class ProductionHandler implements Observable {
             }
         }
         return sum;
+    }
+
+    // PERSISTENCE METHODS
+
+    public void restoreProductions(int[] productions) {
+        List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
+        for (Integer production : productions) {
+            this.productions.add(cards.stream().filter(e -> e.getId() == production).findFirst().get().getProduction());
+        }
+    }
+
+    public void restoreCurrentInput(ResourceType[] inputTypes, int[] currentInput) {
+        for (int i = 0; i < inputTypes.length; i++) {
+            for (int j = 0; j < currentInput[i]; j++) {
+                this.currentInput.add(inputTypes[i].toResource());
+            }
+        }
+    }
+
+    public void restoreCurrentOutput(ResourceType[] outputTypes, int[] currentOutput) {
+        for (int i = 0; i < outputTypes.length; i++) {
+            for (int j = 0; j < currentOutput[i]; j++) {
+                this.currentOutput.add(outputTypes[i].toResource());
+            }
+        }
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

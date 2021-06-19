@@ -4,15 +4,15 @@ import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.resource.Resource;
 import model.resource.ResourceType;
+import model.storage.UnlimitedStorage;
+import model.storage.Warehouse;
 import network.beans.SlotBean;
 import server.GameController;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static model.resource.ResourceType.*;
-import static model.resource.ResourceType.STONE;
 
 public class PersistenceHandler {
 
@@ -20,9 +20,11 @@ public class PersistenceHandler {
 
     private Map<CardColor, List<List<DevelopmentCard>>> cards;
 
-    private int[][] cardTable;
+    private int[][][] cardTable;
 
-    private List<PlayerBoard> playersTurnOrder;
+    private String[] playersTurnOrder;
+
+    private String currentPlayer;
 
     private String[] username;
 
@@ -30,13 +32,7 @@ public class PersistenceHandler {
 
     private TurnPhase turnPhase;
 
-    private int finalFaith;
-
     private boolean weReInTheEndGameNow;
-
-    private int initialLeaderCardNumber;
-
-    private int finalLeaderCardNumber;
 
     private String winner;
 
@@ -54,7 +50,7 @@ public class PersistenceHandler {
 
     private ResourceType[][] marbleConversions;
 
-    private ResourceType[] discountType = {COIN, SERVANT, SHIELD, STONE};
+    private ResourceType[][] discountType;
 
     private int[][] discountQuantity;
 
@@ -62,23 +58,17 @@ public class PersistenceHandler {
 
     private int[][] leaderCards;
 
-    private Map<Integer, Integer>[] leaderDepotCards;
+    private int[][] leaderDepotCardsWarehouse;
+
+    private int[][] leaderDepotCardsLeaderCard;
 
     private int[][] vpFaithTiles;
 
     private int[][] vpFaithValues;
 
-    private int[] devCardMax;
+    private int[][] productions;
 
-    private int[][] popeTilePoints;
-
-    private int[][] popeTriggerValues;
-
-    private int[][] popeSectionSizes;
-
-    private int[] productions;
-
-    private boolean[] activeProductions;
+    private boolean[][] activeProductions;
 
     private int idProduction;
 
@@ -88,9 +78,13 @@ public class PersistenceHandler {
 
     private boolean selectedByHandler;
 
-    private Map<ResourceType, Integer> input;
+    private ResourceType[][] prodHandlerInputResources;
 
-    private Map<ResourceType, Integer> output;
+    private int[][] prodHandlerInputQuantities;
+
+    private ResourceType[][] prodHandlerOutputResources;
+
+    private int[][] prodHandlerOutputQuantities;
 
     private int sizeBasicDepot;
 
@@ -98,13 +92,21 @@ public class PersistenceHandler {
 
     private int amountInBasicDepot;
 
-    private int basicDepotNum;
+    private int[] basicDepotNum;
 
-    private ResourceType[] depotType;
+    private ResourceType[][] depotType;
 
-    private int[] depotQuantity;
+    private int[][] depotQuantity;
 
-    private int[] depotSizes;
+    private int[][] depotSize;
+
+    private ResourceType[][] strongboxTypes;
+
+    private int[][] strongboxQuantities;
+
+    private ResourceType[][] waitingRoomTypes;
+
+    private int[][] waitingRoomQuantities;
 
     // CONSTRUCTORS
 
@@ -112,191 +114,37 @@ public class PersistenceHandler {
         this.controller = controller;
     }
 
-    // GETTERS
+    // PRIVATE METHODS
 
-    private Map<CardColor, List<List<DevelopmentCard>>> getCards() {
-        return cards;
+    private void saveGameStatus(Game game) {
+        playersTurnOrder = new String[game.getPlayersTurnOrder().size()];
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++)
+            playersTurnOrder[i] = game.getPlayersTurnOrder().get(i).getUsername();
+        currentPlayer = game.getCurrentPlayer().getUsername();
+        lastTriggeredTile = game.getLastTriggeredTile();
+        turnPhase = game.getTurnPhase();
+        weReInTheEndGameNow = game.isEndGame();
+        winner = game.getWinner();
+        winnerVp = game.getWinnerVp();
     }
 
-    public int[][] getCardTable() { return cardTable; }
-
-    private List<PlayerBoard> getPlayersTurnOrder() {
-        return playersTurnOrder;
+    private void saveMarket(Game game) {
+        Market market = game.getMarket();
+        marketBoard = new ResourceType[market.getBoard().length][market.getBoard()[0].length];
+        for (int i = 0; i < market.getBoard().length; i++) {
+            for (int j = 0; j < market.getBoard()[0].length; j++) {
+                marketBoard[i][j] = market.getBoard()[i][j].getType();
+            }
+        }
+        slideMarble = market.getSlideOrb().getType();
     }
 
-    private String[] getUsername() {
-        return username;
-    }
-
-    private int getLastTriggeredTile() {
-        return lastTriggeredTile;
-    }
-
-    private int getFinalFaith() {
-        return finalFaith;
-    }
-
-    private TurnPhase getTurnPhase() {
-        return turnPhase;
-    }
-
-    private boolean isWeReInTheEndGameNow() {
-        return weReInTheEndGameNow;
-    }
-
-    private int getInitialLeaderCardNumber() {
-        return initialLeaderCardNumber;
-    }
-
-    private int getFinalLeaderCardNumber() {
-        return finalLeaderCardNumber;
-    }
-
-    private String getWinner() {
-        return winner;
-    }
-
-    private int getWinnerVp() {
-        return winnerVp;
-    }
-
-    private ResourceType[][] getMarketBoard() {
-        return marketBoard;
-    }
-
-    private ResourceType getSlideMarble() {
-        return slideMarble;
-    }
-
-    private PopeTileState[][] getPopeTileStates() {
-        return popeTileStates;
-    }
-
-    private int[] getWhiteMarbleNum() {
-        return whiteMarbleNum;
-    }
-
-    private int[] getFaith() {
-        return faith;
-    }
-
-    private ResourceType[][] getMarbleConversions() {
-        return marbleConversions;
-    }
-
-    private int[][] getDiscountQuantity() {
-        return discountQuantity;
-    }
-
-    private SlotBean[][] getCardSlots() {
-        return cardSlots;
-    }
-
-    private int[][] getLeaderCards() {
-        return leaderCards;
-    }
-
-    private Map<Integer, Integer>[] getLeaderDepotCards() {
-        return leaderDepotCards;
-    }
-
-    private int[][] getVpFaithTiles() {
-        return vpFaithTiles;
-    }
-
-    private int[][] getVpFaithValues() {
-        return vpFaithValues;
-    }
-
-    public int[] getDevCardMax() {
-        return devCardMax;
-    }
-
-    private int[][] getPopeTilePoints() {
-        return popeTilePoints;
-    }
-
-    private int[][] getPopeTriggerValues() {
-        return popeTriggerValues;
-    }
-
-    private int[][] getPopeSectionSizes() {
-        return popeSectionSizes;
-    }
-
-    private int getIdProduction() {
-        return idProduction;
-    }
-
-    private List<Resource> getInputv() {
-        return inputv;
-    }
-
-    private List<Resource> getOutputv() {
-        return outputv;
-    }
-
-    private boolean isSelectedByHandler() {
-        return selectedByHandler;
-    }
-
-    private int[] getProductions() {
-        return productions;
-    }
-
-    private boolean[] getActiveProductions() {
-        return activeProductions;
-    }
-
-    private Map<ResourceType, Integer> getInput() {
-        return input;
-    }
-
-    private Map<ResourceType, Integer> getOutput() {
-        return output;
-    }
-
-    private int getSize() {
-        return sizeBasicDepot;
-    }
-
-    private ResourceType getStoredResource() {
-        return storedResourceInBasicDepot;
-    }
-
-    private int getAmount() {
-        return amountInBasicDepot;
-    }
-
-    private int getBasicDepotNum() {
-        return basicDepotNum;
-    }
-
-    private ResourceType[] getDepotType() {
-        return depotType;
-    }
-
-    private int[] getDepotQuantity() {
-        return depotQuantity;
-    }
-
-    private int[] getDepotSizes() {
-        return depotSizes;
-    }
-
-    // PUBLIC METHODS
-
-    public void saveGame(Game game) {
-        int i, j, k;
-
-        /* CARD TABLE */
-        // da salvare in una int[][][] gli id di tutte le carte
-        // cardTable array
-        cardTable = new int[3][game.getCardTable().getCards().entrySet().size()];
+    private void saveCardTable(Game game) {
+        /*cardTable = new int[3][game.getCardTable().getCards().entrySet().size()][];
         cards = game.getCardTable().getCards();
 
-        for (i = 0; i < cardTable.length; i++) {
-            for(j = 0; j < 3; j++) {
+        for (int i = 0; i < cardTable.length; i++) {
+            for (int j = 0; j < 3; j++) {
                 for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cards.entrySet()) {
                     if (color.getValue().get(i).size() == 0)
                         cardTable[i][j] = -1;
@@ -305,149 +153,336 @@ public class PersistenceHandler {
                     j++;
                 }
             }
-        }
+        }*/
+    }
 
-        /* GAME CLASS */
+    private void savePlayerBoards(Game game) {
+        int numOfPlayers = game.getPlayersTurnOrder().size();
+        username = new String[numOfPlayers];
+        popeTileStates = new PopeTileState[numOfPlayers][];
+        whiteMarbleNum = new int[numOfPlayers];
+        faith = new int[numOfPlayers];
+        marbleConversions = new ResourceType[numOfPlayers][];
+        discountType = new ResourceType[numOfPlayers][];
+        discountQuantity = new int[numOfPlayers][];
+        cardSlots = new SlotBean[numOfPlayers][];
+        vpFaithTiles = new int[numOfPlayers][];
+        leaderCards = new int[numOfPlayers][];
 
-        lastTriggeredTile = game.getLastTriggeredTile();
-        finalFaith = game.getFinalFaith();
-        turnPhase = game.getTurnPhase();
-        weReInTheEndGameNow = game.isEndGame();
-        initialLeaderCardNumber = game.getInitialLeaderCardNumber();
-        finalLeaderCardNumber = game.getFinalLeaderCardNumber();
-        winner = game.getWinner();
-        winnerVp = game.getWinnerVp();
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
 
-        /* MARKET CLASS */
-        Market market = game.getMarket();
-        marketBoard = new ResourceType[market.getBoard().length][market.getBoard()[0].length];
-        for (i = 0; i < market.getBoard().length; i++) {
-            for (j = 0; j < market.getBoard()[0].length; j++) {
-                marketBoard[i][j] = market.getBoard()[i][j].getType();
-            }
-        }
-        slideMarble = market.getSlideOrb().getType();
+            // USERNAME
 
-        /* PLAYERBOARD CLASS  */
+            username[i] = game.getPlayersTurnOrder().get(i).getUsername();
 
-        for (j = 0; j < game.getPlayersTurnOrder().size(); j++) {
-            username[j] = game.getPlayersTurnOrder().get(j).getUsername();
+            // FAITH
 
-            List<PopeFavorTile> current = game.getPlayersTurnOrder().get(j).getPopeFavorTiles();
-            popeTileStates[j] = new PopeTileState[current.size()];
-            for (i = 0; i < popeTileStates[j].length; i++)
-                popeTileStates[j][i] = current.get(j).getState();
+            faith[i] = game.getPlayersTurnOrder().get(i).getFaith();
 
-            whiteMarbleNum[j] = game.getPlayersTurnOrder().get(j).getWhiteMarbles();
-            faith[j] = game.getPlayersTurnOrder().get(j).getFaith();
+            // WHITE MARBLES
 
-            i = 0;
-            marbleConversions[j] = new ResourceType[game.getPlayersTurnOrder().get(j).getMarbleConversions().size()];
-            for (ResourceType resourceType : game.getPlayersTurnOrder().get(j).getMarbleConversions()) {
-                marbleConversions[j][i++] = resourceType;
+            whiteMarbleNum[i] = game.getPlayersTurnOrder().get(i).getWhiteMarbles();
+
+            // MARBLE CONVERSIONS
+
+            int j = 0;
+            marbleConversions[i] = new ResourceType[game.getPlayersTurnOrder().get(i).getMarbleConversions().size()];
+            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getMarbleConversions()) {
+                marbleConversions[i][j] = resourceType;
+                j++;
             }
 
-            i = 0;
-            discountType = new ResourceType[game.getPlayersTurnOrder().get(j).getDiscounts().size()];
-            discountQuantity[j] = new int[discountType.length];
-            for (Map.Entry<ResourceType, Integer> entry : game.getPlayersTurnOrder().get(j).getDiscounts().entrySet()) {
-                discountType[i] = entry.getKey();
-                discountQuantity[j][i++] = entry.getValue();
+            // DISCOUNTS
+
+            j = 0;
+            discountType[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
+            discountQuantity[i] = new int[discountType[i].length];
+            for (Map.Entry<ResourceType, Integer> entry : game.getPlayersTurnOrder().get(i).getDiscounts().entrySet()) {
+                discountType[i][j] = entry.getKey();
+                discountQuantity[i][j] = entry.getValue();
+                j++;
             }
 
-            cardSlots[j] = new SlotBean[game.getPlayersTurnOrder().get(j).getCardSlots().size()];
-            for (i = 0; i < 3; i++) {
-                cardSlots[j][i] = new SlotBean();
-                cardSlots[j][i].setDevelopmentCardsFromPB(game.getPlayersTurnOrder().get(j), i + 1);
+            // CARD SLOTS
+
+            cardSlots[i] = new SlotBean[game.getPlayersTurnOrder().get(i).getCardSlots().size()];
+            for (j = 0; j < 3; j++) {
+                cardSlots[i][j] = new SlotBean();
+                cardSlots[i][j].setDevelopmentCardsFromPB(game.getPlayersTurnOrder().get(i), j + 1);
             }
 
-            i = 0;
-            leaderCards[j] = new int[game.getPlayersTurnOrder().get(j).getLeaderCards().size()];
-            for (LeaderCard leaderCard : game.getPlayersTurnOrder().get(j).getLeaderCards()) {
-                leaderCards[j][i++] = leaderCard.getId();
-            }
-            leaderDepotCards[j] = game.getPlayersTurnOrder().get(j).getLeaderDepotCards();
+            // LEADER CARDS
 
-            int[] present = game.getPlayersTurnOrder().get(j).getVpFaithTiles();
-            vpFaithTiles[j] = new int[present.length];
-            for (i = 0; i < vpFaithTiles[j].length; i++)
-                vpFaithTiles[j][i] = present[i];
-
-            int[] present2 = game.getPlayersTurnOrder().get(j).getVpFaithValues();
-            vpFaithValues[j] = new int[present2.length];
-            for (i = 0; i < vpFaithValues[j].length; i++)
-                vpFaithValues[j][i] = present2[i];
-
-            devCardMax[j] = game.getPlayersTurnOrder().get(j).getDevCardMax();
-
-            /* POPE FAVOR TILE CLASS */
-
-            List<PopeFavorTile> current2 = game.getPlayersTurnOrder().get(j).getPopeFavorTiles();
-            popeTilePoints[j] = new int[current2.size()];
-            for (i = 0; i < popeTilePoints[j].length; i++)
-                popeTilePoints[j][i] = current2.get(i).getVictoryPoints();
-
-            List<PopeFavorTile> current3 = game.getPlayersTurnOrder().get(j).getPopeFavorTiles();
-            popeTriggerValues[j] = new int[current3.size()];
-            for (i = 0; i < popeTriggerValues[j].length; i++)
-                popeTriggerValues[j][i] = current3.get(i).getTriggerValue();
-
-            List<PopeFavorTile> current4 = game.getPlayersTurnOrder().get(j).getPopeFavorTiles();
-            popeSectionSizes[j] = new int[current4.size()];
-            for (i = 0; i < popeSectionSizes[j].length; i++)
-                popeSectionSizes[j][i] = current4.get(i).getActiveSectionSize();
-
-        }
-
-        /* PRODUCTION CLASS */
-
-        ProductionHandler productionHandler = game.getCurrentPlayer().getProductionHandler();
-
-        productions = new int[productionHandler.getProductions().size()];
-        activeProductions = new boolean[productions.length];
-        for (i = 0; i < productions.length; i++) {
-            productions[i] = productionHandler.getProductions().get(i).getId();
-            if (productionHandler.getProductions().get(i).isSelectedByHandler())
-                activeProductions[i] = true;
-            else
-                activeProductions[i] = false;
-        }
-
-        input.put(COIN, 0);
-        input.put(SERVANT, 0);
-        input.put(SHIELD, 0);
-        input.put(STONE, 0);
-        input.put(UNKNOWN, 0);
-        for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
-            input.merge(resourceType, 1, Integer::sum);
-
-        output.put(COIN, 0);
-        output.put(SERVANT, 0);
-        output.put(SHIELD, 0);
-        output.put(STONE, 0);
-        output.put(FAITH, 0);
-        output.put(UNKNOWN, 0);
-        for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
-            output.merge(resourceType, 1, Integer::sum);
-
-        /* WAREHOUSE CLASS */
-
-        for (j = 0; j < game.getPlayersTurnOrder().size(); j++) {
-            basicDepotNum = game.getPlayersTurnOrder().get(j).getWarehouse().getNumOfDepots();
-            depotType = new ResourceType[game.getPlayersTurnOrder().get(j).getWarehouse().getNumOfDepots()];
-            depotQuantity = new int[depotType.length];
-            depotSizes = new int[depotType.length];
-
-            for (i = 0; i < game.getPlayersTurnOrder().get(j).getWarehouse().getNumOfDepots(); i++) {
-                if (game.getPlayersTurnOrder().get(j).getWarehouse().getDepot(i + 1).getStoredResources().size() > 0)
-                    depotType[i] = game.getPlayersTurnOrder().get(j).getWarehouse().getDepot(i + 1).getStoredResources().get(0);
-                depotQuantity[i] = game.getPlayersTurnOrder().get(j).getWarehouse().getDepot(i + 1).getNumOfResource(depotType[i]);
-                depotSizes[i] = game.getPlayersTurnOrder().get(j).getWarehouse().getDepot(i + 1).getSize();
+            j = 0;
+            leaderCards[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderCards().size()];
+            for (LeaderCard leaderCard : game.getPlayersTurnOrder().get(i).getLeaderCards()) {
+                leaderCards[i][j++] = leaderCard.getId();
             }
 
+            j = 0;
+            for (Map.Entry<Integer, Integer> entry : game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet()) {
+                leaderDepotCardsWarehouse[i][j] = entry.getKey();
+                leaderDepotCardsLeaderCard[i][j] = entry.getValue();
+                j++;
+            }
+
+            // VICTORY POINTS
+
+            int[] faithTiles = game.getPlayersTurnOrder().get(i).getVpFaithTiles();
+            vpFaithTiles[i] = new int[faithTiles.length];
+            for (j = 0; j < vpFaithTiles[i].length; j++)
+                vpFaithTiles[i][j] = faithTiles[j];
+
+            int[] faithValues = game.getPlayersTurnOrder().get(i).getVpFaithValues();
+            vpFaithValues[i] = new int[faithValues.length];
+            for (j = 0; j < vpFaithValues[i].length; j++)
+                vpFaithValues[i][j] = faithValues[j];
+
+            // POPE FAVOR TILES
+
+            List<PopeFavorTile> favorTiles = game.getPlayersTurnOrder().get(i).getPopeFavorTiles();
+            popeTileStates[i] = new PopeTileState[favorTiles.size()];
+            for (j = 0; j < popeTileStates[i].length; j++)
+                popeTileStates[i][j] = favorTiles.get(i).getState();
 
         }
+    }
 
+    private void saveProductionHandlers(Game game) {
+        int numOfPlayers = game.getPlayersTurnOrder().size();
+        productions = new int[numOfPlayers][];
+        activeProductions = new boolean[numOfPlayers][];
+        prodHandlerInputResources = new ResourceType[numOfPlayers][];
+        prodHandlerInputQuantities = new int[numOfPlayers][];
+        prodHandlerOutputResources = new ResourceType[numOfPlayers][];
+        prodHandlerOutputQuantities = new int[numOfPlayers][];
 
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            ProductionHandler productionHandler = game.getPlayersTurnOrder().get(i).getProductionHandler();
+            productions[i] = new int[productionHandler.getProductions().size()];
+            activeProductions[i] = new boolean[productions.length];
+            for (int j = 0; j < productions.length; j++) {
+                productions[i][j] = productionHandler.getProductions().get(j).getId();
+                if (productionHandler.getProductions().get(j).isSelectedByHandler())
+                    activeProductions[i][j] = true;
+                else
+                    activeProductions[i][j] = false;
+            }
+
+            prodHandlerInputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, UNKNOWN};
+            prodHandlerInputQuantities[i] = new int[prodHandlerInputResources.length];
+
+            for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
+                if (resourceType == COIN)
+                    prodHandlerInputQuantities[i][0]++;
+                else if (resourceType == SERVANT)
+                    prodHandlerInputQuantities[i][1]++;
+                else if (resourceType == SHIELD)
+                    prodHandlerInputQuantities[i][2]++;
+                else if (resourceType == STONE)
+                    prodHandlerInputQuantities[i][3]++;
+                else if (resourceType == UNKNOWN)
+                    prodHandlerInputQuantities[i][4]++;
+                else
+                    System.out.println("Warning: found unsupported ResourceType inside ProductionHandler during save: " + resourceType);
+
+            prodHandlerOutputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, FAITH, UNKNOWN};
+            prodHandlerOutputQuantities[i] = new int[prodHandlerOutputResources.length];
+
+            for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
+                if (resourceType == COIN)
+                    prodHandlerOutputQuantities[i][0]++;
+                else if (resourceType == SERVANT)
+                    prodHandlerOutputQuantities[i][1]++;
+                else if (resourceType == SHIELD)
+                    prodHandlerOutputQuantities[i][2]++;
+                else if (resourceType == STONE)
+                    prodHandlerOutputQuantities[i][3]++;
+                else if (resourceType == FAITH)
+                    prodHandlerOutputQuantities[i][4]++;
+                else if (resourceType == UNKNOWN)
+                    prodHandlerOutputQuantities[i][5]++;
+                else
+                    System.out.println("Warning: found unsupported ResourceType inside ProductionHandler during save: " + resourceType);
+        }
+    }
+
+    private void saveWarehouses(Game game) {
+        int numOfPlayers = game.getPlayersTurnOrder().size();
+        basicDepotNum = new int[numOfPlayers];
+        depotType = new ResourceType[numOfPlayers][];
+        depotQuantity = new int[numOfPlayers][];
+        depotSize = new int[numOfPlayers][];
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            basicDepotNum[i] = game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots();
+            depotType[i] = new ResourceType[game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots()];
+            depotQuantity[i] = new int[depotType.length];
+            depotSize[i] = new int[depotType.length];
+
+            for (int j = 0; j < game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots(); j++) {
+                if (game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().size() > 0)
+                    depotType[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().get(0);
+                depotQuantity[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getNumOfResource(depotType[i][j]);
+                depotSize[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getSize();
+            }
+        }
+    }
+
+    private void saveStrongboxes(Game game) {
+        int numOfPlayers = game.getPlayersTurnOrder().size();
+        strongboxTypes = new ResourceType[numOfPlayers][];
+        strongboxQuantities = new int[numOfPlayers][];
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            strongboxTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
+            strongboxQuantities[i] = new int[strongboxTypes[i].length];
+            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getStrongbox().getStoredResources()) {
+                if (resourceType == COIN)
+                    strongboxQuantities[i][0]++;
+                else if (resourceType == SERVANT)
+                    strongboxQuantities[i][1]++;
+                else if (resourceType == SHIELD)
+                    strongboxQuantities[i][2]++;
+                else if (resourceType == STONE)
+                    strongboxQuantities[i][3]++;
+                else
+                    System.out.println("Warning: found unsupported ResourceType inside Strongbox during save: " + resourceType);
+            }
+        }
+    }
+
+    private void saveWaitingRooms(Game game) {
+        int numOfPlayers = game.getPlayersTurnOrder().size();
+        waitingRoomTypes = new ResourceType[numOfPlayers][];
+        waitingRoomQuantities = new int[numOfPlayers][];
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, UNKNOWN};
+            waitingRoomQuantities[i] = new int[waitingRoomTypes[i].length];
+            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getStrongbox().getStoredResources()) {
+                if (resourceType == COIN)
+                    waitingRoomQuantities[i][0]++;
+                else if (resourceType == SERVANT)
+                    waitingRoomQuantities[i][1]++;
+                else if (resourceType == SHIELD)
+                    waitingRoomQuantities[i][2]++;
+                else if (resourceType == STONE)
+                    waitingRoomQuantities[i][3]++;
+                else if (resourceType == UNKNOWN)
+                    waitingRoomQuantities[i][4]++;
+                else
+                    System.out.println("Warning: found unsupported ResourceType inside Strongbox during save: " + resourceType);
+            }
+        }
+    }
+
+    private Game restoreGameStatus() {
+        Set<String> usernames = Arrays.stream(playersTurnOrder).collect(Collectors.toSet());
+        Game game = new Game(usernames);
+        game.restoreCurrentPlayer(currentPlayer);
+        game.restoreLastTriggeredTile(lastTriggeredTile);
+        game.restoreTurnPhase(turnPhase);
+        game.restoreIsLastTurn(weReInTheEndGameNow);
+        game.restoreWinner(winner);
+        game.restoreWinnerVp(winnerVp);
+
+        return game;
+    }
+
+    private void restoreMarket(Game game) {
+        game.getMarket().restoreBoard(marketBoard);
+        game.getMarket().restoreSlideMarble(slideMarble);
+    }
+
+    private void restoreCardTable(Game game) {
+        game.getCardTable().restoreCards(cardTable);
+    }
+
+    private void restorePlayerBoards(Game game) {
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            PlayerBoard player = game.getPlayersTurnOrder().get(i);
+
+            // FAITH
+            player.restoreFaith(faith[i]);
+
+            // WHITE MARBLES
+            player.restoreMarbleConversions(marbleConversions[i]);
+
+            // MARBLE CONVERSIONS
+            player.restoreMarbleConversions(marbleConversions[i]);
+
+            // DISCOUNTS
+            player.restoreDiscounts(discountType[i], discountQuantity[i]);
+
+            // CARD SLOTS
+            player.restoreCardSlots(cardSlots[i]);
+
+            // LEADER CARDS
+            player.restoreLeaderCards(leaderCards[i], leaderDepotCardsWarehouse[i], leaderDepotCardsLeaderCard[i]);
+
+            // VICTORY POINTS
+            player.restoreTilesVictoryPoints(vpFaithTiles[i], vpFaithValues[i]);
+
+            // POPE FAVOR TILES
+            player.restorePopeTileState(popeTileStates[i]);
+
+        }
+    }
+
+    private void restoreProductionHandlers(Game game) {
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            ProductionHandler productionHandler = game.getPlayersTurnOrder().get(i).getProductionHandler();
+            productionHandler.restoreProductions(productions[i]);
+            productionHandler.restoreCurrentInput(prodHandlerInputResources[i], prodHandlerInputQuantities[i]);
+            productionHandler.restoreCurrentOutput(prodHandlerOutputResources[i], prodHandlerOutputQuantities[i]);
+        }
+    }
+
+    private void restoreWarehouses(Game game) {
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            Warehouse warehouse = game.getPlayersTurnOrder().get(i).getWarehouse();
+            warehouse.restoreDepots(depotType[i], depotQuantity[i]);
+        }
+    }
+
+    private void restoreStrongboxes(Game game) {
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            UnlimitedStorage strongbox = game.getPlayersTurnOrder().get(i).getStrongbox();
+            strongbox.restoreContent(strongboxTypes[i], strongboxQuantities[i]);
+        }
+    }
+
+    private void restoreWaitingRooms(Game game) {
+        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+            UnlimitedStorage waitingRoom = game.getPlayersTurnOrder().get(i).getWaitingRoom();
+            waitingRoom.restoreContent(strongboxTypes[i], strongboxQuantities[i]);
+        }
+    }
+
+    // PUBLIC METHODS
+
+    public void saveGame(Game game) {
+        if (game == null)
+            throw new RuntimeException("PersistenceHandler received a null pointer");
+
+        saveGameStatus(game);
+        saveMarket(game);
+        saveCardTable(game);
+        savePlayerBoards(game);
+        saveProductionHandlers(game);
+        saveWarehouses(game);
+        saveStrongboxes(game);
+        saveWaitingRooms(game);
+    }
+
+    public Game restoreGame() {
+        Game game = restoreGameStatus();
+        restoreMarket(game);
+        restoreCardTable(game);
+        restorePlayerBoards(game);
+        restoreProductionHandlers(game);
+        restoreWarehouses(game);
+        restoreStrongboxes(game);
+        restoreWaitingRooms(game);
+
+        return game;
     }
 }

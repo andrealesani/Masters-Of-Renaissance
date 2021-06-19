@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.card.DevelopmentCard;
 import model.resource.*;
+import network.StaticMethods;
 import server.ServerMain;
 
 import java.io.InputStreamReader;
@@ -57,7 +58,7 @@ public class CardTable implements Observable {
         id++;
 
         // BLUE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", blueCards, CardColor.BLUE);
+        createDecksFromJSON(blueCards, CardColor.BLUE);
         cards.put(CardColor.BLUE, blueCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.BLUE)) {
             for (DevelopmentCard card : deck)
@@ -66,7 +67,7 @@ public class CardTable implements Observable {
         }
 
         // GREEN CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", greenCards, CardColor.GREEN);
+        createDecksFromJSON(greenCards, CardColor.GREEN);
         cards.put(CardColor.GREEN, greenCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.GREEN)) {
             for (DevelopmentCard card : deck)
@@ -75,7 +76,7 @@ public class CardTable implements Observable {
         }
 
         // PURPLE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", purpleCards, CardColor.PURPLE);
+        createDecksFromJSON(purpleCards, CardColor.PURPLE);
         cards.put(CardColor.PURPLE, purpleCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.PURPLE)) {
             for (DevelopmentCard card : deck)
@@ -84,7 +85,7 @@ public class CardTable implements Observable {
         }
 
         // YELLOW CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", yellowCards, CardColor.YELLOW);
+        createDecksFromJSON(yellowCards, CardColor.YELLOW);
         cards.put(CardColor.YELLOW, yellowCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.YELLOW)) {
             for (DevelopmentCard card : deck)
@@ -175,16 +176,11 @@ public class CardTable implements Observable {
      * Level 3 cards will be in the third lists of every column.
      * The method is hardcoded to receive cards with levels from 1 to 3.
      *
-     * @param jsonPath   specifies the path where the JSON file is stored
      * @param colorCards specifies which column of the deck is going to be instantiated
+     * @param color specifies the color of the cards of the decks to create
      */
-    private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards, CardColor color) {
-        Gson gson = new Gson();
-        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
-        }.getType();
-
-        Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
-        List<DevelopmentCard> cards = gson.fromJson(reader, DevCardArray);
+    private void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
+        List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
         for (int i = 0; i < 3; i++) {
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
@@ -278,6 +274,15 @@ public class CardTable implements Observable {
         throw new CardNotPresentException();
     }
 
+    // PERSISTENCE METHODS
+
+    public void restoreCards(int[][][] cardTable) {
+        for (int i = 0; i < cardTable.length; i++) {
+            for (int j = 0; j < cardTable[0].length; j++) {
+                // TODO
+            }
+        }
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 

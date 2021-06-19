@@ -8,6 +8,7 @@ import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
 import network.MessageType;
+import network.StaticMethods;
 import server.GameController;
 import server.ServerMain;
 
@@ -54,16 +55,11 @@ public class CardTableBean implements Observer {
      * Level 3 cards will be in the third lists of every column.
      * The method is hardcoded to receive cards with levels from 1 to 3.
      *
-     * @param jsonPath   specifies the path where the JSON file is stored
      * @param colorCards specifies which column of the deck is going to be instantiated
+     * @param color specifies the color of the cards of the decks to create
      */
-    private void createDecksFromJSON(String jsonPath, List<List<DevelopmentCard>> colorCards, CardColor color) {
-        Gson gson = new Gson();
-        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
-        }.getType();
-
-        Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
-        List<DevelopmentCard> cards = gson.fromJson(reader, DevCardArray);
+    private void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
+        List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
         for (int i = 0; i < 3; i++) {
             colorCards.add(new ArrayList<DevelopmentCard>());
         }
@@ -148,28 +144,28 @@ public class CardTableBean implements Observer {
         List<List<DevelopmentCard>> purpleCards = new ArrayList<>();
 
         // BLUE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", blueCards, CardColor.BLUE);
+        createDecksFromJSON(blueCards, CardColor.BLUE);
         developmentCards.put(CardColor.BLUE, blueCards);
         for(List<DevelopmentCard> deck : developmentCards.get(CardColor.BLUE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // GREEN CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", greenCards, CardColor.GREEN);
+        createDecksFromJSON(greenCards, CardColor.GREEN);
         developmentCards.put(CardColor.GREEN, greenCards);
         for(List<DevelopmentCard> deck : developmentCards.get(CardColor.GREEN))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // PURPLE CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", purpleCards, CardColor.PURPLE);
+        createDecksFromJSON(purpleCards, CardColor.PURPLE);
         developmentCards.put(CardColor.PURPLE, purpleCards);
         for(List<DevelopmentCard> deck : developmentCards.get(CardColor.PURPLE))
             for(DevelopmentCard card : deck)
                 card.setId(id++);
 
         // YELLOW CARDS
-        createDecksFromJSON("/json/cards/developmentcards/DevelopmentCards.json", yellowCards, CardColor.YELLOW);
+        createDecksFromJSON(yellowCards, CardColor.YELLOW);
         developmentCards.put(CardColor.YELLOW, yellowCards);
         for(List<DevelopmentCard> deck : developmentCards.get(CardColor.YELLOW))
             for(DevelopmentCard card : deck)

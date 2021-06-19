@@ -1,6 +1,17 @@
 package network;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.Color;
+import model.card.DevelopmentCard;
+import server.ServerMain;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StaticMethods {
     public static void clearConsole() {
@@ -17,5 +28,23 @@ public class StaticMethods {
         } catch (final Exception e) {
             System.out.println("Warning: failed to clear console");
         }
+    }
+
+    /**
+     * This method creates an ordered list of all the games' DevelopmentCards from their JSON file
+     *
+     * @return a list of DevelopmentCards, ordered by their IDs
+     */
+    public static List<DevelopmentCard> getDevelopmentCardsFromJson() {
+        Gson gson = new Gson();
+        Type DevCardArray = new TypeToken<ArrayList<DevelopmentCard>>() {
+        }.getType();
+
+        Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream("/json/cards/developmentcards/DevelopmentCards.json"), StandardCharsets.UTF_8);
+        List<DevelopmentCard> cards = gson.fromJson(reader, DevCardArray);
+        int i = 1;
+        for (DevelopmentCard card : cards)
+            card.setId(i++);
+        return cards;
     }
 }
