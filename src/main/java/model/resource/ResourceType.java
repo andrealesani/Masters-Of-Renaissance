@@ -61,6 +61,9 @@ public enum ResourceType {
         if (this == ResourceType.FAITH) {
             return new ResourceFaith();
         }
+        if (this == ResourceType.WHITEORB) {
+            return new ResourceWhite();
+        }
         // This should never happen
         return null;
     }

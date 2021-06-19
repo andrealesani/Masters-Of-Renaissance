@@ -1,12 +1,10 @@
 package model;
 
-import Exceptions.EmptyDeckException;
-import Exceptions.NotEnoughResourceException;
-import Exceptions.ParametersNotValidException;
-import Exceptions.SlotNotValidException;
+import Exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.card.DevelopmentCard;
+import model.resource.*;
 import server.ServerMain;
 
 import java.io.InputStreamReader;
@@ -35,18 +33,17 @@ public class CardTable implements Observable {
      * Represents the table column with all purple cards
      */
     private final List<List<DevelopmentCard>> purpleCards;
-
     /**
      * Map of all the DevelopmentCards on the table. It's a map that for each CardColor has list of decks that represent the group of cards of a specific color and level
      */
     private final Map<CardColor, List<List<DevelopmentCard>>> cards;
+    private boolean cardsInitialized;
 
     //CONSTRUCTORS
 
     /**
      * Constructor
      */
-    //TODO shufflare tutti i mazzetti
     //TODO ti prego alesani fixa sta roba
     public CardTable(int id) {
 
@@ -259,6 +256,26 @@ public class CardTable implements Observable {
      */
     public List<List<DevelopmentCard>> getPurpleCards() {
         return purpleCards;
+    }
+
+    /**
+     * Getter
+     *
+     * @param id of the card to be returned
+     * @return the DevelopmentCard associated to the specified ID
+     * @throws CardNotPresentException when the given ID is not associated with any of the cards in the CardTable
+     */
+    public DevelopmentCard getDevelopmentCardFromId(int id) throws CardNotPresentException {
+        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cards.entrySet()) {
+            for (List<DevelopmentCard> deck : color.getValue()) {
+                for (DevelopmentCard developmentCard : deck) {
+                    if (developmentCard.getId() == id) {
+                        return developmentCard;
+                    }
+                }
+            }
+        }
+        throw new CardNotPresentException();
     }
 
 
