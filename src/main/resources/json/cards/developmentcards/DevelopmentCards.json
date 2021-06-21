@@ -8,7 +8,7 @@
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
     "inputQuantities": [0, 0, 1, 0, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "UNKNOWN", "FAITH"],
-    "outputQuantities": [1, 1, 1, 1, 1, 1]
+    "outputQuantities": [0, 0, 0, 0, 0, 1]
   },
   {
     "victoryPoints": 2,
