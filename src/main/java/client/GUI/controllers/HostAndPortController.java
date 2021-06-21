@@ -96,16 +96,16 @@ public class HostAndPortController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
-        Gson gson = new Gson();
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+    public void updateFromServer(MessageWrapper response) {
+
         if (response.getMessage().equals("Please, set your username.")) {
             gui.changeScene(SceneName.SETTINGS);
         } else
-            System.out.println("Unexpected message to Login scene: " + jsonMessage);
+            System.out.println("Unexpected message to Login scene: " + response);
+
     }
 
     //SETTERS

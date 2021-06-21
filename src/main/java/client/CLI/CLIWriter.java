@@ -69,7 +69,7 @@ public class CLIWriter implements Runnable {
 
     //MULTITHREADING METHODS
 
-    //TODO divide in sub methods, and for multi-stage commands insert a strng like 'cancel' that can be used to interrupt
+    //TODO for multi-stage commands insert a strng like 'cancel' that can be used to interrupt
 
     /**
      * The method used to run this class in multithreading.
@@ -224,7 +224,7 @@ public class CLIWriter implements Runnable {
      * @throws IOException if an I/O error occurs
      */
     private void printShow() throws IOException {
-        System.out.println("Specify what you want to see, or press ENTER to show all:");
+        System.out.println("Specify what you want to see, or press ENTER to show all elements:");
 
         System.out.println(
                 "Supported show commands:" +

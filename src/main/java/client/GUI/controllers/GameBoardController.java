@@ -43,10 +43,6 @@ public class GameBoardController implements GUIController {
      * The object used to store all of the client's information
      */
     private ClientView clientView;
-    /**
-     * The object used to deserialize json messages
-     */
-    private Gson gson;
 
     /**
      * The color used for connected players in the turn order display
@@ -85,10 +81,9 @@ public class GameBoardController implements GUIController {
     //CONSTRUCTORS
 
     /**
-     * Handles initialization for this class, by creating the deserializer and setting the used colors
+     * Handles initialization for this class by setting the used colors
      */
     public void initialize() {
-        this.gson = new Gson();
         this.turnOrderConnectedColor = Color.web("0xE1D892");
         this.turnOrderDisconnectedColor = Color.web("0xDFDCDC");
     }
@@ -113,15 +108,13 @@ public class GameBoardController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
+    public void updateFromServer(MessageWrapper response) {
         //If there is no visualized player, set it to this client's
         if (visualizedPlayer == null)
             visualizedPlayer = clientView.getUsername();
-
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
 
         //Updates only the part of the scene corresponding to the message received
         switch (response.getType()) {
@@ -134,12 +127,12 @@ public class GameBoardController implements GUIController {
             case WAITINGROOM -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
             case WAREHOUSE -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
             case LORENZO -> drawLorenzo(clientView.getLorenzo());
-            case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(jsonMessage);
+            case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(response);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
-            case GAME_END -> switchToGameOverScreen(jsonMessage);
+            case GAME_END -> switchToGameOverScreen(response);
             case PLAYER_CONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
             case PLAYER_DISCONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
-            default -> System.out.println("Warning: received unexpected message " + jsonMessage);
+            default -> System.out.println("Warning: received unexpected message " + response);
         }
     }
 
@@ -183,7 +176,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -196,7 +189,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -209,7 +202,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.playLeaderCard, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -222,7 +215,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.discardLeaderCard, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -235,7 +228,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketRow, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -248,7 +241,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketColumn, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -263,7 +256,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -280,7 +273,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.sendResourceToDepot, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -299,7 +292,7 @@ public class GameBoardController implements GUIController {
         depots[1] = depotNumber2;
         parameters.put("depots", depots);
         Command command = new Command(UserCommandsType.swapDepotContent, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -330,7 +323,7 @@ public class GameBoardController implements GUIController {
         parameters.put("color", cardColor);
         parameters.put("level", level);
         Command command = new Command(UserCommandsType.takeDevelopmentCard, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -349,7 +342,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromWarehouse, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -366,7 +359,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromStrongbox, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -377,7 +370,7 @@ public class GameBoardController implements GUIController {
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     //PRIVATE BUTTON HANDLING METHODS
@@ -1177,10 +1170,10 @@ public class GameBoardController implements GUIController {
     /**
      * Switches the current scene to the game over screen
      *
-     * @param jsonMessage the contents of the message received from the server
+     * @param response the contents of the message received from the server
      */
-    private void switchToGameOverScreen(String jsonMessage) {
-        gui.getControllerBySceneName(SceneName.GAME_OVER).updateFromServer(jsonMessage);
+    private void switchToGameOverScreen(MessageWrapper response) {
+        gui.getControllerBySceneName(SceneName.GAME_OVER).updateFromServer(response);
         gui.changeScene(SceneName.GAME_OVER);
     }
 }

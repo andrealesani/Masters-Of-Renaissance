@@ -26,7 +26,7 @@ public class ClientReader implements Runnable {
     /**
      * The CountDownLatch reference used to signal to the CLI class when this thread finishes running
      */
-    private final CountDownLatch latch;
+    private CountDownLatch latch;
     /**
      * The reference to the GUI class (used only in GUI mode)
      */
@@ -53,17 +53,15 @@ public class ClientReader implements Runnable {
      *
      * @param in         is the inputStream to read
      * @param clientView is the view to update
-     * @param latch      countdown latch before connection closes
      * @param gui        is the GUI class to notify when the server sends updates
      */
-    public ClientReader(BufferedReader in, ClientView clientView, CountDownLatch latch, GUI gui) {
+    public ClientReader(BufferedReader in, ClientView clientView, GUI gui) {
         this.in = in;
         this.clientView = clientView;
-        this.latch = latch;
         this.gui = gui;
     }
 
-    //PUBLIC METHODS
+    //MULTITHREADING METHODS
 
     /**
      * The method used to run this class in multithreading.
@@ -76,6 +74,7 @@ public class ClientReader implements Runnable {
         //Loop which handles the server's messages
         while (true) {
 
+            //If the server disconnects, interrupt the client
             try {
                 response = in.readLine();
             } catch (IOException ex) {
@@ -85,6 +84,7 @@ public class ClientReader implements Runnable {
                 break;
             }
 
+            //If the server disconnects, interrupt the client
             if (response == null) {
                 System.err.println("Server connection lost.");
                 if (gui != null)
@@ -92,15 +92,19 @@ public class ClientReader implements Runnable {
                 break;
             }
 
+            //Elaborate the message from the server
             elaborateResponse(response);
         }
 
-        latch.countDown();
+        //Signals the ending of the reader thread to the CLI class (if in CLI mode)
+        if (gui == null)
+            latch.countDown();
     }
 
+    //PUBLIC METHODS
+
     /**
-     * This method parses the commands received from the server. If the message contains a view update, it then updates
-     * the ClientView and calls notifyViewUpdate() to notify whichever view is being used so that they can update themselves
+     * This method parses the commands received from the server and updates the client's game data and interfaces accordingly
      *
      * @param jsonMessage is the message received from the server
      */
@@ -108,97 +112,74 @@ public class ClientReader implements Runnable {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
 
-        switch (response.getType()) {
-            case INFO, WAIT_PLAYERS, GAME_START:
-                System.out.println(response.getMessage());
-                if (gui != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            gui.notifyCurrentScene(jsonMessage);
-                        }
-                    });
+        try {
+
+            switch (response.getType()) {
+
+                case INFO, WAIT_PLAYERS -> {
+                    notifyViewUpdate(response);
+                    System.out.println(response.getMessage());
                 }
-                break;
-            case ERROR:
-                System.err.println(response.getMessage());
-                if (gui != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            gui.notifyCurrentScene(jsonMessage);
-                        }
-                    });
+
+                case ERROR -> {
+                    notifyViewUpdate(response);
+                    System.err.println(response.getMessage());
                 }
-                break;
-            case SET_USERNAME:
-                clientView.setUsername((String) response.getMessage());
-                System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
-                break;
-            case GAME_END:
-                System.out.println(response.getMessage());
-                notifyViewUpdate(jsonMessage);
-                break;
-            case PLAYER_CONNECTED:
-                System.out.println("Player " + response.getMessage() + "has joined the game.");
-                notifyViewUpdate(jsonMessage);
-                break;
-            case PLAYER_DISCONNECTED:
-                System.out.println("Player " + response.getMessage() + "has left the game.");
-                notifyViewUpdate(jsonMessage);
-                break;
-            case GAME:
-                try {
-                    clientView.setGame(gson.fromJson((String) response.getMessage(), GameBean.class));
-                    notifyViewUpdate(jsonMessage);
-                } catch (Exception ex) {
-                    System.out.println("Warning: Game update failed");
-                    ex.printStackTrace();
+
+                case SET_USERNAME -> {
+                    clientView.setUsername(response.getMessage());
+                    System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
                 }
-                break;
-            case MARKET:
-                try {
-                    clientView.setMarket(gson.fromJson((String) response.getMessage(), MarketBean.class));
-                    notifyViewUpdate(jsonMessage);
-                } catch (Exception ex) {
-                    System.out.println("Warning: Market update failed");
-                    ex.printStackTrace();
+
+                case GAME_START, GAME_END -> {
+                    System.out.println(response.getMessage());
+                    notifyViewUpdate(response);
                 }
-                break;
-            case CARDTABLE:
-                try {
-                    clientView.setCardTable(gson.fromJson((String) response.getMessage(), CardTableBean.class));
-                    notifyViewUpdate(jsonMessage);
-                } catch (Exception ex) {
-                    System.out.println("Warning: CardTable update failed");
-                    ex.printStackTrace();
+
+                case PLAYER_CONNECTED -> {
+                    System.out.println("Player " + response.getMessage() + "has joined the game.");
+                    notifyViewUpdate(response);
                 }
-                break;
-            case PLAYERBOARD:
-                try {
-                    PlayerBoardBean pbbUpdate = gson.fromJson((String) response.getMessage(), PlayerBoardBean.class);
+
+                case PLAYER_DISCONNECTED -> {
+                    System.out.println("Player " + response.getMessage() + "has left the game.");
+                    notifyViewUpdate(response);
+                }
+
+                case GAME -> {
+                    clientView.setGame(gson.fromJson(response.getMessage(), GameBean.class));
+                    notifyViewUpdate(response);
+                }
+
+                case MARKET -> {
+                    clientView.setMarket(gson.fromJson(response.getMessage(), MarketBean.class));
+                    notifyViewUpdate(response);
+                }
+
+                case CARDTABLE -> {
+                    clientView.setCardTable(gson.fromJson(response.getMessage(), CardTableBean.class));
+                    notifyViewUpdate(response);
+                }
+
+                case PLAYERBOARD -> {
+                    PlayerBoardBean pbbUpdate = gson.fromJson(response.getMessage(), PlayerBoardBean.class);
                     boolean found = false;
 
                     for (int i = 0; i < clientView.getPlayerBoards().size(); i++)
                         if (clientView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
                             clientView.getPlayerBoards().set(i, pbbUpdate);
                             found = true;
-                            notifyViewUpdate(jsonMessage);
+                            notifyViewUpdate(response);
                             break;
                         }
 
                     if (!found) {
                         clientView.getPlayerBoards().add(pbbUpdate);
-                        notifyViewUpdate(jsonMessage);
+                        notifyViewUpdate(response);
                     }
-                    break;
-                } catch (Exception ex) {
-                    System.out.println("Warning: PlayerBoard update failed");
-                    ex.printStackTrace();
                 }
-                break;
-            case STRONGBOX:
-                try {
+
+                case STRONGBOX -> {
                     StrongboxBean strongboxUpdate = gson.fromJson((String) response.getMessage(), StrongboxBean.class);
                     boolean found = false;
 
@@ -206,21 +187,17 @@ public class ClientReader implements Runnable {
                         if (clientView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
                             clientView.getStrongboxes().set(i, strongboxUpdate);
                             found = true;
-                            notifyViewUpdate(jsonMessage);
+                            notifyViewUpdate(response);
                             break;
                         }
 
                     if (!found) {
                         clientView.getStrongboxes().add(strongboxUpdate);
-                        notifyViewUpdate(jsonMessage);
+                        notifyViewUpdate(response);
                     }
-                } catch (Exception ex) {
-                    System.out.println("Warning: Strongbox update failed");
-                    ex.printStackTrace();
                 }
-                break;
-            case WAITINGROOM:
-                try {
+
+                case WAITINGROOM -> {
                     WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) response.getMessage(), WaitingRoomBean.class);
                     boolean found = false;
 
@@ -228,21 +205,17 @@ public class ClientReader implements Runnable {
                         if (clientView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
                             clientView.getWaitingRooms().set(i, waitingRoomUpdate);
                             found = true;
-                            notifyViewUpdate(jsonMessage);
+                            notifyViewUpdate(response);
                             break;
                         }
 
                     if (!found) {
                         clientView.getWaitingRooms().add(waitingRoomUpdate);
-                        notifyViewUpdate(jsonMessage);
+                        notifyViewUpdate(response);
                     }
-                } catch (Exception ex) {
-                    System.out.println("Warning: WaitingRoom update failed");
-                    ex.printStackTrace();
                 }
-                break;
-            case WAREHOUSE:
-                try {
+
+                case WAREHOUSE -> {
                     WarehouseBean warehouseUpdate = gson.fromJson((String) response.getMessage(), WarehouseBean.class);
                     boolean found = false;
 
@@ -250,21 +223,17 @@ public class ClientReader implements Runnable {
                         if (clientView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
                             clientView.getWarehouses().set(i, warehouseUpdate);
                             found = true;
-                            notifyViewUpdate(jsonMessage);
+                            notifyViewUpdate(response);
                             break;
                         }
 
                     if (!found) {
                         clientView.getWarehouses().add(warehouseUpdate);
-                        notifyViewUpdate(jsonMessage);
+                        notifyViewUpdate(response);
                     }
-                } catch (Exception ex) {
-                    System.out.println("Warning: Warehouse update failed");
-                    ex.printStackTrace();
                 }
-                break;
-            case PRODUCTIONHANDLER:
-                try {
+
+                case PRODUCTIONHANDLER -> {
                     ProductionHandlerBean productionHandlerUpdate = gson.fromJson((String) response.getMessage(), ProductionHandlerBean.class);
                     boolean found = false;
 
@@ -272,51 +241,49 @@ public class ClientReader implements Runnable {
                         if (clientView.getProductionHandlers().get(i).getUsername().equals(productionHandlerUpdate.getUsername())) {
                             clientView.getProductionHandlers().set(i, productionHandlerUpdate);
                             found = true;
-                            notifyViewUpdate(jsonMessage);
+                            notifyViewUpdate(response);
                             break;
                         }
 
                     if (!found) {
                         clientView.getProductionHandlers().add(productionHandlerUpdate);
-                        notifyViewUpdate(jsonMessage);
+                        notifyViewUpdate(response);
                     }
-                } catch (Exception ex) {
-                    System.out.println("Warning: ProductionHandler update failed");
-                    ex.printStackTrace();
                 }
-                break;
-            case LORENZO:
-                try {
+
+                case LORENZO -> {
                     clientView.setLorenzo(gson.fromJson((String) response.getMessage(), LorenzoBean.class));
-                    notifyViewUpdate(jsonMessage);
-                } catch (Exception ex) {
-                    System.out.println("Warning: Lorenzo update failed");
-                    ex.printStackTrace();
+                    notifyViewUpdate(response);
                 }
-                break;
-            default:
-                System.out.println("WARNING: unexpected response.\nServer says: " + jsonMessage);
+
+                default -> System.out.println("WARNING: unexpected response." +
+                        "\nServer says: " + jsonMessage);
+
+            }
+
+        } catch (Exception ex) {
+            System.err.println("Warning: View update failed.");
+            ex.printStackTrace();
         }
+
     }
+
+    //PRIVATE NOTIFICATION METHODS
 
     /**
      * This method notifies either the CLI or the GUI that something in the ClientView has changed and forwards the
      * update message to the one that is currently being used as View
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
-    private void notifyViewUpdate(String jsonMessage) {
+    private void notifyViewUpdate(MessageWrapper response) {
         if (gui == null) {
+            //If in CLI mode, clear the console and re-print all of the game's elements
             StaticMethods.clearConsole();
             System.out.println(clientView);
         } else {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    gui.notifyCurrentScene(jsonMessage);
-                }
-            });
-
+            //If in GUI mode, forward the message to the GUI
+            Platform.runLater(() -> gui.notifyCurrentScene(response));
             System.out.println("Notified GUI");
         }
     }

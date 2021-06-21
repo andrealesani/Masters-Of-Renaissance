@@ -35,10 +35,6 @@ public class ProductionsController implements GUIController {
      * The object used to store all of the client's information
      */
     private ClientView clientView;
-    /**
-     * The object used to deserialize json messages
-     */
-    private Gson gson;
 
     /**
      * The graphical elements of this controller's scene
@@ -60,7 +56,7 @@ public class ProductionsController implements GUIController {
      * Handles initialization for this class by creating the deserializer
      */
     public void initialize() {
-        this.gson = new Gson();
+
     }
 
     //SETTERS
@@ -81,11 +77,10 @@ public class ProductionsController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+    public void updateFromServer(MessageWrapper response) {
 
         switch (response.getType()) {
             case PRODUCTIONHANDLER:
@@ -105,8 +100,9 @@ public class ProductionsController implements GUIController {
 
                 break;
             default:
-                System.out.println("Warning: received unexpected message " + jsonMessage);
+                System.out.println("Warning: received unexpected message " + response);
         }
+
     }
 
     /**
@@ -128,7 +124,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectProduction, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -137,7 +133,7 @@ public class ProductionsController implements GUIController {
     public void resetProductionChoice() {
         System.out.println("ResetProductionChoice");
         Command command = new Command(UserCommandsType.resetProductionChoice, null);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -150,7 +146,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyInput, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -163,7 +159,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyOutput, parameters);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
     }
 
     /**
@@ -172,7 +168,7 @@ public class ProductionsController implements GUIController {
     public void confirmProductionChoice() {
         System.out.println("ConfirmProductionChoice");
         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
-        gui.sendCommand(gson.toJson(command));
+        gui.sendCommand(command);
         closeWindow();
     }
 

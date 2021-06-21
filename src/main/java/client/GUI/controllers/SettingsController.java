@@ -3,7 +3,6 @@ package client.GUI.controllers;
 import client.GUI.GUI;
 import client.GUI.SceneName;
 import com.google.gson.Gson;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import network.MessageType;
 import network.beans.MessageWrapper;
-
-import java.util.Map;
 
 /**
  * This class is the GUIController which handles the choice of the player's username and, if necessary, of the game's number of players
@@ -71,7 +68,7 @@ public class SettingsController implements GUIController {
         invalidUsername.setVisible(true);
         invalidUsername.setText("Checking username availability...");
 
-        gui.sendCommand(usernameField.getText());
+        gui.sendMessage(usernameField.getText());
     }
 
     /**
@@ -171,12 +168,13 @@ public class SettingsController implements GUIController {
     }
 
     //TODO switchare solo se il server conferma
+
     /**
      * Attempts to send the number of players to the server, then switches to the next scene
      */
     public void setGame() {
         if (numPlayers > 0) {
-            gui.sendCommand(Integer.toString(numPlayers));
+            gui.sendMessage(Integer.toString(numPlayers));
             gui.changeScene(SceneName.WAITING);
         } else {
             System.err.println("Warning: Player pressed 'ready' button before they were supposed to.");
@@ -189,39 +187,33 @@ public class SettingsController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
-        Gson gson = new Gson();
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
-        if (response.getType() == MessageType.INFO || response.getType() == MessageType.ERROR) {
-            if (response.getMessage().equals("Please, choose the game's number of players.")) {
-                invalidUsername.setVisible(true);
-                invalidUsername.setText("Username was correctly set");
-                usernameField.setDisable(true);
-                confirmUsername.setDisable(true);
-                singleplayerButton.setVisible(true);
-                multiplayerButton.setVisible(true);
-                readyButton.setVisible(true);
-                readyButton.setDisable(true);
-            } else if (response.getMessage().equals("The number of players for the game that is currently being deployed has not yet been decided.")) {
-                invalidUsername.setVisible(true);
-                invalidUsername.setText("Please try again in a moment");
-            } else if (response.getMessage().equals("The selected username already exists.")) {
-                invalidUsername.setVisible(true);
-                invalidUsername.setText("Username not available");
-            }else if (response.getMessage().equals("Please, set your username.")) {
-                // do nothing
-            } else if (jsonMessage.contains("Username was correctly set to:")) {
-                // do nothing
-            } else
-                System.out.println("Unexpected message to Settings scene: " + jsonMessage);
+    public void updateFromServer(MessageWrapper response) {
+        switch (response.getType()) {
+
+            case INFO, ERROR -> {
+                if (response.getMessage().equals("Please, choose the game's number of players.")) {
+                    invalidUsername.setVisible(true);
+                    invalidUsername.setText("Username was correctly set.");
+                    usernameField.setDisable(true);
+                    confirmUsername.setDisable(true);
+                    singleplayerButton.setVisible(true);
+                    multiplayerButton.setVisible(true);
+                    readyButton.setVisible(true);
+                    readyButton.setDisable(true);
+                } else {
+                    invalidUsername.setVisible(true);
+                    invalidUsername.setText("Please try again in a moment");
+                }
+            }
+
+            case WAIT_PLAYERS -> gui.changeScene(SceneName.WAITING);
+
+            case GAME_START -> gui.changeScene(SceneName.GAME_BOARD);
+
         }
-        else if (response.getType() == MessageType.WAIT_PLAYERS)
-            gui.changeScene(SceneName.WAITING);
-        else if (response.getType() == MessageType.GAME_START)
-            gui.changeScene(SceneName.GAME_BOARD);
     }
 }
 

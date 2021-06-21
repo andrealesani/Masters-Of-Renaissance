@@ -3,12 +3,15 @@ package client.GUI;
 import client.ClientReader;
 import client.ClientView;
 import client.GUI.controllers.GUIController;
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import network.Command;
+import network.beans.MessageWrapper;
 
 import java.io.*;
 import java.net.Socket;
@@ -56,6 +59,10 @@ public class GUI extends Application {
      * Maps each SceneName to the effective controller object for that scene, in order to get the correct controller for modifying operations.
      */
     private final HashMap<SceneName, GUIController> nameMapController = new HashMap<>();
+    /**
+     * Json serializer
+     */
+    private final Gson gson;
 
     // CONSTRUCTOR
 
@@ -64,6 +71,7 @@ public class GUI extends Application {
      */
     public GUI() {
         clientView = new ClientView();
+        gson = new Gson();
     }
 
     //MAIN
@@ -84,7 +92,6 @@ public class GUI extends Application {
      *
      * @param stage the Stage class
      * @throws IOException if an I/O error occurs
-     * @see Application#start(Stage)
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -99,8 +106,6 @@ public class GUI extends Application {
 
     /**
      * Stops the GUI from running
-     *
-     * @see Application#stop()
      */
     @Override
     public void stop() {
@@ -117,15 +122,17 @@ public class GUI extends Application {
      */
     public void changeScene(SceneName newSceneName) {
         System.out.println("Changing scene to: " + newSceneName.getFileName());
-        //
+
         if (nameMapScene.get(newSceneName) == null) {
             System.err.println("Warning: couldn't find the specified scene");
             stop();
         }
+
         currentScene = nameMapScene.get(newSceneName);
         window.setScene(currentScene);
         window.sizeToScene();
         window.show();
+
         switch (newSceneName) {
             case HOST_AND_PORT -> {
                 window.setResizable(true);
@@ -153,13 +160,23 @@ public class GUI extends Application {
     }
 
     /**
-     * This method sends a message to the server.
+     * This method sends a string message to the server.
      * It is supposed to be called from the scenes' controllers
      *
-     * @param command the message to be sent
+     * @param message the command to be sent
      */
-    public void sendCommand(String command) {
-        out.println(command);
+    public void sendMessage(String message) {
+        out.println(message);
+    }
+
+    /**
+     * This method sends a command to the server.
+     * It is supposed to be called from the scenes' controllers
+     *
+     * @param command the command to be sent
+     */
+    public void sendCommand(Command command) {
+        out.println(gson.toJson(command));
     }
 
     public void setupConnection(Socket clientSocket) {
@@ -176,9 +193,9 @@ public class GUI extends Application {
     /**
      * Forwards the given string (json received from the server) to the currently active scene
      *
-     * @param jsonMessage the json message sent by the server
+     * @param response the json message sent by the server
      */
-    public void notifyCurrentScene(String jsonMessage) {
+    public void notifyCurrentScene(MessageWrapper response) {
         Set<SceneName> currentController = nameMapScene.entrySet()
                 .stream()
                 .filter(entry -> Objects.equals(entry.getValue(), currentScene))
@@ -197,7 +214,7 @@ public class GUI extends Application {
         }
 
         try {
-            controller.updateFromServer(jsonMessage);
+            controller.updateFromServer(response);
         } catch (Exception ex) {
             System.err.println("Warning: Exception thrown when updating current scene: " + ex.getMessage());
             stop();
@@ -288,7 +305,7 @@ public class GUI extends Application {
      * @param in the buffer for messages received from the server
      */
     private void setClientReader(BufferedReader in) {
-        clientReader = new ClientReader(in, clientView, new CountDownLatch(1), this);
+        clientReader = new ClientReader(in, clientView, this);
         Thread readerThread = new Thread(clientReader);
         readerThread.start();
     }

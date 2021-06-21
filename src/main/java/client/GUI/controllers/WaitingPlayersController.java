@@ -40,12 +40,11 @@ public class WaitingPlayersController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
-        Gson gson = new Gson();
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+    public void updateFromServer(MessageWrapper response) {
+
         if (response.getType() == MessageType.GAME_START) {
             gui.changeScene(SceneName.GAME_BOARD);
         } else if (response.getType() == MessageType.PLAYER_CONNECTED) {
@@ -55,7 +54,8 @@ public class WaitingPlayersController implements GUIController {
         } else if (response.getType() == MessageType.WAIT_PLAYERS) {
             //do nothing
         } else {
-            System.out.println("Unexpected message to WaitingPlayers scene: " + jsonMessage);
+            System.out.println("Unexpected message to WaitingPlayers scene: " + response);
         }
     }
+
 }

@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import network.beans.GameBean;
 import network.beans.MessageWrapper;
 
@@ -18,10 +17,6 @@ public class GameOverController implements GUIController {
      * The client's GUI object
      */
     private GUI gui;
-    /**
-     * The object used to deserialize json messages
-     */
-    private Gson gson;
 
     /**
      * The graphical elements of this controller's scene
@@ -36,10 +31,10 @@ public class GameOverController implements GUIController {
     //CONSTRUCTORS
 
     /**
-     * Handles initialization for this class by creating the deserializer
+     * Handles initialization for this class
      */
     public void initialize() {
-        this.gson = new Gson();
+
     }
 
     //SETTERS
@@ -52,7 +47,6 @@ public class GameOverController implements GUIController {
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
-        this.gson = new Gson();
     }
 
     //PUBLIC METHODS
@@ -60,15 +54,16 @@ public class GameOverController implements GUIController {
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
-     * @param jsonMessage the message received from the server
+     * @param response the message received from the server
      */
     @Override
-    public void updateFromServer(String jsonMessage) {
-        MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
+    public void updateFromServer(MessageWrapper response) {
+
         switch (response.getType()) {
             case GAME_END -> setupGameOver();
             default -> System.out.println("Message received after game over.");
         }
+
     }
 
     //PRIVATE METHODS
