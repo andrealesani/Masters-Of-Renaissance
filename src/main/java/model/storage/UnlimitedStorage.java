@@ -36,10 +36,10 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      * @param quantity the amount of resource to add to the amount stored
      */
     private void addResource(ResourceType resource, int quantity) {
-        if (quantity < 0) {
+        if (quantity < 0 || resource == null || !resource.canBeStored())
             throw new ParametersNotValidException();
-        }
-        if (resource != null && quantity > 0) {
+
+        if (quantity > 0) {
             if (!storageContent.containsKey(resource)) {
                 storageContent.put(resource, quantity);
             } else {
@@ -57,7 +57,7 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      */
     public void addResources(Map<ResourceType, Integer> resources) {
         for (Map.Entry<ResourceType, Integer> resource : resources.entrySet()) {
-            if (resource.getValue() < 0) {
+            if (resource == null || resource.getValue() < 0 || !resource.getKey().canBeStored()) {
                 throw new ParametersNotValidException();
             }
 
@@ -82,7 +82,7 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (quantity < 0) {
+        if (quantity < 0 || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
         if (resource != null && quantity > 0) {

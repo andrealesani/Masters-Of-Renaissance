@@ -27,7 +27,7 @@ class StrongboxBeanTest {
         assertEquals(game.getCurrentPlayer().getUsername(), strongboxBean.getUsername());
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.UNKNOWN && resourceType != ResourceType.WHITEORB)
+            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
                 assertEquals(game.getCurrentPlayer().getStrongbox().getNumOfResource(resourceType), strongboxBean.getQuantity()[java.util.Arrays.asList(strongboxBean.getType()).indexOf(resourceType)]);
         }
     }

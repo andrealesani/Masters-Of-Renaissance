@@ -102,7 +102,7 @@ public class ProductionLeaderCard extends LeaderCard {
         ResourceServant servant = new ResourceServant();
         ResourceShield shield = new ResourceShield();
         ResourceStone stone = new ResourceStone();
-        ResourceUnknown unknown = new ResourceUnknown();
+        ResourceJolly unknown = new ResourceJolly();
         ResourceFaith faith = new ResourceFaith();
 
         ArrayList<Resource> input = new ArrayList<>();

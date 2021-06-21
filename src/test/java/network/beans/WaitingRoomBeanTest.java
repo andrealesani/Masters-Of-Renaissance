@@ -27,7 +27,7 @@ class WaitingRoomBeanTest {
         assertEquals(game.getCurrentPlayer().getUsername(), waitingRoomBean.getUsername());
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.UNKNOWN && resourceType != ResourceType.WHITEORB)
+            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
                 assertEquals(game.getCurrentPlayer().getStrongbox().getNumOfResource(resourceType), waitingRoomBean.getQuantity()[java.util.Arrays.asList(waitingRoomBean.getType()).indexOf(resourceType)]);
         }
     }

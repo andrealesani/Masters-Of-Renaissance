@@ -121,7 +121,7 @@ class PlayerBoardBeanTest {
         Map<ResourceType, Integer> disc = game.getCurrentPlayer().getDiscounts();
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if (resourceType != ResourceType.FAITH && resourceType != ResourceType.UNKNOWN && resourceType != ResourceType.WHITEORB)
+            if (resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
                 if (Arrays.asList(pbBean.getDiscountType()).contains(resourceType)) {
                     assertEquals(game.getCurrentPlayer().getDiscounts().get(resourceType), pbBean.getDiscountQuantity()[java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType)]);
                     System.out.println(resourceType);

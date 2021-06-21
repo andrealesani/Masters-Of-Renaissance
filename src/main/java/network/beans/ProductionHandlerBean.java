@@ -2,14 +2,12 @@ package network.beans;
 
 import com.google.gson.Gson;
 import model.Observer;
-import model.Production;
 import model.ProductionHandler;
 import model.resource.Resource;
 import model.resource.ResourceType;
 import network.MessageType;
 import server.GameController;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -146,7 +144,7 @@ public class ProductionHandlerBean implements Observer {
         input.put(ResourceType.SERVANT, 0);
         input.put(ResourceType.SHIELD, 0);
         input.put(ResourceType.STONE, 0);
-        input.put(ResourceType.UNKNOWN, 0);
+        input.put(ResourceType.JOLLY, 0);
     }
 
     /**
@@ -158,7 +156,7 @@ public class ProductionHandlerBean implements Observer {
         output.put(ResourceType.SHIELD, 0);
         output.put(ResourceType.STONE, 0);
         output.put(ResourceType.FAITH, 0);
-        output.put(ResourceType.UNKNOWN, 0);
+        output.put(ResourceType.JOLLY, 0);
     }
 
     // OBSERVER METHODS

@@ -13,7 +13,7 @@ class ResourceStoneTest {
     @Test
     void equals() {
         assertTrue(new ResourceStone().equals(new ResourceStone()));
-        assertFalse(new ResourceStone().equals(new ResourceUnknown()));
+        assertFalse(new ResourceStone().equals(new ResourceJolly()));
     }
 
     @Test

@@ -66,7 +66,7 @@ public class GUI extends Application {
         clientView = new ClientView();
     }
 
-    // JAVA FX METHODS
+    //MAIN
 
     /**
      * Main method of the GUI, which is called from the launcher in case user chooses GUI from the options.
@@ -76,6 +76,8 @@ public class GUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    // JAVA FX METHODS
 
     /**
      * Starts the GUI

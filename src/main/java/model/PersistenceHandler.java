@@ -269,7 +269,7 @@ public class PersistenceHandler {
                     activeProductions[i][j] = false;
             }
 
-            prodHandlerInputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, UNKNOWN};
+            prodHandlerInputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, JOLLY};
             prodHandlerInputQuantities[i] = new int[prodHandlerInputResources.length];
 
             for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
@@ -281,12 +281,12 @@ public class PersistenceHandler {
                     prodHandlerInputQuantities[i][2]++;
                 else if (resourceType == STONE)
                     prodHandlerInputQuantities[i][3]++;
-                else if (resourceType == UNKNOWN)
+                else if (resourceType == JOLLY)
                     prodHandlerInputQuantities[i][4]++;
                 else
                     System.out.println("Warning: found unsupported ResourceType inside ProductionHandler during save: " + resourceType);
 
-            prodHandlerOutputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, FAITH, UNKNOWN};
+            prodHandlerOutputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, FAITH, JOLLY};
             prodHandlerOutputQuantities[i] = new int[prodHandlerOutputResources.length];
 
             for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
@@ -300,7 +300,7 @@ public class PersistenceHandler {
                     prodHandlerOutputQuantities[i][3]++;
                 else if (resourceType == FAITH)
                     prodHandlerOutputQuantities[i][4]++;
-                else if (resourceType == UNKNOWN)
+                else if (resourceType == JOLLY)
                     prodHandlerOutputQuantities[i][5]++;
                 else
                     System.out.println("Warning: found unsupported ResourceType inside ProductionHandler during save: " + resourceType);
@@ -355,7 +355,7 @@ public class PersistenceHandler {
         waitingRoomTypes = new ResourceType[numOfPlayers][];
         waitingRoomQuantities = new int[numOfPlayers][];
         for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, UNKNOWN};
+            waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, JOLLY};
             waitingRoomQuantities[i] = new int[waitingRoomTypes[i].length];
             for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getStrongbox().getStoredResources()) {
                 if (resourceType == COIN)
@@ -366,7 +366,7 @@ public class PersistenceHandler {
                     waitingRoomQuantities[i][2]++;
                 else if (resourceType == STONE)
                     waitingRoomQuantities[i][3]++;
-                else if (resourceType == UNKNOWN)
+                else if (resourceType == JOLLY)
                     waitingRoomQuantities[i][4]++;
                 else
                     System.out.println("Warning: found unsupported ResourceType inside Strongbox during save: " + resourceType);

@@ -20,9 +20,9 @@ class ProductionLeaderCardTest {
     @Test
     void doAction() throws CardAlreadyActiveException {
         // Creates Leader Card
-        ResourceType[] inputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.UNKNOWN};
+        ResourceType[] inputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.JOLLY};
         int[] inputQuantities = {0, 2, 0, 0, 0};
-        ResourceType[] outputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.UNKNOWN, ResourceType.FAITH};
+        ResourceType[] outputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.JOLLY, ResourceType.FAITH};
         int[] outputQuantities = {0, 2, 0, 0, 0, 1};
 
         ProductionLeaderCard productionLeaderCard = new ProductionLeaderCard(5, CardColor.BLUE, 2, 2, inputType, inputQuantities, outputType, outputQuantities);

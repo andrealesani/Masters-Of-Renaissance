@@ -201,7 +201,7 @@ public class ProductionsController implements GUIController {
         Map<ResourceType, Integer> input = productionHandlerBean.getInput();
         Map<ResourceType, Integer> output = productionHandlerBean.getOutput();
         //Chooses activation for confirm button (buttons' method call is binded in the fxml file since they never change)
-        confirmButton.setDisable(input.get(ResourceType.UNKNOWN) != 0 || output.get(ResourceType.UNKNOWN) != 0);
+        confirmButton.setDisable(input.get(ResourceType.JOLLY) != 0 || output.get(ResourceType.JOLLY) != 0);
     }
 
     /**
@@ -269,7 +269,7 @@ public class ProductionsController implements GUIController {
     private void drawCurrentInput(ProductionHandlerBean productionHandlerBean) {
         Map<ResourceType, Integer> input = productionHandlerBean.getInput();
 
-        inputJollyLabel.setText(input.get(ResourceType.UNKNOWN).toString());
+        inputJollyLabel.setText(input.get(ResourceType.JOLLY).toString());
         inputCoinLabel.setText(input.get(ResourceType.COIN).toString());
         inputServantLabel.setText(input.get(ResourceType.SERVANT).toString());
         inputShieldLabel.setText(input.get(ResourceType.SHIELD).toString());
@@ -286,7 +286,7 @@ public class ProductionsController implements GUIController {
 
         System.out.println("Faith in curr output: " + output.get(ResourceType.FAITH));
 
-        outputJollyLabel.setText(output.get(ResourceType.UNKNOWN).toString());
+        outputJollyLabel.setText(output.get(ResourceType.JOLLY).toString());
         outputCoinLabel.setText(output.get(ResourceType.COIN).toString());
         outputServantLabel.setText(output.get(ResourceType.SERVANT).toString());
         outputShieldLabel.setText(output.get(ResourceType.SHIELD).toString());

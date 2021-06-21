@@ -172,15 +172,13 @@ public class Game implements UserCommandsInterface, Observable {
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
     public void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase != LEADERCHOICE) {
+        if (turnPhase != LEADERCHOICE)
             throw new WrongTurnPhaseException();
-        }
-        if (currentPlayer == null)
-            throw new ParametersNotValidException();
-        currentPlayer.chooseStartingResource(resource.getType(), quantity);
 
-        //TODO check that the requested resource is of admissible type (coin, shield, servant or stone)
-        // same has to be done for jolly conversions and when inserting resources into storage
+        if (currentPlayer == null || !resource.getType().canBeStored())
+            throw new ParametersNotValidException();
+
+        currentPlayer.chooseStartingResource(resource.getType(), quantity);
     }
 
     /**
@@ -192,9 +190,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void chooseLeaderCard(int pos) throws WrongTurnPhaseException, LeaderNotPresentException {
-        if (turnPhase != LEADERCHOICE) {
+        if (turnPhase != LEADERCHOICE)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO leadercard does not exist exception
         currentPlayer.chooseLeaderCard(pos);
     }
@@ -213,9 +211,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
-        if (turnPhase == LEADERCHOICE) {
+        if (turnPhase == LEADERCHOICE)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO leadercard does not exist
         currentPlayer.playLeaderCard(number);
     }
@@ -231,9 +229,8 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
-        if (turnPhase == LEADERCHOICE) {
+        if (turnPhase == LEADERCHOICE)
             throw new WrongTurnPhaseException();
-        }
 
         currentPlayer.discardLeaderCard(number);
     }
@@ -249,9 +246,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void selectMarketRow(int numScope) throws WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO num scope invalido, currentPlayer null
         market.selectRow(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
@@ -267,9 +264,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void selectMarketColumn(int numScope) throws WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO numScope invalido, currentPlayer null
         market.selectColumn(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
@@ -292,9 +289,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceInsertionException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.MARKETDISTRIBUTION && turnPhase != LEADERCHOICE) {
+        if (turnPhase != TurnPhase.MARKETDISTRIBUTION && turnPhase != LEADERCHOICE)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO negative quantities, null type
         currentPlayer.sendResourceToDepot(depotNumber, resource.getType(), quantity);
     }
@@ -311,9 +308,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.MARKETDISTRIBUTION) {
+        if (turnPhase != TurnPhase.MARKETDISTRIBUTION)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO negative quantities
         currentPlayer.chooseMarbleConversion(resource.getType(), quantity);
     }
@@ -369,9 +366,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO cardcolor null, invalid row
         cardTable.buyTopCard(cardColor, level, currentPlayer, slot);
         currentPlayer.resetProductionChoice();
@@ -391,9 +388,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void selectProduction(int number) throws WrongTurnPhaseException, ProductionNotPresentException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO production does not exist
         currentPlayer.selectProduction(number);
     }
@@ -405,9 +402,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void resetProductionChoice() throws WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
         currentPlayer.resetProductionChoice();
     }
 
@@ -421,9 +418,12 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void chooseJollyInput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
+        if (!resource.getType().canBeStored())
+            throw new ParametersNotValidException();
+
         //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
         currentPlayer.chooseJollyInput(resource);
     }
@@ -438,9 +438,12 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
-        }
+
+        if (!resource.getType().canBeStored())
+            throw new ParametersNotValidException();
+
         //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
         currentPlayer.chooseJollyOutput(resource);
     }
@@ -454,9 +457,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION || currentPlayer.isProductionInputEmpty()) {
+        if (turnPhase != TurnPhase.ACTIONSELECTION || currentPlayer.isProductionInputEmpty())
             throw new WrongTurnPhaseException();
-        }
+
         currentPlayer.confirmProductionChoice();
         setTurnPhase(PRODUCTIONPAYMENT);
         notifyObservers();
@@ -477,9 +480,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
+        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO resource null, negative quantity, no more debt
         currentPlayer.takeResourceFromWarehouse(depotNumber, resource.getType(), quantity);
     }
@@ -495,9 +498,9 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void payFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT) {
+        if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
             throw new WrongTurnPhaseException();
-        }
+
         //TODO resource null, negative quantity, no more debt
         currentPlayer.takeResourceFromStrongbox(resource.getType(), quantity);
     }
@@ -513,9 +516,8 @@ public class Game implements UserCommandsInterface, Observable {
     public void endTurn() throws WrongTurnPhaseException {
         if (turnPhase == LEADERCHOICE) {
 
-            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0) {
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0)
                 throw new WrongTurnPhaseException();
-            }
 
             currentPlayer.finishLeaderCardSelection();
             currentPlayer.setFirstTurnTaken();

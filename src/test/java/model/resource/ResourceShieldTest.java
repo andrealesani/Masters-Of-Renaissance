@@ -13,7 +13,7 @@ class ResourceShieldTest {
     @Test
     void equals() {
         assertTrue(new ResourceShield().equals(new ResourceShield()));
-        assertFalse(new ResourceShield().equals(new ResourceUnknown()));
+        assertFalse(new ResourceShield().equals(new ResourceJolly()));
     }
 
     @Test

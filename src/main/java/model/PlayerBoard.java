@@ -5,8 +5,8 @@ import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
 import model.resource.Resource;
+import model.resource.ResourceJolly;
 import model.resource.ResourceType;
-import model.resource.ResourceUnknown;
 import model.storage.ResourceDepot;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
@@ -123,7 +123,7 @@ public class PlayerBoard implements Observable {
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
         int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
-        Resource jolly = new ResourceUnknown();
+        Resource jolly = new ResourceJolly();
         List<Resource> baseProdInput = new ArrayList<>();
         baseProdInput.add(jolly);
         baseProdInput.add(jolly);
@@ -358,14 +358,12 @@ public class PlayerBoard implements Observable {
                 int newQuantity = quantity - discounts.get(resource);
                 if (newQuantity >= 0) {
                     quantity = newQuantity;
-
                 } else {
                     quantity = 0;
                 }
             }
 
-            if (resourceQuantities.get(resource) > getNumOfResource(resource)) {
-                System.out.println("\nCard's cost is " + resourceQuantities.get(resource).toString() + " " + resource + " and player has only " + getNumOfResource(resource) + " " + resource + ", throwing exception");
+            if (quantity > getNumOfResource(resource)) {
                 waitingRoom.clear();
                 throw new NotEnoughResourceException();
             }

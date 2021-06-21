@@ -37,7 +37,7 @@ public class LeaderDepot implements ResourceDepot {
      * @param resource the only type of resource the depot can contain
      */
     public LeaderDepot(int size, ResourceType resource, int cardId) {
-        if (size <= 0 || resource == null) {
+        if (size <= 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
         this.size = size;
@@ -57,10 +57,10 @@ public class LeaderDepot implements ResourceDepot {
      * @throws BlockedResourceException        under no circumstance, because this type of depot is not affected by resource blocking
      */
     public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
-        if (quantity < 0) {
+        if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
-        if (resource != null && quantity > 0) {
+        if (quantity > 0) {
             if (resource != acceptedResource) {
                 throw new WrongResourceInsertionException();
             }

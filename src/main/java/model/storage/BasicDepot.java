@@ -57,10 +57,10 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
-        if (quantity < 0) {
+        if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
-        if (resource != null && quantity > 0) {
+        if (quantity > 0) {
             int newQuantity = amount + quantity;
             if (newQuantity > size) {
                 throw new NotEnoughSpaceException();

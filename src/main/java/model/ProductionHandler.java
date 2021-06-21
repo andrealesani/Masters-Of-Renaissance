@@ -72,14 +72,14 @@ public class ProductionHandler implements Observable {
     }
 
     /**
-     * Removes the first ResourceUnknown it finds in currentInput and replaces it with the specified Resource.
-     * Throws RuntimeException if it doesn't find any ResourceUnknown.
+     * Removes the first ResourceJolly it finds in currentInput and replaces it with the specified Resource.
+     * Throws RuntimeException if it doesn't find any ResourceJolly.
      *
-     * @param resource specifies the Resource that is going to replace the ResourceUnknown
+     * @param resource specifies the Resource that is going to replace the ResourceJolly
      * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
     public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
-        if (currentInput.remove(new ResourceUnknown()))
+        if (currentInput.remove(new ResourceJolly()))
             currentInput.add(resource);
         else throw new ResourceNotPresentException();
 
@@ -87,14 +87,14 @@ public class ProductionHandler implements Observable {
     }
 
     /**
-     * Removes the first ResourceUnknown it finds in currentOutput and replaces it with the specified Resource.
-     * Throws RuntimeException if it doesn't find any ResourceUnknown.
+     * Removes the first ResourceJolly it finds in currentOutput and replaces it with the specified Resource.
+     * Throws RuntimeException if it doesn't find any ResourceJolly.
      *
-     * @param resource specifies the Resource that is going to replace the ResourceUnknown
+     * @param resource specifies the Resource that is going to replace the ResourceJolly
      * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
     public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
-        if (currentOutput.remove(new ResourceUnknown()))
+        if (currentOutput.remove(new ResourceJolly()))
             currentOutput.add(resource);
         else throw new ResourceNotPresentException();
 
@@ -160,9 +160,9 @@ public class ProductionHandler implements Observable {
     public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UnknownResourceException {
         int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
 
-        if (getCurrentInput().contains(new ResourceUnknown()))
+        if (getCurrentInput().contains(new ResourceJolly()))
             throw new UnknownResourceException("input");
-        if (getCurrentOutput().contains(new ResourceUnknown()))
+        if (getCurrentOutput().contains(new ResourceJolly()))
             throw new UnknownResourceException("output");
 
         //Turns the input into a map, and makes a set of the different resource types it contains

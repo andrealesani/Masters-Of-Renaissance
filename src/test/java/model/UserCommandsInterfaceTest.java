@@ -101,7 +101,7 @@ class UserCommandsInterfaceTest {
         else if (LeaderCard1 instanceof MarbleLeaderCard) {
             assertFalse(game.getCurrentPlayer().getMarbleConversions().isEmpty());
             assertEquals(1, game.getCurrentPlayer().getMarbleConversions().size());
-            assertFalse(ResourceType.UNKNOWN == game.getCurrentPlayer().getMarbleConversions().get(0));
+            assertFalse(ResourceType.JOLLY == game.getCurrentPlayer().getMarbleConversions().get(0));
             assertFalse(ResourceType.FAITH == game.getCurrentPlayer().getMarbleConversions().get(0));
 
         }
@@ -564,7 +564,7 @@ class UserCommandsInterfaceTest {
         input1.add(new ResourceCoin());
         List<Resource> output1 = new ArrayList<>();
         output1.add(new ResourceFaith());
-        output1.add(new ResourceUnknown());
+        output1.add(new ResourceJolly());
         player.addProduction(new Production(-1, input1, output1));
 
         List<Resource> input2 = new ArrayList<>();
@@ -794,7 +794,7 @@ class UserCommandsInterfaceTest {
             resources.put(ResourceType.STONE, 100);
             player.addResourcesToStrongbox(resources);
         }
-        // First player decides to activate the basic Production (WHICH INCLUDES UNKNOWN RESOURCES) so he has to choose Jolly for both input and output
+        // First player decides to activate the basic Production (WHICH INCLUDES JOLLY RESOURCES) so he has to choose Jolly for both input and output
         game.selectProduction(1);
         assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
         game.chooseJollyInput(new ResourceStone());

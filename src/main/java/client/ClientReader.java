@@ -11,16 +11,26 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * This class is run on a thread on the client and is executed in parallel with the View. It manages all the
- * messages received from the server, updates the ClientView and notifies the view (CLI or GUI) about the changes
+ * This class is run on a thread on the client and is executed in parallel with the user interface. It manages all the
+ * messages received from the server, updates the ClientView and notifies the interface (CLI or GUI) about the changes
  */
 public class ClientReader implements Runnable {
-
+    /**
+     * The buffer used to receive messages from the server
+     */
     private final BufferedReader in;
+    /**
+     * The object used to store the client's game data
+     */
     private final ClientView clientView;
+    /**
+     * The CountDownLatch reference used to signal to the CLI class when this thread finishes running
+     */
     private final CountDownLatch latch;
+    /**
+     * The reference to the GUI class (used only in GUI mode)
+     */
     private final GUI gui;
-    private final int clientMode;
 
     //CONSTRUCTORS
 
@@ -35,7 +45,6 @@ public class ClientReader implements Runnable {
         this.in = in;
         this.clientView = clientView;
         this.latch = latch;
-        this.clientMode = 0;
         this.gui = null;
     }
 
@@ -51,29 +60,35 @@ public class ClientReader implements Runnable {
         this.in = in;
         this.clientView = clientView;
         this.latch = latch;
-        this.clientMode = 1;
         this.gui = gui;
     }
 
     //PUBLIC METHODS
 
     /**
-     * @see Thread#run()
+     * The method used to run this class in multithreading.
+     * Initiates a loop which reads the messages sent by the server and updates the ClientView accordingly
      */
     public void run() {
 
         String response;
+
+        //Loop which handles the server's messages
         while (true) {
 
             try {
                 response = in.readLine();
             } catch (IOException ex) {
                 System.err.println("Server connection lost.");
+                if (gui != null)
+                    gui.stop();
                 break;
             }
 
             if (response == null) {
                 System.err.println("Server connection lost.");
+                if (gui != null)
+                    gui.stop();
                 break;
             }
 
@@ -89,7 +104,6 @@ public class ClientReader implements Runnable {
      *
      * @param jsonMessage is the message received from the server
      */
-    //TODO wrappare in Command anche INFO, ERROR e GAME_START
     private void elaborateResponse(String jsonMessage) {
         Gson gson = new Gson();
         MessageWrapper response = gson.fromJson(jsonMessage, MessageWrapper.class);
@@ -292,20 +306,18 @@ public class ClientReader implements Runnable {
      * @param jsonMessage the message received from the server
      */
     private void notifyViewUpdate(String jsonMessage) {
-        if (clientMode == 0) {
+        if (gui == null) {
             StaticMethods.clearConsole();
             System.out.println(clientView);
-        } else if (clientMode == 1) {
+        } else {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    assert gui != null; // Intellij garbage
                     gui.notifyCurrentScene(jsonMessage);
                 }
             });
 
             System.out.println("Notified GUI");
-        } else
-            throw new RuntimeException("Unknown clientMode specified");
+        }
     }
 }

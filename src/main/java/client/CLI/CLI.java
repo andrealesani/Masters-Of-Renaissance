@@ -63,45 +63,47 @@ public class CLI {
      * @param clientSocket the socket for the connection with the server
      */
     private static void startCLI(Socket clientSocket) {
-        //ExecutorService executor = Executors.newCachedThreadPool();
+        //Creates a countdown latch to ensure that the program shuts down if either the reading or writing threads fail
         CountDownLatch latch = new CountDownLatch(1);
 
         try {
+            //Creates the input and output to and from the server, and the input from command line
             BufferedReader in =
                     new BufferedReader(
                             new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out =
                     new PrintWriter(clientSocket.getOutputStream(), true);
-
             BufferedReader stdIn =
                     new BufferedReader(
                             new InputStreamReader(System.in));
 
+            //Creates the object which stores the game data
             ClientView ClientView = new ClientView();
 
+            //Creates the thread that processes messages from the server
             ClientReader ClientReader = new ClientReader(in, ClientView, latch);
             Thread readerThread = new Thread(ClientReader);
             readerThread.start();
-            //executor.submit(ClientReader);
 
+            //Creates the thread that processes messages from the player
             CLIWriter CLIWriter = new CLIWriter(stdIn, out, ClientView, latch);
             Thread writerThread = new Thread(CLIWriter);
             writerThread.start();
-            //executor.submit(CLIWriter);
 
+            //Awaits termination by one of the threads
             try {
                 latch.await();
             } catch (InterruptedException ex) {
                 System.err.println("Latch was interrupted.");
             }
 
+            //Kills the writer thread
             CLIWriter.doClose();
 
         } catch (IOException ex) {
             System.out.println("Uh-oh, there's been an IO problem!");
         }
 
-        //executor.shutdownNow();
         System.out.println("Shut down.");
     }
 }
