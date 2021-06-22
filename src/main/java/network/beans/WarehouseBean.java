@@ -12,7 +12,7 @@ import server.GameController;
 /**
  * Class used to serialize a Warehouse object, send it over the network and store its information in the client
  */
-public class WarehouseBean implements Observer {
+public class WarehouseBean implements Observer, PlayerBean {
     /**
      * The Controller that will have to send the bean when it changes
      */
@@ -92,6 +92,7 @@ public class WarehouseBean implements Observer {
 
     // GETTERS
 
+    @Override
     public String getUsername() {
         return username;
     }

@@ -17,7 +17,7 @@ import static model.resource.ResourceType.*;
 /**
  * Class used to serialize a PlayerBoard object, send it over the network and store its information in the client
  */
-public class PlayerBoardBean implements Observer {
+public class PlayerBoardBean implements Observer, PlayerBean {
     /**
      * The Controller that will have to send the bean when it changes
      */
@@ -117,6 +117,7 @@ public class PlayerBoardBean implements Observer {
      *
      * @return player's username
      */
+    @Override
     public String getUsername() {
         return username;
     }
@@ -579,7 +580,7 @@ public class PlayerBoardBean implements Observer {
         controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
-    // PRINTING METHODS
+    //PRINTING METHODS
 
     public String printLine(int line) {
         return printLine(line, null);

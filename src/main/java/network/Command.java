@@ -212,7 +212,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void confirmProductionChoice(UserCommandsInterface game) throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
+    private void confirmProductionChoice(UserCommandsInterface game) throws NotEnoughResourceException, UndefinedJollyException, WrongTurnPhaseException {
         game.confirmProductionChoice();
     }
 

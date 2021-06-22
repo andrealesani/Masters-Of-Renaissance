@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Class used to serialize a ProductionHandler object
  */
-public class ProductionHandlerBean implements Observer {
+public class ProductionHandlerBean implements Observer, PlayerBean {
     /**
      * The Controller that will have to send the bean when it changes
      */
@@ -82,6 +82,7 @@ public class ProductionHandlerBean implements Observer {
         return output;
     }
 
+    @Override
     public String getUsername() { return username; }
 
     public int[] getProductions() {
@@ -176,4 +177,6 @@ public class ProductionHandlerBean implements Observer {
         Gson gson = new Gson();
         controller.playerMessage(username, MessageType.PRODUCTIONHANDLER, gson.toJson(this));
     }
+
+    // TODO stampa a CLI dei ProductionHandlers
 }
