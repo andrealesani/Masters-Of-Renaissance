@@ -1,6 +1,9 @@
 package Exceptions;
 
-public class ProductionIsSelectedException extends Exception{
+/**
+ * This Exception is thrown when a selected production is attempted to be removed.
+ */
+public class ProductionIsSelectedException extends Exception {
     /**
      * Returns the message describing the type of error that occurred
      *

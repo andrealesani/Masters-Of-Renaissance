@@ -439,7 +439,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -536,7 +536,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UnknownResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -731,7 +731,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, EmptyDeckException, ProductionNotPresentException, LeaderNotPresentException {
+    void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, EmptyDeckException, ProductionNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -774,7 +774,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UnknownResourceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -796,11 +796,11 @@ class UserCommandsInterfaceTest {
         }
         // First player decides to activate the basic Production (WHICH INCLUDES JOLLY RESOURCES) so he has to choose Jolly for both input and output
         game.selectProduction(1);
-        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        assertThrows(UndefinedJollyException.class, game::confirmProductionChoice);
         game.chooseJollyInput(new ResourceStone());
-        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        assertThrows(UndefinedJollyException.class, game::confirmProductionChoice);
         game.chooseJollyInput(new ResourceStone());
-        assertThrows(UnknownResourceException.class, game::confirmProductionChoice);
+        assertThrows(UndefinedJollyException.class, game::confirmProductionChoice);
         game.chooseJollyOutput(new ResourceServant());
         game.confirmProductionChoice();
     }
@@ -867,7 +867,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void endTurnSoloGame() throws WrongTurnPhaseException, NotEnoughResourceException, UnknownResourceException, LeaderNotPresentException {
+    void endTurnSoloGame() throws WrongTurnPhaseException, NotEnoughResourceException, UndefinedJollyException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
@@ -1108,7 +1108,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    public void automaticPaymentTest() throws LeaderNotPresentException, WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, ProductionNotPresentException, NotEnoughResourceException, UnknownResourceException {
+    public void automaticPaymentTest() throws LeaderNotPresentException, WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, ProductionNotPresentException, NotEnoughResourceException, UndefinedJollyException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");

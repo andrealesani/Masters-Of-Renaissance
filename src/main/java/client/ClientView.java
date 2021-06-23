@@ -1,112 +1,169 @@
 package client;
 
 import model.Color;
+import model.ProductionHandler;
 import model.TurnPhase;
+import model.storage.Warehouse;
 import network.beans.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the object used by the client to store game information retrieved from the server.
+ * It makes use of beans to keep track of the current state of the game's elements.
+ */
 public class ClientView {
+    /**
+     * The username assigned to the client's player
+     */
     private String username;
-    private int turnOrderSpot = -1;
+    /**
+     * The bean storing general game and turn information
+     */
     private GameBean game;
+    /**
+     * The bean storing market information
+     */
     private MarketBean market;
+    /**
+     * The bean storing card table information
+     */
     private CardTableBean cardTable;
+    /**
+     * The bean storing the game's AI's information
+     */
     private LorenzoBean lorenzo;
+    /**
+     * The list of beans storing the players' boards' information
+     */
     private List<PlayerBoardBean> playerBoards = new ArrayList<>() {
         @Override
         public String toString() {
-            String string = "";
-            for (PlayerBoardBean playerBoardBean : playerBoards) {
-                string += playerBoardBean.toString() + "\n";
-            }
-            return string;
+            return printPlayerBeanList(playerBoards);
         }
     };
+    /**
+     * The list of beans storing the player's strongboxes' information
+     */
     private List<StrongboxBean> strongboxes = new ArrayList<>() {
         @Override
         public String toString() {
-            String string = "";
-            for (StrongboxBean strongboxBean : strongboxes) {
-                string += strongboxBean.toString() + "\n";
-            }
-            return string;
+            return printPlayerBeanList(strongboxes);
         }
     };
+    /**
+     * The list of beans storing the player's waiting rooms' information
+     */
     private List<WaitingRoomBean> waitingRooms = new ArrayList<>() {
         @Override
         public String toString() {
-            String string = "";
-            for (WaitingRoomBean waitingRoomBean : waitingRooms) {
-                string += waitingRoomBean.toString() + "\n";
-            }
-            return string;
+            return printPlayerBeanList(waitingRooms);
         }
     };
+    /**
+     * The list of beans storing the player's warehouses' information
+     */
     private List<WarehouseBean> warehouses = new ArrayList<>() {
         @Override
         public String toString() {
-            String string = "";
-            for (WarehouseBean warehouseBean : warehouses) {
-                string += warehouseBean.toString() + "\n";
-            }
-            return string;
+            return printPlayerBeanList(warehouses);
         }
     };
-    // TODO stampa a CLI dei ProductionHandlers
+    /**
+     * The list of beans storing the player's production handlers
+     */
     private List<ProductionHandlerBean> productionHandlers = new ArrayList<>() {
         @Override
         public String toString() {
-            String string = "";
-            for (ProductionHandlerBean productionHandlerBean : productionHandlers) {
-                string += productionHandlerBean.toString() + "\n";
-            }
-            return string;
+            return printPlayerBeanList(productionHandlers);
         }
     };
 
-    // PRIVATE METHODS
+
+    //PUBLIC PRINTING METHODS
 
     /**
-     * Creates a String that displays Market and CardTable in parallel
+     * Prints a String representation of the class' data
      *
-     * @return the formatted String
+     * @return the String representation
      */
-    private String marketAndCardTable() {
-        String content = "";
-        content += Color.HEADER + "Market: " + Color.RESET;
-        content += fillBetweenColumns(content) + Color.HEADER + "CardTable: " + Color.RESET;
-        content += "\n\n";
-        content += market.printLine(1) + "                     " + cardTable.printLine(1);
-        content += "\n\n";
-        content += market.printLine(2) + "                     " + cardTable.printLine(2);
-        content += "\n\n";
-        content += market.printLine(3) + "                     " + cardTable.printLine(3);
-        content += "\n\n";
-        content += market.printLine(4);
+    @Override
+    public String toString() {
+        //Row 1
+        String content =        Color.VIEW + "View:" + Color.RESET;
 
-        return content;
+        //Row 2
+        if (market != null && cardTable != null)
+            content +=          Color.RESET +
+                                "\n" +
+                                marketAndCardTableAndLorenzo() +
+                                "\n";
+
+        //Row 3
+        if (playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0) {
+
+            for (int i = 0; i < playerBoards.size() && i < strongboxes.size() && i < waitingRooms.size() && i < warehouses.size(); i++) {
+
+                if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
+                    content += Color.RESET +
+                            "\n" +
+                            playerAndStrongAndWaitingAndWarehouse(i) +
+                            "\n";
+            }
+        }
+
+        //Row 4
+        if (game != null)
+            content +=          Color.RESET +
+                                "\n" +
+                                game +
+                                "\n";
+
+        return content + "\n";
     }
 
+    //PRIVATE PRINTING METHODS
+
     /**
-     * Creates a String that displays Market, CardTable and Lorenzo in parallel
+     * Creates a String that displays Market, CardTable and Lorenzo (if he exists) in parallel
      *
      * @return the formatted String
      */
     private String marketAndCardTableAndLorenzo() {
         String content = "";
-        content += Color.HEADER + "Market: " + Color.RESET + "                          ";
-        content += Color.HEADER + "CardTable: " + Color.RESET + "                                             ";
-        content += Color.HEADER + "Lorenzo: " + Color.RESET;
-        content += "\n\n";
-        content += market.printLine(1) + "                     " + cardTable.printLine(1) + "                     " + lorenzo.printLine(1);
-        content += "\n\n";
-        content += market.printLine(2) + "                     " + cardTable.printLine(2) + "                     " + lorenzo.printLine(2);
-        content += "\n\n";
-        content += market.printLine(3) + "                     " + cardTable.printLine(3) + "                     " + lorenzo.printLine(3);;
-        content += "\n\n";
-        content += market.printLine(4);
+
+        //Row 1
+        content +=      Color.HEADER + "Market: " + Color.RESET + "                          " +
+                        Color.HEADER + "CardTable: " + Color.RESET + "                                             ";
+        if (lorenzo != null)
+            content +=  Color.HEADER + "Lorenzo: " + Color.RESET +
+                        "\n\n";
+
+        //Row 2
+        content +=      market.printLine(1) + "                     " +
+                        cardTable.printLine(1) + "                     ";
+        if (lorenzo != null)
+            content +=  lorenzo.printLine(1)+
+                        "\n\n";
+
+        //Row 3
+        content +=      market.printLine(2) + "                     " +
+                        cardTable.printLine(2) + "                     ";
+        if (lorenzo != null)
+            content +=  lorenzo.printLine(2)+
+                        "\n\n";
+
+        //Row 4
+        content +=      market.printLine(3) + "                     " +
+                        cardTable.printLine(3) + "                     ";
+        if (lorenzo != null)
+            content +=  lorenzo.printLine(3)+
+                        "\n\n";
+
+        //Row 5
+        content +=      market.printLine(4)+
+                        "\n\n";
 
         return content;
     }
@@ -119,64 +176,81 @@ public class ClientView {
      */
     private String playerAndStrongAndWaitingAndWarehouse(int i) {
         String content = "";
-        // first row
-        content += Color.HEADER + playerBoards.get(i).getUsername() + "'s playerBoard: " + Color.RESET;
-        content += fillBetweenColumns(content) + Color.HEADER;
+
+        //Row 1
+        content +=      Color.HEADER + playerBoards.get(i).getUsername() + "'s playerBoard: " + Color.RESET;
+        content +=      fillBetweenColumns(content) + Color.HEADER;
+
         if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT) {
-            content += "Resources left to pay: ";
+            content +=  "Resources left to pay: ";
         } else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
-            content += "Resources left to distribute: ";
+            content +=  "Resources left to distribute: ";
         } else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE) {
-            content += "Bonus resources left to allocate: ";
+            content +=  "Bonus resources left to allocate: ";
         }
-        content += Color.RESET + "\n";
 
-        // second row
-        content += playerBoards.get(i).printLine(1);
-        content += fillBetweenColumns(content);
+        content +=      Color.RESET +
+                        "\n";
+
+        //Row 2
+        content +=      playerBoards.get(i).printLine(1);
+        content +=      fillBetweenColumns(content);
         if (game.getTurnPhase() != TurnPhase.ACTIONSELECTION) {
-            content += waitingRooms.get(i).printLine(1);
+            content +=  waitingRooms.get(i).printLine(1);
         }
-        content += "\n";
-        // third row
-        content += playerBoards.get(i).printLine(2);
-        content += "\n";
-        // fourth row
-        content += playerBoards.get(i).printLine(3);
+        content +=      "\n";
 
-        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() +  "'s strongbox: " + Color.RESET + "\n";
+        //Row 3
+        content +=      playerBoards.get(i).printLine(2) +
+                        "\n";
 
-        // fifth row
-        content += playerBoards.get(i).printLine(4);
-        content += fillBetweenColumns(content) + strongboxes.get(i).printLine(1) + "\n";
-        // sixth row
-        content += playerBoards.get(i).printLine(5);
-        content += "\n";
-        // seventh row
-        content += playerBoards.get(i).printLine(6);
-        content += fillBetweenColumns(content) + Color.HEADER + playerBoards.get(i).getUsername() +  "'s warehouse: " + Color.RESET + "\n";
-        // eighth rows
-        content += playerBoards.get(i).printLine(7);
-        content += fillBetweenColumns(content) + warehouses.get(i).printLine(1) + "\n";
-        // ninth row
+        //Row 4
+        content +=      playerBoards.get(i).printLine(3);
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER + playerBoards.get(i).getUsername() + "'s strongbox: " + Color.RESET +
+                        "\n";
+
+        //Row 5
+        content +=      playerBoards.get(i).printLine(4);
+        content +=      fillBetweenColumns(content) +
+                        strongboxes.get(i).printLine(1) +
+                        "\n";
+
+        //Row 6
+        content +=      playerBoards.get(i).printLine(5) +
+                        "\n";
+
+        //Row 7
+        content +=      playerBoards.get(i).printLine(6);
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER + playerBoards.get(i).getUsername() + "'s warehouse: " + Color.RESET +
+                        "\n";
+
+        //Row 8
+        content +=      playerBoards.get(i).printLine(7);
+        content +=      fillBetweenColumns(content) + warehouses.get(i).printLine(1) +
+                        "\n";
+
+        //Row 9
         if (playerBoards.get(i).getUsername().equals(username) || game.getTurnPhase() != TurnPhase.LEADERCHOICE)
-            content += playerBoards.get(i).printLine(8, username);
-        content += fillBetweenColumns(content) + warehouses.get(i).printLine(2) + "\n";
-        // tenth row
-        content += playerBoards.get(i).printLine(9) + "\n";
+            content +=  playerBoards.get(i).printLine(8, username);
+        content +=      fillBetweenColumns(content) +
+                        warehouses.get(i).printLine(2)
+                        + "\n";
+
+        //Row 10
+        content +=      playerBoards.get(i).printLine(9)
+                        + "\n\n";
 
         return content;
     }
 
     /**
-     * Dear Tom, hello and welcome to this lil precious jewel I crafted. What it does is adding 'space'
-     * characters to the last row of a given text so that the every row of the second column of the view you're trying
-     * to build will have the right indentation. Enjoy :)
-     * P.S. I hope you'll appreciate the 69 constant that marks where the second column starts but you have the
-     * permission to change it for the sake of our baby's prettiness
+     * Adds 'space' characters to the last row of a given text so that the every row of the second column of the view you're trying
+     * to build will have the right indentation.
      *
-     * @param content is the view you built until now. It needs to have at least one new-line character for the method to work
-     * @return the right number of spaces :)
+     * @param content the text to print. It needs to have at least one new-line character for the method to work
+     * @return the text with the correct spacing added
      */
     private String fillBetweenColumns(String content) {
         String space = "";
@@ -187,136 +261,333 @@ public class ClientView {
         return space;
     }
 
+    /**
+     * Adds or substitutes a PlayerBean for one of the game's players
+     *
+     * @param beanList the list of PlayerBeans to which to add or substitute the new bean
+     * @param newBean  the bean to be added or substituted
+     * @param <T> the subclass of PlayerBean used
+     */
+    private <T extends PlayerBean> void setPlayerSpecificBean(List<T> beanList, T newBean) {
+        String beanUsername = newBean.getUsername();
+        for (int i = 0; i < beanList.size(); i++) {
+            if (beanList.get(i).getUsername().equals(beanUsername)) {
+                beanList.set(i, newBean);
+                return;
+            }
+        }
+        beanList.add(newBean);
+    }
+
+    /**
+     * Returns the PlayerBean corresponding to a given username from a list of PlayerBeans
+     *
+     * @param beanList the list of PlayerBeans from which to return the PlayerBean
+     * @param username the username of the player whose PlayerBean should be returned
+     * @param <T> the subclass of PlayerBean used
+     * @return the PlayerBean corresponding to the given username, 'null' if there are none
+     */
+    private <T extends PlayerBean> T getPlayerSpecificBean(List<T> beanList, String username) {
+        for (T bean : beanList) {
+            if (bean.getUsername().equals(username))
+                return bean;
+        }
+        return null;
+    }
+
+    /**
+     * Calls the toString function for each PlayerBean in the list
+     *
+     * @param playerBeanList the list of PlayerBeans to print
+     * @param <T> the subclass of PlayerBean used
+     * @return the string version of the PlayerBean list
+     */
+    public <T extends PlayerBean> String printPlayerBeanList(List<T> playerBeanList) {
+        String string = "";
+        for (T playerBean : playerBeanList) {
+            string += playerBean.toString() + "\n";
+        }
+        return string;
+    }
+
     // GETTERS
 
+    /**
+     * Getter for the object storing the general game state data
+     *
+     * @return the GameBean
+     */
     public GameBean getGame() {
         return game;
     }
 
+    /**
+     * Getter for the object storing the market data
+     *
+     * @return the MarketBean
+     */
     public MarketBean getMarket() {
         return market;
     }
 
+    /**
+     * Getter for the object storing the card table data
+     *
+     * @return the CardTableBean
+     */
     public CardTableBean getCardTable() {
         return cardTable;
     }
 
+    /**
+     * Getter for the object storing the game's AI data
+     *
+     * @return the LorenzoBean
+     */
     public LorenzoBean getLorenzo() {
         return lorenzo;
     }
 
+    /**
+     * Getter for the list of objects storing the player boards data
+     *
+     * @return the List of PlayerBoardBean
+     */
     public List<PlayerBoardBean> getPlayerBoards() {
         return playerBoards;
     }
 
+    /**
+     * Getter for the object storing the player board data for a specific player
+     *
+     * @param username the username of the player whose player board should be returned
+     * @return the given player's PlayerBoardBean, 'null' if there is not one
+     */
     public PlayerBoardBean getPlayerBoard(String username) {
-        for (PlayerBoardBean playerBoard : playerBoards) {
-            if (playerBoard.getUsername().equals(username))
-                return playerBoard;
-        }
-        return null;
+        return getPlayerSpecificBean(playerBoards, username);
     }
 
+    /**
+     * Getter for the list of objects storing the strongboxes data
+     *
+     * @return the List of StrongboxBean
+     */
     public List<StrongboxBean> getStrongboxes() {
         return strongboxes;
     }
 
+    /**
+     * Getter for the object storing the strongbox data for a specific player
+     *
+     * @param username the username of the player whose strongbox should be returned
+     * @return the given player's StrongboxBean, 'null' if there is not one
+     */
     public StrongboxBean getStrongbox(String username) {
-        for (StrongboxBean strongbox : strongboxes) {
-            if (strongbox.getUsername().equals(username))
-                return strongbox;
-        }
-        return null;
+        return getPlayerSpecificBean(strongboxes, username);
     }
 
+    /**
+     * Getter for the list of objects storing the waiting rooms data
+     *
+     * @return the List of WaitingRoomBean
+     */
     public List<WaitingRoomBean> getWaitingRooms() {
         return waitingRooms;
     }
 
+    /**
+     * Getter for the object storing the waiting room data for a specific player
+     *
+     * @param username the username of the player whose waiting room should be returned
+     * @return the given player's WaitingRoomBean, 'null' if there is not one
+     */
     public WaitingRoomBean getWaitingRoom(String username) {
-        for (WaitingRoomBean waitingRoom : waitingRooms) {
-            if (waitingRoom.getUsername().equals(username))
-                return waitingRoom;
-        }
-        return null;
+        return getPlayerSpecificBean(waitingRooms, username);
     }
 
+    /**
+     * Getter for the list of objects storing the warehouses data
+     *
+     * @return the List of WarehouseBean
+     */
     public List<WarehouseBean> getWarehouses() {
         return warehouses;
     }
 
+    /**
+     * Getter for the object storing the warehouse data for a specific player
+     *
+     * @param username the username of the player whose warehouse should be returned
+     * @return the given player's WarehouseBean, 'null' if there is not one
+     */
     public WarehouseBean getWarehouse(String username) {
-        for (WarehouseBean warehouse : warehouses) {
-            if (warehouse.getUsername().equals(username))
-                return warehouse;
-        }
-        return null;
+        return getPlayerSpecificBean(warehouses, username);
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public int getTurnOrderSpot() {
-        return turnOrderSpot;
-    }
-
+    /**
+     * Getter for the list of objects storing the production handler data
+     *
+     * @return the List of ProductionHandlerBean
+     */
     public List<ProductionHandlerBean> getProductionHandlers() {
         return productionHandlers;
     }
 
+    /**
+     * Getter for the object storing the production handler data for a specific player
+     *
+     * @param username the username of the player whose production handler should be returned
+     * @return the given player's ProductionHandlerBean, 'null' if there is not one
+     */
     public ProductionHandlerBean getProductionHandler(String username) {
-        for (ProductionHandlerBean handler : productionHandlers) {
-            if (handler.getUsername().equals(username))
-                return handler;
-        }
-        return null;
+        return getPlayerSpecificBean(productionHandlers, username);
     }
 
-    // SETTERS (other setters are not needed because the caller can use List<> setters)
+    /**
+     * Getter for the username assigned to the client's player
+     *
+     * @return the player's username
+     */
+    public String getUsername() {
+        return username;
+    }
 
+    // SETTERS
+
+    /**
+     * Setter for the object storing the general game state data
+     *
+     * @param game the GameBean containing the data
+     */
     public void setGame(GameBean game) {
         this.game = game;
     }
 
+    /**
+     * Setter for the object storing the market data
+     *
+     * @param market the MarketBean containing the data
+     */
     public void setMarket(MarketBean market) {
         this.market = market;
     }
 
+    /**
+     * Setter for the object storing the card table data
+     *
+     * @param cardTable the CardTableBean containing the data
+     */
     public void setCardTable(CardTableBean cardTable) {
         this.cardTable = cardTable;
     }
 
+    /**
+     * Setter for the object storing the general game's AI data
+     *
+     * @param lorenzo the LorenzoBean containing the data
+     */
     public void setLorenzo(LorenzoBean lorenzo) {
         this.lorenzo = lorenzo;
     }
 
+    /**
+     * Setter for the list of objects storing the player boards data
+     *
+     * @param playerBoards the List of PlayerBoardBean containing the data
+     */
+    public void setPlayerBoards(List<PlayerBoardBean> playerBoards) {
+        this.playerBoards = playerBoards;
+    }
+
+    /**
+     * Setter for the object storing a player's specific player board data
+     *
+     * @param newPlayerBoard the PlayerBoardBean containing the data
+     */
+    public void setPlayerBoard(PlayerBoardBean newPlayerBoard) {
+        setPlayerSpecificBean(playerBoards, newPlayerBoard);
+    }
+
+    /**
+     * Setter for the list of objects storing the strongboxes data
+     *
+     * @param strongboxes the StrongboxBean containing the data
+     */
+    public void setStrongboxes(List<StrongboxBean> strongboxes) {
+        this.strongboxes = strongboxes;
+    }
+
+    /**
+     * Setter for the object storing a player's specific strongbox data
+     *
+     * @param newStrongbox the StrongboxBean containing the data
+     */
+    public void setStrongbox(StrongboxBean newStrongbox) {
+        setPlayerSpecificBean(strongboxes, newStrongbox);
+    }
+
+    /**
+     * Setter for the list of objects storing the waiting rooms data
+     *
+     * @param waitingRooms the WaitingRoomBean containing the data
+     */
+    public void setWaitingRooms(List<WaitingRoomBean> waitingRooms) {
+        this.waitingRooms = waitingRooms;
+    }
+
+    /**
+     * Setter for the object storing a player's specific waiting room data
+     *
+     * @param newWaitingRoom the WaitingRoomBean containing the data
+     */
+    public void setWaitingRoom(WaitingRoomBean newWaitingRoom) {
+        setPlayerSpecificBean(waitingRooms, newWaitingRoom);
+    }
+
+    /**
+     * Setter for the list of objects storing the warehouses data
+     *
+     * @param warehouses the WarehouseBean containing the data
+     */
+    public void setWarehouses(List<WarehouseBean> warehouses) {
+        this.warehouses = warehouses;
+    }
+
+    /**
+     * Setter for the object storing a player's specific warehouse data
+     *
+     * @param newWarehouse the WarehouseBean containing the data
+     */
+    public void setWarehouse(WarehouseBean newWarehouse) {
+        setPlayerSpecificBean(warehouses, newWarehouse);
+    }
+
+    /**
+     * Setter for the list of objects storing the production handlers data
+     *
+     * @param productionHandlers the ProductionHandlerBean containing the data
+     */
+    public void setProductionHandlers(List<ProductionHandlerBean> productionHandlers) {
+        this.productionHandlers = productionHandlers;
+    }
+
+    /**
+     * Setter for the object storing a player's specific production handler data
+     *
+     * @param newProductionHandler the ProductionHandlerBean containing the data
+     */
+    public void setProductionHandler(ProductionHandlerBean newProductionHandler) {
+        setPlayerSpecificBean(productionHandlers, newProductionHandler);
+    }
+
+    /**
+     * Setter for the username chosen by the client's player.
+     * To be used only once the username has been accepted by the server
+     *
+     * @param username the player's chosen username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setTurnOrderSpot(int spot) {
-        this.turnOrderSpot = spot;
-    }
-
-    //PRINTING METHODS
-
-    @Override
-    public String toString() {
-        String content = Color.VIEW + "View:" + Color.RESET;
-        if (market != null && cardTable != null)
-            if (lorenzo != null)
-                content += Color.RESET + "\n" + marketAndCardTableAndLorenzo() + "\n";
-            else
-                content += Color.RESET + "\n" + marketAndCardTable() + "\n";
-        if (game != null && playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0)
-            for (int i = 0; i < playerBoards.size() && i < strongboxes.size() && i < waitingRooms.size() && i < warehouses.size(); i++) {
-                if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
-                    content += Color.RESET + "\n" + playerAndStrongAndWaitingAndWarehouse(i) + "\n";
-            }
-        if (game != null)
-            content += Color.RESET + "\n" + game + "\n";
-
-        return content + "\n";
-    }
 }

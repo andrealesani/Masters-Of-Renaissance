@@ -162,93 +162,28 @@ public class ClientReader implements Runnable {
                 }
 
                 case PLAYERBOARD -> {
-                    PlayerBoardBean pbbUpdate = gson.fromJson(response.getMessage(), PlayerBoardBean.class);
-                    boolean found = false;
-
-                    for (int i = 0; i < clientView.getPlayerBoards().size(); i++)
-                        if (clientView.getPlayerBoards().get(i).getUsername().equals(pbbUpdate.getUsername())) {
-                            clientView.getPlayerBoards().set(i, pbbUpdate);
-                            found = true;
-                            notifyViewUpdate(response);
-                            break;
-                        }
-
-                    if (!found) {
-                        clientView.getPlayerBoards().add(pbbUpdate);
-                        notifyViewUpdate(response);
-                    }
+                    clientView.setPlayerBoard(gson.fromJson(response.getMessage(), PlayerBoardBean.class));
+                    notifyViewUpdate(response);
                 }
 
                 case STRONGBOX -> {
-                    StrongboxBean strongboxUpdate = gson.fromJson((String) response.getMessage(), StrongboxBean.class);
-                    boolean found = false;
-
-                    for (int i = 0; i < clientView.getStrongboxes().size(); i++)
-                        if (clientView.getStrongboxes().get(i).getUsername().equals(strongboxUpdate.getUsername())) {
-                            clientView.getStrongboxes().set(i, strongboxUpdate);
-                            found = true;
-                            notifyViewUpdate(response);
-                            break;
-                        }
-
-                    if (!found) {
-                        clientView.getStrongboxes().add(strongboxUpdate);
-                        notifyViewUpdate(response);
-                    }
+                    clientView.setStrongbox(gson.fromJson(response.getMessage(), StrongboxBean.class));
+                    notifyViewUpdate(response);
                 }
 
                 case WAITINGROOM -> {
-                    WaitingRoomBean waitingRoomUpdate = gson.fromJson((String) response.getMessage(), WaitingRoomBean.class);
-                    boolean found = false;
-
-                    for (int i = 0; i < clientView.getWaitingRooms().size(); i++)
-                        if (clientView.getWaitingRooms().get(i).getUsername().equals(waitingRoomUpdate.getUsername())) {
-                            clientView.getWaitingRooms().set(i, waitingRoomUpdate);
-                            found = true;
-                            notifyViewUpdate(response);
-                            break;
-                        }
-
-                    if (!found) {
-                        clientView.getWaitingRooms().add(waitingRoomUpdate);
-                        notifyViewUpdate(response);
-                    }
+                    clientView.setWaitingRoom(gson.fromJson(response.getMessage(), WaitingRoomBean.class));
+                    notifyViewUpdate(response);
                 }
 
                 case WAREHOUSE -> {
-                    WarehouseBean warehouseUpdate = gson.fromJson((String) response.getMessage(), WarehouseBean.class);
-                    boolean found = false;
-
-                    for (int i = 0; i < clientView.getWarehouses().size(); i++)
-                        if (clientView.getWarehouses().get(i).getUsername().equals(warehouseUpdate.getUsername())) {
-                            clientView.getWarehouses().set(i, warehouseUpdate);
-                            found = true;
-                            notifyViewUpdate(response);
-                            break;
-                        }
-
-                    if (!found) {
-                        clientView.getWarehouses().add(warehouseUpdate);
-                        notifyViewUpdate(response);
-                    }
+                    clientView.setWarehouse(gson.fromJson(response.getMessage(), WarehouseBean.class));
+                    notifyViewUpdate(response);
                 }
 
                 case PRODUCTIONHANDLER -> {
-                    ProductionHandlerBean productionHandlerUpdate = gson.fromJson((String) response.getMessage(), ProductionHandlerBean.class);
-                    boolean found = false;
-
-                    for (int i = 0; i < clientView.getProductionHandlers().size(); i++)
-                        if (clientView.getProductionHandlers().get(i).getUsername().equals(productionHandlerUpdate.getUsername())) {
-                            clientView.getProductionHandlers().set(i, productionHandlerUpdate);
-                            found = true;
-                            notifyViewUpdate(response);
-                            break;
-                        }
-
-                    if (!found) {
-                        clientView.getProductionHandlers().add(productionHandlerUpdate);
-                        notifyViewUpdate(response);
-                    }
+                    clientView.setProductionHandler(gson.fromJson(response.getMessage(), ProductionHandlerBean.class));
+                    notifyViewUpdate(response);
                 }
 
                 case LORENZO -> {

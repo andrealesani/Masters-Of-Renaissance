@@ -418,7 +418,7 @@ public class PlayerBoard implements Observable {
     /**
      * Checks if the player has converted all jollies in selected productions to other resources, and if they have enough resources to pay for productions
      */
-    public void confirmProductionChoice() throws UnknownResourceException, NotEnoughResourceException {
+    public void confirmProductionChoice() throws UndefinedJollyException, NotEnoughResourceException {
         if (!productionHandler.arePlayerResourcesEnough(this)) {
             throw new NotEnoughResourceException();
         }

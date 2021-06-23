@@ -155,15 +155,15 @@ public class ProductionHandler implements Observable {
      *
      * @param playerBoard specifies which PlayerBoard to control in order to ensure that it has enough Resources
      * @return true if the player has enough resources (considering the entirety of his storage) to activate all the Productions he selected
-     * @throws UnknownResourceException if there are still UnknownResources in input or output lists (the exception message will specify if they're in input or output)
+     * @throws UndefinedJollyException if there are still UnknownResources in input or output lists (the exception message will specify if they're in input or output)
      */
-    public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UnknownResourceException {
+    public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UndefinedJollyException {
         int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
 
         if (getCurrentInput().contains(new ResourceJolly()))
-            throw new UnknownResourceException("input");
+            throw new UndefinedJollyException("input");
         if (getCurrentOutput().contains(new ResourceJolly()))
-            throw new UnknownResourceException("output");
+            throw new UndefinedJollyException("output");
 
         //Turns the input into a map, and makes a set of the different resource types it contains
         List<ResourceType> input = getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList());

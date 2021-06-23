@@ -3,7 +3,6 @@ package model;
 import Exceptions.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
@@ -451,11 +450,11 @@ public class Game implements UserCommandsInterface, Observable {
      * Allows the player to confirm the selected production for activation
      *
      * @throws NotEnoughResourceException  if the player does not have enough resources to activate the selected productions
-     * @throws UnknownResourceException    if the player still has to choose which resources some jollies in the productions' input or output will become
+     * @throws UndefinedJollyException    if the player still has to choose which resources some jollies in the productions' input or output will become
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
     @Override
-    public void confirmProductionChoice() throws NotEnoughResourceException, UnknownResourceException, WrongTurnPhaseException {
+    public void confirmProductionChoice() throws NotEnoughResourceException, UndefinedJollyException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION || currentPlayer.isProductionInputEmpty())
             throw new WrongTurnPhaseException();
 

@@ -157,7 +157,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void resourcesAreEnough() throws UnknownResourceException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException, ProductionNotPresentException {
+    void resourcesAreEnough() throws UndefinedJollyException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException, ProductionNotPresentException {
         // Creates a PlayerBoard
         PlayerBoard playerBoard = new PlayerBoard();
 
@@ -217,7 +217,7 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void takeResource() throws UnknownResourceException, ResourceNotPresentException, ProductionNotPresentException {
+    void takeResource() throws UndefinedJollyException, ResourceNotPresentException, ProductionNotPresentException {
         // Creates a PlayerBoard
         PlayerBoard playerBoard = new PlayerBoard();
 
