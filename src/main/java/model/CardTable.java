@@ -58,7 +58,7 @@ public class CardTable implements Observable {
         id++;
 
         // BLUE CARDS
-        createDecksFromJSON(blueCards, CardColor.BLUE);
+        StaticMethods.createDecksFromJSON(blueCards, CardColor.BLUE);
         cards.put(CardColor.BLUE, blueCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.BLUE)) {
             for (DevelopmentCard card : deck)
@@ -67,7 +67,7 @@ public class CardTable implements Observable {
         }
 
         // GREEN CARDS
-        createDecksFromJSON(greenCards, CardColor.GREEN);
+        StaticMethods.createDecksFromJSON(greenCards, CardColor.GREEN);
         cards.put(CardColor.GREEN, greenCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.GREEN)) {
             for (DevelopmentCard card : deck)
@@ -76,7 +76,7 @@ public class CardTable implements Observable {
         }
 
         // PURPLE CARDS
-        createDecksFromJSON(purpleCards, CardColor.PURPLE);
+        StaticMethods.createDecksFromJSON(purpleCards, CardColor.PURPLE);
         cards.put(CardColor.PURPLE, purpleCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.PURPLE)) {
             for (DevelopmentCard card : deck)
@@ -85,7 +85,7 @@ public class CardTable implements Observable {
         }
 
         // YELLOW CARDS
-        createDecksFromJSON(yellowCards, CardColor.YELLOW);
+        StaticMethods.createDecksFromJSON(yellowCards, CardColor.YELLOW);
         cards.put(CardColor.YELLOW, yellowCards);
         for (List<DevelopmentCard> deck : cards.get(CardColor.YELLOW)) {
             for (DevelopmentCard card : deck)
@@ -164,37 +164,6 @@ public class CardTable implements Observable {
         }
 
         return true;
-    }
-
-    //PRIVATE METHODS
-
-    /**
-     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
-     * then it reads the cards from the file and splits them into decks based on the cards level.
-     * Level 1 cards will be in the first lists of every column.
-     * Level 2 cards will be in the middle (second lists of every column).
-     * Level 3 cards will be in the third lists of every column.
-     * The method is hardcoded to receive cards with levels from 1 to 3.
-     *
-     * @param colorCards specifies which column of the deck is going to be instantiated
-     * @param color specifies the color of the cards of the decks to create
-     */
-    private void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
-        List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
-        for (int i = 0; i < 3; i++) {
-            colorCards.add(new ArrayList<DevelopmentCard>());
-        }
-        for (DevelopmentCard developmentCard : cards) {
-            if (developmentCard.getColor() == color) {
-                if (developmentCard.getLevel() == 1)
-                    colorCards.get(0).add(developmentCard);
-                else if (developmentCard.getLevel() == 2)
-                    colorCards.get(1).add(developmentCard);
-                else if (developmentCard.getLevel() == 3)
-                    colorCards.get(2).add(developmentCard);
-            }
-        }
-
     }
 
     //GETTERS

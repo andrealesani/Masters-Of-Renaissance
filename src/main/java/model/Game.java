@@ -8,6 +8,7 @@ import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
+import network.StaticMethods;
 import server.GameController;
 import network.beans.*;
 
@@ -93,13 +94,12 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public Game(Set<String> nicknames) {
         market = new Market();
-        leaderCards = new ArrayList<>();
+        leaderCards = StaticMethods.getLeaderCardsFromJson();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         lastTriggeredTile = 0;
         isLastTurn = false;
         setTurnPhase(LEADERCHOICE);
-        initializeLeaderCards();
         cardTable = new CardTable(leaderCards.size()); // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
 
         //TODO make these attributes initialized in a JSON (these ones have to be in Game)
@@ -144,14 +144,13 @@ public class Game implements UserCommandsInterface, Observable {
     public Game() {
 
         market = new Market();
-        leaderCards = new ArrayList<>();
+        leaderCards = StaticMethods.getLeaderCardsFromJson();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         finalFaith = 24;
         initialLeaderCardNumber = 4;
         finalLeaderCardNumber = 2;
         setTurnPhase(LEADERCHOICE);
-        initializeLeaderCards();
         cardTable = new CardTable(leaderCards.size());  // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
         distributeLeaderCards();
         lastTriggeredTile = 0;
@@ -676,50 +675,6 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     //PRIVATE METHODS
-
-    /**
-     * Creates the leader cards for the game by reading them from a JSON file
-     */
-    private void initializeLeaderCards() {
-        //TODO controllare valori in input dal JSON (typo nelle enum, valori <0, etc)
-        Gson gson = new Gson();
-        Reader reader;
-        Type LeaderCardArray = new TypeToken<ArrayList<LeaderCard>>() {
-        }.getType();
-
-        // depot leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DepotLeaderCards.json"), StandardCharsets.UTF_8);
-        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
-        }.getType();
-        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
-        leaderCards.addAll(depotLeaderCards);
-
-        // discount leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DiscountLeaderCards.json"), StandardCharsets.UTF_8);
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
-        }.getType();
-        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
-        leaderCards.addAll(discountLeaderCards);
-
-        // marble leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/MarbleLeaderCards.json"), StandardCharsets.UTF_8);
-        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
-        }.getType();
-        ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
-        leaderCards.addAll(marbleLeaderCards);
-
-        // production leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/ProductionLeaderCards.json"), StandardCharsets.UTF_8);
-        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
-        }.getType();
-        ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
-        leaderCards.addAll(productionLeaderCards);
-
-        int i = 1; // i++ prima passa i e poi lo incrementa => se voglio che id parta da 1 devo settare i a 1
-        for (LeaderCard leaderCard : leaderCards) {
-            leaderCard.setId(i++);
-        }
-    }
 
     /**
      * Shuffles the leader cards, then splits them into decks of size initialLeaderCardNumber and gives them to each player
