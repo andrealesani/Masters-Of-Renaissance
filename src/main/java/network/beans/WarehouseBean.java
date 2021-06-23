@@ -5,8 +5,9 @@ import com.google.gson.Gson;
 import model.Color;
 import model.Observer;
 import model.resource.ResourceType;
+import model.storage.ResourceDepot;
 import model.storage.Warehouse;
-import network.MessageType;
+import network.ServerMessageType;
 import server.GameController;
 
 /**
@@ -38,91 +39,42 @@ public class WarehouseBean implements Observer, PlayerBean {
      */
     private int[] depotSizes;
 
-    // TODO aggiungere risorse massime nei Leader Depots
-
     // CONSTRUCTOR
 
+    /**
+     * Constructor
+     *
+     * @param controller the GameController for the bean's game
+     */
     public WarehouseBean(GameController controller, String username, int basicDepotNum) {
         this.controller = controller;
         this.username = username;
         this.basicDepotNum = basicDepotNum;
     }
 
-    // SETTERS
-
-    public void setDepotsFromWarehouse(Warehouse warehouse) {
-        depotType = new ResourceType[warehouse.getNumOfDepots()];
-        depotQuantity = new int[depotType.length];
-        depotSizes = new int[depotType.length];
-
-        for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
-            if (warehouse.getDepot(i + 1).getStoredResources().size() > 0)
-                depotType[i] = warehouse.getDepot(i + 1).getStoredResources().get(0);
-            depotQuantity[i] = warehouse.getDepot(i + 1).getNumOfResource(depotType[i]);
-            depotSizes[i] = warehouse.getDepot(i + 1).getSize();
-        }
-    }
-
-    //PRIVATE METHODS
-
-    private String drawSlots() {
-        String content = "";
-
-        for (int i = 0; i < depotType.length; i++) {
-            content += " " + (i+1);
-            content += ".[ ";
-            int quantity = depotQuantity[i];
-
-            for (int j = 0; j < depotSizes[i]; j++) {
-
-                if (quantity > 0) {
-                    content += depotType[i].iconPrint() + " ";
-                    quantity--;
-                } else
-                    content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
-            }
-            if (i >= basicDepotNum) {
-                content += "(" + depotType[i].iconPrint() + ")";
-            }
-            content += "]";
-
-        }
-        return content;
-    }
-
-    // GETTERS
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public ResourceType[] getDepotType() {
-        return depotType;
-    }
-
-    public int[] getDepotQuantity() {
-        return depotQuantity;
-    }
-
-    public int getBasicDepotNum() {
-        return basicDepotNum;
-    }
-
-
     // OBSERVER METHODS
 
+    /**
+     * Updates the bean with the information contained in the observed class, then broadcasts its serialized self to all players
+     *
+     * @param observable the observed class
+     */
     public void update(Object observable) {
         Gson gson = new Gson();
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
 
-        controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
+        controller.broadcastMessage(ServerMessageType.WAREHOUSE, gson.toJson(this));
     }
 
+    /**
+     * Sends the serialized bean to the player with the given username
+     *
+     * @param username the username of the player to send the serialized bean to
+     */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
+        controller.playerMessage(username, ServerMessageType.WAREHOUSE, gson.toJson(this));
     }
 
     //PRINTING METHODS
@@ -135,29 +87,144 @@ public class WarehouseBean implements Observer, PlayerBean {
      * @return the String with the line to print
      */
     public String printLine(int line) {
-        line --;
-        if (line < 0 || line > 1)
+
+        if (line < 1 || line > 2)
             throw new ParametersNotValidException();
 
         String content = "";
 
         switch (line) {
-            case 0 -> {
-                return " First " + basicDepotNum + " depots are Basic Depots";
-            }
-            case 1 -> {
-                content += drawSlots();
-            }
+
+            //Row 1
+            case 1 -> content += " First " + basicDepotNum + " depots are Basic Depots";
+
+            //Row 2
+            case 2 -> content += drawSlots();
+
         }
+
         return content;
     }
 
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
     @Override
     public String toString() {
+
+        String result = Color.HEADER + username + "'s Warehouse:\n" + Color.RESET;
+
+        for (int i = 1; i <= 2; i++)
+            result +=   printLine(i) +
+                        "\n";
+
+        return result;
+    }
+
+    //PRIVATE PRINTING METHODS
+
+    /**
+     * Returns a String representation of the warehouse's depots
+     *
+     * @return the String representation of the depots
+     */
+    private String drawSlots() {
         String content = "";
-        content += " First " + basicDepotNum + " depots are Basic Depots";
-        content += drawSlots();
-        return Color.HEADER + username + "'s Warehouse:\n" + Color.RESET +
-                " First " + basicDepotNum + " depots are Basic Depots\n" + content + "\n";
+
+        for (int i = 0; i < depotType.length; i++) {
+            content += " " + (i+1);
+            content += ".[ ";
+            int quantity = depotQuantity[i];
+
+            //Prints either the resource or a gray square (for basic depot) or a gray resource (for leader depots)
+            for (int j = 0; j < depotSizes[i]; j++) {
+
+                if (quantity > 0) {
+                    content += depotType[i].iconPrint() + " ";
+                    quantity--;
+                } else {
+                    if (i >= basicDepotNum)
+                        content += "(" + Color.GREY_LIGHT_FG + depotType[i].iconPrint() + Color.RESET + ")";
+                    else
+                        content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
+                }
+            }
+
+            content += "]";
+
+        }
+
+        return content;
+    }
+
+    // GETTERS
+
+    /**
+     * Getter for the strongbox's player's username
+     *
+     * @return the player's username
+     */
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Getter for the resources that are store (or can be stored for leader depots) in each depot
+     *
+     * @return a ResourceType array of the resources that can be stored
+     */
+    public ResourceType[] getDepotType() {
+        return depotType.clone();
+    }
+
+    /**
+     * Getter for the quantity of resources stored in each depot
+     *
+     * @return an int array of the quantity of resource stored for each depot
+     */
+    public int[] getDepotQuantity() {
+        return depotQuantity.clone();
+    }
+
+    /**
+     * Getter for the size of each depot
+     *
+     * @return an int array of the size of each depot
+     */
+    public int[] getDepotSizes() {
+        return depotSizes.clone();
+    }
+
+    /**
+     * Getter for the number of warehouse depots that are basic depots
+     *
+     * @return the number of basic depots
+     */
+    public int getBasicDepotNum() {
+        return basicDepotNum;
+    }
+
+    // SETTERS
+
+    /**
+     * Sets the depot's information
+     *
+     * @param warehouse the object to take the information from
+     */
+    public void setDepotsFromWarehouse(Warehouse warehouse) {
+        depotType = new ResourceType[warehouse.getNumOfDepots()];
+        depotQuantity = new int[depotType.length];
+        depotSizes = new int[depotType.length];
+
+        for (int i = 0; i < warehouse.getNumOfDepots(); i++) {
+            ResourceDepot depot = warehouse.getDepot(i + 1);
+
+            depotType[i] = depot.getAcceptedResource();
+            depotQuantity[i] = depot.getNumOfResource(depotType[i]);
+            depotSizes[i] = depot.getSize();
+        }
     }
 }

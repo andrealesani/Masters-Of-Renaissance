@@ -1000,6 +1000,11 @@ public class Game implements UserCommandsInterface, Observable {
         return winnerVp;
     }
 
+    /**
+     * Getter for the last pope's favor tile to be triggered
+     *
+     * @return the number of the last triggered pope's favor tile, '0' if no tile has been triggered yet
+     */
     public int getLastTriggeredTile() {
         return lastTriggeredTile;
     }
@@ -1024,7 +1029,7 @@ public class Game implements UserCommandsInterface, Observable {
         throw new CardNotPresentException();
     }
 
-    // SETTERS
+    // PERSISTENCE METHODS
 
     public void restoreCurrentPlayer(String username) {
         currentPlayer = playersTurnOrder.stream()
@@ -1067,11 +1072,21 @@ public class Game implements UserCommandsInterface, Observable {
         observers.forEach(observer -> observer.update(this));
     }
 
+    /**
+     * Adds an observer to the list of this object's observers
+     *
+     * @param observer the Observer to be added
+     */
     public void addObserver(Observer observer) {
         observers.add(observer);
         notifyObservers();
     }
 
+    /**
+     * Returns the list of this object's observers
+     *
+     * @return a List of the Observers
+     */
     public List<Observer> getObservers() {
         return observers;
     }

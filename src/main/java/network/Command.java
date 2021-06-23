@@ -28,6 +28,12 @@ public class Command {
 
     //CONSTRUCTORS
 
+    /**
+     * Constructor
+     *
+     * @param commandType the type of the stored command
+     * @param parameters the parameters of the stored command
+     */
     public Command(UserCommandsType commandType, Map<String, Object> parameters) {
         if (commandType == null)
             throw new ParametersNotValidException();
@@ -36,8 +42,12 @@ public class Command {
         this.parameters = Objects.requireNonNullElseGet(parameters, HashMap::new);
     }
 
-    // For Gson
-    public Command() {}
+    /**
+     * Constructor used for deserialization by the Gson class
+     */
+    public Command() {
+        //Do nothing
+    }
 
     //PUBLIC METHODS
 

@@ -6,9 +6,9 @@ package network.beans;
  */
 public interface PlayerBean {
     /**
-     * Returns the username of the player the bean belongs to
+     * Getter for the bean's player's username
      *
-     * @return the username of the player
+     * @return the player's username
      */
     String getUsername();
 }

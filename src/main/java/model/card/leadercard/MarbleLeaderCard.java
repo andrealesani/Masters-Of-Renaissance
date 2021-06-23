@@ -109,6 +109,13 @@ public class MarbleLeaderCard extends LeaderCard {
         return requiredQuantities;
     }
 
+    //PRINTING METHODS
+
+    /**
+     * Prints a String representation of the card
+     *
+     * @return the card's String representation
+     */
     @Override
     public String toString() {
         String content = "";

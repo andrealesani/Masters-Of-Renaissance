@@ -7,6 +7,7 @@ import model.PlayerBoard;
  * This class represents the game's faith resource and red marble
  */
 public class ResourceFaith extends Resource {
+
     //CONSTRUCTOR
 
     /**

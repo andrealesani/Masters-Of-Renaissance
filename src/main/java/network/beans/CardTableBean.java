@@ -3,19 +3,13 @@ package network.beans;
 import Exceptions.CardNotPresentException;
 import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
-import network.MessageType;
+import network.ServerMessageType;
 import network.StaticMethods;
 import server.GameController;
-import server.ServerMain;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -41,11 +35,59 @@ public class CardTableBean implements Observer {
 
     // CONSTRUCTOR
 
+    /**
+     * Constructor
+     *
+     * @param controller the GameController for the bean's game
+     */
     public CardTableBean(GameController controller) {
         this.controller = controller;
     }
 
-    // PRIVATE METHODS
+    //PRIVATE METHODS
+
+    //TODO spostare in clientView
+
+    /**
+     * Sets the developmentCards list reading them from DevelopmentCards.json file
+     */
+    private void setDevelopmentCardsFromJson() {
+        developmentCards = new HashMap<>();
+        int id = 17;
+        List<List<DevelopmentCard>> greenCards = new ArrayList<>();
+        List<List<DevelopmentCard>> blueCards = new ArrayList<>();
+        List<List<DevelopmentCard>> yellowCards = new ArrayList<>();
+        List<List<DevelopmentCard>> purpleCards = new ArrayList<>();
+
+        // BLUE CARDS
+        createDecksFromJSON(blueCards, CardColor.BLUE);
+        developmentCards.put(CardColor.BLUE, blueCards);
+        for (List<DevelopmentCard> deck : developmentCards.get(CardColor.BLUE))
+            for (DevelopmentCard card : deck)
+                card.setId(id++);
+
+        // GREEN CARDS
+        createDecksFromJSON(greenCards, CardColor.GREEN);
+        developmentCards.put(CardColor.GREEN, greenCards);
+        for (List<DevelopmentCard> deck : developmentCards.get(CardColor.GREEN))
+            for (DevelopmentCard card : deck)
+                card.setId(id++);
+
+        // PURPLE CARDS
+        createDecksFromJSON(purpleCards, CardColor.PURPLE);
+        developmentCards.put(CardColor.PURPLE, purpleCards);
+        for (List<DevelopmentCard> deck : developmentCards.get(CardColor.PURPLE))
+            for (DevelopmentCard card : deck)
+                card.setId(id++);
+
+        // YELLOW CARDS
+        createDecksFromJSON(yellowCards, CardColor.YELLOW);
+        developmentCards.put(CardColor.YELLOW, yellowCards);
+        for (List<DevelopmentCard> deck : developmentCards.get(CardColor.YELLOW))
+            for (DevelopmentCard card : deck)
+                card.setId(id++);
+
+    }
 
     /**
      * Takes in input the path of the JSON file to read and the List of decks of a specific color,
@@ -56,12 +98,12 @@ public class CardTableBean implements Observer {
      * The method is hardcoded to receive cards with levels from 1 to 3.
      *
      * @param colorCards specifies which column of the deck is going to be instantiated
-     * @param color specifies the color of the cards of the decks to create
+     * @param color      specifies the color of the cards of the decks to create
      */
     private void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
         List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
         for (int i = 0; i < 3; i++) {
-            colorCards.add(new ArrayList<DevelopmentCard>());
+            colorCards.add(new ArrayList<>());
         }
         for (DevelopmentCard developmentCard : cards) {
             if (developmentCard.getColor() == color) {
@@ -75,19 +117,119 @@ public class CardTableBean implements Observer {
         }
     }
 
+    // OBSERVER METHODS
+
+    /**
+     * Updates the bean with the information contained in the observed class, then broadcasts its serialized self to all players
+     *
+     * @param observable the observed class
+     */
+    public void update(Object observable) {
+        Gson gson = new Gson();
+        CardTable cardTable = (CardTable) observable;
+        setCardTableFromGame(cardTable);
+
+        controller.broadcastMessage(ServerMessageType.CARDTABLE, gson.toJson(this));
+    }
+
+    /**
+     * Sends the serialized bean to the player with the given username
+     *
+     * @param username the username of the player to send the serialized bean to
+     */
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, ServerMessageType.CARDTABLE, gson.toJson(this));
+    }
+
+    //PRINTING METHODS
+
+    /**
+     * Prints only one line of the CardTable so that multiple objects can be printed in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
+    public String printLine(int line) {
+
+        if (line < 1 || line > cards.length)
+            throw new ParametersNotValidException();
+
+        String content = "";
+
+        //Print the level of the cards in the row
+        content += "Level " + (line) + "   ";
+
+        line--;
+
+        //Print the row of cards
+        for (int cell : cards[line]) {
+
+            //If there is no card in the cell
+            if (cell == -1)
+                content += " " + " " + "xx" + " " + " ";
+
+            try {
+
+                //Print the cell's card' id in the correct color
+                if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
+                    content += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
+                    content += " " + Color.GREEN_BG + " " + cell + " " + Color.RESET + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
+                    content += " " + Color.PURPLE_BG + " " + cell + " " + Color.RESET + " ";
+                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
+                    content += " " + Color.YELLOW_DARK_BG + " " + cell + " " + Color.RESET + " ";
+
+            } catch (CardNotPresentException e) {
+                System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
+            }
+
+        }
+
+        return content;
+    }
+
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
+    @Override
+    public String toString() {
+
+        if (!cardsInitialized) {
+            setDevelopmentCardsFromJson();
+            cardsInitialized = true;
+        }
+
+        String result = Color.HEADER + "CardTable:\n" + Color.RESET;
+
+        for (int i = 1; i <= 3; i++) {
+            result += printLine(i) + "\n";
+        }
+
+        return result;
+    }
+
     // GETTERS
 
     /**
-     * Getter
+     * Getter for the card table
      *
      * @return a 2D matrix with the IDs of the cards on top of the CardTable
      */
     public int[][] getCards() {
-        return cards;
+        int[][] result = new int[cards.length][];
+
+        for (int i = 0; i < cards.length; i++)
+            result [i] = cards[i].clone();
+
+        return result;
     }
 
     /**
-     * Getter
+     * Getter for a development card with a specific id
      *
      * @param id of the card to be returned
      * @return the DevelopmentCard associated to the specified ID
@@ -113,9 +255,9 @@ public class CardTableBean implements Observer {
     // SETTERS
 
     /**
-     * Sets the cards 2D matrix reading data from the given CardTable
+     * Sets the matrix representing the card table's top layer
      *
-     * @param cardTable object to take the information from
+     * @param cardTable the object to take the information from
      */
     private void setCardTableFromGame(CardTable cardTable) {
         cards = new int[3][cardTable.getCards().entrySet().size()];
@@ -130,139 +272,5 @@ public class CardTableBean implements Observer {
                 j++;
             }
         }
-    }
-
-    /**
-     * Sets the developmentCards list reading them from DevelopmentCards.json file
-     */
-    private void setDevelopmentCardsFromJson() {
-        developmentCards = new HashMap<>();
-        int id = 17;
-        List<List<DevelopmentCard>> greenCards = new ArrayList<>();
-        List<List<DevelopmentCard>> blueCards = new ArrayList<>();
-        List<List<DevelopmentCard>> yellowCards = new ArrayList<>();
-        List<List<DevelopmentCard>> purpleCards = new ArrayList<>();
-
-        // BLUE CARDS
-        createDecksFromJSON(blueCards, CardColor.BLUE);
-        developmentCards.put(CardColor.BLUE, blueCards);
-        for(List<DevelopmentCard> deck : developmentCards.get(CardColor.BLUE))
-            for(DevelopmentCard card : deck)
-                card.setId(id++);
-
-        // GREEN CARDS
-        createDecksFromJSON(greenCards, CardColor.GREEN);
-        developmentCards.put(CardColor.GREEN, greenCards);
-        for(List<DevelopmentCard> deck : developmentCards.get(CardColor.GREEN))
-            for(DevelopmentCard card : deck)
-                card.setId(id++);
-
-        // PURPLE CARDS
-        createDecksFromJSON(purpleCards, CardColor.PURPLE);
-        developmentCards.put(CardColor.PURPLE, purpleCards);
-        for(List<DevelopmentCard> deck : developmentCards.get(CardColor.PURPLE))
-            for(DevelopmentCard card : deck)
-                card.setId(id++);
-
-        // YELLOW CARDS
-        createDecksFromJSON(yellowCards, CardColor.YELLOW);
-        developmentCards.put(CardColor.YELLOW, yellowCards);
-        for(List<DevelopmentCard> deck : developmentCards.get(CardColor.YELLOW))
-            for(DevelopmentCard card : deck)
-                card.setId(id++);
-
-    }
-
-    // OBSERVER METHODS
-
-    public void update(Object observable) {
-        Gson gson = new Gson();
-        CardTable cardTable = (CardTable) observable;
-        setCardTableFromGame(cardTable);
-
-        controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
-    }
-
-    public void updateSinglePlayer(String username) {
-        Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
-    }
-
-    /**
-     * This method is used to print only one line of the CardTable so that multiple objects can be printed
-     * in parallel in the CLI
-     *
-     * @param line the line to print (starts from 1)
-     * @return the String with the line to print
-     */
-    public String printLine(int line) {
-        line--;
-        if (line < 0 || line >= cards.length)
-            throw new ParametersNotValidException();
-        String content = "";
-
-        try {
-            content += "Level " + getDevelopmentCardFromId(cards[line][0]).getLevel() + "   ";
-        } catch (CardNotPresentException ignored) {
-            try {
-                content += "Level " + getDevelopmentCardFromId(cards[line][1]).getLevel() + "   ";
-            } catch (CardNotPresentException ignored1) {
-                try {
-                    content += "Level " + getDevelopmentCardFromId(cards[line][2]).getLevel() + "   ";
-                } catch (CardNotPresentException ignored2) {
-                }
-            }
-        }
-        for (int cell : cards[line]) {
-            if (cell == -1)
-                content += " " + " " + "xx" + " " + " ";
-            try {
-                if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                    content += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
-                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                    content += " " + Color.GREEN_BG + " " + cell + " " + Color.RESET + " ";
-                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                    content += " " + Color.PURPLE_BG + " " + cell + " " + Color.RESET + " ";
-                else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                    content += " " + Color.YELLOW_DARK_BG + " " + cell + " " + Color.RESET + " ";
-            } catch (CardNotPresentException e) {
-                System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
-            }
-        }
-
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        if (!cardsInitialized) {
-            setDevelopmentCardsFromJson();
-            cardsInitialized = true;
-        }
-        String board = "";
-        for (int[] row : cards) {
-            board += "\n ";
-            try {
-                board += "Level " + getDevelopmentCardFromId(row[0]).getLevel() + "   ";
-            } catch (CardNotPresentException ignored) {
-            }
-            for (int cell : row) {
-                try {
-                    if (getDevelopmentCardFromId(cell).getColor() == CardColor.BLUE)
-                        board += " " + Color.BLUE_BG + " " + cell + " " + Color.RESET + " ";
-                    else if (getDevelopmentCardFromId(cell).getColor() == CardColor.GREEN)
-                        board += " " + Color.GREEN_BG + " " + cell + " " + Color.RESET + " ";
-                    else if (getDevelopmentCardFromId(cell).getColor() == CardColor.PURPLE)
-                        board += " " + Color.PURPLE_BG + " " + cell + " " + Color.RESET + " ";
-                    else if (getDevelopmentCardFromId(cell).getColor() == CardColor.YELLOW)
-                        board += " " + Color.YELLOW_DARK_BG + " " + cell + " " + Color.RESET + " ";
-                } catch (CardNotPresentException e) {
-                    System.out.println("Warning: tried to read an ID that doesn't correspond to any DevelopmentCard");
-                }
-            }
-            board += "\n";
-        }
-        return Color.HEADER + "CardTable:\n" + Color.RESET +
-                board;
     }
 }

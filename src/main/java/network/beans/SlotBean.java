@@ -16,25 +16,42 @@ public class SlotBean {
      */
     private int[] developmentCards;
 
+    // PRINTING METHODS
+
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
+    @Override
+    public String toString() {
+        return  Arrays.toString(developmentCards);
+    }
+
     // GETTERS
 
+    /**
+     * Getter for the ids of the development cards stored in the card slot
+     *
+     * @return an array of int of the cards' id
+     */
     public int[] getDevelopmentCards() {
-        return developmentCards;
+        return developmentCards.clone();
     }
 
     // SETTERS
 
+    /**
+     * Sets the slot's stored cards
+     *
+     * @param playerBoard the object to take the information from
+     * @param slot the card slot to copy
+     */
     public void setDevelopmentCardsFromPB(PlayerBoard playerBoard, int slot) {
         int i = 0;
         developmentCards = new int[playerBoard.getCardSlots().get(slot-1).size()];
         for(DevelopmentCard card : playerBoard.getCardSlots().get(slot - 1)) {
-           developmentCards[i++] = card.getId();
+            developmentCards[i++] = card.getId();
         }
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(developmentCards) +
-                '\n';
     }
 }

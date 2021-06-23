@@ -8,7 +8,7 @@ import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import network.Command;
-import network.MessageType;
+import network.ServerMessageType;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
@@ -55,7 +55,7 @@ public class GameController {
         this.isGameOver = false;
         this.players = new HashMap<>();
         players.put(username, userOut);
-        playerMessage(username, MessageType.SET_USERNAME, username);
+        playerMessage(username, ServerMessageType.SET_USERNAME, username);
     }
 
     //PUBLIC METHODS
@@ -69,17 +69,17 @@ public class GameController {
     public synchronized void readCommand(String username, String commandString) {
         if (game == null) {
 
-            playerMessage(username, MessageType.ERROR, "The game has not yet started, as some players are still missing.");
+            playerMessage(username, ServerMessageType.ERROR, "The game has not yet started, as some players are still missing.");
             System.out.println("Player tried sending a command before the game start.");
 
         } else if (!username.equals(getCurrentPlayerUsername())) {
 
-            playerMessage(username, MessageType.ERROR, "It is not your turn to act.");
+            playerMessage(username, ServerMessageType.ERROR, "It is not your turn to act.");
             System.out.println("Wrong player tried to send a command.");
 
         } else if (isGameOver) {
 
-            playerMessage(username, MessageType.ERROR, "The game has already ended");
+            playerMessage(username, ServerMessageType.ERROR, "The game has already ended");
             System.out.println("Player tried to send a command after the end of the game.");
 
         } else {
@@ -90,13 +90,13 @@ public class GameController {
                 String result = command.runCommand(game);
 
                 if (result != null) {
-                    playerMessage(username, MessageType.ERROR, result);
+                    playerMessage(username, ServerMessageType.ERROR, result);
                     System.out.println("Error: " + result);
                 }
 
             } catch (Exception ex) {
 
-                playerMessage(username, MessageType.ERROR, "The message is not in json format.");
+                playerMessage(username, ServerMessageType.ERROR, "The message is not in json format.");
                 System.out.println("Player sent a message that was not a json.");
 
             }
@@ -129,14 +129,14 @@ public class GameController {
                     //If the player is reconnecting
                     setConnectedStatus(username);
                     players.put(username, userOut);
-                    playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
-                    playerMessage(username, MessageType.SET_USERNAME, username);
+                    playerMessage(username, ServerMessageType.GAME_START, "You have been reconnected to the game.");
+                    playerMessage(username, ServerMessageType.SET_USERNAME, username);
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateReconnectedPlayer(username);
 
                     //If the game has already ended
                     if (isGameOver)
-                        playerMessage(username, MessageType.GAME_END, "The game has ended.");
+                        playerMessage(username, ServerMessageType.GAME_END, "The game has ended.");
                     return;
                 }
             } else {
@@ -145,9 +145,9 @@ public class GameController {
         }
 
         //If the player is connecting for the first time
-        broadcastMessage(MessageType.PLAYER_CONNECTED, username);
+        broadcastMessage(ServerMessageType.PLAYER_CONNECTED, username);
         players.put(username, userOut);
-        playerMessage(username, MessageType.SET_USERNAME, username);
+        playerMessage(username, ServerMessageType.SET_USERNAME, username);
         System.out.println("Added player: " + username + " to current game.");
 
         checkGameStart();
@@ -178,19 +178,20 @@ public class GameController {
      * @param type     the type of the message
      * @param message  the content of the message
      */
-    public void playerMessage(String username, MessageType type, String message) {
+    public void playerMessage(String username, ServerMessageType type, String message) {
         players.get(username).println(
                 gson.toJson(
                         new MessageWrapper(type, message)));
     }
 
+    //TODO fare una versione del metodo che prende Message come parametro e poi serializza
     /**
      * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
      *
      * @param type    the type of the message
      * @param message the content of the message
      */
-    public void broadcastMessage(MessageType type, String message) {
+    public void broadcastMessage(ServerMessageType type, String message) {
         for (String player : players.keySet()) {
             playerMessage(player, type, message);
         }
@@ -221,7 +222,7 @@ public class GameController {
         } else {
             try {
                 game.setConnectedStatus(username);
-                broadcastMessage(MessageType.PLAYER_CONNECTED, username);
+                broadcastMessage(ServerMessageType.PLAYER_CONNECTED, username);
                 System.out.println("Player " + username + " is now connected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
@@ -246,7 +247,7 @@ public class GameController {
         } else {
             try {
                 game.setDisconnectedStatus(username);
-                broadcastMessage(MessageType.PLAYER_DISCONNECTED, username);
+                broadcastMessage(ServerMessageType.PLAYER_DISCONNECTED, username);
                 System.out.println("Player " + username + " is now disconnected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
@@ -256,7 +257,7 @@ public class GameController {
 
     public void setGameOver() {
         isGameOver = true;
-        broadcastMessage(MessageType.GAME_END, "The game has ended.");
+        broadcastMessage(ServerMessageType.GAME_END, "The game has ended.");
     }
 
     //PRIVATE METHODS
@@ -271,11 +272,11 @@ public class GameController {
         }
 
         if (players.size() != size) {
-            broadcastMessage(MessageType.WAIT_PLAYERS, "One player has joined, waiting for more players...");
+            broadcastMessage(ServerMessageType.WAIT_PLAYERS, "One player has joined, waiting for more players...");
             return;
         }
 
-        broadcastMessage(MessageType.GAME_START, "The last player has joined, the game will now commence...");
+        broadcastMessage(ServerMessageType.GAME_START, "The last player has joined, the game will now commence...");
 
         game = new Game(players.keySet());
         game.createBeans(this);

@@ -5,6 +5,7 @@ package model.lorenzo;
  * It is not meant to be considered as a second player in the game, but only as a series of actions done between the player's turns
  */
 public interface ArtificialIntelligence {
+
     //PUBLIC METHODS
 
     /**
@@ -27,7 +28,7 @@ public interface ArtificialIntelligence {
      * @param lastTriggeredTile the index of the tile the with the highest index that has been triggered (before this turn)
      * @return the index of the tile the with the highest index that has been triggered (during this turn)
      */
-    public int getNewTriggeredTile(int lastTriggeredTile);
+    int getNewTriggeredTile(int lastTriggeredTile);
 
     //GETTERS
 
@@ -36,5 +37,5 @@ public interface ArtificialIntelligence {
      *
      * @return A.I's current faith
      */
-    public int getFaith();
+    int getFaith();
 }

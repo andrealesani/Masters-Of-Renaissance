@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.card.leadercard.*;
-import network.MessageType;
+import network.ServerMessageType;
 import server.GameController;
 
 import java.io.InputStreamReader;
@@ -62,84 +62,21 @@ public class GameBean implements Observer {
 
     // CONSTRUCTOR
 
+    /**
+     * Constructor
+     *
+     * @param controller the GameController for the bean's game
+     */
     public GameBean(GameController controller) {
         this.controller = controller;
     }
 
-    // GETTERS
+    //PRIVATE METHODS
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public String[] getTurnOrder() {
-        return turnOrder.clone();
-    }
-
-    public boolean[] getConnectedPlayers() {
-        return connectedPlayers.clone();
-    }
-
-    public TurnPhase getTurnPhase() {
-        return turnPhase;
-    }
-
-    public LeaderCard getLeaderCardFromId(int id) throws CardNotPresentException {
-        if (!cardsInitialized) {
-            setLeaderCardsFromJson();
-            cardsInitialized = true;
-        }
-        for (LeaderCard leaderCard : leaderCards)
-            if (leaderCard.getId() == id)
-                return leaderCard;
-        throw new CardNotPresentException();
-    }
-
-    public String getWinner() {
-        return winner;
-    }
-
-    public int getWinnerVp() {
-        return winnerVp;
-    }
-
-    public boolean isLastTurn() {
-        return isLastTurn;
-    }
-
-    // SETTERS
-
-    public void setCurrentPlayerFromGame(Game game) {
-        currentPlayer = game.getCurrentPlayer().getUsername();
-    }
-
-    public void setTurnPhaseFromGame(Game game) {
-        turnPhase = game.getTurnPhase();
-    }
-
-    public void setTurnOrderAndConnectedFromGame(Game game) {
-        List<PlayerBoard> playerBoards = game.getPlayersTurnOrder();
-        turnOrder = new String[playerBoards.size()];
-        connectedPlayers = new boolean[playerBoards.size()];
-        for (int i = 0; i < turnOrder.length; i++) {
-            PlayerBoard playerBoard = playerBoards.get(i);
-            turnOrder[i] = playerBoard.getUsername();
-            connectedPlayers[i] = playerBoard.isConnected();
-        }
-    }
-
-    public void setWinner(Game game) {
-        winner = game.getWinner();
-    }
-
-    public void setWinnerVp(Game game) {
-        winnerVp = game.getWinnerVp();
-    }
-
-    public void setLastTurn(Game game) {
-        isLastTurn = game.isEndGame();
-    }
-
+    /**
+     * Sets the leaderCards list reading them from LeaderCards.json file
+     */
+    //TODO spostare in clientView
     private void setLeaderCardsFromJson() {
         //TODO controllare valori in input dal JSON (typo nelle enum, valori <0, etc)
         leaderCards = new ArrayList<>();
@@ -182,6 +119,11 @@ public class GameBean implements Observer {
 
     // OBSERVER METHODS
 
+    /**
+     * Updates the bean with the information contained in the observed class, then broadcasts its serialized self to all players
+     *
+     * @param observable the observed class
+     */
     public void update(Object observable) {
         Gson gson = new Gson();
         Game game = (Game) observable;
@@ -192,29 +134,197 @@ public class GameBean implements Observer {
         setWinner(game);
         setWinnerVp(game);
 
-        controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
+        controller.broadcastMessage(ServerMessageType.GAME, gson.toJson(this));
 
         if (winner != null)
             controller.setGameOver();
     }
 
+    /**
+     * Sends the serialized bean to the player with the given username
+     *
+     * @param username the username of the player to send the serialized bean to
+     */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.GAME, gson.toJson(this));
+        controller.playerMessage(username, ServerMessageType.GAME, gson.toJson(this));
     }
 
+    //PRINTING METHODS
+
+
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
     @Override
     public String toString() {
-        if (winner == null && !isLastTurn)
+        if (winner != null)
+            return Color.HEADER + winner + " wins the game with " + winnerVp + " points!" +
+                    "\n" +
+                    "The game has ended, type 'ESC + :q' to close the game" +
+                    "\n";
+
+        if (!isLastTurn)
             return Color.HEADER + "\nGame State:\n" + Color.RESET +
-                    " Current player is " + currentPlayer +
-                    " and we're in " + turnPhase + " phase\n";
-        else if (winner == null && isLastTurn)
+                    " Current player is " + currentPlayer + " and we're in the " + turnPhase.definitionPrint() + " phase" +
+                    "\n";
+
+        else
             return Color.HEADER + "\nGame State:\n" + Color.RESET +
                     " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET +
-                    " Current player is " + currentPlayer +
-                    " and we're in " + turnPhase + " phase\n";
-        else
-            return Color.HEADER + winner + " wins the game with " + winnerVp + " points!\nThe game has ended, type 'ESC + :q' to close the game";
+                    " Current player is " + currentPlayer + " and we're in " + turnPhase.definitionPrint() + " phase" +
+                    "\n";
+    }
+
+    // GETTERS
+
+    /**
+     * Getter for the game's player who should currently be taking their turn
+     *
+     * @return a String containing the current player's username
+     */
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Getter for the game's turn order
+     *
+     * @return an array of the player's usernames as Strings, following turn order
+     */
+    public String[] getTurnOrder() {
+        return turnOrder.clone();
+    }
+
+    /**
+     * Getter for the status of connection for the game's players
+     *
+     * @return an array of the player's connection status (true - connected, false - disconnected), following turn order
+     */
+    public boolean[] getConnectedPlayers() {
+        return connectedPlayers.clone();
+    }
+
+    /**
+     * Getter for the game's turn phase
+     *
+     * @return the game's current turn phase
+     */
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
+    }
+
+    /**
+     * Getter for the leader card corresponding to a specific card id.
+     * The first time this method is called, LeaderCard objects are created
+     *
+     * @param id the id of the leader card
+     * @return the LeaderCard with the given id
+     * @throws CardNotPresentException if the given id does not correspond to any card
+     */
+    public LeaderCard getLeaderCardFromId(int id) throws CardNotPresentException {
+        if (!cardsInitialized) {
+            setLeaderCardsFromJson();
+            cardsInitialized = true;
+        }
+
+        for (LeaderCard leaderCard : leaderCards)
+            if (leaderCard.getId() == id)
+                return leaderCard;
+
+        throw new CardNotPresentException();
+    }
+
+    /**
+     * Returns the username of the game's winner
+     *
+     * @return the game's winner. 'null' if the game is not over
+     */
+    public String getWinner() {
+        return winner;
+    }
+
+    /**
+     * Returns the number of victory points of the game's winner
+     *
+     * @return the winner's victory points. 'null' if the game is not over
+     */
+    public int getWinnerVp() {
+        return winnerVp;
+    }
+
+    /**
+     * Returns true if the game is on its last turn
+     *
+     * @return true if the game is on its last turn
+     */
+    public boolean isLastTurn() {
+        return isLastTurn;
+    }
+
+    // SETTERS
+
+    /**
+     * Sets the player who should be currently taking their turn
+     *
+     * @param game the object to take the information from
+     */
+    private void setCurrentPlayerFromGame(Game game) {
+        currentPlayer = game.getCurrentPlayer().getUsername();
+    }
+
+    /**
+     * Sets the current turn phase
+     *
+     * @param game the object to take the information from
+     */
+    private void setTurnPhaseFromGame(Game game) {
+        turnPhase = game.getTurnPhase();
+    }
+
+    /**
+     * Sets the game's turn order and the connection status of its players
+     *
+     * @param game the object to take the information from
+     */
+    private void setTurnOrderAndConnectedFromGame(Game game) {
+        List<PlayerBoard> playerBoards = game.getPlayersTurnOrder();
+        turnOrder = new String[playerBoards.size()];
+        connectedPlayers = new boolean[playerBoards.size()];
+
+        for (int i = 0; i < turnOrder.length; i++) {
+            PlayerBoard playerBoard = playerBoards.get(i);
+            turnOrder[i] = playerBoard.getUsername();
+            connectedPlayers[i] = playerBoard.isConnected();
+        }
+    }
+
+    /**
+     * Sets the game's winner
+     *
+     * @param game the object to take the information from
+     */
+    private void setWinner(Game game) {
+        winner = game.getWinner();
+    }
+
+    /**
+     * Sets the game's winners' victory points
+     *
+     * @param game the object to take the information from
+     */
+    private void setWinnerVp(Game game) {
+        winnerVp = game.getWinnerVp();
+    }
+
+    /**
+     * Sets the flag stating if the game is on its last turn
+     *
+     * @param game the object to take the information from
+     */
+    private void setLastTurn(Game game) {
+        isLastTurn = game.isEndGame();
     }
 }

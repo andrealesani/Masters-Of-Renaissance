@@ -4,8 +4,7 @@ import client.ClientView;
 import client.GUI.SceneName;
 import client.GUI.SimplePopup;
 import client.GUI.GUI;
-import client.GUI.ThiccPopup;
-import com.google.gson.Gson;
+import client.GUI.AdvancedPopup;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,7 +22,7 @@ import model.TurnPhase;
 import model.lorenzo.tokens.LorenzoTokenType;
 import model.resource.ResourceType;
 import network.Command;
-import network.MessageType;
+import network.ServerMessageType;
 import network.UserCommandsType;
 import network.beans.*;
 
@@ -70,7 +69,7 @@ public class GameBoardController implements GUIController {
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane, lorenzoTokenPane;
     @FXML
-    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel, lorenzoTokenLeftLabel;
+    public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel, lorenzoTokenLeftLabel, lastTurnLabel;
     @FXML
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image;
     @FXML
@@ -130,8 +129,8 @@ public class GameBoardController implements GUIController {
             case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(response);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(response);
-            case PLAYER_CONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
-            case PLAYER_DISCONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
+            case PLAYER_CONNECTED -> SimplePopup.display(ServerMessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
+            case PLAYER_DISCONNECTED -> SimplePopup.display(ServerMessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
             default -> System.out.println("Warning: received unexpected message " + response);
         }
     }
@@ -142,7 +141,7 @@ public class GameBoardController implements GUIController {
      * Displays the production selection screen as a popup
      */
     public void viewProductions() {
-        ThiccPopup.display(gui.getSceneBySceneName(SceneName.PRODUCTIONS));
+        AdvancedPopup.display(gui.getSceneBySceneName(SceneName.PRODUCTIONS));
     }
 
     /**
@@ -306,7 +305,7 @@ public class GameBoardController implements GUIController {
      * @param quantity             the amount of resource to transfer
      */
     public void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
-
+        //TODO
     }
 
     /**
@@ -585,7 +584,7 @@ public class GameBoardController implements GUIController {
      */
     private void setupActionSelection() {
         waitingRoomTitleLabel.setText("Waiting room:");
-        descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate. Jolly resources in input and output have to be chosen before confirming.");
+        descriptionText.setText("Choose either a row or column of the market, a development card to buy or a set of productions to activate.");
 
         disableButtons();
         waitingRoomPane.setVisible(false);
@@ -817,31 +816,37 @@ public class GameBoardController implements GUIController {
         TurnPhase currPhase = gameBean.getTurnPhase();
 
         //Turn phase information
-        drawTurnPhaseInfo(currPlayer, currPhase);
+        drawTurnPhaseInfo(currPlayer, currPhase, gameBean.isLastTurn());
 
         //Turn order
         drawTurnOrder(gameBean.getTurnOrder(), gameBean.getConnectedPlayers());
 
         //Activates buttons and interactibles
         if (!visualizedPlayer.equals(clientView.getUsername())) {
+
             //If viewing another player's board
             descriptionText.setText("You are viewing another player's board.");
             disableButtons();
             if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
+
         } else if (!currPlayer.equals(clientView.getUsername())) {
+
             //If not currently the client's turn
             descriptionText.setText("You are not the current player.");
             disableButtons();
             if (currPhase != TurnPhase.LEADERCHOICE)
                 enableVisualizedPlayerButtons();
+
         } else {
             //Activates specific interactibles depending on the current turn phase
             switch (currPhase) {
+
                 case LEADERCHOICE -> setupLeaderChoice();
                 case ACTIONSELECTION -> setupActionSelection();
                 case MARKETDISTRIBUTION -> setupMarketDistribution();
                 case CARDPAYMENT, PRODUCTIONPAYMENT -> setupPayment();
+
             }
         }
     }
@@ -852,13 +857,19 @@ public class GameBoardController implements GUIController {
      * @param currPlayer the username of the current player
      * @param currPhase  the current turn phase
      */
-    private void drawTurnPhaseInfo(String currPlayer, TurnPhase currPhase) {
+    private void drawTurnPhaseInfo(String currPlayer, TurnPhase currPhase, boolean isLastTurn) {
         currentPlayerLabel.setText(currPlayer);
         //Alerts the player if it is now their turn and previously was not
         if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
-            SimplePopup.display(MessageType.INFO, "It's your turn to act!");
+            if (isLastTurn) {
+                SimplePopup.display(ServerMessageType.INFO, "It's your turn to act! This is your last turn.");
+                lastTurnLabel.setVisible(true);
+            } else {
+                SimplePopup.display(ServerMessageType.INFO, "It's your turn to act!");
+                lastTurnLabel.setVisible(false);
+            }
         previousPlayer = (currPlayer);
-        turnPhaseLabel.setText(currPhase.vanillaToString());
+        turnPhaseLabel.setText(currPhase.definitionPrint());
         viewedPlayerLabel.setText(visualizedPlayer);
     }
 
@@ -1149,7 +1160,7 @@ public class GameBoardController implements GUIController {
         //Faith marker
         drawFaithTrack(lorenzoFaithGrid, "/graphics/punchboard/lorenzoFaithMarker.png", lorenzoBean.getFaith());
         //Number of active tokens
-        lorenzoTokenLeftLabel.setText(Integer.toString(lorenzoBean.getActiveTokens().length));
+        lorenzoTokenLeftLabel.setText(Integer.toString(lorenzoBean.getActiveTokenNumber()));
         //Discarded tokens
         LorenzoTokenType[] discardedTokens = lorenzoBean.getDiscardedTokens();
         List<Node> lorenzoTokenChildren = lorenzoUsedTokenGrid.getChildren();

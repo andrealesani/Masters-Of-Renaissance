@@ -7,7 +7,7 @@ import model.Observer;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.LorenzoTokenType;
-import network.MessageType;
+import network.ServerMessageType;
 import server.GameController;
 
 import java.util.Arrays;
@@ -25,54 +25,106 @@ public class LorenzoBean implements Observer {
      */
     private int faith;
     /**
-     * Represents Lorenzo's activeDeck list
+     * Represents Lorenzo's activeDeck list size
      */
-    private LorenzoTokenType[] activeTokens;
+    private int activeTokenNumber;
     /**
      * Represents Lorenzo's usedDeck list
      */
     private LorenzoTokenType[] discardedTokens;
 
+    //CONSTRUCTORS
+
+    /**
+     * Constructor
+     *
+     * @param controller the GameController for the bean's game
+     */
     public LorenzoBean(GameController controller) {
         this.controller = controller;
     }
 
-    // GETTERS
+    // OBSERVER METHODS
 
-    public int getFaith() {
-        return faith;
+    /**
+     * Updates the bean with the information contained in the observed class, then broadcasts its serialized self to all players
+     *
+     * @param observable the observed class
+     */
+    public void update(Object observable) {
+        Gson gson = new Gson();
+        Lorenzo lorenzo = (Lorenzo) observable;
+        setFaithFromGame(lorenzo);
+        setActiveTokenNumberFromGame(lorenzo);
+        setDiscardedTokensFromGame(lorenzo);
+
+        controller.broadcastMessage(ServerMessageType.LORENZO, gson.toJson(this));
     }
 
-    public LorenzoTokenType[] getActiveTokens() {
-        return activeTokens;
+    /**
+     * Sends the serialized bean to the player with the given username
+     *
+     * @param username the username of the player to send the serialized bean to
+     */
+    public void updateSinglePlayer(String username) {
+        Gson gson = new Gson();
+        controller.playerMessage(username, ServerMessageType.LORENZO, gson.toJson(this));
     }
 
-    public LorenzoTokenType[] getDiscardedTokens() {
-        return discardedTokens;
+    //PRINTING METHODS
+
+    /**
+     * This method is used to print only one line of Lorenzo so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
+    public String printLine(int line) {
+
+        if(line < 1 || line > 3)
+            throw new ParametersNotValidException();
+
+        line--;
+
+        //Row 1
+        if(line == 0)
+            return drawFaithTrack();
+
+        //Row 2
+        if (line == 1)
+            return " Active Tokens: " + Color.RESOURCE_STD + activeTokenNumber + Color.RESET;
+
+        //Row 3
+        else
+            return " Discarded Tokens: " + Arrays.toString(
+                    Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray());
     }
 
-    // SETTERS
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
+    @Override
+    public String toString() {
 
-    private void setFaithFromGame(Lorenzo lorenzo) {
-        faith = lorenzo.getFaith();
-    }
+        String result = Color.HEADER + "Lorenzo:\n" + Color.RESET;
 
-    private void setActiveTokensFromGame(Lorenzo lorenzo) {
-        int i = 0;
-        activeTokens = new LorenzoTokenType[lorenzo.getActiveDeck().size()];
-        for (ActionToken token : lorenzo.getActiveDeck()) {
-            activeTokens[i++] = token.getType();
+        for (int i = 1; i <= 3; i++) {
+            result += printLine(i) + "\n";
         }
+
+        return result;
     }
 
-    private void setDiscardedTokensFromGame(Lorenzo lorenzo) {
-        int i = 0;
-        discardedTokens = new LorenzoTokenType[lorenzo.getUsedDeck().size()];
-        for (ActionToken token : lorenzo.getUsedDeck()) {
-            discardedTokens[i++] = token.getType();
-        }
-    }
+    //PRIVATE DRAWING METHODS
 
+    /**
+     * Returns a String representation of a faith track with lorenzo's faith marker
+     *
+     * @return the String representation of lorenzo's faith track
+     */
     private String drawFaithTrack () {
         //TODO NON HARDCODARE
         int[] popeTriggerValues = {8, 16, 24};
@@ -80,7 +132,7 @@ public class LorenzoBean implements Observer {
 
         String content = " ";
         int nextPopeTile = 0;
-        int nextFaithTile = 0;
+
         for (int pos = 0; pos <= 24; pos++) {
 
             //The faith track tile
@@ -119,55 +171,66 @@ public class LorenzoBean implements Observer {
         return content;
     }
 
+    // GETTERS
 
-    // OBSERVER METHODS
-
-    public void update(Object observable) {
-        Gson gson = new Gson();
-        Lorenzo lorenzo = (Lorenzo) observable;
-        setFaithFromGame(lorenzo);
-        setActiveTokensFromGame(lorenzo);
-        setDiscardedTokensFromGame(lorenzo);
-
-        controller.broadcastMessage(MessageType.LORENZO, gson.toJson(this));
-    }
-
-    public void updateSinglePlayer(String username) {
-        Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.LORENZO, gson.toJson(this));
+    /**
+     * Getter for lorenzo's faith
+     *
+     * @return an int representing the AI's faith score
+     */
+    public int getFaith() {
+        return faith;
     }
 
     /**
-     * This method is used to print only one line of Lorenzo so that multiple objects can be printed
-     * in parallel in the CLI
+     * Getter for lorenzo's number of unused tokens
      *
-     * @param line the line to print (starts from 1)
-     * @return the String with the line to print
+     * @return an int representing the AI's remaining unused tokens
      */
-    public String printLine(int line) {
-        line--;
-        if(line < 0 || line > 2)
-            throw new ParametersNotValidException();
-
-        if(line == 0)
-            return drawFaithTrack();
-        if (line == 1)
-            return " Active Tokens: " + Color.RESOURCE_STD + activeTokens.length + Color.RESET;
-        if (line == 2)
-            return " Discarded Tokens: " + Arrays.toString(
-                    Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray());
-        else
-            return "";
+    public int getActiveTokenNumber() {
+        return activeTokenNumber;
     }
 
-    @Override
-    public String toString() {
-        return Color.HEADER + "Lorenzo:\n" + Color.RESET +
-                drawFaithTrack() + "\n" +
-                " Active Tokens: " + Color.RESOURCE_STD + activeTokens.length + Color.RESET + "\n" +
-                " discardedTokens: " +
-                Arrays.toString(
-                        Arrays.stream(discardedTokens).map(LorenzoTokenType::iconPrint).toArray()) +
-                "\n";
+    /**
+     * Getter for lorenzo's used tokens
+     *
+     * @return an array of the AI's discarded tokens, the first being the last that was used
+     */
+    public LorenzoTokenType[] getDiscardedTokens() {
+        return discardedTokens.clone();
     }
+
+    // SETTERS
+
+    /**
+     * Sets lorenzo's faith score
+     *
+     * @param lorenzo the object to take the information from
+     */
+    private void setFaithFromGame(Lorenzo lorenzo) {
+        faith = lorenzo.getFaith();
+    }
+
+    /**
+     * Sets lorenzo's number of unused tokens
+     *
+     * @param lorenzo the object to take the information from
+     */
+    private void setActiveTokenNumberFromGame(Lorenzo lorenzo) {
+        activeTokenNumber = lorenzo.getActiveDeck().size();
+    }
+
+    /**
+     * Sets lorenzo's array of used tokens
+     *
+     * @param lorenzo the object to take the information from
+     */
+    private void setDiscardedTokensFromGame(Lorenzo lorenzo) {
+        int i = 0;
+        discardedTokens = new LorenzoTokenType[lorenzo.getUsedDeck().size()];
+        for (ActionToken token : lorenzo.getUsedDeck()) {
+            discardedTokens[i++] = token.getType();
+        }
+    }
+
 }

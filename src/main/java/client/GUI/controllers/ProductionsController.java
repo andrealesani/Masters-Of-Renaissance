@@ -96,7 +96,7 @@ public class ProductionsController implements GUIController {
                 enableSetupProductionChoiceButtons(productionHandlerBean);
                 enableSetupJollyConversionButtons();
 
-                descriptionText.setText("Please, select the productions you wish to activate. Before confirming, all jollies in input and output must be converted by clicking on the chosen resource.");
+                descriptionText.setText("Please, select the productions you wish to activate. Before confirming, all jollies in input and output must be converted into a specific resource by clicking on its corresponding icon.");
 
                 break;
             default:

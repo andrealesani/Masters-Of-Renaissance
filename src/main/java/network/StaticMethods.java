@@ -14,7 +14,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used for keeping general purpose static methods
+ */
 public class StaticMethods {
+    /**
+     * Clears the console on windows and linux
+     */
     public static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");

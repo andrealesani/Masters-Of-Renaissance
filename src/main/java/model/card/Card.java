@@ -92,9 +92,9 @@ public abstract class Card {
     //PRINTING METHODS
 
     /**
-     * Returns a String version of the card's information
+     * Prints a String representation of the card
      *
-     * @return the card as a string
+     * @return the card's String representation
      */
     @Override
     public String toString() {

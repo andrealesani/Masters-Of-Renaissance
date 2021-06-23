@@ -126,6 +126,13 @@ public class DevelopmentCard extends Card {
         return new Production(getId(), input, output);
     }
 
+    //PRINTING METHODS
+
+    /**
+     * Prints a String representation of the card
+     *
+     * @return the card's String representation
+     */
     @Override
     public String toString() {
         String content = "";

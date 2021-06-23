@@ -89,7 +89,7 @@ public class DiscountLeaderCard extends LeaderCard {
     //GETTERS
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the type of the resource that gets discounted by activating this leader card
      */
@@ -98,7 +98,7 @@ public class DiscountLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the number of resources discounted when this leader card gets activated
      */
@@ -107,7 +107,7 @@ public class DiscountLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the color of the development cards required to activate this leader card
      */
@@ -116,7 +116,7 @@ public class DiscountLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the number of development cards of the specified color required to activate this leader card
      */
@@ -124,6 +124,13 @@ public class DiscountLeaderCard extends LeaderCard {
         return requiredQuantities;
     }
 
+    //PRINTING METHODS
+
+    /**
+     * Prints a String representation of the card
+     *
+     * @return the card's String representation
+     */
     @Override
     public String toString() {
         String content = "";

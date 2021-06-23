@@ -9,6 +9,7 @@ import java.util.Map;
  * This class represents the game's shield resource and blue marble
  */
 public class ResourceShield extends Resource {
+
     //CONSTRUCTOR
 
     /**

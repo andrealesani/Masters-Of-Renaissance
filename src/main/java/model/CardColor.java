@@ -25,20 +25,21 @@ public enum CardColor {
         }
     };
 
+    /**
+     * Prints a String representation of the color's icon
+     *
+     * @return the color's String representation
+     */
     public String iconPrint() {
-        if (this == CardColor.GREEN) {
-            return Color.GREEN_FG + "█" + Color.RESET;
+        String result = null;
+
+        switch(this) {
+            case GREEN -> result = Color.GREEN_FG + "█" + Color.RESET;
+            case YELLOW -> result = Color.YELLOW_LIGHT_FG + "█" + Color.RESET;
+            case BLUE -> result = Color.LIGHT_BLUE_FG + "█" + Color.RESET;
+            case PURPLE -> result = Color.PURPLE_FG + "█" + Color.RESET;
         }
-        if (this == CardColor.YELLOW) {
-            return Color.YELLOW_LIGHT_FG + "█" + Color.RESET;
-        }
-        if (this == CardColor.BLUE) {
-            return Color.LIGHT_BLUE_FG + "█" + Color.RESET;
-        }
-        if (this == CardColor.PURPLE) {
-            return Color.PURPLE_FG + "█" + Color.RESET;
-        }
-        //this should never happen
-        return null;
+
+        return result;
     }
 }

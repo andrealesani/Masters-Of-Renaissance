@@ -8,6 +8,7 @@ import model.card.Card;
  * This class represents a generic leader card for the game
  */
 public class LeaderCard extends Card {
+
     //CONSTRUCTORS
 
     /**

@@ -61,28 +61,6 @@ class PlayerBoardBeanTest {
     }
 
     @Test
-    void setProductionsFromPB() {
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Gigi");
-        nicknames.add("Tom");
-        nicknames.add("Andre");
-        Game game = new Game(nicknames);
-
-        PrintWriter printWriter = new PrintWriter(new StringWriter(), true);
-        PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
-        game.getCurrentPlayer().addObserver(pbBean);
-
-        List<Production> prod = game.getCurrentPlayer().getProductionHandler().getProductions();
-        int[] prodBean = pbBean.getProductions();
-
-        int i;
-        int j = game.getCurrentPlayer().getProductionHandler().getProductions().size();
-        for (i = 0; i < j; i++) {
-            assertEquals(prod.get(i).getId(), prodBean[i]);
-        }
-    }
-
-    @Test
     void setMarbleConversionsFromPB() {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");

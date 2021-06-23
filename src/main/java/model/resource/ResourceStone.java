@@ -9,6 +9,7 @@ import java.util.Map;
  * This class represents the game's stone resource and grey marble
  */
 public class ResourceStone extends Resource {
+
     //CONSTRUCTORS
 
     /**

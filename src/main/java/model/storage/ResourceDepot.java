@@ -10,6 +10,7 @@ import model.resource.ResourceType;
  * It has methods for evaluating the depot's capacity or whether it is blocking a specific resource, and to empty the depot, as well as the standard methods for a ResourceStash.
  */
 public interface ResourceDepot extends ResourceStash {
+
     //PUBLIC METHODS
 
     /**
@@ -54,4 +55,11 @@ public interface ResourceDepot extends ResourceStash {
      * @return the leader card id, if the depot is not a leader depot, returns 0
      */
     int getCardId();
+
+    /**
+     * Returns the type of resource this depot can currently accept
+     *
+     * @return the currently accepted ResourceType, 'null' if any type is accepted
+     */
+    ResourceType getAcceptedResource();
 }

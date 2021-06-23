@@ -62,8 +62,7 @@ public abstract class Resource {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Resource){
-            if(((Resource) obj).getType() == type)
-                return true;
+            return ((Resource) obj).getType() == type;
         }
         return false;
     }

@@ -1167,10 +1167,20 @@ public class PlayerBoard implements Observable {
         return result;
     }
 
+    /**
+     * Returns the maximum amount of faith on the faith track, upon reaching which the game enters its last turn
+     *
+     * @return the final faith amount
+     */
     public int getFinalFaith() {
         return finalFaith;
     }
 
+    /**
+     * Returns the maximum number of development cards a player can own, upon reaching which the game enters its last turn
+     *
+     * @return the maximum development card number
+     */
     public int getDevCardMax() {
         return devCardMax;
     }
@@ -1189,11 +1199,21 @@ public class PlayerBoard implements Observable {
         observers.forEach(observer -> observer.update(this));
     }
 
+    /**
+     * Adds an observer to the list of this object's observers
+     *
+     * @param observer the Observer to be added
+     */
     public void addObserver(Observer observer) {
         observers.add(observer);
         notifyObservers();
     }
 
+    /**
+     * Returns the list of this object's observers
+     *
+     * @return a List of the Observers
+     */
     public List<Observer> getObservers() {
         return observers;
     }

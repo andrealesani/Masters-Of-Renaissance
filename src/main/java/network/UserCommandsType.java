@@ -1,7 +1,8 @@
 package network;
 
 /**
- * This enum contains all the commands the player can send to the server after the login phase
+ * This enum contains all the commands the player can send to the server after the login phase.
+ * They correspond to in-game actions
  */
 public enum UserCommandsType {
     chooseBonusResourceType,

@@ -7,6 +7,7 @@ import model.PlayerBoard;
  * This class represents the game's white marble
  */
 public class ResourceWhite extends Resource {
+
     //CONSTRUCTORS
 
     /**

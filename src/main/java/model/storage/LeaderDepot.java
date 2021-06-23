@@ -177,7 +177,17 @@ public class LeaderDepot implements ResourceDepot {
      *
      * @return the leader card id
      */
+    @Override
     public int getCardId() {
         return cardId;
+    }
+
+    /**
+     * Returns the type of resource this depot can accept
+     *
+     * @return the accepted ResourceType
+     */
+    public ResourceType getAcceptedResource() {
+        return acceptedResource;
     }
 }

@@ -2,10 +2,9 @@ package client.GUI.controllers;
 
 import client.GUI.GUI;
 import client.GUI.SceneName;
-import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import network.MessageType;
+import network.ServerMessageType;
 import network.beans.MessageWrapper;
 
 /**
@@ -45,13 +44,13 @@ public class WaitingPlayersController implements GUIController {
     @Override
     public void updateFromServer(MessageWrapper response) {
 
-        if (response.getType() == MessageType.GAME_START) {
+        if (response.getType() == ServerMessageType.GAME_START) {
             gui.changeScene(SceneName.GAME_BOARD);
-        } else if (response.getType() == MessageType.PLAYER_CONNECTED) {
+        } else if (response.getType() == ServerMessageType.PLAYER_CONNECTED) {
             newPlayerLabel.setText("Player " + response.getMessage() + " has joined the game.");
-        } else if (response.getType() == MessageType.PLAYER_DISCONNECTED) {
+        } else if (response.getType() == ServerMessageType.PLAYER_DISCONNECTED) {
             newPlayerLabel.setText("Player " + response.getMessage() + " has left the game.");
-        } else if (response.getType() == MessageType.WAIT_PLAYERS) {
+        } else if (response.getType() == ServerMessageType.WAIT_PLAYERS) {
             //do nothing
         } else {
             System.out.println("Unexpected message to WaitingPlayers scene: " + response);

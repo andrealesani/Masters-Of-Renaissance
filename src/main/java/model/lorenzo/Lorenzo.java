@@ -31,6 +31,7 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
 
     //CONSTRUCTOR
 
+    //TODO inizializzare da json i token
     /**
      * Constructor
      *

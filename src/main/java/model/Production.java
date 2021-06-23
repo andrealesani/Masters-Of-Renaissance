@@ -12,9 +12,21 @@ import java.util.List;
  * the ProductionHandler
  */
 public class Production {
+    /**
+     * The id of the card which contains this production
+     */
     private final int id;
+    /**
+     * A List of the resources required as input for the production
+     */
     private final List<Resource> input;
+    /**
+     * A List of the resources obtained as output for the production
+     */
     private final List<Resource> output;
+    /**
+     * A flag indicated whether the production has been selected by the production handler
+     */
     private boolean selectedByHandler;
 
     //CONSTRUCTORS

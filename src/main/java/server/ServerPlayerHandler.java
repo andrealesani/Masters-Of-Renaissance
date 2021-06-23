@@ -1,7 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
-import network.MessageType;
+import network.ServerMessageType;
 import network.beans.MessageWrapper;
 
 import java.io.IOException;
@@ -122,7 +122,7 @@ public class ServerPlayerHandler implements Runnable {
         String username;
         while (controller == null) {
 
-            sendMessage(MessageType.INFO, "Please, set your username.");
+            sendMessage(ServerMessageType.INFO, "Please, set your username.");
 
             try {
                 username = in.nextLine();
@@ -137,7 +137,7 @@ public class ServerPlayerHandler implements Runnable {
 
             } catch (Exception ex) {
 
-                sendMessage(MessageType.ERROR, ex.getMessage());
+                sendMessage(ServerMessageType.ERROR, ex.getMessage());
 
             }
         }
@@ -150,7 +150,7 @@ public class ServerPlayerHandler implements Runnable {
         String sizeString;
         while (!controller.isSizeSet()) {
 
-            sendMessage(MessageType.INFO, "Please, choose the game's number of players.");
+            sendMessage(ServerMessageType.INFO, "Please, choose the game's number of players.");
 
             try {
                 sizeString = in.nextLine();
@@ -164,15 +164,15 @@ public class ServerPlayerHandler implements Runnable {
 
                 int size = Integer.parseInt(sizeString);
                 controller.choosePlayerNumber(size);
-                //sendMessage(MessageType.INFO, "Game size correctly set to: " + size + " players.");
+                //sendMessage(ServerMessageType.INFO, "Game size correctly set to: " + size + " players.");
 
             } catch (NumberFormatException ex) {
 
-                sendMessage(MessageType.ERROR, "Game's number of players must be an integer.");
+                sendMessage(ServerMessageType.ERROR, "Game's number of players must be an integer.");
 
             } catch (Exception ex) {
 
-                sendMessage(MessageType.ERROR, ex.getMessage());
+                sendMessage(ServerMessageType.ERROR, ex.getMessage());
 
             }
         }
@@ -209,7 +209,7 @@ public class ServerPlayerHandler implements Runnable {
      * @param type    the type of the message
      * @param message the content of the message
      */
-    private void sendMessage(MessageType type, String message) {
+    private void sendMessage(ServerMessageType type, String message) {
         out.println(
                 gson.toJson(
                         new MessageWrapper(type, message)));

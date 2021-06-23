@@ -196,15 +196,26 @@ public class BasicDepot implements ResourceDepot {
     public List<ResourceType> getStoredResources() {
         List<ResourceType> resourceList = new ArrayList<>();
         if (amount > 0) resourceList.add(storedResource);
+
         return resourceList;
     }
 
     /**
      * Returns the id of the card that activated this depot
      *
-     * @return the leader card id
+     * @return 0
      */
+    @Override
     public int getCardId() {
         return 0;
+    }
+
+    /**
+     * Returns the type of resource this depot can currently accept
+     *
+     * @return the currently stored ResourceType, 'null' if the depot is empty
+     */
+    public ResourceType getAcceptedResource() {
+        return storedResource;
     }
 }

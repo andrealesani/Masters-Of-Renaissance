@@ -9,6 +9,7 @@ import java.util.Map;
  * This class represents the game's coin resource and yellow marble
  */
 public class ResourceCoin extends Resource {
+
     //CONSTRUCTORS
 
     /**

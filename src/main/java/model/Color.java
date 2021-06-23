@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * This enum contains all the colors used when printing
+ */
 public enum Color {
     RESET {
         @Override

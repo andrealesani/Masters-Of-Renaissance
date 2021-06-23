@@ -9,6 +9,7 @@ import java.util.Map;
  * This class represents the game's servant resource and purple marble
  */
 public class ResourceServant extends Resource {
+
     //CONSTRUCTORS
 
     /**

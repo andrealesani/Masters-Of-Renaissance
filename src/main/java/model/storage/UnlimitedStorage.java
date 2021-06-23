@@ -162,11 +162,21 @@ public class UnlimitedStorage implements ResourceStash, Observable {
         observers.forEach(observer -> observer.update(this));
     }
 
+    /**
+     * Adds an observer to the list of this object's observers
+     *
+     * @param observer the Observer to be added
+     */
     public void addObserver(Observer observer) {
         observers.add(observer);
         notifyObservers();
     }
 
+    /**
+     * Returns the list of this object's observers
+     *
+     * @return a List of the Observers
+     */
     public List<Observer> getObservers() {
         return observers;
     }

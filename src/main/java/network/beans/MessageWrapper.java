@@ -1,6 +1,6 @@
 package network.beans;
 
-import network.MessageType;
+import network.ServerMessageType;
 
 /**
  * This class is supposed to be created and used by the Controller. It wraps a message that the server needs to send
@@ -12,7 +12,7 @@ public class MessageWrapper {
     /**
      * The type of message that is being sent.
      */
-    private final MessageType type;
+    private final ServerMessageType type;
     /**
      * The message to be sent
      */
@@ -24,17 +24,27 @@ public class MessageWrapper {
      * @param type of the message being wrapped
      * @param message the actual message being sent
      */
-    public MessageWrapper(MessageType type, String message) {
+    public MessageWrapper(ServerMessageType type, String message) {
         this.type = type;
         this.message = message;
     }
 
     // GETTERS
 
-    public MessageType getType() {
+    /**
+     * Getter for the message's type
+     *
+     * @return the message's type
+     */
+    public ServerMessageType getType() {
         return type;
     }
 
+    /**
+     * Getter for the message's content
+     *
+     * @return a String representing the serialized message
+     */
     public String getMessage() {
         return message;
     }

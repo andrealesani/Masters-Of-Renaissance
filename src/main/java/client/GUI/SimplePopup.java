@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import network.MessageType;
+import network.ServerMessageType;
 
 /**
  * This class is used for displaying simple popups with only a text message and a confirmation button
@@ -20,15 +20,15 @@ public class SimplePopup {
     /**
      * Displays the given message as a popup
      *
-     * @param messageType the type of the message, which becomes the title of the popup window
+     * @param serverMessageType the type of the message, which becomes the title of the popup window
      * @param jsonMessage the message to be displayed inside the popup
      */
-    public static void display(MessageType messageType, String jsonMessage) {
+    public static void display(ServerMessageType serverMessageType, String jsonMessage) {
         Gson gson = new Gson();
         Stage window = new Stage();
 
         //the regex is used to eliminate the special characters that would be counted in the string length
-        String title = messageType.toString().replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+        String title = serverMessageType.toString().replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
         String message = jsonMessage.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
 
         //Block events to main game window

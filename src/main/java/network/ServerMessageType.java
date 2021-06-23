@@ -1,6 +1,10 @@
 package network;
 
-public enum MessageType {
+/**
+ * This enum contains all possible types of messages sent by the server to the client
+ */
+public enum ServerMessageType {
+    //View update messages
     GAME,
     PLAYERBOARD,
     MARKET,
@@ -11,9 +15,11 @@ public enum MessageType {
     WAITINGROOM,
     PRODUCTIONHANDLER,
 
+    //Informative messages
     INFO,
     ERROR,
 
+    //Event signaling messages
     GAME_START,
     WAIT_PLAYERS,
     SET_USERNAME,

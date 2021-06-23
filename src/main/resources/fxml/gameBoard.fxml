@@ -785,10 +785,10 @@
             </Label>
             <Label fx:id="turnPhaseLabel" layoutX="89.0" layoutY="44.0" prefHeight="30.0" prefWidth="166.0" textFill="#a9e2f7">
                 <font>
-                    <Font name="Arial Bold" size="14.0" />
+                    <Font name="Arial Bold" size="16.0" />
                 </font>
             </Label>
-            <AnchorPane fx:id="descriptionPane" layoutX="-7.0" layoutY="74.0" prefHeight="103.0" prefWidth="261.0">
+            <AnchorPane fx:id="descriptionPane" layoutX="-7.0" layoutY="74.0" prefHeight="76.0" prefWidth="262.0">
                 <children>
                     <Text fx:id="descriptionText" fill="#dfdcdc" layoutX="12.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="237.327392578125">
                         <font>
@@ -797,6 +797,11 @@
                     </Text>
                 </children>
             </AnchorPane>
+         <Label fx:id="lastTurnLabel" layoutY="147.0" prefHeight="30.0" prefWidth="247.0" text="This is the game's last turn." textFill="#e1d892">
+            <font>
+               <Font name="Arial Bold" size="14.0" />
+            </font>
+         </Label>
         </children>
     </AnchorPane>
     <AnchorPane fx:id="buttonsPane" layoutX="1403.0" layoutY="3.0" prefHeight="591.0" prefWidth="130.0">

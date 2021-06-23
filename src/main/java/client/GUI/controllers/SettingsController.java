@@ -2,13 +2,11 @@ package client.GUI.controllers;
 
 import client.GUI.GUI;
 import client.GUI.SceneName;
-import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import network.MessageType;
 import network.beans.MessageWrapper;
 
 /**

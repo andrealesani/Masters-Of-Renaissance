@@ -24,6 +24,11 @@ public abstract class ActionToken {
 
     // GETTERS
 
+    /**
+     * Getter for the token's type
+     *
+     * @return the type of the token
+     */
     public LorenzoTokenType getType() {
         return type;
     }

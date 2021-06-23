@@ -6,7 +6,7 @@ import model.Color;
 import model.Market;
 import model.Observer;
 import model.resource.ResourceType;
-import network.MessageType;
+import network.ServerMessageType;
 import server.GameController;
 
 /**
@@ -26,52 +26,44 @@ public class MarketBean implements Observer {
      */
     private ResourceType slide;
 
-    // CONSTRUCTOR
+    // CONSTRUCTORS
 
+    /**
+     * Constructor
+     *
+     * @param controller the GameController for the bean's game
+     */
     public MarketBean(GameController controller) {
         this.controller = controller;
     }
 
-    // GETTERS
-
-    public ResourceType[][] getMarketBoard() {
-        return marketBoard;
-    }
-
-    public ResourceType getSlide() {
-        return slide;
-    }
-
-    // SETTERS
-
-    private void setMarketBoardFromGame(Market market) {
-        marketBoard = new ResourceType[market.getBoard().length][market.getBoard()[0].length];
-        for (int i = 0; i < market.getBoard().length; i++) {
-            for (int j = 0; j < market.getBoard()[0].length; j++) {
-                marketBoard[i][j] = market.getBoard()[i][j].getType();
-            }
-        }
-    }
-
-    public void setSlideFromGame(Market market) {
-        slide = market.getSlideOrb().getType();
-    }
-
     // OBSERVER METHODS
 
+    /**
+     * Updates the bean with the information contained in the observed class, then broadcasts its serialized self to all players
+     *
+     * @param observable the observed class
+     */
     public void update(Object observable) {
         Gson gson = new Gson();
         Market market = (Market) observable;
         setMarketBoardFromGame(market);
         setSlideFromGame(market);
 
-        controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
+        controller.broadcastMessage(ServerMessageType.MARKET, gson.toJson(this));
     }
 
+    /**
+     * Sends the serialized bean to the player with the given username
+     *
+     * @param username the username of the player to send the serialized bean to
+     */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
+        controller.playerMessage(username, ServerMessageType.MARKET, gson.toJson(this));
     }
+
+    //PRINTING METHODS
 
     /**
      * This method is used to print only one line of the Market so that multiple objects can be printed
@@ -81,38 +73,91 @@ public class MarketBean implements Observer {
      * @return the String with the line to print
      */
     public String printLine(int line) {
-        line--;
-        if (line < 0 || line > marketBoard.length)
+
+        if (line < 1 || line > marketBoard.length + 1)
             throw new ParametersNotValidException();
+
         String content = "";
 
-        if (line == 3)
+        line--;
+
+        if (line == marketBoard.length)
+            //Row 4
             content += " Slide: " + slide.marblePrint();
-        else
+        else {
+            //Rows 1, 2, 3
             for (ResourceType cell : marketBoard[line]) {
                 content += " " + Color.RESET + cell.marblePrint() + Color.RESET + " ";
             }
+        }
 
         return content;
     }
 
+    /**
+     * Prints a String representation of the bean's data
+     *
+     * @return the String representation
+     */
     @Override
     public String toString() {
-        String board = "";
-        for (ResourceType[] row : marketBoard) {
-            for (ResourceType cell : row) {
-                board += " " + Color.RESET + cell.marblePrint() + Color.RESET + " ";
-            }
-            board += "\n\n ";
+
+        String result = Color.HEADER + "Market:\n " + Color.RESET;
+
+        for (int i = 1; i <= 4; i++) {
+            result += printLine(i) + "\n\n";
         }
-        /* for (int i = 0; i < marketBoard.length; i++) {
-            for (int j = 0; j < marketBoard[0].length; j++) {
-                board += marketBoard[i][j].formattedString() + "\u001B[0m ";
+
+        return result;
+    }
+
+    // GETTERS
+
+    /**
+     * Getter for the market's board
+     *
+     * @return a matrix of ResourceType representing the market's marbles
+     */
+    public ResourceType[][] getMarketBoard() {
+        ResourceType[][] result = new ResourceType[marketBoard.length][];
+
+        for (int i = 0; i < marketBoard.length; i++)
+            result[i] = marketBoard[i].clone();
+
+        return result;
+    }
+
+    /**
+     * Getter for the market's slide marble
+     *
+     * @return a ResourceType representing the market's slide marble
+     */
+    public ResourceType getSlide() {
+        return slide;
+    }
+
+    // SETTERS
+
+    /**
+     * Sets the market's board
+     *
+     * @param market the object to take the information from
+     */
+    private void setMarketBoardFromGame(Market market) {
+        marketBoard = new ResourceType[market.getBoard().length][market.getBoard()[0].length];
+        for (int i = 0; i < market.getBoard().length; i++) {
+            for (int j = 0; j < market.getBoard()[0].length; j++) {
+                marketBoard[i][j] = market.getBoard()[i][j].getType();
             }
-            board += "\n\n   ";
-        } */
-        return Color.HEADER + "Market:\n " + Color.RESET +
-                board +
-                "Slide: " + slide.marblePrint() + "\n";
+        }
+    }
+
+    /**
+     * Sets the market's slide marble
+     *
+     * @param market the object to take the information from
+     */
+    private void setSlideFromGame(Market market) {
+        slide = market.getSlideOrb().getType();
     }
 }

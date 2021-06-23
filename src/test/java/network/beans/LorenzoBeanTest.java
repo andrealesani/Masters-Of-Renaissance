@@ -24,11 +24,10 @@ class LorenzoBeanTest {
         ((Lorenzo) game.getLorenzo()).addObserver(lorenzoBean);
 
         assertEquals(game.getLorenzo().getFaith(), lorenzoBean.getFaith());
+
+        assertEquals(((Lorenzo) game.getLorenzo()).getActiveDeck().size(), lorenzoBean.getActiveTokenNumber());
+
         int i = 0;
-        for (ActionToken token : ((Lorenzo) game.getLorenzo()).getActiveDeck()){
-            assertEquals(token.getType(), lorenzoBean.getActiveTokens()[i++]);
-        }
-        i = 0;
         for (ActionToken token : ((Lorenzo) game.getLorenzo()).getUsedDeck()){
             assertEquals(token.getType(), lorenzoBean.getDiscardedTokens()[i++]);
         }

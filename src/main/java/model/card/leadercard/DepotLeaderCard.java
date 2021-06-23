@@ -85,7 +85,7 @@ public class DepotLeaderCard extends LeaderCard {
     //GETTERS
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the Resource required to activate the card
      */
@@ -94,7 +94,7 @@ public class DepotLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the quantity of the specified Resource required to activate the card
      */
@@ -103,7 +103,7 @@ public class DepotLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the Resource of the depot
      */
@@ -112,7 +112,7 @@ public class DepotLeaderCard extends LeaderCard {
     }
 
     /**
-     * Getter TESTING ONLY
+     * Getter
      *
      * @return the quantity of the specified Resource of the depot
      */
@@ -120,16 +120,13 @@ public class DepotLeaderCard extends LeaderCard {
         return storableQuantity;
     }
 
-    public String gigi(){
-        String content = "";
-        content += "\n\u001B[32;1mDepotLeaderCard:\u001B[0m";
-        content += super.toString();
-        content += "\n\n required resources: ";
+    //PRINTING METHODS
 
-
-        return content;
-    }
-
+    /**
+     * Prints a String representation of the card
+     *
+     * @return the card's String representation
+     */
     @Override
     public String toString() {
         String content = "";

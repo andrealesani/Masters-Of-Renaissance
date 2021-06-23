@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * This class is used for displaying complex popups, using an entire Scene as content
  */
-public class ThiccPopup {
+public class AdvancedPopup {
 
     /**
      * Displays the given scene as a popup
@@ -18,7 +18,6 @@ public class ThiccPopup {
     public static void display(Scene scene) {
         Stage window = new Stage();
         String title = "t h i c c  popup";
-
 
         //Block events to main game window
         window.initModality(Modality.APPLICATION_MODAL);
