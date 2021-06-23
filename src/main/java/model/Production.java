@@ -1,11 +1,10 @@
 package model;
 
 import model.resource.Resource;
+import model.resource.ResourceJolly;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents a container that holds information about one single production that a player decides to activate during
@@ -19,6 +18,17 @@ public class Production {
     private boolean selectedByHandler;
 
     //CONSTRUCTORS
+
+    /**
+     * Default constructor builds default Production (2 ResourceJolly in input and 1 ResourceJolly in output)
+     */
+    public Production() {
+        id = 0;
+        input = new ArrayList<>();
+        input.add(new ResourceJolly());
+        output = new ArrayList<>();
+        output.add(new ResourceJolly());
+    }
 
     /**
      * Constructor

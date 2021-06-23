@@ -296,13 +296,16 @@ public class ProductionHandler implements Observable {
     public void restoreProductions(int[] productions) {
         List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
         for (Integer production : productions) {
-            this.productions.add(cards.stream().filter(e -> e.getId() == production).findFirst().get().getProduction());
+            if (production == 0)
+                this.productions.add(new Production());
+            else
+                this.productions.add(cards.stream().filter(e -> e.getId() == production).findFirst().get().getProduction());
         }
     }
 
-    public void restoreCurrentInput(ResourceType[] inputTypes, int[] currentInput) {
+    public void restoreCurrentInput(ResourceType[] inputTypes, int[] inputQuantities) {
         for (int i = 0; i < inputTypes.length; i++) {
-            for (int j = 0; j < currentInput[i]; j++) {
+            for (int j = 0; j < inputQuantities[i]; j++) {
                 this.currentInput.add(inputTypes[i].toResource());
             }
         }

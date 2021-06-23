@@ -37,8 +37,7 @@ public class CardTable implements Observable {
     /**
      * Map of all the DevelopmentCards on the table. It's a map that for each CardColor has list of decks that represent the group of cards of a specific color and level
      */
-    private final Map<CardColor, List<List<DevelopmentCard>>> cards;
-    private boolean cardsInitialized;
+    private Map<CardColor, List<List<DevelopmentCard>>> cards;
 
     //CONSTRUCTORS
 
@@ -245,12 +244,8 @@ public class CardTable implements Observable {
 
     // PERSISTENCE METHODS
 
-    public void restoreCards(int[][][] cardTable) {
-        for (int i = 0; i < cardTable.length; i++) {
-            for (int j = 0; j < cardTable[0].length; j++) {
-                // TODO
-            }
-        }
+    public void restoreCards(Map<CardColor,List<List<model.card.DevelopmentCard>>> cards) {
+        this.cards = cards;
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

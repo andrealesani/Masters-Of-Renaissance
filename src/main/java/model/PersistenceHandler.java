@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.resource.Resource;
@@ -9,6 +10,9 @@ import model.storage.Warehouse;
 import network.beans.SlotBean;
 import server.GameController;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,14 +74,6 @@ public class PersistenceHandler {
 
     private boolean[][] activeProductions;
 
-    private int idProduction;
-
-    private List<Resource> inputv;
-
-    private List<Resource> outputv;
-
-    private boolean selectedByHandler;
-
     private ResourceType[][] prodHandlerInputResources;
 
     private int[][] prodHandlerInputQuantities;
@@ -85,12 +81,6 @@ public class PersistenceHandler {
     private ResourceType[][] prodHandlerOutputResources;
 
     private int[][] prodHandlerOutputQuantities;
-
-    private int sizeBasicDepot;
-
-    private ResourceType storedResourceInBasicDepot;
-
-    private int amountInBasicDepot;
 
     private int[] basicDepotNum;
 
@@ -110,7 +100,7 @@ public class PersistenceHandler {
 
     // CONSTRUCTORS
 
-    private PersistenceHandler(GameController controller) {
+    public PersistenceHandler(GameController controller) {
         this.controller = controller;
     }
 
@@ -140,20 +130,8 @@ public class PersistenceHandler {
     }
 
     private void saveCardTable(Game game) {
-        /*cardTable = new int[3][game.getCardTable().getCards().entrySet().size()][];
+        cardTable = new int[3][game.getCardTable().getCards().entrySet().size()][];
         cards = game.getCardTable().getCards();
-
-        for (int i = 0; i < cardTable.length; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cards.entrySet()) {
-                    if (color.getValue().get(i).size() == 0)
-                        cardTable[i][j] = -1;
-                    else
-                        cardTable[i][j] = color.getValue().get(i).get(j).getId();
-                    j++;
-                }
-            }
-        }*/
     }
 
     private void savePlayerBoards(Game game) {
@@ -167,7 +145,10 @@ public class PersistenceHandler {
         discountQuantity = new int[numOfPlayers][];
         cardSlots = new SlotBean[numOfPlayers][];
         vpFaithTiles = new int[numOfPlayers][];
+        vpFaithValues = new int[numOfPlayers][];
         leaderCards = new int[numOfPlayers][];
+        leaderDepotCardsLeaderCard = new int[numOfPlayers][];
+        leaderDepotCardsWarehouse = new int[numOfPlayers][];
 
         for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
 
@@ -220,6 +201,8 @@ public class PersistenceHandler {
             }
 
             j = 0;
+            leaderDepotCardsWarehouse[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet().size()];
+            leaderDepotCardsLeaderCard[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet().size()];
             for (Map.Entry<Integer, Integer> entry : game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet()) {
                 leaderDepotCardsWarehouse[i][j] = entry.getKey();
                 leaderDepotCardsLeaderCard[i][j] = entry.getValue();
@@ -270,7 +253,7 @@ public class PersistenceHandler {
             }
 
             prodHandlerInputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, JOLLY};
-            prodHandlerInputQuantities[i] = new int[prodHandlerInputResources.length];
+            prodHandlerInputQuantities[i] = new int[prodHandlerInputResources[i].length];
 
             for (ResourceType resourceType : productionHandler.getCurrentInput().stream().map(Resource::getType).collect(Collectors.toList()))
                 if (resourceType == COIN)
@@ -287,7 +270,7 @@ public class PersistenceHandler {
                     System.out.println("Warning: found unsupported ResourceType inside ProductionHandler during save: " + resourceType);
 
             prodHandlerOutputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, FAITH, JOLLY};
-            prodHandlerOutputQuantities[i] = new int[prodHandlerOutputResources.length];
+            prodHandlerOutputQuantities[i] = new int[prodHandlerOutputResources[i].length];
 
             for (ResourceType resourceType : productionHandler.getCurrentOutput().stream().map(Resource::getType).collect(Collectors.toList()))
                 if (resourceType == COIN)
@@ -316,8 +299,8 @@ public class PersistenceHandler {
         for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
             basicDepotNum[i] = game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots();
             depotType[i] = new ResourceType[game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots()];
-            depotQuantity[i] = new int[depotType.length];
-            depotSize[i] = new int[depotType.length];
+            depotQuantity[i] = new int[depotType[i].length];
+            depotSize[i] = new int[depotType[i].length];
 
             for (int j = 0; j < game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots(); j++) {
                 if (game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().size() > 0)
@@ -393,7 +376,7 @@ public class PersistenceHandler {
     }
 
     private void restoreCardTable(Game game) {
-        game.getCardTable().restoreCards(cardTable);
+        game.getCardTable().restoreCards(cards);
     }
 
     private void restorePlayerBoards(Game game) {
@@ -460,6 +443,7 @@ public class PersistenceHandler {
     // PUBLIC METHODS
 
     public void saveGame(Game game) {
+        Gson gson = new Gson();
         if (game == null)
             throw new RuntimeException("PersistenceHandler received a null pointer");
 
@@ -471,6 +455,14 @@ public class PersistenceHandler {
         saveWarehouses(game);
         saveStrongboxes(game);
         saveWaitingRooms(game);
+
+        try {
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGame.json", StandardCharsets.UTF_8);
+            writer.print(gson.toJson(this));
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Warning: couldn't save game to file");
+        }
     }
 
     public Game restoreGame() {
@@ -484,5 +476,50 @@ public class PersistenceHandler {
         restoreWaitingRooms(game);
 
         return game;
+    }
+
+    @Override
+    public String toString() {
+        return "PersistenceHandler{" +
+                "controller=" + controller +
+                ",\n cards=" + cards +
+                ",\n cardTable=" + Arrays.toString(cardTable) +
+                ",\n playersTurnOrder=" + Arrays.toString(playersTurnOrder) +
+                ",\n currentPlayer='" + currentPlayer + '\'' +
+                ",\n username=" + Arrays.toString(username) +
+                ",\n lastTriggeredTile=" + lastTriggeredTile +
+                ",\n turnPhase=" + turnPhase +
+                ",\n weReInTheEndGameNow=" + weReInTheEndGameNow +
+                ",\n winner='" + winner + '\'' +
+                ",\n winnerVp=" + winnerVp +
+                ",\n marketBoard=" + Arrays.toString(marketBoard) +
+                ",\n slideMarble=" + slideMarble +
+                ",\n popeTileStates=" + Arrays.toString(popeTileStates) +
+                ",\n whiteMarbleNum=" + Arrays.toString(whiteMarbleNum) +
+                ",\n faith=" + Arrays.toString(faith) +
+                ",\n marbleConversions=" + Arrays.toString(marbleConversions) +
+                ",\n discountType=" + Arrays.toString(discountType) +
+                ",\n discountQuantity=" + Arrays.toString(discountQuantity) +
+                ",\n cardSlots=" + Arrays.toString(cardSlots) +
+                ",\n leaderCards=" + Arrays.toString(leaderCards) +
+                ",\n leaderDepotCardsWarehouse=" + Arrays.toString(leaderDepotCardsWarehouse) +
+                ",\n leaderDepotCardsLeaderCard=" + Arrays.toString(leaderDepotCardsLeaderCard) +
+                ",\n vpFaithTiles=" + Arrays.toString(vpFaithTiles) +
+                ",\n vpFaithValues=" + Arrays.toString(vpFaithValues) +
+                ",\n productions=" + Arrays.toString(productions) +
+                ",\n activeProductions=" + Arrays.toString(activeProductions) +
+                ",\n prodHandlerInputResources=" + Arrays.toString(prodHandlerInputResources) +
+                ",\n prodHandlerInputQuantities=" + Arrays.toString(prodHandlerInputQuantities) +
+                ",\n prodHandlerOutputResources=" + Arrays.toString(prodHandlerOutputResources) +
+                ",\n prodHandlerOutputQuantities=" + Arrays.toString(prodHandlerOutputQuantities) +
+                ",\n basicDepotNum=" + Arrays.toString(basicDepotNum) +
+                ",\n depotType=" + Arrays.toString(depotType) +
+                ",\n depotQuantity=" + Arrays.toString(depotQuantity) +
+                ",\n depotSize=" + Arrays.toString(depotSize) +
+                ",\n strongboxTypes=" + Arrays.toString(strongboxTypes) +
+                ",\n strongboxQuantities=" + Arrays.toString(strongboxQuantities) +
+                ",\n waitingRoomTypes=" + Arrays.toString(waitingRoomTypes) +
+                ",\n waitingRoomQuantities=" + Arrays.toString(waitingRoomQuantities) +
+                '}';
     }
 }

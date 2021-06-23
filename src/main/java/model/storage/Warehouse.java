@@ -178,7 +178,7 @@ public class Warehouse implements Observable {
      * @param quantity        the quantity of the resource to move
      * @throws DepotNotPresentException        if one of the depot numbers given does not correspond with any depot
      * @throws ParametersNotValidException     if the two inputs are the same number or below 1
-     * @throws NotEnoughResourceException if the given resource is not present in the providing depot in the amount to be deleted
+     * @throws NotEnoughResourceException      if the given resource is not present in the providing depot in the amount to be deleted
      * @throws WrongResourceInsertionException if the type of the resource to be added cannot (currently) be added to the receiving depot
      * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the receiving depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException        if the receiving depot is affected by resource blocking and the resource is being blocked by a different depot
@@ -296,11 +296,13 @@ public class Warehouse implements Observable {
 
     public void restoreDepots(ResourceType[] depotType, int[] depotQuantity) {
         for (int i = 0; i < depotType.length; i++) {
-            try {
-                getDepot(i + 1).addResource(depotType[i], depotQuantity[i]);
-            } catch (Exception e) {
-                System.out.println("Something went wrong restoring a warehouse");
-            }
+            if (depotType[i] != null)
+                try {
+                    getDepot(i + 1).addResource(depotType[i], depotQuantity[i]);
+                } catch (Exception e) {
+                    System.out.println("Warning: Something went wrong restoring a warehouse depot\n" + e.getMessage());
+                    System.out.println("Tried to add " + depotType[i] + " " + depotQuantity[i] + " to depot n. " + (i + 1));
+                }
         }
     }
 

@@ -5,26 +5,22 @@ package model;
  */
 public enum CardColor {
     GREEN {
-        @Override
-        public String toString() {
+        public String coloredPrint() {
             return Color.GREEN_BG + "GREEN" + Color.RESET;
         }
     },
     YELLOW {
-        @Override
-        public String toString() {
+        public String coloredPrint() {
             return Color.YELLOW_DARK_BG + "YELLOW" + Color.RESET;
         }
     },
     BLUE {
-        @Override
-        public String toString() {
+        public String coloredPrint() {
             return Color.BLUE_BG + "BLUE" + Color.RESET;
         }
     },
     PURPLE {
-        @Override
-        public String toString() {
+        public String coloredPrint() {
             return Color.PURPLE_BG + "PURPLE" + Color.RESET;
         }
     };
@@ -45,4 +41,4 @@ public enum CardColor {
         //this should never happen
         return null;
     }
-    }
+}
