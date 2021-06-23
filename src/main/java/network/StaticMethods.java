@@ -1,12 +1,16 @@
 package network;
 
+import Exceptions.GameDataNotFoundException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.CardColor;
 import model.Color;
+import model.Game;
+import model.PersistenceHandler;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -110,7 +114,7 @@ public class StaticMethods {
      * The method is hardcoded to receive cards with levels from 1 to 3.
      *
      * @param colorCards specifies which column of the deck is going to be instantiated
-     * @param color specifies the color of the cards of the decks to create
+     * @param color      specifies the color of the cards of the decks to create
      */
     public static void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
         List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
@@ -127,5 +131,52 @@ public class StaticMethods {
                     colorCards.get(2).add(developmentCard);
             }
         }
+    }
+
+    public static List<Game> restoreGames() throws GameDataNotFoundException {
+        Gson gson = new Gson();
+        List<Game> games = new ArrayList<>();
+        Reader reader;
+
+        try {
+            File folder = new File("src/main/resources/savedGames");
+
+            for (final File gameFile : folder.listFiles()) {
+                String fileName = gameFile.getName();
+                reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/" + fileName), StandardCharsets.UTF_8);
+                PersistenceHandler persistenceHandler = gson.fromJson(reader, PersistenceHandler.class);
+                games.add(persistenceHandler.restoreGame());
+            }
+        } catch (Exception e) {
+            throw new GameDataNotFoundException();
+        }
+
+        return games;
+    }
+
+    public static void deleteGameData(int gameID) throws GameDataNotFoundException {
+        try {
+            File file = new File("src/main/resources/savedGames/game" + gameID + ".json");
+            if (!file.delete())
+                throw new Exception();
+        } catch (Exception e) {
+            throw new GameDataNotFoundException();
+        }
+    }
+
+    public static int findFirstFreeId() {
+        File folder = new File("src/main/resources/savedGames");
+
+        for (int i = 1; i <= 1000; i++) {
+            boolean isFree = true;
+            for (final File gameFile : folder.listFiles()) {
+                String fileName = gameFile.getName();
+                if (fileName.contains(Integer.toString(i)))
+                    isFree = false;
+            }
+            if (isFree)
+                return i;
+        }
+        throw new RuntimeException("Server has more than 1000 saved games");
     }
 }

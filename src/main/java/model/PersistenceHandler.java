@@ -7,9 +7,11 @@ import model.resource.Resource;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
+import network.StaticMethods;
 import network.beans.SlotBean;
 import server.GameController;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +22,11 @@ import static model.resource.ResourceType.*;
 
 public class PersistenceHandler {
 
+    int id;
+
     private transient final GameController controller;
 
-    private Map<CardColor, List<List<DevelopmentCard>>> cards;
-
-    private int[][][] cardTable;
+    private Map<CardColor, List<List<DevelopmentCard>>> cardTable;
 
     private String[] playersTurnOrder;
 
@@ -130,8 +132,7 @@ public class PersistenceHandler {
     }
 
     private void saveCardTable(Game game) {
-        cardTable = new int[3][game.getCardTable().getCards().entrySet().size()][];
-        cards = game.getCardTable().getCards();
+        cardTable = game.getCardTable().getCards();
     }
 
     private void savePlayerBoards(Game game) {
@@ -225,9 +226,9 @@ public class PersistenceHandler {
 
             List<PopeFavorTile> favorTiles = game.getPlayersTurnOrder().get(i).getPopeFavorTiles();
             popeTileStates[i] = new PopeTileState[favorTiles.size()];
-            for (j = 0; j < popeTileStates[i].length; j++)
-                popeTileStates[i][j] = favorTiles.get(i).getState();
-
+            for (j = 0; j < popeTileStates[i].length; j++) {
+                popeTileStates[i][j] = favorTiles.get(j).getState();
+            }
         }
     }
 
@@ -244,7 +245,7 @@ public class PersistenceHandler {
             ProductionHandler productionHandler = game.getPlayersTurnOrder().get(i).getProductionHandler();
             productions[i] = new int[productionHandler.getProductions().size()];
             activeProductions[i] = new boolean[productions.length];
-            for (int j = 0; j < productions.length; j++) {
+            for (int j = 0; j < productions[i].length; j++) {
                 productions[i][j] = productionHandler.getProductions().get(j).getId();
                 if (productionHandler.getProductions().get(j).isSelectedByHandler())
                     activeProductions[i][j] = true;
@@ -376,7 +377,7 @@ public class PersistenceHandler {
     }
 
     private void restoreCardTable(Game game) {
-        game.getCardTable().restoreCards(cards);
+        game.getCardTable().restoreCards(cardTable);
     }
 
     private void restorePlayerBoards(Game game) {
@@ -442,10 +443,14 @@ public class PersistenceHandler {
 
     // PUBLIC METHODS
 
+    public int getId() {
+        return id;
+    }
+
     public void saveGame(Game game) {
         Gson gson = new Gson();
         if (game == null)
-            throw new RuntimeException("PersistenceHandler received a null pointer");
+            throw new RuntimeException("PersistenceHandler received a null pointer to the game");
 
         saveGameStatus(game);
         saveMarket(game);
@@ -457,7 +462,9 @@ public class PersistenceHandler {
         saveWaitingRooms(game);
 
         try {
-            PrintWriter writer = new PrintWriter("src/main/resources/savedGame.json", StandardCharsets.UTF_8);
+            if (id == 0)
+                id = StaticMethods.findFirstFreeId();
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
             writer.print(gson.toJson(this));
             writer.close();
         } catch (IOException e) {
@@ -466,6 +473,7 @@ public class PersistenceHandler {
     }
 
     public Game restoreGame() {
+
         Game game = restoreGameStatus();
         restoreMarket(game);
         restoreCardTable(game);
@@ -482,8 +490,7 @@ public class PersistenceHandler {
     public String toString() {
         return "PersistenceHandler{" +
                 "controller=" + controller +
-                ",\n cards=" + cards +
-                ",\n cardTable=" + Arrays.toString(cardTable) +
+                ",\n cards=" + cardTable +
                 ",\n playersTurnOrder=" + Arrays.toString(playersTurnOrder) +
                 ",\n currentPlayer='" + currentPlayer + '\'' +
                 ",\n username=" + Arrays.toString(username) +

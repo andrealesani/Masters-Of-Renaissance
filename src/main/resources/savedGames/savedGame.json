@@ -1,0 +1,3328 @@
+{
+  "cardTable": {
+    "PURPLE": [
+      [
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 2,
+          "isActive": false,
+          "id": 42
+        },
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "victoryPoints": 3,
+          "isActive": false,
+          "id": 43
+        },
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 1,
+          "isActive": false,
+          "id": 41
+        },
+        {
+          "color": "PURPLE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            2,
+            0,
+            2,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            1
+          ],
+          "victoryPoints": 4,
+          "isActive": false,
+          "id": 44
+        }
+      ],
+      [
+        {
+          "color": "PURPLE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            3,
+            3,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 8,
+          "isActive": false,
+          "id": 48
+        },
+        {
+          "color": "PURPLE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 7,
+          "isActive": false,
+          "id": 47
+        },
+        {
+          "color": "PURPLE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            2,
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 6,
+          "isActive": false,
+          "id": 46
+        },
+        {
+          "color": "PURPLE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            4,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 5,
+          "isActive": false,
+          "id": 45
+        }
+      ],
+      [
+        {
+          "color": "PURPLE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            7,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            3
+          ],
+          "victoryPoints": 11,
+          "isActive": false,
+          "id": 51
+        },
+        {
+          "color": "PURPLE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            2,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            2,
+            2,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 10,
+          "isActive": false,
+          "id": 50
+        },
+        {
+          "color": "PURPLE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            6,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            3,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 9,
+          "isActive": false,
+          "id": 49
+        },
+        {
+          "color": "PURPLE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            4,
+            4,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            1,
+            0,
+            3,
+            0,
+            0
+          ],
+          "victoryPoints": 12,
+          "isActive": false,
+          "id": 52
+        }
+      ]
+    ],
+    "BLUE": [
+      [
+        {
+          "color": "BLUE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 3,
+          "isActive": false,
+          "id": 19
+        },
+        {
+          "color": "BLUE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "victoryPoints": 2,
+          "isActive": false,
+          "id": 18
+        },
+        {
+          "color": "BLUE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            2,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 4,
+          "isActive": false,
+          "id": 20
+        },
+        {
+          "color": "BLUE",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 1,
+          "isActive": false,
+          "id": 17
+        }
+      ],
+      [
+        {
+          "color": "BLUE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            3,
+            0,
+            0,
+            3,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            1
+          ],
+          "victoryPoints": 8,
+          "isActive": false,
+          "id": 24
+        },
+        {
+          "color": "BLUE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            3,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 6,
+          "isActive": false,
+          "id": 22
+        },
+        {
+          "color": "BLUE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 5,
+          "isActive": false,
+          "id": 21
+        },
+        {
+          "color": "BLUE",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            5,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 7,
+          "isActive": false,
+          "id": 23
+        }
+      ],
+      [
+        {
+          "color": "BLUE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            5,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            2,
+            0,
+            2,
+            0,
+            1
+          ],
+          "victoryPoints": 10,
+          "isActive": false,
+          "id": 26
+        },
+        {
+          "color": "BLUE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            4,
+            0,
+            0,
+            4,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 12,
+          "isActive": false,
+          "id": 28
+        },
+        {
+          "color": "BLUE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            7,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            3
+          ],
+          "victoryPoints": 11,
+          "isActive": false,
+          "id": 27
+        },
+        {
+          "color": "BLUE",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            3,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 9,
+          "isActive": false,
+          "id": 25
+        }
+      ]
+    ],
+    "GREEN": [
+      [
+        {
+          "color": "GREEN",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 1,
+          "isActive": false,
+          "id": 29
+        },
+        {
+          "color": "GREEN",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 2,
+          "isActive": false,
+          "id": 30
+        },
+        {
+          "color": "GREEN",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            2,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 4,
+          "isActive": false,
+          "id": 32
+        },
+        {
+          "color": "GREEN",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "victoryPoints": 3,
+          "isActive": false,
+          "id": 31
+        }
+      ],
+      [
+        {
+          "color": "GREEN",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 5,
+          "isActive": false,
+          "id": 33
+        },
+        {
+          "color": "GREEN",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            5,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            2
+          ],
+          "victoryPoints": 7,
+          "isActive": false,
+          "id": 35
+        },
+        {
+          "color": "GREEN",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            2,
+            3,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            3,
+            0,
+            0
+          ],
+          "victoryPoints": 6,
+          "isActive": false,
+          "id": 34
+        },
+        {
+          "color": "GREEN",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            3,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 8,
+          "isActive": false,
+          "id": 36
+        }
+      ],
+      [
+        {
+          "color": "GREEN",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            4,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            3,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 12,
+          "isActive": false,
+          "id": 40
+        },
+        {
+          "color": "GREEN",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            6,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            3,
+            0,
+            2
+          ],
+          "victoryPoints": 9,
+          "isActive": false,
+          "id": 37
+        },
+        {
+          "color": "GREEN",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            7,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            3
+          ],
+          "victoryPoints": 11,
+          "isActive": false,
+          "id": 39
+        },
+        {
+          "color": "GREEN",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            2,
+            5,
+            0,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            2,
+            2,
+            0,
+            1
+          ],
+          "victoryPoints": 10,
+          "isActive": false,
+          "id": 38
+        }
+      ]
+    ],
+    "YELLOW": [
+      [
+        {
+          "color": "YELLOW",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            3,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "victoryPoints": 3,
+          "isActive": false,
+          "id": 55
+        },
+        {
+          "color": "YELLOW",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 1,
+          "isActive": false,
+          "id": 53
+        },
+        {
+          "color": "YELLOW",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            1,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 2,
+          "isActive": false,
+          "id": 54
+        },
+        {
+          "color": "YELLOW",
+          "level": 1,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            2,
+            2,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 4,
+          "isActive": false,
+          "id": 56
+        }
+      ],
+      [
+        {
+          "color": "YELLOW",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            3,
+            0,
+            3,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 8,
+          "isActive": false,
+          "id": 60
+        },
+        {
+          "color": "YELLOW",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            2,
+            3,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "victoryPoints": 6,
+          "isActive": false,
+          "id": 58
+        },
+        {
+          "color": "YELLOW",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            4,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 5,
+          "isActive": false,
+          "id": 57
+        },
+        {
+          "color": "YELLOW",
+          "level": 2,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            5,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            2,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 7,
+          "isActive": false,
+          "id": 59
+        }
+      ],
+      [
+        {
+          "color": "YELLOW",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            6,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            3,
+            0,
+            0,
+            0,
+            2
+          ],
+          "victoryPoints": 9,
+          "isActive": false,
+          "id": 61
+        },
+        {
+          "color": "YELLOW",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            4,
+            0,
+            4,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            3,
+            0,
+            1,
+            0,
+            0
+          ],
+          "victoryPoints": 12,
+          "isActive": false,
+          "id": 64
+        },
+        {
+          "color": "YELLOW",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            0,
+            0,
+            7,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            3
+          ],
+          "victoryPoints": 11,
+          "isActive": false,
+          "id": 63
+        },
+        {
+          "color": "YELLOW",
+          "level": 3,
+          "costType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "costQuantity": [
+            0,
+            2,
+            0,
+            5,
+            0,
+            0
+          ],
+          "inputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "inputQuantities": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "outputType": [
+            "COIN",
+            "SERVANT",
+            "SHIELD",
+            "STONE",
+            "JOLLY",
+            "FAITH"
+          ],
+          "outputQuantities": [
+            2,
+            0,
+            2,
+            0,
+            0,
+            1
+          ],
+          "victoryPoints": 10,
+          "isActive": false,
+          "id": 62
+        }
+      ]
+    ]
+  },
+  "playersTurnOrder": [
+    "Gigi",
+    "Gogo",
+    "Gaga",
+    "Gugu"
+  ],
+  "currentPlayer": "Gigi",
+  "username": [
+    "Gigi",
+    "Gogo",
+    "Gaga",
+    "Gugu"
+  ],
+  "lastTriggeredTile": 0,
+  "turnPhase": "LEADERCHOICE",
+  "weReInTheEndGameNow": false,
+  "winnerVp": 0,
+  "marketBoard": [
+    [
+      "WHITEORB",
+      "COIN",
+      "WHITEORB",
+      "FAITH"
+    ],
+    [
+      "SERVANT",
+      "STONE",
+      "SHIELD",
+      "COIN"
+    ],
+    [
+      "WHITEORB",
+      "STONE",
+      "SHIELD",
+      "SERVANT"
+    ]
+  ],
+  "slideMarble": "WHITEORB",
+  "popeTileStates": [
+    [
+      "INACTIVE",
+      "INACTIVE",
+      "INACTIVE"
+    ],
+    [
+      "INACTIVE",
+      "INACTIVE",
+      "INACTIVE"
+    ],
+    [
+      "INACTIVE",
+      "INACTIVE",
+      "INACTIVE"
+    ],
+    [
+      "INACTIVE",
+      "INACTIVE",
+      "INACTIVE"
+    ]
+  ],
+  "whiteMarbleNum": [
+    0,
+    1,
+    1,
+    2
+  ],
+  "faith": [
+    0,
+    0,
+    1,
+    1
+  ],
+  "marbleConversions": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "discountType": [
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ]
+  ],
+  "discountQuantity": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "cardSlots": [
+    [
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      }
+    ],
+    [
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      }
+    ],
+    [
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      }
+    ],
+    [
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      },
+      {
+        "developmentCards": []
+      }
+    ]
+  ],
+  "leaderCards": [
+    [
+      9,
+      5,
+      6,
+      15
+    ],
+    [
+      11,
+      10,
+      1,
+      2
+    ],
+    [
+      14,
+      3,
+      12,
+      16
+    ],
+    [
+      13,
+      8,
+      4,
+      7
+    ]
+  ],
+  "leaderDepotCardsWarehouse": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "leaderDepotCardsLeaderCard": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "vpFaithTiles": [
+    [
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ],
+    [
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ],
+    [
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ],
+    [
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ]
+  ],
+  "vpFaithValues": [
+    [
+      1,
+      2,
+      4,
+      6,
+      9,
+      12,
+      16,
+      20
+    ],
+    [
+      1,
+      2,
+      4,
+      6,
+      9,
+      12,
+      16,
+      20
+    ],
+    [
+      1,
+      2,
+      4,
+      6,
+      9,
+      12,
+      16,
+      20
+    ],
+    [
+      1,
+      2,
+      4,
+      6,
+      9,
+      12,
+      16,
+      20
+    ]
+  ],
+  "productions": [
+    [
+      0
+    ],
+    [
+      0
+    ],
+    [
+      0
+    ],
+    [
+      0
+    ]
+  ],
+  "activeProductions": [
+    [
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "prodHandlerInputResources": [
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ]
+  ],
+  "prodHandlerInputQuantities": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "prodHandlerOutputResources": [
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "FAITH",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "FAITH",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "FAITH",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "FAITH",
+      "JOLLY"
+    ]
+  ],
+  "prodHandlerOutputQuantities": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "basicDepotNum": [
+    3,
+    3,
+    3,
+    3
+  ],
+  "depotType": [
+    [
+      "COIN",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null
+    ]
+  ],
+  "depotQuantity": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "depotSize": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      1,
+      2,
+      3
+    ]
+  ],
+  "strongboxTypes": [
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE"
+    ]
+  ],
+  "strongboxQuantities": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "waitingRoomTypes": [
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ],
+    [
+      "COIN",
+      "SERVANT",
+      "SHIELD",
+      "STONE",
+      "JOLLY"
+    ]
+  ],
+  "waitingRoomQuantities": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}
