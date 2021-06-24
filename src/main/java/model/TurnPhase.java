@@ -16,7 +16,7 @@ public enum TurnPhase {
      * @return the name of the name phase
      */
     public String colorPrint() {
-        return "\u001B[36m" + this + "\u001B[0m";
+        return Color.AQUA_GREEN_FG + "" + this + Color.RESET;
     }
 
     /**
@@ -27,11 +27,11 @@ public enum TurnPhase {
     public String definitionPrint() {
         String result = null;
         switch(this) {
-            case LEADERCHOICE -> result = "Choose leaders";
-            case ACTIONSELECTION -> result = "Choose action";
-            case MARKETDISTRIBUTION -> result = "Store resources";
-            case CARDPAYMENT -> result = "Pay for card";
-            case PRODUCTIONPAYMENT -> result = "Pay for productions";
+            case LEADERCHOICE -> result = "choose leaders";
+            case ACTIONSELECTION -> result = "choose action";
+            case MARKETDISTRIBUTION -> result = "store resources";
+            case CARDPAYMENT -> result = "pay for card";
+            case PRODUCTIONPAYMENT -> result = "pay for productions";
         }
         return result;
     }
@@ -42,6 +42,6 @@ public enum TurnPhase {
      * @return the turn phase definition
      */
     public String colorDefinitionPrint() {
-        return "\u001B[36m" + definitionPrint() + "\u001B[0m";
+        return Color.RESOURCE_STD + definitionPrint() + Color.RESET;
     }
 }

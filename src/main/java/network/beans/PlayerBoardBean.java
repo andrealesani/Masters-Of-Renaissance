@@ -44,10 +44,6 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      */
     private int[] popeSectionSizes;
     /**
-     * Represents the IDs of the productions available to the player
-     */
-    private int[] productions;
-    /**
      * Represents the player's number of whiteMarbles
      */
     private int whiteMarbles;
@@ -128,7 +124,6 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         setLeaderCardsFromPB(pb);
         setActiveLeaderCardsFromPB(pb);
         setPopeTileStatesFromPB(pb);
-        setProductionsFromPB(pb);
         setMarbleConversionsFromPB(pb);
         setDiscountFromPB(pb);
         setLeaderDepotCardsFromPB(pb);
@@ -164,7 +159,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      */
     public String printLine(int line, String clientUsername) {
 
-        if (line < 1 || line > 9)
+        if (line < 1 || line > 10)
             throw new ParametersNotValidException();
 
         String content = "";
@@ -172,19 +167,16 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         switch (line) {
 
             //Row 1
-            case 1 -> content += " Username: " + username;
+            case 1 -> content += drawFaithTrack();
 
             //Row 2
-            case 2 -> content += drawFaithTrack();
+            case 2 -> content += drawPopeTiles();
 
             //Row 3
-            case 3 -> content += drawPopeTiles();
+            case 3 -> content += drawWhiteMarbles();
 
             //Row 4
-            case 4 -> content += drawWhiteMarbles();
-
-            //Row 5
-            case 5 -> {
+            case 4 -> {
                 if (marbleConversions.length == 0)
                     return " Player does not have any marble conversions";
 
@@ -194,8 +186,8 @@ public class PlayerBoardBean implements Observer, PlayerBean {
                 }
             }
 
-            //Row 6
-            case 6 -> {
+            //Row 5
+            case 5 -> {
                 if (discountType.length == 0)
                     content += " Player does not have any discounts";
 
@@ -205,20 +197,20 @@ public class PlayerBoardBean implements Observer, PlayerBean {
                     }
             }
 
+            //Row 6
+            case 6 -> content += " CardSlots:";
+
             //Row 7
-            case 7 -> content += " CardSlots:\n";
+            case 7 -> content += drawCardSlot(1);
 
             //Row 8
-            case 8 -> content += drawCardSlot(1);
+            case 8 -> content += drawCardSlot(2);
 
             //Row 9
-            case 9 -> content += drawCardSlot(2);
+            case 9 -> content += drawCardSlot(3);
 
             //Row 10
-            case 10 -> content += drawCardSlot(3);
-
-            //Row 11
-            case 11 -> content += drawLeaderCards(clientUsername);
+            case 10 -> content += drawLeaderCards(clientUsername);
 
             default -> content += "This row should not be printed!";
 
@@ -247,8 +239,8 @@ public class PlayerBoardBean implements Observer, PlayerBean {
 
         String result = Color.HEADER + username + "'s PlayerBoard:\n" + Color.RESET;
 
-        for (int i = 1; i <= 12; i++) {
-            result += printLine(i) + "\n";
+        for (int i = 1; i <= 10; i++) {
+            result += "\n" + printLine(i) + "\n";
         }
 
         return result;
@@ -354,7 +346,9 @@ public class PlayerBoardBean implements Observer, PlayerBean {
     private String drawWhiteMarbles () {
         String content = " Resources left to convert: ";
 
-        content += Color.RESOURCE_STD;
+        if (whiteMarbles > 0)
+            content += Color.RESOURCE_STD;
+
         content += whiteMarbles;
         content += Color.RESET;
 
@@ -594,10 +588,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         int i = 0;
         activeLeaderCards = new boolean[playerBoard.getLeaderCards().size()];
         for (LeaderCard leaderCard : playerBoard.getLeaderCards()) {
-            if (leaderCard.isActive())
-                activeLeaderCards[i++] = true;
-            else
-                activeLeaderCards[i++] = false;
+            activeLeaderCards[i++] = leaderCard.isActive();
         }
     }
 
@@ -678,19 +669,6 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         popeSectionSizes = new int[current.size()];
         for (i = 0; i < popeSectionSizes.length; i++)
             popeSectionSizes[i] = current.get(i).getActiveSectionSize();
-    }
-
-    /**
-     * Sets the value for the bean's Productions
-     *
-     * @param playerBoard the object to take the information from
-     */
-    private void setProductionsFromPB(PlayerBoard playerBoard) {
-        int i = 0;
-        productions = new int[playerBoard.getProductionHandler().getProductions().size()];
-        for (Production production : playerBoard.getProductionHandler().getProductions()) {
-            productions[i++] = production.getId();
-        }
     }
 
     /**

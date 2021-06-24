@@ -112,7 +112,7 @@ public class LorenzoBean implements Observer {
         String result = Color.HEADER + "Lorenzo:\n" + Color.RESET;
 
         for (int i = 1; i <= 3; i++) {
-            result += printLine(i) + "\n";
+            result += "\n" + printLine(i) + "\n";
         }
 
         return result;

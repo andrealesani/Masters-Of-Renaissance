@@ -103,7 +103,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
 
         String result = Color.HEADER + username + "'s WaitingRoom:\n" + Color.RESET ;
 
-        result +=   result +
+        result +=   printLine(1) +
                     "\n";
 
         return result;
