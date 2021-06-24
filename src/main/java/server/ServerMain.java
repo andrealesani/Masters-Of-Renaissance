@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 /**
  * This class represents the executable for the game on the server machine
  */
-public class ServerMain {
+public class ServerMain implements Runnable{
 
     //MAIN
 
@@ -54,32 +54,54 @@ public class ServerMain {
 
         System.out.println("Server started!");
 
-        //Creates connection socket
-        ServerSocket serverSocket;
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-            return;
-        }
-
-        System.out.println("Server ready for connections!");
-
-        //Creates the lobby for this server
-        ServerLobby lobby = new ServerLobby();
-
-        //Creates connections with clients on new threads
-        while (true) {
+        if (port == -1) {
+            while (true) {
+                try {
+                    BufferedReader in = new BufferedReader(new FileReader("/clientToServer"));
+                    PrintWriter out = new PrintWriter(new FileWriter("/serverToClient"), true);
+                    in.readLine();
+                } catch (IOException ex) {
+                    System.err.println(ex.getMessage());
+                    break;
+                }
+            }
+        } else {
+            //Creates connection socket
+            ServerSocket serverSocket;
             try {
-                Socket socket = serverSocket.accept();
-                System.out.println("Creating new connection...");
-                executor.submit(new ServerPlayerHandler(socket, lobby));
+                serverSocket = new ServerSocket(port);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
-                break;
+                return;
             }
+
+            System.out.println("Server ready for connections!");
+
+            //Creates the lobby for this server
+            ServerLobby lobby = new ServerLobby();
+
+            //Creates connections with clients on new threads
+            while (true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    System.out.println("Creating new connection...");
+                    executor.submit(new ServerPlayerHandler(socket, lobby));
+                } catch (IOException ex) {
+                    System.err.println(ex.getMessage());
+                    break;
+                }
+            }
+
+            executor.shutdown();
         }
 
-        executor.shutdown();
+    }
+
+    /**
+     * @see Thread#run()
+     */
+    @Override
+    public void run() {
+        startServer(-1);
     }
 }
