@@ -1,5 +1,6 @@
 package network.beans;
 
+import model.Color;
 import model.PlayerBoard;
 import model.card.DevelopmentCard;
 
@@ -25,7 +26,12 @@ public class SlotBean {
      */
     @Override
     public String toString() {
-        return  Arrays.toString(developmentCards);
+        String result = "";
+
+        for (int i = 0; i < developmentCards.length; i++)
+            result += "lv" + (i+1) + ".[" + developmentCards[i] + "] ";
+
+        return  result;
     }
 
     // GETTERS

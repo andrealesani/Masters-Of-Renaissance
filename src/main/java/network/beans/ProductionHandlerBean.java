@@ -1,6 +1,8 @@
 package network.beans;
 
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
+import model.Color;
 import model.Observer;
 import model.ProductionHandler;
 import model.resource.Resource;
@@ -126,28 +128,18 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
      */
     public String printLine(int line) {
 
-        /*
-        if (line < 1 || line > marketBoard.length + 1)
+        if (line < 1 || line > 3)
             throw new ParametersNotValidException();
 
         String content = "";
 
-        if (line == marketBoard.length + 1)
-            //Row 4
-            content += " Slide: " + slide.marblePrint();
-        else {
-            line--;
-
-            //Rows 1, 2, 3
-            for (ResourceType cell : marketBoard[line]) {
-                content += " " + Color.RESET + cell.marblePrint() + Color.RESET + " ";
-            }
+        switch (line) {
+            case 1 -> content += drawProductions();
+            case 2 -> content += "Current input: " + drawInput();
+            case 3 -> content += "Current output: " + drawOutput();
         }
 
         return content;
-        */
-
-        return null;
     }
 
     /**
@@ -158,19 +150,55 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
     @Override
     public String toString() {
 
-        /*
-        String result = Color.HEADER + "Market:\n " + Color.RESET;
+        String result = Color.HEADER + "Available productions: " + Color.RESET;
 
-        for (int i = 1; i <= 4; i++) {
-            result += printLine(i) + "\n\n";
-        }
+        result +=   printLine(1) +
+                    "\n" +
+                    printLine(2) +
+                    "\n" +
+                    printLine(3) +
+                    "\n";
 
         return result;
-
-         */
-        return null;
     }
 
+    // PRIVATE DRAWING METHODS
+
+    private String drawProductions() {
+        String content = "";
+
+        for (int i = 0; i < productions.length; i++) {
+            if (activeProductions[i]) {
+                content += Color.RESOURCE_STD;
+            } else {
+                content += Color.RESET;
+            }
+            content += "[" + productions[i] + "] ";
+            content += Color.RESET;
+        }
+
+        return content;
+    }
+
+    private String drawInput() {
+        String content = "";
+
+        for (ResourceType resource : input.keySet()) {
+            content += " " + resource.iconPrint() + " x " + input.get(resource) + "  ";
+        }
+
+        return content;
+    }
+
+    private String drawOutput() {
+        String content = "";
+
+        for (ResourceType resource : output.keySet()) {
+            content += " " + resource.iconPrint() + " x " + output.get(resource) + "  ";
+        }
+
+        return content;
+    }
 
     // GETTERS
 
@@ -228,7 +256,9 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
      * @return the player's username
      */
     @Override
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     // SETTERS
 

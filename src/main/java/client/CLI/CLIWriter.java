@@ -207,8 +207,9 @@ public class CLIWriter implements Runnable {
                         "\n- 'card': display a card's details" +
                         "\n- 'production: display a production's card" +
                         "\n- 'leadercards': display a player's leadercards" +
-                        "\n" +
-                        "\nIf you're looking for in-game action commands, type 'actions'.");
+                        "\n- 'actions': display all currently allowed game actions" +
+                        "\n"
+        );
     }
 
     /**
@@ -224,16 +225,19 @@ public class CLIWriter implements Runnable {
      * @throws IOException if an I/O error occurs
      */
     private void printShow() throws IOException {
-        System.out.println("Specify what you want to see, or press ENTER to show all elements:");
+        System.out.println("Specify what you want to see, or press ENTER to show all elements." + "\n");
 
         System.out.println(
                 "Supported show commands:" +
                         "\n- 'market': the game's market board" +
                         "\n- 'cardtable': the game's card table" +
-                        "\n- 'playerboard', 'strongbox', 'waitingroom', 'warehouse')");
+                        "\n- 'player': the board of one or more players"
+        );
 
         if (clientView.getLorenzo() != null)
             System.out.println("- 'lorenzo': the state of the game's AI");
+
+        System.out.println();
 
         String request = stdIn.readLine();
 
@@ -251,15 +255,33 @@ public class CLIWriter implements Runnable {
                     System.out.println("\n" + clientView.getLorenzo());
             }
 
-            case "playerboard" -> System.out.println("\n" + clientView.getPlayerBoards());
+            case "player" -> {
+                System.out.println("Specify the username of the player's board you wish to see, or press ENTER to show all players." + "\n");
+                System.out.println("Available players:");
 
-            case "strongbox" -> System.out.println("\n" + clientView.getStrongboxes());
+                for (String username : clientView.getGame().getTurnOrder())
+                    System.out.println("- " + username);
 
-            case "waitingroom" -> System.out.println("\n" + clientView.getWaitingRooms());
+                System.out.println();
 
-            case "warehouse" -> System.out.println("\n" + clientView.getWarehouses());
+                String username = stdIn.readLine();
 
-            default -> System.out.println("\n" + "This command is not supported.");
+                if (username.equals("")) {
+
+                    for (String player : clientView.getGame().getTurnOrder())
+                        System.out.println(clientView.drawPlayerSpecificGameElements(player) + "\n");
+
+                } else if (clientView.getPlayerBoard(username) == null)
+
+                    System.out.println("The selected player does not exist." + "\n");
+
+                else
+
+                    System.out.println(clientView.drawPlayerSpecificGameElements(username));
+
+            }
+
+            default -> System.out.println("\n" + "This command is not supported." + "\n");
         }
     }
 
@@ -336,14 +358,16 @@ public class CLIWriter implements Runnable {
 
         TurnPhase phase = gameBean.getTurnPhase();
 
+        String intro = "We're in " + Color.RESOURCE_STD + phase + Color.RESET + " and you can perform one of the following actions";
+
         switch (phase) {
-            case LEADERCHOICE -> System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET +
+            case LEADERCHOICE -> System.out.println( intro +
                     "\n- '0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)" +
                     "\n- '1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game" +
                     "\n- '6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot" +
                     "\n- '18' OR 'endTurn' - Confirm your choices and start your first turn");
 
-            case ACTIONSELECTION -> System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" +
+            case ACTIONSELECTION -> System.out.println( intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '4'  OR 'selectMarketRow' - Choose the Market row that you want to get the Resources from" +
@@ -355,7 +379,7 @@ public class CLIWriter implements Runnable {
                     "\n- '14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have JOLLY resources in your input list)" +
                     "\n- '15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have JOLLY resources in your output list)");
 
-            case MARKETDISTRIBUTION -> System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET +
+            case MARKETDISTRIBUTION -> System.out.println( intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot" +
@@ -363,7 +387,7 @@ public class CLIWriter implements Runnable {
                     "\n- '8'  OR 'swapDepotContent' - Swap the content of 2 depots" +
                     "\n- '9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
 
-            case CARDPAYMENT, PRODUCTIONPAYMENT -> System.out.println(Color.AQUA_GREEN_FG + "We're in " + phase + Color.AQUA_GREEN_FG + " and you can perform one of the following actions" + Color.RESET +
+            case CARDPAYMENT, PRODUCTIONPAYMENT -> System.out.println( intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)" +

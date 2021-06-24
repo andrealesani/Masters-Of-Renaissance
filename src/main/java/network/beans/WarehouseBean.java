@@ -88,20 +88,12 @@ public class WarehouseBean implements Observer, PlayerBean {
      */
     public String printLine(int line) {
 
-        if (line < 1 || line > 2)
+        if (line != 1)
             throw new ParametersNotValidException();
 
         String content = "";
 
-        switch (line) {
-
-            //Row 1
-            case 1 -> content += " First " + basicDepotNum + " depots are Basic Depots";
-
-            //Row 2
-            case 2 -> content += drawSlots();
-
-        }
+        content += drawSlots();
 
         return content;
     }
@@ -114,11 +106,10 @@ public class WarehouseBean implements Observer, PlayerBean {
     @Override
     public String toString() {
 
-        String result = Color.HEADER + username + "'s Warehouse:\n" + Color.RESET;
+        String result = Color.HEADER + username + "'s warehouse:\n" + Color.RESET;
 
-        for (int i = 1; i <= 2; i++)
-            result +=   printLine(i) +
-                        "\n";
+        result +=   printLine(1) +
+                    "\n";
 
         return result;
     }
@@ -134,26 +125,30 @@ public class WarehouseBean implements Observer, PlayerBean {
         String content = "";
 
         for (int i = 0; i < depotType.length; i++) {
+
+            if (i == basicDepotNum)
+                content += " |";
+
             content += " " + (i+1);
             content += ".[ ";
             int quantity = depotQuantity[i];
 
-            //Prints either the resource or a gray square (for basic depot) or a gray resource (for leader depots)
+            //Prints either the resource or a gray square
             for (int j = 0; j < depotSizes[i]; j++) {
 
                 if (quantity > 0) {
                     content += depotType[i].iconPrint() + " ";
                     quantity--;
                 } else {
-                    if (i >= basicDepotNum)
-                        content += "(" + Color.GREY_LIGHT_FG + depotType[i].iconPrint() + Color.RESET + ")";
-                    else
-                        content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
+                    content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
                 }
+
+                //For leader depots prints the type of resource they can store
+                if (i >= basicDepotNum)
+                    content += "(" + depotType[i].iconPrint() + ")";
             }
 
             content += "]";
-
         }
 
         return content;

@@ -101,7 +101,7 @@ public class StrongboxBean implements Observer, PlayerBean {
     @Override
     public String toString() {
 
-        String result = Color.HEADER + username + "'s Strongbox:\n" + Color.RESET;
+        String result = Color.HEADER + username + "'s strongbox:\n" + Color.RESET;
 
         result +=   printLine(1) +
                     "\n";

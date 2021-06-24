@@ -1,9 +1,7 @@
 package client;
 
 import model.Color;
-import model.ProductionHandler;
 import model.TurnPhase;
-import model.storage.Warehouse;
 import network.beans.*;
 
 import java.util.ArrayList;
@@ -90,51 +88,41 @@ public class ClientView {
      */
     @Override
     public String toString() {
-        //Row 1
-        String content =        Color.VIEW + "View:" + Color.RESET;
-
-        //Row 2
-        if (market != null && cardTable != null)
-            content +=          Color.RESET +
-                                "\n" +
-                                marketAndCardTableAndLorenzo() +
-                                "\n";
-
-        //Row 3
-        if (playerBoards.size() > 0 && strongboxes.size() > 0 && waitingRooms.size() > 0 && warehouses.size() > 0) {
-
-            for (int i = 0; i < playerBoards.size() && i < strongboxes.size() && i < waitingRooms.size() && i < warehouses.size(); i++) {
-
-                if (playerBoards.get(i) != null && strongboxes.get(i) != null && waitingRooms.get(i) != null && warehouses.get(i) != null)
-                    content += Color.RESET +
-                            "\n" +
-                            playerAndStrongAndWaitingAndWarehouse(i) +
+        //Introduction
+        String content =    Color.VIEW + "View:" + Color.RESET +
                             "\n";
-            }
-        }
 
-        //Row 4
+        //Global game elements
+        content +=          drawGlobalGameElements();
+
+        //Player-specific game elements
+        if (username != null)
+            content +=      drawPlayerSpecificGameElements(username);
+
+        //Game state
         if (game != null)
-            content +=          Color.RESET +
-                                "\n" +
-                                game +
-                                "\n";
+            content +=      game;
 
-        return content + "\n";
+
+        return content;
     }
 
-    //PRIVATE PRINTING METHODS
+    //PUBLIC PRINTING SUB-METHODS
 
     /**
      * Creates a String that displays Market, CardTable and Lorenzo (if he exists) in parallel
      *
      * @return the formatted String
      */
-    private String marketAndCardTableAndLorenzo() {
+    public String drawGlobalGameElements() {
+
+        if (market == null || cardTable == null)
+            return "All global game information has yet to arrive.";
+
         String content = "";
 
         //Row 1
-        content +=      Color.HEADER + "Market: " + Color.RESET + "                          " +
+        content +=      Color.HEADER + "Market: " + Color.RESET + "                        " +
                         Color.HEADER + "CardTable: " + Color.RESET + "                                             ";
         if (lorenzo != null)
             content +=  Color.HEADER + "Lorenzo: " + Color.RESET +
@@ -171,79 +159,111 @@ public class ClientView {
     /**
      * Creates a String that displays PlayerBoard, Strongbox, WaitingRoom and Warehouse in parallel
      *
-     * @param i indicates the number of the player that the String needs to be created for
+     * @param username the username of the player to be displayed
      * @return the formatted String
      */
-    private String playerAndStrongAndWaitingAndWarehouse(int i) {
+    public String drawPlayerSpecificGameElements(String username) {
+
+        PlayerBoardBean playerBoardBean = getPlayerBoard(username);
+        WarehouseBean warehouseBean = getWarehouse(username);
+        StrongboxBean strongboxBean = getStrongbox(username);
+        ProductionHandlerBean productionHandlerBean = getProductionHandler(username);
+        WaitingRoomBean waitingRoomBean = getWaitingRoom(username);
+
+        if (playerBoardBean == null || warehouseBean == null || strongboxBean == null || productionHandlerBean == null || waitingRoomBean == null)
+            return "All information for player " + Color.RESOURCE_STD + username + Color.RESET + " has yet to arrive.";
+
         String content = "";
 
         //Row 1
-        content +=      Color.HEADER + playerBoards.get(i).getUsername() + "'s playerBoard: " + Color.RESET;
-        content +=      fillBetweenColumns(content) + Color.HEADER;
+        content +=      Color.HEADER + playerBoardBean.getUsername() + "'s playerBoard: " + Color.RESET;
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER + "Warehouse: " + Color.RESET +
+                        "\n";
 
-        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT) {
+        //Row 2
+        content +=      fillBetweenColumns(content) +
+                        warehouseBean.printLine(1) +
+                        "\n";
+
+        //Row 3
+        content +=      playerBoardBean.printLine(1) +
+                        "\n";
+
+        //Row 4
+        content +=      playerBoardBean.printLine(2);
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER + "Strongbox: " + Color.RESET +
+                        "\n";
+
+        //Row 5
+        content +=      fillBetweenColumns(content) +
+                        strongboxBean.printLine(1) +
+                        "\n";
+
+        //Row 6
+        content +=      playerBoardBean.printLine(3) +
+                        "\n";
+
+        //Row 7
+        content +=      playerBoardBean.printLine(4);
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER + "Available productions: " + Color.RESET +
+                        "\n";
+
+        //Row 8
+        content +=      playerBoardBean.printLine(5);
+        content +=      fillBetweenColumns(content) +
+                        productionHandlerBean.printLine(1) +
+                        "\n";
+
+        //Row 9
+        content +=      playerBoardBean.printLine(6);
+        content +=      fillBetweenColumns(content) +
+                        productionHandlerBean.printLine(2) +
+                        "\n";
+
+        //Row 10
+        content +=      playerBoardBean.printLine(7);
+        content +=      fillBetweenColumns(content) +
+                        productionHandlerBean.printLine(3) +
+                        "\n";
+
+        //Row 11
+        content +=      playerBoardBean.printLine(8) +
+                        "\n";
+
+        //Row 12
+        content +=  playerBoardBean.printLine(9);
+        content +=      fillBetweenColumns(content) +
+                        Color.HEADER;
+
+        //determines the header for the waiting room
+        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT)
             content +=  "Resources left to pay: ";
-        } else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION) {
+        else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION)
             content +=  "Resources left to distribute: ";
-        } else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE) {
+        else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE)
             content +=  "Bonus resources left to allocate: ";
-        }
 
         content +=      Color.RESET +
                         "\n";
 
-        //Row 2
-        content +=      playerBoards.get(i).printLine(1);
+        //Row 13
+        if (playerBoardBean.getUsername().equals(username) || game.getTurnPhase() != TurnPhase.LEADERCHOICE)
+            content +=  playerBoardBean.printLine(10, username);
+
         content +=      fillBetweenColumns(content);
-        if (game.getTurnPhase() != TurnPhase.ACTIONSELECTION) {
-            content +=  waitingRooms.get(i).printLine(1);
-        }
+
+        if (game.getTurnPhase() != TurnPhase.ACTIONSELECTION)
+            content +=  waitingRoomBean.printLine(1);
+
         content +=      "\n";
-
-        //Row 3
-        content +=      playerBoards.get(i).printLine(2) +
-                        "\n";
-
-        //Row 4
-        content +=      playerBoards.get(i).printLine(3);
-        content +=      fillBetweenColumns(content) +
-                        Color.HEADER + playerBoards.get(i).getUsername() + "'s strongbox: " + Color.RESET +
-                        "\n";
-
-        //Row 5
-        content +=      playerBoards.get(i).printLine(4);
-        content +=      fillBetweenColumns(content) +
-                        strongboxes.get(i).printLine(1) +
-                        "\n";
-
-        //Row 6
-        content +=      playerBoards.get(i).printLine(5) +
-                        "\n";
-
-        //Row 7
-        content +=      playerBoards.get(i).printLine(6);
-        content +=      fillBetweenColumns(content) +
-                        Color.HEADER + playerBoards.get(i).getUsername() + "'s warehouse: " + Color.RESET +
-                        "\n";
-
-        //Row 8
-        content +=      playerBoards.get(i).printLine(7);
-        content +=      fillBetweenColumns(content) + warehouses.get(i).printLine(1) +
-                        "\n";
-
-        //Row 9
-        if (playerBoards.get(i).getUsername().equals(username) || game.getTurnPhase() != TurnPhase.LEADERCHOICE)
-            content +=  playerBoards.get(i).printLine(8, username);
-        content +=      fillBetweenColumns(content) +
-                        warehouses.get(i).printLine(2)
-                        + "\n";
-
-        //Row 10
-        content +=      playerBoards.get(i).printLine(9)
-                        + "\n\n";
 
         return content;
     }
+
+    //PRIVATE PRINTING METHODS
 
     /**
      * Adds 'space' characters to the last row of a given text so that the every row of the second column of the view you're trying
@@ -260,6 +280,8 @@ public class ClientView {
             space += " ";
         return space;
     }
+
+    //  PRIVATE METHODS
 
     /**
      * Adds or substitutes a PlayerBean for one of the game's players

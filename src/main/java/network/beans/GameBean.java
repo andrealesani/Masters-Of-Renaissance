@@ -166,16 +166,16 @@ public class GameBean implements Observer {
                     "The game has ended, type 'ESC + :q' to close the game" +
                     "\n";
 
-        if (!isLastTurn)
-            return Color.HEADER + "\nGame State:\n" + Color.RESET +
-                    " Current player is " + currentPlayer + " and we're in the " + turnPhase.definitionPrint() + " phase" +
+        String content = Color.HEADER + "\nGame State:\n" + Color.RESET;
+
+        if (isLastTurn)
+                    content += " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET;
+
+        content +=  " Current player is " + Color.RESOURCE_STD + currentPlayer + Color.RESET +
+                    " and we're in the " + turnPhase.colorDefinitionPrint() + " phase" +
                     "\n";
 
-        else
-            return Color.HEADER + "\nGame State:\n" + Color.RESET +
-                    " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET +
-                    " Current player is " + currentPlayer + " and we're in " + turnPhase.definitionPrint() + " phase" +
-                    "\n";
+        return content;
     }
 
     // GETTERS
