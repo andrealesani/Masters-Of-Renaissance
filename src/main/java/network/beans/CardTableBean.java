@@ -206,7 +206,7 @@ public class CardTableBean implements Observer {
         String result = Color.HEADER + "CardTable:\n" + Color.RESET;
 
         for (int i = 1; i <= 3; i++) {
-            result += printLine(i) + "\n";
+            result += printLine(i) + "\n\n";
         }
 
         return result;

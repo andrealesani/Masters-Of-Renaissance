@@ -131,14 +131,8 @@ public class CLIWriter implements Runnable {
             //Display the game's status
             case "status" -> printStatus();
 
-            //Display a specific game element
+            //Display one of the game's elements
             case "show" -> printShow();
-
-            //Display a specific card or production
-            case "card", "production" -> printCard();
-
-            //Display a specific player's LeaderCards
-            case "leadercards" -> printLeaderCards();
 
             //Display the list of available actions for the player in the current turn phase
             case "actions" -> printActions();
@@ -204,9 +198,6 @@ public class CLIWriter implements Runnable {
                         "\n" +
                         "\n- 'status': show the player who is currently taking their turn and the turn phase" +
                         "\n- 'show': display a specific game element" +
-                        "\n- 'card': display a card's details" +
-                        "\n- 'production: display a production's card" +
-                        "\n- 'leadercards': display a player's leadercards" +
                         "\n- 'actions': display all currently allowed game actions" +
                         "\n"
         );
@@ -231,7 +222,11 @@ public class CLIWriter implements Runnable {
                 "Supported show commands:" +
                         "\n- 'market': the game's market board" +
                         "\n- 'cardtable': the game's card table" +
-                        "\n- 'player': the board of one or more players"
+                        "\n- 'player': the board of one or more players" +
+                        "\n- 'leadercards': display a player's leadercards" +
+                        "\n- 'cardslots': display a player's card slots" +
+                        "\n- 'card': display a card's details" +
+                        "\n- 'production: display a production's card"
         );
 
         if (clientView.getLorenzo() != null)
@@ -246,7 +241,7 @@ public class CLIWriter implements Runnable {
 
             case "market" -> System.out.println("\n" + clientView.getMarket());
 
-            case "cardtable" -> System.out.println("\n" + clientView.getCardTable());
+            case "cardtable", "cards" -> System.out.println("\n" + clientView.drawDetailedCardTable());
 
             case "lorenzo" -> {
                 if (clientView.getLorenzo() == null)
@@ -255,31 +250,13 @@ public class CLIWriter implements Runnable {
                     System.out.println("\n" + clientView.getLorenzo());
             }
 
-            case "player" -> {
-                System.out.println("Specify the username of the player's board you wish to see, or press ENTER to show all players." + "\n");
-                System.out.println("Available players:");
+            case "player", "players" -> printPlayer();
 
-                for (String username : clientView.getGame().getTurnOrder())
-                    System.out.println("- " + username);
+            case "leadercards", "leaders", "leader" -> printLeaderCards();
 
-                System.out.println();
+            case "cardslots", "slots" ->  printCardSlots();
 
-                String username = stdIn.readLine();
-
-                if (username.equals("")) {
-
-                    for (String player : clientView.getGame().getTurnOrder())
-                        System.out.println(clientView.drawPlayerSpecificGameElements(player) + "\n");
-
-                } else if (clientView.getPlayerBoard(username) == null)
-
-                    System.out.println("The selected player does not exist." + "\n");
-
-                else
-
-                    System.out.println(clientView.drawPlayerSpecificGameElements(username));
-
-            }
+            case "card", "production" -> printCard();
 
             default -> System.out.println("\n" + "This command is not supported." + "\n");
         }
@@ -301,10 +278,10 @@ public class CLIWriter implements Runnable {
             content += Color.HEADER + "Base production:" + Color.RESET;
 
             content += "\n Production Input: ";
-            content += " " + ResourceType.JOLLY.iconPrint() + " x " + 2 + "  ";
+            content += ResourceType.JOLLY.iconPrint() + " x " + 2 + "  ";
 
             content += "\n Production Output: ";
-            content += " " + ResourceType.JOLLY.iconPrint() + " x " + 1 + "  ";
+            content += ResourceType.JOLLY.iconPrint() + " x " + 1 + "  ";
 
             System.out.println(content);
         } else {
@@ -321,28 +298,94 @@ public class CLIWriter implements Runnable {
     }
 
     /**
-     * Displays one of the game's players' LeaderCards
+     * Displays one of the game's player's information
+     *
+     * @throws IOException if an I/O error occurs
+     */
+    private void printPlayer() throws IOException {
+        System.out.println("Specify the username of the player whose board you wish to see, or press ENTER to show all players." + "\n");
+
+        printAvailablePlayers();
+
+        String username = stdIn.readLine();
+
+        if (username.equals("")) {
+
+            for (String player : clientView.getGame().getTurnOrder())
+                System.out.println(clientView.drawPlayerSpecificGameElements(player) + "\n");
+
+        } else if (clientView.getPlayerBoard(username) == null)
+
+            System.out.println("The selected player does not exist." + "\n");
+
+        else
+
+            System.out.println(clientView.drawPlayerSpecificGameElements(username) + "\n");
+    }
+
+    /**
+     * Displays one of the game's players' LeaderCards in detail
      *
      * @throws IOException if an I/O error occurs
      */
     private void printLeaderCards() throws IOException {
-        System.out.println("Specify the username of the player whose cards you wish to see:");
+
+        System.out.println("Specify the username of the player whose leader cards you wish to see:");
+
+        printAvailablePlayers();
 
         String username = stdIn.readLine();
 
-        PlayerBoardBean playerBoard = clientView.getPlayerBoard(username);
-        if (playerBoard == null) {
-            System.out.println("The given player does not exist.");
-            return;
-        }
+        if (username.equals("")) {
 
-        for (int id : playerBoard.getLeaderCards()) {
-            try {
-                System.out.println(clientView.getGame().getLeaderCardFromId(id));
-            } catch (Exception ignored) {
-                System.out.println("Couldn't find one of the player's leader cards.");
-            }
-        }
+            for (String player : clientView.getGame().getTurnOrder())
+                System.out.println(clientView.drawPlayerLeaderCards(player) + "\n");
+
+        } else if (clientView.getPlayerBoard(username) == null)
+
+            System.out.println("The selected player does not exist." + "\n");
+
+        else
+
+            System.out.println(clientView.drawPlayerLeaderCards(username) + "\n");
+    }
+
+    /**
+     * Displays one of the game's players' card slots in detail
+     *
+     * @throws IOException if an I/O error occurs
+     */
+    private void printCardSlots() throws IOException {
+        System.out.println("Specify the username of the player whose card slots you wish to see:");
+
+        printAvailablePlayers();
+
+        String username = stdIn.readLine();
+
+        if (username.equals("")) {
+
+            for (String player : clientView.getGame().getTurnOrder())
+                System.out.println(clientView.drawPlayerCardSlots(player) + "\n");
+
+        } else if (clientView.getPlayerBoard(username) == null)
+
+            System.out.println("The selected player does not exist." + "\n");
+
+        else
+
+            System.out.println(clientView.drawPlayerCardSlots(username) + "\n");
+    }
+
+    /**
+     * Displays the game's players
+     */
+    private void printAvailablePlayers() {
+        System.out.println("Available players:");
+
+        for (String username : clientView.getGame().getTurnOrder())
+            System.out.println("- " + username);
+
+        System.out.println();
     }
 
     /**

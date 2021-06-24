@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import Exceptions.CardAlreadyActiveException;
+import Exceptions.ParametersNotValidException;
 import model.*;
 import model.resource.*;
 
@@ -203,31 +204,69 @@ public class ProductionLeaderCard extends LeaderCard {
     //PRINTING METHODS
 
     /**
+     * This method is used to print only one line of the Warehouse so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
+    public String printLine(int line) {
+
+        if (line < 1)
+            throw new ParametersNotValidException();
+
+        String content = "";
+
+        switch(line) {
+
+            //Row 1
+            case 1 -> content +=    super.printLine(1);
+
+            //Row 2
+            case 2 -> content +=    super.printLine(2);
+
+            //Row 3
+            case 3 -> content +=    " Required card: " + requiredQuantity + " x " + requiredColor.iconPrint() +
+                                    " of level " + Color.RESOURCE_STD + requiredLevel + Color.RESET;
+
+            //Row 4
+            case 4 -> {
+                content += " Production Input: ";
+                for (int i = 0; i < inputType.length; i++) {
+                    if (inputQuantities[i] > 0)
+                        content +=  inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+                }
+            }
+
+            //Row 5
+            case 5 -> {
+                content += " Production Output: ";
+                for (int i = 0; i < outputType.length; i++) {
+                    if (outputQuantities[i] > 0)
+                        content +=  outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+                }
+            }
+
+            default -> content += "";
+        }
+
+        return content;
+    }
+
+    /**
      * Prints a String representation of the card
      *
      * @return the card's String representation
      */
     @Override
     public String toString() {
-        String content = "";
-        content += Color.HEADER + "Production Leader Card:" + Color.RESET +
-                super.toString();
 
-        content += "\n Required card: ";
-        content += requiredQuantity + " x " + requiredColor.iconPrint() + " of level " + Color.RESOURCE_STD + requiredLevel + Color.RESET;
+        String content =    Color.HEADER + "Production Leader Card:" + Color.RESET +
+                            "\n";
 
-
-        content += "\n Production Input: ";
-        for (int i = 0; i < inputType.length; i++) {
-            if (inputQuantities[i] > 0)
-                content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
-        }
-
-        content += "\n Production Output: ";
-        for (int i = 0; i < outputType.length; i++) {
-            if (outputQuantities[i] > 0)
-                content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
-        }
+        for (int i = 1; i <= 5; i++)
+            content +=      printLine(i) +
+                            "\n";
 
         return content;
     }

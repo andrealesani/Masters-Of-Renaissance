@@ -134,9 +134,9 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
         String content = "";
 
         switch (line) {
-            case 1 -> content += drawProductions();
-            case 2 -> content += "Current input: " + drawInput();
-            case 3 -> content += "Current output: " + drawOutput();
+            case 1 -> content += " " + drawProductions();
+            case 2 -> content += " Current input: " + drawInput();
+            case 3 -> content += " Current output: " + drawOutput();
         }
 
         return content;

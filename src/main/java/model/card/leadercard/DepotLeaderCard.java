@@ -1,6 +1,7 @@
 package model.card.leadercard;
 
 import Exceptions.CardAlreadyActiveException;
+import Exceptions.ParametersNotValidException;
 import model.Color;
 import model.PlayerBoard;
 import model.resource.ResourceType;
@@ -123,31 +124,68 @@ public class DepotLeaderCard extends LeaderCard {
     //PRINTING METHODS
 
     /**
+     * This method is used to print only one line of the Warehouse so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
+    public String printLine(int line) {
+
+        if (line < 1)
+            throw new ParametersNotValidException();
+
+        String content = "";
+
+        switch(line) {
+
+            //Row 1
+            case 1 -> content +=    super.printLine(1);
+
+            //Row 2
+            case 2 -> content +=    super.printLine(2);
+
+            //Row 3
+            case 3 -> content +=    " Required resources: " + requiredResource.iconPrint() + " x " + requiredQuantity;
+
+            //Row 4
+            case 4 -> {
+                content +=          " Depot: " +
+                                    "[ ";
+
+                for (int j = 0; j < storableQuantity; j++) {
+                    content +=      Color.GREY_LIGHT_FG + "■ " + Color.RESET;
+                }
+
+                content +=          "(" + storableResource.iconPrint() + ")" +
+                                    "]";
+            }
+
+            default -> content += "";
+        }
+
+        return content;
+    }
+
+    /**
      * Prints a String representation of the card
      *
      * @return the card's String representation
      */
     @Override
     public String toString() {
-        String content = "";
-        content += Color.HEADER + "Depot Leader Card:" + Color.RESET +
-                super.toString();
 
-        content += "\n Required resources: ";
-        content += " " + requiredResource.iconPrint() + " x " + requiredQuantity + "  ";
+        String content =    Color.HEADER + "Depot Leader Card:" + Color.RESET +
+                            "\n";
 
-        content += "\n Depot: ";
-        content += "[ ";
-
-        for (int j = 0; j < storableQuantity; j++) {
-                content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
-        }
-
-        content += "(" + storableResource.iconPrint() + ")";
-        content += "]";
+        for (int i = 1; i <= 4; i++)
+            content +=      printLine(i) +
+                            "\n";
 
         return content;
     }
+
+    //PRIVATE PRINTING METHODS
 }
 
 

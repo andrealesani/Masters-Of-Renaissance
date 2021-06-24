@@ -1074,19 +1074,17 @@ public class GameBoardController implements GUIController {
         for (int i = 0; i < leaderChildren.size(); i++) {
             Image card;
             if (i < leaderCards.length) {
-                //Handles effects and viewing
-                if (activeLeaderCards[i]) {
+
+                //Handles effects and viewing. If viewing other players, only shows active cards
+                if (visualizedPlayer.equals(clientView.getUsername()) || (activeLeaderCards[i] && leaderCards.length <= 2)) {
                     leaderChildren.get(i).getStyleClass().add("selectedCard");
                     card = new Image("/graphics/front/" + leaderCards[i] + ".png");
                 } else {
-                    //If viewing other players, only shows active cards
-                    if (visualizedPlayer.equals(clientView.getUsername()))
-                        card = new Image("/graphics/front/" + leaderCards[i] + ".png");
-                    else
-                        card = new Image("/graphics/back/leadercardBack.png");
+                    card = new Image("/graphics/back/leadercardBack.png");
                     leaderChildren.get(i).getStyleClass().clear();
                     leaderChildren.get(i).getStyleClass().add("card");
                 }
+
             } else {
                 card = null;
                 leaderChildren.get(i).getStyleClass().clear();

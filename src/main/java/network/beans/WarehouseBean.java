@@ -93,6 +93,7 @@ public class WarehouseBean implements Observer, PlayerBean {
 
         String content = "";
 
+        //Row 1
         content += drawSlots();
 
         return content;

@@ -193,7 +193,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
 
                 else
                     for (int i = 0; i < discountType.length; i++) {
-                        content += " -" + discountQuantity[i] + discountType[i].iconPrint() + ",  ";
+                        content += " -" + discountQuantity[i] + " x " + discountType[i].iconPrint() + ",  ";
                     }
             }
 
@@ -333,6 +333,8 @@ public class PlayerBoardBean implements Observer, PlayerBean {
                 }
                 content += "[" + leaderCards[i] + "] ";
                 content += Color.RESET;
+            } else {
+                content += "[X] ";
             }
         }
         return content;

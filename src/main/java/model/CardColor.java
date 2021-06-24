@@ -4,26 +4,28 @@ package model;
  * This enum contains all possible development card color
  */
 public enum CardColor {
-    GREEN {
-        public String coloredPrint() {
-            return Color.GREEN_BG + "GREEN" + Color.RESET;
+    GREEN,
+    YELLOW,
+    BLUE,
+    PURPLE;
+
+    /**
+     * Prints a colored String representation  of the color's name
+     *
+     * @return the colored String
+     */
+    public String colorPrint() {
+        String result = null;
+
+        switch(this) {
+            case GREEN -> result = Color.GREEN_BG + this.toString() + Color.RESET;
+            case YELLOW -> result = Color.YELLOW_DARK_BG + this.toString() + Color.RESET;
+            case BLUE -> result = Color.BLUE_BG + this.toString() + Color.RESET;
+            case PURPLE -> result = Color.PURPLE_BG + this.toString() + Color.RESET;
         }
-    },
-    YELLOW {
-        public String coloredPrint() {
-            return Color.YELLOW_DARK_BG + "YELLOW" + Color.RESET;
-        }
-    },
-    BLUE {
-        public String coloredPrint() {
-            return Color.BLUE_BG + "BLUE" + Color.RESET;
-        }
-    },
-    PURPLE {
-        public String coloredPrint() {
-            return Color.PURPLE_BG + "PURPLE" + Color.RESET;
-        }
-    };
+
+        return result;
+    }
 
     /**
      * Prints a String representation of the color's icon

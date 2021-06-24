@@ -1,5 +1,6 @@
 package model.card;
 
+import Exceptions.ParametersNotValidException;
 import model.*;
 import model.resource.*;
 
@@ -129,36 +130,80 @@ public class DevelopmentCard extends Card {
     //PRINTING METHODS
 
     /**
+     * This method is used to print only one line of the Warehouse so that multiple objects can be printed
+     * in parallel in the CLI
+     *
+     * @param line the line to print (starts from 1)
+     * @return the String with the line to print
+     */
+    public String printLine(int line) {
+
+        if (line < 1)
+            throw new ParametersNotValidException();
+
+        String content = "";
+
+        switch(line) {
+
+            //Row 1
+            case 1 -> content +=    super.printLine(1);
+
+            //Row 2
+            case 2 -> content +=    super.printLine(2);
+
+            //Row 3
+            case 3 -> content +=    " Level: " + level;
+
+            //Row 4
+            case 4 -> content +=    " Color: " + color.colorPrint();
+
+            //Row 5
+            case 5 -> {
+                content +=          " Cost: ";
+                for (int i = 0; i < costType.length; i++) {
+                    if (costQuantity[i] > 0)
+                        content +=  costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
+                }
+            }
+
+            //Row 6
+            case 6 -> {
+                content +=          " Input: ";
+                for (int i = 0; i < inputType.length; i++) {
+                    if (inputQuantities[i] > 0)
+                        content +=  inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+                }
+            }
+
+            //Row 7
+            case 7 -> {
+                content +=          " Output: ";
+                for (int i = 0; i < outputType.length; i++) {
+                    if (outputQuantities[i] > 0)
+                        content +=  outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+                }
+            }
+
+            default -> content += "";
+        }
+
+        return content;
+    }
+
+    /**
      * Prints a String representation of the card
      *
      * @return the card's String representation
      */
     @Override
     public String toString() {
-        String content = "";
-        content += Color.HEADER + "Development Card:" + Color.RESET +
-                super.toString() +
-                "\n Level: " + level +
-                "\n Color: " + color;
 
-        content += "\n Cost: ";
-        for (int i = 0; i < costType.length; i++) {
-            if (costQuantity[i] > 0)
-                content += " " + costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
-        }
+        String content =    Color.HEADER + "Development Card:" + Color.RESET +
+                            "\n";
 
-        content += "\n Production Input: ";
-        for (int i = 0; i < inputType.length; i++) {
-            if (inputQuantities[i] > 0)
-                content += " " + inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
-        }
-
-        content += "\n Production Output: ";
-        for (int i = 0; i < outputType.length; i++) {
-            if (outputQuantities[i] > 0)
-                content += " " + outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
-
-        }
+        for (int i = 1; i <= 7; i++)
+            content +=      printLine(i) +
+                            "\n";
 
         return content;
     }
