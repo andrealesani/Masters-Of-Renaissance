@@ -160,14 +160,21 @@ public class GameBean implements Observer {
      */
     @Override
     public String toString() {
+        //If the game is over
         if (winner != null)
-            return Color.HEADER + winner + " wins the game with " + winnerVp + " points!" +
-                    "\n" +
-                    "The game has ended, type 'ESC + :q' to close the game" +
-                    "\n";
+            return          "\n" +
+                            Color.RESOURCE_STD + winner + Color.RESET + " wins the game with " +
+                            Color.YELLOW_LIGHT_FG + winnerVp + Color.RESET + " points!" +
+                            "\n" +
+                            "The game has ended, type 'ESC + :q' to close the game" +
+                            "\n";
 
-        String content = Color.HEADER + "\nGame State:\n" + Color.RESET;
+        //If the game is not over
+        String content =    "\n" +
+                            Color.HEADER + "Game State:" + Color.RESET +
+                            "\n";
 
+        //If the game is in its last turn
         if (isLastTurn)
                     content += " " + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "LAST TURN!" + Color.RESET;
 
