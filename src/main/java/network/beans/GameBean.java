@@ -279,7 +279,10 @@ public class GameBean implements Observer {
      * @param game the object to take the information from
      */
     private void setCurrentPlayerFromGame(Game game) {
-        currentPlayer = game.getCurrentPlayer().getUsername();
+        if (game.getCurrentPlayer() != null)
+            currentPlayer = game.getCurrentPlayer().getUsername();
+        else
+            currentPlayer = null;
     }
 
     /**
@@ -297,7 +300,7 @@ public class GameBean implements Observer {
      * @param game the object to take the information from
      */
     private void setTurnOrderAndConnectedFromGame(Game game) {
-        List<PlayerBoard> playerBoards = game.getPlayersTurnOrder();
+        List<PlayerBoard> playerBoards = game.getPlayersBoardsTurnOrder();
         turnOrder = new String[playerBoards.size()];
         connectedPlayers = new boolean[playerBoards.size()];
 
@@ -332,6 +335,6 @@ public class GameBean implements Observer {
      * @param game the object to take the information from
      */
     private void setLastTurn(Game game) {
-        isLastTurn = game.isEndGame();
+        isLastTurn = game.isLastTurn();
     }
 }

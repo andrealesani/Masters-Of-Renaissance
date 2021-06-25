@@ -2,6 +2,7 @@ package network;
 
 import Exceptions.GameDataNotFoundException;
 import model.Game;
+import model.PersistenceHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -13,7 +14,7 @@ class StaticMethodsTest {
 
     @Test
     void restoreGames() throws GameDataNotFoundException {
-        List<Game> restoredGames = StaticMethods.restoreGames();
+        List<PersistenceHandler> restoredGames = StaticMethods.restoreGames();
         File folder = new File("src/main/resources/savedGames");
 
         assertEquals(folder.listFiles().length, restoredGames.size());

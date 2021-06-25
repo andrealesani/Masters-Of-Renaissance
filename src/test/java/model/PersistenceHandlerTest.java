@@ -27,7 +27,7 @@ class PersistenceHandlerTest {
         players.add("Gaga");
         Game game = new Game(players);
         game.getCurrentPlayer().getWarehouse().getDepot(1).addResource(ResourceType.COIN, 1);
-        PersistenceHandler persistenceHandler = new PersistenceHandler(null);
+        PersistenceHandler persistenceHandler = new PersistenceHandler();
 
         persistenceHandler.saveGame(game);
 
@@ -44,11 +44,11 @@ class PersistenceHandlerTest {
         players.add("Gaga");
         Game game = new Game(players);
         game.getCurrentPlayer().getWarehouse().getDepot(1).addResource(ResourceType.COIN, 1);
-        PersistenceHandler persistenceHandler = new PersistenceHandler(null);
+        PersistenceHandler persistenceHandler = new PersistenceHandler();
 
         persistenceHandler.saveGame(game);
 
-        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/savedGames/savedGame.json"), StandardCharsets.UTF_8);
+        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/savedGames/game" + persistenceHandler.getId() + ".json"), StandardCharsets.UTF_8);
         String og_game = gson.fromJson(reader, PersistenceHandler.class).toString();
         game = persistenceHandler.restoreGame();
 

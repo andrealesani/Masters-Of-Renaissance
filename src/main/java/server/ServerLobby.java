@@ -1,12 +1,16 @@
 package server;
 
+import Exceptions.GameDataNotFoundException;
 import Exceptions.network.GameFullException;
 import Exceptions.network.UnknownPlayerNumberException;
 import Exceptions.network.UsernameAlreadyExistsException;
+import model.PersistenceHandler;
+import network.StaticMethods;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * This class represents the game lobby.
@@ -16,7 +20,30 @@ public class ServerLobby {
     /**
      * List used to store the controllers of the games currently running on the server
      */
-    private final List<GameController> currentGames = new ArrayList<>();
+    private final List<GameController> currentGames;
+
+    //CONSTRUCTORS
+
+    /**
+     * Constructor. Takes care of restoration
+     */
+    public ServerLobby() {
+        currentGames = new ArrayList<>();
+
+        try {
+            List<PersistenceHandler> restoredGames = StaticMethods.restoreGames();
+
+            for (PersistenceHandler handler : restoredGames) {
+                currentGames.add(new GameController(handler));
+                System.out.println("Restored game with id " + handler.getId() + ".");
+            }
+
+        } catch (GameDataNotFoundException ex) {
+            System.err.println("Failed to restore saved games.");
+        }
+    }
+
+    //PUBLIC METHODS
 
     /**
      * Checks that the given username doesn't already exist in one of the stored games.

@@ -281,6 +281,12 @@ public class ProductionHandler implements Observable {
         return currentOutput;
     }
 
+    /**
+     * Getter for the amount of resources of a certain type needed in current input
+     *
+     * @param resource the resource to get the debt of
+     * @return the debt amount for the given resource
+     */
     public int getDebt(Resource resource) {
         int sum = 0;
         for (Resource debt : currentInput) {
@@ -293,17 +299,15 @@ public class ProductionHandler implements Observable {
 
     // PERSISTENCE METHODS
 
-    public void restoreProductions(int[] productions) {
-        List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
-        for (Integer production : productions) {
-            if (production == 0)
-                this.productions.add(new Production());
-            else
-                this.productions.add(cards.stream().filter(e -> e.getId() == production).findFirst().get().getProduction());
+    public void restoreProductions(boolean[] activeProductions) {
+        for (int i = 0; i < activeProductions.length; i++) {
+            if (activeProductions[i])
+                this.productions.get(i).select();
         }
     }
 
     public void restoreCurrentInput(ResourceType[] inputTypes, int[] inputQuantities) {
+        currentInput.clear();
         for (int i = 0; i < inputTypes.length; i++) {
             for (int j = 0; j < inputQuantities[i]; j++) {
                 this.currentInput.add(inputTypes[i].toResource());
@@ -311,9 +315,10 @@ public class ProductionHandler implements Observable {
         }
     }
 
-    public void restoreCurrentOutput(ResourceType[] outputTypes, int[] currentOutput) {
+    public void restoreCurrentOutput(ResourceType[] outputTypes, int[] outputQuantities) {
+        currentOutput.clear();
         for (int i = 0; i < outputTypes.length; i++) {
-            for (int j = 0; j < currentOutput[i]; j++) {
+            for (int j = 0; j < outputQuantities[i]; j++) {
                 this.currentOutput.add(outputTypes[i].toResource());
             }
         }

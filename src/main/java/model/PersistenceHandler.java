@@ -1,17 +1,20 @@
 package model;
 
+import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
+import model.lorenzo.ArtificialIntelligence;
+import model.lorenzo.Lorenzo;
+import model.lorenzo.tokens.ActionToken;
+import model.lorenzo.tokens.LorenzoTokenType;
 import model.resource.Resource;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 import network.StaticMethods;
 import network.beans.SlotBean;
-import server.GameController;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -23,8 +26,6 @@ import static model.resource.ResourceType.*;
 public class PersistenceHandler {
 
     int id;
-
-    private transient final GameController controller;
 
     private Map<CardColor, List<List<DevelopmentCard>>> cardTable;
 
@@ -38,7 +39,7 @@ public class PersistenceHandler {
 
     private TurnPhase turnPhase;
 
-    private boolean weReInTheEndGameNow;
+    private boolean isLastTurn;
 
     private String winner;
 
@@ -54,25 +55,13 @@ public class PersistenceHandler {
 
     private int[] faith;
 
-    private ResourceType[][] marbleConversions;
-
-    private ResourceType[][] discountType;
-
-    private int[][] discountQuantity;
+    private boolean[] firstTurnTaken;
 
     private SlotBean[][] cardSlots;
 
     private int[][] leaderCards;
 
-    private int[][] leaderDepotCardsWarehouse;
-
-    private int[][] leaderDepotCardsLeaderCard;
-
-    private int[][] vpFaithTiles;
-
-    private int[][] vpFaithValues;
-
-    private int[][] productions;
+    private boolean[][] activeLeaderCards;
 
     private boolean[][] activeProductions;
 
@@ -100,22 +89,64 @@ public class PersistenceHandler {
 
     private int[][] waitingRoomQuantities;
 
-    // CONSTRUCTORS
+    private int lorenzoFaith;
 
-    public PersistenceHandler(GameController controller) {
-        this.controller = controller;
+    private LorenzoTokenType[] lorenzoUsedTokens;
+
+    // PUBLIC METHODS
+
+    public void saveGame(Game game) {
+        Gson gson = new Gson();
+        if (game == null)
+            throw new ParametersNotValidException();
+
+        saveGameStatus(game);
+        saveMarket(game);
+        saveCardTable(game);
+        savePlayerBoards(game);
+        saveProductionHandlers(game);
+        saveWarehouses(game);
+        saveStrongboxes(game);
+        saveWaitingRooms(game);
+        saveLorenzo(game);
+
+        try {
+            if (id == 0)
+                id = StaticMethods.findFirstFreePersistenceId();
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
+            writer.print(gson.toJson(this));
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Warning: couldn't save game to file.");
+        }
     }
 
-    // PRIVATE METHODS
+    public Game restoreGame() {
+
+        Game game = restoreGameStatus();
+        restoreMarket(game);
+        restoreCardTable(game);
+        restorePlayerBoards(game);
+        restoreProductionHandlers(game);
+        restoreWarehouses(game);
+        restoreStrongboxes(game);
+        restoreWaitingRooms(game);
+        restoreLorenzo(game);
+        restoreEndTurn(game);
+
+        return game;
+    }
+
+    // PRIVATE SAVING METHODS
 
     private void saveGameStatus(Game game) {
-        playersTurnOrder = new String[game.getPlayersTurnOrder().size()];
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++)
-            playersTurnOrder[i] = game.getPlayersTurnOrder().get(i).getUsername();
+        playersTurnOrder = new String[game.getPlayersBoardsTurnOrder().size()];
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++)
+            playersTurnOrder[i] = game.getPlayersBoardsTurnOrder().get(i).getUsername();
         currentPlayer = game.getCurrentPlayer().getUsername();
-        lastTriggeredTile = game.getLastTriggeredTile();
         turnPhase = game.getTurnPhase();
-        weReInTheEndGameNow = game.isEndGame();
+        lastTriggeredTile = game.getLastTriggeredTile();
+        isLastTurn = game.isLastTurn();
         winner = game.getWinner();
         winnerVp = game.getWinnerVp();
     }
@@ -136,95 +167,58 @@ public class PersistenceHandler {
     }
 
     private void savePlayerBoards(Game game) {
-        int numOfPlayers = game.getPlayersTurnOrder().size();
+        int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         username = new String[numOfPlayers];
+        firstTurnTaken = new boolean[numOfPlayers];
         popeTileStates = new PopeTileState[numOfPlayers][];
         whiteMarbleNum = new int[numOfPlayers];
         faith = new int[numOfPlayers];
-        marbleConversions = new ResourceType[numOfPlayers][];
-        discountType = new ResourceType[numOfPlayers][];
-        discountQuantity = new int[numOfPlayers][];
         cardSlots = new SlotBean[numOfPlayers][];
-        vpFaithTiles = new int[numOfPlayers][];
-        vpFaithValues = new int[numOfPlayers][];
         leaderCards = new int[numOfPlayers][];
-        leaderDepotCardsLeaderCard = new int[numOfPlayers][];
-        leaderDepotCardsWarehouse = new int[numOfPlayers][];
+        activeLeaderCards = new boolean[numOfPlayers][];
 
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+
+            PlayerBoard player = game.getPlayersBoardsTurnOrder().get(i);
 
             // USERNAME
 
-            username[i] = game.getPlayersTurnOrder().get(i).getUsername();
+            username[i] = player.getUsername();
 
             // FAITH
 
-            faith[i] = game.getPlayersTurnOrder().get(i).getFaith();
+            faith[i] = player.getFaith();
+
+            //HAS TAKEN FIRST TURN
+
+            firstTurnTaken[i] = player.isFirstTurnTaken();
 
             // WHITE MARBLES
 
-            whiteMarbleNum[i] = game.getPlayersTurnOrder().get(i).getWhiteMarbles();
-
-            // MARBLE CONVERSIONS
-
-            int j = 0;
-            marbleConversions[i] = new ResourceType[game.getPlayersTurnOrder().get(i).getMarbleConversions().size()];
-            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getMarbleConversions()) {
-                marbleConversions[i][j] = resourceType;
-                j++;
-            }
-
-            // DISCOUNTS
-
-            j = 0;
-            discountType[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
-            discountQuantity[i] = new int[discountType[i].length];
-            for (Map.Entry<ResourceType, Integer> entry : game.getPlayersTurnOrder().get(i).getDiscounts().entrySet()) {
-                discountType[i][j] = entry.getKey();
-                discountQuantity[i][j] = entry.getValue();
-                j++;
-            }
+            whiteMarbleNum[i] = player.getWhiteMarbles();
 
             // CARD SLOTS
-
-            cardSlots[i] = new SlotBean[game.getPlayersTurnOrder().get(i).getCardSlots().size()];
+            int j;
+            cardSlots[i] = new SlotBean[player.getCardSlots().size()];
             for (j = 0; j < 3; j++) {
                 cardSlots[i][j] = new SlotBean();
-                cardSlots[i][j].setDevelopmentCardsFromPB(game.getPlayersTurnOrder().get(i), j + 1);
+                cardSlots[i][j].setDevelopmentCardsFromPB(player, j + 1);
             }
 
             // LEADER CARDS
 
             j = 0;
-            leaderCards[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderCards().size()];
-            for (LeaderCard leaderCard : game.getPlayersTurnOrder().get(i).getLeaderCards()) {
-                leaderCards[i][j++] = leaderCard.getId();
-            }
-
-            j = 0;
-            leaderDepotCardsWarehouse[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet().size()];
-            leaderDepotCardsLeaderCard[i] = new int[game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet().size()];
-            for (Map.Entry<Integer, Integer> entry : game.getPlayersTurnOrder().get(i).getLeaderDepotCards().entrySet()) {
-                leaderDepotCardsWarehouse[i][j] = entry.getKey();
-                leaderDepotCardsLeaderCard[i][j] = entry.getValue();
+            leaderCards[i] = new int[player.getLeaderCards().size()];
+            activeLeaderCards[i] = new boolean[player.getLeaderCards().size()];
+            for (LeaderCard leaderCard : player.getLeaderCards()) {
+                leaderCards[i][j] = leaderCard.getId();
+                activeLeaderCards[i][j] = leaderCard.isActive();
                 j++;
             }
 
-            // VICTORY POINTS
+            // POPE'S FAVOR TILES
 
-            int[] faithTiles = game.getPlayersTurnOrder().get(i).getVpFaithTiles();
-            vpFaithTiles[i] = new int[faithTiles.length];
-            for (j = 0; j < vpFaithTiles[i].length; j++)
-                vpFaithTiles[i][j] = faithTiles[j];
-
-            int[] faithValues = game.getPlayersTurnOrder().get(i).getVpFaithValues();
-            vpFaithValues[i] = new int[faithValues.length];
-            for (j = 0; j < vpFaithValues[i].length; j++)
-                vpFaithValues[i][j] = faithValues[j];
-
-            // POPE FAVOR TILES
-
-            List<PopeFavorTile> favorTiles = game.getPlayersTurnOrder().get(i).getPopeFavorTiles();
+            List<PopeFavorTile> favorTiles = player.getPopeFavorTiles();
             popeTileStates[i] = new PopeTileState[favorTiles.size()];
             for (j = 0; j < popeTileStates[i].length; j++) {
                 popeTileStates[i][j] = favorTiles.get(j).getState();
@@ -233,24 +227,18 @@ public class PersistenceHandler {
     }
 
     private void saveProductionHandlers(Game game) {
-        int numOfPlayers = game.getPlayersTurnOrder().size();
-        productions = new int[numOfPlayers][];
+        int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         activeProductions = new boolean[numOfPlayers][];
         prodHandlerInputResources = new ResourceType[numOfPlayers][];
         prodHandlerInputQuantities = new int[numOfPlayers][];
         prodHandlerOutputResources = new ResourceType[numOfPlayers][];
         prodHandlerOutputQuantities = new int[numOfPlayers][];
 
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            ProductionHandler productionHandler = game.getPlayersTurnOrder().get(i).getProductionHandler();
-            productions[i] = new int[productionHandler.getProductions().size()];
-            activeProductions[i] = new boolean[productions.length];
-            for (int j = 0; j < productions[i].length; j++) {
-                productions[i][j] = productionHandler.getProductions().get(j).getId();
-                if (productionHandler.getProductions().get(j).isSelectedByHandler())
-                    activeProductions[i][j] = true;
-                else
-                    activeProductions[i][j] = false;
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            ProductionHandler productionHandler = game.getPlayersBoardsTurnOrder().get(i).getProductionHandler();
+            activeProductions[i] = new boolean[productionHandler.getProductions().size()];
+            for (int j = 0; j < activeProductions[i].length; j++) {
+                activeProductions[i][j] = productionHandler.getProductions().get(j).isSelectedByHandler();
             }
 
             prodHandlerInputResources[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, JOLLY};
@@ -292,34 +280,34 @@ public class PersistenceHandler {
     }
 
     private void saveWarehouses(Game game) {
-        int numOfPlayers = game.getPlayersTurnOrder().size();
+        int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         basicDepotNum = new int[numOfPlayers];
         depotType = new ResourceType[numOfPlayers][];
         depotQuantity = new int[numOfPlayers][];
         depotSize = new int[numOfPlayers][];
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            basicDepotNum[i] = game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots();
-            depotType[i] = new ResourceType[game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots()];
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            basicDepotNum[i] = game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getNumOfDepots();
+            depotType[i] = new ResourceType[game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getNumOfDepots()];
             depotQuantity[i] = new int[depotType[i].length];
             depotSize[i] = new int[depotType[i].length];
 
-            for (int j = 0; j < game.getPlayersTurnOrder().get(i).getWarehouse().getNumOfDepots(); j++) {
-                if (game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().size() > 0)
-                    depotType[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().get(0);
-                depotQuantity[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getNumOfResource(depotType[i][j]);
-                depotSize[i][j] = game.getPlayersTurnOrder().get(i).getWarehouse().getDepot(j + 1).getSize();
+            for (int j = 0; j < game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getNumOfDepots(); j++) {
+                if (game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().size() > 0)
+                    depotType[i][j] = game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getDepot(j + 1).getStoredResources().get(0);
+                depotQuantity[i][j] = game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getDepot(j + 1).getNumOfResource(depotType[i][j]);
+                depotSize[i][j] = game.getPlayersBoardsTurnOrder().get(i).getWarehouse().getDepot(j + 1).getSize();
             }
         }
     }
 
     private void saveStrongboxes(Game game) {
-        int numOfPlayers = game.getPlayersTurnOrder().size();
+        int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         strongboxTypes = new ResourceType[numOfPlayers][];
         strongboxQuantities = new int[numOfPlayers][];
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
             strongboxTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
             strongboxQuantities[i] = new int[strongboxTypes[i].length];
-            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getStrongbox().getStoredResources()) {
+            for (ResourceType resourceType : game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getStoredResources()) {
                 if (resourceType == COIN)
                     strongboxQuantities[i][0]++;
                 else if (resourceType == SERVANT)
@@ -335,13 +323,13 @@ public class PersistenceHandler {
     }
 
     private void saveWaitingRooms(Game game) {
-        int numOfPlayers = game.getPlayersTurnOrder().size();
+        int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         waitingRoomTypes = new ResourceType[numOfPlayers][];
         waitingRoomQuantities = new int[numOfPlayers][];
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE, JOLLY};
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
             waitingRoomQuantities[i] = new int[waitingRoomTypes[i].length];
-            for (ResourceType resourceType : game.getPlayersTurnOrder().get(i).getStrongbox().getStoredResources()) {
+            for (ResourceType resourceType : game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getStoredResources()) {
                 if (resourceType == COIN)
                     waitingRoomQuantities[i][0]++;
                 else if (resourceType == SERVANT)
@@ -350,21 +338,34 @@ public class PersistenceHandler {
                     waitingRoomQuantities[i][2]++;
                 else if (resourceType == STONE)
                     waitingRoomQuantities[i][3]++;
-                else if (resourceType == JOLLY)
-                    waitingRoomQuantities[i][4]++;
                 else
-                    System.out.println("Warning: found unsupported ResourceType inside Strongbox during save: " + resourceType);
+                    System.out.println("Warning: found unsupported ResourceType inside Waiting Room during save: " + resourceType);
             }
         }
     }
 
+    private void saveLorenzo(Game game) {
+        Lorenzo lorenzo = (Lorenzo) game.getLorenzo();
+
+        if (lorenzo != null) {
+
+            lorenzoFaith = lorenzo.getFaith();
+
+            List<ActionToken> usedTokens = lorenzo.getUsedDeck();
+            lorenzoUsedTokens = new LorenzoTokenType[usedTokens.size()];
+            for (int i = 0; i < lorenzoUsedTokens.length; i++)
+                lorenzoUsedTokens[i] = usedTokens.get(i).getType();
+        }
+    }
+
+    // PRIVATE RESTORING METHODS
+
     private Game restoreGameStatus() {
-        Set<String> usernames = Arrays.stream(playersTurnOrder).collect(Collectors.toSet());
-        Game game = new Game(usernames);
-        game.restoreCurrentPlayer(currentPlayer);
+        Game game = new Game(Arrays.stream(playersTurnOrder).collect(Collectors.toSet()));
+        game.restorePlayerTurnOrder(playersTurnOrder);
         game.restoreLastTriggeredTile(lastTriggeredTile);
         game.restoreTurnPhase(turnPhase);
-        game.restoreIsLastTurn(weReInTheEndGameNow);
+        game.restoreIsLastTurn(isLastTurn);
         game.restoreWinner(winner);
         game.restoreWinnerVp(winnerVp);
 
@@ -381,122 +382,84 @@ public class PersistenceHandler {
     }
 
     private void restorePlayerBoards(Game game) {
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            PlayerBoard player = game.getPlayersTurnOrder().get(i);
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            PlayerBoard player = game.getPlayersBoardsTurnOrder().get(i);
 
             // FAITH
             player.restoreFaith(faith[i]);
 
             // WHITE MARBLES
-            player.restoreMarbleConversions(marbleConversions[i]);
-
-            // MARBLE CONVERSIONS
-            player.restoreMarbleConversions(marbleConversions[i]);
-
-            // DISCOUNTS
-            player.restoreDiscounts(discountType[i], discountQuantity[i]);
+            player.restoreWhiteMarbleNum(whiteMarbleNum[i]);
 
             // CARD SLOTS
-            player.restoreCardSlots(cardSlots[i]);
+            player.restoreCardSlots(cardSlots[i], game);
 
             // LEADER CARDS
-            player.restoreLeaderCards(leaderCards[i], leaderDepotCardsWarehouse[i], leaderDepotCardsLeaderCard[i]);
-
-            // VICTORY POINTS
-            player.restoreTilesVictoryPoints(vpFaithTiles[i], vpFaithValues[i]);
+            player.restoreLeaderCards(leaderCards[i], activeLeaderCards[i], game);
 
             // POPE FAVOR TILES
             player.restorePopeTileState(popeTileStates[i]);
 
+            // FIRST TURN TAKEN
+            player.restoreFirstTurnTaken(firstTurnTaken[i]);
         }
     }
 
     private void restoreProductionHandlers(Game game) {
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            ProductionHandler productionHandler = game.getPlayersTurnOrder().get(i).getProductionHandler();
-            productionHandler.restoreProductions(productions[i]);
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            ProductionHandler productionHandler = game.getPlayersBoardsTurnOrder().get(i).getProductionHandler();
+            productionHandler.restoreProductions(activeProductions[i]);
             productionHandler.restoreCurrentInput(prodHandlerInputResources[i], prodHandlerInputQuantities[i]);
             productionHandler.restoreCurrentOutput(prodHandlerOutputResources[i], prodHandlerOutputQuantities[i]);
         }
     }
 
     private void restoreWarehouses(Game game) {
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            Warehouse warehouse = game.getPlayersTurnOrder().get(i).getWarehouse();
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            Warehouse warehouse = game.getPlayersBoardsTurnOrder().get(i).getWarehouse();
             warehouse.restoreDepots(depotType[i], depotQuantity[i]);
         }
     }
 
     private void restoreStrongboxes(Game game) {
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            UnlimitedStorage strongbox = game.getPlayersTurnOrder().get(i).getStrongbox();
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            UnlimitedStorage strongbox = game.getPlayersBoardsTurnOrder().get(i).getStrongbox();
             strongbox.restoreContent(strongboxTypes[i], strongboxQuantities[i]);
         }
     }
 
     private void restoreWaitingRooms(Game game) {
-        for (int i = 0; i < game.getPlayersTurnOrder().size(); i++) {
-            UnlimitedStorage waitingRoom = game.getPlayersTurnOrder().get(i).getWaitingRoom();
-            waitingRoom.restoreContent(strongboxTypes[i], strongboxQuantities[i]);
+        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
+            UnlimitedStorage waitingRoom = game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom();
+            waitingRoom.restoreContent(waitingRoomTypes[i], waitingRoomQuantities[i]);
         }
     }
 
-    // PUBLIC METHODS
-
-    public int getId() {
-        return id;
-    }
-
-    public void saveGame(Game game) {
-        Gson gson = new Gson();
-        if (game == null)
-            throw new RuntimeException("PersistenceHandler received a null pointer to the game");
-
-        saveGameStatus(game);
-        saveMarket(game);
-        saveCardTable(game);
-        savePlayerBoards(game);
-        saveProductionHandlers(game);
-        saveWarehouses(game);
-        saveStrongboxes(game);
-        saveWaitingRooms(game);
-
-        try {
-            if (id == 0)
-                id = StaticMethods.findFirstFreeId();
-            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
-            writer.print(gson.toJson(this));
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Warning: couldn't save game to file");
+    private void restoreLorenzo(Game game) {
+        Lorenzo lorenzo = (Lorenzo) game.getLorenzo();
+        if (lorenzo != null) {
+            lorenzo.restoreFaith(lorenzoFaith);
+            lorenzo.restoreTokens(lorenzoUsedTokens);
         }
     }
 
-    public Game restoreGame() {
-
-        Game game = restoreGameStatus();
-        restoreMarket(game);
-        restoreCardTable(game);
-        restorePlayerBoards(game);
-        restoreProductionHandlers(game);
-        restoreWarehouses(game);
-        restoreStrongboxes(game);
-        restoreWaitingRooms(game);
-
-        return game;
+    private void restoreEndTurn(Game game) {
+        if (game.getPlayer(currentPlayer) != null)
+            game.getPlayer(currentPlayer).restoreEndTurn(turnPhase, game);
     }
+
+    // PRINTING METHODS
 
     @Override
     public String toString() {
         return "PersistenceHandler{" +
-                "controller=" + controller +
                 ",\n cards=" + cardTable +
                 ",\n playersTurnOrder=" + Arrays.toString(playersTurnOrder) +
                 ",\n currentPlayer='" + currentPlayer + '\'' +
                 ",\n username=" + Arrays.toString(username) +
                 ",\n lastTriggeredTile=" + lastTriggeredTile +
                 ",\n turnPhase=" + turnPhase +
-                ",\n weReInTheEndGameNow=" + weReInTheEndGameNow +
+                ",\n isLastTurn=" + isLastTurn +
                 ",\n winner='" + winner + '\'' +
                 ",\n winnerVp=" + winnerVp +
                 ",\n marketBoard=" + Arrays.toString(marketBoard) +
@@ -504,16 +467,8 @@ public class PersistenceHandler {
                 ",\n popeTileStates=" + Arrays.toString(popeTileStates) +
                 ",\n whiteMarbleNum=" + Arrays.toString(whiteMarbleNum) +
                 ",\n faith=" + Arrays.toString(faith) +
-                ",\n marbleConversions=" + Arrays.toString(marbleConversions) +
-                ",\n discountType=" + Arrays.toString(discountType) +
-                ",\n discountQuantity=" + Arrays.toString(discountQuantity) +
                 ",\n cardSlots=" + Arrays.toString(cardSlots) +
                 ",\n leaderCards=" + Arrays.toString(leaderCards) +
-                ",\n leaderDepotCardsWarehouse=" + Arrays.toString(leaderDepotCardsWarehouse) +
-                ",\n leaderDepotCardsLeaderCard=" + Arrays.toString(leaderDepotCardsLeaderCard) +
-                ",\n vpFaithTiles=" + Arrays.toString(vpFaithTiles) +
-                ",\n vpFaithValues=" + Arrays.toString(vpFaithValues) +
-                ",\n productions=" + Arrays.toString(productions) +
                 ",\n activeProductions=" + Arrays.toString(activeProductions) +
                 ",\n prodHandlerInputResources=" + Arrays.toString(prodHandlerInputResources) +
                 ",\n prodHandlerInputQuantities=" + Arrays.toString(prodHandlerInputQuantities) +
@@ -528,5 +483,11 @@ public class PersistenceHandler {
                 ",\n waitingRoomTypes=" + Arrays.toString(waitingRoomTypes) +
                 ",\n waitingRoomQuantities=" + Arrays.toString(waitingRoomQuantities) +
                 '}';
+    }
+
+    // GETTERS
+
+    public int getId() {
+        return id;
     }
 }

@@ -221,7 +221,7 @@ public class ClientView {
                         content +=  "\n";
                     }
                 } else
-                    content +=      " Empty.";
+                    content +=      " Empty." + "\n";
 
                 content += "\n";
             }

@@ -7,12 +7,15 @@ import Exceptions.network.GameFullException;
 import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
+import model.PersistenceHandler;
+import model.PlayerBoard;
 import network.Command;
 import network.ServerMessageType;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +31,10 @@ public class GameController {
      * This controller's game class
      */
     private Game game;
+    /**
+     * This controller's game's persistence handler
+     */
+    private PersistenceHandler persistenceHandler;
     /**
      * Map used to associate the game's players and the streams used to send messages to each of them
      */
@@ -51,11 +58,34 @@ public class GameController {
      */
     public GameController(String username, PrintWriter userOut) {
         this.gson = new Gson();
+        this.players = new HashMap<>();
         this.size = 0;
         this.isGameOver = false;
-        this.players = new HashMap<>();
         players.put(username, userOut);
         playerMessage(username, ServerMessageType.SET_USERNAME, username);
+    }
+
+    /**
+     * The class constructor for restoring a saved game
+     *
+     * @param persistenceHandler the PersistenceHandler for the saved game
+     */
+    public GameController(PersistenceHandler persistenceHandler) {
+        this.gson = new Gson();
+        this.players = new HashMap<>();
+        this.isGameOver = false;
+
+        this.game = persistenceHandler.restoreGame();
+        game.createBeans(this);
+        this.persistenceHandler = persistenceHandler;
+
+        List<String> usernames = game.getPlayersUsernamesTurnOrder();
+        this.size = usernames.size();
+        for (String username : usernames)
+            players.put(username, null);
+
+        if (game.getWinner() != null)
+            this.isGameOver = true;
     }
 
     //PUBLIC METHODS
@@ -92,17 +122,24 @@ public class GameController {
                 if (result != null) {
                     playerMessage(username, ServerMessageType.ERROR, result);
                     System.out.println("Error: " + result);
+                } else {
+                    try {
+                        persistenceHandler.saveGame(game);
+                    } catch (Exception ex) {
+                        System.err.println("There was an error in saving the current game.");
+                        ex.printStackTrace();
+                    }
                 }
 
             } catch (Exception ex) {
 
                 playerMessage(username, ServerMessageType.ERROR, "The message is not in json format.");
                 System.out.println("Player sent a message that was not a json.");
-
             }
         }
     }
 
+    //PUBLIC PLAYER MANAGEMENT METHODS
 
     /**
      * Adds a player to the controller's game
@@ -154,59 +191,6 @@ public class GameController {
     }
 
     /**
-     * Chooses the controller's game's number of players
-     *
-     * @param number the number of players
-     * @throws PlayerNumberAlreadySetException if the player number has already been set
-     */
-    public void choosePlayerNumber(int number) throws PlayerNumberAlreadySetException {
-        if (size > 0) {
-            throw new PlayerNumberAlreadySetException();
-        }
-        //TODO non hardcodare il numero massimo di giocatori?
-        if (number < 1 || number > 4) {
-            throw new ParametersNotValidException();
-        }
-        size = number;
-        checkGameStart();
-    }
-
-    /**
-     * Sends a message encapsulated in a MessageWrapper in json form to the player with the given username
-     *
-     * @param username the player's username
-     * @param type     the type of the message
-     * @param message  the content of the message
-     */
-    public void playerMessage(String username, ServerMessageType type, String message) {
-        players.get(username).println(
-                gson.toJson(
-                        new MessageWrapper(type, message)));
-    }
-
-    //TODO fare una versione del metodo che prende Message come parametro e poi serializza
-    /**
-     * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
-     *
-     * @param type    the type of the message
-     * @param message the content of the message
-     */
-    public void broadcastMessage(ServerMessageType type, String message) {
-        for (String player : players.keySet()) {
-            playerMessage(player, type, message);
-        }
-    }
-
-    /**
-     * Returns whether or not the game's size has already been set
-     *
-     * @return true if the game's size has been set
-     */
-    public boolean isSizeSet() {
-        return size != 0;
-    }
-
-    /**
      * Communicates to the Game that the given player has reconnected
      *
      * @param username the player's username
@@ -248,6 +232,7 @@ public class GameController {
             try {
                 game.setDisconnectedStatus(username);
                 broadcastMessage(ServerMessageType.PLAYER_DISCONNECTED, username);
+                players.put(username, null);
                 System.out.println("Player " + username + " is now disconnected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
@@ -255,6 +240,59 @@ public class GameController {
         }
     }
 
+    //PUBLIC MESSAGING METHODS
+
+    /**
+     * Sends a message encapsulated in a MessageWrapper in json form to the player with the given username
+     *
+     * @param username the player's username
+     * @param type     the type of the message
+     * @param message  the content of the message
+     */
+    public void playerMessage(String username, ServerMessageType type, String message) {
+        if (players.get(username) != null)
+            players.get(username).println(
+                    gson.toJson(
+                            new MessageWrapper(type, message)));
+    }
+
+    //TODO fare una versione del metodo che prende Message come parametro e poi serializza
+
+    /**
+     * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
+     *
+     * @param type    the type of the message
+     * @param message the content of the message
+     */
+    public void broadcastMessage(ServerMessageType type, String message) {
+        for (String player : players.keySet()) {
+            playerMessage(player, type, message);
+        }
+    }
+
+    //SETTERS
+
+    /**
+     * Chooses the controller's game's number of players
+     *
+     * @param number the number of players
+     * @throws PlayerNumberAlreadySetException if the player number has already been set
+     */
+    public void choosePlayerNumber(int number) throws PlayerNumberAlreadySetException {
+        if (size > 0) {
+            throw new PlayerNumberAlreadySetException();
+        }
+        //TODO non hardcodare il numero massimo di giocatori?
+        if (number < 1 || number > 4) {
+            throw new ParametersNotValidException();
+        }
+        size = number;
+        checkGameStart();
+    }
+
+    /**
+     * Warns the controller that its game has ended and warns all its players
+     */
     public void setGameOver() {
         isGameOver = true;
         broadcastMessage(ServerMessageType.GAME_END, "The game has ended.");
@@ -280,10 +318,20 @@ public class GameController {
 
         game = new Game(players.keySet());
         game.createBeans(this);
+        persistenceHandler = new PersistenceHandler();
         System.out.println("The game will now start.");
     }
 
     //GETTERS
+
+    /**
+     * Returns whether or not the game's size has already been set
+     *
+     * @return true if the game's size has been set
+     */
+    public boolean isSizeSet() {
+        return size != 0;
+    }
 
     /**
      * Getter

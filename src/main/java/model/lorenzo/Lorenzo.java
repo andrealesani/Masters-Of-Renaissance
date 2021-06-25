@@ -146,6 +146,27 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
         return usedDeck;
     }
 
+    // PERSISTENCE METHODS
+
+    public void restoreFaith(int faith) {
+        this.faith += faith;
+    }
+
+    public void restoreTokens(LorenzoTokenType[] usedTokens) {
+
+        for (LorenzoTokenType type : usedTokens) {
+            for (ActionToken token : activeDeck) {
+                if (type == token.getType()) {
+                    usedDeck.add(token);
+                    activeDeck.remove(token);
+                    break;
+                }
+            }
+        }
+
+        if (usedTokens.length != usedDeck.size())
+            System.err.println("There was an error when restoring lorenzo.");
+    }
 
     // OBSERVABLE ATTRIBUTES AND METHODS
 
@@ -169,4 +190,5 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
     public List<Observer> getObservers() {
         return observers;
     }
+
 }

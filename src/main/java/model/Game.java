@@ -1,8 +1,6 @@
 package model;
 
 import Exceptions.*;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
@@ -11,10 +9,6 @@ import network.StaticMethods;
 import server.GameController;
 import network.beans.*;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +37,7 @@ public class Game implements UserCommandsInterface, Observable {
     /**
      * This attribute stores the player's boards in the same order as the turn order
      */
-    private final List<PlayerBoard> playersTurnOrder;
+    private List<PlayerBoard> playersTurnOrder;
     /**
      * This attribute stores the player board of the player who is currently taking their turn.
      * Is set to null if all players are not connected
@@ -450,7 +444,7 @@ public class Game implements UserCommandsInterface, Observable {
      * Allows the player to confirm the selected production for activation
      *
      * @throws NotEnoughResourceException  if the player does not have enough resources to activate the selected productions
-     * @throws UndefinedJollyException    if the player still has to choose which resources some jollies in the productions' input or output will become
+     * @throws UndefinedJollyException     if the player still has to choose which resources some jollies in the productions' input or output will become
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
     @Override
@@ -629,7 +623,7 @@ public class Game implements UserCommandsInterface, Observable {
         addObserver(new GameBean(controller));
         getCardTable().addObserver(new CardTableBean(controller));
         getMarket().addObserver(new MarketBean(controller));
-        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+        for (PlayerBoard playerBoard : getPlayersBoardsTurnOrder()) {
             playerBoard.addObserver(new PlayerBoardBean(controller));
             playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
             playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
@@ -637,7 +631,7 @@ public class Game implements UserCommandsInterface, Observable {
             playerBoard.getProductionHandler().addObserver(new ProductionHandlerBean(controller, playerBoard.getUsername()));
         }
 
-        if (getPlayersTurnOrder().size() == 1) {
+        if (getPlayersBoardsTurnOrder().size() == 1) {
             ((Lorenzo) getLorenzo()).addObserver(new LorenzoBean(controller));
         }
     }
@@ -659,7 +653,7 @@ public class Game implements UserCommandsInterface, Observable {
                 observer.updateSinglePlayer(username);
         for (Observer observer : market.getObservers())
             observer.updateSinglePlayer(username);
-        for (PlayerBoard playerBoard : getPlayersTurnOrder()) {
+        for (PlayerBoard playerBoard : getPlayersBoardsTurnOrder()) {
             for (Observer observer : playerBoard.getObservers())
                 observer.updateSinglePlayer(username);
             for (Observer observer : playerBoard.getStrongbox().getObservers())
@@ -670,6 +664,32 @@ public class Game implements UserCommandsInterface, Observable {
                 observer.updateSinglePlayer(username);
             for (Observer observer : playerBoard.getProductionHandler().getObservers())
                 observer.updateSinglePlayer(username);
+        }
+    }
+
+    /**
+     * Checks number of discarded resources at the end of a player's turn, after they have used the market action.
+     * If there are more than zero, increases faith for all other players accordingly
+     *
+     * @param player the PlayerBoard of the player whose turn just ended
+     */
+    public void checkDiscarded(PlayerBoard player) {
+        int numDiscardedResources = player.getLeftInWaitingRoom();
+
+        if (numDiscardedResources > 0) {
+
+            if (lorenzo != null) {
+                lorenzo.addFaith(numDiscardedResources);
+            } else {
+                String currentPlayerName = player.getUsername();
+                for (PlayerBoard playerBoard : playersTurnOrder) {
+                    if (!playerBoard.getUsername().equals(currentPlayerName)) {
+                        playerBoard.addFaith(numDiscardedResources);
+                    }
+                }
+            }
+
+            player.clearWaitingRoom();
         }
     }
 
@@ -694,29 +714,6 @@ public class Game implements UserCommandsInterface, Observable {
         }
     }
 
-    /**
-     * Checks number of discarded resources at the end of a player's turn, after they have used the market action.
-     * If there are more than zero, increases faith for all other players accordingly
-     */
-    private void checkDiscarded() {
-        int numDiscardedResources = currentPlayer.getLeftInWaitingRoom();
-
-        if (numDiscardedResources > 0) {
-
-            if (lorenzo != null) {
-                lorenzo.addFaith(numDiscardedResources);
-            } else {
-                String currentPlayerName = currentPlayer.getUsername();
-                for (PlayerBoard playerBoard : playersTurnOrder) {
-                    if (!playerBoard.getUsername().equals(currentPlayerName)) {
-                        playerBoard.addFaith(numDiscardedResources);
-                    }
-                }
-            }
-            currentPlayer.clearWaitingRoom();
-
-        }
-    }
 
     /**
      * Checks that the player can end their turn based on the action taken and makes end-of-turn tidying up
@@ -738,7 +735,7 @@ public class Game implements UserCommandsInterface, Observable {
 
         } else if (turnPhase == MARKETDISTRIBUTION) {
 
-            checkDiscarded();
+            checkDiscarded(currentPlayer);
 
         } else if (turnPhase == CARDPAYMENT) {
 
@@ -822,7 +819,7 @@ public class Game implements UserCommandsInterface, Observable {
         PlayerBoard nextPlayer;
         for (int nextIndex = (currentIndex + 1) % size; nextIndex != currentIndex; nextIndex = (nextIndex + 1) % size) {
             //Checks if the game is in its final phase and the final turn has finished
-            if (isLastTurn && nextIndex  == 0) {
+            if (isLastTurn && nextIndex == 0) {
                 endTheGame();
                 return;
             }
@@ -838,7 +835,7 @@ public class Game implements UserCommandsInterface, Observable {
         }
 
         //Checks if the game is in its final phase and the final turn has finished
-        if (isLastTurn && currentIndex  == 0) {
+        if (isLastTurn && currentIndex == 0) {
             endTheGame();
             return;
         }
@@ -938,6 +935,21 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     /**
+     * Getter for the player board of a specific player
+     *
+     * @param username the player's username
+     * @return theplayer's board
+     */
+    public PlayerBoard getPlayer(String username) {
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getUsername().equals(username))
+                return player;
+        }
+
+        return null;
+    }
+
+    /**
      * Getter
      *
      * @return market
@@ -958,10 +970,29 @@ public class Game implements UserCommandsInterface, Observable {
     /**
      * Getter
      *
-     * @return player turn order
+     * @return the players' player boards in turn order
      */
-    public List<PlayerBoard> getPlayersTurnOrder() {
-        return playersTurnOrder;
+    public List<PlayerBoard> getPlayersBoardsTurnOrder() {
+        List<PlayerBoard> result = new ArrayList<>();
+
+        for (PlayerBoard player : playersTurnOrder)
+            result.add(player);
+
+        return result;
+    }
+
+    /**
+     * Getter
+     *
+     * @return the players' usernames in turn order
+     */
+    public List<String> getPlayersUsernamesTurnOrder() {
+        List<String> result = new ArrayList<>();
+
+        for (PlayerBoard player : playersTurnOrder)
+            result.add(player.getUsername());
+
+        return result;
     }
 
     /**
@@ -1009,7 +1040,12 @@ public class Game implements UserCommandsInterface, Observable {
         return lastTriggeredTile;
     }
 
-    public boolean isEndGame() {
+    /**
+     * Returns whether or not the game is in its last turn
+     *
+     * @return true if the game is in its last turn
+     */
+    public boolean isLastTurn() {
         return isLastTurn;
     }
 
@@ -1031,11 +1067,25 @@ public class Game implements UserCommandsInterface, Observable {
 
     // PERSISTENCE METHODS
 
-    public void restoreCurrentPlayer(String username) {
-        currentPlayer = playersTurnOrder.stream()
-                .filter(e -> e.getUsername().equals(username))
-                .collect(Collectors.toList())
-                .get(0);
+    public void restorePlayerTurnOrder(String[] usernames) {
+        List<PlayerBoard> restoredOrder = new ArrayList<>();
+
+        for (String username : usernames) {
+            for (PlayerBoard board : playersTurnOrder) {
+                if (board.getUsername().equals(username)) {
+                    restoredOrder.add(board);
+                    board.setDisconnectedStatus();
+                    playersTurnOrder.remove(board);
+                    break;
+                }
+            }
+        }
+
+        if (playersTurnOrder.size() != 0)
+            System.err.println("Not all players were restored in turn order.");
+
+        playersTurnOrder = restoredOrder;
+        currentPlayer = null;
     }
 
     public void restoreLastTriggeredTile(int lastTriggeredTile) {

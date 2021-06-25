@@ -133,9 +133,9 @@ public class StaticMethods {
         }
     }
 
-    public static List<Game> restoreGames() throws GameDataNotFoundException {
+    public static List<PersistenceHandler> restoreGames() throws GameDataNotFoundException {
         Gson gson = new Gson();
-        List<Game> games = new ArrayList<>();
+        List<PersistenceHandler> games = new ArrayList<>();
         Reader reader;
 
         try {
@@ -144,8 +144,7 @@ public class StaticMethods {
             for (final File gameFile : folder.listFiles()) {
                 String fileName = gameFile.getName();
                 reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/" + fileName), StandardCharsets.UTF_8);
-                PersistenceHandler persistenceHandler = gson.fromJson(reader, PersistenceHandler.class);
-                games.add(persistenceHandler.restoreGame());
+                games.add(gson.fromJson(reader, PersistenceHandler.class));
             }
         } catch (Exception e) {
             throw new GameDataNotFoundException();
@@ -164,7 +163,7 @@ public class StaticMethods {
         }
     }
 
-    public static int findFirstFreeId() {
+    public static int findFirstFreePersistenceId() {
         File folder = new File("src/main/resources/savedGames");
 
         for (int i = 1; i <= 1000; i++) {

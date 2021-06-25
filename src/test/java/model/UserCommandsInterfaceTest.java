@@ -620,7 +620,7 @@ class UserCommandsInterfaceTest {
         game.chooseLeaderCard(2);
         game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -649,7 +649,7 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -659,7 +659,7 @@ class UserCommandsInterfaceTest {
         }
 
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             player.clearWaitingRoom();
@@ -690,7 +690,7 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -700,7 +700,7 @@ class UserCommandsInterfaceTest {
         }
 
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             player.clearWaitingRoom();
@@ -740,7 +740,7 @@ class UserCommandsInterfaceTest {
         Game game = new Game(nicknames);
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -750,7 +750,7 @@ class UserCommandsInterfaceTest {
         }
 
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             player.clearWaitingRoom();
@@ -786,7 +786,7 @@ class UserCommandsInterfaceTest {
         game.chooseLeaderCard(2);
         game.endTurn();
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -815,7 +815,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        List<PlayerBoard> players = game.getPlayersTurnOrder();
+        List<PlayerBoard> players = game.getPlayersBoardsTurnOrder();
         // During first turn players must choose which LeaderCards to keep
         for (int i = 0; i < players.size(); i++) {
             assertEquals(players.get(i).getUsername(), game.getCurrentPlayer().getUsername());
@@ -839,7 +839,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        List<PlayerBoard> players = game.getPlayersTurnOrder();
+        List<PlayerBoard> players = game.getPlayersBoardsTurnOrder();
         // During first turn players must choose which LeaderCards to keep
 
         assertEquals(players.get(0).getUsername(), game.getCurrentPlayer().getUsername());
@@ -872,7 +872,7 @@ class UserCommandsInterfaceTest {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+        PlayerBoard player = game.getPlayersBoardsTurnOrder().get(0);
 
         //Verify Lorenzo lives
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
@@ -935,7 +935,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Tom");
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        List<PlayerBoard> players = game.getPlayersTurnOrder();
+        List<PlayerBoard> players = game.getPlayersBoardsTurnOrder();
 
         //adds faith to players
         players.get(0).addFaith(9);
@@ -963,7 +963,7 @@ class UserCommandsInterfaceTest {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+        PlayerBoard player = game.getPlayersBoardsTurnOrder().get(0);
 
         //Verify Lorenzo lives
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
@@ -998,7 +998,7 @@ class UserCommandsInterfaceTest {
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
-        PlayerBoard player = game.getPlayersTurnOrder().get(0);
+        PlayerBoard player = game.getPlayersBoardsTurnOrder().get(0);
 
         //Verify Lorenzo lives
         Lorenzo lollo = (Lorenzo) game.getLorenzo();
@@ -1038,7 +1038,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -1054,7 +1054,7 @@ class UserCommandsInterfaceTest {
         game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null, null));
         game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null, null));
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             player.clearWaitingRoom();
@@ -1079,7 +1079,7 @@ class UserCommandsInterfaceTest {
         nicknames.add("Gigi");
         Game game = new Game(nicknames);
 
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);
@@ -1091,7 +1091,7 @@ class UserCommandsInterfaceTest {
         game.getCurrentPlayer().addFaith(25);
 
         // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             game.chooseLeaderCard(1);
             game.chooseLeaderCard(2);
             player.clearWaitingRoom();

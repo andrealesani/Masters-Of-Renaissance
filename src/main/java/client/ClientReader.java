@@ -137,12 +137,12 @@ public class ClientReader implements Runnable {
                 }
 
                 case PLAYER_CONNECTED -> {
-                    System.out.println("Player " + response.getMessage() + "has joined the game.");
+                    System.out.println("Player " + response.getMessage() + " has joined the game.\n");
                     notifyViewUpdate(response);
                 }
 
                 case PLAYER_DISCONNECTED -> {
-                    System.out.println("Player " + response.getMessage() + "has left the game.");
+                    System.out.println("Player " + response.getMessage() + " has left the game.\n");
                     notifyViewUpdate(response);
                 }
 

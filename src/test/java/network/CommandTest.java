@@ -169,7 +169,7 @@ class CommandTest {
         game.endTurn();
 
         // We gonna cheat and add some Resources to all players so that they can buy cards without waiting 100 turns
-        for (PlayerBoard player : game.getPlayersTurnOrder()) {
+        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
             Map<ResourceType, Integer> resources = new HashMap<>();
             resources.put(ResourceType.COIN, 100);
             resources.put(ResourceType.SERVANT, 100);

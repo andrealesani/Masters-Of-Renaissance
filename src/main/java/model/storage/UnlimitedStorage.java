@@ -144,7 +144,7 @@ public class UnlimitedStorage implements ResourceStash, Observable {
 
     public void restoreContent(ResourceType types[], int[] quantities) {
         for (int i = 0; i < types.length; i++) {
-            addResources(Map.of(types[i], quantities[i]));
+            addResource(types[i], quantities[i]);
         }
     }
 

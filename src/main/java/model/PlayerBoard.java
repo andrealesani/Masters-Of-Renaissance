@@ -4,6 +4,7 @@ import Exceptions.*;
 import model.card.Card;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
+import model.lorenzo.Lorenzo;
 import model.resource.Resource;
 import model.resource.ResourceJolly;
 import model.resource.ResourceType;
@@ -15,15 +16,14 @@ import network.beans.SlotBean;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static model.TurnPhase.CARDPAYMENT;
+import static model.TurnPhase.PRODUCTIONPAYMENT;
+
 /**
  * This class represents one single physical game player board. It holds all the information about a player's status
  * during the game, and has methods for executing many of the users actions.
  */
 public class PlayerBoard implements Observable {
-    /**
-     * Attribute used to store the game to which the player belongs
-     */
-    private final Game game;
     /**
      * Attribute used to store the player's username
      */
@@ -95,7 +95,7 @@ public class PlayerBoard implements Observable {
     /**
      * Attribute used to indicate whether or not the player is connected
      */
-    private boolean isConnected = true;
+    private boolean isConnected;
     /**
      * Attribute used to indicate whether or not the player has taken the first turn (chosen the leader cards and bonus resources)
      */
@@ -131,7 +131,6 @@ public class PlayerBoard implements Observable {
         baseProdOutput.add(jolly);
         Production baseProduction = new Production(0, baseProdInput, baseProdOutput);
 
-        this.game = game;
         this.username = username;
         faith = 0;
         this.popeFavorTiles = popeFavorTiles;
@@ -162,7 +161,6 @@ public class PlayerBoard implements Observable {
      * Constructor FOR TESTING
      */
     public PlayerBoard() {
-        game = null;
         username = null;
         faith = 0;
         popeFavorTiles = new ArrayList<>();
@@ -379,6 +377,7 @@ public class PlayerBoard implements Observable {
                 e.printStackTrace();
             }
         }
+
         productionHandler.addProduction(card.getProduction());
         requestedSlot.add(card);
 
@@ -837,54 +836,70 @@ public class PlayerBoard implements Observable {
     // PERSISTENCE METHODS
 
     public void restoreFaith(int faith) {
-        this.faith = faith;
+        this.faith += faith;
     }
 
     public void restoreWhiteMarbleNum(int whiteMarbleNum) {
         this.whiteMarbleNum = whiteMarbleNum;
     }
 
-    public void restoreMarbleConversions(ResourceType[] marbleConversions) {
-        this.marbleConversions.addAll(Arrays.asList(marbleConversions));
-    }
-
-    public void restoreDiscounts(ResourceType[] discountType, int[] discountQuantity) {
-        for (int i = 0; i < discountType.length; i++)
-            if (discountQuantity[i] != 0)
-                discounts.put(discountType[i], discountQuantity[i]);
-    }
-
-    public void restoreCardSlots(SlotBean[] developmentCardsIDs) {
-        for (int i = 0; i < developmentCardsIDs.length; i++)
-            for (int j = 0 ; j < developmentCardsIDs[i].getDevelopmentCards().length; i++)
+    public void restoreCardSlots(SlotBean[] developmentCardsIDs, Game game) {
+        for (int i = 0; i < developmentCardsIDs.length; i++) {
+            for (int j = 0; j < developmentCardsIDs[i].getDevelopmentCards().length; j++)
                 try {
-                    this.cardSlots.get(i).add(game.getCardTable().getDevelopmentCardFromId(developmentCardsIDs[i].getDevelopmentCards()[j]));
+                    DevelopmentCard card = game.getCardTable().getDevelopmentCardFromId(developmentCardsIDs[i].getDevelopmentCards()[j]);
+                    cardSlots.get(i).add(card);
+                    productionHandler.addProduction(card.getProduction());
                 } catch (CardNotPresentException e) {
-                    System.out.println("Warning: couldn't find one of the DevelopmentCards during the game restore: ID " + developmentCardsIDs[i].getDevelopmentCards()[j]);
+                    System.out.println("Warning: couldn't find one of player " + username + "'s DevelopmentCards during the game restore: ID " + developmentCardsIDs[i].getDevelopmentCards()[j]);
                 }
-    }
-
-    public void restoreLeaderCards(int[] leaderCardIDs, int [] leaderDepotCardsWarehouse, int[]  leaderDepotCardsLeaderCard) {
-        for (int leaderCardID : leaderCardIDs)
-            try {
-                this.leaderCards.add(game.getLeaderCardFromId(leaderCardID));
-            } catch (CardNotPresentException e) {
-                System.out.println("Warning: couldn't find one of the LeaderCards during the game restore: ID " + leaderCardID);
-            }
-
-        for (int i = 0 ; i < leaderDepotCardsWarehouse.length; i++) {
-            this.leaderDepotCards.put(leaderDepotCardsWarehouse[i], leaderDepotCardsLeaderCard[i]);
         }
     }
 
-    public void restoreTilesVictoryPoints(int[] vpFaithTiles, int[] vpFaithValues) {
-        System.arraycopy(vpFaithTiles, 0, this.vpFaithTiles, 0, vpFaithTiles.length);
-        System.arraycopy(vpFaithValues, 0, this.vpFaithValues, 0, vpFaithValues.length);
+    public void restoreLeaderCards(int[] leaderCardIDs, boolean[] activeLeaderCards, Game game) {
+        leaderCards.clear();
+        for (int i = 0; i < leaderCardIDs.length; i++)
+            try {
+                LeaderCard card = game.getLeaderCardFromId(leaderCardIDs[i]);
+
+                this.leaderCards.add(card);
+                if (activeLeaderCards[i])
+                    try {
+                        card.doAction(this);
+                    } catch (CardAlreadyActiveException ignored){}
+
+            } catch (CardNotPresentException e) {
+                System.out.println("Warning: couldn't find one of the LeaderCards during the game restore: ID " + leaderCardIDs[i]);
+            }
+
+        setLeaderDepotCards();
     }
 
     public void restorePopeTileState(PopeTileState[] popeTileState) {
         for (int i = 0; i < popeTileState.length; i++)
             this.popeFavorTiles.get(i).restoreState(popeTileState[i]);
+    }
+
+    public void restoreFirstTurnTaken(boolean firstTurnTaken) {
+        if (firstTurnTaken)
+            setFirstTurnTaken();
+    }
+
+    public void restoreEndTurn(TurnPhase turnPhase, Game game) {
+        if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
+
+            game.checkDiscarded(this);
+
+        } else if (turnPhase == CARDPAYMENT) {
+
+            automaticPayment();
+
+        } else if (turnPhase == PRODUCTIONPAYMENT) {
+
+            automaticPayment();
+            releaseProductionOutput();
+
+        }
     }
 
     // CONNECTION METHODS
@@ -920,7 +935,6 @@ public class PlayerBoard implements Observable {
     private void setLeaderDepotCards() {
 
         int[] depotId = warehouse.getDepotCardId();
-        int[] leaderDepot = new int[leaderCards.size()];
 
         for (int i = 0; i < depotId.length; i++) {
             if (depotId[i] != 0) {
