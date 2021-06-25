@@ -395,7 +395,7 @@ public class PersistenceHandler {
             player.restoreCardSlots(cardSlots[i], game);
 
             // LEADER CARDS
-            player.restoreLeaderCards(leaderCards[i], activeLeaderCards[i], game);
+            player.restoreLeaderCards(leaderCards[i], activeLeaderCards[i], firstTurnTaken[i], game);
 
             // POPE FAVOR TILES
             player.restorePopeTileState(popeTileStates[i]);

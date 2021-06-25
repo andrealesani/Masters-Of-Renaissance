@@ -91,25 +91,26 @@ public class ClientView {
     @Override
     public String toString() {
         //Introduction
-        String content =    Color.VIEW + "View:" + Color.RESET +
-                            "\n";
+        String content = Color.VIEW + "View:" + Color.RESET +
+                "\n";
 
         //Global game elements
-        content +=          drawGlobalGameElements();
+        content += drawGlobalGameElements();
 
         //Player-specific game elements
         if (username != null)
-            content +=      drawPlayerSpecificGameElements(username);
+            content += drawPlayerSpecificGameElements(username);
 
         //Game state
         if (game != null)
-            content +=      game;
+            content += game;
 
 
         return content;
     }
 
     //TODO non hardcodare numero di carte leader dopo selezione (anche in draw playerSpecific.. e GUI)
+
     /**
      * Creates a String that displays in detail the given player's leader cards, according to visibility rules
      *
@@ -124,15 +125,15 @@ public class ClientView {
         if (playerBoardBean == null)
             return "All information for player " + Color.RESOURCE_STD + username + Color.RESET + " has yet to arrive.";
 
-        String content =    Color.HEADER + username + "'s leader cards:" + Color.RESET +
-                            "\n\n";
+        String content = Color.HEADER + username + "'s leader cards:" + Color.RESET +
+                "\n\n";
 
         List<LeaderCard> shownLeaderCards = new ArrayList<>();
         int[] leaderCards = playerBoardBean.getLeaderCards();
 
         //If the player has no leader cards
         if (leaderCards.length <= 0) {
-            content +=  " Player has no leader cards." + "\n";
+            content += " Player has no leader cards." + "\n";
             return content;
         }
 
@@ -151,18 +152,18 @@ public class ClientView {
                     //If they have already chosen which cards to keep, visualize only the active ones
                     boolean[] activeLeaderCards = playerBoardBean.getActiveLeaderCards();
                     for (int i = 0; i < leaderCards.length; i++) {
-                        if(activeLeaderCards[i]) {
+                        if (activeLeaderCards[i]) {
                             shownLeaderCards.add(game.getLeaderCardFromId(leaderCards[i]));
                         }
                     }
 
                     //Say how many cards are hidden
-                    content +=  " Player has " + (leaderCards.length - shownLeaderCards.size()) + " hidden leader cards." +
-                                "\n\n";
+                    content += " Player has " + (leaderCards.length - shownLeaderCards.size()) + " hidden leader cards." +
+                            "\n\n";
                 } else {
 
                     //If they have not yet chosen which cards to keep
-                    content +=  " Player is still choosing their leader cards." + "\n";
+                    content += " Player is still choosing their leader cards." + "\n";
                     return content;
                 }
             }
@@ -199,16 +200,16 @@ public class ClientView {
         if (playerBoardBean == null)
             return "All information for player " + Color.RESOURCE_STD + username + Color.RESET + " has yet to arrive.";
 
-        String content =    Color.HEADER + username + "'s card slots:" + Color.RESET +
-                            "\n\n";
+        String content = Color.HEADER + username + "'s card slots:" + Color.RESET +
+                "\n\n";
 
         SlotBean[] slotBeans = playerBoardBean.getCardSlots();
 
         try {
             for (int i = 0; i < slotBeans.length; i++) {
 
-                content +=  " " + Color.RESOURCE_STD + "Slot " + (i+1) + ":" + Color.RESET +
-                            "\n\n";
+                content += " " + Color.RESOURCE_STD + "Slot " + (i + 1) + ":" + Color.RESET +
+                        "\n\n";
 
                 int[] slotCardsId = slotBeans[i].getDevelopmentCards();
 
@@ -218,10 +219,10 @@ public class ClientView {
                             content += fillBetweenColumns(content, 45 * j);
                             content += " " + cardTable.getDevelopmentCardFromId(slotCardsId[j]).printLine(k);
                         }
-                        content +=  "\n";
+                        content += "\n";
                     }
                 } else
-                    content +=      " Empty." + "\n";
+                    content += " Empty." + "\n";
 
                 content += "\n";
             }
@@ -275,52 +276,52 @@ public class ClientView {
         String content = "";
 
         //Row 1
-        content +=      Color.HEADER + "Market: " + Color.RESET;
-        content +=      fillBetweenColumns(content, 30) +
-                        Color.HEADER + "CardTable: " + Color.RESET;
-        content +=      fillBetweenColumns(content, 80);
+        content += Color.HEADER + "Market: " + Color.RESET;
+        content += fillBetweenColumns(content, 30) +
+                Color.HEADER + "CardTable: " + Color.RESET;
+        content += fillBetweenColumns(content, 80);
 
         if (lorenzo != null)
-            content +=  Color.HEADER + "Lorenzo: " + Color.RESET;
+            content += Color.HEADER + "Lorenzo: " + Color.RESET;
 
-        content +=      "\n\n";
+        content += "\n\n";
 
         //Row 2
-        content +=      market.printLine(1);
-        content +=      fillBetweenColumns(content, 31) +
-                        cardTable.printLine(1);
-        content +=      fillBetweenColumns(content, 80);
+        content += market.printLine(1);
+        content += fillBetweenColumns(content, 31) +
+                cardTable.printLine(1);
+        content += fillBetweenColumns(content, 80);
 
         if (lorenzo != null)
-            content +=  lorenzo.printLine(1);
+            content += lorenzo.printLine(1);
 
-        content +=      "\n\n";
+        content += "\n\n";
 
         //Row 3
-        content +=      market.printLine(2);
-        content +=      fillBetweenColumns(content, 31) +
-                        cardTable.printLine(2);
-        content +=      fillBetweenColumns(content, 80);
+        content += market.printLine(2);
+        content += fillBetweenColumns(content, 31) +
+                cardTable.printLine(2);
+        content += fillBetweenColumns(content, 80);
 
         if (lorenzo != null)
-            content +=  lorenzo.printLine(2);
+            content += lorenzo.printLine(2);
 
-        content +=      "\n\n";
+        content += "\n\n";
 
         //Row 4
-        content +=      market.printLine(3);
-        content +=      fillBetweenColumns(content, 31) +
-                        cardTable.printLine(3);
-        content +=      fillBetweenColumns(content, 80);
+        content += market.printLine(3);
+        content += fillBetweenColumns(content, 31) +
+                cardTable.printLine(3);
+        content += fillBetweenColumns(content, 80);
 
         if (lorenzo != null)
-            content +=  lorenzo.printLine(3);
+            content += lorenzo.printLine(3);
 
-        content +=      "\n\n";
+        content += "\n\n";
 
         //Row 5
-        content +=      market.printLine(4)+
-                        "\n\n";
+        content += market.printLine(4) +
+                "\n\n";
 
         return content;
     }
@@ -345,89 +346,90 @@ public class ClientView {
         String content = "";
 
         //Row 1
-        content +=      Color.HEADER + playerBoardBean.getUsername() + "'s playerBoard: " + Color.RESET;
-        content +=      fillBetweenColumns(content, 80) +
-                        Color.HEADER + "Warehouse: " + Color.RESET +
-                        "\n";
+        content += Color.HEADER + playerBoardBean.getUsername() + "'s playerBoard: " + Color.RESET;
+        content += fillBetweenColumns(content, 80) +
+                Color.HEADER + "Warehouse: " + Color.RESET +
+                "\n";
 
         //Row 2
-        content +=      fillBetweenColumns(content, 80) +
-                        warehouseBean.printLine(1) +
-                        "\n";
+        content += fillBetweenColumns(content, 80) +
+                warehouseBean.printLine(1) +
+                "\n";
 
         //Row 3
-        content +=      playerBoardBean.printLine(1) +
-                        "\n";
+        content += playerBoardBean.printLine(1) +
+                "\n";
 
         //Row 4
-        content +=      playerBoardBean.printLine(2);
-        content +=      fillBetweenColumns(content, 80) +
-                        Color.HEADER + "Strongbox: " + Color.RESET +
-                        "\n";
+        content += playerBoardBean.printLine(2);
+        content += fillBetweenColumns(content, 80) +
+                Color.HEADER + "Strongbox: " + Color.RESET +
+                "\n";
 
         //Row 5
-        content +=      fillBetweenColumns(content, 80) +
-                        strongboxBean.printLine(1) +
-                        "\n";
+        content += fillBetweenColumns(content, 80) +
+                strongboxBean.printLine(1) +
+                "\n";
 
         //Row 6
-        content +=      playerBoardBean.printLine(3) +
-                        "\n";
+        content += playerBoardBean.printLine(3) +
+                "\n";
 
         //Row 7
-        content +=      playerBoardBean.printLine(4);
-        content +=      fillBetweenColumns(content, 80) +
-                        Color.HEADER + "Available productions: " + Color.RESET +
-                        "\n";
+        content += playerBoardBean.printLine(4);
+        content += fillBetweenColumns(content, 80) +
+                Color.HEADER + "Available productions: " + Color.RESET +
+                "\n";
 
         //Row 8
-        content +=      playerBoardBean.printLine(5);
-        content +=      fillBetweenColumns(content, 80) +
-                        productionHandlerBean.printLine(1) +
-                        "\n";
+        content += playerBoardBean.printLine(5);
+        content += fillBetweenColumns(content, 80) +
+                productionHandlerBean.printLine(1) +
+                "\n";
 
         //Row 9
-        content +=      playerBoardBean.printLine(6);
-        content +=      fillBetweenColumns(content, 80) +
-                        productionHandlerBean.printLine(2) +
-                        "\n";
+        content += playerBoardBean.printLine(6);
+        content += fillBetweenColumns(content, 80) +
+                productionHandlerBean.printLine(2) +
+                "\n";
 
         //Row 10
-        content +=      playerBoardBean.printLine(7);
-        content +=      fillBetweenColumns(content, 80) +
-                        productionHandlerBean.printLine(3) +
-                        "\n";
+        content += playerBoardBean.printLine(7);
+        content += fillBetweenColumns(content, 80) +
+                productionHandlerBean.printLine(3) +
+                "\n";
 
         //Row 11
-        content +=      playerBoardBean.printLine(8) +
-                        "\n";
+        content += playerBoardBean.printLine(8) +
+                "\n";
 
         //Row 12
-        content +=      playerBoardBean.printLine(9);
-        content +=      fillBetweenColumns(content, 80) +
-                        Color.HEADER;
+        content += playerBoardBean.printLine(9);
+        content += fillBetweenColumns(content, 80) +
+                Color.HEADER;
 
         //determines the header for the waiting room
-        if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT)
-            content +=  "Resources left to pay: ";
-        else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION)
-            content +=  "Resources left to distribute: ";
-        else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE)
-            content +=  "Bonus resources left to allocate: ";
+        if (game.getCurrentPlayer().equals(playerBoardBean.getUsername()))
+            if (game.getTurnPhase() == TurnPhase.CARDPAYMENT || game.getTurnPhase() == TurnPhase.PRODUCTIONPAYMENT)
+                content += "Resources left to pay: ";
+            else if (game.getTurnPhase() == TurnPhase.MARKETDISTRIBUTION)
+                content += "Resources left to distribute: ";
+            else if (game.getTurnPhase() == TurnPhase.LEADERCHOICE)
+                content += "Bonus resources left to allocate: ";
 
-        content +=      Color.RESET +
-                        "\n";
+        content += Color.RESET +
+                "\n";
 
         //Row 13
         if (playerBoardBean.getUsername().equals(this.username) || playerBoardBean.getLeaderCards().length <= 2)
-            content +=  playerBoardBean.printLine(10, this.username);
+            content += playerBoardBean.printLine(10, this.username);
 
-        content +=      fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, 80);
 
-        if (game.getTurnPhase() != TurnPhase.ACTIONSELECTION)
-            content +=  waitingRoomBean.printLine(1);
+        if (game.getCurrentPlayer().equals(playerBoardBean.getUsername()) && game.getTurnPhase() != TurnPhase.ACTIONSELECTION)
+            content += waitingRoomBean.printLine(1);
 
-        content +=      "\n";
+        content += "\n";
 
         return content;
     }
@@ -439,7 +441,7 @@ public class ClientView {
      * to build will have the right indentation.
      *
      * @param content the text to print. It needs to have at least one new-line character for the method to work
-     * @param offset the amount of characters between the left side of the screen and the beginning of the next line of text
+     * @param offset  the amount of characters between the left side of the screen and the beginning of the next line of text
      * @return the text with the correct spacing added
      */
     private String fillBetweenColumns(String content, int offset) {
@@ -458,7 +460,7 @@ public class ClientView {
      *
      * @param beanList the list of PlayerBeans to which to add or substitute the new bean
      * @param newBean  the bean to be added or substituted
-     * @param <T> the subclass of PlayerBean used
+     * @param <T>      the subclass of PlayerBean used
      */
     private <T extends PlayerBean> void setPlayerSpecificBean(List<T> beanList, T newBean) {
         String beanUsername = newBean.getUsername();
@@ -476,7 +478,7 @@ public class ClientView {
      *
      * @param beanList the list of PlayerBeans from which to return the PlayerBean
      * @param username the username of the player whose PlayerBean should be returned
-     * @param <T> the subclass of PlayerBean used
+     * @param <T>      the subclass of PlayerBean used
      * @return the PlayerBean corresponding to the given username, 'null' if there are none
      */
     private <T extends PlayerBean> T getPlayerSpecificBean(List<T> beanList, String username) {
@@ -491,7 +493,7 @@ public class ClientView {
      * Calls the toString function for each PlayerBean in the list
      *
      * @param playerBeanList the list of PlayerBeans to print
-     * @param <T> the subclass of PlayerBean used
+     * @param <T>            the subclass of PlayerBean used
      * @return the string version of the PlayerBean list
      */
     public <T extends PlayerBean> String printPlayerBeanList(List<T> playerBeanList) {

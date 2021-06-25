@@ -856,7 +856,7 @@ public class PlayerBoard implements Observable {
         }
     }
 
-    public void restoreLeaderCards(int[] leaderCardIDs, boolean[] activeLeaderCards, Game game) {
+    public void restoreLeaderCards(int[] leaderCardIDs, boolean[] activeLeaderCards, boolean firstTurnTaken, Game game) {
         leaderCards.clear();
         for (int i = 0; i < leaderCardIDs.length; i++)
             try {
@@ -864,9 +864,14 @@ public class PlayerBoard implements Observable {
 
                 this.leaderCards.add(card);
                 if (activeLeaderCards[i])
-                    try {
-                        card.doAction(this);
-                    } catch (CardAlreadyActiveException ignored){}
+
+                    if(firstTurnTaken)
+                        try {
+                            card.doAction(this);
+                        } catch (CardAlreadyActiveException ignored){}
+                    else
+                        card.activate();
+
 
             } catch (CardNotPresentException e) {
                 System.out.println("Warning: couldn't find one of the LeaderCards during the game restore: ID " + leaderCardIDs[i]);

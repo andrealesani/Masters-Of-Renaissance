@@ -182,7 +182,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
 
                 content += " White Marble Conversions: ";
                 for (ResourceType marbleConversion : marbleConversions) {
-                    content += marbleConversion.iconPrint() + ",  ";
+                    content += marbleConversion.iconPrint() + "  ";
                 }
             }
 
@@ -193,7 +193,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
 
                 else
                     for (int i = 0; i < discountType.length; i++) {
-                        content += " -" + discountQuantity[i] + " x " + discountType[i].iconPrint() + ",  ";
+                        content += " -" + discountQuantity[i] + " x " + discountType[i].iconPrint() + "  ";
                     }
             }
 
@@ -212,7 +212,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
             //Row 10
             case 10 -> content += drawLeaderCards(clientUsername);
 
-            default -> content += "This row should not be printed!";
+            default -> content += Color.RED_LIGHT_FG + "This row should not be printed!\n" + Color.RESET;
 
         }
         return content;
