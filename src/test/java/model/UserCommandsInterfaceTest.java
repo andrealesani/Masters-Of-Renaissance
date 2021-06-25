@@ -21,8 +21,41 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserCommandsInterfaceTest {
+    @Test
+    void chooseBonusResourceType() throws LeaderNotPresentException, WrongTurnPhaseException, NotEnoughResourceException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        nicknames.add("GeeGee");
+        Game game = new Game(nicknames);
 
-    // GIGI SECTION
+        //First player's turn
+        PlayerBoard currentPlayer = game.getCurrentPlayer();
+        List<LeaderCard> listLeaderCards = currentPlayer.getLeaderCards();
+        List<LeaderCard> memoryList = new ArrayList(listLeaderCards);
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(3);
+        game.endTurn();
+        game.selectMarketRow(1);
+        game.endTurn();
+
+        //Second player's turn
+        currentPlayer = game.getCurrentPlayer();
+        assertEquals(1, currentPlayer.getWhiteMarbles());
+        assertEquals(0, currentPlayer.getWaitingRoom().getStoredResources().size());
+
+        game.chooseBonusResourceType(new ResourceCoin(), 1);
+        assertEquals(0, currentPlayer.getWhiteMarbles());
+        assertEquals(1, currentPlayer.getWaitingRoom().getStoredResources().size());
+
+        assertEquals(1,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.COIN));
+        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
+        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SERVANT));
+        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.STONE));
+    }
+
     @Test
     void chooseLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -44,7 +77,6 @@ class UserCommandsInterfaceTest {
 
         assertEquals(memoryList.get(0), currentPlayer.getLeaderCards().get(0));
         assertEquals(memoryList.get(2), currentPlayer.getLeaderCards().get(1));
-
     }
 
     @Test
@@ -101,8 +133,8 @@ class UserCommandsInterfaceTest {
         else if (LeaderCard1 instanceof MarbleLeaderCard) {
             assertFalse(game.getCurrentPlayer().getMarbleConversions().isEmpty());
             assertEquals(1, game.getCurrentPlayer().getMarbleConversions().size());
-            assertFalse(ResourceType.JOLLY == game.getCurrentPlayer().getMarbleConversions().get(0));
-            assertFalse(ResourceType.FAITH == game.getCurrentPlayer().getMarbleConversions().get(0));
+            assertNotSame(ResourceType.JOLLY, game.getCurrentPlayer().getMarbleConversions().get(0));
+            assertNotSame(ResourceType.FAITH, game.getCurrentPlayer().getMarbleConversions().get(0));
 
         }
 
@@ -139,7 +171,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void selectFromMarket() throws WrongTurnPhaseException, LeaderNotPresentException {
+    void selectMarketRow() throws WrongTurnPhaseException, LeaderNotPresentException {
 
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -182,7 +214,50 @@ class UserCommandsInterfaceTest {
 
     }
 
-    // TOM SECTION
+    @Test
+    void selectMarketColumn() throws WrongTurnPhaseException, LeaderNotPresentException {
+
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+
+
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        Resource[][] board = game.getMarket().getBoard();
+        int numCoins = 0, numShields = 0, numServants = 0, numStones = 0, numFaithes = 0, numWhites = 0;
+
+        for (int i = 0; i < 3; i++) {
+            if (board[i][2] instanceof ResourceCoin)
+                numCoins++;
+            else if (board[i][2] instanceof ResourceFaith)
+                numFaithes++;
+            else if (board[i][2] instanceof ResourceServant)
+                numServants++;
+            else if (board[i][2] instanceof ResourceShield)
+                numShields++;
+            else if (board[i][2] instanceof ResourceStone)
+                numStones++;
+            else if (board[i][2] instanceof ResourceWhite)
+                numWhites++;
+        }
+
+        //TEST
+        game.selectMarketColumn(3);
+
+        assertEquals(numShields, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
+        assertEquals(numCoins, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.COIN));
+        assertEquals(numStones, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.STONE));
+        assertEquals(numServants, game.getCurrentPlayer().getWaitingRoom().getNumOfResource(ResourceType.SERVANT));
+        assertEquals(numFaithes, game.getCurrentPlayer().getFaith());
+
+    }
+
     @Test
     void sendResourceToDepotCorrect() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -269,6 +344,41 @@ class UserCommandsInterfaceTest {
 
     @Test
     void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Adds manually resources to the depots
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 1);
+        warehouse.addToDepot(4, ResourceType.SHIELD, 1);
+
+
+        //actually tests the method
+        game.swapDepotContent(2, 3);
+        game.swapDepotContent(1, 2);
+        game.swapDepotContent(2, 4);
+
+        //Verify resources got to the correct depots
+        assertEquals(1, warehouse.getDepot(1).getNumOfResource(ResourceType.STONE));
+        assertEquals(1, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.COIN));
+        assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
+    }
+
+    @Test
+    void moveDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");

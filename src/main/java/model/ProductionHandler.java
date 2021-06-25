@@ -1,9 +1,7 @@
 package model;
 
 import Exceptions.*;
-import model.card.DevelopmentCard;
 import model.resource.*;
-import network.StaticMethods;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -299,6 +297,11 @@ public class ProductionHandler implements Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the handler's active productions
+     *
+     * @param activeProductions an array flagging the productions that were active
+     */
     public void restoreProductions(boolean[] activeProductions) {
         for (int i = 0; i < activeProductions.length; i++) {
             if (activeProductions[i])
@@ -306,6 +309,12 @@ public class ProductionHandler implements Observable {
         }
     }
 
+    /**
+     * Restores the handler's current input
+     *
+     * @param inputTypes an array of the input's resource types
+     * @param inputQuantities an array of the input's resource quantities
+     */
     public void restoreCurrentInput(ResourceType[] inputTypes, int[] inputQuantities) {
         currentInput.clear();
         for (int i = 0; i < inputTypes.length; i++) {
@@ -315,6 +324,12 @@ public class ProductionHandler implements Observable {
         }
     }
 
+    /**
+     * Restores the handler's current output
+     *
+     * @param outputTypes an array of the output's resource types
+     * @param outputQuantities an array of the output's resource quantities
+     */
     public void restoreCurrentOutput(ResourceType[] outputTypes, int[] outputQuantities) {
         currentOutput.clear();
         for (int i = 0; i < outputTypes.length; i++) {

@@ -1,5 +1,6 @@
 package server;
 
+import Exceptions.GameDataNotFoundException;
 import Exceptions.network.UsernameAlreadyExistsException;
 import com.google.gson.Gson;
 import Exceptions.ParametersNotValidException;
@@ -8,9 +9,9 @@ import Exceptions.network.PlayerNumberAlreadySetException;
 import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import model.PersistenceHandler;
-import model.PlayerBoard;
 import network.Command;
 import network.ServerMessageType;
+import model.StaticMethods;
 import network.beans.MessageWrapper;
 
 import java.io.PrintWriter;
@@ -296,6 +297,12 @@ public class GameController {
     public void setGameOver() {
         isGameOver = true;
         broadcastMessage(ServerMessageType.GAME_END, "The game has ended.");
+        try {
+            StaticMethods.deleteGameData(persistenceHandler.getId());
+        } catch (GameDataNotFoundException ex) {
+            System.err.println("A game finished but its save file was not able to be deleted.");
+            ex.printStackTrace();
+        }
     }
 
     //PRIVATE METHODS

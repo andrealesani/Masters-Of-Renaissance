@@ -1,8 +1,8 @@
 package network;
 
 import Exceptions.GameDataNotFoundException;
-import model.Game;
 import model.PersistenceHandler;
+import model.StaticMethods;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

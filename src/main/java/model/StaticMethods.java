@@ -1,12 +1,8 @@
-package network;
+package model;
 
 import Exceptions.GameDataNotFoundException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.CardColor;
-import model.Color;
-import model.Game;
-import model.PersistenceHandler;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 
@@ -133,6 +129,12 @@ public class StaticMethods {
         }
     }
 
+    /**
+     * Restores the persistence handlers of all saved games
+     *
+     * @return a List of the restored PersistenceHandlers
+     * @throws GameDataNotFoundException if one of the games fails to be restored
+     */
     public static List<PersistenceHandler> restoreGames() throws GameDataNotFoundException {
         Gson gson = new Gson();
         List<PersistenceHandler> games = new ArrayList<>();
@@ -153,6 +155,12 @@ public class StaticMethods {
         return games;
     }
 
+    /**
+     * Deletes a specific game's save file
+     *
+     * @param gameID the game's PersistenceHandler's (and save file's) Id
+     * @throws GameDataNotFoundException if the given Id does not correspond to any save file
+     */
     public static void deleteGameData(int gameID) throws GameDataNotFoundException {
         try {
             File file = new File("src/main/resources/savedGames/game" + gameID + ".json");
@@ -163,6 +171,11 @@ public class StaticMethods {
         }
     }
 
+    /**
+     * Returns the first available free persistence handler Id
+     *
+     * @return the first free Id
+     */
     public static int findFirstFreePersistenceId() {
         File folder = new File("src/main/resources/savedGames");
 

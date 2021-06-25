@@ -7,7 +7,7 @@ import model.*;
 import model.Observer;
 import model.card.DevelopmentCard;
 import network.ServerMessageType;
-import network.StaticMethods;
+import model.StaticMethods;
 import server.GameController;
 
 import java.util.*;

@@ -5,12 +5,11 @@ import Exceptions.network.GameFullException;
 import Exceptions.network.UnknownPlayerNumberException;
 import Exceptions.network.UsernameAlreadyExistsException;
 import model.PersistenceHandler;
-import network.StaticMethods;
+import model.StaticMethods;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * This class represents the game lobby.
@@ -40,6 +39,10 @@ public class ServerLobby {
 
         } catch (GameDataNotFoundException ex) {
             System.err.println("Failed to restore saved games.");
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            System.err.println("Unspecified error when trying to restore saved games.");
+            ex.printStackTrace();
         }
     }
 

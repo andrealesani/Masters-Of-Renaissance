@@ -294,6 +294,12 @@ public class Warehouse implements Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the contents of the warehouse's depots
+     *
+     * @param depotType the type of resource stored in each depot
+     * @param depotQuantity the amount of resource stored in each depot
+     */
     public void restoreDepots(ResourceType[] depotType, int[] depotQuantity) {
         for (int i = 0; i < depotType.length; i++) {
             if (depotType[i] != null)

@@ -6,7 +6,6 @@ import Exceptions.NotEnoughSpaceException;
 import Exceptions.WrongResourceInsertionException;
 import com.google.gson.Gson;
 import model.resource.ResourceType;
-import network.StaticMethods;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStreamReader;

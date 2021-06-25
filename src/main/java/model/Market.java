@@ -195,12 +195,22 @@ public class Market implements Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the market's board
+     *
+     * @param board the market's board ResourceTypes
+     */
     public void restoreBoard(ResourceType[][] board) {
         for (int i = 0; i < this.board.length; i++)
             for (int j = 0; j < this.board[0].length; j++)
                 this.board[i][j] = board[i][j].toResource();
     }
 
+    /**
+     * Restores the market's slide marble
+     *
+     * @param slideMarble the marble's ResourceType
+     */
     public void restoreSlideMarble(ResourceType slideMarble) {
         this.slideMarble = slideMarble.toResource();
     }

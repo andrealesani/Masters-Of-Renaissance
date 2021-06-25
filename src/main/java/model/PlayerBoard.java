@@ -835,14 +835,30 @@ public class PlayerBoard implements Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the player's faith score
+     *
+     * @param faith the player's faith
+     */
     public void restoreFaith(int faith) {
         this.faith += faith;
     }
 
+    /**
+     * Restores the player's unconverted white marbles / bonus resources
+     *
+     * @param whiteMarbleNum the player's unconverted resources
+     */
     public void restoreWhiteMarbleNum(int whiteMarbleNum) {
         this.whiteMarbleNum = whiteMarbleNum;
     }
 
+    /**
+     * Restores the player's card slots' development cards
+     *
+     * @param developmentCardsIDs an array of SlotBeans containing the player's development cards' IDs
+     * @param game                the Game class
+     */
     public void restoreCardSlots(SlotBean[] developmentCardsIDs, Game game) {
         for (int i = 0; i < developmentCardsIDs.length; i++) {
             for (int j = 0; j < developmentCardsIDs[i].getDevelopmentCards().length; j++)
@@ -856,6 +872,14 @@ public class PlayerBoard implements Observable {
         }
     }
 
+    /**
+     * Restores the player's leader cards and their activation effects
+     *
+     * @param leaderCardIDs     an array of the player's leader cards' IDs
+     * @param activeLeaderCards an array flagging which leader cards were active
+     * @param firstTurnTaken    a flag determining if the player has already chosen which leader cards to keep
+     * @param game              the Game class
+     */
     public void restoreLeaderCards(int[] leaderCardIDs, boolean[] activeLeaderCards, boolean firstTurnTaken, Game game) {
         leaderCards.clear();
         for (int i = 0; i < leaderCardIDs.length; i++)
@@ -865,10 +889,11 @@ public class PlayerBoard implements Observable {
                 this.leaderCards.add(card);
                 if (activeLeaderCards[i])
 
-                    if(firstTurnTaken)
+                    if (firstTurnTaken)
                         try {
                             card.doAction(this);
-                        } catch (CardAlreadyActiveException ignored){}
+                        } catch (CardAlreadyActiveException ignored) {
+                        }
                     else
                         card.activate();
 
@@ -880,16 +905,32 @@ public class PlayerBoard implements Observable {
         setLeaderDepotCards();
     }
 
+    /**
+     * Restores the state of the player's pope's favor tiles
+     *
+     * @param popeTileState an array of the tile's states
+     */
     public void restorePopeTileState(PopeTileState[] popeTileState) {
         for (int i = 0; i < popeTileState.length; i++)
             this.popeFavorTiles.get(i).restoreState(popeTileState[i]);
     }
 
+    /**
+     * Restores the flag stating if the player has chosen which leader cards to keep
+     *
+     * @param firstTurnTaken the flag for taking the preliminary turn
+     */
     public void restoreFirstTurnTaken(boolean firstTurnTaken) {
         if (firstTurnTaken)
             setFirstTurnTaken();
     }
 
+    /**
+     * Executes any necessary end turn cleanup if the player was the current player
+     *
+     * @param turnPhase the game's turn phase at the last save
+     * @param game the Game class
+     */
     public void restoreEndTurn(TurnPhase turnPhase, Game game) {
         if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
 

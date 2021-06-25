@@ -5,7 +5,6 @@ import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
 import model.resource.Resource;
-import network.StaticMethods;
 import server.GameController;
 import network.beans.*;
 
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static model.TurnPhase.*;
 
@@ -867,7 +865,6 @@ public class Game implements UserCommandsInterface, Observable {
      * Determines the winner and their score, then prints endgame messages
      */
     private void endTheGame() {
-        //TODO this method probably needs to be implemented in some other way tied to the lobby
         if (lorenzo != null) {
             if (!cardTable.checkAllColorsAvailable() || lorenzo.getFaith() >= finalFaith) {
                 System.out.println("FATALITY: Lorenzo wins!");
@@ -893,6 +890,7 @@ public class Game implements UserCommandsInterface, Observable {
             this.winner = playersTurnOrder.get(winner).getUsername();
             this.winnerVp = playersTurnOrder.get(winner).calculateVictoryPoints();
         }
+
         notifyObservers();
     }
 
@@ -1067,6 +1065,11 @@ public class Game implements UserCommandsInterface, Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the turn order
+     *
+     * @param usernames the player's usernames, arranged by turn order
+     */
     public void restorePlayerTurnOrder(String[] usernames) {
         List<PlayerBoard> restoredOrder = new ArrayList<>();
 
@@ -1088,24 +1091,22 @@ public class Game implements UserCommandsInterface, Observable {
         currentPlayer = null;
     }
 
+    /**
+     * Restores the last triggered pope's favor tile
+     *
+     * @param lastTriggeredTile the last triggered pope's favor tile
+     */
     public void restoreLastTriggeredTile(int lastTriggeredTile) {
         this.lastTriggeredTile = lastTriggeredTile;
     }
 
-    public void restoreTurnPhase(TurnPhase turnPhase) {
-        this.turnPhase = turnPhase;
-    }
-
+    /**
+     * Restores the flag for the game's last turn
+     *
+     * @param isLastTurn the flag stating if the game is in its last turn
+     */
     public void restoreIsLastTurn(boolean isLastTurn) {
         this.isLastTurn = isLastTurn;
-    }
-
-    public void restoreWinner(String winner) {
-        this.winner = winner;
-    }
-
-    public void restoreWinnerVp(int winnerVp) {
-        this.winnerVp = winnerVp;
     }
 
     // OBSERVABLE ATTRIBUTES AND METHODS

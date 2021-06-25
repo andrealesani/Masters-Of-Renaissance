@@ -3,7 +3,7 @@ package client;
 import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import network.StaticMethods;
+import model.StaticMethods;
 import network.beans.*;
 
 import java.io.BufferedReader;

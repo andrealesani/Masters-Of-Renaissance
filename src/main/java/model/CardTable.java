@@ -1,17 +1,8 @@
 package model;
 
 import Exceptions.*;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import model.card.DevelopmentCard;
-import model.resource.*;
-import network.StaticMethods;
-import server.ServerMain;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -244,6 +235,11 @@ public class CardTable implements Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores the card table's decks
+     *
+     * @param cards the card table's DevelopmentCards, arranged in a Map of colors and Lists that act as decks
+     */
     public void restoreCards(Map<CardColor,List<List<model.card.DevelopmentCard>>> cards) {
         this.cards = cards;
     }

@@ -148,10 +148,20 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
 
     // PERSISTENCE METHODS
 
+    /**
+     * Restores Lorenzo's faith score
+     *
+     * @param faith Lorenzo's faith
+     */
     public void restoreFaith(int faith) {
         this.faith += faith;
     }
 
+    /**
+     * Restores Lorenzo's used tokens by moving them into the discarded pile from the active pile
+     *
+     * @param usedTokens an array of the used TokenTypes
+     */
     public void restoreTokens(LorenzoTokenType[] usedTokens) {
 
         for (LorenzoTokenType type : usedTokens) {
