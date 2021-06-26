@@ -57,9 +57,9 @@ public class LeaderDepot implements ResourceDepot {
      * @throws BlockedResourceException        under no circumstance, because this type of depot is not affected by resource blocking
      */
     public void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException {
-        if (quantity < 0 || resource == null || !resource.canBeStored()) {
+        if (quantity < 0 || resource == null || !resource.canBeStored())
             throw new ParametersNotValidException();
-        }
+
         if (quantity > 0) {
             if (resource != acceptedResource) {
                 throw new WrongResourceInsertionException();
@@ -70,26 +70,6 @@ public class LeaderDepot implements ResourceDepot {
             }
             amount = newQuantity;
         }
-    }
-
-    /**
-     * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
-     *
-     * @param depot the depot the contents of which need to be stored
-     * @return true if the given resource and amount could be contained in the depot
-     */
-    @Override
-    public boolean canHoldContentOf(ResourceDepot depot) {
-        if (depot == null) {
-            return false;
-        }
-        List<ResourceType> depotResourcesList = depot.getStoredResources();
-        if (depotResourcesList.isEmpty())
-            return true;
-
-        ResourceType depotResource = depotResourcesList.get(0);
-        int depotQuantity = depot.getNumOfResource(depotResource);
-        return depotResource == acceptedResource && depotQuantity <= size;
     }
 
     /**
@@ -119,10 +99,10 @@ public class LeaderDepot implements ResourceDepot {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (quantity < 0) {
+        if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
-        if (resource != null && quantity > 0) {
+        if (quantity > 0) {
             if (resource != acceptedResource) {
                 throw new NotEnoughResourceException();
             }

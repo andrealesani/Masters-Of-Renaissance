@@ -97,7 +97,7 @@ public class CardTable implements Observable {
      * @param cardSlot    specifies in which production slot the player wants to put the card
      */
     public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
-        if (cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
+        if (cardColor == null || level < 1 || level > cards.get(cardColor).size() || cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
             throw new ParametersNotValidException();
 
         int row = level - 1;

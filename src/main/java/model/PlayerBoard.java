@@ -244,10 +244,15 @@ public class PlayerBoard implements Observable {
      * @throws ConversionNotAvailableException if the conversion to the given resource is not available
      */
     public void chooseMarbleConversion(ResourceType resource, int quantity) throws NotEnoughResourceException, ConversionNotAvailableException {
+        if (quantity < 0 || resource == null || !resource.canBeStored())
+            throw new ParametersNotValidException();
+
         if (!marbleConversions.contains(resource)) {
             throw new ConversionNotAvailableException(resource);
         }
+
         int newQuantity = whiteMarbleNum - quantity;
+
         if (newQuantity < 0) {
             throw new NotEnoughResourceException();
         }
@@ -274,12 +279,15 @@ public class PlayerBoard implements Observable {
         if (quantity > toPlace) {
             quantity = toPlace;
         }
+
         warehouse.addToDepot(depot, resource, quantity);
+
         try {
             waitingRoom.removeResource(resource, quantity);
         } catch (NotEnoughResourceException ex) {
             //This should never happen
-            System.out.println("BUG! Player tried to move to depot more resources than there were in waiting room!");
+            System.err.println("BUG! Player tried to move to depot more resources than there were in waiting room!");
+            ex.printStackTrace();
         }
     }
 
@@ -514,10 +522,12 @@ public class PlayerBoard implements Observable {
      */
     public void takeResourceFromWarehouse(int depotNumber, ResourceType resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException {
         int debt = waitingRoom.getNumOfResource(resource);
-        if (quantity > debt) {
+
+        if (quantity > debt)
             quantity = debt;
-        }
+
         warehouse.removeFromDepot(depotNumber, resource, quantity);
+
         try {
             waitingRoom.removeResource(resource, quantity);
         } catch (NotEnoughResourceException ex) {
@@ -536,10 +546,12 @@ public class PlayerBoard implements Observable {
      */
     public void takeResourceFromStrongbox(ResourceType resource, int quantity) throws NotEnoughResourceException {
         int debt = waitingRoom.getNumOfResource(resource);
-        if (quantity > debt) {
+
+        if (quantity > debt)
             quantity = debt;
-        }
+
         strongbox.removeResource(resource, quantity);
+
         try {
             waitingRoom.removeResource(resource, quantity);
         } catch (NotEnoughResourceException ex) {

@@ -27,14 +27,14 @@ public class Warehouse implements Observable {
     /**
      * The class constructor
      *
-     * @param numOfDepots the number of basic depots in the warehouse
+     * @param numOfBasicDepots the number of basic depots in the warehouse
      */
-    public Warehouse(int numOfDepots) {
-        if (numOfDepots < 0) {
+    public Warehouse(int numOfBasicDepots) {
+        if (numOfBasicDepots < 0) {
             throw new ParametersNotValidException();
         }
-        this.numOfBasicDepots = numOfDepots;
-        for (int i = 1; i <= numOfDepots; i++) {
+        this.numOfBasicDepots = numOfBasicDepots;
+        for (int i = 1; i <= numOfBasicDepots; i++) {
             depots.add(new BasicDepot(this, i));
         }
 
@@ -69,15 +69,14 @@ public class Warehouse implements Observable {
      * @throws BlockedResourceException        if the depot is affected by resource blocking and the resource is being blocked by a different depot
      */
     public void addToDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException {
-        if (depotNumber < 1 || quantity < 0) {
+        if (depotNumber < 1) {
             throw new ParametersNotValidException();
         }
         if (depotNumber > depots.size()) {
             throw new DepotNotPresentException(depotNumber);
         }
-        if (resource != null && quantity > 0) {
-            depots.get(depotNumber - 1).addResource(resource, quantity);
-        }
+
+        depots.get(depotNumber - 1).addResource(resource, quantity);
 
         notifyObservers();
     }
@@ -92,15 +91,14 @@ public class Warehouse implements Observable {
      * @throws NotEnoughResourceException if the given resource is not present in the target depot in the amount to be deleted
      */
     public void removeFromDepot(int depotNumber, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException {
-        if (depotNumber < 1 || quantity < 0) {
+        if (depotNumber < 1) {
             throw new ParametersNotValidException();
         }
         if (depotNumber > depots.size()) {
             throw new DepotNotPresentException(depotNumber);
         }
-        if (resource != null && quantity > 0) {
-            depots.get(depotNumber - 1).removeResource(resource, quantity);
-        }
+
+        depots.get(depotNumber - 1).removeResource(resource, quantity);
 
         notifyObservers();
     }
@@ -130,11 +128,6 @@ public class Warehouse implements Observable {
         ResourceDepot depot1 = depots.get(depotNumber1 - 1);
         ResourceDepot depot2 = depots.get(depotNumber2 - 1);
 
-        //Checks that the contents of the depots can be exchanged with one another
-        if (!depot1.canHoldContentOf(depot2) || !depot2.canHoldContentOf(depot1)) {
-            throw new SwapNotValidException();
-        }
-
         //Temporarily stores the contents of the two depots into variables
         List<ResourceType> resourceList1 = depot1.getStoredResources();
         List<ResourceType> resourceList2 = depot2.getStoredResources();
@@ -155,15 +148,28 @@ public class Warehouse implements Observable {
 
         //Completes the exchange
         try {
-            if (amount2 != 0) {
+            if (amount2 != 0)
                 depot1.addResource(resource2, amount2);
-            }
-            if (amount1 != 0) {
+            if (amount1 != 0)
                 depot2.addResource(resource1, amount1);
-            }
+
         } catch (WrongResourceInsertionException | NotEnoughSpaceException | BlockedResourceException ex) {
-            //This should never happen
-            System.out.println(ex.getMessage());
+            //Attempts to revert the changes
+            try {
+                depot1.clear();
+                depot2.clear();
+                if (amount1 != 0)
+                    depot1.addResource(resource1, amount1);
+                if (amount2 != 0)
+                    depot2.addResource(resource2, amount2);
+
+            } catch (WrongResourceInsertionException | NotEnoughSpaceException | BlockedResourceException ex2) {
+                //This should never happen
+                System.err.print("There was an error when reinserting resources as part of a failed depot swap");
+                ex2.printStackTrace();
+            }
+
+            throw new SwapNotValidException();
         }
 
         notifyObservers();
@@ -185,14 +191,11 @@ public class Warehouse implements Observable {
      */
     public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException {
         //Checks the input parameters
-        if (depotNumberTake < 1 || depotNumberGive < 1 || depotNumberTake == depotNumberGive || quantity < 0) {
+        if (depotNumberTake < 1 || depotNumberGive < 1 || depotNumberTake == depotNumberGive) {
             throw new ParametersNotValidException();
         }
-        if (depotNumberTake > depots.size()) {
+        if (depotNumberTake > depots.size() || depotNumberGive > depots.size()) {
             throw new DepotNotPresentException(depotNumberTake);
-        }
-        if (depotNumberGive > depots.size()) {
-            throw new DepotNotPresentException(depotNumberGive);
         }
 
         //Checks that the providing depot contains them in sufficient quantity
@@ -200,11 +203,25 @@ public class Warehouse implements Observable {
             throw new NotEnoughResourceException();
         }
 
-        //Attempts to add the resources to the receiving depot
-        depots.get(depotNumberGive - 1).addResource(resource, quantity);
-
         //Removes the resources from the providing depot
         depots.get(depotNumberTake - 1).removeResource(resource, quantity);
+
+        //Attempts to add the resources to the receiving depot
+        try {
+            depots.get(depotNumberGive - 1).addResource(resource, quantity);
+        } catch (Exception ex) {
+
+            //Attempts to revert the changes
+            try {
+                depots.get(depotNumberTake - 1).addResource(resource, quantity);
+            } catch (WrongResourceInsertionException | NotEnoughSpaceException | BlockedResourceException ex2) {
+                //This should never happen
+                System.err.print("There was an error when reinserting resources as part of a failed move depot content");
+                ex2.printStackTrace();
+            }
+
+            throw ex;
+        }
 
         notifyObservers();
     }
@@ -297,7 +314,7 @@ public class Warehouse implements Observable {
     /**
      * Restores the contents of the warehouse's depots
      *
-     * @param depotType the type of resource stored in each depot
+     * @param depotType     the type of resource stored in each depot
      * @param depotQuantity the amount of resource stored in each depot
      */
     public void restoreDepots(ResourceType[] depotType, int[] depotQuantity) {

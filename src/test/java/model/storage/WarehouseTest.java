@@ -233,7 +233,7 @@ class WarehouseTest {
 
 
 
-        warehouse.addToDepot (1, null, 0);
+        warehouse.addToDepot (1, ResourceType.STONE, 0);
         warehouse.addToDepot (2, ResourceType.COIN, 2);
         warehouse.addToDepot (3, ResourceType.STONE, 3);
         warehouse.addToDepot (4, ResourceType.COIN, 1);

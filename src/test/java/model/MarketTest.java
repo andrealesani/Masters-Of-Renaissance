@@ -114,32 +114,26 @@ class MarketTest {
             for (int j = 0; j < 4; j++) {
 
                 if ((market.getMarble(i, j) instanceof ResourceCoin) && (countRS < 2)) {
-                    System.out.print("Coin ");
                     countRS++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceFaith) && (countRF < 1)) {
-                    System.out.print("Faith ");
                     countRF++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceServant) && (countRSe < 2)) {
-                    System.out.print("Servant ");
                     countRSe++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceShield) && (countRSh < 2)) {
-                    System.out.print("Shield ");
                     countRSh++;
                 }
 
                 else if ((market.getMarble(i, j) instanceof ResourceStone) && (countRSt < 2)){
-                    System.out.print("Stone ");
                     countRSt++;
                 }
 
                 else if ((market.getMarble(i,j) instanceof ResourceWhite) && (countRW < 4)) {
-                    System.out.print("WhiteMarble ");
                     countRW++;
                 }
                 else
@@ -149,7 +143,6 @@ class MarketTest {
 
                 totalOrbs--;
             }
-            System.out.print("\n");
         }
 
         assertEquals(1, totalOrbs);
@@ -174,20 +167,6 @@ class MarketTest {
         assertEquals(2, countRSh);
         assertEquals(2, countRSt);
         assertEquals(4, countRW);
-
-        if(market.getSlideOrb() instanceof ResourceCoin)
-            System.out.print("SlideOrb: Coin\n");
-        else if(market.getSlideOrb() instanceof ResourceFaith)
-            System.out.print("SlideOrb: Faith\n");
-        else if(market.getSlideOrb() instanceof ResourceServant)
-            System.out.print("SlideOrb: Servant\n");
-        else if(market.getSlideOrb() instanceof ResourceShield)
-            System.out.print("SlideOrb: Shield\n");
-        else if(market.getSlideOrb() instanceof ResourceStone)
-            System.out.print("SlideOrb: Stone\n");
-        else if(market.getSlideOrb() instanceof ResourceWhite)
-            System.out.print("SlideOrb: WhiteMarble\n");
-
     }
 
     @Test

@@ -22,12 +22,11 @@ class CommandTest {
         Gson gson = new Gson();
 
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Resource","COIN");
+        parameters.put("Resource", "COIN");
         parameters.put("Quantity", 2);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
 
         String jsonCommand = gson.toJson(command);
-        System.out.println(jsonCommand);
 
         String expected = "{\"parameters\":{\"Resource\":\"COIN\",\"Quantity\":2},\"commandType\":\"chooseBonusResourceType\"}";
         assertEquals(jsonCommand, expected);
@@ -113,9 +112,6 @@ class CommandTest {
         parameters1.put("quantity", 1);
         Command command1 = new Command(UserCommandsType.sendResourceToDepot, parameters1);
 
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(command1));
-
         String result1 = command1.runCommand(game);
         assertNull(result1);
 
@@ -189,9 +185,6 @@ class CommandTest {
         parameters1.put("number", 1);
         Command command1 = new Command(UserCommandsType.takeDevelopmentCard, parameters1);
 
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(command1));
-
         String result1 = command1.runCommand(game);
         assertNull(result1);
 
@@ -228,9 +221,6 @@ class CommandTest {
         parameters1.put("depots", depots1);
         Command command1 = new Command(UserCommandsType.swapDepotContent, parameters1);
 
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(command1));
-
         String result1 = command1.runCommand(game);
         assertNull(result1);
 
@@ -260,6 +250,5 @@ class CommandTest {
         Map<String, Object> map = new HashMap<>();
         map.put("number", 1);
         Command command = new Command(UserCommandsType.chooseLeaderCard, map);
-        System.out.println(gson.toJson(command, Command.class));
     }
 }

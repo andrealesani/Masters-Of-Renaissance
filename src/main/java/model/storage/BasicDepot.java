@@ -60,6 +60,7 @@ public class BasicDepot implements ResourceDepot {
         if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
+
         if (quantity > 0) {
             int newQuantity = amount + quantity;
             if (newQuantity > size) {
@@ -81,33 +82,6 @@ public class BasicDepot implements ResourceDepot {
 
             amount = newQuantity;
         }
-    }
-
-    /**
-     * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
-     *
-     * @param depot the depot the contents of which need to be stored
-     * @return true if the given resource and amount could be contained in the depot
-     */
-    @Override
-    public boolean canHoldContentOf(ResourceDepot depot) {
-        if (depot == null) {
-            return false;
-        }
-        List<ResourceType> depotResourcesList = depot.getStoredResources();
-        if (depotResourcesList.isEmpty())
-            return true;
-
-        ResourceType depotResource = depotResourcesList.get(0);
-        List<ResourceDepot> exclusions = new ArrayList<>();
-        exclusions.add(this);
-        exclusions.add(depot);
-        if (warehouse.isResourceBlocked(depotResource, exclusions)) {
-            return false;
-        }
-
-        int depotQuantity = depot.getNumOfResource(depotResource);
-        return depotQuantity <= size;
     }
 
     /**
@@ -133,10 +107,10 @@ public class BasicDepot implements ResourceDepot {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (quantity < 0) {
+        if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
-        if (resource != null && quantity > 0) {
+        if (quantity > 0) {
             if (amount == 0 || resource != storedResource) {
                 throw new NotEnoughResourceException();
             }

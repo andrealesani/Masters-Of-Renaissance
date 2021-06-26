@@ -25,14 +25,6 @@ public interface ResourceDepot extends ResourceStash {
     void addResource(ResourceType resource, int quantity) throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException;
 
     /**
-     * Returns whether or not the depot, if it were empty, could hold the contents of the given depot
-     *
-     * @param depot the depot the contents of which need to be stored
-     * @return true if the given resource and amount could be contained in the depot
-     */
-    boolean canHoldContentOf(ResourceDepot depot);
-
-    /**
      * Returns whether or not the depot is blocking a certain resource, meaning that no other depot of the basic type can contain it
      *
      * @param resource the resource that might be blocked
