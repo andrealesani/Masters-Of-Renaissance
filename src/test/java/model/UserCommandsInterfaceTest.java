@@ -51,10 +51,10 @@ class UserCommandsInterfaceTest {
         assertEquals(0, currentPlayer.getWhiteMarbles());
         assertEquals(1, currentPlayer.getWaitingRoom().getStoredResources().size());
 
-        assertEquals(1,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.COIN));
-        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
-        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SERVANT));
-        assertEquals(0,currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.STONE));
+        assertEquals(1, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.COIN));
+        assertEquals(0, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SHIELD));
+        assertEquals(0, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.SERVANT));
+        assertEquals(0, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.STONE));
     }
 
     @Test
@@ -101,17 +101,13 @@ class UserCommandsInterfaceTest {
 
         if (LeaderCard1 instanceof DepotLeaderCard) {
             NumOFDepots = game.getCurrentPlayer().getWarehouse().getNumOfDepots();
-            System.out.println("DEPOT");
         } else if (LeaderCard1 instanceof DiscountLeaderCard) {
             assertTrue(game.getCurrentPlayer().getDiscounts().isEmpty());
-            System.out.println("DISCOUNT");
         } else if (LeaderCard1 instanceof MarbleLeaderCard) {
             assertTrue(game.getCurrentPlayer().getMarbleConversions().isEmpty());
             assertEquals(0, game.getCurrentPlayer().getMarbleConversions().size());
-            System.out.println("WHITEMARBLE");
         } else if (LeaderCard1 instanceof ProductionLeaderCard) {
             assertEquals(1, game.getCurrentPlayer().getProductionHandler().getProductions().size());
-            System.out.println("PRODUCTION");
         }
 
         //TEST
@@ -379,7 +375,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void moveDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException {
+    void moveDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException, NotEnoughResourceException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -396,328 +392,21 @@ class UserCommandsInterfaceTest {
         player.addNewDepot(new LeaderDepot(2, ResourceType.SHIELD, 0));
         Warehouse warehouse = player.getWarehouse();
         warehouse.addToDepot(1, ResourceType.SHIELD, 1);
-        warehouse.addToDepot(2, ResourceType.COIN, 2);
-        warehouse.addToDepot(3, ResourceType.STONE, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 1);
         warehouse.addToDepot(4, ResourceType.SHIELD, 1);
 
 
         //actually tests the method
-        game.swapDepotContent(2, 3);
-        game.swapDepotContent(1, 2);
-        game.swapDepotContent(2, 4);
+        game.moveDepotContent(1, 4, new ResourceShield(), 1);
+        game.moveDepotContent(2, 1, new ResourceCoin(), 1);
 
         //Verify resources got to the correct depots
-        assertEquals(1, warehouse.getDepot(1).getNumOfResource(ResourceType.STONE));
-        assertEquals(1, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
-        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.COIN));
-        assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
+        assertEquals(1, warehouse.getDepot(1).getNumOfResource(ResourceType.COIN));
+        assertEquals(0, warehouse.getDepot(2).getStoredResources().size());
+        assertEquals(0, warehouse.getDepot(3).getStoredResources().size());
+        assertEquals(2, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
-    @Test
-    void takeResourceFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        // FIRST TURN: player must choose which LeaderCards to keep
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Manually adds large depots to the player to ensure they can pay the cost
-        PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
-
-        //Adds manually resources to the depots
-        Warehouse warehouse = player.getWarehouse();
-        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
-        warehouse.addToDepot(2, ResourceType.COIN, 2);
-        warehouse.addToDepot(3, ResourceType.STONE, 3);
-        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
-        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
-        warehouse.addToDepot(6, ResourceType.STONE, 20);
-        warehouse.addToDepot(7, ResourceType.COIN, 20);
-
-        //Quantifies the resources the player has before the purchase
-        Map<ResourceType, Integer> inStock = new HashMap<>();
-        inStock.put(ResourceType.STONE, 23);
-        inStock.put(ResourceType.COIN, 22);
-        inStock.put(ResourceType.SHIELD, 21);
-        inStock.put(ResourceType.SERVANT, 20);
-
-        //Saves the cost of the card
-        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
-
-        //Buys the card
-        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-
-        //Actually tests the method
-        for (ResourceType resource : cost) {
-            System.out.println("Processing cost: " + resource);
-            for (int i = 1; i < 8; i++) {
-                try {
-                    game.payFromWarehouse(i, resource.toResource(), 1);
-                    System.out.println("Taking resource from depot: " + i);
-                    inStock.put(resource, inStock.get(resource) - 1);
-                    break;
-                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
-                    //DO NOTHING
-                }
-            }
-        }
-
-        game.endTurn();
-
-        //verifies quantities left
-        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
-        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
-
-        //Visual verification
-        System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
-        System.out.println(warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
-        System.out.println(warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
-        System.out.println(warehouse.getDepot(4).getNumOfResource(ResourceType.SERVANT));
-        System.out.println(warehouse.getDepot(5).getNumOfResource(ResourceType.SHIELD));
-        System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
-        System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
-
-    }
-
-    @Test
-    void takeResourceFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        // FIRST TURN: player must choose which LeaderCards to keep
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Manually adds resources to player's strongbox
-        PlayerBoard player = game.getCurrentPlayer();
-        UnlimitedStorage strongbox = player.getStrongbox();
-        Map<ResourceType, Integer> resources = new HashMap<>();
-        resources.put(ResourceType.SHIELD, 20);
-        resources.put(ResourceType.STONE, 20);
-        resources.put(ResourceType.SERVANT, 20);
-        resources.put(ResourceType.COIN, 20);
-        strongbox.addResources(resources);
-
-
-        //Quantifies the resources the player has before the purchase
-        Map<ResourceType, Integer> inStock = new HashMap<>();
-        inStock.put(ResourceType.STONE, 20);
-        inStock.put(ResourceType.COIN, 20);
-        inStock.put(ResourceType.SHIELD, 20);
-        inStock.put(ResourceType.SERVANT, 20);
-
-        //Saves the cost of the card
-        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
-
-        //Buys the card
-        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-
-        //Actually tests the method
-        for (ResourceType resource : cost) {
-            System.out.println("Processing cost: " + resource);
-            game.payFromStrongbox(resource.toResource(), 1);
-            inStock.put(resource, inStock.get(resource) - 1);
-        }
-
-        game.endTurn();
-
-        //verifies quantities left
-        assertEquals(inStock.get(ResourceType.SHIELD), strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(inStock.get(ResourceType.COIN), strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals(inStock.get(ResourceType.SERVANT), strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
-
-        //Visual verification
-        System.out.println(strongbox.getNumOfResource(ResourceType.SHIELD));
-        System.out.println(strongbox.getNumOfResource(ResourceType.COIN));
-        System.out.println(strongbox.getNumOfResource(ResourceType.STONE));
-        System.out.println(strongbox.getNumOfResource(ResourceType.SERVANT));
-    }
-
-    @Test
-    void takeResourceFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        // FIRST TURN: player must choose which LeaderCards to keep
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Manually adds large depots to the player to ensure they can pay the cost
-        PlayerBoard player = game.getCurrentPlayer();
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
-        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
-
-        //Adds manually resources to the depots
-        Warehouse warehouse = player.getWarehouse();
-        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
-        warehouse.addToDepot(2, ResourceType.COIN, 2);
-        warehouse.addToDepot(3, ResourceType.STONE, 3);
-        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
-        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
-        warehouse.addToDepot(6, ResourceType.STONE, 20);
-        warehouse.addToDepot(7, ResourceType.COIN, 20);
-
-        //Quantifies the resources the player has before the purchase
-        Map<ResourceType, Integer> inStock = new HashMap<>();
-        inStock.put(ResourceType.STONE, 23);
-        inStock.put(ResourceType.COIN, 22);
-        inStock.put(ResourceType.SHIELD, 21);
-        inStock.put(ResourceType.SERVANT, 20);
-
-        //Loads two productions in current player's board
-        List<Resource> input = new ArrayList<>();
-        input.add(new ResourceShield());
-        input.add(new ResourceStone());
-        List<Resource> output = new ArrayList<>();
-        output.add(new ResourceFaith());
-        output.add(new ResourceFaith());
-        output.add(new ResourceServant());
-        player.addProduction(new Production(-1, input, output));
-
-        //Activates the two productions
-        game.selectProduction(1);
-        game.selectProduction(2);
-
-        //Select jollies of base production
-        game.chooseJollyInput(new ResourceCoin());
-        game.chooseJollyInput(new ResourceStone());
-        game.chooseJollyOutput(new ResourceServant());
-
-        //Confirm choice
-        game.confirmProductionChoice();
-
-        //Saves the cost of the productions
-        List<Resource> cost = new ArrayList<>();
-        cost.addAll(input);
-        cost.add(new ResourceCoin());
-        cost.add(new ResourceStone());
-
-        //Actually tests the method
-        for (Resource resource : cost) {
-            for (int i = 1; i < 8; i++) {
-                try {
-                    game.payFromWarehouse(i, resource, 1);
-                    inStock.put(resource.getType(), inStock.get(resource.getType()) - 1);
-                    break;
-                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
-                    //DO NOTHING
-                }
-            }
-        }
-
-        game.endTurn();
-
-        //verifies quantities left
-        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
-        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
-
-        //Visual verification
-        System.out.println(warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
-        System.out.println(warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
-        System.out.println(warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
-        System.out.println(warehouse.getDepot(4).getNumOfResource(ResourceType.SERVANT));
-        System.out.println(warehouse.getDepot(5).getNumOfResource(ResourceType.SHIELD));
-        System.out.println(warehouse.getDepot(6).getNumOfResource(ResourceType.STONE));
-        System.out.println(warehouse.getDepot(7).getNumOfResource(ResourceType.COIN));
-
-    }
-
-    @Test
-    void takeResourceFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        // FIRST TURN: player must choose which LeaderCards to keep
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Adds manually resources to the strongbox
-        PlayerBoard player = game.getCurrentPlayer();
-        UnlimitedStorage strongbox = player.getStrongbox();
-        Map<ResourceType, Integer> resources = new HashMap<>();
-        resources.put(ResourceType.SHIELD, 20);
-        resources.put(ResourceType.STONE, 20);
-        resources.put(ResourceType.SERVANT, 20);
-        resources.put(ResourceType.COIN, 20);
-        strongbox.addResources(resources);
-
-        //Loads two productions in current player's board
-        List<Resource> input1 = new ArrayList<>();
-        input1.add(new ResourceCoin());
-        input1.add(new ResourceCoin());
-        List<Resource> output1 = new ArrayList<>();
-        output1.add(new ResourceFaith());
-        output1.add(new ResourceJolly());
-        player.addProduction(new Production(-1, input1, output1));
-
-        List<Resource> input2 = new ArrayList<>();
-        input2.add(new ResourceShield());
-        List<Resource> output2 = new ArrayList<>();
-        output2.add(new ResourceStone());
-        output2.add(new ResourceStone());
-        player.addProduction(new Production(-1, input2, output2));
-
-        //Activates the two productions
-        game.selectProduction(2);
-        game.selectProduction(3);
-
-        //Select jollies
-        game.chooseJollyOutput(new ResourceServant());
-
-        //Confirm choice
-        game.confirmProductionChoice();
-
-        //Actually tests the method
-        game.payFromStrongbox(new ResourceShield(), 5);
-        game.payFromStrongbox(new ResourceCoin(), 18);
-
-        game.endTurn();
-
-        //Verifies quantities left
-        assertEquals(22, strongbox.getNumOfResource(ResourceType.STONE));
-        assertEquals(21, strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(18, strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals(19, strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(1, player.getFaith());
-
-        //Some more checks just to be safe
-        player.getWarehouse().addToDepot(2, ResourceType.SHIELD, 2);
-        player.getWarehouse().addToDepot(3, ResourceType.SERVANT, 3);
-        assertEquals(21, player.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(18, player.getNumOfResource(ResourceType.COIN));
-        assertEquals(22, player.getNumOfResource(ResourceType.STONE));
-        assertEquals(24, player.getNumOfResource(ResourceType.SERVANT));
-    }
-
-    // ANDRE SECTION
     @Test
     void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -741,7 +430,7 @@ class UserCommandsInterfaceTest {
         }
 
         // TEST STARTS HERE
-        // NB This test only checks that the card is taken, it doesn't check the payment phase (that is checked in another test)
+        // This test only checks that the card is taken, it doesn't check the payment phase (that is checked in another test)
 
         assertEquals(4, game.getCardTable().getGreenCards().get(0).size());
         // SECOND TURN: first player chooses to buy a DevelopmentCard
@@ -885,7 +574,7 @@ class UserCommandsInterfaceTest {
     }
 
     @Test
-    void chooseJollyInputOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void chooseJollyInputAndOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -915,6 +604,284 @@ class UserCommandsInterfaceTest {
         game.chooseJollyOutput(new ResourceServant());
         game.confirmProductionChoice();
     }
+
+    @Test
+    void payFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Manually adds large depots to the player to ensure they can pay the cost
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
+
+        //Adds manually resources to the depots
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 3);
+        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
+        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
+        warehouse.addToDepot(6, ResourceType.STONE, 20);
+        warehouse.addToDepot(7, ResourceType.COIN, 20);
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 23);
+        inStock.put(ResourceType.COIN, 22);
+        inStock.put(ResourceType.SHIELD, 21);
+        inStock.put(ResourceType.SERVANT, 20);
+
+        //Saves the cost of the card
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
+
+        //Buys the card
+        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
+
+        //Actually tests the method
+        for (ResourceType resource : cost) {
+            for (int i = 1; i < 8; i++) {
+                try {
+                    game.payFromWarehouse(i, resource.toResource(), 1);
+                    inStock.put(resource, inStock.get(resource) - 1);
+                    break;
+                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
+                    //DO NOTHING
+                }
+            }
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+
+    }
+
+    @Test
+    void payFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Manually adds resources to player's strongbox
+        PlayerBoard player = game.getCurrentPlayer();
+        UnlimitedStorage strongbox = player.getStrongbox();
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 20);
+        resources.put(ResourceType.STONE, 20);
+        resources.put(ResourceType.SERVANT, 20);
+        resources.put(ResourceType.COIN, 20);
+        strongbox.addResources(resources);
+
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 20);
+        inStock.put(ResourceType.COIN, 20);
+        inStock.put(ResourceType.SHIELD, 20);
+        inStock.put(ResourceType.SERVANT, 20);
+
+        //Saves the cost of the card
+        List<ResourceType> cost = game.getCardTable().getGreenCards().get(0).get(0).getCost();
+
+        //Buys the card
+        game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
+
+        //Actually tests the method
+        for (ResourceType resource : cost) {
+            game.payFromStrongbox(resource.toResource(), 1);
+            inStock.put(resource, inStock.get(resource) - 1);
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals(inStock.get(ResourceType.SHIELD), strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
+    }
+
+    @Test
+    void payFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Manually adds large depots to the player to ensure they can pay the cost
+        PlayerBoard player = game.getCurrentPlayer();
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SERVANT, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.SHIELD, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.STONE, 0));
+        player.addNewDepot(new LeaderDepot(20, ResourceType.COIN, 0));
+
+        //Adds manually resources to the depots
+        Warehouse warehouse = player.getWarehouse();
+        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
+        warehouse.addToDepot(2, ResourceType.COIN, 2);
+        warehouse.addToDepot(3, ResourceType.STONE, 3);
+        warehouse.addToDepot(4, ResourceType.SERVANT, 20);
+        warehouse.addToDepot(5, ResourceType.SHIELD, 20);
+        warehouse.addToDepot(6, ResourceType.STONE, 20);
+        warehouse.addToDepot(7, ResourceType.COIN, 20);
+
+        //Quantifies the resources the player has before the purchase
+        Map<ResourceType, Integer> inStock = new HashMap<>();
+        inStock.put(ResourceType.STONE, 23);
+        inStock.put(ResourceType.COIN, 22);
+        inStock.put(ResourceType.SHIELD, 21);
+        inStock.put(ResourceType.SERVANT, 20);
+
+        //Loads two productions in current player's board
+        List<Resource> input = new ArrayList<>();
+        input.add(new ResourceShield());
+        input.add(new ResourceStone());
+        List<Resource> output = new ArrayList<>();
+        output.add(new ResourceFaith());
+        output.add(new ResourceFaith());
+        output.add(new ResourceServant());
+        player.addProduction(new Production(-1, input, output));
+
+        //Activates the two productions
+        game.selectProduction(1);
+        game.selectProduction(2);
+
+        //Select jollies of base production
+        game.chooseJollyInput(new ResourceCoin());
+        game.chooseJollyInput(new ResourceStone());
+        game.chooseJollyOutput(new ResourceServant());
+
+        //Confirm choice
+        game.confirmProductionChoice();
+
+        //Saves the cost of the productions
+        List<Resource> cost = new ArrayList<>();
+        cost.addAll(input);
+        cost.add(new ResourceCoin());
+        cost.add(new ResourceStone());
+
+        //Actually tests the method
+        for (Resource resource : cost) {
+            for (int i = 1; i < 8; i++) {
+                try {
+                    game.payFromWarehouse(i, resource, 1);
+                    inStock.put(resource.getType(), inStock.get(resource.getType()) - 1);
+                    break;
+                } catch (NotEnoughResourceException | DepotNotPresentException ex) {
+                    //DO NOTHING
+                }
+            }
+        }
+
+        game.endTurn();
+
+        //verifies quantities left
+        assertEquals(inStock.get(ResourceType.SHIELD), warehouse.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(inStock.get(ResourceType.COIN), warehouse.getNumOfResource(ResourceType.COIN));
+        assertEquals(inStock.get(ResourceType.SERVANT), warehouse.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(inStock.get(ResourceType.STONE), warehouse.getNumOfResource(ResourceType.STONE));
+
+    }
+
+    @Test
+    void payFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+        // Game creation
+        Set<String> nicknames = new HashSet<>();
+        nicknames.add("Andre");
+        nicknames.add("Tom");
+        nicknames.add("Gigi");
+        Game game = new Game(nicknames);
+        // FIRST TURN: player must choose which LeaderCards to keep
+        game.chooseLeaderCard(1);
+        game.chooseLeaderCard(2);
+        game.endTurn();
+
+        //Adds manually resources to the strongbox
+        PlayerBoard player = game.getCurrentPlayer();
+        UnlimitedStorage strongbox = player.getStrongbox();
+        Map<ResourceType, Integer> resources = new HashMap<>();
+        resources.put(ResourceType.SHIELD, 20);
+        resources.put(ResourceType.STONE, 20);
+        resources.put(ResourceType.SERVANT, 20);
+        resources.put(ResourceType.COIN, 20);
+        strongbox.addResources(resources);
+
+        //Loads two productions in current player's board
+        List<Resource> input1 = new ArrayList<>();
+        input1.add(new ResourceCoin());
+        input1.add(new ResourceCoin());
+        List<Resource> output1 = new ArrayList<>();
+        output1.add(new ResourceFaith());
+        output1.add(new ResourceJolly());
+        player.addProduction(new Production(-1, input1, output1));
+
+        List<Resource> input2 = new ArrayList<>();
+        input2.add(new ResourceShield());
+        List<Resource> output2 = new ArrayList<>();
+        output2.add(new ResourceStone());
+        output2.add(new ResourceStone());
+        player.addProduction(new Production(-1, input2, output2));
+
+        //Activates the two productions
+        game.selectProduction(2);
+        game.selectProduction(3);
+
+        //Select jollies
+        game.chooseJollyOutput(new ResourceServant());
+
+        //Confirm choice
+        game.confirmProductionChoice();
+
+        //Actually tests the method
+        game.payFromStrongbox(new ResourceShield(), 5);
+        game.payFromStrongbox(new ResourceCoin(), 18);
+
+        game.endTurn();
+
+        //Verifies quantities left
+        assertEquals(22, strongbox.getNumOfResource(ResourceType.STONE));
+        assertEquals(21, strongbox.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(18, strongbox.getNumOfResource(ResourceType.COIN));
+        assertEquals(19, strongbox.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(1, player.getFaith());
+
+        //Some more checks just to be safe
+        player.getWarehouse().addToDepot(2, ResourceType.SHIELD, 2);
+        player.getWarehouse().addToDepot(3, ResourceType.SERVANT, 3);
+        assertEquals(21, player.getNumOfResource(ResourceType.SHIELD));
+        assertEquals(18, player.getNumOfResource(ResourceType.COIN));
+        assertEquals(22, player.getNumOfResource(ResourceType.STONE));
+        assertEquals(24, player.getNumOfResource(ResourceType.SERVANT));
+    }
+
 
     // END TURN
 
@@ -1066,214 +1033,5 @@ class UserCommandsInterfaceTest {
         assertEquals(PopeTileState.ACTIVE, players.get(0).getPopeFavorTiles().get(0).getState());
         assertEquals(PopeTileState.ACTIVE, players.get(1).getPopeFavorTiles().get(0).getState());
         assertEquals(PopeTileState.DISCARDED, players.get(2).getPopeFavorTiles().get(0).getState());
-    }
-
-    @Test
-    void lorenzoWinsFromFaith() throws WrongTurnPhaseException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        PlayerBoard player = game.getPlayersBoardsTurnOrder().get(0);
-
-        //Verify Lorenzo lives
-        Lorenzo lollo = (Lorenzo) game.getLorenzo();
-        List<ActionToken> activeTokens = lollo.getActiveDeck();
-        List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue(lollo != null);
-
-        //Player takes first turn
-        assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Lorenzo should not take first turn
-        assertEquals(6, activeTokens.size());
-        assertEquals(0, usedTokens.size());
-        assertEquals(0, lollo.getFaith());
-
-        //Player takes second turn
-        game.selectMarketRow(1);
-        int baseFaith = player.getLeftInWaitingRoom();
-        //Lil cheat to make Lollo win faster
-        lollo.addFaith(24);
-
-        //Game should end
-        game.endTurn();
-    }
-
-    @Test
-    void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        PlayerBoard player = game.getPlayersBoardsTurnOrder().get(0);
-
-        //Verify Lorenzo lives
-        Lorenzo lollo = (Lorenzo) game.getLorenzo();
-        List<ActionToken> activeTokens = lollo.getActiveDeck();
-        List<ActionToken> usedTokens = lollo.getUsedDeck();
-        assertTrue(lollo != null);
-
-        //Player takes first turn
-        assertEquals(player.getUsername(), game.getCurrentPlayer().getUsername());
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Lorenzo should not take first turn
-        assertEquals(6, activeTokens.size());
-        assertEquals(0, usedTokens.size());
-        assertEquals(0, lollo.getFaith());
-
-        //Player takes second turn
-        game.selectMarketRow(1);
-        int baseFaith = player.getLeftInWaitingRoom();
-        //Lil cheat to force the game to end by removing all green cards from the table
-        game.getCardTable().getGreenCards().get(2).clear();
-        game.getCardTable().getGreenCards().get(1).clear();
-        game.getCardTable().getGreenCards().get(0).clear();
-
-        //Game should end
-        game.endTurn();
-    }
-
-    @Test
-    void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-
-        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
-            Map<ResourceType, Integer> resources = new HashMap<>();
-            resources.put(ResourceType.COIN, 100);
-            resources.put(ResourceType.SERVANT, 100);
-            resources.put(ResourceType.SHIELD, 100);
-            resources.put(ResourceType.STONE, 100);
-            player.addResourcesToStrongbox(resources);
-        }
-        // We gonna cheat again and add 6 cards to a player so that the next turn he will buy his 7th and end the game
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null, null));
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null, null));
-        game.getCurrentPlayer().getCardSlots().get(1).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null, null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 1, CardColor.GREEN, null, null, null, null, null, null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 2, CardColor.GREEN, null, null, null, null, null, null));
-        game.getCurrentPlayer().getCardSlots().get(2).add(new DevelopmentCard(5, 3, CardColor.GREEN, null, null, null, null, null, null));
-
-        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            player.clearWaitingRoom();
-            game.endTurn();
-
-            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(resourceType.toResource(), 1);
-            }
-
-            // Game should end after the last player's turn
-            game.endTurn();
-        }
-    }
-
-    @Test
-    void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-
-        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
-            Map<ResourceType, Integer> resources = new HashMap<>();
-            resources.put(ResourceType.COIN, 100);
-            resources.put(ResourceType.SERVANT, 100);
-            resources.put(ResourceType.SHIELD, 100);
-            resources.put(ResourceType.STONE, 100);
-            player.addResourcesToStrongbox(resources);
-        }
-        //We're gonna do what's called a 'pro-gamer-move' and add a bunch of faith to the first player
-        game.getCurrentPlayer().addFaith(25);
-
-        // SECOND TURN: every player chooses to buy a DevelopmentCard and pays for it
-        for (PlayerBoard player : game.getPlayersBoardsTurnOrder()) {
-            game.chooseLeaderCard(1);
-            game.chooseLeaderCard(2);
-            player.clearWaitingRoom();
-            game.endTurn();
-
-            game.takeDevelopmentCard(CardColor.GREEN, 1, 1);
-            for (ResourceType resourceType : game.getCurrentPlayer().getCardSlots().get(0).get(0).getCost()) {
-                game.payFromStrongbox(resourceType.toResource(), 1);
-            }
-
-            // Game should end after the last player's turn
-            game.endTurn();
-        }
-    }
-
-    @Test
-    public void automaticPaymentTest() throws LeaderNotPresentException, WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, ProductionNotPresentException, NotEnoughResourceException, UndefinedJollyException {
-        // Game creation
-        Set<String> nicknames = new HashSet<>();
-        nicknames.add("Andre");
-        nicknames.add("Tom");
-        nicknames.add("Gigi");
-        Game game = new Game(nicknames);
-        // FIRST TURN: player must choose which LeaderCards to keep
-        game.chooseLeaderCard(1);
-        game.chooseLeaderCard(2);
-        game.endTurn();
-
-        //Adds manually resources to warehouse
-        PlayerBoard player = game.getCurrentPlayer();
-        Warehouse warehouse = player.getWarehouse();
-        warehouse.addToDepot(1, ResourceType.SHIELD, 1);
-        warehouse.addToDepot(2, ResourceType.COIN, 2);
-        warehouse.addToDepot(3, ResourceType.STONE, 3);
-
-        //Adds manually resources to the strongbox
-        UnlimitedStorage strongbox = player.getStrongbox();
-        Map<ResourceType, Integer> resources = new HashMap<>();
-        resources.put(ResourceType.SHIELD, 20);
-        resources.put(ResourceType.STONE, 20);
-        resources.put(ResourceType.SERVANT, 20);
-        resources.put(ResourceType.COIN, 20);
-        strongbox.addResources(resources);
-
-        //Loads a production in the current player's board
-        List<Resource> input1 = new ArrayList<>();
-        input1.add(new ResourceShield());
-        input1.add(new ResourceShield());
-        input1.add(new ResourceStone());
-        List<Resource> output1 = new ArrayList<>();
-        output1.add(new ResourceFaith());
-        player.addProduction(new Production(-1, input1, output1));
-
-
-        //Activates the production
-        game.selectProduction(2);
-
-        //Confirm choice
-        game.confirmProductionChoice();
-
-        //Actually tests the method
-        game.endTurn();
-
-        //Verifies quantities left
-        assertEquals(0, warehouse.getDepot(1).getNumOfResource(ResourceType.SHIELD));
-        assertEquals(2, warehouse.getDepot(2).getNumOfResource(ResourceType.COIN));
-        assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.STONE));
-        assertEquals(20, strongbox.getNumOfResource(ResourceType.STONE));
-        assertEquals(20, strongbox.getNumOfResource(ResourceType.SERVANT));
-        assertEquals(20, strongbox.getNumOfResource(ResourceType.COIN));
-        assertEquals(19, strongbox.getNumOfResource(ResourceType.SHIELD));
-        assertEquals(1, player.getFaith());
     }
 }

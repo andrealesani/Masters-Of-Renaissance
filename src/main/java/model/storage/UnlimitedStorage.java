@@ -82,10 +82,10 @@ public class UnlimitedStorage implements ResourceStash, Observable {
      */
     @Override
     public void removeResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        if (quantity < 0 || !resource.canBeStored()) {
+        if (quantity < 0 || resource == null || !resource.canBeStored()) {
             throw new ParametersNotValidException();
         }
-        if (resource != null && quantity > 0) {
+        if (quantity > 0) {
             if (!storageContent.containsKey(resource)) {
                 throw new NotEnoughResourceException();
             }

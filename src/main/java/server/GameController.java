@@ -161,7 +161,7 @@ public class GameController {
             }
         } else {
             if (game != null) {
-                if (game.isConnected(username)) {
+                if (game.isPlayerConnected(username)) {
                     throw new UsernameAlreadyExistsException();
                 } else {
                     //If the player is reconnecting
@@ -361,7 +361,7 @@ public class GameController {
         Set<String> playersSet = players.keySet();
 
         if (game != null) {
-            playersSet.removeIf(player -> !game.isConnected(player));
+            playersSet.removeIf(player -> !game.isPlayerConnected(player));
         }
 
         return playersSet;

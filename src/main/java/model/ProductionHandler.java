@@ -77,6 +77,9 @@ public class ProductionHandler implements Observable {
      * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
     public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
+        if (resource == null || !resource.getType().canBeStored())
+            throw new ParametersNotValidException();
+
         if (currentInput.remove(new ResourceJolly()))
             currentInput.add(resource);
         else throw new ResourceNotPresentException();
@@ -92,6 +95,9 @@ public class ProductionHandler implements Observable {
      * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
      */
     public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
+        if (resource == null || !resource.getType().canBeStored())
+            throw new ParametersNotValidException();
+
         if (currentOutput.remove(new ResourceJolly()))
             currentOutput.add(resource);
         else throw new ResourceNotPresentException();
@@ -108,7 +114,7 @@ public class ProductionHandler implements Observable {
     public void selectProduction(int productionNumber) throws ProductionNotPresentException {
         if (productionNumber < 1)
             throw new ParametersNotValidException();
-        if (productions.size() < productionNumber)
+        if (productionNumber > productions.size())
             throw new ProductionNotPresentException();
         productions.get(productionNumber - 1).select();
 

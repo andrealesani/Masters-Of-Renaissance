@@ -1,8 +1,10 @@
 package model;
 
 import model.resource.Resource;
+import model.resource.ResourceStone;
 import model.resource.ResourceType;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTypeTest {
 
@@ -10,6 +12,6 @@ class ResourceTypeTest {
     void toResource() {
         ResourceType type = ResourceType.STONE;
         Resource resource = type.toResource();
-        System.out.println(resource.getType());
+        assertEquals(new ResourceStone(), resource);
     }
 }

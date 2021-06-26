@@ -184,7 +184,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != LEADERCHOICE)
             throw new WrongTurnPhaseException();
 
-        //TODO leadercard does not exist exception
         currentPlayer.chooseLeaderCard(pos);
     }
 
@@ -205,7 +204,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase == LEADERCHOICE)
             throw new WrongTurnPhaseException();
 
-        //TODO leadercard does not exist
         currentPlayer.playLeaderCard(number);
     }
 
@@ -240,7 +238,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        //TODO num scope invalido, currentPlayer null
         market.selectRow(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
         setTurnPhase(MARKETDISTRIBUTION);
@@ -258,7 +255,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        //TODO numScope invalido, currentPlayer null
         market.selectColumn(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
         setTurnPhase(MARKETDISTRIBUTION);
@@ -283,7 +279,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.MARKETDISTRIBUTION && turnPhase != LEADERCHOICE)
             throw new WrongTurnPhaseException();
 
-        //TODO negative quantities, null type
         currentPlayer.sendResourceToDepot(depotNumber, resource.getType(), quantity);
     }
 
@@ -302,7 +297,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.MARKETDISTRIBUTION)
             throw new WrongTurnPhaseException();
 
-        //TODO negative quantities
         currentPlayer.chooseMarbleConversion(resource.getType(), quantity);
     }
 
@@ -360,7 +354,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        //TODO cardcolor null, invalid row
         cardTable.buyTopCard(cardColor, level, currentPlayer, slot);
         currentPlayer.resetProductionChoice();
         setTurnPhase(CARDPAYMENT);
@@ -382,7 +375,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        //TODO production does not exist
         currentPlayer.selectProduction(number);
     }
 
@@ -412,10 +404,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        if (!resource.getType().canBeStored())
-            throw new ParametersNotValidException();
-
-        //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
         currentPlayer.chooseJollyInput(resource);
     }
 
@@ -432,10 +420,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
             throw new WrongTurnPhaseException();
 
-        if (!resource.getType().canBeStored())
-            throw new ParametersNotValidException();
-
-        //TODO invalid resource types and null, coherence in jolly/unknownResource naming convention, no jollies
         currentPlayer.chooseJollyOutput(resource);
     }
 
@@ -474,7 +458,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
             throw new WrongTurnPhaseException();
 
-        //TODO resource null, negative quantity, no more debt
         currentPlayer.takeResourceFromWarehouse(depotNumber, resource.getType(), quantity);
     }
 
@@ -492,7 +475,6 @@ public class Game implements UserCommandsInterface, Observable {
         if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
             throw new WrongTurnPhaseException();
 
-        //TODO resource null, negative quantity, no more debt
         currentPlayer.takeResourceFromStrongbox(resource.getType(), quantity);
     }
 
@@ -536,7 +518,7 @@ public class Game implements UserCommandsInterface, Observable {
         switchPlayer();
     }
 
-    //PUBLIC METHODS
+    //PUBLIC CONNECTION METHODS
 
     /**
      * Sets the given player's connection status to connected.
@@ -545,22 +527,19 @@ public class Game implements UserCommandsInterface, Observable {
      * @param username the player's username
      */
     public void setConnectedStatus(String username) {
-        for (PlayerBoard player : playersTurnOrder) {
-            if (player.getUsername().equals(username)) {
+        PlayerBoard player = getPlayer(username);
 
-                player.setConnectedStatus();
+        if (player == null)
+            throw new InvalidParameterException();
 
-                if (currentPlayer == null) {
-                    chooseTurnStartingPhase(player);
-                    currentPlayer = player;
-                }
+        player.setConnectedStatus();
 
-                notifyObservers();
-
-                return;
-            }
+        if (currentPlayer == null) {
+            chooseTurnStartingPhase(player);
+            currentPlayer = player;
         }
-        throw new InvalidParameterException();
+
+        notifyObservers();
     }
 
     /**
@@ -597,45 +576,6 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     /**
-     * Returns whether or not the given player is flagged as connected
-     *
-     * @param username the player's username
-     * @return true if the player is flagged as connected
-     */
-    public boolean isConnected(String username) {
-        for (PlayerBoard player : playersTurnOrder) {
-            if (player.getUsername().equals(username)) {
-                return player.isConnected();
-            }
-        }
-
-        throw new InvalidParameterException();
-    }
-
-    /**
-     * This method is called by the Controller right after creating the Game. It creates the beans so that they
-     * can notify the clients when something in the model changes
-     *
-     * @param controller that the beans will have to interact with
-     */
-    public void createBeans(GameController controller) {
-        addObserver(new GameBean(controller));
-        getCardTable().addObserver(new CardTableBean(controller));
-        getMarket().addObserver(new MarketBean(controller));
-        for (PlayerBoard playerBoard : getPlayersBoardsTurnOrder()) {
-            playerBoard.addObserver(new PlayerBoardBean(controller));
-            playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
-            playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
-            playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
-            playerBoard.getProductionHandler().addObserver(new ProductionHandlerBean(controller, playerBoard.getUsername()));
-        }
-
-        if (getPlayersBoardsTurnOrder().size() == 1) {
-            ((Lorenzo) getLorenzo()).addObserver(new LorenzoBean(controller));
-        }
-    }
-
-    /**
      * Sends all the game Beans to the client associated to the given username when it reconnects to the server
      *
      * @param username of the player to send the information to
@@ -663,6 +603,31 @@ public class Game implements UserCommandsInterface, Observable {
                 observer.updateSinglePlayer(username);
             for (Observer observer : playerBoard.getProductionHandler().getObservers())
                 observer.updateSinglePlayer(username);
+        }
+    }
+
+    //PUBLIC MISCELLANEOUS METHODS
+
+    /**
+     * This method is called by the Controller right after creating the Game. It creates the beans so that they
+     * can notify the clients when something in the model changes
+     *
+     * @param controller that the beans will have to interact with
+     */
+    public void createBeans(GameController controller) {
+        addObserver(new GameBean(controller));
+        getCardTable().addObserver(new CardTableBean(controller));
+        getMarket().addObserver(new MarketBean(controller));
+        for (PlayerBoard playerBoard : getPlayersBoardsTurnOrder()) {
+            playerBoard.addObserver(new PlayerBoardBean(controller));
+            playerBoard.getStrongbox().addObserver(new StrongboxBean(controller, playerBoard.getUsername()));
+            playerBoard.getWaitingRoom().addObserver(new WaitingRoomBean(controller, playerBoard.getUsername()));
+            playerBoard.getWarehouse().addObserver(new WarehouseBean(controller, playerBoard.getUsername(), playerBoard.getWarehouse().getNumOfDepots()));
+            playerBoard.getProductionHandler().addObserver(new ProductionHandlerBean(controller, playerBoard.getUsername()));
+        }
+
+        if (getPlayersBoardsTurnOrder().size() == 1) {
+            ((Lorenzo) getLorenzo()).addObserver(new LorenzoBean(controller));
         }
     }
 
@@ -937,7 +902,7 @@ public class Game implements UserCommandsInterface, Observable {
      * Getter for the player board of a specific player
      *
      * @param username the player's username
-     * @return theplayer's board
+     * @return the player's board, 'null' if there are none corresponding to the given username
      */
     public PlayerBoard getPlayer(String username) {
         for (PlayerBoard player : playersTurnOrder) {
@@ -946,6 +911,22 @@ public class Game implements UserCommandsInterface, Observable {
         }
 
         return null;
+    }
+
+    /**
+     * Returns whether or not the given player is flagged as connected
+     *
+     * @param username the player's username
+     * @return true if the player is flagged as connected
+     */
+    public boolean isPlayerConnected(String username) {
+        for (PlayerBoard player : playersTurnOrder) {
+            if (player.getUsername().equals(username)) {
+                return player.isConnected();
+            }
+        }
+
+        throw new InvalidParameterException();
     }
 
     /**
@@ -1064,7 +1045,7 @@ public class Game implements UserCommandsInterface, Observable {
         throw new CardNotPresentException();
     }
 
-    // PERSISTENCE METHODS
+    //PERSISTENCE METHODS
 
     /**
      * Restores the turn order
