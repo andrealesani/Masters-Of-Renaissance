@@ -2,6 +2,7 @@ package model;
 
 import Exceptions.*;
 import model.card.CardColor;
+import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;
@@ -29,6 +30,10 @@ public class Game implements UserCommandsInterface, Observable {
      * This attribute stores the game's card table
      */
     private final CardTable cardTable;
+    /**
+     * This attribute stores all the game's developer cards so that they can be searched whenever without reading them from JSON every time
+     */
+    private final List<DevelopmentCard> developmentCards;
     /**
      * This attribute stores the game's leader cards before they are distributed to players
      */
@@ -87,6 +92,7 @@ public class Game implements UserCommandsInterface, Observable {
     public Game(Set<String> nicknames) {
         market = new Market();
         leaderCards = StaticMethods.getLeaderCardsFromJson();
+        developmentCards = StaticMethods.getDevelopmentCardsFromJson();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         lastTriggeredTile = 0;
@@ -133,10 +139,11 @@ public class Game implements UserCommandsInterface, Observable {
     /**
      * Testing Constructor
      */
-    public Game() {
+    private Game() {
 
         market = new Market();
         leaderCards = StaticMethods.getLeaderCardsFromJson();
+        developmentCards = StaticMethods.getDevelopmentCardsFromJson();
         playersTurnOrder = new ArrayList<>();
         lorenzo = null;
         finalFaith = 24;
@@ -1036,7 +1043,7 @@ public class Game implements UserCommandsInterface, Observable {
      * @return the DevelopmentCard associated to the specified ID
      * @throws CardNotPresentException when the given ID is not associated with any of the cards in the CardTable
      */
-    public LeaderCard getLeaderCardFromId(int id) throws CardNotPresentException {
+    public LeaderCard findLeaderCardById(int id) throws CardNotPresentException {
         for (LeaderCard leaderCard : this.leaderCards) {
             if (leaderCard.getId() == id) {
                 return leaderCard;
@@ -1046,6 +1053,14 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     //PERSISTENCE METHODS
+    public DevelopmentCard findDevelopmentCardById(int id) throws CardNotPresentException {
+        for (DevelopmentCard developmentCard : developmentCards) {
+            if (developmentCard.getId() == id) {
+                return developmentCard;
+            }
+        }
+        throw new CardNotPresentException();
+    }
 
     /**
      * Restores the turn order

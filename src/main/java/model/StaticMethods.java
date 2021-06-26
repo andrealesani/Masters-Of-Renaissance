@@ -103,8 +103,8 @@ public class StaticMethods {
     }
 
     /**
-     * Takes in input the path of the JSON file to read and the List of decks of a specific color,
-     * then it reads the cards from the file and splits them into decks based on the cards level.
+     * Takes in input the List of empty decks of a specific color and the color, reads the cards data from the DevelopmentCards
+     * JSON file, then it splits the cards of the specified color into decks based on the cards level.
      * Level 1 cards will be in the first lists of every column.
      * Level 2 cards will be in the middle (second lists of every column).
      * Level 3 cards will be in the third lists of every column.

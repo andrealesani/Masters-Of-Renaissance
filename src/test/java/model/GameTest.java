@@ -5,6 +5,7 @@ import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import Exceptions.*;
@@ -18,15 +19,25 @@ import model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
+    @Test
+    void initializeLeaders() {
+        Set<String> names= new HashSet<>();
+        names.add("test");
+        Game game = new Game(names);
+    }
+
     // Verifies that card IDs are unique consistently between both DevelopmentCards and LeaderCards
     @Test
     void newIds() {
-        Game game = new Game();
+        Set<String> names= new HashSet<>();
+        names.add("test");
+        Game game = new Game(names);
         for (Map.Entry<CardColor, List<List<DevelopmentCard>>> entry : game.getCardTable().getCards().entrySet()) {
             for (List<DevelopmentCard> deck : entry.getValue()) {
                 for (DevelopmentCard card : deck) {

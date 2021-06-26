@@ -36,7 +36,6 @@ public class CardTable implements Observable {
     /**
      * Constructor
      */
-    //TODO ti prego alesani fixa sta roba
     public CardTable(int id) {
 
         greenCards = new ArrayList<>();
@@ -212,26 +211,6 @@ public class CardTable implements Observable {
      */
     public List<List<DevelopmentCard>> getPurpleCards() {
         return purpleCards;
-    }
-
-    /**
-     * Getter
-     *
-     * @param id of the card to be returned
-     * @return the DevelopmentCard associated to the specified ID
-     * @throws CardNotPresentException when the given ID is not associated with any of the cards in the CardTable
-     */
-    public DevelopmentCard getDevelopmentCardFromId(int id) throws CardNotPresentException {
-        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cards.entrySet()) {
-            for (List<DevelopmentCard> deck : color.getValue()) {
-                for (DevelopmentCard developmentCard : deck) {
-                    if (developmentCard.getId() == id) {
-                        return developmentCard;
-                    }
-                }
-            }
-        }
-        throw new CardNotPresentException();
     }
 
     // PERSISTENCE METHODS

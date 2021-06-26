@@ -875,7 +875,7 @@ public class PlayerBoard implements Observable {
         for (int i = 0; i < developmentCardsIDs.length; i++) {
             for (int j = 0; j < developmentCardsIDs[i].getDevelopmentCards().length; j++)
                 try {
-                    DevelopmentCard card = game.getCardTable().getDevelopmentCardFromId(developmentCardsIDs[i].getDevelopmentCards()[j]);
+                    DevelopmentCard card = game.findDevelopmentCardById(developmentCardsIDs[i].getDevelopmentCards()[j]);
                     cardSlots.get(i).add(card);
                     productionHandler.addProduction(card.getProduction());
                 } catch (CardNotPresentException e) {
@@ -896,7 +896,7 @@ public class PlayerBoard implements Observable {
         leaderCards.clear();
         for (int i = 0; i < leaderCardIDs.length; i++)
             try {
-                LeaderCard card = game.getLeaderCardFromId(leaderCardIDs[i]);
+                LeaderCard card = game.findLeaderCardById(leaderCardIDs[i]);
 
                 this.leaderCards.add(card);
                 if (activeLeaderCards[i])
