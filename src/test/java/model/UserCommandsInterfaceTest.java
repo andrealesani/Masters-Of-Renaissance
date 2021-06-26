@@ -4,6 +4,7 @@ import Exceptions.*;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
 import Exceptions.WrongTurnPhaseException;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;

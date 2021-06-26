@@ -1,6 +1,7 @@
 package model;
 
 import Exceptions.*;
+import model.card.CardColor;
 import model.resource.Resource;
 
 

@@ -1,6 +1,6 @@
 package network.beans;
 
-import model.CardColor;
+import model.card.CardColor;
 import model.Game;
 import model.card.DevelopmentCard;
 import server.GameController;

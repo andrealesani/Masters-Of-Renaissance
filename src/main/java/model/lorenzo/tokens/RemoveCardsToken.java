@@ -2,7 +2,7 @@ package model.lorenzo.tokens;
 
 import Exceptions.EmptyDeckException;
 import Exceptions.ParametersNotValidException;
-import model.CardColor;
+import model.card.CardColor;
 import model.CardTable;
 
 /**

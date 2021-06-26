@@ -1,7 +1,7 @@
 package model.card.leadercard;
 
 import Exceptions.CardAlreadyActiveException;
-import model.CardColor;
+import model.card.CardColor;
 import model.PlayerBoard;
 import model.Production;
 import model.resource.ResourceType;

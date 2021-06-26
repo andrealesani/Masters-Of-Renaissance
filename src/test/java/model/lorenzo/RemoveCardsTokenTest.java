@@ -1,7 +1,7 @@
 package model.lorenzo;
 
 import Exceptions.EmptyDeckException;
-import model.CardColor;
+import model.card.CardColor;
 import model.CardTable;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.RemoveYellowToken;

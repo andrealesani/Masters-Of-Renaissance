@@ -3,6 +3,7 @@ package model;
 import Exceptions.EmptyDeckException;
 import Exceptions.NotEnoughResourceException;
 import Exceptions.SlotNotValidException;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;

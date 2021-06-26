@@ -1,6 +1,7 @@
 package model;
 
 import Exceptions.*;
+import model.card.CardColor;
 import model.card.leadercard.*;
 import model.lorenzo.ArtificialIntelligence;
 import model.lorenzo.Lorenzo;

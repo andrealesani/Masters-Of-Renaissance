@@ -3,6 +3,7 @@ package model.card.leadercard;
 import Exceptions.CardAlreadyActiveException;
 import Exceptions.ParametersNotValidException;
 import model.*;
+import model.card.CardColor;
 import model.resource.*;
 
 import java.util.ArrayList;

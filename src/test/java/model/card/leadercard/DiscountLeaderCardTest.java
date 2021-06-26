@@ -4,7 +4,7 @@ import Exceptions.CardAlreadyActiveException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import model.CardColor;
+import model.card.CardColor;
 import model.PlayerBoard;
 import model.resource.ResourceType;
 import model.card.DevelopmentCard;

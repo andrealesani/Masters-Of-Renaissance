@@ -2,7 +2,7 @@ package model.card.leadercard;
 
 import Exceptions.CardAlreadyActiveException;
 import Exceptions.ParametersNotValidException;
-import model.CardColor;
+import model.card.CardColor;
 import model.Color;
 import model.PlayerBoard;
 import model.resource.ResourceType;

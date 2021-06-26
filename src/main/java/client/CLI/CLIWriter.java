@@ -3,14 +3,13 @@ package client.CLI;
 import Exceptions.CardNotPresentException;
 import client.ClientView;
 import com.google.gson.Gson;
-import model.CardColor;
+import model.card.CardColor;
 import model.Color;
 import model.resource.ResourceType;
 import model.TurnPhase;
 import network.Command;
 import network.UserCommandsType;
 import network.beans.GameBean;
-import network.beans.PlayerBoardBean;
 
 import java.io.BufferedReader;
 import java.io.IOException;

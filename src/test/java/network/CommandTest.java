@@ -2,7 +2,7 @@ package network;
 
 import Exceptions.*;
 import com.google.gson.Gson;
-import model.CardColor;
+import model.card.CardColor;
 import model.Game;
 import model.PlayerBoard;
 import model.resource.ResourceType;

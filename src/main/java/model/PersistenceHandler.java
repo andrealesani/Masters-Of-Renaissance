@@ -2,6 +2,7 @@ package model;
 
 import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 import model.lorenzo.Lorenzo;

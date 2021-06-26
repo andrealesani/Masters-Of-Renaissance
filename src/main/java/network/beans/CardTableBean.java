@@ -5,6 +5,7 @@ import Exceptions.ParametersNotValidException;
 import com.google.gson.Gson;
 import model.*;
 import model.Observer;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import network.ServerMessageType;
 import model.StaticMethods;

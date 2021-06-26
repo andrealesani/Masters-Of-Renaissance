@@ -2,9 +2,9 @@ package model;
 
 import Exceptions.*;
 import model.card.Card;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.LeaderCard;
-import model.lorenzo.Lorenzo;
 import model.resource.Resource;
 import model.resource.ResourceJolly;
 import model.resource.ResourceType;

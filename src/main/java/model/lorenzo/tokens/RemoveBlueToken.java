@@ -1,6 +1,6 @@
 package model.lorenzo.tokens;
 
-import model.CardColor;
+import model.card.CardColor;
 import model.CardTable;
 
 /**

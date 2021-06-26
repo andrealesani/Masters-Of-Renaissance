@@ -1,22 +1,13 @@
 package model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
-import model.resource.ResourceType;
-import model.storage.BasicDepot;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static model.resource.ResourceType.STONE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

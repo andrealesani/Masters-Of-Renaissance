@@ -1,4 +1,6 @@
-package model;
+package model.card;
+
+import model.Color;
 
 /**
  * This enum contains all possible development card color
