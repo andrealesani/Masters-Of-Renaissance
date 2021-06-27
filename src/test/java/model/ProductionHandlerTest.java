@@ -110,27 +110,6 @@ class ProductionHandlerTest {
     }
 
     @Test
-    void removeSelectedProductionRunTimeException() throws ProductionNotPresentException {
-        // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
-        // Then it selects the production
-        ProductionHandler productionHandler = new ProductionHandler();
-        List<Resource> input = new ArrayList<>();
-        List<Resource> output = new ArrayList<>();
-        input.add(new ResourceServant());
-        output.add(new ResourceCoin());
-        Production production = new Production(-1, input, output);
-        productionHandler.addProduction(production);
-        productionHandler.selectProduction(1);
-
-        // TEST
-        Exception ex = assertThrows(ProductionIsSelectedException.class, () -> {
-            productionHandler.removeProduction(production);
-        });
-
-        assertEquals(1, productionHandler.getProductions().size());
-    }
-
-    @Test
     void resetProductionChoice() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
         // Then it selects the production
