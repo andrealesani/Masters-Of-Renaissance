@@ -32,7 +32,7 @@ public class PersistenceHandler {
     /**
      * The game's id, used to differentiate between different save files
      */
-    int id;
+    private int id;
     /**
      * The game's card table
      */
@@ -168,26 +168,10 @@ public class PersistenceHandler {
         saveWaitingRooms(game);
         saveLorenzo(game);
 
-        try {
-            if (id == 0)
-                id = StaticMethods.findFirstFreePersistenceId();
-            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
-            writer.print(gson.toJson(this));
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Warning: couldn't save game to file.");
-        }
-        try {
-            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
-            Map gamesInfo = new HashMap();
-            gamesInfo.put("maxId", id);
-            writer.print(gson.toJson(gamesInfo, Map.class));
-            writer.close();
-        } catch (Exception e) {
-            System.err.println("Warning: couldn't update savedGamesInfo.json");
-        }
-
-        System.out.println("Saved game with id " + id);
+        if (id == 0)
+            id = StaticMethods.findFirstFreePersistenceId();
+        StaticMethods.saveGameOnDisk(this);
+        StaticMethods.updateMaxId(id);
     }
 
     /**
