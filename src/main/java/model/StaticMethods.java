@@ -138,7 +138,7 @@ public class StaticMethods {
         List<PersistenceHandler> games = new ArrayList<>();
         Reader reader;
 
-        Map gamesInfo = getSavedGamesInfo(gson);
+        Map gamesInfo = getSavedGamesInfo();
 
         System.out.println("Found info file with " + ((Double) gamesInfo.get("maxId")).intValue() + " maxId");
 
@@ -177,7 +177,14 @@ public class StaticMethods {
     public static int findFirstFreePersistenceId() {
         Gson gson = new Gson();
 
-        Map gamesInfo = getSavedGamesInfo(gson);
+        Map gamesInfo = getSavedGamesInfo();
+
+        try {
+            Reader reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
+            gamesInfo = gson.fromJson(reader, Map.class);
+        } catch (Exception e) {
+            System.err.println("Warning: couldn't find savedGamesInfo file");
+        }
 
         return ((Double) gamesInfo.get("maxId")).intValue() + 1;
 
@@ -200,10 +207,9 @@ public class StaticMethods {
 
     /**
      * Creates a new savedGamesInfo file
-     *
-     * @param gson the json serializer
      */
-    private static Map getSavedGamesInfo(Gson gson) {
+    private static Map getSavedGamesInfo() {
+        Gson gson = new Gson();
 
         try {
             new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"));
@@ -234,5 +240,45 @@ public class StaticMethods {
         }
 
         return gson.fromJson(reader, Map.class);
+    }
+
+    /**
+     * Updates the savedGamesInfo.json file if the new game has an ID that is bigger than the saved one
+     *
+     * @param id the ID to confront with the saved one
+     */
+    public static void updateMaxId(int id) {
+        Gson gson = new Gson();
+
+        try {
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
+            Map gamesInfo = new HashMap();
+            gamesInfo.put("maxId", id);
+            writer.print(gson.toJson(gamesInfo, Map.class));
+            writer.close();
+        } catch (Exception e) {
+            System.err.println("Warning: couldn't update savedGamesInfo.json");
+        }
+
+        System.out.println("Saved game with id " + id);
+    }
+
+    /**
+     * Saves the game in a JSON file named 'game<id>.json' inside the savedGames folder
+     *
+     * @param persistenceHandler is the game's PersistenceHandler
+     */
+    public static void saveGameOnDisk(PersistenceHandler persistenceHandler) {
+        Gson gson = new Gson();
+        int id = persistenceHandler.getId();
+
+        try {
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
+            writer.print(gson.toJson(persistenceHandler));
+            writer.close();
+        } catch (
+                IOException e) {
+            System.err.println("Warning: couldn't save game to file.");
+        }
     }
 }
