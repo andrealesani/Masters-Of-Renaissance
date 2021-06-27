@@ -6,6 +6,9 @@ import model.resource.ResourceType;
  * This Exception is thrown when a resource is attempted to be added to a depot that can't accept it because a different depot is blocking that resource type.
  */
 public class BlockedResourceException extends Exception {
+    /**
+     * The type of the blocked resource
+     */
     private final ResourceType resource;
 
     /**

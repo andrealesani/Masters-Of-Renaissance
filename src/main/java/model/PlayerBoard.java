@@ -123,13 +123,6 @@ public class PlayerBoard implements Observable {
         int numOfDepots = 3;
         int[] vpFaithTiles = {3, 6, 9, 12, 15, 18, 21, 24};
         int[] vpFaithValues = {1, 2, 4, 6, 9, 12, 16, 20};
-        Resource jolly = new ResourceJolly();
-        List<Resource> baseProdInput = new ArrayList<>();
-        baseProdInput.add(jolly);
-        baseProdInput.add(jolly);
-        List<Resource> baseProdOutput = new ArrayList<>();
-        baseProdOutput.add(jolly);
-        Production baseProduction = new Production(0, baseProdInput, baseProdOutput);
 
         this.username = username;
         faith = 0;
@@ -149,7 +142,7 @@ public class PlayerBoard implements Observable {
         leaderCards = new ArrayList<>();
         leaderDepotCards = new HashMap<>();
         productionHandler = new ProductionHandler();
-        productionHandler.addProduction(baseProduction);
+        productionHandler.addProduction(new Production());
 
         isConnected = true;
         hasTakenFirstTurn = false;
@@ -222,6 +215,8 @@ public class PlayerBoard implements Observable {
 
     /**
      * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
+     *
+     * @param quantity the number of white marbles to add
      */
     public void addWhiteMarble(int quantity) {
         if (marbleConversions.size() == 1) {
@@ -317,7 +312,7 @@ public class PlayerBoard implements Observable {
      * @throws NotEnoughSpaceException         if the quantity of the resource to be added plus the amount already stored in the receiving depot exceeds the depot's maximum capacity
      * @throws BlockedResourceException        if the receiving depot is affected by resource blocking and the resource is being blocked by a different depot
      */
-    public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
+    public void moveDepotContent(int depotNumberTake, int depotNumberGive, ResourceType resource, int quantity) throws NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException {
         warehouse.moveDepotContent(depotNumberTake, depotNumberGive, resource, quantity);
     }
 
@@ -410,6 +405,7 @@ public class PlayerBoard implements Observable {
      * Selects the production with the given number as part of those to activate during this turn
      *
      * @param number the number of the production
+     * @throws ProductionNotPresentException if there is no production corresponding to the given number
      */
     public void selectProduction(int number) throws ProductionNotPresentException {
         productionHandler.selectProduction(number);
@@ -424,6 +420,9 @@ public class PlayerBoard implements Observable {
 
     /**
      * Checks if the player has converted all jollies in selected productions to other resources, and if they have enough resources to pay for productions
+     *
+     * @throws UndefinedJollyException    if there are still undefined jollies in input or output
+     * @throws NotEnoughResourceException if the player does not have enough resources to activate the selected productions
      */
     public void confirmProductionChoice() throws UndefinedJollyException, NotEnoughResourceException {
         if (!productionHandler.arePlayerResourcesEnough(this)) {
@@ -668,6 +667,8 @@ public class PlayerBoard implements Observable {
 
     /**
      * Adds the selected amount of white marbles to waiting room
+     *
+     * @param quantity the number of white marbles to add
      */
     public void addWhiteNoCheck(int quantity) {
         whiteMarbleNum += quantity;
@@ -941,7 +942,7 @@ public class PlayerBoard implements Observable {
      * Executes any necessary end turn cleanup if the player was the current player
      *
      * @param turnPhase the game's turn phase at the last save
-     * @param game the Game class
+     * @param game      the Game class
      */
     public void restoreEndTurn(TurnPhase turnPhase, Game game) {
         if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {

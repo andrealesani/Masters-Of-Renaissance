@@ -5,7 +5,9 @@ import server.ServerMain;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
+/**
+ * This class represents the main executable for the game, it allows to select between booting the server, the CLI client or the GUI client
+ */
 public class MastersOfRenaissance {
 
     /**
@@ -13,7 +15,7 @@ public class MastersOfRenaissance {
      *
      * @param args of type String[]
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Hi! Welcome to Masters Of Renaissance!\nWhat do you want to launch?");
         System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)\n2. CLIENT (GUI)\n");
         System.out.print("> ");

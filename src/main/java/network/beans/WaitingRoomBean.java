@@ -38,6 +38,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
      * Constructor
      *
      * @param controller the GameController for the bean's game
+     * @param username   the owner's username
      */
     public WaitingRoomBean(GameController controller, String username) {
         this.controller = controller;
@@ -101,10 +102,10 @@ public class WaitingRoomBean implements Observer, PlayerBean {
     @Override
     public String toString() {
 
-        String result = Color.HEADER + username + "'s WaitingRoom:\n" + Color.RESET ;
+        String result = Color.HEADER + username + "'s WaitingRoom:\n" + Color.RESET;
 
-        result +=   printLine(1) +
-                    "\n";
+        result += printLine(1) +
+                "\n";
 
         return result;
     }
@@ -147,7 +148,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
      * @param waitingRoom the object to take the information from
      */
     private void setQuantityFromWaitingRoom(UnlimitedStorage waitingRoom) {
-        for(int i = 0; i < type.length; i++) {
+        for (int i = 0; i < type.length; i++) {
             quantity[i] = waitingRoom.getNumOfResource(type[i]);
         }
     }

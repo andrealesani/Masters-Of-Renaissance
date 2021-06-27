@@ -32,19 +32,23 @@ public class Production {
     //CONSTRUCTORS
 
     /**
-     * Default constructor builds default Production (2 ResourceJolly in input and 1 ResourceJolly in output)
+     * Default constructor builds default Production (2 ResourceJolly in input and 1 ResourceJolly in output) with id 0
      */
     public Production() {
         id = 0;
+        Resource jolly = new ResourceJolly();
         input = new ArrayList<>();
-        input.add(new ResourceJolly());
+        input.add(jolly);
+        input.add(jolly);
         output = new ArrayList<>();
-        output.add(new ResourceJolly());
+        output.add(jolly);
+        selectedByHandler = false;
     }
 
     /**
      * Constructor
      *
+     * @param id     the production's card's id
      * @param input  specifies the Resources used to produce the output
      * @param output specifies the Resources obtained by executing this Production
      */
@@ -97,7 +101,7 @@ public class Production {
      * @return returns the Production output list
      */
     public List<Resource> getOutput() {
-        return new ArrayList<> (output);
+        return new ArrayList<>(output);
     }
 
     /**

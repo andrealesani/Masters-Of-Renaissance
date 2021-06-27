@@ -25,6 +25,7 @@ public abstract class RemoveCardsToken extends ActionToken {
      *
      * @param color     specifies the color of the cards that this token remove
      * @param cardTable reference to CardTable instance
+     * @param type      the type of the token
      */
     public RemoveCardsToken(CardColor color, CardTable cardTable, LorenzoTokenType type) {
         super(type);

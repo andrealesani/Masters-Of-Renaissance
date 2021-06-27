@@ -44,7 +44,9 @@ public class WarehouseBean implements Observer, PlayerBean {
     /**
      * Constructor
      *
-     * @param controller the GameController for the bean's game
+     * @param controller    the GameController for the bean's game
+     * @param username      the owner's username
+     * @param basicDepotNum the number of initial warehouse depots
      */
     public WarehouseBean(GameController controller, String username, int basicDepotNum) {
         this.controller = controller;
@@ -109,8 +111,8 @@ public class WarehouseBean implements Observer, PlayerBean {
 
         String result = Color.HEADER + username + "'s warehouse:\n" + Color.RESET;
 
-        result +=   printLine(1) +
-                    "\n";
+        result += printLine(1) +
+                "\n";
 
         return result;
     }
@@ -130,7 +132,7 @@ public class WarehouseBean implements Observer, PlayerBean {
             if (i == basicDepotNum)
                 content += " |";
 
-            content += " " + (i+1);
+            content += " " + (i + 1);
             content += ".[ ";
             int quantity = depotQuantity[i];
 

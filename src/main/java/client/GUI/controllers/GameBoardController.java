@@ -62,18 +62,33 @@ public class GameBoardController implements GUIController {
     private String previousPlayer;
 
     /**
-     * The graphical elements of this controller's scene
+     * The scene's grid panes
      */
     @FXML
     private GridPane marketGrid, cardsGrid, leaderGrid, faithGrid, leaderButtonGrid, depot1Grid, depot2Grid, depot3Grid, marketRowButtonsGrid, marketColumnButtonsGrid, warehouseButtonsGrid, cardSlotsButtonGrid, leaderDepotButtonGrid, leaderDepotGrid, turnOrderGrid, viewBoardButtonsGrid, lorenzoFaithGrid, lorenzoUsedTokenGrid;
+    /**
+     * The scene's anchor panes
+     */
     @FXML
     public AnchorPane cardSlotPane1, cardSlotPane2, cardSlotPane3, waitingRoomPane, lorenzoTokenPane;
+    /**
+     * The scene's labels
+     */
     @FXML
     public Label strongboxCoinLabel, strongboxServantLabel, strongboxShieldLabel, strongboxStoneLabel, waitingRoomTitleLabel, waitingRoomWhiteLabel, waitingRoomCoinLabel, waitingRoomServantLabel, waitingRoomShieldLabel, waitingRoomStoneLabel, currentPlayerLabel, turnPhaseLabel, viewedPlayerLabel, lorenzoTokenLeftLabel, lastTurnLabel;
+    /**
+     * The scene's image views
+     */
     @FXML
     public ImageView waitingRoomCoin, waitingRoomServant, waitingRoomShield, waitingRoomStone, tile1Image, tile2Image, tile3Image;
+    /**
+     * The scene's buttons
+     */
     @FXML
     public Button endTurnButton, waitingRoomCoinButton, waitingRoomServantButton, waitingRoomShieldButton, waitingRoomStoneButton, strongboxButton, cancelOperationButton, productionsButton, viewBoard1Button, viewBoard2Button, viewBoard3Button;
+    /**
+     * The scene's texts
+     */
     @FXML
     public Text descriptionText;
 
@@ -1077,7 +1092,12 @@ public class GameBoardController implements GUIController {
 
                 //Handles effects and viewing. If viewing other players, only shows active cards
                 if (visualizedPlayer.equals(clientView.getUsername()) || (activeLeaderCards[i] && leaderCards.length <= 2)) {
-                    leaderChildren.get(i).getStyleClass().add("selectedCard");
+                    if (activeLeaderCards[i])
+                        leaderChildren.get(i).getStyleClass().add("selectedCard");
+                    else {
+                        leaderChildren.get(i).getStyleClass().clear();
+                        leaderChildren.get(i).getStyleClass().add("card");
+                    }
                     card = new Image("/graphics/front/" + leaderCards[i] + ".png");
                 } else {
                     card = new Image("/graphics/back/leadercardBack.png");

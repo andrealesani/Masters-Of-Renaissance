@@ -6,11 +6,29 @@ import model.Color;
  * This enum contains all javaFX scenes employed in the GUI
  */
 public enum SceneName {
+    /**
+     * The host and port selection screen
+     */
     HOST_AND_PORT,
+    /**
+     * The username and number of players selection screen
+     */
     SETTINGS,
+    /**
+     * The screen for waiting for a game's players to join
+     */
     WAITING,
+    /**
+     * The game board screen
+     */
     GAME_BOARD,
+    /**
+     * The production selection screen
+     */
     PRODUCTIONS,
+    /**
+     * The game over screen
+     */
     GAME_OVER;
 
     /**

@@ -4,7 +4,10 @@ package Exceptions;
  * This Exception is thrown when the production choice is attempted to be confirmed while there are still undefined jollies in input or output.
  */
 public class UndefinedJollyException extends Exception {
-    private String jollyLocation = null;
+    /**
+     * The location of the undefined jolly
+     */
+    private final String jollyLocation;
 
     /**
      * Constructor

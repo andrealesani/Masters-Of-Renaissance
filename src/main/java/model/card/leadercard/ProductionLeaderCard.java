@@ -49,6 +49,11 @@ public class ProductionLeaderCard extends LeaderCard {
      * @param requiredColor    CardColor of the DevelopmentCards required to activate this card
      * @param requiredLevel    minimum card level accepted by the requirements
      * @param requiredQuantity number of DevelopmentCards of the specified CardColor and level required to activate this card
+     * @param victoryPoints    the card's number of victory points
+     * @param inputType        the card's production input resource types
+     * @param inputQuantities  the card's production input resource quantities
+     * @param outputType       the card's production output resource types
+     * @param outputQuantities the card's production output resource quantities
      */
     public ProductionLeaderCard(int victoryPoints, CardColor requiredColor, int requiredLevel, int requiredQuantity,
                                 ResourceType[] inputType, int[] inputQuantities,
@@ -218,24 +223,24 @@ public class ProductionLeaderCard extends LeaderCard {
 
         String content = "";
 
-        switch(line) {
+        switch (line) {
 
             //Row 1
-            case 1 -> content +=    super.printLine(1);
+            case 1 -> content += super.printLine(1);
 
             //Row 2
-            case 2 -> content +=    super.printLine(2);
+            case 2 -> content += super.printLine(2);
 
             //Row 3
-            case 3 -> content +=    " Required card: " + requiredQuantity + " x " + requiredColor.iconPrint() +
-                                    " of level " + Color.RESOURCE_STD + requiredLevel + Color.RESET;
+            case 3 -> content += " Required card: " + requiredQuantity + " x " + requiredColor.iconPrint() +
+                    " of level " + Color.RESOURCE_STD + requiredLevel + Color.RESET;
 
             //Row 4
             case 4 -> {
                 content += " Production Input: ";
                 for (int i = 0; i < inputType.length; i++) {
                     if (inputQuantities[i] > 0)
-                        content +=  inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+                        content += inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
                 }
             }
 
@@ -244,7 +249,7 @@ public class ProductionLeaderCard extends LeaderCard {
                 content += " Production Output: ";
                 for (int i = 0; i < outputType.length; i++) {
                     if (outputQuantities[i] > 0)
-                        content +=  outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+                        content += outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
                 }
             }
 
@@ -262,12 +267,12 @@ public class ProductionLeaderCard extends LeaderCard {
     @Override
     public String toString() {
 
-        String content =    Color.HEADER + "Production Leader Card:" + Color.RESET +
-                            "\n";
+        String content = Color.HEADER + "Production Leader Card:" + Color.RESET +
+                "\n";
 
         for (int i = 1; i <= 5; i++)
-            content +=      printLine(i) +
-                            "\n";
+            content += printLine(i) +
+                    "\n";
 
         return content;
     }

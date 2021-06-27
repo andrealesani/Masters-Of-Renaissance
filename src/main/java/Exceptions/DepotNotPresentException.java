@@ -4,6 +4,9 @@ package Exceptions;
  * This Exception is thrown when an operation is attempted on a non-existent depot by using the wrong depot number.
  */
 public class DepotNotPresentException extends Exception {
+    /**
+     * The number of the missing depot
+     */
     private final int depotNumber;
 
     /**

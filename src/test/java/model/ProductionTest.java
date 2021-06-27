@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductionTest {
 
     @Test
-    void equals() {
+    public void equals() {
         List<Resource> input1 = new ArrayList<>();
         List<Resource> input2 = new ArrayList<>();
         List<Resource> output1 = new ArrayList<>();
@@ -22,9 +22,37 @@ class ProductionTest {
         output1.add(new ResourceFaith());
         output2.add(new ResourceShield());
 
-        assertTrue(new Production(-1, input1, output1).equals(new Production(-1, input1, output1)));
-        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input2, output2)));
-        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input1, output2)));
-        assertFalse(new Production(-1, input1, output1).equals(new Production(-1, input2, output1)));
+        assertEquals(new Production(-1, input1, output1), new Production(-1, input1, output1));
+        assertNotEquals(new Production(-1, input1, output1), new Production(-1, input2, output2));
+        assertNotEquals(new Production(-1, input1, output1), new Production(-1, input1, output2));
+        assertNotEquals(new Production(-1, input1, output1), new Production(-1, input2, output1));
+    }
+
+    @Test
+    public void defaultProduction() {
+        Production defaultProduction = new Production();
+
+        assertEquals(new ResourceJolly(), defaultProduction.getInput().get(0));
+        assertEquals(new ResourceJolly(), defaultProduction.getInput().get(1));
+        assertEquals(new ResourceJolly(), defaultProduction.getOutput().get(0));
+
+        assertEquals (2, defaultProduction.getInput().size());
+        assertEquals (1, defaultProduction.getOutput().size());
+        assertEquals (0, defaultProduction.getId());
+    }
+
+    @Test
+    public void selectAndUnselect() {
+        Production production = new Production(0, new ArrayList<>(), new ArrayList<>());
+
+        assertFalse(production.isSelectedByHandler());
+
+        production.select();
+
+        assertTrue(production.isSelectedByHandler());
+
+        production.unselect();
+
+        assertFalse(production.isSelectedByHandler());
     }
 }

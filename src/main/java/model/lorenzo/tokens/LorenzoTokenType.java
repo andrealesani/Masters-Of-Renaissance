@@ -7,12 +7,60 @@ import model.resource.ResourceType;
  * Enum used to indicate the type of a Lorenzo single player action token
  */
 public enum LorenzoTokenType {
-    SingleFaith { @Override public String toString() { return Color.RESOURCE_STD + "SINGLE_FAITH" + Color.RESET; }},
-    DoubleFaith { @Override public String toString() { return Color.RESOURCE_STD + "DOUBLE_FAITH" + Color.RESET; }},
-    RemoveBlue { @Override public String toString() { return Color.RESOURCE_STD + "REMOVE_BLUE" + Color.RESET; }},
-    RemoveGreen { @Override public String toString() { return Color.RESOURCE_STD + "REMOVE_GREEN" + Color.RESET; }},
-    RemovePurple { @Override public String toString() { return Color.RESOURCE_STD + "REMOVE_PURPLE" + Color.RESET; }},
-    RemoveYellow { @Override public String toString() { return Color.RESOURCE_STD + "REMOVE_YELLOW" + Color.RESET; }};
+    /**
+     * The token that adds one faith and restores the discarded ones
+     */
+    SingleFaith {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "SINGLE_FAITH" + Color.RESET;
+        }
+    },
+    /**
+     * The token that adds two faith
+     */
+    DoubleFaith {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "DOUBLE_FAITH" + Color.RESET;
+        }
+    },
+    /**
+     * The token that removes two blue cards from the card table
+     */
+    RemoveBlue {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "REMOVE_BLUE" + Color.RESET;
+        }
+    },
+    /**
+     * The token that removes two green cards from the card table
+     */
+    RemoveGreen {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "REMOVE_GREEN" + Color.RESET;
+        }
+    },
+    /**
+     * The token that removes two purple cards from the card table
+     */
+    RemovePurple {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "REMOVE_PURPLE" + Color.RESET;
+        }
+    },
+    /**
+     * The token that removes two yellow cards from the card table
+     */
+    RemoveYellow {
+        @Override
+        public String toString() {
+            return Color.RESOURCE_STD + "REMOVE_YELLOW" + Color.RESET;
+        }
+    };
 
     /**
      * Prints a String representation of the token's icon
@@ -22,7 +70,7 @@ public enum LorenzoTokenType {
     public String iconPrint() {
         String result = null;
 
-        switch(this) {
+        switch (this) {
             case DoubleFaith -> result = "+2" + Color.RED_LIGHT_FG + "┼" + Color.RESET;
             case SingleFaith -> result = "+1" + Color.RED_LIGHT_FG + "┼" + Color.RESET + "««";
             case RemoveBlue -> result = "-2x" + Color.LIGHT_BLUE_FG + "█" + Color.RESET;
@@ -42,7 +90,7 @@ public enum LorenzoTokenType {
     public String getTokenImage() {
         String result = null;
 
-        switch(this) {
+        switch (this) {
             case DoubleFaith -> result = "token_2faith.png";
             case SingleFaith -> result = "token_1faith_reset.png";
             case RemoveBlue -> result = "token_blue.png";

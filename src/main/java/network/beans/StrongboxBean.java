@@ -38,6 +38,7 @@ public class StrongboxBean implements Observer, PlayerBean {
      * Constructor
      *
      * @param controller the GameController for the bean's game
+     * @param username   the owner's username
      */
     public StrongboxBean(GameController controller, String username) {
         this.controller = controller;
@@ -103,10 +104,10 @@ public class StrongboxBean implements Observer, PlayerBean {
 
         String result = Color.HEADER + username + "'s strongbox:\n" + Color.RESET;
 
-        result +=   printLine(1) +
-                    "\n";
+        result += printLine(1) +
+                "\n";
 
-        return  result;
+        return result;
     }
 
     // GETTERS

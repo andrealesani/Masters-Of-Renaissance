@@ -6,9 +6,21 @@ import model.Color;
  * This enum contains all possible development card color
  */
 public enum CardColor {
+    /**
+     * The green card color
+     */
     GREEN,
+    /**
+     * The yellow card color
+     */
     YELLOW,
+    /**
+     * The blue card color
+     */
     BLUE,
+    /**
+     * The purple card color
+     */
     PURPLE;
 
     /**
@@ -19,7 +31,7 @@ public enum CardColor {
     public String colorPrint() {
         String result = null;
 
-        switch(this) {
+        switch (this) {
             case GREEN -> result = Color.GREEN_BG + this.toString() + Color.RESET;
             case YELLOW -> result = Color.YELLOW_DARK_BG + this.toString() + Color.RESET;
             case BLUE -> result = Color.BLUE_BG + this.toString() + Color.RESET;
@@ -37,7 +49,7 @@ public enum CardColor {
     public String iconPrint() {
         String result = null;
 
-        switch(this) {
+        switch (this) {
             case GREEN -> result = Color.GREEN_FG + "█" + Color.RESET;
             case YELLOW -> result = Color.YELLOW_LIGHT_FG + "█" + Color.RESET;
             case BLUE -> result = Color.LIGHT_BLUE_FG + "█" + Color.RESET;

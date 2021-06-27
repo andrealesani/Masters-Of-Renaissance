@@ -56,14 +56,14 @@ public class ProductionHandler implements Observable {
      * Removes the specified Production from the player's ProductionHandler
      *
      * @param production specifies the Production to be removed
+     * @throws ProductionNotPresentException if there is no production corresponding to the give number
      */
-    public void removeProduction(Production production) throws ProductionIsSelectedException, ProductionNotPresentException {
+    public void removeProduction(Production production) throws ProductionNotPresentException {
         if (production == null)
             throw new ParametersNotValidException();
         if (!productions.contains(production))
             throw new ProductionNotPresentException();
-        if (production.isSelectedByHandler())
-            throw new ProductionIsSelectedException();
+
         productions.remove(production);
 
         notifyObservers();
@@ -110,12 +110,14 @@ public class ProductionHandler implements Observable {
      * At the end of the turn, only selected Productions will be activated
      *
      * @param productionNumber indicates the position of the required production  inside the list
+     * @throws ProductionNotPresentException if there is no production corresponding to the given number
      */
     public void selectProduction(int productionNumber) throws ProductionNotPresentException {
         if (productionNumber < 1)
             throw new ParametersNotValidException();
         if (productionNumber > productions.size())
             throw new ProductionNotPresentException();
+
         productions.get(productionNumber - 1).select();
 
         updateCurrentInput();
@@ -127,17 +129,20 @@ public class ProductionHandler implements Observable {
      * At the end of the turn, only selected Productions will be activated
      *
      * @param productionID indicates the ID of the required production
+     * @throws ProductionNotPresentException if there is no production corresponding to the given id
      */
     public void selectProductionByID(int productionID) throws ProductionNotPresentException {
+
         for (Production production : productions) {
             if (production.getId() == productionID) {
                 production.select();
-                break;
+                updateCurrentInput();
+                updateCurrentOutput();
+                return;
             }
         }
 
-        updateCurrentInput();
-        updateCurrentOutput();
+        throw new ProductionNotPresentException();
     }
 
     /**
@@ -318,7 +323,7 @@ public class ProductionHandler implements Observable {
     /**
      * Restores the handler's current input
      *
-     * @param inputTypes an array of the input's resource types
+     * @param inputTypes      an array of the input's resource types
      * @param inputQuantities an array of the input's resource quantities
      */
     public void restoreCurrentInput(ResourceType[] inputTypes, int[] inputQuantities) {
@@ -333,7 +338,7 @@ public class ProductionHandler implements Observable {
     /**
      * Restores the handler's current output
      *
-     * @param outputTypes an array of the output's resource types
+     * @param outputTypes      an array of the output's resource types
      * @param outputQuantities an array of the output's resource quantities
      */
     public void restoreCurrentOutput(ResourceType[] outputTypes, int[] outputQuantities) {

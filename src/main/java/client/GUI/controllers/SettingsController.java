@@ -156,7 +156,7 @@ public class SettingsController implements GUIController {
     /**
      * Selects the four players options for the scene
      */
-    public void setFourPlayers(ActionEvent actionEvent) {
+    public void setFourPlayers() {
         fourPlayersButton.setDisable(true);
         twoPlayersButton.setVisible(false);
         threePlayersButton.setVisible(false);

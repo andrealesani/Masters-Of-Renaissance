@@ -49,8 +49,15 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor
      *
-     * @param level specifies the level of the card
-     * @param color specifies the color of the card
+     * @param level            the level of the card
+     * @param color            the color of the card
+     * @param victoryPoints    the card's victory points number
+     * @param costType         the types of the card's cost
+     * @param costQuantity     the amounts of the card's cost
+     * @param inputType        the types of the card's production's input
+     * @param inputQuantities  the amounts of the card's production's input
+     * @param outputType       the types of the card's production's output
+     * @param outputQuantities the amounts of the card's production's output
      */
     public DevelopmentCard(int victoryPoints, int level, CardColor color,
                            ResourceType[] costType, int[] costQuantity,
@@ -143,44 +150,44 @@ public class DevelopmentCard extends Card {
 
         String content = "";
 
-        switch(line) {
+        switch (line) {
 
             //Row 1
-            case 1 -> content +=    super.printLine(1);
+            case 1 -> content += super.printLine(1);
 
             //Row 2
-            case 2 -> content +=    super.printLine(2);
+            case 2 -> content += super.printLine(2);
 
             //Row 3
-            case 3 -> content +=    " Level: " + level;
+            case 3 -> content += " Level: " + level;
 
             //Row 4
-            case 4 -> content +=    " Color: " + color.colorPrint();
+            case 4 -> content += " Color: " + color.colorPrint();
 
             //Row 5
             case 5 -> {
-                content +=          " Cost: ";
+                content += " Cost: ";
                 for (int i = 0; i < costType.length; i++) {
                     if (costQuantity[i] > 0)
-                        content +=  costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
+                        content += costType[i].iconPrint() + " x " + costQuantity[i] + "  ";
                 }
             }
 
             //Row 6
             case 6 -> {
-                content +=          " Input: ";
+                content += " Input: ";
                 for (int i = 0; i < inputType.length; i++) {
                     if (inputQuantities[i] > 0)
-                        content +=  inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
+                        content += inputType[i].iconPrint() + " x " + inputQuantities[i] + "  ";
                 }
             }
 
             //Row 7
             case 7 -> {
-                content +=          " Output: ";
+                content += " Output: ";
                 for (int i = 0; i < outputType.length; i++) {
                     if (outputQuantities[i] > 0)
-                        content +=  outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
+                        content += outputType[i].iconPrint() + " x " + outputQuantities[i] + "  ";
                 }
             }
 
@@ -198,12 +205,12 @@ public class DevelopmentCard extends Card {
     @Override
     public String toString() {
 
-        String content =    Color.HEADER + "Development Card:" + Color.RESET +
-                            "\n";
+        String content = Color.HEADER + "Development Card:" + Color.RESET +
+                "\n";
 
         for (int i = 1; i <= 7; i++)
-            content +=      printLine(i) +
-                            "\n";
+            content += printLine(i) +
+                    "\n";
 
         return content;
     }

@@ -6,36 +6,57 @@ import model.Color;
  * This enum contains all possible types for the game's resources and marbles
  */
 public enum ResourceType {
+    /**
+     * The shield resource, and the blue marble
+     */
     SHIELD {
         public String toStringColored() {
             return Color.RESOURCE_STD + "SHIELD" + Color.RESET;
         }
     },
+    /**
+     * The stone resource, and the grey marble
+     */
     STONE {
         public String toStringColored() {
             return Color.RESOURCE_STD + "STONE" + Color.RESET;
         }
     },
+    /**
+     * The servant resource, and the purple marble
+     */
     SERVANT {
         public String toStringColored() {
             return Color.RESOURCE_STD + "SERVANT" + Color.RESET;
         }
     },
+    /**
+     * The coin resource, and the yellow marble
+     */
     COIN {
         public String toStringColored() {
             return Color.RESOURCE_STD + "COIN" + Color.RESET;
         }
     },
+    /**
+     * The faith special resource, and the red marble
+     */
     FAITH {
         public String toStringColored() {
             return Color.RESOURCE_STD + "FAITH" + Color.RESET;
         }
     },
+    /**
+     * The white marble
+     */
     WHITEORB {
         public String toStringColored() {
             return Color.RESOURCE_STD + "WHITEORB" + Color.RESET;
         }
     },
+    /**
+     * The prodcution's jolly resource, which can be converted into any basic resource (coin, servant, stone, shield)
+     */
     JOLLY {
         public String toStringColored() {
             return Color.RESOURCE_STD + "JOLLY" + Color.RESET;

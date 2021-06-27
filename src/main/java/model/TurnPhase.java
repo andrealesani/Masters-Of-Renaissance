@@ -4,10 +4,25 @@ package model;
  * This enum contains all possible phases for the players' turn
  */
 public enum TurnPhase {
+    /**
+     * The phase for choosing leader cards or bonus resources
+     */
     LEADERCHOICE,
+    /**
+     * The phase for choosing a specific game action
+     */
     ACTIONSELECTION,
+    /**
+     * The phase for choosing the destination for market resources
+     */
     MARKETDISTRIBUTION,
+    /**
+     * The phase for choosing from where to pay the resources for card purchasing
+     */
     CARDPAYMENT,
+    /**
+     * The phase for choosing from where to pay the resources for production activation
+     */
     PRODUCTIONPAYMENT;
 
     /**
@@ -26,7 +41,7 @@ public enum TurnPhase {
      */
     public String definitionPrint() {
         String result = null;
-        switch(this) {
+        switch (this) {
             case LEADERCHOICE -> result = "choose leaders";
             case ACTIONSELECTION -> result = "choose action";
             case MARKETDISTRIBUTION -> result = "store resources";

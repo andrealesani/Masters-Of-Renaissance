@@ -35,6 +35,7 @@ public class LeaderDepot implements ResourceDepot {
      *
      * @param size     the maximum number of resources the depot can contain
      * @param resource the only type of resource the depot can contain
+     * @param cardId   the card's id
      */
     public LeaderDepot(int size, ResourceType resource, int cardId) {
         if (size <= 0 || resource == null || !resource.canBeStored()) {

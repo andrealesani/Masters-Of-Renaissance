@@ -35,6 +35,9 @@ public class DepotLeaderCard extends LeaderCard {
      *
      * @param requiredResource ResourceType of the Resources required to activate this card
      * @param requiredQuantity number of Resources of the specified ResourceType required to activate this card
+     * @param victoryPoints    the card's victory points number
+     * @param storableResource the type of resource the leader's depot can store
+     * @param storableQuantity the amount of resource the leader's depot can store
      */
     public DepotLeaderCard(int victoryPoints, ResourceType requiredResource, int requiredQuantity, ResourceType storableResource, int storableQuantity) {
         super(victoryPoints);
@@ -137,28 +140,28 @@ public class DepotLeaderCard extends LeaderCard {
 
         String content = "";
 
-        switch(line) {
+        switch (line) {
 
             //Row 1
-            case 1 -> content +=    super.printLine(1);
+            case 1 -> content += super.printLine(1);
 
             //Row 2
-            case 2 -> content +=    super.printLine(2);
+            case 2 -> content += super.printLine(2);
 
             //Row 3
-            case 3 -> content +=    " Required resources: " + requiredResource.iconPrint() + " x " + requiredQuantity;
+            case 3 -> content += " Required resources: " + requiredResource.iconPrint() + " x " + requiredQuantity;
 
             //Row 4
             case 4 -> {
-                content +=          " Depot: " +
-                                    "[ ";
+                content += " Depot: " +
+                        "[ ";
 
                 for (int j = 0; j < storableQuantity; j++) {
-                    content +=      Color.GREY_LIGHT_FG + "■ " + Color.RESET;
+                    content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
                 }
 
-                content +=          "(" + storableResource.iconPrint() + ")" +
-                                    "]";
+                content += "(" + storableResource.iconPrint() + ")" +
+                        "]";
             }
 
             default -> content += "";
@@ -175,12 +178,12 @@ public class DepotLeaderCard extends LeaderCard {
     @Override
     public String toString() {
 
-        String content =    Color.HEADER + "Depot Leader Card:" + Color.RESET +
-                            "\n";
+        String content = Color.HEADER + "Depot Leader Card:" + Color.RESET +
+                "\n";
 
         for (int i = 1; i <= 4; i++)
-            content +=      printLine(i) +
-                            "\n";
+            content += printLine(i) +
+                    "\n";
 
         return content;
     }

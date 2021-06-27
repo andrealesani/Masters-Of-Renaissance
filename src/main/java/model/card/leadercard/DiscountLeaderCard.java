@@ -37,6 +37,7 @@ public class DiscountLeaderCard extends LeaderCard {
      * @param discount           number of Resources that get discounted to the player
      * @param requiredColors     CardColor of the DevelopmentCards required to activate this card
      * @param requiredQuantities number of DevelopmentCards of the specified CardColor required to activate this card
+     * @param victoryPoints      the card's number of victory points
      */
     public DiscountLeaderCard(int victoryPoints, ResourceType discountType, int discount, CardColor[] requiredColors, int[] requiredQuantities) {
         super(victoryPoints);
@@ -141,25 +142,25 @@ public class DiscountLeaderCard extends LeaderCard {
 
         String content = "";
 
-        switch(line) {
+        switch (line) {
 
             //Row 1
-            case 1 -> content +=    super.printLine(1);
+            case 1 -> content += super.printLine(1);
 
             //Row 2
-            case 2 -> content +=    super.printLine(2);
+            case 2 -> content += super.printLine(2);
 
             //Row 3
             case 3 -> {
-                content +=          " Required cards: ";
+                content += " Required cards: ";
                 for (int i = 0; i < requiredColors.length; i++) {
                     if (requiredQuantities[i] > 0)
-                        content +=  requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + " ";
+                        content += requiredColors[i].iconPrint() + " x " + requiredQuantities[i] + " ";
                 }
             }
 
             //Row 4
-            case 4 -> content +=    " Discount: " + "-" + discount + " x " + discountType.iconPrint();
+            case 4 -> content += " Discount: " + "-" + discount + " x " + discountType.iconPrint();
 
             default -> content += "";
         }
@@ -175,12 +176,12 @@ public class DiscountLeaderCard extends LeaderCard {
     @Override
     public String toString() {
 
-        String content =    Color.HEADER + "Discount Leader Card:" + Color.RESET +
-                            "\n";
+        String content = Color.HEADER + "Discount Leader Card:" + Color.RESET +
+                "\n";
 
         for (int i = 1; i <= 4; i++)
-            content +=      printLine(i) +
-                            "\n";
+            content += printLine(i) +
+                    "\n";
 
         return content;
     }

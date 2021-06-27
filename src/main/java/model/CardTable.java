@@ -35,6 +35,8 @@ public class CardTable implements Observable {
 
     /**
      * Constructor
+     *
+     * @param id the id of the last leader card
      */
     public CardTable(int id) {
 
@@ -95,6 +97,9 @@ public class CardTable implements Observable {
      * @param level       specifies the level of the card to be bought (STARTS FROM 1)
      * @param playerBoard specifies which player is buying the card
      * @param cardSlot    specifies in which production slot the player wants to put the card
+     * @throws SlotNotValidException      if the selected card slot can not accept the selected card
+     * @throws NotEnoughResourceException if the player does not have the necessary resources to purchase the card
+     * @throws EmptyDeckException         if there are no cards left of the selected color and level
      */
     public void buyTopCard(CardColor cardColor, int level, PlayerBoard playerBoard, int cardSlot) throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         if (cardColor == null || level < 1 || level > cards.get(cardColor).size() || cardSlot <= 0 || cardSlot > playerBoard.getCardSlots().size())
@@ -116,6 +121,7 @@ public class CardTable implements Observable {
      * Removes from the grid the card of the specified color with the lowest level (this method should only be called only in solo mode)
      *
      * @param cardColor specifies the color of the card that has to be removed
+     * @throws EmptyDeckException if there are no cards left of the selected color
      */
     public void discardTop(CardColor cardColor) throws EmptyDeckException {
         List<List<DevelopmentCard>> deckColumn = cards.get(cardColor);
@@ -220,7 +226,7 @@ public class CardTable implements Observable {
      *
      * @param cards the card table's DevelopmentCards, arranged in a Map of colors and Lists that act as decks
      */
-    public void restoreCards(Map<CardColor,List<List<model.card.DevelopmentCard>>> cards) {
+    public void restoreCards(Map<CardColor, List<List<model.card.DevelopmentCard>>> cards) {
         this.cards = cards;
     }
 

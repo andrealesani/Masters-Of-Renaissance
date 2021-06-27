@@ -11,6 +11,11 @@ public abstract class ActionToken {
 
     // CONSTRUCTOR
 
+    /**
+     * Constructor
+     *
+     * @param type the token's type
+     */
     public ActionToken(LorenzoTokenType type) {
         this.type = type;
     }

@@ -37,16 +37,28 @@ public class ProductionsController implements GUIController {
     private ClientView clientView;
 
     /**
-     * The graphical elements of this controller's scene
+     * The scene's image views
      */
     @FXML
     public ImageView inputCoin, inputServant, inputShield, inputStone, outputCoin, outputServant, outputShield, outputStone;
+    /**
+     * The scene's labels
+     */
     @FXML
     public Label inputJollyLabel, inputCoinLabel, inputServantLabel, inputShieldLabel, inputStoneLabel, outputJollyLabel, outputCoinLabel, outputServantLabel, outputShieldLabel, outputStoneLabel, outputFaithLabel;
+    /**
+     * The scene's buttons
+     */
     @FXML
     public Button closeWindowButton, confirmButton, resetButton;
+    /**
+     * The scene's grid panes
+     */
     @FXML
     public GridPane productionsGrid;
+    /**
+     * The scene's texts
+     */
     @FXML
     public Text descriptionText;
 
@@ -185,12 +197,12 @@ public class ProductionsController implements GUIController {
 
         int i = 0;
         //Set the spots corresponding to a productions to the select production method
-        for (; i < productions.length; i++){
+        for (; i < productions.length; i++) {
             int finalI = i + 1;
             productionsChildren.get(i).setOnMouseClicked(e -> selectProduction(finalI));
         }
         //Make the rest inert
-        for (; i < productionsChildren.size(); i++){
+        for (; i < productionsChildren.size(); i++) {
             productionsChildren.get(i).setOnMouseClicked(null);
         }
 
@@ -229,17 +241,8 @@ public class ProductionsController implements GUIController {
         boolean[] activeProductions = productionHandlerBean.getActiveProductions();
         List<Node> productionChildren = productionsGrid.getChildren();
 
-        //Base production
-        ((ImageView) productionChildren.get(0)).setImage(new Image("/graphics/BaseProductionCard.png"));
-        if (activeProductions[0])
-            productionChildren.get(0).getStyleClass().add("selectedCard");
-        else {
-            productionChildren.get(0).getStyleClass().clear();
-            productionChildren.get(0).getStyleClass().add("card");
-        }
-
         //The rest of productions
-        for (int i = 1; i < productionChildren.size(); i++) {
+        for (int i = 0; i < productionChildren.size(); i++) {
             Image card;
             if (i < productions.length) {
                 card = new Image("/graphics/front/" + productions[i] + ".png");

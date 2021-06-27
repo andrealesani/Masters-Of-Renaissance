@@ -179,6 +179,11 @@ public class GUI extends Application {
         out.println(gson.toJson(command));
     }
 
+    /**
+     * Sets up the connection with the server
+     *
+     * @param clientSocket the socket for the server connection
+     */
     public void setupConnection(Socket clientSocket) {
         this.clientSocket = clientSocket;
         try {

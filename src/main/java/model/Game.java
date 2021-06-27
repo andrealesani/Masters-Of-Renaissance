@@ -88,6 +88,8 @@ public class Game implements UserCommandsInterface, Observable {
 
     /**
      * Constructor
+     *
+     * @param nicknames the game's players' usernames
      */
     public Game(Set<String> nicknames) {
         market = new Market();

@@ -6,6 +6,9 @@ import model.resource.ResourceType;
  * This Exception is thrown when a white orb is asked to be converted into a resource for which a conversion is not available
  */
 public class ConversionNotAvailableException extends Exception {
+    /**
+     * The resource into which the white marble was attempted to be converted
+     */
     private final ResourceType conversion;
 
     /**

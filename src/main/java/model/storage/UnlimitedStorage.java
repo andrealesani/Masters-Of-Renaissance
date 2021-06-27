@@ -22,6 +22,9 @@ public class UnlimitedStorage implements ResourceStash, Observable {
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor
+     */
     public UnlimitedStorage() {
         notifyObservers();
     }
