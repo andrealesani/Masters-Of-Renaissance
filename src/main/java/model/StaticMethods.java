@@ -7,9 +7,7 @@ import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
 
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -115,7 +113,7 @@ public class StaticMethods {
     public static void createDecksFromJSON(List<List<DevelopmentCard>> colorCards, CardColor color) {
         List<DevelopmentCard> cards = StaticMethods.getDevelopmentCardsFromJson();
         for (int i = 0; i < 3; i++) {
-            colorCards.add(new ArrayList<DevelopmentCard>());
+            colorCards.add(new ArrayList<>());
         }
         for (DevelopmentCard developmentCard : cards) {
             if (developmentCard.getColor() == color) {
@@ -139,14 +137,9 @@ public class StaticMethods {
         Gson gson = new Gson();
         List<PersistenceHandler> games = new ArrayList<>();
         Reader reader;
-        Map gamesInfo = new HashMap();
 
-        try {
-            reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
-            gamesInfo = gson.fromJson(reader, Map.class);
-        } catch (Exception e) {
-            System.err.println("Warning: couldn't read from savedGamesInfo.json");
-        }
+        Map gamesInfo = getSavedGamesInfo(gson);
+
         System.out.println("Found info file with " + ((Double) gamesInfo.get("maxId")).intValue() + " maxId");
 
         for (int i = 1; i <= ((Double) gamesInfo.get("maxId")).intValue(); i++) {
@@ -183,14 +176,8 @@ public class StaticMethods {
      */
     public static int findFirstFreePersistenceId() {
         Gson gson = new Gson();
-        Reader reader;
-        Map gamesInfo = new HashMap();
 
-        try {
-            reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
-            gamesInfo = gson.fromJson(reader, Map.class);
-        } catch (Exception e) {
-        }
+        Map gamesInfo = getSavedGamesInfo(gson);
 
         return ((Double) gamesInfo.get("maxId")).intValue() + 1;
 
@@ -207,5 +194,45 @@ public class StaticMethods {
                 return i;
         }
         throw new RuntimeException("Server has more than 1000 saved games");*/
+    }
+
+    // PRIVATE METHODS
+
+    /**
+     * Creates a new savedGamesInfo file
+     *
+     * @param gson the json serializer
+     */
+    private static Map getSavedGamesInfo(Gson gson) {
+
+        try {
+            new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"));
+            System.out.println("Saved games info file correctly found.");
+        } catch (Exception ex) {
+
+            System.out.println("Couldn't read from savedGamesInfo.json, generating a new one.");
+
+            try {
+                PrintWriter writer = new PrintWriter("src/main/resources/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
+                Map file = new HashMap<>();
+                file.put("maxId", 0);
+                writer.print(gson.toJson(file));
+                writer.close();
+            } catch (IOException e) {
+                System.err.println("Warning: couldn't create savedGamesInfo file.");
+                e.printStackTrace();
+            }
+        }
+
+        InputStreamReader reader = null;
+
+        try {
+            reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
+        } catch (Exception ex) {
+            System.err.println("Something went wrong while accessing the savedGamesInfo file.");
+            ex.printStackTrace();
+        }
+
+        return gson.fromJson(reader, Map.class);
     }
 }

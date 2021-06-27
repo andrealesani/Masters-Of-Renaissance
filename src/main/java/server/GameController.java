@@ -325,7 +325,10 @@ public class GameController {
 
         game = new Game(players.keySet());
         game.createBeans(this);
+
         persistenceHandler = new PersistenceHandler();
+        persistenceHandler.saveGame(game);
+
         System.out.println("The game will now start.");
     }
 
