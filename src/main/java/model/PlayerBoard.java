@@ -376,8 +376,10 @@ public class PlayerBoard implements Observable {
         if (cardLevel > 1) {
             try {
                 productionHandler.removeProduction(requestedSlot.get(requestedSlot.size() - 1).getProduction());
-            } catch (ProductionIsSelectedException | ProductionNotPresentException e) {
-                e.printStackTrace();
+            } catch (ProductionNotPresentException ex) {
+                //This should never happen
+                System.err.println("The player board was not able to find the production of the covered card to delete it.");
+                ex.printStackTrace();
             }
         }
 
