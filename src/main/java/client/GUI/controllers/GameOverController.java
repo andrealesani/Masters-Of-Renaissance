@@ -78,12 +78,8 @@ public class GameOverController implements GUIController {
         winnerNameLabel.setText(gameBean.getWinner());
 
         //Winner victory points
-        if (gameBean.getTurnOrder().length == 1) {
-            winnerScorePane.setVisible(false);
-        } else {
-            winnerScorePane.setVisible(true);
-            victoryPointsLabel.setText(Integer.toString(gameBean.getWinnerVp()));
-        }
+        winnerScorePane.setVisible(true);
+        victoryPointsLabel.setText(Integer.toString(gameBean.getWinnerVp()));
 
         //Title
         if (gameBean.getWinner().equals(gui.getClientView().getUsername())) {
