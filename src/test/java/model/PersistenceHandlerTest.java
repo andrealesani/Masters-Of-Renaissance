@@ -47,7 +47,7 @@ class PersistenceHandlerTest {
 
         persistenceHandler.saveGame(game);
 
-        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/savedGames/game" + persistenceHandler.getId() + ".json"), StandardCharsets.UTF_8);
+        Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/savedGames/game" + 1 + ".json"), StandardCharsets.UTF_8);
         String og_game = gson.fromJson(reader, PersistenceHandler.class).toString();
         game = persistenceHandler.restoreGame();
 

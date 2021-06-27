@@ -15,7 +15,9 @@ import model.storage.Warehouse;
 import network.beans.SlotBean;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -175,6 +177,17 @@ public class PersistenceHandler {
         } catch (IOException e) {
             System.err.println("Warning: couldn't save game to file.");
         }
+        try {
+            PrintWriter writer = new PrintWriter("src/main/resources/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
+            Map gamesInfo = new HashMap();
+            gamesInfo.put("maxId", id);
+            writer.print(gson.toJson(gamesInfo, Map.class));
+            writer.close();
+        } catch (Exception e) {
+            System.err.println("Warning: couldn't update savedGamesInfo.json");
+        }
+
+        System.out.println("Saved game with id " + id);
     }
 
     /**
@@ -612,7 +625,7 @@ public class PersistenceHandler {
     /**
      * Restores the game's AI
      *
-     * @param game  the restored Game class
+     * @param game the restored Game class
      */
     private void restoreLorenzo(Game game) {
         Lorenzo lorenzo = (Lorenzo) game.getLorenzo();

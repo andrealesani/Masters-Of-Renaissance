@@ -12,8 +12,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class used for keeping general purpose static methods
@@ -140,17 +139,22 @@ public class StaticMethods {
         Gson gson = new Gson();
         List<PersistenceHandler> games = new ArrayList<>();
         Reader reader;
+        Map gamesInfo = new HashMap();
 
         try {
-            File folder = new File("src/main/resources/savedGames");
-
-            for (final File gameFile : folder.listFiles()) {
-                String fileName = gameFile.getName();
-                reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/" + fileName), StandardCharsets.UTF_8);
-                games.add(gson.fromJson(reader, PersistenceHandler.class));
-            }
+            reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
+            gamesInfo = gson.fromJson(reader, Map.class);
         } catch (Exception e) {
-            throw new GameDataNotFoundException();
+            System.err.println("Warning: couldn't read from savedGamesInfo.json");
+        }
+        System.out.println("Found info file with " + ((Double) gamesInfo.get("maxId")).intValue() + " maxId");
+
+        for (int i = 1; i <= ((Double) gamesInfo.get("maxId")).intValue(); i++) {
+            try {
+                reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/game" + i + ".json"), StandardCharsets.UTF_8);
+                games.add(gson.fromJson(reader, PersistenceHandler.class));
+            } catch (Exception ignored) {
+            }
         }
 
         return games;
@@ -178,7 +182,19 @@ public class StaticMethods {
      * @return the first free Id
      */
     public static int findFirstFreePersistenceId() {
-        File folder = new File("src/main/resources/savedGames");
+        Gson gson = new Gson();
+        Reader reader;
+        Map gamesInfo = new HashMap();
+
+        try {
+            reader = new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"), StandardCharsets.UTF_8);
+            gamesInfo = gson.fromJson(reader, Map.class);
+        } catch (Exception e) {
+        }
+
+        return ((Double) gamesInfo.get("maxId")).intValue() + 1;
+
+        /*File folder = new File("src/main/resources/savedGames");
 
         for (int i = 1; i <= 1000; i++) {
             boolean isFree = true;
@@ -190,6 +206,6 @@ public class StaticMethods {
             if (isFree)
                 return i;
         }
-        throw new RuntimeException("Server has more than 1000 saved games");
+        throw new RuntimeException("Server has more than 1000 saved games");*/
     }
 }
