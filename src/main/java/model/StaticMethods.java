@@ -140,20 +140,26 @@ public class StaticMethods {
         Reader reader;
 
         String jarPath = getJarPath();
-        Map gamesInfo = getSavedGamesInfo(jarPath);
 
-        System.out.println("Found info file with " + ((Double) gamesInfo.get("maxId")).intValue() + " maxId");
 
-        for (int i = 1; i <= ((Double) gamesInfo.get("maxId")).intValue(); i++) {
+        File folder = new File(jarPath + "/savedGames");
+        if (!folder.exists()){
+            if (!folder.mkdirs())
+                System.err.println("Unable to create /savedGames folder.");
+            else
+                System.out.println("Created a new /savedGames folder as there was none.");
+        }
+
+        for (final File gameFile : folder.listFiles()) {
+            String fileName = gameFile.getName();
             try {
-                FileInputStream file = new FileInputStream(jarPath + "/savedGames/game" + i + ".json");
+                FileInputStream file = new FileInputStream(jarPath + "/savedGames/" + fileName);
                 reader = new InputStreamReader(file, StandardCharsets.UTF_8);
                 games.add(gson.fromJson(reader, PersistenceHandler.class));
                 reader.close();
                 file.close();
             } catch (FileNotFoundException ex) {
-                System.err.println("Cannot find file /savedGames/game" + i + ".json");
-                ex.printStackTrace();
+                System.err.println("Cannot find file /savedGames/" + fileName);
             } catch (IOException ex) {
                 System.err.println("Failure in closing reader or file.");
                 ex.printStackTrace();
@@ -187,28 +193,16 @@ public class StaticMethods {
      * @return the first free Id
      */
     public static int findFirstFreePersistenceId() {
-        Gson gson = new Gson();
 
         String jarPath = getJarPath();
-        Map gamesInfo = getSavedGamesInfo(jarPath);
 
-        try {
-            FileInputStream file = new FileInputStream(jarPath + "/savedGames/savedGamesInfo.json");
-            Reader reader = new InputStreamReader(file, StandardCharsets.UTF_8);
-            gamesInfo = gson.fromJson(reader, Map.class);
-            reader.close();
-            file.close();
-        } catch (FileNotFoundException ex) {
-            System.err.println("Cannot find file /savedGames/savedGamesInfo.json");
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            System.err.println("Failure in closing reader or file.");
-            ex.printStackTrace();
+        File folder = new File(jarPath + "/savedGames");
+        if (!folder.exists()){
+            if (!folder.mkdirs())
+                System.err.println("Unable to create /savedGames folder.");
+            else
+                System.out.println("Created a new /savedGames folder as there was none.");
         }
-
-        return ((Double) gamesInfo.get("maxId")).intValue() + 1;
-
-        /*File folder = new File("src/main/resources/savedGames");
 
         for (int i = 1; i <= 1000; i++) {
             boolean isFree = true;
@@ -220,31 +214,7 @@ public class StaticMethods {
             if (isFree)
                 return i;
         }
-        throw new RuntimeException("Server has more than 1000 saved games");*/
-    }
-
-    /**
-     * Updates the savedGamesInfo.json file if the new game has an ID that is bigger than the saved one
-     *
-     * @param id the ID to confront with the saved one
-     */
-    public static void updateMaxId(int id) {
-        Gson gson = new Gson();
-
-        String jarPath = getJarPath();
-
-        try {
-            PrintWriter writer = new PrintWriter(jarPath + "/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
-            Map gamesInfo = new HashMap();
-            gamesInfo.put("maxId", id);
-            writer.print(gson.toJson(gamesInfo, Map.class));
-            writer.close();
-        } catch (Exception e) {
-            System.err.println("Warning: couldn't update savedGamesInfo.json");
-            e.printStackTrace();
-        }
-
-        System.out.println("Saved game with id " + id);
+        throw new RuntimeException("Server has more than 1000 saved games");
     }
 
     /**
@@ -255,6 +225,7 @@ public class StaticMethods {
     public static void saveGameOnDisk(PersistenceHandler persistenceHandler) {
         Gson gson = new Gson();
         int id = persistenceHandler.getId();
+
         String jarPath = getJarPath();
 
         try {
@@ -270,52 +241,6 @@ public class StaticMethods {
     // PRIVATE METHODS
 
     /**
-     * Creates a new savedGamesInfo file
-     */
-    private static Map getSavedGamesInfo(String jarPath) {
-        Gson gson = new Gson();
-
-        /*
-        try {
-            new InputStreamReader(StaticMethods.class.getResourceAsStream("/savedGames/savedGamesInfo.json"));
-            System.out.println("Saved games info file correctly found.");
-        } catch (Exception ex) {
-
-            System.out.println("Couldn't read from savedGamesInfo.json, generating a new one.");
-
-            try {
-                PrintWriter writer = new PrintWriter("src/main/resources/savedGames/savedGamesInfo.json", StandardCharsets.UTF_8);
-                Map file = new HashMap<>();
-                file.put("maxId", 0);
-                writer.print(gson.toJson(file));
-                writer.close();
-            } catch (IOException e) {
-                System.err.println("Warning: couldn't create savedGamesInfo file.");
-                e.printStackTrace();
-            }
-        }
-         */
-
-        Map gamesInfo = null;
-
-        try {
-            FileInputStream file = new FileInputStream(jarPath + "/savedGames/savedGamesInfo.json");
-            Reader reader = new InputStreamReader(file, StandardCharsets.UTF_8);
-            gamesInfo = gson.fromJson(reader, Map.class);
-            reader.close();
-            file.close();
-        } catch (FileNotFoundException ex) {
-            System.err.println("Cannot find file /savedGames/savedGamesInfo.json");
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            System.err.println("Failure in closing reader or file.");
-            ex.printStackTrace();
-        }
-
-        return gamesInfo;
-    }
-
-    /**
      * Returns the path to the jar file
      *
      * @return the path to the jar file
@@ -325,3 +250,4 @@ public class StaticMethods {
         return jarPath.getParentFile().getAbsolutePath();
     }
 }
+

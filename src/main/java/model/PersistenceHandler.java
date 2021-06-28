@@ -149,7 +149,6 @@ public class PersistenceHandler {
      * @param game the Game to be saved
      */
     public void saveGame(Game game) {
-        Gson gson = new Gson();
         if (game == null)
             throw new ParametersNotValidException();
 
@@ -166,7 +165,6 @@ public class PersistenceHandler {
         if (id == 0)
             id = StaticMethods.findFirstFreePersistenceId();
         StaticMethods.saveGameOnDisk(this);
-        StaticMethods.updateMaxId(id);
     }
 
     /**
@@ -664,7 +662,7 @@ public class PersistenceHandler {
     // GETTERS
 
     /**
-     * Returns the handler's (and its game's) id, used in naming the corresponding file
+     * Returns the handler's id, used in naming the corresponding file
      *
      * @return the persistence handler's id
      */
