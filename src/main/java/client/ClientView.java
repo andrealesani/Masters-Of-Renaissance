@@ -269,6 +269,8 @@ public class ClientView {
      * @return the formatted String
      */
     public String drawGlobalGameElements() {
+        int offsetFirstColumn = 31;
+        int offsetSecondColumn = 90;
 
         if (market == null || cardTable == null)
             return "All global game information has yet to arrive." + "\n";
@@ -277,9 +279,9 @@ public class ClientView {
 
         //Row 1
         content += Color.HEADER + "Market: " + Color.RESET;
-        content += fillBetweenColumns(content, 30) +
+        content += fillBetweenColumns(content, offsetFirstColumn - 1) +
                 Color.HEADER + "CardTable: " + Color.RESET;
-        content += fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, offsetSecondColumn);
 
         if (lorenzo != null)
             content += Color.HEADER + "Lorenzo: " + Color.RESET;
@@ -288,9 +290,9 @@ public class ClientView {
 
         //Row 2
         content += market.printLine(1);
-        content += fillBetweenColumns(content, 31) +
+        content += fillBetweenColumns(content, offsetFirstColumn) +
                 cardTable.printLine(1);
-        content += fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, offsetSecondColumn);
 
         if (lorenzo != null)
             content += lorenzo.printLine(1);
@@ -299,9 +301,9 @@ public class ClientView {
 
         //Row 3
         content += market.printLine(2);
-        content += fillBetweenColumns(content, 31) +
+        content += fillBetweenColumns(content, offsetFirstColumn) +
                 cardTable.printLine(2);
-        content += fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, offsetSecondColumn);
 
         if (lorenzo != null)
             content += lorenzo.printLine(2);
@@ -310,9 +312,9 @@ public class ClientView {
 
         //Row 4
         content += market.printLine(3);
-        content += fillBetweenColumns(content, 31) +
+        content += fillBetweenColumns(content, offsetFirstColumn) +
                 cardTable.printLine(3);
-        content += fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, offsetSecondColumn);
 
         if (lorenzo != null)
             content += lorenzo.printLine(3);
@@ -333,6 +335,7 @@ public class ClientView {
      * @return the formatted String
      */
     public String drawPlayerSpecificGameElements(String username) {
+        int offsetColumn = 90;
 
         PlayerBoardBean playerBoardBean = getPlayerBoard(username);
         WarehouseBean warehouseBean = getWarehouse(username);
@@ -347,12 +350,12 @@ public class ClientView {
 
         //Row 1
         content += Color.HEADER + playerBoardBean.getUsername() + "'s playerBoard: " + Color.RESET;
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 Color.HEADER + "Warehouse: " + Color.RESET +
                 "\n";
 
         //Row 2
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 warehouseBean.printLine(1) +
                 "\n";
 
@@ -362,12 +365,12 @@ public class ClientView {
 
         //Row 4
         content += playerBoardBean.printLine(2);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 Color.HEADER + "Strongbox: " + Color.RESET +
                 "\n";
 
         //Row 5
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 strongboxBean.printLine(1) +
                 "\n";
 
@@ -377,25 +380,25 @@ public class ClientView {
 
         //Row 7
         content += playerBoardBean.printLine(4);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 Color.HEADER + "Available productions: " + Color.RESET +
                 "\n";
 
         //Row 8
         content += playerBoardBean.printLine(5);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 productionHandlerBean.printLine(1) +
                 "\n";
 
         //Row 9
         content += playerBoardBean.printLine(6);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 productionHandlerBean.printLine(2) +
                 "\n";
 
         //Row 10
         content += playerBoardBean.printLine(7);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 productionHandlerBean.printLine(3) +
                 "\n";
 
@@ -405,7 +408,7 @@ public class ClientView {
 
         //Row 12
         content += playerBoardBean.printLine(9);
-        content += fillBetweenColumns(content, 80) +
+        content += fillBetweenColumns(content, offsetColumn) +
                 Color.HEADER;
 
         //determines the header for the waiting room
@@ -424,7 +427,7 @@ public class ClientView {
         if (playerBoardBean.getUsername().equals(this.username) || playerBoardBean.getLeaderCards().length <= 2)
             content += playerBoardBean.printLine(10, this.username);
 
-        content += fillBetweenColumns(content, 80);
+        content += fillBetweenColumns(content, offsetColumn);
 
         if (game.getCurrentPlayer().equals(playerBoardBean.getUsername()) && game.getTurnPhase() != TurnPhase.ACTIONSELECTION)
             content += waitingRoomBean.printLine(1);

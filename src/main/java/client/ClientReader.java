@@ -117,12 +117,12 @@ public class ClientReader implements Runnable {
             switch (response.getType()) {
 
                 case INFO, WAIT_PLAYERS -> {
-                    notifyViewUpdate(response);
+                    notifyGui(response);
                     System.out.println(response.getMessage());
                 }
 
                 case ERROR -> {
-                    notifyViewUpdate(response);
+                    notifyGui(response);
                     System.err.println(response.getMessage());
                 }
 
@@ -132,18 +132,18 @@ public class ClientReader implements Runnable {
                 }
 
                 case GAME_START, GAME_END -> {
-                    System.out.println(response.getMessage());
                     notifyViewUpdate(response);
+                    System.out.println(response.getMessage());
                 }
 
                 case PLAYER_CONNECTED -> {
-                    System.out.println("Player " + response.getMessage() + " has joined the game.\n");
                     notifyViewUpdate(response);
+                    System.out.println("Player " + response.getMessage() + " has joined the game.\n");
                 }
 
                 case PLAYER_DISCONNECTED -> {
-                    System.out.println("Player " + response.getMessage() + " has left the game.\n");
                     notifyViewUpdate(response);
+                    System.out.println("Player " + response.getMessage() + " has left the game.\n");
                 }
 
                 case GAME -> {
@@ -206,7 +206,7 @@ public class ClientReader implements Runnable {
     //PRIVATE NOTIFICATION METHODS
 
     /**
-     * This method notifies either the CLI or the GUI that something in the ClientView has changed and forwards the
+     * Notifies either the CLI or the GUI that something in the ClientView has changed and forwards the
      * update message to the one that is currently being used as View
      *
      * @param response the message received from the server
@@ -218,6 +218,18 @@ public class ClientReader implements Runnable {
             System.out.println(clientView);
         } else {
             //If in GUI mode, forward the message to the GUI
+            Platform.runLater(() -> gui.notifyCurrentScene(response));
+            System.out.println("Notified GUI");
+        }
+    }
+
+    /**
+     * Notifies the GUI that a ClientView element has changed
+     *
+     * @param response the message received from the server
+     */
+    private void notifyGui(MessageWrapper response) {
+        if (gui != null) {
             Platform.runLater(() -> gui.notifyCurrentScene(response));
             System.out.println("Notified GUI");
         }
