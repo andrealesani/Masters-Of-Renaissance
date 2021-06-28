@@ -324,12 +324,4 @@ public class StaticMethods {
         File jarPath = new File(Server.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         return jarPath.getParentFile().getAbsolutePath();
     }
-
-    /**
-     *
-     * @return
-     */
-    private static FileInputStream getInputStream(String path) {
-
-    }
 }
