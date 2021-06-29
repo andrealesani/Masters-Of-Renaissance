@@ -201,7 +201,7 @@ public class StaticMethods {
     }
 
     /**
-     * Saves the game in a JSON file named 'game<id>.json' inside the savedGames folder
+     * Saves the game in a JSON file named 'game + id + .json' inside the savedGames folder
      *
      * @param persistenceHandler is the game's PersistenceHandler
      */

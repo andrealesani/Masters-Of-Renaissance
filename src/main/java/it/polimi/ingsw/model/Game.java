@@ -1053,6 +1053,14 @@ public class Game implements UserCommandsInterface, Observable {
     }
 
     //PERSISTENCE METHODS
+
+    /**
+     * Returns the development card corresponding to a specific id
+     *
+     * @param id the card's id
+     * @return the development card with the given id
+     * @throws CardNotPresentException if there is no development card corresponding to the given id
+     */
     public DevelopmentCard findDevelopmentCardById(int id) throws CardNotPresentException {
         for (DevelopmentCard developmentCard : developmentCards) {
             if (developmentCard.getId() == id) {
