@@ -3,7 +3,7 @@ package model;
 import Exceptions.ParametersNotValidException;
 import model.card.CardColor;
 import model.card.DevelopmentCard;
-import model.card.leadercard.*;
+import model.card.leadercard.LeaderCard;
 import model.lorenzo.Lorenzo;
 import model.lorenzo.tokens.ActionToken;
 import model.lorenzo.tokens.LorenzoTokenType;
@@ -13,7 +13,9 @@ import model.storage.UnlimitedStorage;
 import model.storage.Warehouse;
 import network.beans.SlotBean;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static model.resource.ResourceType.*;

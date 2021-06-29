@@ -233,6 +233,7 @@ public class StaticMethods {
             PrintWriter writer = new PrintWriter(jarPath + "/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
             writer.print(gson.toJson(persistenceHandler));
             writer.close();
+            System.out.println("Saved game with ID " + id);
         } catch (IOException e) {
             System.err.println("Warning: couldn't save game to file.");
             e.printStackTrace();
