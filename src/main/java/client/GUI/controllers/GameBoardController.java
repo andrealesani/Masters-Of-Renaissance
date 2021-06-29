@@ -5,6 +5,7 @@ import client.GUI.SceneName;
 import client.GUI.SimplePopup;
 import client.GUI.GUI;
 import client.GUI.AdvancedPopup;
+import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,7 +23,8 @@ import model.TurnPhase;
 import model.lorenzo.tokens.LorenzoTokenType;
 import model.resource.ResourceType;
 import network.Command;
-import network.ServerMessageType;
+import network.MessageType;
+import network.MessageWrapper;
 import network.UserCommandsType;
 import network.beans.*;
 
@@ -42,6 +44,10 @@ public class GameBoardController implements GUIController {
      * The object used to store all of the client's information
      */
     private ClientView clientView;
+    /**
+     * The json serializer
+     */
+    private Gson gson;
 
     /**
      * The color used for connected players in the turn order display
@@ -95,9 +101,10 @@ public class GameBoardController implements GUIController {
     //CONSTRUCTORS
 
     /**
-     * Handles initialization for this class by setting the used colors
+     * Handles initialization for this class by setting the used colors and creating the class' serializer
      */
     public void initialize() {
+        gson = new Gson();
         this.turnOrderConnectedColor = Color.web("0xE1D892");
         this.turnOrderDisconnectedColor = Color.web("0xDFDCDC");
     }
@@ -144,8 +151,8 @@ public class GameBoardController implements GUIController {
             case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(response);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(response);
-            case PLAYER_CONNECTED -> SimplePopup.display(ServerMessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
-            case PLAYER_DISCONNECTED -> SimplePopup.display(ServerMessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
+            case PLAYER_CONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
+            case PLAYER_DISCONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
             default -> System.out.println("Warning: received unexpected message " + response);
         }
     }
@@ -190,7 +197,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -203,7 +210,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -216,7 +223,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.playLeaderCard, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -229,7 +236,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.discardLeaderCard, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -242,7 +249,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketRow, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -255,7 +262,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketColumn, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -270,7 +277,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -287,7 +294,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.sendResourceToDepot, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -306,7 +313,7 @@ public class GameBoardController implements GUIController {
         depots[1] = depotNumber2;
         parameters.put("depots", depots);
         Command command = new Command(UserCommandsType.swapDepotContent, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -337,7 +344,7 @@ public class GameBoardController implements GUIController {
         parameters.put("color", cardColor);
         parameters.put("level", level);
         Command command = new Command(UserCommandsType.takeDevelopmentCard, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -356,7 +363,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromWarehouse, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -373,7 +380,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromStrongbox, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -384,7 +391,7 @@ public class GameBoardController implements GUIController {
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     //PRIVATE BUTTON HANDLING METHODS
@@ -877,10 +884,10 @@ public class GameBoardController implements GUIController {
         //Alerts the player if it is now their turn and previously was not
         if (currPlayer.equals(clientView.getUsername()) && !currPlayer.equals(previousPlayer))
             if (isLastTurn) {
-                SimplePopup.display(ServerMessageType.INFO, "It's your turn to act! This is your last turn.");
+                SimplePopup.display(MessageType.INFO, "It's your turn to act! This is your last turn.");
                 lastTurnLabel.setVisible(true);
             } else {
-                SimplePopup.display(ServerMessageType.INFO, "It's your turn to act!");
+                SimplePopup.display(MessageType.INFO, "It's your turn to act!");
                 lastTurnLabel.setVisible(false);
             }
         previousPlayer = (currPlayer);

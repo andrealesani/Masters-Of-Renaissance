@@ -11,12 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import network.Command;
-import network.beans.MessageWrapper;
+import network.MessageType;
+import network.MessageWrapper;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
@@ -163,20 +163,11 @@ public class GUI extends Application {
      * This method sends a string message to the server.
      * It is supposed to be called from the scenes' controllers
      *
+     * @param type the type of the message to be sent
      * @param message the command to be sent
      */
-    public void sendMessage(String message) {
-        out.println(message);
-    }
-
-    /**
-     * This method sends a command to the server.
-     * It is supposed to be called from the scenes' controllers
-     *
-     * @param command the command to be sent
-     */
-    public void sendCommand(Command command) {
-        out.println(gson.toJson(command));
+    public void sendMessage(MessageType type, String message) {
+        out.println(gson.toJson(new MessageWrapper(type, message)));
     }
 
     /**

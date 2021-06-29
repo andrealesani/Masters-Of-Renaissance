@@ -6,7 +6,7 @@ import model.Color;
 import model.Observer;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 import static model.resource.ResourceType.*;
@@ -57,7 +57,7 @@ public class StrongboxBean implements Observer, PlayerBean {
         UnlimitedStorage strongbox = (UnlimitedStorage) observable;
         setQuantityFromStrongbox(strongbox);
 
-        controller.broadcastMessage(ServerMessageType.STRONGBOX, gson.toJson(this));
+        controller.broadcastMessage(MessageType.STRONGBOX, gson.toJson(this));
     }
 
     /**
@@ -67,7 +67,7 @@ public class StrongboxBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.STRONGBOX, gson.toJson(this));
+        controller.playerMessage(username, MessageType.STRONGBOX, gson.toJson(this));
     }
 
     // PRINTING METHODS

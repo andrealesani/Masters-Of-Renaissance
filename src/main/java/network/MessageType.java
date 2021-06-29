@@ -3,8 +3,8 @@ package network;
 /**
  * This enum contains all possible types of messages sent by the server to the client
  */
-public enum ServerMessageType {
-    //View update messages
+public enum MessageType {
+    //Server view update messages
     /**
      * The game status data
      */
@@ -42,7 +42,7 @@ public enum ServerMessageType {
      */
     PRODUCTIONHANDLER,
 
-    //Informative messages
+    //Server informative messages
     /**
      * Informative messages
      */
@@ -52,7 +52,7 @@ public enum ServerMessageType {
      */
     ERROR,
 
-    //Event signaling messages
+    //Server event signaling messages
     /**
      * Signals the beginning of the game
      */
@@ -77,4 +77,24 @@ public enum ServerMessageType {
      * Signals the disconnection of a player from the game
      */
     PLAYER_DISCONNECTED,
+
+    //Client messages
+    /**
+     * The player's username
+     */
+    LOGIN,
+    /**
+     * The game's number of players
+     */
+    NUM_OF_PLAYERS,
+    /**
+     * The player's game action command
+     */
+    COMMAND,
+
+    //General messages
+    /**
+     * The ping to verify connection
+     */
+    PING,
 }

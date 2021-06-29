@@ -15,8 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import model.resource.ResourceType;
 import network.Command;
+import network.MessageType;
 import network.UserCommandsType;
-import network.beans.MessageWrapper;
+import network.MessageWrapper;
 import network.beans.ProductionHandlerBean;
 
 import java.util.HashMap;
@@ -35,6 +36,10 @@ public class ProductionsController implements GUIController {
      * The object used to store all of the client's information
      */
     private ClientView clientView;
+    /**
+     * The json serializer
+     */
+    private Gson gson;
 
     /**
      * The scene's image views
@@ -65,10 +70,10 @@ public class ProductionsController implements GUIController {
     //CONSTRUCTORS
 
     /**
-     * Handles initialization for this class by creating the deserializer
+     * Handles initialization for this class by creating the serializer
      */
     public void initialize() {
-
+        gson = new Gson();
     }
 
     //SETTERS
@@ -136,7 +141,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectProduction, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -145,7 +150,7 @@ public class ProductionsController implements GUIController {
     public void resetProductionChoice() {
         System.out.println("ResetProductionChoice");
         Command command = new Command(UserCommandsType.resetProductionChoice, null);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -158,7 +163,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyInput, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -171,7 +176,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyOutput, parameters);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -180,7 +185,7 @@ public class ProductionsController implements GUIController {
     public void confirmProductionChoice() {
         System.out.println("ConfirmProductionChoice");
         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
-        gui.sendCommand(command);
+        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
         closeWindow();
     }
 

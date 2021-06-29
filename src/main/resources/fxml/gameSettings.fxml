@@ -34,7 +34,7 @@
       </Label>
       <TextField fx:id="usernameField" layoutX="30.0" layoutY="116.0" promptText="nickname" />
       <Button fx:id="confirmUsername" layoutX="190.0" layoutY="115.0" mnemonicParsing="false" onAction="#checkValidUsername" text="OK" />
-      <Label fx:id="invalidUsername" layoutX="30.0" layoutY="141.0" prefHeight="38.0" prefWidth="194.0" text="Invalid username" textFill="#ffb100">
+      <Label fx:id="serverMessageLabel" layoutX="30.0" layoutY="141.0" prefHeight="38.0" prefWidth="194.0" text="Invalid username" textFill="#ffb100">
          <font>
             <Font size="11.0" />
          </font>

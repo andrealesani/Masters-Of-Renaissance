@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import model.*;
 import model.card.leadercard.LeaderCard;
 import model.resource.ResourceType;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 import java.util.HashMap;
@@ -128,12 +128,12 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         setDiscountFromPB(pb);
         setLeaderDepotCardsFromPB(pb);
 
-        controller.broadcastMessage(ServerMessageType.PLAYERBOARD, gson.toJson(this));
+        controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.PLAYERBOARD, gson.toJson(this));
+        controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
     }
 
     //PRINTING METHODS

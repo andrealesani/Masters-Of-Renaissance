@@ -4,8 +4,8 @@ import client.GUI.GUI;
 import client.GUI.SceneName;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import network.ServerMessageType;
-import network.beans.MessageWrapper;
+import network.MessageType;
+import network.MessageWrapper;
 
 /**
  * This class is the GUIController which handles the waiting screen for when the game's players are still in the process of joining
@@ -44,17 +44,14 @@ public class WaitingPlayersController implements GUIController {
     @Override
     public void updateFromServer(MessageWrapper response) {
 
-        if (response.getType() == ServerMessageType.GAME_START) {
-            gui.changeScene(SceneName.GAME_BOARD);
-        } else if (response.getType() == ServerMessageType.PLAYER_CONNECTED) {
-            newPlayerLabel.setText("Player " + response.getMessage() + " has joined the game.");
-        } else if (response.getType() == ServerMessageType.PLAYER_DISCONNECTED) {
-            newPlayerLabel.setText("Player " + response.getMessage() + " has left the game.");
-        } else if (response.getType() == ServerMessageType.WAIT_PLAYERS) {
-            //do nothing
-        } else {
-            System.out.println("Unexpected message to WaitingPlayers scene: " + response);
+        switch (response.getType()) {
+            case GAME_START -> gui.changeScene(SceneName.GAME_BOARD);
+            case PLAYER_CONNECTED -> newPlayerLabel.setText("Player " + response.getMessage() + " has joined the game.");
+            case PLAYER_DISCONNECTED -> newPlayerLabel.setText("Player " + response.getMessage() + " has left the game.");
+            case WAIT_PLAYERS -> {}
+            default -> System.out.println("Unexpected message to WaitingPlayers scene: " + response);
         }
+
     }
 
 }

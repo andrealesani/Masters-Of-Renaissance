@@ -7,7 +7,7 @@ import model.Observer;
 import model.resource.ResourceType;
 import model.storage.ResourceDepot;
 import model.storage.Warehouse;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 /**
@@ -66,7 +66,7 @@ public class WarehouseBean implements Observer, PlayerBean {
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
 
-        controller.broadcastMessage(ServerMessageType.WAREHOUSE, gson.toJson(this));
+        controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
     }
 
     /**
@@ -76,7 +76,7 @@ public class WarehouseBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.WAREHOUSE, gson.toJson(this));
+        controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
     }
 
     //PRINTING METHODS

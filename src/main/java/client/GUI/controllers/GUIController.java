@@ -1,7 +1,7 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
-import network.beans.MessageWrapper;
+import network.MessageWrapper;
 
 /**
  * This interface represents the controllers used for handling the interactive components of javaFX scenes and updating their contents

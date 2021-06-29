@@ -7,7 +7,7 @@ import model.Observer;
 import model.ProductionHandler;
 import model.resource.Resource;
 import model.resource.ResourceType;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
         setOutputFromPH(pH);
         setProductionsFromPH(pH);
 
-        controller.broadcastMessage(ServerMessageType.PRODUCTIONHANDLER, gson.toJson(this));
+        controller.broadcastMessage(MessageType.PRODUCTIONHANDLER, gson.toJson(this));
     }
 
     /**
@@ -113,7 +113,7 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.PRODUCTIONHANDLER, gson.toJson(this));
+        controller.playerMessage(username, MessageType.PRODUCTIONHANDLER, gson.toJson(this));
     }
 
     // PRINTING METHODS

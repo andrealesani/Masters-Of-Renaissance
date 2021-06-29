@@ -2,17 +2,11 @@ package network.beans;
 
 import Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.card.leadercard.*;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,7 +82,7 @@ public class GameBean implements Observer {
         setWinner(game);
         setWinnerVp(game);
 
-        controller.broadcastMessage(ServerMessageType.GAME, gson.toJson(this));
+        controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
 
         if (winner != null)
             controller.setGameOver();
@@ -101,7 +95,7 @@ public class GameBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.GAME, gson.toJson(this));
+        controller.playerMessage(username, MessageType.GAME, gson.toJson(this));
     }
 
     //PRINTING METHODS

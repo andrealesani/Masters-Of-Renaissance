@@ -2,12 +2,12 @@ package client.GUI.controllers;
 
 import client.GUI.GUI;
 import client.GUI.SceneName;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import network.beans.MessageWrapper;
+import network.MessageType;
+import network.MessageWrapper;
 
 /**
  * This class is the GUIController which handles the choice of the player's username and, if necessary, of the game's number of players
@@ -24,7 +24,7 @@ public class SettingsController implements GUIController {
     @FXML
     private TextField usernameField;
     @FXML
-    private Label invalidUsername, playersList, numPlayersLabel;
+    private Label serverMessageLabel, playersList, numPlayersLabel;
     @FXML
     private Button confirmUsername, singleplayerButton, multiplayerButton, readyButton, twoPlayersButton, threePlayersButton, fourPlayersButton, changeSettingsButton;
 
@@ -39,7 +39,7 @@ public class SettingsController implements GUIController {
      * Handles initialization for this class
      */
     public void initialize() {
-        invalidUsername.setVisible(false);
+        serverMessageLabel.setVisible(false);
         singleplayerButton.setVisible(false);
         multiplayerButton.setVisible(false);
         numPlayersLabel.setVisible(false);
@@ -59,14 +59,14 @@ public class SettingsController implements GUIController {
         System.out.println("Checking username...");
 
         if (usernameField.getText().isBlank()) {
-            invalidUsername.setVisible(true);
+            serverMessageLabel.setVisible(true);
             return;
         }
 
-        invalidUsername.setVisible(true);
-        invalidUsername.setText("Checking username availability...");
+        serverMessageLabel.setVisible(true);
+        serverMessageLabel.setText("Checking username availability...");
 
-        gui.sendMessage(usernameField.getText());
+        gui.sendMessage(MessageType.LOGIN, usernameField.getText());
     }
 
     /**
@@ -172,7 +172,7 @@ public class SettingsController implements GUIController {
      */
     public void setGame() {
         if (numPlayers > 0) {
-            gui.sendMessage(Integer.toString(numPlayers));
+            gui.sendMessage(MessageType.NUM_OF_PLAYERS, Integer.toString(numPlayers));
             gui.changeScene(SceneName.WAITING);
         } else {
             System.err.println("Warning: Player pressed 'ready' button before they were supposed to.");
@@ -191,26 +191,29 @@ public class SettingsController implements GUIController {
     public void updateFromServer(MessageWrapper response) {
         switch (response.getType()) {
 
+            case SET_USERNAME -> {
+
+                serverMessageLabel.setVisible(true);
+                serverMessageLabel.setText("Username was correctly set.");
+                usernameField.setDisable(true);
+                confirmUsername.setDisable(true);
+                singleplayerButton.setVisible(true);
+                multiplayerButton.setVisible(true);
+                readyButton.setVisible(true);
+                readyButton.setDisable(true);
+
+            }
+
             case INFO, ERROR -> {
-                if (response.getMessage().equals("Please, choose the game's number of players.")) {
-                    invalidUsername.setVisible(true);
-                    invalidUsername.setText("Username was correctly set.");
-                    usernameField.setDisable(true);
-                    confirmUsername.setDisable(true);
-                    singleplayerButton.setVisible(true);
-                    multiplayerButton.setVisible(true);
-                    readyButton.setVisible(true);
-                    readyButton.setDisable(true);
-                } else {
-                    invalidUsername.setVisible(true);
-                    invalidUsername.setText(response.getMessage());
-                }
+                serverMessageLabel.setVisible(true);
+                serverMessageLabel.setText(response.getMessage());
             }
 
             case WAIT_PLAYERS -> gui.changeScene(SceneName.WAITING);
 
             case GAME_START -> gui.changeScene(SceneName.GAME_BOARD);
 
+            default -> System.out.println ("Received from server: " + response.getMessage());
         }
     }
 }

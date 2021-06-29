@@ -4,6 +4,7 @@ import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import model.StaticMethods;
+import network.MessageWrapper;
 import network.beans.*;
 
 import java.io.BufferedReader;
@@ -116,7 +117,7 @@ public class ClientReader implements Runnable {
 
             switch (response.getType()) {
 
-                case INFO, WAIT_PLAYERS -> {
+                case INFO -> {
                     notifyGui(response);
                     System.out.println(response.getMessage());
                 }
@@ -128,10 +129,22 @@ public class ClientReader implements Runnable {
 
                 case SET_USERNAME -> {
                     clientView.setUsername(response.getMessage());
+                    notifyGui(response);
                     System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
                 }
 
-                case GAME_START, GAME_END -> {
+                case WAIT_PLAYERS -> {
+                    clientView.setWaitPlayers(true);
+                    System.out.println(response.getMessage());
+                }
+
+                case GAME_START -> {
+                    clientView.setWaitPlayers(false);
+                    notifyViewUpdate(response);
+                    System.out.println(response.getMessage());
+                }
+
+                case GAME_END -> {
                     notifyViewUpdate(response);
                     System.out.println(response.getMessage());
                 }

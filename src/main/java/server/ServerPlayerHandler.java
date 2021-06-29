@@ -1,8 +1,8 @@
 package server;
 
 import com.google.gson.Gson;
-import network.ServerMessageType;
-import network.beans.MessageWrapper;
+import network.MessageType;
+import network.MessageWrapper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,6 +57,7 @@ public class ServerPlayerHandler implements Runnable {
         this.lobby = lobby;
         this.controller = null;
         this.gson = new Gson();
+        this.username = null;
     }
 
     //MULTITHREADING METHODS
@@ -76,25 +77,42 @@ public class ServerPlayerHandler implements Runnable {
             return;
         }
 
+
         try {
             System.out.println("Logging in player...");
 
-            //Login the player with a username
-            loginPlayer();
+            sendMessage(MessageType.INFO, "Please, set your username.");
 
-            //Let the player choose the game size, if necessary
-            setGameSize();
+            //Reads the client's message
+            String messageString;
+            while (true) {
 
-            System.out.println("Listening for player commands...");
+                messageString = in.nextLine();
 
-            //Read the player's messages
-            messageLoop();
+                MessageWrapper message = gson.fromJson(messageString, MessageWrapper.class);
 
-        } catch(NoSuchElementException ex) {
-            if (username == null) {
+                switch (message.getType()) {
+                    case LOGIN -> loginPlayer(message.getMessage());
+                    case NUM_OF_PLAYERS -> setGameSize(message.getMessage());
+                    case COMMAND -> runCommand(message.getMessage());
+                    case PING -> System.out.println("pong");
+                    default -> {
+                        System.out.println("Client sent an unexpected message: ");
+                        System.out.println(message.getMessage());
+                        sendMessage(MessageType.ERROR, "This type of message is not supported.");
+                    }
+                }
+            }
+
+        } catch (NoSuchElementException ex) {
+            if (controller == null) {
                 System.out.println("The connection with a player in login phase was lost.");
+            } else if (!controller.isSizeSet()) {
+                System.out.println("The connection with player " + username + " was lost during game size setting phase.");
+                lobby.abortGame();
             } else {
-                System.out.println("The connection with player " + username + " was lost.");
+                System.out.println("The connection with player " + username + " was lost during the game.");
+                controller.setDisconnectedStatus(username);
             }
         }
 
@@ -115,101 +133,76 @@ public class ServerPlayerHandler implements Runnable {
     //PRIVATE METHODS
 
     /**
-     * Reads a username for the player, and tries to add it to a game through the lobby.
+     * Takes the player's username and tries to add them to a game through the lobby.
      * If successful, the username is saved on the handler and the lobby return's the client's game's controller
+     *
+     * @param messageContent the message contained in the message wrapper
      */
-    private void loginPlayer() throws NoSuchElementException{
-        String username;
-        while (controller == null) {
+    private void loginPlayer(String messageContent) throws NoSuchElementException {
 
-            sendMessage(ServerMessageType.INFO, "Please, set your username.");
-
-            //Read the username
-            try {
-                username = in.nextLine();
-            } catch (NoSuchElementException ex) {
-                throw ex;
-            }
-
+        //If the player has not already logged in
+        if (controller == null) {
             //Ask the lobby to validate username
             try {
 
-                controller = lobby.login(username, out);
-                this.username = username;
+                controller = lobby.login(messageContent, out);
+                this.username = messageContent;
+
+                sendMessage(MessageType.SET_USERNAME, username);
+
+                if (!controller.isSizeSet())
+                    sendMessage(MessageType.INFO, "Please, choose the game's number of players.");
 
             } catch (Exception ex) {
-
-                sendMessage(ServerMessageType.ERROR, ex.getMessage());
-
+                sendMessage(MessageType.ERROR, ex.getMessage());
             }
+
+        } else {
+            System.out.println("Player attempted to login after already choosing a username.");
+            sendMessage(MessageType.ERROR, "You have already chosen a username.");
         }
     }
 
     /**
-     * If the client is the first player for a game, asks them to set the game's size
+     * If the client is the first player for a game, sets its size
+     *
+     * @param messageContent the message contained in the message wrapper
      */
-    private void setGameSize() throws NoSuchElementException {
-        String sizeString;
+    private void setGameSize(String messageContent) throws NoSuchElementException {
 
         //If controller number of players has not been decided
-        while (!controller.isSizeSet()) {
+        if (!controller.isSizeSet()) {
 
-            sendMessage(ServerMessageType.INFO, "Please, choose the game's number of players.");
-
-            //Read number of players
-            try {
-                sizeString = in.nextLine();
-            } catch (NoSuchElementException ex) {
-                //If player disconnects delete game
-                System.out.println("Game in creation phase will be aborted, as its player has left.");
-                lobby.abortGame();
-                throw ex;
-            }
-
-            //Try to set controller's number of players
+            //Tries to set controller's number of players
             try {
 
-                int size = Integer.parseInt(sizeString);
+                int size = Integer.parseInt(messageContent);
                 controller.choosePlayerNumber(size);
 
             } catch (NumberFormatException ex) {
-
-                sendMessage(ServerMessageType.ERROR, "Game's number of players must be an integer.");
-
+                sendMessage(MessageType.ERROR, "Game's number of players must be an integer.");
             } catch (Exception ex) {
-
-                sendMessage(ServerMessageType.ERROR, ex.getMessage());
-
+                sendMessage(MessageType.ERROR, ex.getMessage());
             }
+        } else {
+            System.out.println("Player attempted to choose game's number of players without needing to.");
+            sendMessage(MessageType.ERROR, "The game's number of players has already been decided.");
         }
     }
 
     /**
-     * Reads messages from the client, until it receives the termination string
+     * Forwards the player's command to the controller for execution
+     *
+     * @param messageContent the message contained in the message wrapper
      */
-    private void messageLoop() throws NoSuchElementException {
-        String message;
-        while (true) {
+    private void runCommand(String messageContent) throws NoSuchElementException {
 
-            //Read player command
-            try {
-                message = in.nextLine();
-            } catch (NoSuchElementException ex) {
-                //If player disconnects, set disconnected status
-                controller.setDisconnectedStatus(username);
-                throw ex;
-            }
+        //If player has logged in and their game's number of players has been decided
+        if (controller != null && controller.isSizeSet()) {
 
-            if (message.equals("ESC + :q")) {
-                //Terminate connection
-                System.out.println("The connection with player " + username + " was closed.");
-                break;
-
-            } else {
                 //Forward player command to controller
-                System.out.println("Received message: " + message);
-                controller.readCommand(username, message);
-            }
+                System.out.println("Received command: " + messageContent);
+                controller.readCommand(username, messageContent);
         }
     }
 
@@ -219,7 +212,7 @@ public class ServerPlayerHandler implements Runnable {
      * @param type    the type of the message
      * @param message the content of the message
      */
-    private void sendMessage(ServerMessageType type, String message) {
+    private void sendMessage(MessageType type, String message) {
         out.println(
                 gson.toJson(
                         new MessageWrapper(type, message)));

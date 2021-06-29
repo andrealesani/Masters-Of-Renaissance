@@ -17,7 +17,11 @@ public class ClientView {
     /**
      * The username assigned to the client's player
      */
-    private String username;
+    private String username = null;
+    /**
+     * Attribute used to signal whether the game is waiting for more players to join before starting
+     */
+    private boolean waitPlayers = false;
     /**
      * The bean storing general game and turn information
      */
@@ -649,6 +653,15 @@ public class ClientView {
         return username;
     }
 
+    /**
+     * Getter for the flag indicating the wait for more players to join
+     *
+     * @return the flag
+     */
+    public boolean getWaitPlayers() {
+        return waitPlayers;
+    }
+
     // SETTERS
 
     /**
@@ -787,4 +800,12 @@ public class ClientView {
         this.username = username;
     }
 
+    /**
+     * Setter for the flag signaling the wait for more players
+     *
+     * @param waitPlayers the value to be assigned to the flag
+     */
+    public void setWaitPlayers(boolean waitPlayers) {
+        this.waitPlayers = waitPlayers;
+    }
 }

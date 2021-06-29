@@ -10,9 +10,9 @@ import Exceptions.network.UnknownPlayerNumberException;
 import model.Game;
 import model.PersistenceHandler;
 import network.Command;
-import network.ServerMessageType;
+import network.MessageType;
 import model.StaticMethods;
-import network.beans.MessageWrapper;
+import network.MessageWrapper;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -63,7 +63,6 @@ public class GameController {
         this.size = 0;
         this.isGameOver = false;
         players.put(username, userOut);
-        playerMessage(username, ServerMessageType.SET_USERNAME, username);
     }
 
     /**
@@ -100,17 +99,17 @@ public class GameController {
     public synchronized void readCommand(String username, String commandString) {
         if (game == null) {
 
-            playerMessage(username, ServerMessageType.ERROR, "The game has not yet started, as some players are still missing.");
+            playerMessage(username, MessageType.ERROR, "The game has not yet started, as some players are still missing.");
             System.out.println("Player tried sending a command before the game start.");
 
         } else if (!username.equals(getCurrentPlayerUsername())) {
 
-            playerMessage(username, ServerMessageType.ERROR, "It is not your turn to act.");
+            playerMessage(username, MessageType.ERROR, "It is not your turn to act.");
             System.out.println("Wrong player tried to send a command.");
 
         } else if (isGameOver) {
 
-            playerMessage(username, ServerMessageType.ERROR, "The game has already ended");
+            playerMessage(username, MessageType.ERROR, "The game has already ended");
             System.out.println("Player tried to send a command after the end of the game.");
 
         } else {
@@ -121,7 +120,7 @@ public class GameController {
                 String result = command.runCommand(game);
 
                 if (result != null) {
-                    playerMessage(username, ServerMessageType.ERROR, result);
+                    playerMessage(username, MessageType.ERROR, result);
                     System.out.println("Error: " + result);
                 } else {
                     try {
@@ -134,7 +133,7 @@ public class GameController {
 
             } catch (Exception ex) {
 
-                playerMessage(username, ServerMessageType.ERROR, "The message is not in json format.");
+                playerMessage(username, MessageType.ERROR, "The message is not in json format.");
                 System.out.println("Player sent a message that was not a json.");
             }
         }
@@ -167,14 +166,13 @@ public class GameController {
                     //If the player is reconnecting
                     setConnectedStatus(username);
                     players.put(username, userOut);
-                    playerMessage(username, ServerMessageType.GAME_START, "You have been reconnected to the game.");
-                    playerMessage(username, ServerMessageType.SET_USERNAME, username);
+                    playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateReconnectedPlayer(username);
 
                     //If the game has already ended
                     if (isGameOver)
-                        playerMessage(username, ServerMessageType.GAME_END, "The game has ended.");
+                        playerMessage(username, MessageType.GAME_END, "The game has ended.");
 
                     return;
                 }
@@ -184,9 +182,8 @@ public class GameController {
         }
 
         //If the player is connecting for the first time
-        broadcastMessage(ServerMessageType.PLAYER_CONNECTED, username);
+        broadcastMessage(MessageType.PLAYER_CONNECTED, username);
         players.put(username, userOut);
-        playerMessage(username, ServerMessageType.SET_USERNAME, username);
         System.out.println("Added player: " + username + " to current game.");
 
         checkGameStart();
@@ -208,7 +205,7 @@ public class GameController {
         } else {
             try {
                 game.setConnectedStatus(username);
-                broadcastMessage(ServerMessageType.PLAYER_CONNECTED, username);
+                broadcastMessage(MessageType.PLAYER_CONNECTED, username);
                 System.out.println("Player " + username + " is now connected.");
             } catch (ParametersNotValidException ex) {
                 System.out.println("Players in GameController do not correspond with games in GameModel.");
@@ -233,7 +230,7 @@ public class GameController {
         } else {
             try {
                 game.setDisconnectedStatus(username);
-                broadcastMessage(ServerMessageType.PLAYER_DISCONNECTED, username);
+                broadcastMessage(MessageType.PLAYER_DISCONNECTED, username);
                 players.put(username, null);
                 System.out.println("Player " + username + " is now disconnected.");
             } catch (ParametersNotValidException ex) {
@@ -251,7 +248,7 @@ public class GameController {
      * @param type     the type of the message
      * @param message  the content of the message
      */
-    public void playerMessage(String username, ServerMessageType type, String message) {
+    public void playerMessage(String username, MessageType type, String message) {
         if (players.get(username) != null)
             players.get(username).println(
                     gson.toJson(
@@ -266,7 +263,7 @@ public class GameController {
      * @param type    the type of the message
      * @param message the content of the message
      */
-    public void broadcastMessage(ServerMessageType type, String message) {
+    public void broadcastMessage(MessageType type, String message) {
         for (String player : players.keySet()) {
             playerMessage(player, type, message);
         }
@@ -296,13 +293,15 @@ public class GameController {
      * Warns the controller that its game has ended and warns all its players
      */
     public void setGameOver() {
-        isGameOver = true;
-        broadcastMessage(ServerMessageType.GAME_END, "The game has ended.");
-        try {
-            StaticMethods.deleteGameData(persistenceHandler.getId());
-        } catch (GameDataNotFoundException ex) {
-            System.err.println("A game finished but its save file was not able to be deleted.");
-            ex.printStackTrace();
+        if (!isGameOver) {
+            isGameOver = true;
+            broadcastMessage(MessageType.GAME_END, "The game has ended.");
+            try {
+                StaticMethods.deleteGameData(persistenceHandler.getId());
+            } catch (GameDataNotFoundException ex) {
+                System.err.println("A game finished but its save file was not able to be deleted.");
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -318,11 +317,11 @@ public class GameController {
         }
 
         if (players.size() != size) {
-            broadcastMessage(ServerMessageType.WAIT_PLAYERS, "One player has joined, waiting for more players...");
+            broadcastMessage(MessageType.WAIT_PLAYERS, "One player has joined, waiting for more players...");
             return;
         }
 
-        broadcastMessage(ServerMessageType.GAME_START, "The last player has joined, the game will now commence...");
+        broadcastMessage(MessageType.GAME_START, "The last player has joined, the game will now commence...");
 
         game = new Game(players.keySet());
         game.createBeans(this);

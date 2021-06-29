@@ -7,7 +7,7 @@ import model.*;
 import model.Observer;
 import model.card.CardColor;
 import model.card.DevelopmentCard;
-import network.ServerMessageType;
+import network.MessageType;
 import model.StaticMethods;
 import server.GameController;
 
@@ -101,7 +101,7 @@ public class CardTableBean implements Observer {
         CardTable cardTable = (CardTable) observable;
         setCardTableFromGame(cardTable);
 
-        controller.broadcastMessage(ServerMessageType.CARDTABLE, gson.toJson(this));
+        controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
     }
 
     /**
@@ -111,7 +111,7 @@ public class CardTableBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.CARDTABLE, gson.toJson(this));
+        controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
     }
 
     //PRINTING METHODS

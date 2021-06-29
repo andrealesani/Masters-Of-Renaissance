@@ -2,12 +2,11 @@ package client.GUI.controllers;
 
 import client.GUI.GUI;
 import client.GUI.SceneName;
-import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import network.beans.MessageWrapper;
+import network.MessageWrapper;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -100,12 +99,7 @@ public class HostAndPortController implements GUIController {
      */
     @Override
     public void updateFromServer(MessageWrapper response) {
-
-        if (response.getMessage().equals("Please, set your username.")) {
-            gui.changeScene(SceneName.SETTINGS);
-        } else
-            System.out.println("Unexpected message to Login scene: " + response);
-
+        gui.changeScene(SceneName.SETTINGS);
     }
 
     //SETTERS

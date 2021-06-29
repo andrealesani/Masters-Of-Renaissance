@@ -6,7 +6,7 @@ import model.Color;
 import model.Observer;
 import model.resource.ResourceType;
 import model.storage.UnlimitedStorage;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 import static model.resource.ResourceType.*;
@@ -57,7 +57,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
         UnlimitedStorage waitingRoom = (UnlimitedStorage) observable;
         setQuantityFromWaitingRoom(waitingRoom);
 
-        controller.broadcastMessage(ServerMessageType.WAITINGROOM, gson.toJson(this));
+        controller.broadcastMessage(MessageType.WAITINGROOM, gson.toJson(this));
     }
 
     /**
@@ -67,7 +67,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.WAITINGROOM, gson.toJson(this));
+        controller.playerMessage(username, MessageType.WAITINGROOM, gson.toJson(this));
     }
 
     // PRINTING METHODS

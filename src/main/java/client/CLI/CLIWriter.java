@@ -8,6 +8,8 @@ import model.Color;
 import model.resource.ResourceType;
 import model.TurnPhase;
 import network.Command;
+import network.MessageType;
+import network.MessageWrapper;
 import network.UserCommandsType;
 import network.beans.GameBean;
 
@@ -83,17 +85,19 @@ public class CLIWriter implements Runnable {
             try {
                 userInput = stdIn.readLine();
 
-                //String used to terminate the connection
-                if (userInput.equals("ESC + :q")) {
-                    out.println(userInput);
-                    System.out.println("Closing connection...");
-                }
-
-                if (clientView.getGame() == null) {
-                    //If the game has not begun yet, directly forward the user's input to the server
-                    out.println(userInput);
+                if (clientView.getUsername() == null) {
+                    //If the player has not yet been assigned a username
+                    sendMessageToServer(MessageType.LOGIN, userInput);
+                } else if (clientView.getGame() == null) {
+                    //If the game has yet to start
+                    if (clientView.getWaitPlayers()) {
+                        //If the game is waiting for more players to join
+                        System.out.println("More players have yet to join, please wait.");
+                    } else {
+                        sendMessageToServer(MessageType.NUM_OF_PLAYERS, userInput);
+                    }
                 } else
-                    //Otherwise, elaborate the user's input
+                    //If the game has started, elaborate the user's input
                     elaborateInput(userInput);
 
             } catch (IOException ex) {
@@ -113,7 +117,7 @@ public class CLIWriter implements Runnable {
         System.out.println("Server connection lost, press any key to terminate.");
     }
 
-    //PRIVATE ELABORATION
+    //PRIVATE ELABORATION METHODS
 
     /**
      * Elaborates the user's input after the start of the game
@@ -461,7 +465,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Choosing " + quantity + " bonus resources of type " + resource + ".");
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -479,7 +483,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Selecting leader card in position " + number + ".");
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -497,7 +501,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Playing leader card in position " + number + ".");
         Command command = new Command(UserCommandsType.playLeaderCard, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -515,7 +519,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Discarding leader card in position " + number + ".");
         Command command = new Command(UserCommandsType.discardLeaderCard, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -533,7 +537,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Selecting market row number " + number + ".");
         Command command = new Command(UserCommandsType.selectMarketRow, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -551,7 +555,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Selecting market column number " + number + ".");
         Command command = new Command(UserCommandsType.selectMarketColumn, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -577,7 +581,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Sending " + quantity + " resources of type " + resource + " to depot number " + number + ".");
         Command command = new Command(UserCommandsType.sendResourceToDepot, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -599,7 +603,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Converting " + quantity + " white marbles into resources of type " + resource + ".");
         Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -621,7 +625,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Swapping depots number " + depots[0] + " and " + depots[1] + ".");
         Command command = new Command(UserCommandsType.swapDepotContent, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -651,7 +655,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Sending " + quantity + " resources of type " + resource + " from depot number " + depots[0] + " to depot number " + depots[1] + ".");
         Command command = new Command(UserCommandsType.moveDepotContent, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -677,7 +681,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Taking development card of color " + color + " and level " + level + " for slot number " + number + ".");
         Command command = new Command(UserCommandsType.takeDevelopmentCard, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -695,7 +699,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Selecting production number " + number + ".");
         Command command = new Command(UserCommandsType.selectProduction, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -706,7 +710,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Resetting production choice.");
         Command command = new Command(UserCommandsType.resetProductionChoice, null);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -717,7 +721,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Confirming production choice.");
         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -735,7 +739,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Choosing conversion to resource of type " + resource + " for one input jolly in currently selected productions.");
         Command command = new Command(UserCommandsType.chooseJollyInput, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -753,7 +757,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Choosing conversion to resource of type " + resource + " for one output jolly in currently selected productions.");
         Command command = new Command(UserCommandsType.chooseJollyOutput, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -779,7 +783,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Paying " + quantity + " resources of type " + resource + " from depot number " + number + ".");
         Command command = new Command(UserCommandsType.payFromWarehouse, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -801,7 +805,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Paying " + quantity + " resources of type " + resource + " from the strongbox.");
         Command command = new Command(UserCommandsType.payFromStrongbox, parameters);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -812,7 +816,7 @@ public class CLIWriter implements Runnable {
 
         System.out.println("Ending the turn.");
         Command command = new Command(UserCommandsType.endTurn, null);
-        out.println(gson.toJson(command));
+        sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     //PRIVATE INPUT METHODS
@@ -886,5 +890,17 @@ public class CLIWriter implements Runnable {
             }
         }
         return result;
+    }
+
+    //PRIVATE COMMUNICATION MESSAGES
+
+    /**
+     * Wraps the given string and sends it to the server as a message of the given type
+     *
+     * @param type the type of the message being sent
+     * @param content the contents of the message being sent
+     */
+    private void sendMessageToServer(MessageType type, String content) {
+        out.println(gson.toJson(new MessageWrapper(type, content)));
     }
 }

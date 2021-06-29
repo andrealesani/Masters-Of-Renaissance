@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import network.ServerMessageType;
+import network.MessageType;
 
 /**
  * This class is used for displaying simple popups with only a text message and a confirmation button
@@ -23,7 +23,7 @@ public class SimplePopup {
      * @param serverMessageType the type of the message, which becomes the title of the popup window
      * @param jsonMessage the message to be displayed inside the popup
      */
-    public static void display(ServerMessageType serverMessageType, String jsonMessage) {
+    public static void display(MessageType serverMessageType, String jsonMessage) {
         Gson gson = new Gson();
         Stage window = new Stage();
 

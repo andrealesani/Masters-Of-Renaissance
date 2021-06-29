@@ -6,7 +6,7 @@ import model.Color;
 import model.Market;
 import model.Observer;
 import model.resource.ResourceType;
-import network.ServerMessageType;
+import network.MessageType;
 import server.GameController;
 
 /**
@@ -50,7 +50,7 @@ public class MarketBean implements Observer {
         setMarketBoardFromGame(market);
         setSlideFromGame(market);
 
-        controller.broadcastMessage(ServerMessageType.MARKET, gson.toJson(this));
+        controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
     }
 
     /**
@@ -60,7 +60,7 @@ public class MarketBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, ServerMessageType.MARKET, gson.toJson(this));
+        controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
     }
 
     //PRINTING METHODS

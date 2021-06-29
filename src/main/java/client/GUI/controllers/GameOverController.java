@@ -1,13 +1,12 @@
 package client.GUI.controllers;
 
 import client.GUI.GUI;
-import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import network.beans.GameBean;
-import network.beans.MessageWrapper;
+import network.MessageWrapper;
 
 /**
  * This class is the GUIController which handles the game over screen
