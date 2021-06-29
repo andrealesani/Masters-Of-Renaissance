@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 /**
  * This class represents the executable for the game on the server machine
  */
-public class ServerMain implements Runnable {
+public class ServerMain {
 
     //MAIN
 
@@ -38,7 +38,6 @@ public class ServerMain implements Runnable {
             Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream("/json/HostAndPort.json"), StandardCharsets.UTF_8);
             Map map = gson.fromJson(reader, Map.class);
             portNumber = ((Double) map.get("portNumber")).intValue();
-
         }
 
         //Start the server
@@ -57,54 +56,32 @@ public class ServerMain implements Runnable {
 
         System.out.println("Server started!");
 
-        if (port == -1) {
-            while (true) {
-                try {
-                    BufferedReader in = new BufferedReader(new FileReader("/clientToServer"));
-                    PrintWriter out = new PrintWriter(new FileWriter("/serverToClient"), true);
-                    in.readLine();
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
-                    break;
-                }
-            }
-        } else {
-            //Creates connection socket
-            ServerSocket serverSocket;
-            try {
-                serverSocket = new ServerSocket(port);
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-                return;
-            }
-
-            System.out.println("Server ready for connections!");
-
-            //Creates the lobby for this server
-            ServerLobby lobby = new ServerLobby();
-
-            //Creates connections with clients on new threads
-            while (true) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    System.out.println("Creating new connection...");
-                    executor.submit(new ServerPlayerHandler(socket, lobby));
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
-                    break;
-                }
-            }
-
-            executor.shutdown();
+        //Creates connection socket
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            return;
         }
 
-    }
+        System.out.println("Server ready for connections!");
 
-    /**
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-        startServer(-1);
+        //Creates the lobby for this server
+        ServerLobby lobby = new ServerLobby();
+
+        //Creates connections with clients on new threads
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                System.out.println("Creating new connection...");
+                executor.submit(new ServerPlayerHandler(socket, lobby));
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+                break;
+            }
+        }
+
+        executor.shutdown();
     }
 }
