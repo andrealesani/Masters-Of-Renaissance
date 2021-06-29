@@ -112,9 +112,6 @@ public class ServerPlayerHandler implements Runnable {
                     case LOGIN -> loginPlayer(message.getMessage());
                     case NUM_OF_PLAYERS -> setGameSize(message.getMessage());
                     case COMMAND -> runCommand(message.getMessage());
-                    case PING -> {
-                        System.out.println("Ponged by client");
-                    }
                     default -> {
                         System.out.println("Client sent an unexpected message: ");
                         System.out.println(message.getMessage());
@@ -163,11 +160,9 @@ public class ServerPlayerHandler implements Runnable {
         pingTimer = new Timer();
         Gson gson = new Gson();
 
-
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Pinging client...");
                 out.println(gson.toJson(new MessageWrapper(MessageType.PING, "")));
             }
         };
