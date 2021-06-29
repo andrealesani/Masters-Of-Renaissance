@@ -175,6 +175,7 @@ public class GameController {
                     //If the game has already ended
                     if (isGameOver)
                         playerMessage(username, ServerMessageType.GAME_END, "The game has ended.");
+
                     return;
                 }
             } else {

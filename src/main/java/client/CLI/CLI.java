@@ -25,8 +25,9 @@ public class CLI {
     public static void main(String[] args) {
 
         //Initialize hostName and portNumber
-        String hostName = null;
-        int portNumber = 0;
+        String hostName;
+        int portNumber;
+
         if (args != null && args.length > 0) {
             hostName = args[0];
             portNumber = Integer.parseInt(args[1]);

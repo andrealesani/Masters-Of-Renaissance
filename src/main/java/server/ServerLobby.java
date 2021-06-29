@@ -24,7 +24,7 @@ public class ServerLobby {
     //CONSTRUCTORS
 
     /**
-     * Constructor. Takes care of restoration
+     * Constructor. Takes care of restoration of saved games
      */
     public ServerLobby() {
         currentGames = new ArrayList<>();

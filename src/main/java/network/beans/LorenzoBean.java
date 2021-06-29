@@ -85,14 +85,12 @@ public class LorenzoBean implements Observer {
         if(line < 1 || line > 3)
             throw new ParametersNotValidException();
 
-        line--;
-
         //Row 1
-        if(line == 0)
+        if(line == 1)
             return drawFaithTrack();
 
         //Row 2
-        if (line == 1)
+        if (line == 2)
             return " Active Tokens: " + Color.RESOURCE_STD + activeTokenNumber + Color.RESET;
 
         //Row 3

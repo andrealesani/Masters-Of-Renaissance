@@ -152,7 +152,6 @@ public class GameBean implements Observer {
 
     //PRINTING METHODS
 
-
     /**
      * Prints a String representation of the bean's data
      *

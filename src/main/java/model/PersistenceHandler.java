@@ -1,7 +1,6 @@
 package model;
 
 import Exceptions.ParametersNotValidException;
-import com.google.gson.Gson;
 import model.card.CardColor;
 import model.card.DevelopmentCard;
 import model.card.leadercard.*;
@@ -164,6 +163,7 @@ public class PersistenceHandler {
 
         if (id == 0)
             id = StaticMethods.findFirstFreePersistenceId();
+
         StaticMethods.saveGameOnDisk(this);
     }
 
@@ -196,9 +196,9 @@ public class PersistenceHandler {
      * @param game the Game class
      */
     private void saveGameStatus(Game game) {
-        playersTurnOrder = new String[game.getPlayersBoardsTurnOrder().size()];
-        for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++)
-            playersTurnOrder[i] = game.getPlayersBoardsTurnOrder().get(i).getUsername();
+        playersTurnOrder = new String[game.getPlayersUsernamesTurnOrder().size()];
+        for (int i = 0; i < game.getPlayersUsernamesTurnOrder().size(); i++)
+            playersTurnOrder[i] = game.getPlayersUsernamesTurnOrder().get(i);
         currentPlayer = game.getCurrentPlayer().getUsername();
         turnPhase = game.getTurnPhase();
         lastTriggeredTile = game.getLastTriggeredTile();

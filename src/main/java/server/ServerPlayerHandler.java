@@ -124,12 +124,14 @@ public class ServerPlayerHandler implements Runnable {
 
             sendMessage(ServerMessageType.INFO, "Please, set your username.");
 
+            //Read the username
             try {
                 username = in.nextLine();
             } catch (NoSuchElementException ex) {
                 throw ex;
             }
 
+            //Ask the lobby to validate username
             try {
 
                 controller = lobby.login(username, out);
@@ -148,23 +150,27 @@ public class ServerPlayerHandler implements Runnable {
      */
     private void setGameSize() throws NoSuchElementException {
         String sizeString;
+
+        //If controller number of players has not been decided
         while (!controller.isSizeSet()) {
 
             sendMessage(ServerMessageType.INFO, "Please, choose the game's number of players.");
 
+            //Read number of players
             try {
                 sizeString = in.nextLine();
             } catch (NoSuchElementException ex) {
+                //If player disconnects delete game
                 System.out.println("Game in creation phase will be aborted, as its player has left.");
                 lobby.abortGame();
                 throw ex;
             }
 
+            //Try to set controller's number of players
             try {
 
                 int size = Integer.parseInt(sizeString);
                 controller.choosePlayerNumber(size);
-                //sendMessage(ServerMessageType.INFO, "Game size correctly set to: " + size + " players.");
 
             } catch (NumberFormatException ex) {
 
@@ -185,18 +191,22 @@ public class ServerPlayerHandler implements Runnable {
         String message;
         while (true) {
 
+            //Read player command
             try {
                 message = in.nextLine();
             } catch (NoSuchElementException ex) {
+                //If player disconnects, set disconnected status
                 controller.setDisconnectedStatus(username);
                 throw ex;
             }
 
             if (message.equals("ESC + :q")) {
+                //Terminate connection
                 System.out.println("The connection with player " + username + " was closed.");
                 break;
 
             } else {
+                //Forward player command to controller
                 System.out.println("Received message: " + message);
                 controller.readCommand(username, message);
             }

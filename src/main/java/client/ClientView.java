@@ -291,7 +291,7 @@ public class ClientView {
         //Row 2
         content += market.printLine(1);
         content += fillBetweenColumns(content, offsetFirstColumn) +
-                cardTable.printLine(1);
+                    cardTable.printLine(1);
         content += fillBetweenColumns(content, offsetSecondColumn);
 
         if (lorenzo != null)

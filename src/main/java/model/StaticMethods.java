@@ -127,7 +127,9 @@ public class StaticMethods {
             }
         }
     }
-
+    
+    //PERSISTENCE
+    
     /**
      * Restores the persistence handlers of all saved games
      *
@@ -139,8 +141,7 @@ public class StaticMethods {
         List<PersistenceHandler> games = new ArrayList<>();
         Reader reader;
 
-        String jarPath = getJarPath();
-
+        String jarPath = getJarDirectory();
 
         File folder = new File(jarPath + "/savedGames");
         if (!folder.exists()){
@@ -176,7 +177,7 @@ public class StaticMethods {
      * @throws GameDataNotFoundException if the given Id does not correspond to any save file
      */
     public static void deleteGameData(int gameID) throws GameDataNotFoundException {
-        String jarPath = getJarPath();
+        String jarPath = getJarDirectory();
 
         try {
             File file = new File(jarPath + "/savedGames/game" + gameID + ".json");
@@ -194,7 +195,7 @@ public class StaticMethods {
      */
     public static int findFirstFreePersistenceId() {
 
-        String jarPath = getJarPath();
+        String jarPath = getJarDirectory();
 
         File folder = new File(jarPath + "/savedGames");
         if (!folder.exists()){
@@ -226,7 +227,7 @@ public class StaticMethods {
         Gson gson = new Gson();
         int id = persistenceHandler.getId();
 
-        String jarPath = getJarPath();
+        String jarPath = getJarDirectory();
 
         try {
             PrintWriter writer = new PrintWriter(jarPath + "/savedGames/game" + id + ".json", StandardCharsets.UTF_8);
@@ -245,7 +246,7 @@ public class StaticMethods {
      *
      * @return the path to the jar file
      */
-    private static String getJarPath() {
+    private static String getJarDirectory() {
         File jarPath = new File(Server.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         return jarPath.getParentFile().getAbsolutePath();
     }

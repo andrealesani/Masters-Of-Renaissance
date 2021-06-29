@@ -17,7 +17,7 @@ public class AdvancedPopup {
      */
     public static void display(Scene scene) {
         Stage window = new Stage();
-        String title = "t h i c c  popup";
+        String title = "advanced popup";
 
         //Block events to main game window
         window.initModality(Modality.APPLICATION_MODAL);
