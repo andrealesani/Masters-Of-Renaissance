@@ -797,7 +797,7 @@
                     </Text>
                 </children>
             </AnchorPane>
-         <Label fx:id="lastTurnLabel" layoutY="147.0" prefHeight="30.0" prefWidth="247.0" text="This is the game's last turn." textFill="#e1d892">
+         <Label fx:id="lastTurnLabel" layoutY="147.0" prefHeight="30.0" prefWidth="247.0" text="This is the game's last turn." textFill="#e1d892" visible="false">
             <font>
                <Font name="Arial Bold" size="14.0" />
             </font>

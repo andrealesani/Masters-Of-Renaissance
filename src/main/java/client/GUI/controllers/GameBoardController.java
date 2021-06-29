@@ -586,6 +586,8 @@ public class GameBoardController implements GUIController {
         }
         //For sendResourceToDepot
         enableSendResourceToDepotButtons();
+        //For switching view
+        enableVisualizedPlayerButtons();
         //For swapDepotContent
         enableSwapDepotButtons();
         //For endTurn
@@ -842,16 +844,14 @@ public class GameBoardController implements GUIController {
             //If viewing another player's board
             descriptionText.setText("You are viewing another player's board.");
             disableButtons();
-            if (currPhase != TurnPhase.LEADERCHOICE)
-                enableVisualizedPlayerButtons();
+            enableVisualizedPlayerButtons();
 
         } else if (!currPlayer.equals(clientView.getUsername())) {
 
             //If not currently the client's turn
             descriptionText.setText("You are not the current player.");
             disableButtons();
-            if (currPhase != TurnPhase.LEADERCHOICE)
-                enableVisualizedPlayerButtons();
+            enableVisualizedPlayerButtons();
 
         } else {
             //Activates specific interactibles depending on the current turn phase
@@ -1127,6 +1127,8 @@ public class GameBoardController implements GUIController {
             if (i < slot.length) {
                 card = new Image("/graphics/front/" + slot[i] + ".png");
                 ((ImageView) slotChildren.get(i)).setImage(card);
+            } else {
+                ((ImageView) slotChildren.get(i)).setImage(null);
             }
         }
     }

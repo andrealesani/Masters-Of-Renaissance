@@ -290,7 +290,7 @@
     "color": "PURPLE",
     "level": 1,
     "costType": ["COIN", "SERVANT", "SHIELD", "STONE", "JOLLY", "FAITH"],
-    "costQuantity": [0, 0, 3, 0, 0, 0],
+    "costQuantity": [0, 3, 0, 0, 0, 0],
     "inputType": ["COIN", "SERVANT", "SHIELD", "STONE", "JOLLY", "FAITH"],
     "inputQuantities": [2, 0, 0, 0, 0, 0],
     "outputType": ["COIN", "SERVANT", "SHIELD", "STONE", "JOLLY", "FAITH"],

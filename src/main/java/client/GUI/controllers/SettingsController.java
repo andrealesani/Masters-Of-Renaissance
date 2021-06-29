@@ -203,7 +203,7 @@ public class SettingsController implements GUIController {
                     readyButton.setDisable(true);
                 } else {
                     invalidUsername.setVisible(true);
-                    invalidUsername.setText("Please try again in a moment");
+                    invalidUsername.setText(response.getMessage());
                 }
             }
 
