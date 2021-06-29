@@ -45,6 +45,7 @@ public class CLI {
         //Attempts connection to server
         Socket clientSocket = null;
         try {
+            System.out.println("Attempting connection to " + hostName + "...");
             clientSocket = new Socket(hostName, portNumber);
         } catch (IOException ex) {
             System.err.println("Server is not online");
