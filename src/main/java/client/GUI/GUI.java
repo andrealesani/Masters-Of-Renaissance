@@ -16,6 +16,7 @@ import network.MessageWrapper;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -166,7 +167,7 @@ public class GUI extends Application {
      * @param type the type of the message to be sent
      * @param message the command to be sent
      */
-    public void sendMessage(MessageType type, String message) {
+    public void sendMessageToServer(MessageType type, String message) {
         out.println(gson.toJson(new MessageWrapper(type, message)));
     }
 
@@ -183,6 +184,13 @@ public class GUI extends Application {
         } catch (IOException e) {
             System.err.println("Warning: couldn't complete connection setup");
             stop();
+        }
+
+        try {
+            clientSocket.setSoTimeout(10*1000);
+        } catch (SocketException e) {
+            System.err.println("Warning: couldn't set socket timeout in GUI");
+            e.printStackTrace();
         }
     }
 

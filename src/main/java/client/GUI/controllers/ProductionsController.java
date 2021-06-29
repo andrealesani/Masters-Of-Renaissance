@@ -141,7 +141,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectProduction, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -150,7 +150,7 @@ public class ProductionsController implements GUIController {
     public void resetProductionChoice() {
         System.out.println("ResetProductionChoice");
         Command command = new Command(UserCommandsType.resetProductionChoice, null);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -163,7 +163,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyInput, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -176,7 +176,7 @@ public class ProductionsController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("resource", resource);
         Command command = new Command(UserCommandsType.chooseJollyOutput, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -185,7 +185,7 @@ public class ProductionsController implements GUIController {
     public void confirmProductionChoice() {
         System.out.println("ConfirmProductionChoice");
         Command command = new Command(UserCommandsType.confirmProductionChoice, null);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         closeWindow();
     }
 

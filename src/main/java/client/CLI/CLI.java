@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -69,6 +70,15 @@ public class CLI {
         CountDownLatch latch = new CountDownLatch(1);
 
         try {
+
+            //Sets a 10 second timeout for the socket reader
+            try {
+                clientSocket.setSoTimeout(10*1000);
+            } catch (SocketException e) {
+                System.err.println("Warning: couldn't set socket timeout in CLI");
+                e.printStackTrace();
+            }
+
             //Creates the input and output to and from the server, and the input from command line
             BufferedReader in =
                     new BufferedReader(
@@ -82,15 +92,15 @@ public class CLI {
             //Creates the object which stores the game data
             ClientView ClientView = new ClientView();
 
-            //Creates the thread that processes messages from the server
-            ClientReader ClientReader = new ClientReader(in, ClientView, latch);
-            Thread readerThread = new Thread(ClientReader);
-            readerThread.start();
-
             //Creates the thread that processes messages from the player
             CLIWriter CLIWriter = new CLIWriter(stdIn, out, ClientView, latch);
             Thread writerThread = new Thread(CLIWriter);
             writerThread.start();
+
+            //Creates the thread that processes messages from the server
+            ClientReader ClientReader = new ClientReader(in, CLIWriter, ClientView, latch);
+            Thread readerThread = new Thread(ClientReader);
+            readerThread.start();
 
             //Awaits termination by one of the threads
             try {

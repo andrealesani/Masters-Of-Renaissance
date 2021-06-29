@@ -7,8 +7,11 @@ import network.MessageWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class handles the server's connection with a single client
@@ -42,6 +45,10 @@ public class ServerPlayerHandler implements Runnable {
      * The handler's gson object used to serialize messages for the client
      */
     private final Gson gson;
+    /**
+     * Timer used to regularly ping the client in order to verify connection
+     */
+    private Timer pingTimer;
 
     //CONSTRUCTORS
     //TODO wrap login messages
@@ -68,15 +75,25 @@ public class ServerPlayerHandler implements Runnable {
      */
     public void run() {
 
+        //Sets a 10 second timeout for the socket reader
+        try {
+            socket.setSoTimeout(10 * 1000);
+        } catch (SocketException e) {
+            System.err.println("Warning: couldn't set socket timeout in ServerPlayerHandler");
+            e.printStackTrace();
+        }
+
         //Creating input and output streams
         try {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
             return;
         }
 
+        //Creating pinging thread
+        createPinger();
 
         try {
             System.out.println("Logging in player...");
@@ -95,7 +112,9 @@ public class ServerPlayerHandler implements Runnable {
                     case LOGIN -> loginPlayer(message.getMessage());
                     case NUM_OF_PLAYERS -> setGameSize(message.getMessage());
                     case COMMAND -> runCommand(message.getMessage());
-                    case PING -> System.out.println("pong");
+                    case PING -> {
+                        System.out.println("Ponged by client");
+                    }
                     default -> {
                         System.out.println("Client sent an unexpected message: ");
                         System.out.println(message.getMessage());
@@ -104,7 +123,7 @@ public class ServerPlayerHandler implements Runnable {
                 }
             }
 
-        } catch (NoSuchElementException ex) {
+        } catch (NoSuchElementException | IllegalStateException ex) {
             if (controller == null) {
                 System.out.println("The connection with a player in login phase was lost.");
             } else if (!controller.isSizeSet()) {
@@ -116,21 +135,48 @@ public class ServerPlayerHandler implements Runnable {
             }
         }
 
-        System.out.println("Closing the connection...");
+        pingTimer.cancel();
+
+        System.out.println("Closing the socket...");
 
         //Close streams and socket
-        in.close();
-        out.close();
+        try {
+            in.close();
+            out.close();
+        } catch (IllegalStateException ignored) {
+        }
         try {
             socket.close();
         } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
 
         System.out.println("Connection closed.");
     }
 
     //PRIVATE METHODS
+
+    /**
+     * Creates a thread that regularly pings the client
+     */
+    private void createPinger() {
+        pingTimer = new Timer();
+        Gson gson = new Gson();
+
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Pinging client...");
+                out.println(gson.toJson(new MessageWrapper(MessageType.PING, "")));
+            }
+        };
+
+        int startingDelay = 100;
+        int interval = 5000;
+
+        pingTimer.schedule(task, startingDelay, interval);
+    }
 
     /**
      * Takes the player's username and tries to add them to a game through the lobby.
@@ -200,9 +246,9 @@ public class ServerPlayerHandler implements Runnable {
         //If player has logged in and their game's number of players has been decided
         if (controller != null && controller.isSizeSet()) {
 
-                //Forward player command to controller
-                System.out.println("Received command: " + messageContent);
-                controller.readCommand(username, messageContent);
+            //Forward player command to controller
+            System.out.println("Received command: " + messageContent);
+            controller.readCommand(username, messageContent);
         }
     }
 

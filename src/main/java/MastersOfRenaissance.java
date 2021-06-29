@@ -19,7 +19,7 @@ public class MastersOfRenaissance {
         System.out.println("Hi! Welcome to Masters Of Renaissance!\nWhat do you want to launch?");
         System.out.println(
                         "0. SERVER\n" +
-                        "1. CLIENT (CLI INTERFACE)\n" +
+                        "1. CLIENT (CLI)\n" +
                         "2. CLIENT (GUI)\n");
         System.out.print("> ");
         Scanner scanner = new Scanner(System.in);

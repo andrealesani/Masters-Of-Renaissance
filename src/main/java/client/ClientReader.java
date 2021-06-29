@@ -1,9 +1,11 @@
 package client;
 
+import client.CLI.CLIWriter;
 import client.GUI.GUI;
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import model.StaticMethods;
+import model.Color;
+import network.MessageType;
 import network.MessageWrapper;
 import network.beans.*;
 
@@ -29,6 +31,10 @@ public class ClientReader implements Runnable {
      */
     private CountDownLatch latch;
     /**
+     * The reference to the CLIWriter class (used only in CLI mode)
+     */
+    private final CLIWriter cli;
+    /**
      * The reference to the GUI class (used only in GUI mode)
      */
     private final GUI gui;
@@ -38,12 +44,14 @@ public class ClientReader implements Runnable {
     /**
      * CLI constructor
      *
-     * @param in         is the inputStream to read
-     * @param clientView is the view to update
+     * @param in         the inputStream to read
+     * @param clientView the view to update
      * @param latch      countdown latch before connection closes
+     * @param cli        the CLIWriter class to bing the server back
      */
-    public ClientReader(BufferedReader in, ClientView clientView, CountDownLatch latch) {
+    public ClientReader(BufferedReader in, CLIWriter cli, ClientView clientView, CountDownLatch latch) {
         this.in = in;
+        this.cli = cli;
         this.clientView = clientView;
         this.latch = latch;
         this.gui = null;
@@ -52,14 +60,15 @@ public class ClientReader implements Runnable {
     /**
      * GUI constructor
      *
-     * @param in         is the inputStream to read
-     * @param clientView is the view to update
-     * @param gui        is the GUI class to notify when the server sends updates
+     * @param in         the inputStream to read
+     * @param clientView the view to update
+     * @param gui        the GUI class to notify when the server sends updates and ping it back
      */
     public ClientReader(BufferedReader in, ClientView clientView, GUI gui) {
         this.in = in;
         this.clientView = clientView;
         this.gui = gui;
+        this.cli = null;
     }
 
     //MULTITHREADING METHODS
@@ -68,6 +77,7 @@ public class ClientReader implements Runnable {
      * The method used to run this class in multithreading.
      * Initiates a loop which reads the messages sent by the server and updates the ClientView accordingly
      */
+    @Override
     public void run() {
 
         String response;
@@ -117,6 +127,8 @@ public class ClientReader implements Runnable {
 
             switch (response.getType()) {
 
+                //Information
+
                 case INFO -> {
                     notifyGui(response);
                     System.out.println(response.getMessage());
@@ -158,6 +170,17 @@ public class ClientReader implements Runnable {
                     notifyViewUpdate(response);
                     System.out.println("Player " + response.getMessage() + " has left the game.\n");
                 }
+
+                //Ping
+
+                case PING -> {
+                    if (cli != null)
+                        cli.sendMessageToServer(MessageType.PING, "");
+                    else if (gui != null)
+                        gui.sendMessageToServer(MessageType.PING, "");
+                }
+
+                //ClientView Updates
 
                 case GAME -> {
                     clientView.setGame(gson.fromJson(response.getMessage(), GameBean.class));
@@ -227,7 +250,7 @@ public class ClientReader implements Runnable {
     private void notifyViewUpdate(MessageWrapper response) {
         if (gui == null) {
             //If in CLI mode, clear the console and re-print all of the game's elements
-            StaticMethods.clearConsole();
+            clearConsole();
             System.out.println(clientView);
         } else {
             //If in GUI mode, forward the message to the GUI
@@ -245,6 +268,27 @@ public class ClientReader implements Runnable {
         if (gui != null) {
             Platform.runLater(() -> gui.notifyCurrentScene(response));
             System.out.println("Notified GUI");
+        }
+    }
+
+    //PRIVATE UTILITY METHODS
+
+    /**
+     * Clears the console on windows and linux
+     */
+    public static void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+                System.out.println("\033c");
+            }
+            System.out.println("\n" + Color.YELLOW_LIGHT_BG + Color.GREY_DARK_FG + "Hint:" + Color.RESET + " type '" + Color.RESOURCE_STD + "help" + Color.RESET + "' for a list of commands you can do ;)" + "\n");
+        } catch (final Exception e) {
+            System.out.println("Warning: failed to clear console");
         }
     }
 }

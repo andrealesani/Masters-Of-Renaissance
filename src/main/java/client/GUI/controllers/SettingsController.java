@@ -66,7 +66,7 @@ public class SettingsController implements GUIController {
         serverMessageLabel.setVisible(true);
         serverMessageLabel.setText("Checking username availability...");
 
-        gui.sendMessage(MessageType.LOGIN, usernameField.getText());
+        gui.sendMessageToServer(MessageType.LOGIN, usernameField.getText());
     }
 
     /**
@@ -172,7 +172,7 @@ public class SettingsController implements GUIController {
      */
     public void setGame() {
         if (numPlayers > 0) {
-            gui.sendMessage(MessageType.NUM_OF_PLAYERS, Integer.toString(numPlayers));
+            gui.sendMessageToServer(MessageType.NUM_OF_PLAYERS, Integer.toString(numPlayers));
             gui.changeScene(SceneName.WAITING);
         } else {
             System.err.println("Warning: Player pressed 'ready' button before they were supposed to.");

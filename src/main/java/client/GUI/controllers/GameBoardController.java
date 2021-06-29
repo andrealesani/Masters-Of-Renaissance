@@ -197,7 +197,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseBonusResourceType, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -210,7 +210,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.chooseLeaderCard, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -223,7 +223,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.playLeaderCard, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -236,7 +236,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.discardLeaderCard, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -249,7 +249,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketRow, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -262,7 +262,7 @@ public class GameBoardController implements GUIController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("number", number);
         Command command = new Command(UserCommandsType.selectMarketColumn, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -277,7 +277,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.chooseMarbleConversion, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     /**
@@ -294,7 +294,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.sendResourceToDepot, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -313,7 +313,7 @@ public class GameBoardController implements GUIController {
         depots[1] = depotNumber2;
         parameters.put("depots", depots);
         Command command = new Command(UserCommandsType.swapDepotContent, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -344,7 +344,7 @@ public class GameBoardController implements GUIController {
         parameters.put("color", cardColor);
         parameters.put("level", level);
         Command command = new Command(UserCommandsType.takeDevelopmentCard, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -363,7 +363,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromWarehouse, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -380,7 +380,7 @@ public class GameBoardController implements GUIController {
         parameters.put("resource", resource);
         parameters.put("quantity", quantity);
         Command command = new Command(UserCommandsType.payFromStrongbox, parameters);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
     }
@@ -391,7 +391,7 @@ public class GameBoardController implements GUIController {
     public void endTurn() {
         System.out.println("EndTurn");
         Command command = new Command(UserCommandsType.endTurn, null);
-        gui.sendMessage(MessageType.COMMAND, gson.toJson(command));
+        gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
     }
 
     //PRIVATE BUTTON HANDLING METHODS

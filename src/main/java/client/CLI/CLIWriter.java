@@ -76,6 +76,7 @@ public class CLIWriter implements Runnable {
      * The method used to run this class in multithreading.
      * Initiates a loop which reads and processes the player's input
      */
+    @Override
     public void run() {
 
         String userInput;
@@ -115,6 +116,16 @@ public class CLIWriter implements Runnable {
     public void doClose() {
         doClose = true;
         System.out.println("Server connection lost, press any key to terminate.");
+    }
+
+    /**
+     * Wraps the given string and sends it to the server as a message of the given type
+     *
+     * @param type the type of the message being sent
+     * @param content the contents of the message being sent
+     */
+    public void sendMessageToServer(MessageType type, String content) {
+        out.println(gson.toJson(new MessageWrapper(type, content)));
     }
 
     //PRIVATE ELABORATION METHODS
@@ -890,17 +901,5 @@ public class CLIWriter implements Runnable {
             }
         }
         return result;
-    }
-
-    //PRIVATE COMMUNICATION MESSAGES
-
-    /**
-     * Wraps the given string and sends it to the server as a message of the given type
-     *
-     * @param type the type of the message being sent
-     * @param content the contents of the message being sent
-     */
-    private void sendMessageToServer(MessageType type, String content) {
-        out.println(gson.toJson(new MessageWrapper(type, content)));
     }
 }
