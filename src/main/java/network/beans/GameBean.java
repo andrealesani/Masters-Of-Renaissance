@@ -71,52 +71,6 @@ public class GameBean implements Observer {
         this.controller = controller;
     }
 
-    //PRIVATE METHODS
-
-    /**
-     * Sets the leaderCards list reading them from LeaderCards.json file
-     */
-    //TODO spostare in clientView
-    private void setLeaderCardsFromJson() {
-        //TODO controllare valori in input dal JSON (typo nelle enum, valori <0, etc)
-        leaderCards = new ArrayList<>();
-        Gson gson = new Gson();
-        Reader reader = null;
-
-        // depot leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DepotLeaderCards.json"), StandardCharsets.UTF_8);
-        Type DepotDecArray = new TypeToken<ArrayList<DepotLeaderCard>>() {
-        }.getType();
-        ArrayList<DepotLeaderCard> depotLeaderCards = gson.fromJson(reader, DepotDecArray);
-        leaderCards.addAll(depotLeaderCards);
-
-        // discount leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/DiscountLeaderCards.json"), StandardCharsets.UTF_8);
-        Type DiscountDecArray = new TypeToken<ArrayList<DiscountLeaderCard>>() {
-        }.getType();
-        ArrayList<DiscountLeaderCard> discountLeaderCards = gson.fromJson(reader, DiscountDecArray);
-        leaderCards.addAll(discountLeaderCards);
-
-        // marble leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/MarbleLeaderCards.json"), StandardCharsets.UTF_8);
-        Type MarbleDecArray = new TypeToken<ArrayList<MarbleLeaderCard>>() {
-        }.getType();
-        ArrayList<MarbleLeaderCard> marbleLeaderCards = gson.fromJson(reader, MarbleDecArray);
-        leaderCards.addAll(marbleLeaderCards);
-
-        // production leader cards
-        reader = new InputStreamReader(this.getClass().getResourceAsStream("/json/cards/leadercards/ProductionLeaderCards.json"), StandardCharsets.UTF_8);
-        Type ProductionDecArray = new TypeToken<ArrayList<ProductionLeaderCard>>() {
-        }.getType();
-        ArrayList<ProductionLeaderCard> productionLeaderCards = gson.fromJson(reader, ProductionDecArray);
-        leaderCards.addAll(productionLeaderCards);
-
-        int i = 1; // i++ prima passa i e poi lo incrementa => se voglio che id parta da 1 devo settare i a 1
-        for (LeaderCard leaderCard : leaderCards) {
-            leaderCard.setId(i++);
-        }
-    }
-
     // OBSERVER METHODS
 
     /**
@@ -233,7 +187,7 @@ public class GameBean implements Observer {
      */
     public LeaderCard getLeaderCardFromId(int id) throws CardNotPresentException {
         if (!cardsInitialized) {
-            setLeaderCardsFromJson();
+            leaderCards = StaticMethods.getLeaderCardsFromJson();
             cardsInitialized = true;
         }
 
