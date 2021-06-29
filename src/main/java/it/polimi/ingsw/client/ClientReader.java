@@ -254,8 +254,7 @@ public class ClientReader implements Runnable {
             System.out.println(clientView);
         } else {
             //If in GUI mode, forward the message to the GUI
-            Platform.runLater(() -> gui.notifyCurrentScene(response));
-            System.out.println("Notified GUI");
+            notifyGui(response);
         }
     }
 

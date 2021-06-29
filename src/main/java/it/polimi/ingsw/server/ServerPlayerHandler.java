@@ -192,8 +192,6 @@ public class ServerPlayerHandler implements Runnable {
                 controller = lobby.login(messageContent, out);
                 this.username = messageContent;
 
-                sendMessage(MessageType.SET_USERNAME, username);
-
                 if (!controller.isSizeSet())
                     sendMessage(MessageType.INFO, "Please, choose the game's number of players.");
 

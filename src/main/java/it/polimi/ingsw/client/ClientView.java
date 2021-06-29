@@ -300,6 +300,8 @@ public class ClientView {
 
         if (lorenzo != null)
             content += lorenzo.printLine(1);
+        else
+            content += ".";
 
         content += "\n\n";
 
@@ -311,6 +313,8 @@ public class ClientView {
 
         if (lorenzo != null)
             content += lorenzo.printLine(2);
+        else
+            content += ".";
 
         content += "\n\n";
 
@@ -322,6 +326,8 @@ public class ClientView {
 
         if (lorenzo != null)
             content += lorenzo.printLine(3);
+        else
+            content += ".";
 
         content += "\n\n";
 
