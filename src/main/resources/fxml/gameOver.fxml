@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="689.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="client.GUI.controllers.GameOverController">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="689.0" styleClass="mainBackground" stylesheets="@../css/gameBoard.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="it.polimi.ingsw.client.GUI.controllers.GameOverController">
    <children>
       <BorderPane prefHeight="382.0" prefWidth="689.0">
          <center>

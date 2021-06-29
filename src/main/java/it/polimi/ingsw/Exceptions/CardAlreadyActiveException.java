@@ -1,0 +1,16 @@
+package it.polimi.ingsw.Exceptions;
+
+/**
+ * This Exception is thrown when the player attempts to activate a leaderCard that is already active.
+ */
+public class CardAlreadyActiveException extends Exception {
+    /**
+     * Returns the message describing the type of error that occurred
+     *
+     * @return - the message (String) of this exception
+     */
+    @Override
+    public String getMessage() {
+        return ("This leader card is already active.");
+    }
+}

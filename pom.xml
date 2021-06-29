@@ -150,7 +150,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>MastersOfRenaissance</mainClass>
+                            <mainClass>it.polimi.ingsw.MastersOfRenaissance</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
