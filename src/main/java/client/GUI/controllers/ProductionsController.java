@@ -283,8 +283,6 @@ public class ProductionsController implements GUIController {
     private void drawCurrentOutput(ProductionHandlerBean productionHandlerBean) {
         Map<ResourceType, Integer> output = productionHandlerBean.getOutput();
 
-        System.out.println("Faith in curr output: " + output.get(ResourceType.FAITH));
-
         outputJollyLabel.setText(output.get(ResourceType.JOLLY).toString());
         outputCoinLabel.setText(output.get(ResourceType.COIN).toString());
         outputServantLabel.setText(output.get(ResourceType.SERVANT).toString());
