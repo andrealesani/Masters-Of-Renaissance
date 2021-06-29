@@ -68,7 +68,7 @@ public class CLIWriter implements Runnable {
 
     //MULTITHREADING METHODS
 
-    //TODO for multi-stage commands insert a strng like 'cancel' that can be used to interrupt
+    //TODO for multi-stage commands insert a string like 'cancel' that can be used to interrupt
 
     /**
      * The method used to run this class in multithreading.

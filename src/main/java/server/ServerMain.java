@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 /**
  * This class represents the executable for the game on the server machine
  */
-public class ServerMain implements Runnable{
+public class ServerMain implements Runnable {
 
     //MAIN
 
