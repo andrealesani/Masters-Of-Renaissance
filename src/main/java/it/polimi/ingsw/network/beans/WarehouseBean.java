@@ -66,7 +66,7 @@ public class WarehouseBean implements Observer, PlayerBean {
         Warehouse warehouse = (Warehouse) observable;
         setDepotsFromWarehouse(warehouse);
 
-        controller.broadcastMessage(MessageType.WAREHOUSE, gson.toJson(this));
+        controller.broadcastMessage(MessageType.WAREHOUSE_BEAN, gson.toJson(this));
     }
 
     /**
@@ -76,7 +76,7 @@ public class WarehouseBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.WAREHOUSE, gson.toJson(this));
+        controller.playerMessage(username, MessageType.WAREHOUSE_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

@@ -88,7 +88,7 @@ public class CLIWriter implements Runnable {
 
                 if (clientView.getUsername() == null) {
                     //If the player has not yet been assigned a username
-                    sendMessageToServer(MessageType.LOGIN, userInput);
+                    sendMessageToServer(MessageType.USERNAME, userInput);
                 } else if (clientView.getGame() == null) {
                     //If the game has yet to start
                     if (clientView.getWaitPlayers()) {

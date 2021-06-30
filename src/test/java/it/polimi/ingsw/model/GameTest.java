@@ -49,7 +49,7 @@ class GameTest {
         }
     }
 
-    //END OF THE GAME TESTS
+    //END OF THE GAME_BEAN TESTS
 
     @Test
     void lorenzoWinsFromFaith() throws WrongTurnPhaseException, LeaderNotPresentException {

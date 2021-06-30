@@ -48,7 +48,7 @@ To run the jar file, use the command
 
 <code>java -jar AM25-jar-with-dependencies.jar</code>  
 
-from the jar folder.
+from the command line in the jar's folder. Either the Windows or Linux consoles are supported.
 
 ## Server
 

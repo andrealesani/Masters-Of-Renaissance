@@ -102,7 +102,7 @@ public class CardTableBean implements Observer {
         CardTable cardTable = (CardTable) observable;
         setCardTableFromGame(cardTable);
 
-        controller.broadcastMessage(MessageType.CARDTABLE, gson.toJson(this));
+        controller.broadcastMessage(MessageType.CARDTABLE_BEAN, gson.toJson(this));
     }
 
     /**
@@ -112,7 +112,7 @@ public class CardTableBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.CARDTABLE, gson.toJson(this));
+        controller.playerMessage(username, MessageType.CARDTABLE_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

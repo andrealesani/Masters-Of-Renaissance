@@ -66,7 +66,7 @@ public class SettingsController implements GUIController {
         serverMessageLabel.setVisible(true);
         serverMessageLabel.setText("Checking username availability...");
 
-        gui.sendMessageToServer(MessageType.LOGIN, usernameField.getText());
+        gui.sendMessageToServer(MessageType.USERNAME, usernameField.getText());
     }
 
     /**
@@ -191,7 +191,7 @@ public class SettingsController implements GUIController {
     public void updateFromServer(MessageWrapper response) {
         switch (response.getType()) {
 
-            case SET_USERNAME -> {
+            case CONFIRM_USERNAME -> {
 
                 serverMessageLabel.setVisible(true);
                 serverMessageLabel.setText("Username was correctly set.");

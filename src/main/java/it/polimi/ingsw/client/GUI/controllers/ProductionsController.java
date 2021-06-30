@@ -100,7 +100,7 @@ public class ProductionsController implements GUIController {
     public void updateFromServer(MessageWrapper response) {
 
         switch (response.getType()) {
-            case PRODUCTIONHANDLER:
+            case PRODUCTIONHANDLER_BEAN:
 
                 ProductionHandlerBean productionHandlerBean = clientView.getProductionHandler(clientView.getUsername());
 

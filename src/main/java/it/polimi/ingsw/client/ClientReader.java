@@ -139,7 +139,7 @@ public class ClientReader implements Runnable {
                     System.err.println(response.getMessage());
                 }
 
-                case SET_USERNAME -> {
+                case CONFIRM_USERNAME -> {
                     clientView.setUsername(response.getMessage());
                     notifyGui(response);
                     System.out.println("Username was correctly set to: " + clientView.getUsername() + ".");
@@ -182,47 +182,47 @@ public class ClientReader implements Runnable {
 
                 //ClientView Updates
 
-                case GAME -> {
+                case GAME_BEAN -> {
                     clientView.setGame(gson.fromJson(response.getMessage(), GameBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case MARKET -> {
+                case MARKET_BEAN -> {
                     clientView.setMarket(gson.fromJson(response.getMessage(), MarketBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case CARDTABLE -> {
+                case CARDTABLE_BEAN -> {
                     clientView.setCardTable(gson.fromJson(response.getMessage(), CardTableBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case PLAYERBOARD -> {
+                case PLAYERBOARD_BEAN -> {
                     clientView.setPlayerBoard(gson.fromJson(response.getMessage(), PlayerBoardBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case STRONGBOX -> {
+                case STRONGBOX_BEAN -> {
                     clientView.setStrongbox(gson.fromJson(response.getMessage(), StrongboxBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case WAITINGROOM -> {
+                case WAITINGROOM_BEAN -> {
                     clientView.setWaitingRoom(gson.fromJson(response.getMessage(), WaitingRoomBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case WAREHOUSE -> {
+                case WAREHOUSE_BEAN -> {
                     clientView.setWarehouse(gson.fromJson(response.getMessage(), WarehouseBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case PRODUCTIONHANDLER -> {
+                case PRODUCTIONHANDLER_BEAN -> {
                     clientView.setProductionHandler(gson.fromJson(response.getMessage(), ProductionHandlerBean.class));
                     notifyViewUpdate(response);
                 }
 
-                case LORENZO -> {
+                case LORENZO_BEAN -> {
                     clientView.setLorenzo(gson.fromJson((String) response.getMessage(), LorenzoBean.class));
                     notifyViewUpdate(response);
                 }

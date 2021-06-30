@@ -50,7 +50,7 @@ public class MarketBean implements Observer {
         setMarketBoardFromGame(market);
         setSlideFromGame(market);
 
-        controller.broadcastMessage(MessageType.MARKET, gson.toJson(this));
+        controller.broadcastMessage(MessageType.MARKET_BEAN, gson.toJson(this));
     }
 
     /**
@@ -60,7 +60,7 @@ public class MarketBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.MARKET, gson.toJson(this));
+        controller.playerMessage(username, MessageType.MARKET_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

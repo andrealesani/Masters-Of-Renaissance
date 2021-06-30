@@ -128,12 +128,12 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         setDiscountFromPB(pb);
         setLeaderDepotCardsFromPB(pb);
 
-        controller.broadcastMessage(MessageType.PLAYERBOARD, gson.toJson(this));
+        controller.broadcastMessage(MessageType.PLAYERBOARD_BEAN, gson.toJson(this));
     }
 
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.PLAYERBOARD, gson.toJson(this));
+        controller.playerMessage(username, MessageType.PLAYERBOARD_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

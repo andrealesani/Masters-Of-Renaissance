@@ -57,7 +57,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
         UnlimitedStorage waitingRoom = (UnlimitedStorage) observable;
         setQuantityFromWaitingRoom(waitingRoom);
 
-        controller.broadcastMessage(MessageType.WAITINGROOM, gson.toJson(this));
+        controller.broadcastMessage(MessageType.WAITINGROOM_BEAN, gson.toJson(this));
     }
 
     /**
@@ -67,7 +67,7 @@ public class WaitingRoomBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.WAITINGROOM, gson.toJson(this));
+        controller.playerMessage(username, MessageType.WAITINGROOM_BEAN, gson.toJson(this));
     }
 
     // PRINTING METHODS

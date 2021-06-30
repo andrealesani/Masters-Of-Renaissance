@@ -63,7 +63,7 @@ public class GameController {
         this.size = 0;
         this.isGameOver = false;
         players.put(username, userOut);
-        playerMessage(username, MessageType.SET_USERNAME, username);
+        playerMessage(username, MessageType.CONFIRM_USERNAME, username);
     }
 
     /**
@@ -167,7 +167,7 @@ public class GameController {
                     //If the player is reconnecting
                     setConnectedStatus(username);
                     players.put(username, userOut);
-                    playerMessage(username, MessageType.SET_USERNAME, username);
+                    playerMessage(username, MessageType.CONFIRM_USERNAME, username);
                     playerMessage(username, MessageType.GAME_START, "You have been reconnected to the game.");
                     System.out.println("Added player: " + username + " to current game.");
                     game.updateReconnectedPlayer(username);
@@ -186,7 +186,7 @@ public class GameController {
         //If the player is connecting for the first time
         broadcastMessage(MessageType.PLAYER_CONNECTED, username);
         players.put(username, userOut);
-        playerMessage(username, MessageType.SET_USERNAME, username);
+        playerMessage(username, MessageType.CONFIRM_USERNAME, username);
         System.out.println("Added player: " + username + " to current game.");
 
         checkGameStart();

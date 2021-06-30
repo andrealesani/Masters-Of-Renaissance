@@ -8,39 +8,39 @@ public enum MessageType {
     /**
      * The game status data
      */
-    GAME,
+    GAME_BEAN,
     /**
      * The player board data for one player
      */
-    PLAYERBOARD,
+    PLAYERBOARD_BEAN,
     /**
      * The market data
      */
-    MARKET,
+    MARKET_BEAN,
     /**
      * The card table data
      */
-    CARDTABLE,
+    CARDTABLE_BEAN,
     /**
      * The lorenzo data
      */
-    LORENZO,
+    LORENZO_BEAN,
     /**
      * The strongbox data for one player
      */
-    STRONGBOX,
+    STRONGBOX_BEAN,
     /**
      * The warehouse data for one player
      */
-    WAREHOUSE,
+    WAREHOUSE_BEAN,
     /**
      * The waiting room data for one player
      */
-    WAITINGROOM,
+    WAITINGROOM_BEAN,
     /**
      * The productions data for one player
      */
-    PRODUCTIONHANDLER,
+    PRODUCTIONHANDLER_BEAN,
 
     //Server informative messages
     /**
@@ -64,7 +64,7 @@ public enum MessageType {
     /**
      * Signals the registration of the client's username
      */
-    SET_USERNAME,
+    CONFIRM_USERNAME,
     /**
      * Signals the end of the game
      */
@@ -82,7 +82,7 @@ public enum MessageType {
     /**
      * The player's username
      */
-    LOGIN,
+    USERNAME,
     /**
      * The game's number of players
      */

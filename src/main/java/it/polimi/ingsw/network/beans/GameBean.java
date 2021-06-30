@@ -82,7 +82,7 @@ public class GameBean implements Observer {
         setWinner(game);
         setWinnerVp(game);
 
-        controller.broadcastMessage(MessageType.GAME, gson.toJson(this));
+        controller.broadcastMessage(MessageType.GAME_BEAN, gson.toJson(this));
 
         if (winner != null)
             controller.setGameOver();
@@ -95,7 +95,7 @@ public class GameBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.GAME, gson.toJson(this));
+        controller.playerMessage(username, MessageType.GAME_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

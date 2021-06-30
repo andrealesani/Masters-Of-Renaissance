@@ -58,7 +58,7 @@ public class LorenzoBean implements Observer {
         setActiveTokenNumberFromGame(lorenzo);
         setDiscardedTokensFromGame(lorenzo);
 
-        controller.broadcastMessage(MessageType.LORENZO, gson.toJson(this));
+        controller.broadcastMessage(MessageType.LORENZO_BEAN, gson.toJson(this));
     }
 
     /**
@@ -68,7 +68,7 @@ public class LorenzoBean implements Observer {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.LORENZO, gson.toJson(this));
+        controller.playerMessage(username, MessageType.LORENZO_BEAN, gson.toJson(this));
     }
 
     //PRINTING METHODS

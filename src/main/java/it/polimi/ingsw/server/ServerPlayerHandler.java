@@ -109,7 +109,7 @@ public class ServerPlayerHandler implements Runnable {
                 MessageWrapper message = gson.fromJson(messageString, MessageWrapper.class);
 
                 switch (message.getType()) {
-                    case LOGIN -> loginPlayer(message.getMessage());
+                    case USERNAME -> loginPlayer(message.getMessage());
                     case NUM_OF_PLAYERS -> setGameSize(message.getMessage());
                     case COMMAND -> runCommand(message.getMessage());
                     case PING -> {

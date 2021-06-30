@@ -139,21 +139,21 @@ public class GameBoardController implements GUIController {
 
         //Updates only the part of the scene corresponding to the message received
         switch (response.getType()) {
-            case GAME -> drawGameState(clientView.getGame());
-            case MARKET -> drawMarket(clientView.getMarket());
-            case CARDTABLE -> drawCardTable(clientView.getCardTable());
-            case PLAYERBOARD -> drawPlayerBoard(clientView.getPlayerBoard(visualizedPlayer));
+            case GAME_BEAN -> drawGameState(clientView.getGame());
+            case MARKET_BEAN -> drawMarket(clientView.getMarket());
+            case CARDTABLE_BEAN -> drawCardTable(clientView.getCardTable());
+            case PLAYERBOARD_BEAN -> drawPlayerBoard(clientView.getPlayerBoard(visualizedPlayer));
             //TODO usare mappe per inviare le risorse pls
-            case STRONGBOX -> drawStrongbox(clientView.getStrongbox(visualizedPlayer));
-            case WAITINGROOM -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
-            case WAREHOUSE -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
-            case LORENZO -> drawLorenzo(clientView.getLorenzo());
-            case PRODUCTIONHANDLER -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(response);
+            case STRONGBOX_BEAN -> drawStrongbox(clientView.getStrongbox(visualizedPlayer));
+            case WAITINGROOM_BEAN -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
+            case WAREHOUSE_BEAN -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
+            case LORENZO_BEAN -> drawLorenzo(clientView.getLorenzo());
+            case PRODUCTIONHANDLER_BEAN -> gui.getControllerBySceneName(SceneName.PRODUCTIONS).updateFromServer(response);
             case ERROR -> SimplePopup.display(response.getType(), response.getMessage());
             case GAME_END -> switchToGameOverScreen(response);
             case PLAYER_CONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has joined the game.");
             case PLAYER_DISCONNECTED -> SimplePopup.display(MessageType.INFO, "Player " + response.getMessage() + " has left the game (say goodbye like you mean it).");
-            case SET_USERNAME -> {/*do nothing*/}
+            case CONFIRM_USERNAME -> {/*do nothing*/}
             default -> System.out.println("Warning: received unexpected message " + response.getMessage());
         }
     }
@@ -927,7 +927,7 @@ public class GameBoardController implements GUIController {
         }
         //Add lorenzo on the list if in single player game
         if (turnOrder.length == 1)
-            ((Label) turnOrderChildren.get(1)).setText("LORENZO");
+            ((Label) turnOrderChildren.get(1)).setText("LORENZO_BEAN");
     }
 
     /**

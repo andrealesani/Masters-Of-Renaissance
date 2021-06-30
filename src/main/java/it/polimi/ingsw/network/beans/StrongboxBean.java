@@ -57,7 +57,7 @@ public class StrongboxBean implements Observer, PlayerBean {
         UnlimitedStorage strongbox = (UnlimitedStorage) observable;
         setQuantityFromStrongbox(strongbox);
 
-        controller.broadcastMessage(MessageType.STRONGBOX, gson.toJson(this));
+        controller.broadcastMessage(MessageType.STRONGBOX_BEAN, gson.toJson(this));
     }
 
     /**
@@ -67,7 +67,7 @@ public class StrongboxBean implements Observer, PlayerBean {
      */
     public void updateSinglePlayer(String username) {
         Gson gson = new Gson();
-        controller.playerMessage(username, MessageType.STRONGBOX, gson.toJson(this));
+        controller.playerMessage(username, MessageType.STRONGBOX_BEAN, gson.toJson(this));
     }
 
     // PRINTING METHODS
