@@ -48,18 +48,20 @@ To run the jar file, use the command
 
 <code>java -jar AM25-jar-with-dependencies.jar</code>  
 
-from the command line in the jar's folder. Either the Windows or Linux consoles are supported.
+from the command line in the jar's folder. 
+
+Both the Windows and Linux consoles are supported.
 
 ## Server
 
 The machine running the server must be reachable from the clients in order to play the game. To start the server, select the <code>0</code> option when booting.  
 
-By default, when launching this command, the server starts to listen for incoming message on port <code>1234</code>, and will accept the connection of any number of clients
+By default, when launching this command, the server starts to listen for incoming messages on port <code>1234</code> (this can be changed from the <code>HostAndPort.json</code> file found in the <code>/resources/json</code> folder), and will accept the connection of any number of clients.
 
 The server will look for a <code>/savedGames</code> directory on the same directory where the jar file is located, and will create one if none is found. 
 This directory is used to save the server's games into json files, from which they will be automatically restored once the server is run again.
 
-Once launched, the server will print the events log on the standard output.
+Once launched, the server will print the events' log on the standard output.
 
 ## Client
 
@@ -111,7 +113,7 @@ A game that has ended is removed from the server's saved games, and will thus no
 
 ### Game interruptions
 
-If a game's player disconnects from the server the game will continue while skipping their turn. 
+If a game's player disconnects from the server their game will continue whilst skipping their turn. 
 A disconnected player can reconnect to their game by logging in using the same username, and will be able to take their turn normally once it arrives.
 
 If all of a game's players disconnect, the first one to reconnect will become the current player.
