@@ -9,9 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import it.polimi.ingsw.network.MessageType;
 import it.polimi.ingsw.network.MessageWrapper;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.net.Socket;
@@ -63,6 +66,10 @@ public class GUI extends Application {
      * Json serializer
      */
     private final Gson gson;
+    /**
+     * Media player!
+     */
+    private MediaPlayer player;
 
     // CONSTRUCTOR
 
@@ -100,7 +107,6 @@ public class GUI extends Application {
         window.setMinWidth(400);
         window.setMinHeight(600);
         window.setResizable(true);
-        // If we want to add special fonts we should do it here
         run();
     }
 
@@ -154,7 +160,19 @@ public class GUI extends Application {
                 window.setMinWidth(689);
                 window.setMinHeight(382);
             }
-            case GAME_BOARD -> window.setResizable(false);
+            case GAME_BOARD -> {
+                window.setResizable(false);
+                player.stop();
+                /*Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource("media/treasure-town.mp3")).toExternalForm());
+                player = new MediaPlayer(pick);
+                player.setAutoPlay(true);
+                player.setCycleCount(MediaPlayer.INDEFINITE);
+                player.setVolume(0.2);
+                player.setOnEndOfMedia(() -> {
+                    player.seek(Duration.ZERO);
+                    player.play();
+                });*/
+            }
 
         }
     }
@@ -238,7 +256,6 @@ public class GUI extends Application {
      * Each stage scene is put inside two hashmaps, which link their name to their scene object and controller respectively.
      */
     private void setup() {
-        SceneName[] fxmList = SceneName.values();
         try {
             for (SceneName sceneName : SceneName.values()) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName.getFilePath()));
@@ -267,6 +284,15 @@ public class GUI extends Application {
         window.getIcons().add(new Image(getClass().getResourceAsStream("/graphics/punchboard/calamaio.png")));
         currentScene.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/graphics/cursor.png"))));
         window.show();
+        Media pick = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource("media/exploration-team-theme.mp3")).toExternalForm());
+        player = new MediaPlayer(pick);
+        player.setAutoPlay(true);
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.setVolume(0.3);
+        player.setOnEndOfMedia(() -> {
+            player.seek(Duration.ZERO);
+            player.play();
+        });
     }
 
     // GETTERS
