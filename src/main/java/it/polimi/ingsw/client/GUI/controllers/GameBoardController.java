@@ -983,11 +983,6 @@ public class GameBoardController implements GUIController {
      * @param playerBoardBean the object containing the visualized player's player board information
      */
     private void drawPlayerBoard(PlayerBoardBean playerBoardBean) {
-        int i = 0;
-        for (ResourceType type : playerBoardBean.getDiscountType()) {
-            System.out.println(type + ": " + playerBoardBean.getDiscountQuantity()[i]);
-            i++;
-        }
 
         //Faith track
         drawFaithTrack(faithGrid, "/graphics/punchboard/faithMarker.png", playerBoardBean.getFaith());
