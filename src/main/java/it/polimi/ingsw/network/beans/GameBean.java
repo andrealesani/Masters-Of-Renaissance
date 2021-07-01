@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.beans;
 
 import it.polimi.ingsw.Exceptions.CardNotPresentException;
 import com.google.gson.Gson;
+import it.polimi.ingsw.StaticMethods;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.card.leadercard.LeaderCard;
 import it.polimi.ingsw.network.MessageType;

@@ -4,16 +4,12 @@ import it.polimi.ingsw.Exceptions.BlockedResourceException;
 import it.polimi.ingsw.Exceptions.GameDataNotFoundException;
 import it.polimi.ingsw.Exceptions.NotEnoughSpaceException;
 import it.polimi.ingsw.Exceptions.WrongResourceInsertionException;
-import com.google.gson.Gson;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PersistenceHandler;
-import it.polimi.ingsw.model.StaticMethods;
+import it.polimi.ingsw.StaticMethods;
 import it.polimi.ingsw.model.resource.ResourceType;
-import org.apache.maven.settings.Server;
+import it.polimi.ingsw.server.PersistenceHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -8,10 +8,9 @@ import it.polimi.ingsw.Exceptions.network.GameFullException;
 import it.polimi.ingsw.Exceptions.network.PlayerNumberAlreadySetException;
 import it.polimi.ingsw.Exceptions.network.UnknownPlayerNumberException;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PersistenceHandler;
 import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.MessageType;
-import it.polimi.ingsw.model.StaticMethods;
+import it.polimi.ingsw.StaticMethods;
 import it.polimi.ingsw.network.MessageWrapper;
 
 import java.io.PrintWriter;

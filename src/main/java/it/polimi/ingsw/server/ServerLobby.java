@@ -4,8 +4,7 @@ import it.polimi.ingsw.Exceptions.GameDataNotFoundException;
 import it.polimi.ingsw.Exceptions.network.GameFullException;
 import it.polimi.ingsw.Exceptions.network.UnknownPlayerNumberException;
 import it.polimi.ingsw.Exceptions.network.UsernameAlreadyExistsException;
-import it.polimi.ingsw.model.PersistenceHandler;
-import it.polimi.ingsw.model.StaticMethods;
+import it.polimi.ingsw.StaticMethods;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

@@ -4,6 +4,7 @@ import it.polimi.ingsw.Exceptions.EmptyDeckException;
 import it.polimi.ingsw.Exceptions.NotEnoughResourceException;
 import it.polimi.ingsw.Exceptions.ParametersNotValidException;
 import it.polimi.ingsw.Exceptions.SlotNotValidException;
+import it.polimi.ingsw.StaticMethods;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 

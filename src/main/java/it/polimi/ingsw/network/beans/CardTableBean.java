@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.Observer;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.network.MessageType;
-import it.polimi.ingsw.model.StaticMethods;
+import it.polimi.ingsw.StaticMethods;
 import it.polimi.ingsw.server.GameController;
 
 import java.util.*;

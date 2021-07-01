@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.GameDataNotFoundException;
-import it.polimi.ingsw.model.PersistenceHandler;
-import it.polimi.ingsw.model.StaticMethods;
+import it.polimi.ingsw.StaticMethods;
+import it.polimi.ingsw.server.PersistenceHandler;
 import org.apache.maven.settings.Server;
 import org.junit.jupiter.api.Test;
 
