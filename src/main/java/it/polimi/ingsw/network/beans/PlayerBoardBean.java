@@ -178,11 +178,12 @@ public class PlayerBoardBean implements Observer, PlayerBean {
             //Row 4
             case 4 -> {
                 if (marbleConversions.length == 0)
-                    return " Player does not have any marble conversions";
-
-                content += " White Marble Conversions: ";
-                for (ResourceType marbleConversion : marbleConversions) {
-                    content += marbleConversion.iconPrint() + "  ";
+                    content += " Player does not have any marble conversions";
+                else {
+                    content += " White Marble Conversions: ";
+                    for (ResourceType marbleConversion : marbleConversions) {
+                        content += marbleConversion.iconPrint() + "  ";
+                    }
                 }
             }
 
@@ -190,11 +191,12 @@ public class PlayerBoardBean implements Observer, PlayerBean {
             case 5 -> {
                 if (discountType.length == 0)
                     content += " Player does not have any discounts";
-
-                else
+                else {
+                    content += " Card discounts: ";
                     for (int i = 0; i < discountType.length; i++) {
                         content += " -" + discountQuantity[i] + " x " + discountType[i].iconPrint() + "  ";
                     }
+                }
             }
 
             //Row 6

@@ -145,11 +145,11 @@ public class WarehouseBean implements Observer, PlayerBean {
                 } else {
                     content += Color.GREY_LIGHT_FG + "■ " + Color.RESET;
                 }
-
-                //For leader depots prints the type of resource they can store
-                if (i >= basicDepotNum)
-                    content += "(" + depotType[i].iconPrint() + ")";
             }
+
+            //For leader depots prints the type of resource they can store
+            if (i >= basicDepotNum)
+                content += "(" + depotType[i].iconPrint() + ")";
 
             content += "]";
         }
