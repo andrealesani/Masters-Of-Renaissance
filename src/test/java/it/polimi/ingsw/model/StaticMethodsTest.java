@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.GameDataNotFoundException;
 import it.polimi.ingsw.model.PersistenceHandler;
@@ -24,6 +24,7 @@ class StaticMethodsTest {
         String jarPath = jarFile.getParentFile().getAbsolutePath();
 
         File folder = new File(jarPath + "/savedGames");
+        System.out.println(jarPath);
 
         assertEquals(folder.listFiles().length, restoredGames.size());
     }

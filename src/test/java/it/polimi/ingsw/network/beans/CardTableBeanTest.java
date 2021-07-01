@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CardTableBeanTest {
     /**
@@ -29,14 +30,16 @@ class CardTableBeanTest {
         CardTableBean cardTableBean = new CardTableBean(new GameController("Gigi", printWriter));
         game.getCardTable().addObserver(cardTableBean);
 
-        int i = 0, j;
-        for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
+        int i, j;
+        for (i = 0; i < cardTableBean.getCards().length; i++) {
             j = 0;
-            for (List<DevelopmentCard> deck : color.getValue()) {
-                //assertEquals(game.getCardTable().getTopCardId(deck), cardTableBean.getCards()[i][j]);
+            for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
+                if (color.getValue().get(i).size() == 0)
+                    assertEquals(-1, cardTableBean.getCards()[i][j]);
+                else
+                assertEquals(cardTableBean.getCards()[i][j], color.getValue().get(i).get(0).getId());
                 j++;
             }
-            i++;
         }
     }
 }
