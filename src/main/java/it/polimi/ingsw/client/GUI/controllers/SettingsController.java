@@ -127,6 +127,7 @@ public class SettingsController implements GUIController {
         twoPlayersButton.setVisible(true);
         threePlayersButton.setVisible(true);
         fourPlayersButton.setVisible(true);
+        changeSettingsButton.setVisible(true);
     }
 
     /**
