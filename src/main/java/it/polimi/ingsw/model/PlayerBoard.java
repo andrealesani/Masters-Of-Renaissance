@@ -74,7 +74,7 @@ public class PlayerBoard implements Observable {
     /**
      * Map used to signal the correspondence between a leader depot numbers and their leader card
      */
-    private final Map<Integer, Integer> leaderDepotCards;
+    private final Map<Integer, Integer> leaderDepotCardsId;
     /**
      * Array used to store the faith values of the victory points faith tiles
      */
@@ -139,7 +139,7 @@ public class PlayerBoard implements Observable {
         for (int i = 0; i < devCardSlots; i++)
             cardSlots.add(new ArrayList<>());
         leaderCards = new ArrayList<>();
-        leaderDepotCards = new HashMap<>();
+        leaderDepotCardsId = new HashMap<>();
         productionHandler = new ProductionHandler();
         productionHandler.addProduction(new Production());
 
@@ -169,7 +169,7 @@ public class PlayerBoard implements Observable {
         for (int i = 0; i < 3; i++)
             cardSlots.add(new ArrayList<DevelopmentCard>());
         leaderCards = new ArrayList<>();
-        leaderDepotCards = new HashMap<>();
+        leaderDepotCardsId = new HashMap<>();
         productionHandler = new ProductionHandler();
 
         isConnected = true;
@@ -1000,7 +1000,7 @@ public class PlayerBoard implements Observable {
             if (depotId[i] != 0) {
                 for (int j = 0; j < leaderCards.size(); j++) {
                     if (depotId[i] == leaderCards.get(j).getId()) {
-                        leaderDepotCards.put(i + 1, j + 1);
+                        leaderDepotCardsId.put(i + 1, j + 1);
                         break;
                     }
                 }
@@ -1231,12 +1231,12 @@ public class PlayerBoard implements Observable {
     /**
      * Getter
      *
-     * @return leaderDepotCards
+     * @return leaderDepotCardsId
      */
-    public Map<Integer, Integer> getLeaderDepotCards() {
+    public Map<Integer, Integer> getLeaderDepotCardsId() {
         Map<Integer, Integer> result = new HashMap<>();
-        for (Integer depotNumber : leaderDepotCards.keySet()) {
-            result.put(depotNumber, leaderDepotCards.get(depotNumber));
+        for (Integer depotNumber : leaderDepotCardsId.keySet()) {
+            result.put(depotNumber, leaderDepotCardsId.get(depotNumber));
         }
         return result;
     }

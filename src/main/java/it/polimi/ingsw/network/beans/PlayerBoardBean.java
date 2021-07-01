@@ -79,7 +79,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
     /**
      * Represents the association between a warehouse leader depot's number and its LeaderCard's id
      */
-    private Map<Integer, Integer> leaderDepotCards;
+    private Map<Integer, Integer> leaderDepotCardsId;
     /**
      * Represents the faith value reached by the player to earns victory points
      */
@@ -516,11 +516,11 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      *
      * @return a Map where the keys are depot numbers and the values are leader card ids
      */
-    public Map<Integer, Integer> getLeaderDepotCards() {
+    public Map<Integer, Integer> getLeaderDepotCardsId() {
         Map<Integer, Integer> result = new HashMap<>();
 
-        for (Integer depot : leaderDepotCards.keySet())
-            result.put(depot, leaderDepotCards.get(depot));
+        for (Integer depot : leaderDepotCardsId.keySet())
+            result.put(depot, leaderDepotCardsId.get(depot));
 
         return result;
     }
@@ -707,6 +707,6 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      * @param playerBoard the object to take the information from
      */
     private void setLeaderDepotCardsFromPB(PlayerBoard playerBoard) {
-        leaderDepotCards = playerBoard.getLeaderDepotCards();
+        leaderDepotCardsId = playerBoard.getLeaderDepotCardsId();
     }
 }

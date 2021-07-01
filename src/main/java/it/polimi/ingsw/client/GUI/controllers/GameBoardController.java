@@ -559,7 +559,7 @@ public class GameBoardController implements GUIController {
         //Leader Depots
         PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
         if (playerBoard != null) {
-            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCardsId();
             List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
@@ -716,7 +716,7 @@ public class GameBoardController implements GUIController {
         //Leader Depots
         PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
         if (playerBoard != null) {
-            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCardsId();
             List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
@@ -776,7 +776,7 @@ public class GameBoardController implements GUIController {
         //Leader Depots
         PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
         if (playerBoard != null) {
-            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCardsId();
             List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
@@ -815,7 +815,7 @@ public class GameBoardController implements GUIController {
         //Leader Depots
         PlayerBoardBean playerBoard = clientView.getPlayerBoard(clientView.getUsername());
         if (playerBoard != null) {
-            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCards();
+            Map<Integer, Integer> leaderDepotCards = playerBoard.getLeaderDepotCardsId();
             List<Node> leaderDepotButtons = leaderDepotButtonGrid.getChildren();
             for (int depot : leaderDepotCards.keySet()) {
                 int card = leaderDepotCards.get(depot);
@@ -1054,13 +1054,17 @@ public class GameBoardController implements GUIController {
         drawDepot(depotQuantities[2], depotTypes[2], depot3Grid);
 
         //The resources in each leader depot
-        if (depotQuantities.length > 3 && clientView.getPlayerBoard(clientView.getUsername()) != null) {
+        List<Node> leaderDepots = leaderDepotGrid.getChildren();
+        if (depotQuantities.length > 3 && clientView.getPlayerBoard(warehouseBean.getUsername()) != null) {
             int i = 3;
-            List<Node> leaderDepots = leaderDepotGrid.getChildren();
-            Map<Integer, Integer> leaderDepotCards = clientView.getPlayerBoard(clientView.getUsername()).getLeaderDepotCards();
-            for (int depot : leaderDepotCards.keySet()) {
-                drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCards.get(depot) - 1));
+            Map<Integer, Integer> leaderDepotCardsId = clientView.getPlayerBoard(warehouseBean.getUsername()).getLeaderDepotCardsId();
+            for (int depot : leaderDepotCardsId.keySet()) {
+                drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCardsId.get(depot) - 1));
                 i++;
+            }
+        } else {
+            for (Node leaderDepot : leaderDepots) {
+                drawDepot(0, null, (GridPane) leaderDepot);
             }
         }
     }
