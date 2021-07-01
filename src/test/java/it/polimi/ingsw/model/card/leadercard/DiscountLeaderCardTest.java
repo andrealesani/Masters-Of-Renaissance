@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DiscountLeaderCardTest {
 
+    /**
+     * Test for the leader card's activation
+     */
     @Test
     void doAction() throws CardAlreadyActiveException {
         CardColor[] requiredColors = {CardColor.GREEN, CardColor.BLUE};
@@ -34,6 +37,9 @@ class DiscountLeaderCardTest {
         assertEquals(2, playerBoard.getDiscounts().get(ResourceType.COIN));
     }
 
+    /**
+     * Test for the method that verifies if the leader card's requirements for activation are met
+     */
     @Test
     void areRequirementsMet() {
         // Discount leader card parameters
@@ -61,6 +67,9 @@ class DiscountLeaderCardTest {
         assertTrue(discountLeaderCard.areRequirementsMet(playerBoard));
     }
 
+    /**
+     * Test for the creation of the leader card from the JSON file
+     */
     @Test
     void JSONDiscountArray() {
         Gson gson = new Gson();

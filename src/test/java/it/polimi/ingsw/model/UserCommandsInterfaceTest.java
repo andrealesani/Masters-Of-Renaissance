@@ -22,6 +22,10 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserCommandsInterfaceTest {
+
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void chooseBonusResourceType() throws LeaderNotPresentException, WrongTurnPhaseException, NotEnoughResourceException {
         // Game creation
@@ -57,6 +61,9 @@ class UserCommandsInterfaceTest {
         assertEquals(0, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.STONE));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void chooseLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -80,6 +87,9 @@ class UserCommandsInterfaceTest {
         assertEquals(memoryList.get(2), currentPlayer.getLeaderCards().get(1));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void playLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
         // Game creation
@@ -143,6 +153,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void discardLeaderCard() throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
         // Game creation
@@ -167,6 +180,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void selectMarketRow() throws WrongTurnPhaseException, LeaderNotPresentException {
 
@@ -211,6 +227,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void selectMarketColumn() throws WrongTurnPhaseException, LeaderNotPresentException {
 
@@ -255,8 +274,11 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
-    void sendResourceToDepotCorrect() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException, LeaderNotPresentException {
+    void sendResourceToDepot() throws WrongTurnPhaseException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughResourceException, DepotNotPresentException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -294,6 +316,9 @@ class UserCommandsInterfaceTest {
         assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void chooseMarbleConversion() throws WrongTurnPhaseException, ConversionNotAvailableException, NotEnoughResourceException, WrongResourceInsertionException, BlockedResourceException, NotEnoughSpaceException, DepotNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -339,6 +364,9 @@ class UserCommandsInterfaceTest {
         assertTrue(player.getLeftInWaitingRoom() <= 4);
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void swapDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException {
         // Game creation
@@ -374,6 +402,9 @@ class UserCommandsInterfaceTest {
         assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void moveDepotContent() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SwapNotValidException, ParametersNotValidException, LeaderNotPresentException, NotEnoughResourceException {
         // Game creation
@@ -407,6 +438,9 @@ class UserCommandsInterfaceTest {
         assertEquals(2, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void takeDevelopmentCard() throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -439,6 +473,9 @@ class UserCommandsInterfaceTest {
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void selectProduction() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, ProductionNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -480,6 +517,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void resetProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, ProductionNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -530,6 +570,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void confirmProductionChoice() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, EmptyDeckException, ProductionNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -573,6 +616,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
+     */
     @Test
     void chooseJollyInputAndOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -605,6 +651,9 @@ class UserCommandsInterfaceTest {
         game.confirmProductionChoice();
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method (when applied to paying for development cards), simulating an in-game player action
+     */
     @Test
     void payFromWarehouseCard() throws WrongTurnPhaseException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -671,6 +720,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method (when applied to paying for development cards), simulating an in-game player action
+     */
     @Test
     void payFromStrongboxCard() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -723,6 +775,9 @@ class UserCommandsInterfaceTest {
         assertEquals(inStock.get(ResourceType.STONE), strongbox.getNumOfResource(ResourceType.STONE));
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method (when applied to paying for productions), simulating an in-game player action
+     */
     @Test
     void payFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -811,6 +866,9 @@ class UserCommandsInterfaceTest {
 
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method (when applied to paying for productions), simulating an in-game player action
+     */
     @Test
     void payFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -885,6 +943,10 @@ class UserCommandsInterfaceTest {
 
     // END TURN
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action.
+     * Specifically, tests ending the turn for the first turn for all players (both the leader cards selection and the following action)
+     */
     @Test
     void endTurnBasic() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -909,6 +971,10 @@ class UserCommandsInterfaceTest {
         }
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action.
+     * Specifically, tests ending the turn thereby discarding resources taken from market
+     */
     @Test
     void endTurnDiscardResources() throws WrongTurnPhaseException, ProductionNotPresentException, LeaderNotPresentException {
         // Game creation
@@ -944,8 +1010,12 @@ class UserCommandsInterfaceTest {
         assertTrue(players.get(0).isProductionInputEmpty());
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action.
+     * Specifically, ends the turn in a solo game thereby causing lorenzo to take an action
+     */
     @Test
-    void endTurnSoloGame() throws WrongTurnPhaseException, NotEnoughResourceException, UndefinedJollyException, LeaderNotPresentException {
+    void endTurnSoloGame() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Gigi");
@@ -1005,6 +1075,10 @@ class UserCommandsInterfaceTest {
         }
     }
 
+    /**
+     * Tests the homonymous UserCommandsInterface method, simulating an in-game player action.
+     * Specifically, tests ending the turn whilst causing a vatican report
+     */
     @Test
     void endTurnVaticanReport() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation

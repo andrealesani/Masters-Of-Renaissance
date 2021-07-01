@@ -10,13 +10,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceWhiteTest {
-
+    /**
+     * Tests the equals method for a specific resource
+     */
     @Test
     void equals() {
         assertTrue(new ResourceWhite().equals(new ResourceWhite()));
         assertFalse(new ResourceWhite().equals(new ResourceCoin()));
     }
 
+    /**
+     * Tests the addition of the resource to a player board when taken from the market and having no white marble conversions
+     */
     @Test
     void addResourceFromMarketNoConversion() {
         PlayerBoard playerBoard = new PlayerBoard();
@@ -27,6 +32,9 @@ class ResourceWhiteTest {
 
     }
 
+    /**
+     * Tests the addition of the resource to a player board when taken from the market and having one marble conversion
+     */
     @Test
     void addResourceFromMarketWithConversion() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
         PlayerBoard playerBoard = new PlayerBoard();
@@ -41,6 +49,9 @@ class ResourceWhiteTest {
 
     }
 
+    /**
+     * Tests the addition of the resource to a player board when taken from the market and having multiple marble conversions
+     */
     @Test
     void addResourceFromMarketMultipleConversion() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException, ConversionNotAvailableException {
         PlayerBoard playerBoard = new PlayerBoard();

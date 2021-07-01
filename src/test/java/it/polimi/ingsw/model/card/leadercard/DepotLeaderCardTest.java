@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DepotLeaderCardTest {
 
+    /**
+     * Test for the leader card's activation
+     */
     @Test
     void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, CardAlreadyActiveException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
@@ -34,6 +37,9 @@ class DepotLeaderCardTest {
         });
     }
 
+    /**
+     * Test for the method that verifies if the leader card's requirements for activation are met
+     */
     @Test
     void areRequirementsMet() {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);

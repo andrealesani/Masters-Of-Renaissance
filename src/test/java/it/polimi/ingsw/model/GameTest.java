@@ -25,6 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
+    /**
+     * Tests the initialization of leader cards
+     */
     @Test
     void initializeLeaders() {
         Set<String> names= new HashSet<>();
@@ -32,7 +35,10 @@ class GameTest {
         Game game = new Game(names);
     }
 
-    // Verifies that card IDs are unique consistently between both DevelopmentCards and LeaderCards
+    /**
+     * Verifies that card IDs are unique consistently between both DevelopmentCards and LeaderCards
+     *
+     */
     @Test
     void newIds() {
         Set<String> names= new HashSet<>();
@@ -51,6 +57,9 @@ class GameTest {
 
     //END OF THE GAME_BEAN TESTS
 
+    /**
+     * Tests the end of the game caused by lorenzo reaching 24 faith
+     */
     @Test
     void lorenzoWinsFromFaith() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -86,6 +95,9 @@ class GameTest {
         game.endTurn();
     }
 
+    /**
+     * Tests the end of the game caused by lorenzo discarding all card table cards of a given color
+     */
     @Test
     void lorenzoWinsFromNoMoreCards() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -123,6 +135,9 @@ class GameTest {
         game.endTurn();
     }
 
+    /**
+     * Tests the end of the game caused by a player obtaining 7 development cards
+     */
     @Test
     void playerWinsFrom7Cards() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -164,6 +179,9 @@ class GameTest {
         }
     }
 
+    /**
+     * Tests the end of the game caused by a player reaching 24 faith
+     */
     @Test
     void playerWinsFromFaith() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, EmptyDeckException, LeaderNotPresentException {
         // Game creation
@@ -201,6 +219,9 @@ class GameTest {
         }
     }
 
+    /**
+     * Tests the automatic payment of resources for productions when ending the turn
+     */
     //Checks the automatic payment of debts when ending one's turn
     @Test
     public void automaticPaymentTest() throws LeaderNotPresentException, WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, ProductionNotPresentException, NotEnoughResourceException, UndefinedJollyException {
@@ -240,7 +261,6 @@ class GameTest {
         output1.add(new ResourceFaith());
         player.addProduction(new Production(-1, input1, output1));
 
-
         //Activates the production
         game.selectProduction(2);
 
@@ -263,6 +283,9 @@ class GameTest {
 
     //CONNECTION METHODS
 
+    /**
+     * Tests the setting of the connected status for a player
+     */
     @Test
     public void setConnectedStatusRandomPlayer() {
         // Game creation
@@ -283,6 +306,9 @@ class GameTest {
         assertTrue(game.isPlayerConnected(player.getUsername()));
     }
 
+    /**
+     * Tests the setting of the disconnected status for a player
+     */
     @Test
     public void setDisconnectedStatus() {
         // Game creation
@@ -310,6 +336,9 @@ class GameTest {
         assertNull(game.getCurrentPlayer());
     }
 
+    /**
+     * Tests the setting of the connected status for a player after every player has disconnected
+     */
     @Test
     public void setConnectedStatusNoCurrentPlayer() {
         // Game creation

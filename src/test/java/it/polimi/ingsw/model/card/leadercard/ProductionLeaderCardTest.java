@@ -18,7 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ProductionLeaderCardTest {
-
+    /**
+     * Test for the leader card's activation
+     */
     @Test
     void doAction() throws CardAlreadyActiveException {
         // Creates Leader Card

@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 class WarehouseBeanTest {
+    /**
+     * Tests the updating of the bean
+     */
     @Test
     void test() {
         Set<String> list = new HashSet<>();
@@ -22,6 +25,6 @@ class WarehouseBeanTest {
         WarehouseBean warehouseBean = new WarehouseBean(new GameController("Gigi", printWriter), game.getCurrentPlayer().getUsername(), 3);
         game.getCurrentPlayer().getWarehouse().addObserver(warehouseBean);
 
-        // TODO
+        //TODO
     }
 }

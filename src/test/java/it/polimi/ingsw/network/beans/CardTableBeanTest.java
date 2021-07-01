@@ -12,9 +12,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class CardTableBeanTest {
+    /**
+     * Tests the updating of the bean
+     */
     @Test
-    void test() throws IOException {
+    void test() {
         Set<String> list = new HashSet<>();
         list.add("Gigi");
         list.add("Pipino");
@@ -28,7 +33,7 @@ class CardTableBeanTest {
         for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : game.getCardTable().getCards().entrySet()) {
             j = 0;
             for (List<DevelopmentCard> deck : color.getValue()) {
-                /*assertEquals(game.getCardTable().getTopCardId(deck), cardTableBean.getCards()[i][j]);*/
+                //assertEquals(game.getCardTable().getTopCardId(deck), cardTableBean.getCards()[i][j]);
                 j++;
             }
             i++;

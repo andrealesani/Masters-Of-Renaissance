@@ -22,7 +22,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionHandlerBeanTest {
-
+    /**
+     * Tests the updating of the bean's current input
+     */
     @Test
     void setInputFromPH() {
         Set<String> nicknames = new HashSet<>();
@@ -48,6 +50,9 @@ class ProductionHandlerBeanTest {
         assertEquals(1, productionHandlerBean.getInput().get(ResourceType.SERVANT));
     }
 
+    /**
+     * Tests the updating of the bean's productions
+     */
     @Test
     void setProductionsFromPH() throws ProductionNotPresentException {
         Set<String> nicknames = new HashSet<>();

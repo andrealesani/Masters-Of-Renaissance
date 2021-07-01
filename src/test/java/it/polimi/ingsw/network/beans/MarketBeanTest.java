@@ -11,6 +11,9 @@ import java.io.StringWriter;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketBeanTest {
+    /**
+     * Tests the updating of the bean
+     */
     @Test
     void test() {
 

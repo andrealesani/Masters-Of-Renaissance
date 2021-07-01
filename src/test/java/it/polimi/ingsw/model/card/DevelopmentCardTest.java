@@ -57,6 +57,9 @@ class DevelopmentCardTest {
         assertTrue(blueDevCards.get(0).getColor() == CardColor.YELLOW);
     }
 
+    /**
+     * Test for card constructor
+     */
     @Test
     void devCardFromConstructor() {
         // Development card parameters

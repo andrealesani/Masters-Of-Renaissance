@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionHandlerTest {
 
+    /**
+     * Tests the current input after production selection
+     */
     @Test
     void getCurrentInputAfterSelect() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
@@ -28,6 +31,9 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.getCurrentInput().get(0) instanceof ResourceServant);
     }
 
+    /**
+     * Tests the current output after production selection
+     */
     @Test
     void getCurrentOutputAfterSelect() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
@@ -44,7 +50,9 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceFaith);
     }
 
-
+    /**
+     * Tests the choice of jollies in input for productions
+     */
     @Test
     void chooseJollyInput() throws ProductionNotPresentException, ResourceNotPresentException {
         // Creates an instance of every resource type
@@ -78,6 +86,9 @@ class ProductionHandlerTest {
         });
     }
 
+    /**
+     * Tests the choice of jollies in output for productions
+     */
     @Test
     void chooseJollyOutput() throws ProductionNotPresentException, ResourceNotPresentException {
         // Creates an instance of every resource type
@@ -111,6 +122,9 @@ class ProductionHandlerTest {
         });
     }
 
+    /**
+     * Tests the reset of chosen productions
+     */
     @Test
     void resetProductionChoice() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant in input and 1 ResourceCoin in output.
@@ -137,6 +151,9 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.getCurrentOutput().isEmpty());
     }
 
+    /**
+     * Tests the method which verifies whether the player has enough resources to pay for the selected productions
+     */
     @Test
     void resourcesAreEnough() throws UndefinedJollyException, DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException, ProductionNotPresentException {
         // Creates a PlayerBoard
@@ -173,6 +190,9 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.arePlayerResourcesEnough(playerBoard));
     }
 
+    /**
+     * Tests the method used to calculate the amount of a given resource that the player has to pay for production activation
+     */
     @Test
     void getDebt() throws ProductionNotPresentException {
         // Creates a ProductionHandler with one Production that has 1 ResourceServant and 2 ResourceShield in input and 1 ResourceCoin in output.
@@ -197,8 +217,11 @@ class ProductionHandlerTest {
         assertEquals(0, productionHandler.getDebt(new ResourceFaith()));
     }
 
+    /**
+     * Tests the payment of resources as part of the activation of productions
+     */
     @Test
-    void takeResource() throws UndefinedJollyException, ResourceNotPresentException, ProductionNotPresentException {
+    void takeResource() throws ProductionNotPresentException {
         // Creates a PlayerBoard
         PlayerBoard playerBoard = new PlayerBoard();
 
@@ -226,6 +249,9 @@ class ProductionHandlerTest {
         playerBoard.addResourcesToWaitingRoom(resources);
     }
 
+    /**
+     * Tests the release of the activated productions' output
+     */
     @Test
     void releaseOutputTest() throws ProductionNotPresentException {
         PlayerBoard playerBoard = new PlayerBoard();

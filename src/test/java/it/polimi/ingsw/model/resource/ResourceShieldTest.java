@@ -10,13 +10,18 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceShieldTest {
-
+    /**
+     * Tests the equals method for a specific resource
+     */
     @Test
     void equals() {
         assertTrue(new ResourceShield().equals(new ResourceShield()));
         assertFalse(new ResourceShield().equals(new ResourceJolly()));
     }
 
+    /**
+     * Tests the removal of the resource from a list using the equals method
+     */
     @Test
     void removeList() {
         ArrayList<Resource> list = new ArrayList<>();
@@ -27,6 +32,9 @@ class ResourceShieldTest {
         assertTrue(list.get(0) instanceof ResourceFaith);
     }
 
+    /**
+     * Tests the addition of the resource to a player board when taken from the market
+     */
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
         PlayerBoard playerBoard = new PlayerBoard();

@@ -11,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProductionTest {
 
+    /**
+     * Tests the equals method for productions
+     */
     @Test
     public void equals() {
         List<Resource> input1 = new ArrayList<>();
@@ -29,6 +32,9 @@ class ProductionTest {
         assertNotEquals(new Production(-1, input1, output1), new Production(-1, input2, output1));
     }
 
+    /**
+     * Tests the constructor for the default production
+     */
     @Test
     public void defaultProduction() {
         Production defaultProduction = new Production();
@@ -42,6 +48,9 @@ class ProductionTest {
         assertEquals (0, defaultProduction.getId());
     }
 
+    /**
+     * Tests selection and deselection of a production
+     */
     @Test
     public void selectAndUnselect() {
         Production production = new Production(0, new ArrayList<>(), new ArrayList<>());

@@ -13,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StaticMethodsTest {
 
+    /**
+     * Tests the restoration of PersistenceHandlers saved on disk
+     */
     @Test
     void restoreGames() throws GameDataNotFoundException {
         List<PersistenceHandler> restoredGames = StaticMethods.restoreGames();

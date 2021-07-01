@@ -16,10 +16,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardTableTest {
-    @Test
-    void constructor() {
-        CardTable cardTable = new CardTable(0);
-    }
 
     /**
      * Ensures that all the decks contain only cards with the specified level and color
@@ -93,6 +89,9 @@ class CardTableTest {
         cardTable.getGreenCards().get(0).get(0).getProduction();
     }
 
+    /**
+     * Tests the discarding of cards from the card table
+     */
     @Test
     void discardTop() throws EmptyDeckException {
         CardTable cardtable = new CardTable(0);
@@ -104,6 +103,9 @@ class CardTableTest {
         });
     }
 
+    /**
+     * Tests the acquisition of the card on top of a deck
+     */
     @Test
     void buyTopCard() throws SlotNotValidException, NotEnoughResourceException, EmptyDeckException {
         CardTable cardTable = new CardTable(0);
@@ -119,6 +121,9 @@ class CardTableTest {
         assertTrue(playerBoard.getCardSlots().get(0).get(0).getLevel() == 1);
     }
 
+    /**
+     * Tests the method which checks if there is still at least one card of every color in card table
+     */
     @Test
     void checkAllColorsAvailable() throws EmptyDeckException {
         CardTable cardTable = new CardTable(0);

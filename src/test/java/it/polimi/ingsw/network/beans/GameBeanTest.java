@@ -13,6 +13,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameBeanTest {
+    /**
+     * Tests the updating of the bean
+     */
     @Test
     void test() {
         Set<String> list = new HashSet<>();

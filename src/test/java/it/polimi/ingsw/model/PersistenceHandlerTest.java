@@ -18,6 +18,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 class PersistenceHandlerTest {
+    /**
+     * Tests the saving of a game to disk
+     */
     @Test
     void saveGame() throws NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, GameDataNotFoundException {
         Set<String> players = new HashSet<>();
@@ -34,6 +37,9 @@ class PersistenceHandlerTest {
         StaticMethods.deleteGameData(persistenceHandler.getId());
     }
 
+    /**
+     * Tests the restoration of a game from disk
+     */
     @Test
     void restoreGame() throws NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, GameDataNotFoundException, IOException {
         Gson gson = new Gson();

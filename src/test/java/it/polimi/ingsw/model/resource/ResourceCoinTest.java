@@ -11,12 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceCoinTest {
 
+    /**
+     * Tests the equals method for a specific resource
+     */
     @Test
     void equals() {
         assertTrue(new ResourceCoin().equals(new ResourceCoin()));
         assertFalse(new ResourceCoin().equals(new ResourceServant()));
     }
 
+    /**
+     * Tests the removal of the resource from a list using the equals method
+     */
     @Test
     void removeList(){
         ArrayList<Resource> list = new ArrayList<>();
@@ -27,6 +33,9 @@ class ResourceCoinTest {
         assertTrue(list.get(0) instanceof ResourceFaith);
     }
 
+    /**
+     * Tests the addition of the resource to a player board when taken from the market
+     */
     @Test
     public void addResourceFromMarket() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, NotEnoughResourceException {
         PlayerBoard playerBoard = new PlayerBoard();

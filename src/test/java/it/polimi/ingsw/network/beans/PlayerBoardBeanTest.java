@@ -16,7 +16,9 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardBeanTest {
-
+    /**
+     * Tests the updating of the bean's username
+     */
     @Test
     void setUsernameFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -33,6 +35,9 @@ class PlayerBoardBeanTest {
 
     }
 
+    /**
+     * Tests the updating of the bean's faith
+     */
     @Test
     void setFaithFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -48,6 +53,9 @@ class PlayerBoardBeanTest {
         assertEquals(game.getCurrentPlayer().getFaith(), pbBean.getFaith());
     }
 
+    /**
+     * Tests the updating of the bean's number of white marbles
+     */
     @Test
     void setWhiteMarblesFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -63,6 +71,9 @@ class PlayerBoardBeanTest {
         assertEquals(game.getCurrentPlayer().getWhiteMarbles(), pbBean.getWhiteMarbles());
     }
 
+    /**
+     * Tests the updating of the bean's marble conversions
+     */
     @Test
     void setMarbleConversionsFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -86,6 +97,9 @@ class PlayerBoardBeanTest {
 
     }
 
+    /**
+     * Tests the updating of the bean's development card discounts
+     */
     @Test
     void setDiscountFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -109,10 +123,9 @@ class PlayerBoardBeanTest {
             }
     }
 
-    @Test
-    void setCardSlotsFromPB() {
-    }
-
+    /**
+     * Tests the updating of the bean's leader cards
+     */
     @Test
     void setLeaderCardsFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -134,6 +147,9 @@ class PlayerBoardBeanTest {
 
     }
 
+    /**
+     * Tests the updating of the bean's active leader cards
+     */
     @Test
     void setActiveLeaderCardsFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -156,10 +172,11 @@ class PlayerBoardBeanTest {
             else
                 assertFalse(activeLeaderCardsBean[i]);
         }
-
-
     }
 
+    /**
+     * Tests the updating of the bean's victory points faith tiles number
+     */
     @Test
     void setVpFaithTilesFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -180,6 +197,9 @@ class PlayerBoardBeanTest {
             assertEquals(vpFaithTilesBean[i], vpFaithTiles[i]);
     }
 
+    /**
+     * Tests the updating of the bean's victory points faith tile values
+     */
     @Test
     void setVpFaithValuesFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -200,6 +220,9 @@ class PlayerBoardBeanTest {
             assertEquals(vpFaithValuesBean[i], vpFaithValues[i]);
     }
 
+    /**
+     * Tests the updating of the bean's pope's favor tiles states
+     */
     @Test
     void setPopeTileStatesFromPB() {
         Set<String> nicknames = new HashSet<>();
@@ -220,6 +243,9 @@ class PlayerBoardBeanTest {
             assertEquals(popeFavorTilesStatesBean[i], popeFavorTilesStates.get(i).getState());
     }
 
+    /**
+     * Tests the updating of the bean's pope's favor tiles victory points
+     */
     @Test
     void setPopeTilePointsFromPB() {
         Set<String> nicknames = new HashSet<>();

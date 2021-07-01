@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CommandTest {
 
+    /**
+     * Tests the serialization of the Command class
+     */
     @Test
     void serialize() {
         Gson gson = new Gson();
@@ -46,6 +49,9 @@ class CommandTest {
         assertEquals(2, quantity.intValue());
     }
 
+    /**
+     * Tests the runCommand method having an integer as a parameter
+     */
     @Test
     void runCommandIntegerParameter() {
         // Game creation
@@ -82,6 +88,9 @@ class CommandTest {
         assertEquals(memoryList.get(2), currentPlayer.getLeaderCards().get(1));
     }
 
+    /**
+     * Tests the runCommand method having an ResourceType as a parameter
+     */
     @Test
     void runCommandResourceParameter() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -153,6 +162,9 @@ class CommandTest {
         assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
     }
 
+    /**
+     * Tests the runCommand method having an CardColor as a parameter
+     */
     @Test
     void runCommandCardColorParameter() throws WrongTurnPhaseException, LeaderNotPresentException {
         // Game creation
@@ -194,6 +206,9 @@ class CommandTest {
         assertEquals(1, game.getCurrentPlayer().getCardSlots().get(0).size());
     }
 
+    /**
+     * Tests the runCommand method having an int Array as a parameter
+     */
     @Test
     void runCommandIntArrayParameter() throws WrongTurnPhaseException, DepotNotPresentException, NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, LeaderNotPresentException {
         // Game creation
@@ -244,13 +259,5 @@ class CommandTest {
         assertEquals(1, warehouse.getDepot(2).getNumOfResource(ResourceType.SHIELD));
         assertEquals(2, warehouse.getDepot(3).getNumOfResource(ResourceType.COIN));
         assertEquals(1, warehouse.getDepot(4).getNumOfResource(ResourceType.SHIELD));
-    }
-
-    @Test
-    void poo() {
-        Gson gson = new Gson();
-        Map<String, Object> map = new HashMap<>();
-        map.put("number", 1);
-        Command command = new Command(UserCommandsType.chooseLeaderCard, map);
     }
 }

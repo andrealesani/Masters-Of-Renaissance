@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketTest {
+
+    /**
+     * Tests the random initialization of the market
+     */
     @Test
     public void testConstructor(){
         int countRS = 0, countRF = 0, countRSe = 0, countRSh = 0, countRSt = 0, countRW = 0;
@@ -171,6 +175,9 @@ class MarketTest {
         assertEquals(4, countRW);
     }
 
+    /**
+     * Tests the selection of a market row
+     */
     @Test
     public void selectResourcesRow() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
@@ -202,6 +209,9 @@ class MarketTest {
         assertEquals(countFaith, playerBoard.getFaith());
     }
 
+    /**
+     * Tests the selection of a market column
+     */
     @Test
     public void selectResourcesColumn() throws DepotNotPresentException, WrongResourceInsertionException, NotEnoughSpaceException, NotEnoughResourceException, BlockedResourceException {
 
@@ -233,6 +243,9 @@ class MarketTest {
         assertEquals(countFaith, playerBoard.getFaith());
     }
 
+    /**
+     * Tests the shifting of resources in the market board following the selection of a row
+     */
     @Test
     public void shiftResourcesRow(){
         Market market = new Market();
@@ -258,6 +271,9 @@ class MarketTest {
 
     }
 
+    /**
+     * Tests the shifting of resources in the market board following the selection of a column
+     */
     @Test
     public void shiftResourcesColumn(){
         Market market = new Market();

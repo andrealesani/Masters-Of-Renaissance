@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceJollyTest {
-
+    /**
+     * Tests the equals method for a specific resource
+     */
     @Test
     void equals() {
         assertTrue(new ResourceJolly().equals(new ResourceJolly()));

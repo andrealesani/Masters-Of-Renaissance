@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarbleLeaderCardTest {
 
+    /**
+     * Test for the leader card's activation
+     */
     @Test
     void doAction() throws CardAlreadyActiveException {
         CardColor[] requiredColors = {CardColor.GREEN, CardColor.BLUE};
@@ -26,6 +29,9 @@ class MarbleLeaderCardTest {
         assertEquals(ResourceType.COIN, playerBoard.getMarbleConversions().get(0));
     }
 
+    /**
+     * Test for the method that verifies if the leader card's requirements for activation are met
+     */
     @Test
     void areRequirementsMet() {
         // Discount leader card parameters
