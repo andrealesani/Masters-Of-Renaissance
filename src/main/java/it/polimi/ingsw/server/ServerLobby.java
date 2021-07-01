@@ -64,14 +64,15 @@ public class ServerLobby {
         for (GameController game : currentGames) {
 
             //If all players have left during creation phase, or after the game has ended, remove the game from the list
-            if (game.isGameOver && game.getNumOfPlayers() == 0)
+            if (game.getNumOfPlayers() == 0)
                 currentGames.remove(game);
-
-            //Attempts to add the player to the game
-            try {
-                game.addPlayer(username, userOut);
-                return game;
-            } catch(GameFullException ignored) {}
+            else {
+                //Attempts to add the player to the game
+                try {
+                    game.addPlayer(username, userOut);
+                    return game;
+                } catch (GameFullException ignored) {}
+            }
         }
 
         //If there were no games waiting for players, create a new one
