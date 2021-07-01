@@ -125,7 +125,8 @@ public class GameController {
                     System.out.println("Error: " + result);
                 } else {
                     try {
-                        persistenceHandler.saveGame(game);
+                        if (!isGameOver)
+                            persistenceHandler.saveGame(game);
                     } catch (Exception ex) {
                         System.err.println("There was an error in saving the current game.");
                         ex.printStackTrace();

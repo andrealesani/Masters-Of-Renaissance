@@ -113,7 +113,7 @@ public class GameBean implements Observer {
                             Color.RESOURCE_STD + winner + Color.RESET + " wins the game with " +
                             Color.YELLOW_LIGHT_FG + winnerVp + Color.RESET + " points!" +
                             "\n" +
-                            "The game has ended, type 'ESC + :q' to close the game" +
+                            "The game has ended. Leave the game to play again." +
                             "\n";
 
         //If the game is not over

@@ -165,6 +165,8 @@ public class StaticMethods {
             File file = new File(jarPath + "/savedGames/game" + gameID + ".json");
             if (!file.delete())
                 throw new Exception();
+
+            System.out.println("Deleted save game file game" + gameID + ".json");
         } catch (Exception e) {
             throw new GameDataNotFoundException(gameID);
         }

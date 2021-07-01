@@ -197,6 +197,7 @@ public class ServerPlayerHandler implements Runnable {
 
             } catch (Exception ex) {
                 sendMessage(MessageType.ERROR, ex.getMessage());
+                ex.printStackTrace();
             }
 
         } else {

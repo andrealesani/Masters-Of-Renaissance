@@ -61,12 +61,15 @@ public class ServerLobby {
     public synchronized GameController login(String username, PrintWriter userOut) throws UnknownPlayerNumberException, UsernameAlreadyExistsException {
 
         //Checks if the given username is already taken, and attempts to add the player to the first game that isn't full or to the one they belonged before disconnection
-        for (GameController game : currentGames) {
+        for (int i = 0; i < currentGames.size(); i++) {
+            GameController game = currentGames.get(i);
 
             //If all players have left during creation phase, or after the game has ended, remove the game from the list
-            if (game.getNumOfPlayers() == 0)
+            if (game.getNumOfPlayers() == 0) {
+                System.out.println("Deleted a game.");
                 currentGames.remove(game);
-            else {
+                i--;
+            } else {
                 //Attempts to add the player to the game
                 try {
                     game.addPlayer(username, userOut);

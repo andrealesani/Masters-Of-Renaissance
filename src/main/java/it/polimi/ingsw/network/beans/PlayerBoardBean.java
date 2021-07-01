@@ -260,10 +260,14 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         for (int pos = 0; pos <= vpFaithTiles[vpFaithTiles.length - 1]; pos++) {
 
             //The faith track tile
-            if (faith == pos) {
+            if (pos == 24 && faith > 24) {
                 content += Color.RED_LIGHT_FG + "+" + Color.RESET;
             } else {
-                content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
+                if (faith == pos) {
+                    content += Color.RED_LIGHT_FG + "+" + Color.RESET;
+                } else {
+                    content += Color.GREY_LIGHT_FG + "■" + Color.RESET;
+                }
             }
 
             //The modifiers
