@@ -53,6 +53,7 @@ class PersistenceHandlerTest {
         PersistenceHandler persistenceHandler = new PersistenceHandler();
 
         persistenceHandler.saveGame(game);
+        StaticMethods.deleteGameData(persistenceHandler.getId());
 
         File jarFile = new File(Server.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String jarPath = jarFile.getParentFile().getAbsolutePath();
@@ -62,7 +63,7 @@ class PersistenceHandlerTest {
         String og_game = gson.fromJson(reader, PersistenceHandler.class).toString();
         game = persistenceHandler.restoreGame();
 
-        StaticMethods.deleteGameData(persistenceHandler.getId());
+
 
         reader.close();
         file.close();

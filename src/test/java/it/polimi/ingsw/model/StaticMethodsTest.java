@@ -24,7 +24,6 @@ class StaticMethodsTest {
         String jarPath = jarFile.getParentFile().getAbsolutePath();
 
         File folder = new File(jarPath + "/savedGames");
-        System.out.println(jarPath);
 
         assertEquals(folder.listFiles().length, restoredGames.size());
     }
