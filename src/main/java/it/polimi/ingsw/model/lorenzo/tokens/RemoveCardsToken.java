@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.card.CardColor;
 /**
  * Represents the token that removes 2 DevelopmentCards of the specified color from the grid
  */
-public abstract class RemoveCardsToken extends ActionToken {
+public class RemoveCardsToken extends ActionToken {
     /**
      * This attribute stores the color of the development cards to discard
      */

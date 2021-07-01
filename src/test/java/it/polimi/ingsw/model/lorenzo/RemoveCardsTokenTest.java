@@ -4,7 +4,8 @@ import it.polimi.ingsw.Exceptions.EmptyDeckException;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.CardTable;
 import it.polimi.ingsw.model.lorenzo.tokens.ActionToken;
-import it.polimi.ingsw.model.lorenzo.tokens.RemoveYellowToken;
+import it.polimi.ingsw.model.lorenzo.tokens.LorenzoTokenType;
+import it.polimi.ingsw.model.lorenzo.tokens.RemoveCardsToken;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,7 @@ class RemoveCardsTokenTest {
     @Test
     void doAction() throws EmptyDeckException {
         CardTable cardTable = new CardTable(0);
-        ActionToken token = new RemoveYellowToken(cardTable);
+        ActionToken token = new RemoveCardsToken(CardColor.YELLOW, cardTable, LorenzoTokenType.RemoveYellow);
 
         int levelOneNumber = cardTable.getYellowCards().get(2).size();
         int levelTwoNumber = cardTable.getYellowCards().get(1).size();

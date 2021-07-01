@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.CardTable;
 import it.polimi.ingsw.model.Observable;
 import it.polimi.ingsw.model.Observer;
 import it.polimi.ingsw.model.PopeFavorTile;
+import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.lorenzo.tokens.*;
 
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
             throw new ParametersNotValidException();
         }
         faith = 0;
-        activeDeck.add(new RemoveBlueToken(cardTable));
-        activeDeck.add(new RemoveGreenToken(cardTable));
-        activeDeck.add(new RemovePurpleToken(cardTable));
-        activeDeck.add(new RemoveYellowToken(cardTable));
+        activeDeck.add(new RemoveCardsToken(CardColor.BLUE, cardTable, LorenzoTokenType.RemoveBlue));
+        activeDeck.add(new RemoveCardsToken(CardColor.GREEN, cardTable, LorenzoTokenType.RemoveGreen));
+        activeDeck.add(new RemoveCardsToken(CardColor.YELLOW, cardTable, LorenzoTokenType.RemoveYellow));
+        activeDeck.add(new RemoveCardsToken(CardColor.PURPLE, cardTable, LorenzoTokenType.RemovePurple));
         activeDeck.add(new DoubleFaithToken(this));
         activeDeck.add(new SingleFaithShuffleToken(this));
         Collections.shuffle(activeDeck);
