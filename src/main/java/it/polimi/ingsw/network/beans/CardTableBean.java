@@ -234,7 +234,7 @@ public class CardTableBean implements Observer {
      */
     private void setCardTableFromGame(CardTable cardTable) {
         cards = new int[3][cardTable.getCards().entrySet().size()];
-        int i = 0, j;
+        int i, j;
         for (i = 0; i < cards.length; i++) {
             j = 0;
             for (Map.Entry<CardColor, List<List<DevelopmentCard>>> color : cardTable.getCards().entrySet()) {
