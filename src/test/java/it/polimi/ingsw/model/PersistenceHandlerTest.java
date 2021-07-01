@@ -15,7 +15,11 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PersistenceHandlerTest {
     /**
@@ -42,7 +46,6 @@ class PersistenceHandlerTest {
      */
     @Test
     void restoreGame() throws NotEnoughSpaceException, WrongResourceInsertionException, BlockedResourceException, GameDataNotFoundException, IOException {
-        Gson gson = new Gson();
         Set<String> players = new HashSet<>();
         players.add("Gigi");
         players.add("Gugu");
@@ -53,19 +56,13 @@ class PersistenceHandlerTest {
         PersistenceHandler persistenceHandler = new PersistenceHandler();
 
         persistenceHandler.saveGame(game);
+        int id = persistenceHandler.getId();
+
+        List<PersistenceHandler> list = StaticMethods.restoreGames();
+        List<PersistenceHandler> result = list.stream().filter(e -> e.getId() == id).collect(Collectors.toList());
+
+        assertEquals(1, result.size());
+
         StaticMethods.deleteGameData(persistenceHandler.getId());
-
-        File jarFile = new File(Server.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        String jarPath = jarFile.getParentFile().getAbsolutePath();
-
-        FileInputStream file = new FileInputStream(jarPath + "/savedGames/game" + 1 + ".json");
-        Reader reader = new InputStreamReader(file, StandardCharsets.UTF_8);
-        String og_game = gson.fromJson(reader, PersistenceHandler.class).toString();
-        game = persistenceHandler.restoreGame();
-
-
-
-        reader.close();
-        file.close();
     }
 }
