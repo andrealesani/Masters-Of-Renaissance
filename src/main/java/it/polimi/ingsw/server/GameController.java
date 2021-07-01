@@ -156,7 +156,7 @@ public class GameController {
             throw new UnknownPlayerNumberException();
 
         if (!players.containsKey(username)) {
-            if (players.size() >= size) {
+            if (players.size() >= size || isGameOver) {
                 throw new GameFullException();
             }
         } else {
@@ -228,7 +228,7 @@ public class GameController {
         }
 
         if (game == null) {
-            System.out.println("Player " + username + " will now be removed from the game's players.");
+            System.out.println("Player " + username + " left and will now be removed from the game's players.");
             players.remove(username);
         } else {
             try {
@@ -236,8 +236,13 @@ public class GameController {
                 broadcastMessage(MessageType.PLAYER_DISCONNECTED, username);
                 players.put(username, null);
                 System.out.println("Player " + username + " is now disconnected.");
+
+                //If the game is over, remove the player from the game
+                if (isGameOver)
+                    players.remove(username);
+
             } catch (ParametersNotValidException ex) {
-                System.out.println("Players in GameController do not correspond with games in GameModel.");
+                System.err.println("Players in GameController do not correspond with games in GameModel.");
             }
         }
     }
@@ -380,5 +385,14 @@ public class GameController {
      */
     public Boolean isGameOver() {
         return isGameOver;
+    }
+
+    /**
+     * Returns the number of players registered to the game
+     *
+     * @return the number of players
+     */
+    public int getNumOfPlayers() {
+        return players.keySet().size();
     }
 }

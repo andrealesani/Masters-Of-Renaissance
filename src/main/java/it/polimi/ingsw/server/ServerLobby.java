@@ -62,12 +62,19 @@ public class ServerLobby {
 
         //Checks if the given username is already taken, and attempts to add the player to the first game that isn't full or to the one they belonged before disconnection
         for (GameController game : currentGames) {
+
+            //If all players have left during creation phase, or after the game has ended, remove the game from the list
+            if (game.isGameOver && game.getNumOfPlayers() == 0)
+                currentGames.remove(game);
+
+            //Attempts to add the player to the game
             try {
                 game.addPlayer(username, userOut);
                 return game;
             } catch(GameFullException ignored) {}
         }
 
+        //If there were no games waiting for players, create a new one
         GameController newGame = new GameController(username, userOut);
         currentGames.add(newGame);
 
@@ -75,14 +82,11 @@ public class ServerLobby {
     }
 
     /**
-     * Abort the game for which the player number has already been set, as its player has disconnected
+     * Remove the given controller from the current games list
+     *
+     * @param controller the controller to be removed
      */
-    public synchronized void abortGame() {
-        for (GameController game : currentGames) {
-            if (!game.isSizeSet()) {
-                currentGames.remove(game);
-                break;
-            }
-        }
+    public synchronized void abortGame(GameController controller) {
+        currentGames.remove(controller);
     }
 }

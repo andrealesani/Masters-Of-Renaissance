@@ -128,7 +128,7 @@ public class ServerPlayerHandler implements Runnable {
                 System.out.println("The connection with a player in login phase was lost.");
             } else if (!controller.isSizeSet()) {
                 System.out.println("The connection with player " + username + " was lost during game size setting phase.");
-                lobby.abortGame();
+                lobby.abortGame(controller);
             } else {
                 System.out.println("The connection with player " + username + " was lost during the game.");
                 controller.setDisconnectedStatus(username);
