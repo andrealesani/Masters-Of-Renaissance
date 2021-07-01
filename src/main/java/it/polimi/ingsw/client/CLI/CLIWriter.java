@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.CLI;
 
+import com.sun.tools.attach.AttachOperationFailedException;
 import it.polimi.ingsw.Exceptions.CardNotPresentException;
+import it.polimi.ingsw.Exceptions.OperationCancelledException;
 import it.polimi.ingsw.client.ClientView;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.card.CardColor;
@@ -12,6 +14,7 @@ import it.polimi.ingsw.network.MessageType;
 import it.polimi.ingsw.network.MessageWrapper;
 import it.polimi.ingsw.network.UserCommandsType;
 import it.polimi.ingsw.network.beans.GameBean;
+import jdk.dynalink.Operation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -121,7 +124,7 @@ public class CLIWriter implements Runnable {
     /**
      * Wraps the given string and sends it to the server as a message of the given type
      *
-     * @param type the type of the message being sent
+     * @param type    the type of the message being sent
      * @param content the contents of the message being sent
      */
     public void sendMessageToServer(MessageType type, String content) {
@@ -137,67 +140,71 @@ public class CLIWriter implements Runnable {
      * @throws IOException if an I/O error occurs
      */
     private void elaborateInput(String userInput) throws IOException {
-        switch (userInput) {
+        try {
+            switch (userInput) {
 
-            //Display the player's commands options
-            case "help" -> printHelp();
+                //Display the player's commands options
+                case "help" -> printHelp();
 
-            //Display the game's status
-            case "status" -> printStatus();
+                //Display the game's status
+                case "status" -> printStatus();
 
-            //Display one of the game's elements
-            case "show" -> printShow();
+                //Display one of the game's elements
+                case "show" -> printShow();
 
-            //Display the list of available actions for the player in the current turn phase
-            case "actions" -> printActions();
+                //Display the list of available actions for the player in the current turn phase
+                case "actions" -> printActions();
 
-            //The following methods are used to run game actions
+                //The following methods are used to run game actions
 
-            case "chooseBonusResourceType", "0" -> runChooseBonusResourceType();
+                case "chooseBonusResourceType", "0" -> runChooseBonusResourceType();
 
-            case "chooseLeaderCard", "1" -> runChooseLeaderCard();
+                case "chooseLeaderCard", "1" -> runChooseLeaderCard();
 
-            case "playLeaderCard", "2" -> runPlayLeaderCard();
+                case "playLeaderCard", "2" -> runPlayLeaderCard();
 
-            case "discardLeaderCard", "3" -> runDiscardLeaderCard();
+                case "discardLeaderCard", "3" -> runDiscardLeaderCard();
 
-            case "selectMarketRow", "4" -> runSelectMarketRow();
+                case "selectMarketRow", "4" -> runSelectMarketRow();
 
-            case "selectMarketColumn", "5" -> runSelectMarketColumn();
+                case "selectMarketColumn", "5" -> runSelectMarketColumn();
 
-            case "sendResourceToDepot", "6" -> runSendResourceToDepot();
+                case "sendResourceToDepot", "6" -> runSendResourceToDepot();
 
-            case "chooseMarbleConversion", "7" -> runChooseMarbleConversion();
+                case "chooseMarbleConversion", "7" -> runChooseMarbleConversion();
 
-            case "swapDepotContent", "8" -> runSwapDepotContent();
+                case "swapDepotContent", "8" -> runSwapDepotContent();
 
-            case "moveDepotContent", "9" -> runMoveDepotContent();
+                case "moveDepotContent", "9" -> runMoveDepotContent();
 
-            case "takeDevelopmentCard", "10" -> runTakeDevelopmentCard();
+                case "takeDevelopmentCard", "10" -> runTakeDevelopmentCard();
 
-            case "selectProduction", "11" -> runSelectProduction();
+                case "selectProduction", "11" -> runSelectProduction();
 
-            case "resetProductionChoice", "12" -> runResetProductionChoice();
+                case "resetProductionChoice", "12" -> runResetProductionChoice();
 
-            case "confirmProductionChoice", "13" -> runConfirmProductionChoice();
+                case "confirmProductionChoice", "13" -> runConfirmProductionChoice();
 
-            case "chooseJollyInput", "14" -> runChooseJollyInput();
+                case "chooseJollyInput", "14" -> runChooseJollyInput();
 
-            case "chooseJollyOutput", "15" -> runChooseJollyOutput();
+                case "chooseJollyOutput", "15" -> runChooseJollyOutput();
 
-            case "payFromWarehouse", "16" -> runPayFromWarehouse();
+                case "payFromWarehouse", "16" -> runPayFromWarehouse();
 
-            case "payFromStrongbox", "17" -> runPayFromStrongbox();
+                case "payFromStrongbox", "17" -> runPayFromStrongbox();
 
-            case "endTurn", "18" -> runEndTurn();
+                case "endTurn", "18" -> runEndTurn();
 
-            default -> {
-                if (clientView.getGame() == null)
-                    out.println(userInput);
-                else
-                    System.out.println("This command is not supported. Press 'help' for a list of all available commands.");
+                default -> {
+                    if (clientView.getGame() == null)
+                        out.println(userInput);
+                    else
+                        System.out.println("This command is not supported. Press 'help' for a list of all available commands.");
+                }
+
             }
-
+        } catch (OperationCancelledException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -227,10 +234,11 @@ public class CLIWriter implements Runnable {
     /**
      * Displays a specific game element
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void printShow() throws IOException {
-        System.out.println("Specify what you want to see, or press ENTER to show all elements." + "\n");
+    private void printShow() throws IOException, OperationCancelledException {
+        System.out.println("Specify what you want to see, or press ENTER to show all elements (write 'canc' to abort the command)." + "\n");
 
         System.out.println(
                 "Supported show commands:" +
@@ -268,9 +276,11 @@ public class CLIWriter implements Runnable {
 
             case "leadercards", "leaders", "leader" -> printLeaderCards();
 
-            case "cardslots", "slots" ->  printCardSlots();
+            case "cardslots", "slots" -> printCardSlots();
 
             case "card", "production" -> printCard();
+
+            case "canc" -> throw new OperationCancelledException();
 
             default -> System.out.println("\n" + "This command is not supported." + "\n");
         }
@@ -281,10 +291,12 @@ public class CLIWriter implements Runnable {
     /**
      * Displays one of the game's cards
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void printCard() throws IOException {
-        System.out.println("Specify the card ID you wish to see: ");
+    private void printCard() throws IOException, OperationCancelledException {
+        System.out.println("Specify the card ID you wish to see  (write 'canc' to abort the command).");
+
         int cardId = getInt();
 
         if (cardId == 0) {
@@ -314,10 +326,11 @@ public class CLIWriter implements Runnable {
     /**
      * Displays one of the game's player's information
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void printPlayer() throws IOException {
-        System.out.println("Specify the username of the player whose board you wish to see, or press ENTER to show all players." + "\n");
+    private void printPlayer() throws IOException, OperationCancelledException {
+        System.out.println("Specify the username of the player whose board you wish to see, or press ENTER to show all players (write 'canc' to abort the command)." + "\n");
 
         printAvailablePlayers();
 
@@ -327,6 +340,10 @@ public class CLIWriter implements Runnable {
 
             for (String player : clientView.getGame().getTurnOrder())
                 System.out.println(clientView.drawPlayerSpecificGameElements(player) + "\n");
+
+        } else if (username.equals("canc")) {
+
+            throw new OperationCancelledException();
 
         } else if (clientView.getPlayerBoard(username) == null)
 
@@ -340,11 +357,12 @@ public class CLIWriter implements Runnable {
     /**
      * Displays one of the game's players' LeaderCards in detail
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void printLeaderCards() throws IOException {
+    private void printLeaderCards() throws IOException, OperationCancelledException {
 
-        System.out.println("Specify the username of the player whose leader cards you wish to see:");
+        System.out.println("Specify the username of the player whose leader cards you wish to see, or press ENTER to show all players' leader cards (write 'canc' to abort the command).");
 
         printAvailablePlayers();
 
@@ -354,6 +372,10 @@ public class CLIWriter implements Runnable {
 
             for (String player : clientView.getGame().getTurnOrder())
                 System.out.println(clientView.drawPlayerLeaderCards(player) + "\n");
+
+        } else if (username.equals("canc")) {
+
+            throw new OperationCancelledException();
 
         } else if (clientView.getPlayerBoard(username) == null)
 
@@ -367,10 +389,11 @@ public class CLIWriter implements Runnable {
     /**
      * Displays one of the game's players' card slots in detail
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void printCardSlots() throws IOException {
-        System.out.println("Specify the username of the player whose card slots you wish to see:");
+    private void printCardSlots() throws IOException, OperationCancelledException {
+        System.out.println("Specify the username of the player whose card slots you wish to see, or press ENTER to show all players' card slots (write 'canc' to abort the command).");
 
         printAvailablePlayers();
 
@@ -380,6 +403,10 @@ public class CLIWriter implements Runnable {
 
             for (String player : clientView.getGame().getTurnOrder())
                 System.out.println(clientView.drawPlayerCardSlots(player) + "\n");
+
+        } else if (username.equals("canc")) {
+
+            throw new OperationCancelledException();
 
         } else if (clientView.getPlayerBoard(username) == null)
 
@@ -418,13 +445,13 @@ public class CLIWriter implements Runnable {
         String intro = "We're in " + Color.RESOURCE_STD + phase + Color.RESET + " and you can perform one of the following actions";
 
         switch (phase) {
-            case LEADERCHOICE -> System.out.println( intro +
+            case LEADERCHOICE -> System.out.println(intro +
                     "\n- '0'  OR 'chooseBonusResourceType' - Choose which bonus resource you want to obtain (only at the beginning of the game)" +
                     "\n- '1'  OR 'chooseLeaderCard' - Choose which LeaderCard you want to keep. You can choose 2 out of 4 cards (only at the beginning of the game" +
                     "\n- '6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot" +
                     "\n- '18' OR 'endTurn' - Confirm your choices and start your first turn");
 
-            case ACTIONSELECTION -> System.out.println( intro +
+            case ACTIONSELECTION -> System.out.println(intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '4'  OR 'selectMarketRow' - Choose the Market row that you want to get the Resources from" +
@@ -436,7 +463,7 @@ public class CLIWriter implements Runnable {
                     "\n- '14' OR 'chooseJollyInput' - Choose the Resource you want to use to activate the Productions (only if you have JOLLY resources in your input list)" +
                     "\n- '15' OR 'chooseJollyOutput' - Choose the Resource you want to obtain by activating the Productions (only if you have JOLLY resources in your output list)");
 
-            case MARKETDISTRIBUTION -> System.out.println( intro +
+            case MARKETDISTRIBUTION -> System.out.println(intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '6'  OR 'sendResourceToDepot' - Send a Resource you obtained to a depot" +
@@ -444,7 +471,7 @@ public class CLIWriter implements Runnable {
                     "\n- '8'  OR 'swapDepotContent' - Swap the content of 2 depots" +
                     "\n- '9'  OR 'moveDepotContent' - Move the content of a depot to another depot");
 
-            case CARDPAYMENT, PRODUCTIONPAYMENT -> System.out.println( intro +
+            case CARDPAYMENT, PRODUCTIONPAYMENT -> System.out.println(intro +
                     "\n- '2'  OR 'playLeaderCard' - Activate a LeaderCard" +
                     "\n- '3'  OR 'discardLeaderCard' - Discard a LeaderCard to get 1 bonus faith point" +
                     "\n- '16' OR 'payFromWarehouse' - Choose which Resource to pay from the Warehouse (if you don't want to activate auto-payment)" +
@@ -460,10 +487,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the chooseBonusResourceType command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runChooseBonusResourceType() throws IOException {
-        System.out.println("Action chooseBonusResourceType selected.");
+    private void runChooseBonusResourceType() throws IOException, OperationCancelledException {
+        System.out.println("Action chooseBonusResourceType selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which type of bonus resource do you want to obtain?");
@@ -482,10 +510,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the chooseLeaderCard command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runChooseLeaderCard() throws IOException {
-        System.out.println("Action chooseLeaderCard selected.");
+    private void runChooseLeaderCard() throws IOException, OperationCancelledException {
+        System.out.println("Action chooseLeaderCard selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which is the position of the leader card do you wish to select?");
@@ -500,10 +529,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the playLeaderCard command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runPlayLeaderCard() throws IOException {
-        System.out.println("Action playLeaderCard selected.");
+    private void runPlayLeaderCard() throws IOException, OperationCancelledException {
+        System.out.println("Action playLeaderCard selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which is the position of the leader card do you wish to play?");
@@ -518,10 +548,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the discardLeaderCard command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runDiscardLeaderCard() throws IOException {
-        System.out.println("Action discardLeaderCard selected.");
+    private void runDiscardLeaderCard() throws IOException, OperationCancelledException {
+        System.out.println("Action discardLeaderCard selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which is the position of the leader card do you wish to discard?");
@@ -536,10 +567,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the selectMarketRow command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runSelectMarketRow() throws IOException {
-        System.out.println("Action selectMarketRow selected.");
+    private void runSelectMarketRow() throws IOException, OperationCancelledException {
+        System.out.println("Action selectMarketRow selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which market row do you wish to select?");
@@ -554,10 +586,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the selectMarketColumn command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runSelectMarketColumn() throws IOException {
-        System.out.println("Action selectMarketColumn selected.");
+    private void runSelectMarketColumn() throws IOException, OperationCancelledException {
+        System.out.println("Action selectMarketColumn selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which market column do you wish to select?");
@@ -572,10 +605,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the sendResourceToDepot command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runSendResourceToDepot() throws IOException {
-        System.out.println("Action sendResourceToDepot selected.");
+    private void runSendResourceToDepot() throws IOException, OperationCancelledException {
+        System.out.println("Action sendResourceToDepot selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which depot do you wish to send the resources to?");
@@ -598,10 +632,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the chooseMarbleConversion command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runChooseMarbleConversion() throws IOException {
-        System.out.println("Action chooseMarbleConversion selected.");
+    private void runChooseMarbleConversion() throws IOException, OperationCancelledException {
+        System.out.println("Action chooseMarbleConversion selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which type of resource do you wish to convert the white marble to?");
@@ -620,10 +655,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the swapDepotContent command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runSwapDepotContent() throws IOException {
-        System.out.println("Action swapDepotContent selected.");
+    private void runSwapDepotContent() throws IOException, OperationCancelledException {
+        System.out.println("Action swapDepotContent selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
         int[] depots = new int[2];
 
@@ -642,10 +678,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the moveDepotContent command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runMoveDepotContent() throws IOException {
-        System.out.println("Action moveDepotContent selected.");
+    private void runMoveDepotContent() throws IOException, OperationCancelledException {
+        System.out.println("Action moveDepotContent selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
         int[] depots = new int[2];
 
@@ -672,10 +709,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the takeDevelopmentCard command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runTakeDevelopmentCard() throws IOException {
-        System.out.println("Action takeDevelopmentCard selected.");
+    private void runTakeDevelopmentCard() throws IOException, OperationCancelledException {
+        System.out.println("Action takeDevelopmentCard selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("What is the color of the card you wish to select?");
@@ -698,10 +736,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the selectProduction command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runSelectProduction() throws IOException {
-        System.out.println("Action selectProduction selected.");
+    private void runSelectProduction() throws IOException, OperationCancelledException {
+        System.out.println("Action selectProduction selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("What is the position of the production you wish to activate?");
@@ -738,10 +777,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the chooseJollyInput command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runChooseJollyInput() throws IOException {
-        System.out.println("Action chooseJollyInput selected.");
+    private void runChooseJollyInput() throws IOException, OperationCancelledException {
+        System.out.println("Action chooseJollyInput selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which type of resource do you wish to convert the production input jolly into?");
@@ -756,10 +796,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the chooseJollyOutput command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runChooseJollyOutput() throws IOException {
-        System.out.println("Action chooseJollyOutput selected.");
+    private void runChooseJollyOutput() throws IOException, OperationCancelledException {
+        System.out.println("Action chooseJollyOutput selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which type of resource do you wish to convert the production output jolly into?");
@@ -774,10 +815,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the payFromWarehouse command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runPayFromWarehouse() throws IOException {
-        System.out.println("Action payFromWarehouse selected.");
+    private void runPayFromWarehouse() throws IOException, OperationCancelledException {
+        System.out.println("Action payFromWarehouse selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which depot do you wish to pay the resources from?");
@@ -800,10 +842,11 @@ public class CLIWriter implements Runnable {
     /**
      * Executes the payFromStrongbox command
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private void runPayFromStrongbox() throws IOException {
-        System.out.println("Action payFromStrongbox selected.");
+    private void runPayFromStrongbox() throws IOException, OperationCancelledException {
+        System.out.println("Action payFromStrongbox selected (write 'canc' to abort the command).");
         Map<String, Object> parameters = new HashMap<>();
 
         System.out.println("Which type of resource do you wish to pay from the strongbox?");
@@ -836,16 +879,20 @@ public class CLIWriter implements Runnable {
      * Attempts to read an integer from command line
      *
      * @return the integer read from command line
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private int getInt() throws IOException {
+    private int getInt() throws IOException, OperationCancelledException {
         int result;
         while (true) {
             try {
                 String text = stdIn.readLine();
-                if (text == null) {
+
+                if (text == null)
                     throw new IOException();
-                }
+                else if (text.equals("canc"))
+                    throw new OperationCancelledException();
+
                 result = Integer.parseInt(text);
                 break;
             } catch (NumberFormatException ex) {
@@ -859,16 +906,20 @@ public class CLIWriter implements Runnable {
      * Attempts to read a CardColor from command line
      *
      * @return the CardColor read from command line
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private CardColor getColor() throws IOException {
+    private CardColor getColor() throws IOException, OperationCancelledException {
         CardColor result;
         while (true) {
             try {
                 String text = stdIn.readLine();
-                if (text == null) {
+
+                if (text == null)
                     throw new IOException();
-                }
+                else if (text.equals("canc"))
+                    throw new OperationCancelledException();
+
                 text = text.toUpperCase();
                 result = CardColor.valueOf(text);
                 break;
@@ -883,16 +934,20 @@ public class CLIWriter implements Runnable {
      * Attempts to read a ResourceType from command line
      *
      * @return the ResourceType read from command line
-     * @throws IOException if an I/O error occurs
+     * @throws IOException                 if an I/O error occurs
+     * @throws OperationCancelledException if the player cancels the command
      */
-    private ResourceType getResourceType() throws IOException {
+    private ResourceType getResourceType() throws IOException, OperationCancelledException {
         ResourceType result;
         while (true) {
             try {
                 String text = stdIn.readLine();
-                if (text == null) {
+
+                if (text == null)
                     throw new IOException();
-                }
+                else if (text.equals("canc"))
+                    throw new OperationCancelledException();
+
                 text = text.toUpperCase();
                 result = ResourceType.valueOf(text);
                 break;
