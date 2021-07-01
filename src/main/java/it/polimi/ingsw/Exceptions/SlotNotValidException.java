@@ -5,12 +5,32 @@ package it.polimi.ingsw.Exceptions;
  */
 public class SlotNotValidException extends Exception {
     /**
+     * The number of the slot
+     */
+    private final int slotNumber;
+    /**
+     * The level of the card
+     */
+    private final int cardLevel;
+
+    /**
+     * Constructor
+     *
+     * @param slotNumber the number of the card slot
+     * @param cardLevel  the level of the card
+     */
+    public SlotNotValidException(int slotNumber, int cardLevel) {
+        this.slotNumber = slotNumber;
+        this.cardLevel = cardLevel;
+    }
+
+    /**
      * Returns the message describing the type of error that occurred
      *
      * @return - the message (String) of this exception
      */
     @Override
     public String getMessage() {
-        return ("The selected slot cannot hold a card of this level.");
+        return ("Card slot number " + slotNumber + " cannot hold a card of level " + cardLevel + ".");
     }
 }

@@ -5,10 +5,6 @@ import it.polimi.ingsw.Exceptions.NotEnoughResourceException;
 import it.polimi.ingsw.Exceptions.NotEnoughSpaceException;
 import it.polimi.ingsw.Exceptions.WrongResourceInsertionException;
 import it.polimi.ingsw.model.resource.ResourceType;
-import it.polimi.ingsw.model.storage.BasicDepot;
-import it.polimi.ingsw.model.storage.LeaderDepot;
-import it.polimi.ingsw.model.storage.ResourceDepot;
-import it.polimi.ingsw.model.storage.Warehouse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

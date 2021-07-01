@@ -25,6 +25,6 @@ public class UndefinedJollyException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("There are still jolly resources in " + jollyLocation + ".");
+        return ("There are still unconverted jolly resources in " + jollyLocation + ".");
     }
 }

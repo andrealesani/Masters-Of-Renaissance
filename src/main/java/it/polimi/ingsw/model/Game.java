@@ -128,7 +128,7 @@ public class Game implements UserCommandsInterface, Observable {
         int[] firstTurnBonusResources = {0, 1, 1, 2};
         int[] firstTurnBonusFaith = {0, 0, 1, 1};
         for (int i = 0; i < playersTurnOrder.size(); i++) {
-            playersTurnOrder.get(i).addWhiteNoCheck(firstTurnBonusResources[i]);
+            playersTurnOrder.get(i).addResourcesToConvertNoCheck(firstTurnBonusResources[i]);
             playersTurnOrder.get(i).addFaith(firstTurnBonusFaith[i]);
         }
 
@@ -171,7 +171,7 @@ public class Game implements UserCommandsInterface, Observable {
      */
     public void chooseBonusResourceType(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.LEADERCHOICE)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You have already chosen your leader cards and bonus resources.");
 
         if (currentPlayer == null || !resource.getType().canBeStored())
             throw new ParametersNotValidException();
@@ -189,7 +189,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void chooseLeaderCard(int pos) throws WrongTurnPhaseException, LeaderNotPresentException {
         if (turnPhase != TurnPhase.LEADERCHOICE)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You have already chosen your leader cards and bonus resources.");
 
         currentPlayer.chooseLeaderCard(pos);
     }
@@ -202,14 +202,14 @@ public class Game implements UserCommandsInterface, Observable {
      * @param number the number of the leaderCard to activate
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
-     * @throws CardAlreadyActiveException        if the selected card is already active
+     * @throws CardIsActiveException        if the selected card is already active
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
      */
     @Override
-    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardIsActiveException {
         if (turnPhase == TurnPhase.LEADERCHOICE)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You cannot play a leader card while choosing your leader cards and bonus resources");
 
         currentPlayer.playLeaderCard(number);
     }
@@ -218,15 +218,15 @@ public class Game implements UserCommandsInterface, Observable {
      * Allows the player to discard the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to discard
-     * @throws LeaderIsActiveException     if the player attempts to discard a leader card they have previously activated
+     * @throws CardIsActiveException     if the player attempts to discard a leader card they have previously activated
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      * @throws LeaderNotPresentException   if the number selected does not correspond to a leader card
      */
     @Override
-    public void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
+    public void discardLeaderCard(int number) throws WrongTurnPhaseException, CardIsActiveException, LeaderNotPresentException {
         if (turnPhase == TurnPhase.LEADERCHOICE)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You cannot discard a leader card while choosing your leader cards and bonus resources");
 
         currentPlayer.discardLeaderCard(number);
     }
@@ -243,7 +243,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void selectMarketRow(int numScope) throws WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only select a market row when choosing your turn's action.");
 
         market.selectRow(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
@@ -260,7 +260,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void selectMarketColumn(int numScope) throws WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only select a market column when choosing your turn's action.");
 
         market.selectColumn(numScope, currentPlayer);
         currentPlayer.resetProductionChoice();
@@ -284,7 +284,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void sendResourceToDepot(int depotNumber, Resource resource, int quantity) throws DepotNotPresentException, NotEnoughResourceException, BlockedResourceException, NotEnoughSpaceException, WrongResourceInsertionException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.MARKETDISTRIBUTION && turnPhase != TurnPhase.LEADERCHOICE)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You have no resources waiting to be placed.");
 
         currentPlayer.sendResourceToDepot(depotNumber, resource.getType(), quantity);
     }
@@ -302,7 +302,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void chooseMarbleConversion(Resource resource, int quantity) throws ConversionNotAvailableException, NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.MARKETDISTRIBUTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only choose a white marble conversion after obtaining resources from the market.");
 
         currentPlayer.chooseMarbleConversion(resource.getType(), quantity);
     }
@@ -359,7 +359,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void takeDevelopmentCard(CardColor cardColor, int level, int slot) throws SlotNotValidException, NotEnoughResourceException, WrongTurnPhaseException, EmptyDeckException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only buy a development card when choosing your turn's action.");
 
         cardTable.buyTopCard(cardColor, level, currentPlayer, slot);
         currentPlayer.resetProductionChoice();
@@ -380,7 +380,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void selectProduction(int number) throws WrongTurnPhaseException, ProductionNotPresentException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only select productions to activate when choosing your turn's action.");
 
         currentPlayer.selectProduction(number);
     }
@@ -393,7 +393,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void resetProductionChoice() throws WrongTurnPhaseException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only reset your productions choice when choosing your turn's action.");
 
         currentPlayer.resetProductionChoice();
     }
@@ -404,12 +404,12 @@ public class Game implements UserCommandsInterface, Observable {
      * @param resource the resource into which to turn the jolly
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
     @Override
-    public void chooseJollyInput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException {
+    public void chooseJollyInput(Resource resource) throws WrongTurnPhaseException, NotEnoughResourceException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only convert production jollies when choosing your turn's action.");
 
         currentPlayer.chooseJollyInput(resource);
     }
@@ -420,12 +420,12 @@ public class Game implements UserCommandsInterface, Observable {
      * @param resource the resource into which to turn the jolly
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
     @Override
-    public void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException {
+    public void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException, NotEnoughResourceException {
         if (turnPhase != TurnPhase.ACTIONSELECTION)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You can only convert production jollies when choosing your turn's action.");
 
         currentPlayer.chooseJollyOutput(resource);
     }
@@ -439,8 +439,11 @@ public class Game implements UserCommandsInterface, Observable {
      */
     @Override
     public void confirmProductionChoice() throws NotEnoughResourceException, UndefinedJollyException, WrongTurnPhaseException {
-        if (turnPhase != TurnPhase.ACTIONSELECTION || currentPlayer.isProductionInputEmpty())
-            throw new WrongTurnPhaseException();
+        if (turnPhase != TurnPhase.ACTIONSELECTION)
+            throw new WrongTurnPhaseException("You can only confirm your production choice when choosing your turn's action.");
+
+        if (currentPlayer.isProductionInputEmpty())
+            throw new WrongTurnPhaseException("You have not selected any productions.");
 
         currentPlayer.confirmProductionChoice();
         setTurnPhase(TurnPhase.PRODUCTIONPAYMENT);
@@ -463,7 +466,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void payFromWarehouse(int depotNumber, Resource resource, int quantity) throws NotEnoughResourceException, DepotNotPresentException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You have can only pay resources after buying a development card or activating productions.");
 
         currentPlayer.takeResourceFromWarehouse(depotNumber, resource.getType(), quantity);
     }
@@ -480,7 +483,7 @@ public class Game implements UserCommandsInterface, Observable {
     @Override
     public void payFromStrongbox(Resource resource, int quantity) throws NotEnoughResourceException, WrongTurnPhaseException {
         if (turnPhase != TurnPhase.CARDPAYMENT && turnPhase != TurnPhase.PRODUCTIONPAYMENT)
-            throw new WrongTurnPhaseException();
+            throw new WrongTurnPhaseException("You have can only pay resources after buying a development card or activating productions.");
 
         currentPlayer.takeResourceFromStrongbox(resource.getType(), quantity);
     }
@@ -496,8 +499,11 @@ public class Game implements UserCommandsInterface, Observable {
     public void endTurn() throws WrongTurnPhaseException {
         if (turnPhase == TurnPhase.LEADERCHOICE) {
 
-            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0)
-                throw new WrongTurnPhaseException();
+            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber)
+                throw new WrongTurnPhaseException("You have yet to select 2 leader cards to keep.");
+
+            if (currentPlayer.getLeftInWaitingRoom() > 0)
+                throw new WrongTurnPhaseException("You have yet to choose and place all your bonus resources.");
 
             currentPlayer.finishLeaderCardSelection();
             currentPlayer.setFirstTurnTaken();
@@ -692,17 +698,7 @@ public class Game implements UserCommandsInterface, Observable {
     private void endTurnChecks() throws WrongTurnPhaseException {
         if (turnPhase == TurnPhase.ACTIONSELECTION) {
 
-            throw new WrongTurnPhaseException();
-
-        } else if (turnPhase == TurnPhase.LEADERCHOICE) {
-
-            if (currentPlayer.getActiveLeaderCards() != finalLeaderCardNumber || currentPlayer.getLeftInWaitingRoom() > 0) {
-                throw new WrongTurnPhaseException();
-            }
-
-            currentPlayer.finishLeaderCardSelection();
-            currentPlayer.setFirstTurnTaken();
-            return;
+            throw new WrongTurnPhaseException("You cannot end your turn before choosing an action.");
 
         } else if (turnPhase == TurnPhase.MARKETDISTRIBUTION) {
 
@@ -1049,7 +1045,7 @@ public class Game implements UserCommandsInterface, Observable {
                 return leaderCard;
             }
         }
-        throw new CardNotPresentException();
+        throw new CardNotPresentException(id);
     }
 
     //PERSISTENCE METHODS
@@ -1067,7 +1063,7 @@ public class Game implements UserCommandsInterface, Observable {
                 return developmentCard;
             }
         }
-        throw new CardNotPresentException();
+        throw new CardNotPresentException(id);
     }
 
     /**

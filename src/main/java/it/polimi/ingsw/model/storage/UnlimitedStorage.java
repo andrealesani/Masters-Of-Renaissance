@@ -90,13 +90,13 @@ public class UnlimitedStorage implements ResourceStash, Observable {
         }
         if (quantity > 0) {
             if (!storageContent.containsKey(resource)) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             }
 
             int newQuantity = storageContent.get(resource) - quantity;
 
             if (newQuantity < 0) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             } else if (newQuantity == 0) {
                 storageContent.remove(resource);
             } else {

@@ -112,7 +112,7 @@ public class CardTable implements Observable {
 
         // Checks that the deck is not empty before trying to access it
         if (cards.get(cardColor).get(row).isEmpty())
-            throw new EmptyDeckException();
+            throw new EmptyDeckException(cardColor, level);
 
         playerBoard.buyDevelopmentCard(cards.get(cardColor).get(row).get(0), cardSlot);
         cards.get(cardColor).get(row).remove(0);
@@ -138,7 +138,7 @@ public class CardTable implements Observable {
         }
 
         if (i > 2) {
-            throw new EmptyDeckException();
+            throw new EmptyDeckException(cardColor);
         }
 
         notifyObservers();

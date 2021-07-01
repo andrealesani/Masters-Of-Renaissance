@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card.leadercard;
 
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import it.polimi.ingsw.Exceptions.ParametersNotValidException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.PlayerBoard;
@@ -49,9 +49,9 @@ public class MarbleLeaderCard extends LeaderCard {
      * @param playerBoard specifies to which PlayerBoard the discount has to be added
      */
     @Override
-    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {
+    public void doAction(PlayerBoard playerBoard) throws CardIsActiveException {
         if (isActive())
-            throw new CardAlreadyActiveException();
+            throw new CardIsActiveException();
         activate();
         activateMarbleEffect(playerBoard);
     }
@@ -145,7 +145,7 @@ public class MarbleLeaderCard extends LeaderCard {
             }
 
             //Row 4
-            case 4 -> content += " Conversion: " + ResourceType.WHITEORB.iconPrint() + " -> " + resourceType.iconPrint();
+            case 4 -> content += " Conversion: " + ResourceType.WHITE_MARBLE.iconPrint() + " -> " + resourceType.iconPrint();
 
             default -> content += "";
         }

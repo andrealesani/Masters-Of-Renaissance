@@ -169,7 +169,7 @@ public class Warehouse implements Observable {
                 ex2.printStackTrace();
             }
 
-            throw new SwapNotValidException();
+            throw new SwapNotValidException(depotNumber1, depotNumber2);
         }
 
         notifyObservers();
@@ -200,7 +200,7 @@ public class Warehouse implements Observable {
 
         //Checks that the providing depot contains them in sufficient quantity
         if (depots.get(depotNumberTake - 1).getNumOfResource(resource) < quantity) {
-            throw new NotEnoughResourceException();
+            throw new NotEnoughResourceException(resource);
         }
 
         //Removes the resources from the providing depot

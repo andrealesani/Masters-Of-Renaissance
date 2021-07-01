@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model.card.leadercard;
 
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.card.leadercard.DiscountLeaderCard;
 import it.polimi.ingsw.model.resource.ResourceType;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ class DiscountLeaderCardTest {
      * Test for the leader card's activation
      */
     @Test
-    void doAction() throws CardAlreadyActiveException {
+    void doAction() throws CardIsActiveException {
         CardColor[] requiredColors = {CardColor.GREEN, CardColor.BLUE};
         int[] requiredQuantities = {1,2};
 

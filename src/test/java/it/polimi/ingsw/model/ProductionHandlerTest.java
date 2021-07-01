@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.resource.*;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +52,7 @@ class ProductionHandlerTest {
      * Tests the choice of jollies in input for productions
      */
     @Test
-    void chooseJollyInput() throws ProductionNotPresentException, ResourceNotPresentException {
+    void chooseJollyInput() throws ProductionNotPresentException, NotEnoughResourceException {
         // Creates an instance of every resource type
         ResourceJolly unknown = new ResourceJolly();
         ResourceCoin coin = new ResourceCoin();
@@ -81,7 +79,7 @@ class ProductionHandlerTest {
         assertTrue(productionHandler.getCurrentInput().size() == 1, "wrong output size");
         assertTrue(productionHandler.getCurrentInput().get(0) instanceof ResourceCoin, "wrong ResourceType in output");
 
-        Exception ex = assertThrows(ResourceNotPresentException.class, () -> {
+        Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             productionHandler.chooseJollyInput(stone);
         });
     }
@@ -90,7 +88,7 @@ class ProductionHandlerTest {
      * Tests the choice of jollies in output for productions
      */
     @Test
-    void chooseJollyOutput() throws ProductionNotPresentException, ResourceNotPresentException {
+    void chooseJollyOutput() throws ProductionNotPresentException, NotEnoughResourceException {
         // Creates an instance of every resource type
         ResourceJolly unknown = new ResourceJolly();
         ResourceCoin coin = new ResourceCoin();
@@ -117,7 +115,7 @@ class ProductionHandlerTest {
         assertEquals(1, productionHandler.getCurrentOutput().size(), "wrong output size");
         assertTrue(productionHandler.getCurrentOutput().get(0) instanceof ResourceCoin, "wrong ResourceType in output");
 
-        Exception ex = assertThrows(ResourceNotPresentException.class, () -> {
+        Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
             productionHandler.chooseJollyOutput(stone);
         });
     }
@@ -173,11 +171,15 @@ class ProductionHandlerTest {
         productionHandler.selectProduction(1);
 
         // TEST
-        assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
+        Exception ex = assertThrows(NotEnoughResourceException.class, () -> {
+            productionHandler.arePlayerResourcesEnough(playerBoard);
+        });
         Map<ResourceType, Integer> resources = new HashMap<>();
         resources.put(ResourceType.COIN, 1);
         playerBoard.addResourcesToStrongbox(resources);
-        assertFalse(productionHandler.arePlayerResourcesEnough(playerBoard));
+        ex = assertThrows(NotEnoughResourceException.class, () -> {
+            productionHandler.arePlayerResourcesEnough(playerBoard);
+        });
 
         // Resources are divided into strongbox and depots and together they're enough to activated all the productions
         resources.clear();

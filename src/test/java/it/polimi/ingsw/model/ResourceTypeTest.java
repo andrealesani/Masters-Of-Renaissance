@@ -35,7 +35,7 @@ class ResourceTypeTest {
         Resource jolly = jollyType.toResource();
         assertEquals(new ResourceJolly(), jolly);
 
-        ResourceType whiteType = ResourceType.WHITEORB;
+        ResourceType whiteType = ResourceType.WHITE_MARBLE;
         Resource white = whiteType.toResource();
         assertEquals(new ResourceWhite(), white);
     }

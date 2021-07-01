@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card.leadercard;
 
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import it.polimi.ingsw.Exceptions.ParametersNotValidException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.PlayerBoard;
@@ -78,9 +78,9 @@ public class ProductionLeaderCard extends LeaderCard {
      * @param playerBoard specifies to which PlayerBoard the discount has to be added
      */
     @Override
-    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {
+    public void doAction(PlayerBoard playerBoard) throws CardIsActiveException {
         if (isActive())
-            throw new CardAlreadyActiveException();
+            throw new CardIsActiveException();
         activate();
         addProduction(playerBoard);
     }

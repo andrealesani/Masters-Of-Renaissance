@@ -48,9 +48,9 @@ public class PlayerBoard implements Observable {
      */
     private final UnlimitedStorage waitingRoom;
     /**
-     * Attribute used to store the number of white marbles obtained from the market for which the player still has to choose a conversion
+     * Attribute used to store the number of resources (white marbles from the market or first turn bonus resources) the player has left to convert
      */
-    private int whiteMarbleNum = 0;
+    private int resourcesToConvert;
     /**
      * Attribute used to store the player's faith score
      */
@@ -125,6 +125,7 @@ public class PlayerBoard implements Observable {
 
         this.username = username;
         faith = 0;
+        resourcesToConvert = 0;
         this.popeFavorTiles = popeFavorTiles;
         warehouse = new Warehouse(numOfDepots);
         waitingRoom = new UnlimitedStorage();
@@ -155,6 +156,7 @@ public class PlayerBoard implements Observable {
     public PlayerBoard() {
         username = null;
         faith = 0;
+        resourcesToConvert = 0;
         popeFavorTiles = new ArrayList<>();
         warehouse = new Warehouse(3);
         waitingRoom = new UnlimitedStorage();
@@ -213,7 +215,7 @@ public class PlayerBoard implements Observable {
     }
 
     /**
-     * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a white orb resource to the waiting room if there are multiple
+     * Depending on the number of available marble conversions: does nothing if there are zero, adds a resource of the corresponding type to the waiting room if there is one, and adds a resource to convert if there are multiple
      *
      * @param quantity the number of white marbles to add
      */
@@ -221,7 +223,7 @@ public class PlayerBoard implements Observable {
         if (marbleConversions.size() == 1) {
             waitingRoom.addResources(Map.of(marbleConversions.get(0), quantity));
         } else if (marbleConversions.size() > 1) {
-            whiteMarbleNum += quantity;
+            resourcesToConvert += quantity;
         }
 
         notifyObservers();
@@ -230,11 +232,11 @@ public class PlayerBoard implements Observable {
     //Market's resources distribution methods
 
     /**
-     * Converts the given amount of white orbs, from the amount waiting to be converted, into the given resource from the available marble conversions
+     * Converts the given amount of white marbles, from the amount waiting to be converted, into the given resource from the available marble conversions
      *
-     * @param resource the resource into which to convert the white orb
-     * @param quantity the amount of white orbs to convert
-     * @throws NotEnoughResourceException      if there are less white orbs in the waiting room than the amount to be converted
+     * @param resource the resource into which to convert the white marble
+     * @param quantity the amount of white marbles to convert
+     * @throws NotEnoughResourceException      if there are less white marbles in the waiting room than the amount to be converted
      * @throws ConversionNotAvailableException if the conversion to the given resource is not available
      */
     public void chooseMarbleConversion(ResourceType resource, int quantity) throws NotEnoughResourceException, ConversionNotAvailableException {
@@ -245,13 +247,13 @@ public class PlayerBoard implements Observable {
             throw new ConversionNotAvailableException(resource);
         }
 
-        int newQuantity = whiteMarbleNum - quantity;
+        int newQuantity = resourcesToConvert - quantity;
 
         if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
+            throw new NotEnoughResourceException(ResourceType.WHITE_MARBLE);
         }
         waitingRoom.addResources(Map.of(resource, quantity));
-        whiteMarbleNum = newQuantity;
+        resourcesToConvert = newQuantity;
 
         notifyObservers();
     }
@@ -334,11 +336,11 @@ public class PlayerBoard implements Observable {
         //Checks if the selected slot can take a card of the given level
         if (cardLevel == 1) {
             if (!requestedSlot.isEmpty()) {
-                throw new SlotNotValidException();
+                throw new SlotNotValidException(slot, cardLevel);
             }
         } else if (cardLevel > 1) {
             if (requestedSlot.isEmpty() || requestedSlot.get(requestedSlot.size() - 1).getLevel() != card.getLevel() - 1) {
-                throw new SlotNotValidException();
+                throw new SlotNotValidException(slot, cardLevel);
             }
         }
 
@@ -365,7 +367,7 @@ public class PlayerBoard implements Observable {
 
             if (quantity > getNumOfResource(resource)) {
                 waitingRoom.clear();
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             }
 
             waitingRoom.addResources(Map.of(resource, quantity));
@@ -426,21 +428,21 @@ public class PlayerBoard implements Observable {
      * @throws NotEnoughResourceException if the player does not have enough resources to activate the selected productions
      */
     public void confirmProductionChoice() throws UndefinedJollyException, NotEnoughResourceException {
-        if (!productionHandler.arePlayerResourcesEnough(this)) {
-            throw new NotEnoughResourceException();
-        }
-        productionHandler.releaseInput(this);
+        if (productionHandler.arePlayerResourcesEnough(this)) {
 
-        notifyObservers();
+            productionHandler.releaseInput(this);
+
+            notifyObservers();
+        }
     }
 
     /**
      * Converts a jolly resource in current production input into the given resource
      *
      * @param resource the resource into which to turn the jolly
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
+    public void chooseJollyInput(Resource resource) throws NotEnoughResourceException {
         productionHandler.chooseJollyInput(resource);
 
         notifyObservers();
@@ -450,9 +452,9 @@ public class PlayerBoard implements Observable {
      * Converts a jolly resource in current production output into the given resource
      *
      * @param resource the resource into which to turn the jolly
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
+    public void chooseJollyOutput(Resource resource) throws NotEnoughResourceException {
         productionHandler.chooseJollyOutput(resource);
 
         notifyObservers();
@@ -578,18 +580,18 @@ public class PlayerBoard implements Observable {
      * @param number specifies the position of the LeaderCard in the leaderCards list
      * @throws LeaderRequirementsNotMetException thrown if the player does not fulfill the requirements to activate the specified LeaderCard
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
-     * @throws CardAlreadyActiveException        if the selected card is already active
+     * @throws CardIsActiveException        if the selected card is already active
      */
-    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException, CardAlreadyActiveException {
+    public void playLeaderCard(int number) throws LeaderRequirementsNotMetException, LeaderNotPresentException, CardIsActiveException {
         if (number <= 0)
             throw new ParametersNotValidException();
         if (number > leaderCards.size())
-            throw new LeaderNotPresentException();
+            throw new LeaderNotPresentException(number);
 
         if (leaderCards.get(number - 1).areRequirementsMet(this)) {
             leaderCards.get(number - 1).doAction(this);
             setLeaderDepotCards();
-        } else throw new LeaderRequirementsNotMetException();
+        } else throw new LeaderRequirementsNotMetException(number);
 
         notifyObservers();
     }
@@ -598,16 +600,16 @@ public class PlayerBoard implements Observable {
      * This method is called when a player decides to discard one of his two LeaderCards in order to get one faith point
      *
      * @param number specifies the position of the LeaderCard in the leaderCards list
-     * @throws LeaderIsActiveException   if the leader card to be discarded has been activated
+     * @throws CardIsActiveException   if the leader card to be discarded has been activated
      * @throws LeaderNotPresentException if the number selected does not correspond to a leader card
      */
-    public void discardLeaderCard(int number) throws LeaderIsActiveException, LeaderNotPresentException {
+    public void discardLeaderCard(int number) throws CardIsActiveException, LeaderNotPresentException {
         if (number <= 0)
             throw new ParametersNotValidException();
         if (number > leaderCards.size())
-            throw new LeaderNotPresentException();
+            throw new LeaderNotPresentException(number);
         if (leaderCards.get(number - 1).isActive())
-            throw new LeaderIsActiveException();
+            throw new CardIsActiveException();
 
         leaderCards.remove(number - 1);
         addFaith(1);
@@ -667,12 +669,12 @@ public class PlayerBoard implements Observable {
     //First turn methods
 
     /**
-     * Adds the selected amount of white marbles to waiting room
+     * Adds the selected amount of resources to convert
      *
-     * @param quantity the number of white marbles to add
+     * @param quantity the number of resources to convert to add
      */
-    public void addWhiteNoCheck(int quantity) {
-        whiteMarbleNum += quantity;
+    public void addResourcesToConvertNoCheck(int quantity) {
+        resourcesToConvert += quantity;
 
         notifyObservers();
     }
@@ -685,12 +687,12 @@ public class PlayerBoard implements Observable {
      * @throws NotEnoughResourceException if there are not enough white marbles to get the required resource
      */
     public void chooseStartingResource(ResourceType resource, int quantity) throws NotEnoughResourceException {
-        int newQuantity = whiteMarbleNum - quantity;
+        int newQuantity = resourcesToConvert - quantity;
         if (newQuantity < 0) {
-            throw new NotEnoughResourceException();
+            throw new NotEnoughResourceException(ResourceType.JOLLY);
         }
         waitingRoom.addResources(Map.of(resource, quantity));
-        whiteMarbleNum = newQuantity;
+        resourcesToConvert = newQuantity;
 
         notifyObservers();
     }
@@ -705,7 +707,7 @@ public class PlayerBoard implements Observable {
         if (number <= 0)
             throw new ParametersNotValidException();
         if (number > leaderCards.size())
-            throw new LeaderNotPresentException();
+            throw new LeaderNotPresentException(number);
 
         LeaderCard leaderCard = leaderCards.get(number - 1);
 
@@ -787,7 +789,7 @@ public class PlayerBoard implements Observable {
      */
     public void clearWaitingRoom() {
         waitingRoom.clear();
-        whiteMarbleNum = 0;
+        resourcesToConvert = 0;
     }
 
     /**
@@ -863,8 +865,8 @@ public class PlayerBoard implements Observable {
      *
      * @param whiteMarbleNum the player's unconverted resources
      */
-    public void restoreWhiteMarbleNum(int whiteMarbleNum) {
-        this.whiteMarbleNum = whiteMarbleNum;
+    public void restoreResourcesToConvert(int whiteMarbleNum) {
+        this.resourcesToConvert = whiteMarbleNum;
     }
 
     /**
@@ -906,7 +908,7 @@ public class PlayerBoard implements Observable {
                     if (firstTurnTaken)
                         try {
                             card.doAction(this);
-                        } catch (CardAlreadyActiveException ignored) {
+                        } catch (CardIsActiveException ignored) {
                         }
                     else
                         card.activate();
@@ -1069,7 +1071,7 @@ public class PlayerBoard implements Observable {
         for (ResourceType resource : leftovers) {
             sum += waitingRoom.getNumOfResource(resource);
         }
-        sum += whiteMarbleNum;
+        sum += resourcesToConvert;
         return sum;
     }
 
@@ -1096,10 +1098,10 @@ public class PlayerBoard implements Observable {
     /**
      * Getter
      *
-     * @return whiteMarbleNum
+     * @return resourcesToConvert
      */
-    public int getWhiteMarbles() {
-        return whiteMarbleNum;
+    public int getResourcesToConvert() {
+        return resourcesToConvert;
     }
 
     /**

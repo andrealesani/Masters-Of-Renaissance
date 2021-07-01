@@ -76,7 +76,7 @@ public class BasicDepot implements ResourceDepot {
                 storedResource = resource;
             } else {
                 if (resource != storedResource) {
-                    throw new WrongResourceInsertionException();
+                    throw new WrongResourceInsertionException(resource);
                 }
             }
 
@@ -112,11 +112,11 @@ public class BasicDepot implements ResourceDepot {
         }
         if (quantity > 0) {
             if (amount == 0 || resource != storedResource) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             }
             int newQuantity = amount - quantity;
             if (newQuantity < 0) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             } else {
                 if (newQuantity == 0) {
                     storedResource = null;

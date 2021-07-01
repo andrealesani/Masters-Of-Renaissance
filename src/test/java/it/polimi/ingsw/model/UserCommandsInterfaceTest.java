@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.PopeTileState;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.leadercard.*;
 import it.polimi.ingsw.model.resource.*;
@@ -48,11 +44,11 @@ class UserCommandsInterfaceTest {
 
         //Second player's turn
         currentPlayer = game.getCurrentPlayer();
-        assertEquals(1, currentPlayer.getWhiteMarbles());
+        assertEquals(1, currentPlayer.getResourcesToConvert());
         assertEquals(0, currentPlayer.getWaitingRoom().getStoredResources().size());
 
         game.chooseBonusResourceType(new ResourceCoin(), 1);
-        assertEquals(0, currentPlayer.getWhiteMarbles());
+        assertEquals(0, currentPlayer.getResourcesToConvert());
         assertEquals(1, currentPlayer.getWaitingRoom().getStoredResources().size());
 
         assertEquals(1, currentPlayer.getWaitingRoom().getNumOfResource(ResourceType.COIN));
@@ -91,7 +87,7 @@ class UserCommandsInterfaceTest {
      * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
      */
     @Test
-    void playLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
+    void playLeaderCard() throws WrongTurnPhaseException, LeaderNotPresentException, CardIsActiveException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -157,7 +153,7 @@ class UserCommandsInterfaceTest {
      * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
      */
     @Test
-    void discardLeaderCard() throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException {
+    void discardLeaderCard() throws WrongTurnPhaseException, CardIsActiveException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -620,7 +616,7 @@ class UserCommandsInterfaceTest {
      * Tests the homonymous UserCommandsInterface method, simulating an in-game player action
      */
     @Test
-    void chooseJollyInputAndOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void chooseJollyInputAndOutput() throws WrongTurnPhaseException, SlotNotValidException, NotEnoughResourceException, UndefinedJollyException, ProductionNotPresentException, NotEnoughResourceException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -779,7 +775,7 @@ class UserCommandsInterfaceTest {
      * Tests the homonymous UserCommandsInterface method (when applied to paying for productions), simulating an in-game player action
      */
     @Test
-    void payFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void payFromWarehouseProduction() throws WrongTurnPhaseException, NotEnoughResourceException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, DepotNotPresentException, UndefinedJollyException, ProductionNotPresentException, NotEnoughResourceException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");
@@ -870,7 +866,7 @@ class UserCommandsInterfaceTest {
      * Tests the homonymous UserCommandsInterface method (when applied to paying for productions), simulating an in-game player action
      */
     @Test
-    void payFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, ResourceNotPresentException, LeaderNotPresentException {
+    void payFromStrongboxProduction() throws WrongTurnPhaseException, NotEnoughResourceException, DepotNotPresentException, UndefinedJollyException, BlockedResourceException, WrongResourceInsertionException, NotEnoughSpaceException, ProductionNotPresentException, NotEnoughResourceException, LeaderNotPresentException {
         // Game creation
         Set<String> nicknames = new HashSet<>();
         nicknames.add("Andre");

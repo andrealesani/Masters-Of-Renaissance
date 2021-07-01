@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.Exceptions.ParametersNotValidException;
-import it.polimi.ingsw.Exceptions.ProductionNotPresentException;
-import it.polimi.ingsw.Exceptions.ResourceNotPresentException;
-import it.polimi.ingsw.Exceptions.UndefinedJollyException;
+import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.model.resource.Resource;
 import it.polimi.ingsw.model.resource.ResourceJolly;
 import it.polimi.ingsw.model.resource.ResourceType;
@@ -79,15 +76,15 @@ public class ProductionHandler implements Observable {
      * Throws RuntimeException if it doesn't find any ResourceJolly.
      *
      * @param resource specifies the Resource that is going to replace the ResourceJolly
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyInput(Resource resource) throws ResourceNotPresentException {
+    public void chooseJollyInput(Resource resource) throws NotEnoughResourceException {
         if (resource == null || !resource.getType().canBeStored())
             throw new ParametersNotValidException();
 
         if (currentInput.remove(new ResourceJolly()))
             currentInput.add(resource);
-        else throw new ResourceNotPresentException();
+        else throw new NotEnoughResourceException(ResourceType.JOLLY);
 
         notifyObservers();
     }
@@ -97,15 +94,15 @@ public class ProductionHandler implements Observable {
      * Throws RuntimeException if it doesn't find any ResourceJolly.
      *
      * @param resource specifies the Resource that is going to replace the ResourceJolly
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    public void chooseJollyOutput(Resource resource) throws ResourceNotPresentException {
+    public void chooseJollyOutput(Resource resource) throws NotEnoughResourceException {
         if (resource == null || !resource.getType().canBeStored())
             throw new ParametersNotValidException();
 
         if (currentOutput.remove(new ResourceJolly()))
             currentOutput.add(resource);
-        else throw new ResourceNotPresentException();
+        else throw new NotEnoughResourceException(ResourceType.JOLLY);
 
         notifyObservers();
     }
@@ -121,7 +118,7 @@ public class ProductionHandler implements Observable {
         if (productionNumber < 1)
             throw new ParametersNotValidException();
         if (productionNumber > productions.size())
-            throw new ProductionNotPresentException();
+            throw new ProductionNotPresentException(productionNumber);
 
         productions.get(productionNumber - 1).select();
 
@@ -165,14 +162,15 @@ public class ProductionHandler implements Observable {
     }
 
     /**
-     * Returns whether or not the player has enough resources to activate the currently selected productions
+     * Returns whether or not the player has enough resources to activate the currently selected productions.
+     * If the player does not have the required resources, throws an exception so as to be able to communicate which is missing
      *
      * @param playerBoard specifies which PlayerBoard to control in order to ensure that it has enough Resources
      * @return true if the player has enough resources (considering the entirety of his storage) to activate all the Productions he selected
      * @throws UndefinedJollyException if there are still UnknownResources in input or output lists (the exception message will specify if they're in input or output)
+     * @throws NotEnoughResourceException if the player does not have enough resources
      */
-    public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UndefinedJollyException {
-        int numCoin = 0, numFaith = 0, numServant = 0, numShield = 0, numStone = 0;
+    public boolean arePlayerResourcesEnough(PlayerBoard playerBoard) throws UndefinedJollyException, NotEnoughResourceException {
 
         if (getCurrentInput().contains(new ResourceJolly()))
             throw new UndefinedJollyException("input");
@@ -189,7 +187,7 @@ public class ProductionHandler implements Observable {
         for (ResourceType resourceType : inputCostMap) {
             int resourceCost = Math.toIntExact(inputQuantities.get(resourceType));
             if (playerBoard.getNumOfResource(resourceType) < resourceCost)
-                return false;
+                throw new NotEnoughResourceException(resourceType);
         }
 
         return true;

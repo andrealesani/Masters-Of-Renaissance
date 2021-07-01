@@ -14,7 +14,7 @@ public class ResourceWhite extends Resource {
      * Constructor
      */
     public ResourceWhite() {
-        super(ResourceType.WHITEORB);
+        super(ResourceType.WHITE_MARBLE);
     }
 
     //PUBLIC METHODS

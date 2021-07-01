@@ -106,7 +106,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException {
+    private void playLeaderCard(UserCommandsInterface game) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardIsActiveException {
         int number = extractInt(parameters.get("number"));
         game.playLeaderCard(number);
     }
@@ -116,7 +116,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void discardLeaderCard(UserCommandsInterface game) throws LeaderIsActiveException, WrongTurnPhaseException, LeaderNotPresentException {
+    private void discardLeaderCard(UserCommandsInterface game) throws CardIsActiveException, WrongTurnPhaseException, LeaderNotPresentException {
         int number = extractInt(parameters.get("number"));
         game.discardLeaderCard(number);
     }
@@ -231,7 +231,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void chooseJollyInput(UserCommandsInterface game) throws ResourceNotPresentException, WrongTurnPhaseException {
+    private void chooseJollyInput(UserCommandsInterface game) throws NotEnoughResourceException, WrongTurnPhaseException {
         Resource resource = extractResource(parameters.get("resource"));
         game.chooseJollyInput(resource);
     }
@@ -241,7 +241,7 @@ public class Command {
      *
      * @param game the Model's Game class
      */
-    private void chooseJollyOutput(UserCommandsInterface game) throws ResourceNotPresentException, WrongTurnPhaseException {
+    private void chooseJollyOutput(UserCommandsInterface game) throws NotEnoughResourceException, WrongTurnPhaseException {
         Resource resource = extractResource(parameters.get("resource"));
         game.chooseJollyOutput(resource);
     }

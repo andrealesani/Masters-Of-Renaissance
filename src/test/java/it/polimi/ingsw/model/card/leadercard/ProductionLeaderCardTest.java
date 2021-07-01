@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model.card.leadercard;
 
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Production;
-import it.polimi.ingsw.model.card.leadercard.ProductionLeaderCard;
 import it.polimi.ingsw.model.resource.ResourceType;
 import it.polimi.ingsw.model.resource.Resource;
 import it.polimi.ingsw.model.resource.ResourceFaith;
@@ -22,7 +21,7 @@ class ProductionLeaderCardTest {
      * Test for the leader card's activation
      */
     @Test
-    void doAction() throws CardAlreadyActiveException {
+    void doAction() throws CardIsActiveException {
         // Creates Leader Card
         ResourceType[] inputType = {ResourceType.COIN, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE, ResourceType.JOLLY};
         int[] inputQuantities = {0, 2, 0, 0, 0};

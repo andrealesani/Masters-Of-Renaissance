@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card.leadercard;
 
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.card.Card;
 
@@ -32,9 +32,9 @@ public class LeaderCard extends Card {
      * Activates the leader's specific ability
      *
      * @param playerBoard the player for whom to activate the ability
-     * @throws CardAlreadyActiveException if the card is already active
+     * @throws CardIsActiveException if the card is already active
      */
-    public void doAction(PlayerBoard playerBoard) throws CardAlreadyActiveException {
+    public void doAction(PlayerBoard playerBoard) throws CardIsActiveException {
     }
 
     /**

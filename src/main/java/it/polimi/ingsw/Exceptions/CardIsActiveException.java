@@ -1,9 +1,9 @@
 package it.polimi.ingsw.Exceptions;
 
 /**
- * This Exception is thrown when an operation is attempted on a resource which is not present in the object that throws the exception.
+ * This Exception is thrown when the player attempts to activate or discard a leaderCard that is already active.
  */
-public class ResourceNotPresentException extends Exception {
+public class CardIsActiveException extends Exception {
     /**
      * Returns the message describing the type of error that occurred
      *
@@ -11,6 +11,6 @@ public class ResourceNotPresentException extends Exception {
      */
     @Override
     public String getMessage() {
-        return ("Resource is not present.");
+        return ("The selected leader card is active.");
     }
 }

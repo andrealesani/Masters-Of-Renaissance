@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.beans;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.resource.ResourceType;
-import it.polimi.ingsw.network.beans.StrongboxBean;
 import it.polimi.ingsw.server.GameController;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ class StrongboxBeanTest {
         assertEquals(game.getCurrentPlayer().getUsername(), strongboxBean.getUsername());
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
+            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITE_MARBLE)
                 assertEquals(game.getCurrentPlayer().getStrongbox().getNumOfResource(resourceType), strongboxBean.getQuantity()[java.util.Arrays.asList(strongboxBean.getType()).indexOf(resourceType)]);
         }
     }

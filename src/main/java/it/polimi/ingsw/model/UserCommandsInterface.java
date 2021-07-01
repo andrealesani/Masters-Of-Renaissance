@@ -43,22 +43,22 @@ public interface UserCommandsInterface {
      * @param number the number of the leaderCard to activate
      * @throws LeaderRequirementsNotMetException if the player does not meet the requirements for activating the leader card
      * @throws LeaderNotPresentException         if the number selected does not correspond to a leader card
-     * @throws CardAlreadyActiveException        if the selected card is already active
+     * @throws CardIsActiveException        if the selected card is already active
      * @throws WrongTurnPhaseException           if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException       if the given parameters are not admissible for the game's rules
      */
-    void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardAlreadyActiveException;
+    void playLeaderCard(int number) throws LeaderRequirementsNotMetException, WrongTurnPhaseException, LeaderNotPresentException, CardIsActiveException;
 
     /**
      * Allows the player to discard the leader card corresponding to the given number
      *
      * @param number the number of the leaderCard to discard
-     * @throws LeaderIsActiveException     if the player attempts to discard a leader card they have previously activated
+     * @throws CardIsActiveException     if the player attempts to discard a leader card they have previously activated
      * @throws LeaderNotPresentException   if the number selected does not correspond to a leader card
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
      */
-    void discardLeaderCard(int number) throws WrongTurnPhaseException, LeaderIsActiveException, LeaderNotPresentException;
+    void discardLeaderCard(int number) throws WrongTurnPhaseException, CardIsActiveException, LeaderNotPresentException;
 
     //Market selection actions
 
@@ -180,9 +180,9 @@ public interface UserCommandsInterface {
      * @param resource the resource into which to turn the jolly
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    void chooseJollyInput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException;
+    void chooseJollyInput(Resource resource) throws WrongTurnPhaseException, NotEnoughResourceException;
 
     /**
      * Allows the player to choose into which resource to turn a jolly in the production's output
@@ -190,9 +190,9 @@ public interface UserCommandsInterface {
      * @param resource the resource into which to turn the jolly
      * @throws WrongTurnPhaseException     if the player attempts this action when they are not allowed to
      * @throws ParametersNotValidException if the given parameters are not admissible for the game's rules
-     * @throws ResourceNotPresentException if the productions' input does not contain any more jollies
+     * @throws NotEnoughResourceException if the productions' input does not contain any more jollies
      */
-    void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException, ResourceNotPresentException;
+    void chooseJollyOutput(Resource resource) throws WrongTurnPhaseException, NotEnoughResourceException;
 
     /**
      * Allows the player to confirm the selected production for activation

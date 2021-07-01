@@ -1008,7 +1008,7 @@ public class GameBoardController implements GUIController {
         drawCardSlot(cardSlotBeans[2], cardSlotPane3);
 
         //White marbles
-        waitingRoomWhiteLabel.setText(Integer.toString(playerBoardBean.getWhiteMarbles()));
+        waitingRoomWhiteLabel.setText(Integer.toString(playerBoardBean.getResourcesToConvert()));
     }
 
     /**

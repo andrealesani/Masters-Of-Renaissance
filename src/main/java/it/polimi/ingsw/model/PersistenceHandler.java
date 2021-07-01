@@ -68,7 +68,7 @@ public class PersistenceHandler {
     /**
      * The number of unconverted white marbles / bonus resources for each player
      */
-    private int[] whiteMarbleNum;
+    private int[] resourcesToConvert;
     /**
      * The faith score for each player
      */
@@ -241,7 +241,7 @@ public class PersistenceHandler {
         int numOfPlayers = game.getPlayersBoardsTurnOrder().size();
         firstTurnTaken = new boolean[numOfPlayers];
         popeTileStates = new PopeTileState[numOfPlayers][];
-        whiteMarbleNum = new int[numOfPlayers];
+        resourcesToConvert = new int[numOfPlayers];
         faith = new int[numOfPlayers];
         cardSlots = new SlotBean[numOfPlayers][];
         leaderCards = new int[numOfPlayers][];
@@ -259,9 +259,9 @@ public class PersistenceHandler {
 
             firstTurnTaken[i] = player.isFirstTurnTaken();
 
-            // WHITE MARBLES
+            // RESOURCES TO CONVERT
 
-            whiteMarbleNum[i] = player.getWhiteMarbles();
+            resourcesToConvert[i] = player.getResourcesToConvert();
 
             // CARD SLOTS
             int j;
@@ -497,8 +497,8 @@ public class PersistenceHandler {
             // FAITH
             player.restoreFaith(faith[i]);
 
-            // WHITE MARBLES
-            player.restoreWhiteMarbleNum(whiteMarbleNum[i]);
+            // RESOURCES TO CONVERT
+            player.restoreResourcesToConvert(resourcesToConvert[i]);
 
             // CARD SLOTS
             player.restoreCardSlots(cardSlots[i], game);
@@ -643,7 +643,7 @@ public class PersistenceHandler {
                 ",\n marketBoard=" + Arrays.toString(marketBoard) +
                 ",\n slideMarble=" + slideMarble +
                 ",\n popeTileStates=" + Arrays.toString(popeTileStates) +
-                ",\n whiteMarbleNum=" + Arrays.toString(whiteMarbleNum) +
+                ",\n resourcesToConvert=" + Arrays.toString(resourcesToConvert) +
                 ",\n faith=" + Arrays.toString(faith) +
                 ",\n cardSlots=" + Arrays.toString(cardSlots) +
                 ",\n leaderCards=" + Arrays.toString(leaderCards) +

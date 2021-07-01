@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model.card.leadercard;
 
 import it.polimi.ingsw.Exceptions.BlockedResourceException;
-import it.polimi.ingsw.Exceptions.CardAlreadyActiveException;
+import it.polimi.ingsw.Exceptions.CardIsActiveException;
 import it.polimi.ingsw.Exceptions.NotEnoughSpaceException;
 import it.polimi.ingsw.Exceptions.WrongResourceInsertionException;
 import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.card.leadercard.DepotLeaderCard;
 import it.polimi.ingsw.model.resource.ResourceType;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ class DepotLeaderCardTest {
      * Test for the leader card's activation
      */
     @Test
-    void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, CardAlreadyActiveException {
+    void doAction() throws WrongResourceInsertionException, NotEnoughSpaceException, BlockedResourceException, CardIsActiveException {
         DepotLeaderCard leaderCard = new DepotLeaderCard(500, ResourceType.STONE, 5, ResourceType.COIN, 5);
         PlayerBoard playerBoard = new PlayerBoard();
 

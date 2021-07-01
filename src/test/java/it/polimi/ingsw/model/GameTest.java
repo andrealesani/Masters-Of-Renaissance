@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.leadercard.LeaderCard;

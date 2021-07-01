@@ -11,6 +11,6 @@ public class ParametersNotValidException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return ("The given input values are not allowed.");
+        return ("The selected input values are not allowed.");
     }
 }

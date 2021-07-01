@@ -3,8 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.Exceptions.EmptyDeckException;
 import it.polimi.ingsw.Exceptions.NotEnoughResourceException;
 import it.polimi.ingsw.Exceptions.SlotNotValidException;
-import it.polimi.ingsw.model.CardTable;
-import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.card.CardColor;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.resource.ResourceType;

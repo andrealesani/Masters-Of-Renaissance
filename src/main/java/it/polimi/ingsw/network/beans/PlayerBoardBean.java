@@ -44,9 +44,9 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      */
     private int[] popeSectionSizes;
     /**
-     * Represents the player's number of whiteMarbles
+     * Represents the player's number of resources left to convert
      */
-    private int whiteMarbles;
+    private int resourcesToConvert;
     /**
      * Represents the player's faith
      */
@@ -119,7 +119,7 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         }
 
         setFaithFromPB(pb);
-        setWhiteMarblesFromPB(pb);
+        setResourcesToConvertFromPB(pb);
         setCardSlotsFromPB(pb);
         setLeaderCardsFromPB(pb);
         setActiveLeaderCardsFromPB(pb);
@@ -348,10 +348,10 @@ public class PlayerBoardBean implements Observer, PlayerBean {
     private String drawWhiteMarbles () {
         String content = " Resources left to convert: ";
 
-        if (whiteMarbles > 0)
+        if (resourcesToConvert > 0)
             content += Color.RESOURCE_STD;
 
-        content += whiteMarbles;
+        content += resourcesToConvert;
         content += Color.RESET;
 
         return content;
@@ -398,8 +398,8 @@ public class PlayerBoardBean implements Observer, PlayerBean {
      *
      * @return player's WhiteMarbles
      */
-    public int getWhiteMarbles() {
-        return whiteMarbles;
+    public int getResourcesToConvert() {
+        return resourcesToConvert;
     }
 
     /**
@@ -546,12 +546,12 @@ public class PlayerBoardBean implements Observer, PlayerBean {
     }
 
     /**
-     * Sets the value for the bean's whiteMarbles
+     * Sets the value for the bean's resourcesToConvert
      *
      * @param playerBoard the object to take the information from
      */
-    private void setWhiteMarblesFromPB(PlayerBoard playerBoard) {
-        whiteMarbles = playerBoard.getWhiteMarbles();
+    private void setResourcesToConvertFromPB(PlayerBoard playerBoard) {
+        resourcesToConvert = playerBoard.getResourcesToConvert();
     }
 
     /**

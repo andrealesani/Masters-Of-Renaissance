@@ -5,12 +5,27 @@ package it.polimi.ingsw.Exceptions;
  */
 public class CardNotPresentException extends Exception {
     /**
+     * The card's id
+     */
+    private final int id;
+
+    /**
+     * Constructor
+     *
+     * @param id the card's id
+     */
+    public CardNotPresentException(int id) {
+        this.id = id;
+
+    }
+
+    /**
      * Returns the message describing the type of error that occurred
      *
      * @return - the message (String) of this exception
      */
     @Override
     public String getMessage() {
-        return ("The specified DevelopmentCard does not exist");
+        return ("The development card with id " + id + " does not exist");
     }
 }

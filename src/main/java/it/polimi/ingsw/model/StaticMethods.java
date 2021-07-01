@@ -166,7 +166,7 @@ public class StaticMethods {
             if (!file.delete())
                 throw new Exception();
         } catch (Exception e) {
-            throw new GameDataNotFoundException();
+            throw new GameDataNotFoundException(gameID);
         }
     }
 

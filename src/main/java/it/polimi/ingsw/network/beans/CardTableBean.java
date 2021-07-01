@@ -222,7 +222,7 @@ public class CardTableBean implements Observer {
                 }
             }
         }
-        throw new CardNotPresentException();
+        throw new CardNotPresentException(id);
     }
 
     // SETTERS

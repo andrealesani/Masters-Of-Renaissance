@@ -9,59 +9,31 @@ public enum ResourceType {
     /**
      * The shield resource, and the blue marble
      */
-    SHIELD {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "SHIELD" + Color.RESET;
-        }
-    },
+    SHIELD,
     /**
      * The stone resource, and the grey marble
      */
-    STONE {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "STONE" + Color.RESET;
-        }
-    },
+    STONE,
     /**
      * The servant resource, and the purple marble
      */
-    SERVANT {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "SERVANT" + Color.RESET;
-        }
-    },
+    SERVANT,
     /**
      * The coin resource, and the yellow marble
      */
-    COIN {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "COIN" + Color.RESET;
-        }
-    },
+    COIN,
     /**
      * The faith special resource, and the red marble
      */
-    FAITH {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "FAITH" + Color.RESET;
-        }
-    },
+    FAITH,
     /**
      * The white marble
      */
-    WHITEORB {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "WHITEORB" + Color.RESET;
-        }
-    },
+    WHITE_MARBLE,
     /**
      * The prodcution's jolly resource, which can be converted into any basic resource (coin, servant, stone, shield)
      */
-    JOLLY {
-        public String toStringColored() {
-            return Color.RESOURCE_STD + "JOLLY" + Color.RESET;
-        }
-    };
+    JOLLY;
 
     //PUBLIC METHODS
 
@@ -80,7 +52,7 @@ public enum ResourceType {
             case STONE -> result = new ResourceStone();
             case JOLLY -> result = new ResourceJolly();
             case FAITH -> result = new ResourceFaith();
-            case WHITEORB -> result = new ResourceWhite();
+            case WHITE_MARBLE -> result = new ResourceWhite();
         }
 
         return result;
@@ -127,7 +99,7 @@ public enum ResourceType {
             case STONE -> result = Color.GREY_LIGHT_BG + "  STONE   " + Color.RESET;
             case JOLLY -> result = Color.RESOURCE_STD + " JOLLY  " + Color.RESET;
             case FAITH -> result = Color.RED_DARK_BG + "  FAITH   " + Color.RESET;
-            case WHITEORB -> result = Color.WHITE_BG + "" + Color.GREY_DARK_FG + " WHITEORB " + Color.RESET;
+            case WHITE_MARBLE -> result = Color.WHITE_BG + "" + Color.GREY_DARK_FG + " WHITE_MARBLE " + Color.RESET;
         }
 
         return result;
@@ -148,7 +120,7 @@ public enum ResourceType {
             case STONE -> result = Color.GREY_LIGHT_FG + "stone" + Color.RESET;
             case JOLLY -> result = Color.RESOURCE_STD + "jolly" + Color.RESET;
             case FAITH -> result = Color.RED_LIGHT_FG + "faith" + Color.RESET;
-            case WHITEORB -> result = Color.WHITE_FG + "white" + Color.RESET;
+            case WHITE_MARBLE -> result = Color.WHITE_FG + "white" + Color.RESET;
         }
 
         return result;
@@ -169,7 +141,7 @@ public enum ResourceType {
             case STONE -> result = Color.GREY_LIGHT_FG + "@" + Color.RESET;
             case JOLLY -> result = Color.RESOURCE_STD + "@" + Color.RESET;
             case FAITH -> result = Color.RED_LIGHT_FG + "@" + Color.RESET;
-            case WHITEORB -> result = Color.WHITE_FG + "@" + Color.RESET;
+            case WHITE_MARBLE -> result = Color.WHITE_FG + "@" + Color.RESET;
         }
 
         return result;
@@ -192,7 +164,7 @@ public enum ResourceType {
             case STONE -> result = "stone.png";
             case JOLLY -> result = "jolly.png";
             case FAITH -> result = "faithMarker.png";
-            case WHITEORB -> result = "white_marble.png";
+            case WHITE_MARBLE -> result = "white_marble.png";
         }
 
         return result;
@@ -213,7 +185,7 @@ public enum ResourceType {
             case STONE -> result = "stone_marble.png";
             case JOLLY -> result = "jolly.png";
             case FAITH -> result = "faith_marble.png";
-            case WHITEORB -> result = "white_marble.png";
+            case WHITE_MARBLE -> result = "white_marble.png";
         }
 
         return result;

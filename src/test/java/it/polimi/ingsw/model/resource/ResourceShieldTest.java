@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.resource;
 
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.resource.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

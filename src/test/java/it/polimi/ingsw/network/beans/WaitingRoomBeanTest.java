@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.beans;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.resource.ResourceType;
-import it.polimi.ingsw.network.beans.WaitingRoomBean;
 import it.polimi.ingsw.server.GameController;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ class WaitingRoomBeanTest {
         assertEquals(game.getCurrentPlayer().getUsername(), waitingRoomBean.getUsername());
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
+            if(resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITE_MARBLE)
                 assertEquals(game.getCurrentPlayer().getStrongbox().getNumOfResource(resourceType), waitingRoomBean.getQuantity()[java.util.Arrays.asList(waitingRoomBean.getType()).indexOf(resourceType)]);
         }
     }

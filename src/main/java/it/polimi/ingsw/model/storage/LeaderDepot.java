@@ -63,7 +63,7 @@ public class LeaderDepot implements ResourceDepot {
 
         if (quantity > 0) {
             if (resource != acceptedResource) {
-                throw new WrongResourceInsertionException();
+                throw new WrongResourceInsertionException(resource);
             }
             int newQuantity = quantity + amount;
             if (newQuantity > size) {
@@ -105,11 +105,11 @@ public class LeaderDepot implements ResourceDepot {
         }
         if (quantity > 0) {
             if (resource != acceptedResource) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             }
             int newQuantity = amount - quantity;
             if (newQuantity < 0) {
-                throw new NotEnoughResourceException();
+                throw new NotEnoughResourceException(resource);
             }
             amount = newQuantity;
         }

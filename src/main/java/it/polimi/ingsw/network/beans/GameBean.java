@@ -188,7 +188,7 @@ public class GameBean implements Observer {
             if (leaderCard.getId() == id)
                 return leaderCard;
 
-        throw new CardNotPresentException();
+        throw new CardNotPresentException(id);
     }
 
     /**

@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.PopeFavorTile;
 import it.polimi.ingsw.model.PopeTileState;
 import it.polimi.ingsw.model.card.leadercard.LeaderCard;
 import it.polimi.ingsw.model.resource.ResourceType;
-import it.polimi.ingsw.network.beans.PlayerBoardBean;
 import it.polimi.ingsw.server.GameController;
 import org.junit.jupiter.api.Test;
 
@@ -68,7 +67,7 @@ class PlayerBoardBeanTest {
         PlayerBoardBean pbBean = new PlayerBoardBean(new GameController("Gigi", printWriter));
         game.getCurrentPlayer().addObserver(pbBean);
 
-        assertEquals(game.getCurrentPlayer().getWhiteMarbles(), pbBean.getWhiteMarbles());
+        assertEquals(game.getCurrentPlayer().getResourcesToConvert(), pbBean.getResourcesToConvert());
     }
 
     /**
@@ -116,7 +115,7 @@ class PlayerBoardBeanTest {
         Map<ResourceType, Integer> disc = game.getCurrentPlayer().getDiscounts();
 
         for (ResourceType resourceType : ResourceType.values()) {
-            if (resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITEORB)
+            if (resourceType != ResourceType.FAITH && resourceType != ResourceType.JOLLY && resourceType != ResourceType.WHITE_MARBLE)
                 if (Arrays.asList(pbBean.getDiscountType()).contains(resourceType)) {
                     assertEquals(game.getCurrentPlayer().getDiscounts().get(resourceType), pbBean.getDiscountQuantity()[java.util.Arrays.asList(pbBean.getDiscountType()).indexOf(resourceType)]);
                 }
