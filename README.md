@@ -40,7 +40,7 @@ The project has been developed for the Software Engineering final examination pr
 
 # Starting the game
 
-The game consists of a single jar file by the name <code>AM25-jar-with-dependencies.jar</code>, which can be found in the repository's <code>/target</code> directory.
+The game consists of a single jar file by the name <code>AM25-jar-with-dependencies.jar</code>. It can be found in <code>/target</code> directory after building the project with Maven.
 
 This file holds both the Server, the CLI and the GUI applications, one of which can be selected when booting.
 
@@ -67,7 +67,7 @@ Once launched, the server will print the events' log on the standard output.
 
 The CLI and GUI versions of the client can be run by selecting the <code>1</code> and <code>2</code> options when booting respectively.
 
-In both cases, loosing connection with the server will cause the termination of the client application.
+In both cases, losing connection with the server will cause the termination of the client application.
 
 ### Login
 
