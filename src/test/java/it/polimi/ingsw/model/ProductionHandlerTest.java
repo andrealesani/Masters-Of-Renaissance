@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.model.resource.*;
+import it.polimi.ingsw.model.storage.UnlimitedStorage;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -252,7 +253,41 @@ class ProductionHandlerTest {
     }
 
     /**
-     * Tests the release of the activated productions' output
+     * Tests the release of the activated productions' input to the player's waitingRoom
+     */
+    @Test
+    void releaseInputTest() throws ProductionNotPresentException {
+        PlayerBoard playerBoard = new PlayerBoard();
+        assertEquals(0, playerBoard.getLeftInWaitingRoom());
+
+        ProductionHandler productionHandler = playerBoard.getProductionHandler();
+
+        List<Resource> input = new ArrayList<>();
+        List<Resource> output = new ArrayList<>();
+        input.add(new ResourceServant());
+        input.add(new ResourceCoin());
+        output.add(new ResourceFaith());
+        Production production = new Production(-1, input, output);
+        productionHandler.addProduction(production);
+        productionHandler.selectProduction(1);
+
+        productionHandler.releaseInput(playerBoard);
+
+        //Tests the method
+
+        UnlimitedStorage waitingRoom = playerBoard.getWaitingRoom();
+
+        //Checks addition to waiting room
+        assertEquals(2, playerBoard.getLeftInWaitingRoom());
+        assertEquals(1, waitingRoom.getNumOfResource(ResourceType.SERVANT));
+        assertEquals(1, waitingRoom.getNumOfResource(ResourceType.COIN));
+
+        //Checks output was not released
+        assertEquals(0, playerBoard.getFaith());
+    }
+
+    /**
+     * Tests the release of the activated productions' output to the player's strongbox
      */
     @Test
     void releaseOutputTest() throws ProductionNotPresentException {
@@ -275,4 +310,68 @@ class ProductionHandlerTest {
 
         assertEquals(2, playerBoard.getFaith());
     }
+
+    /**
+     * Tests the removal of a production
+     */
+    @Test
+    void removeProductionTest() throws ProductionNotPresentException {
+        ProductionHandler productionHandler = new ProductionHandler();
+
+        //Adds 2 production
+        List<Resource> input = new ArrayList<>();
+        List<Resource> output = new ArrayList<>();
+        input.add(new ResourceServant());
+        output.add(new ResourceFaith());
+        output.add(new ResourceFaith());
+        output.add(new ResourceCoin());
+        Production production1 = new Production(-1, input, output);
+
+        input = new ArrayList<>();
+        output = new ArrayList<>();
+        input.add(new ResourceStone());
+        input.add(new ResourceShield());
+        output.add(new ResourceFaith());
+        output.add(new ResourceJolly());
+        Production production2 = new Production(-2, input, output);
+
+        productionHandler.addProduction(production1);
+        productionHandler.addProduction(production2);
+
+        assertEquals(2, productionHandler.getProductions().size());
+
+        //Tests the method
+        productionHandler.removeProduction(production1);
+
+        assertEquals(1, productionHandler.getProductions().size());
+        assertEquals(-2, productionHandler.getProductions().get(0).getId());
+    }
+
+    /**
+     * Tests the selection of a production using its id
+     */
+    @Test
+    public void selectByIdTest() throws ProductionNotPresentException {
+        ProductionHandler productionHandler = new ProductionHandler();
+
+        //Adds a production
+        List<Resource> input = new ArrayList<>();
+        List<Resource> output = new ArrayList<>();
+        input.add(new ResourceServant());
+        output.add(new ResourceFaith());
+        output.add(new ResourceFaith());
+        output.add(new ResourceCoin());
+        Production production = new Production(-1, input, output);
+
+        productionHandler.addProduction(production);
+
+        assertFalse(production.isSelectedByHandler());
+
+        //Tests the method
+        productionHandler.selectProductionByID(-1);
+
+        assertTrue(production.isSelectedByHandler());
+    }
+
+
 }
