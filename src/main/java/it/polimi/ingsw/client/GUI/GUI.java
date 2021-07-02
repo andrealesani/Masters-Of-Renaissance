@@ -288,7 +288,7 @@ public class GUI extends Application {
         player = new MediaPlayer(pick);
         player.setAutoPlay(true);
         player.setCycleCount(MediaPlayer.INDEFINITE);
-        player.setVolume(0.3);
+        player.setVolume(0.2);
         player.setOnEndOfMedia(() -> {
             player.seek(Duration.ZERO);
             player.play();
