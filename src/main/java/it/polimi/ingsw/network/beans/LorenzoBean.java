@@ -124,7 +124,6 @@ public class LorenzoBean implements Observer {
      * @return the String representation of lorenzo's faith track
      */
     private String drawFaithTrack () {
-        //TODO NON HARDCODARE
         int[] popeTriggerValues = {8, 16, 24};
         int[] popeSectionSizes = {4, 5, 6};
 

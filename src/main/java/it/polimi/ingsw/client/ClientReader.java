@@ -147,6 +147,7 @@ public class ClientReader implements Runnable {
 
                 case WAIT_PLAYERS -> {
                     clientView.setWaitPlayers(true);
+                    notifyGui(response);
                     System.out.println(response.getMessage());
                 }
 

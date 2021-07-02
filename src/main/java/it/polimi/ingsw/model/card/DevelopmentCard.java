@@ -116,7 +116,6 @@ public class DevelopmentCard extends Card {
      *
      * @return returns the Production that this card enables for the player
      */
-    //TODO make it not use else/ifs
     public Production getProduction() {
         List<Resource> input = new ArrayList<>();
         List<Resource> output = new ArrayList<>();

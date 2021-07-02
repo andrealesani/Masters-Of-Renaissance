@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * This class represents the game's market
  */
-//TODO rendere dimensioni matrice parametrici?
 public class Market implements Observable {
     /**
      * This matrix stores the market's marbles
@@ -26,7 +25,6 @@ public class Market implements Observable {
     /**
      * Constructor
      */
-    //TODO togliere hardcoding?
     public Market() {
         int rowNum = 3, colNum = 4;
         int numCoin = 2, numStone = 2, numShield = 2, numServant = 2, numFaith = 1, numWhite = 4;

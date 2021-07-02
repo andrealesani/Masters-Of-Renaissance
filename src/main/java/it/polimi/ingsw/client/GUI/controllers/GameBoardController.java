@@ -124,8 +124,6 @@ public class GameBoardController implements GUIController {
 
     //PUBLIC METHODS
 
-    //TODO don't send the entire wrapper but only the type (must save info/error in clientView)
-
     /**
      * Updates the necessary parts of the scene based on what message was received from the server
      *
@@ -143,7 +141,6 @@ public class GameBoardController implements GUIController {
             case MARKET_BEAN -> drawMarket(clientView.getMarket());
             case CARDTABLE_BEAN -> drawCardTable(clientView.getCardTable());
             case PLAYERBOARD_BEAN -> drawPlayerBoard(clientView.getPlayerBoard(visualizedPlayer));
-            //TODO usare mappe per inviare le risorse pls
             case STRONGBOX_BEAN -> drawStrongbox(clientView.getStrongbox(visualizedPlayer));
             case WAITINGROOM_BEAN -> drawWaitingRoom(clientView.getWaitingRoom(visualizedPlayer));
             case WAREHOUSE_BEAN -> drawWarehouse(clientView.getWarehouse(visualizedPlayer));
@@ -317,18 +314,6 @@ public class GameBoardController implements GUIController {
         gui.sendMessageToServer(MessageType.COMMAND, gson.toJson(command));
         //Restore normal buttons
         drawGameState(clientView.getGame());
-    }
-
-    /**
-     * Sends the sendResourceToDepot command to the server with the given parameters
-     *
-     * @param providingDepotNumber the number of the depot from which to take the resource
-     * @param receivingDepotNumber the number of the depot to which to send the resource
-     * @param resource             the resource to be transferred
-     * @param quantity             the amount of resource to transfer
-     */
-    public void moveDepotContent(int providingDepotNumber, int receivingDepotNumber, ResourceType resource, int quantity) {
-        //TODO
     }
 
     /**
@@ -517,8 +502,6 @@ public class GameBoardController implements GUIController {
         waitingRoomShieldButton.setOnAction(e -> setupPaymentChoice(ResourceType.SHIELD));
         waitingRoomStoneButton.setOnAction(e -> setupPaymentChoice(ResourceType.STONE));
     }
-
-    //TODO un modo migliore di capire il colore
 
     /**
      * Handles enabling for the interactive elements necessary for the first phase of taking a development card

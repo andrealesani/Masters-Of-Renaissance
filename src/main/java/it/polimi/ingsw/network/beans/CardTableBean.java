@@ -48,8 +48,6 @@ public class CardTableBean implements Observer {
 
     //PRIVATE METHODS
 
-    //TODO spostare in clientView
-
     /**
      * Sets the developmentCards list reading them from DevelopmentCards.json file
      */

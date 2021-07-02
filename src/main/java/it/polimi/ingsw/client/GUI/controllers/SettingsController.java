@@ -166,22 +166,17 @@ public class SettingsController implements GUIController {
         numPlayers = 4;
     }
 
-    //TODO switchare solo se il server conferma
-
     /**
      * Attempts to send the number of players to the server, then switches to the next scene
      */
     public void setGame() {
         if (numPlayers > 0) {
             gui.sendMessageToServer(MessageType.NUM_OF_PLAYERS, Integer.toString(numPlayers));
-            gui.changeScene(SceneName.WAITING);
         } else {
             System.err.println("Warning: Player pressed 'ready' button before they were supposed to.");
             gui.stop();
         }
     }
-
-    //TODO fixare questo orrendo if/else basato sulle stringhe wtf
 
     /**
      * Updates the necessary parts of the scene based on what message was received from the server

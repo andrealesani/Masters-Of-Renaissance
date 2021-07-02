@@ -435,7 +435,6 @@ public class PlayerBoardBean implements Observer, PlayerBean {
         return activeLeaderCards.clone();
     }
 
-    //TODO prenderli da json?
     /**
      * Getter for which faith track tiles have a victory points reward
      *

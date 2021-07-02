@@ -118,8 +118,6 @@ public class ProductionHandlerBean implements Observer, PlayerBean {
 
     // PRINTING METHODS
 
-    // TODO stampa a CLI dei ProductionHandlers
-
     /**
      * This method is used to print only one line of the Market so that multiple objects can be printed
      * in parallel in the CLI

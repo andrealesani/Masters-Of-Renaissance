@@ -101,13 +101,11 @@ public class Game implements UserCommandsInterface, Observable {
         setTurnPhase(TurnPhase.LEADERCHOICE);
         cardTable = new CardTable(leaderCards.size()); // WARNING THIS METHOD HAS TO BE CALLED AFTER LEADER CARDS INITIALIZATION
 
-        //TODO make these attributes initialized in a JSON (these ones have to be in Game)
         finalFaith = 24;
         initialLeaderCardNumber = 4;
         finalLeaderCardNumber = 2;
 
         for (String nickname : nicknames) {
-            //TODO make popefavor tiles initialized in json?
             List<PopeFavorTile> popeFavorTiles = new ArrayList<>();
             popeFavorTiles.add(new PopeFavorTile(2, 8, 4));
             popeFavorTiles.add(new PopeFavorTile(3, 16, 5));
@@ -120,12 +118,10 @@ public class Game implements UserCommandsInterface, Observable {
             playersTurnOrder.add(new PlayerBoard(this, nickname, finalFaith, popeFavorTiles));
         }
 
-        //TODO give leadercards to player in constructor?
         distributeLeaderCards();
 
         assignInkwell();
 
-        //TODO initialize in a JSON
         int[] firstTurnBonusResources = {0, 1, 1, 2};
         int[] firstTurnBonusFaith = {0, 0, 1, 1};
         for (int i = 0; i < playersTurnOrder.size(); i++) {
@@ -846,7 +842,6 @@ public class Game implements UserCommandsInterface, Observable {
                 winnerVp = currentPlayer.calculateVictoryPoints();
             }
         } else {
-            //TODO maybe change with stream implementation?
             int winner = 0;
             int maxVictoryPoints = 0;
             for (int i = 0; i < playersTurnOrder.size(); i++) {

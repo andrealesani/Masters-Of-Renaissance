@@ -263,8 +263,6 @@ public class GameController {
                             new MessageWrapper(type, message)));
     }
 
-    //TODO fare una versione del metodo che prende Message come parametro e poi serializza
-
     /**
      * Broadcasts a message encapsulated in a MessageWrapper in json form to all of the controller's game's players
      *
@@ -289,7 +287,7 @@ public class GameController {
         if (size > 0) {
             throw new PlayerNumberAlreadySetException();
         }
-        //TODO non hardcodare il numero massimo di giocatori?
+
         if (number < 1 || number > 4) {
             throw new ParametersNotValidException();
         }

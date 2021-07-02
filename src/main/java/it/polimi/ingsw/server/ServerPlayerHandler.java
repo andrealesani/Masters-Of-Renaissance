@@ -51,7 +51,6 @@ public class ServerPlayerHandler implements Runnable {
     private Timer pingTimer;
 
     //CONSTRUCTORS
-    //TODO wrap login messages
 
     /**
      * The class constructor

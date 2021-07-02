@@ -113,8 +113,6 @@ public class ClientView {
         return content;
     }
 
-    //TODO non hardcodare numero di carte leader dopo selezione (anche in draw playerSpecific.. e GUI)
-
     /**
      * Creates a String that displays in detail the given player's leader cards, according to visibility rules
      *

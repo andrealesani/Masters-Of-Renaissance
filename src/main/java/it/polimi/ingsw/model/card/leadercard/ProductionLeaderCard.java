@@ -105,7 +105,6 @@ public class ProductionLeaderCard extends LeaderCard {
      *
      * @param playerBoard specifies to which PlayerBoard the Production has to be added
      */
-    //TODO avoid else/ifs
     private void addProduction(PlayerBoard playerBoard) {
         ResourceCoin coin = new ResourceCoin();
         ResourceServant servant = new ResourceServant();

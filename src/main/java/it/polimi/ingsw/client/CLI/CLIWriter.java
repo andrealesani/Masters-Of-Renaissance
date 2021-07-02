@@ -73,8 +73,6 @@ public class CLIWriter implements Runnable {
 
     //MULTITHREADING METHODS
 
-    //TODO for multi-stage commands insert a string like 'cancel' that can be used to interrupt
-
     /**
      * The method used to run this class in multithreading.
      * Initiates a loop which reads and processes the player's input
@@ -285,8 +283,6 @@ public class CLIWriter implements Runnable {
             default -> System.out.println("\n" + "This command is not supported." + "\n");
         }
     }
-
-    //TODO do not hardcode default production
 
     /**
      * Displays one of the game's cards

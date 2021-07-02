@@ -116,7 +116,6 @@ public class PlayerBoard implements Observable {
             throw new ParametersNotValidException();
         }
 
-        //TODO make vpfaithtiles, vpfaithvalues, numofdepots, baseProduction, devCardMax and initialized in a JSON (maybe in PlayerBoard)
         int devCardMax = 7;
         int devCardSlots = 3;
         int numOfDepots = 3;
