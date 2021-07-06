@@ -856,7 +856,7 @@ public class PlayerBoard implements Observable {
      * @param faith the player's faith
      */
     public void restoreFaith(int faith) {
-        this.faith += faith;
+        this.faith = faith;
     }
 
     /**

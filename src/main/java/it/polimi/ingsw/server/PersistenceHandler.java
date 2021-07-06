@@ -387,13 +387,13 @@ public class PersistenceHandler {
             strongboxQuantities[i] = new int[strongboxTypes[i].length];
             for (ResourceType resourceType : game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getStoredResources()) {
                 if (resourceType == COIN)
-                    strongboxQuantities[i][0]++;
+                    strongboxQuantities[i][0] = game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getNumOfResource(resourceType);
                 else if (resourceType == SERVANT)
-                    strongboxQuantities[i][1]++;
+                    strongboxQuantities[i][1] = game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getNumOfResource(resourceType);
                 else if (resourceType == SHIELD)
-                    strongboxQuantities[i][2]++;
+                    strongboxQuantities[i][2] = game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getNumOfResource(resourceType);
                 else if (resourceType == STONE)
-                    strongboxQuantities[i][3]++;
+                    strongboxQuantities[i][3] = game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getNumOfResource(resourceType);
                 else
                     System.out.println("Warning: found unsupported ResourceType inside Strongbox during save: " + resourceType);
             }
@@ -412,15 +412,15 @@ public class PersistenceHandler {
         for (int i = 0; i < game.getPlayersBoardsTurnOrder().size(); i++) {
             waitingRoomTypes[i] = new ResourceType[]{COIN, SERVANT, SHIELD, STONE};
             waitingRoomQuantities[i] = new int[waitingRoomTypes[i].length];
-            for (ResourceType resourceType : game.getPlayersBoardsTurnOrder().get(i).getStrongbox().getStoredResources()) {
+            for (ResourceType resourceType : game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom().getStoredResources()) {
                 if (resourceType == COIN)
-                    waitingRoomQuantities[i][0]++;
+                    waitingRoomQuantities[i][0] = game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom().getNumOfResource(resourceType);
                 else if (resourceType == SERVANT)
-                    waitingRoomQuantities[i][1]++;
+                    waitingRoomQuantities[i][1] = game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom().getNumOfResource(resourceType);
                 else if (resourceType == SHIELD)
-                    waitingRoomQuantities[i][2]++;
+                    waitingRoomQuantities[i][2] = game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom().getNumOfResource(resourceType);
                 else if (resourceType == STONE)
-                    waitingRoomQuantities[i][3]++;
+                    waitingRoomQuantities[i][3] = game.getPlayersBoardsTurnOrder().get(i).getWaitingRoom().getNumOfResource(resourceType);
                 else
                     System.out.println("Warning: found unsupported ResourceType inside Waiting Room during save: " + resourceType);
             }
