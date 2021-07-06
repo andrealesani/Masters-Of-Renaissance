@@ -157,7 +157,7 @@ public class Lorenzo implements ArtificialIntelligence, Observable {
      * @param faith Lorenzo's faith
      */
     public void restoreFaith(int faith) {
-        this.faith += faith;
+        this.faith = faith;
     }
 
     /**

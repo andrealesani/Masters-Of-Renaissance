@@ -910,7 +910,7 @@ public class GameBoardController implements GUIController {
         }
         //Add lorenzo on the list if in single player game
         if (turnOrder.length == 1)
-            ((Label) turnOrderChildren.get(1)).setText("LORENZO_BEAN");
+            ((Label) turnOrderChildren.get(1)).setText("LORENZO");
     }
 
     /**
@@ -1040,11 +1040,12 @@ public class GameBoardController implements GUIController {
                 drawDepot(depotQuantities[i], depotTypes[i], (GridPane) leaderDepots.get(leaderDepotCardsId.get(depot) - 1));
                 i++;
             }
-        } else {
-            for (Node leaderDepot : leaderDepots) {
-                drawDepot(0, null, (GridPane) leaderDepot);
-            }
         }
+
+        Map<Integer, Integer> leaderDepotCardsId = clientView.getPlayerBoard(warehouseBean.getUsername()).getLeaderDepotCardsId();
+        for (int i = 0; i < leaderDepots.size(); i++)
+            if (!leaderDepotCardsId.containsValue(i + 1))
+                drawDepot(0, null, (GridPane) leaderDepots.get(i));
     }
 
     /**
